@@ -1,0 +1,41 @@
+orayta (0.12-1) karmic; urgency=low
+
+  * Translation method fix
+
+ -- moshe <moshe@moshe-laptop>  Wed, 21 Apr 2010 00:09:15 +0300
+
+orayta (0.12) karmic; urgency=low
+
+  * English version added
+
+ -- moshe <moshe@moshe-laptop>  Tue, 20 Apr 2010 23:48:57 +0300
+
+orayta (0.11-5) karmic; urgency=low
+
+  * Dependency test
+
+ -- moshe <moshe@moshe-laptop>  Tue, 20 Apr 2010 22:22:38 +0300
+
+orayta (0.11-4) lucid; urgency=low
+
+  * Small improvment for bible books display
+
+ -- Moshe <moshe@linux-newcomp>  Mon, 19 Apr 2010 15:16:54 +0300
+
+orayta (0.11-3) lucid; urgency=low
+
+  * 
+
+ -- Moshe <moshe@linux-newcomp>  Mon, 19 Apr 2010 14:50:07 +0300
+
+orayta (0.11-2) lucid; urgency=low
+
+  * Test new version release
+
+ -- Moshe <moshe@linux-newcomp>  Mon, 19 Apr 2010 14:47:28 +0300
+
+orayta (0.11-1) unstable; urgency=low
+
+  * Initial real deb release
+
+ -- Moshe <moshe.wagner@gmail.com>  Sun, 18 Apr 2010 23:48:06 +0300
