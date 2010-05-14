@@ -1,0 +1,15 @@
+[Desktop Entry]
+Categories=Office
+Comment=
+Comment[en_US]=
+Exec=/usr/bin/Orayta
+GenericName=
+GenericName[en_US]=
+Icon=/usr/share/Orayta/Orayta.png
+MimeType=
+Name=תורת אמת
+Name[en_US]=Orayta
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
