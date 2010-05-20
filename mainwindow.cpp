@@ -16,7 +16,10 @@
 
 #include "mainwindow.h"
 
-//TODO: Rename to Orayta
+
+//TODO: Re-build mixed display
+
+
 
 //TODO: Remove wierd books
 
@@ -31,7 +34,7 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
-//BUG: בראשית - תצוגה משולבת crashes מדי פעם
+//TODO: Edit welcome image
 
 //TODO: Allow adding custom html books through the program
 
@@ -94,9 +97,9 @@ BookList gBookList;
 //Global webview and hbox vector
 
 #ifndef KHTML
-    vector<myWebView *> gWebViewList;
+vector<myWebView *> gWebViewList;
 #else
-    vector<KHTMLWidget *> gWebViewList;
+vector<KHTMLWidget *> gWebViewList;
 #endif
 
 vector<QVBoxLayout *> gVboxList;
@@ -163,6 +166,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     LoadBook(gBookList[0]);
 
+
+    ui->mixedGroup->hide();
+    ui->verticalLayout_11->setDirection(QBoxLayout::BottomToTop);
 
     ui->searchDockWidget->setMaximumHeight(30);
 
@@ -292,15 +298,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QSettings settings("Orayta", "SingleUser");
 
     settings.beginGroup("MainWindow");
-        settings.setValue("size", size());
-        settings.setValue("pos", pos());
-        settings.setValue("state", saveState());
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.setValue("state", saveState());
     settings.endGroup();
 
 
     settings.beginGroup("Confs");
-        settings.setValue("fontfamily", gFontFamily);
-        settings.setValue("fontsize", gFontSize);
+    settings.setValue("fontfamily", gFontFamily);
+    settings.setValue("fontsize", gFontSize);
     settings.endGroup();
 }
 
@@ -310,33 +316,33 @@ void MainWindow::restoreConfs()
     QSettings settings("Orayta", "SingleUser");
 
     settings.beginGroup("MainWindow");
-        QDesktopWidget *widget = QApplication::desktop();
-        int desktop_width = widget->width();
-        int desktop_height = widget->height();
+    QDesktopWidget *widget = QApplication::desktop();
+    int desktop_width = widget->width();
+    int desktop_height = widget->height();
 
-        restoreState(settings.value("state", "").toByteArray());
-        //The previous line causes problems when switching languages. So:
-        if (LANG != "Hebrew")
-        {
-            ui->treeDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea);
-            removeDockWidget(ui->treeDockWidget);
-            addDockWidget(Qt::LeftDockWidgetArea, ui->treeDockWidget);
-            ui->treeDockWidget->show();
-        }
+    restoreState(settings.value("state", "").toByteArray());
+    //The previous line causes problems when switching languages. So:
+    if (LANG != "Hebrew")
+    {
+        ui->treeDockWidget->setAllowedAreas(Qt::LeftDockWidgetArea);
+        removeDockWidget(ui->treeDockWidget);
+        addDockWidget(Qt::LeftDockWidgetArea, ui->treeDockWidget);
+        ui->treeDockWidget->show();
+    }
 
-        resize(settings.value("size", QSize(desktop_width, desktop_height-50)).toSize());
-        move(settings.value("pos", QPoint(0, 0)).toPoint());
+    resize(settings.value("size", QSize(desktop_width, desktop_height-50)).toSize());
+    move(settings.value("pos", QPoint(0, 0)).toPoint());
     settings.endGroup();
 
 
     settings.beginGroup("Confs");
-        gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
-        gFontSize = settings.value("fontsize",16).toInt();
+    gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
+    gFontSize = settings.value("fontsize",16).toInt();
 
-        QFont f (gFontFamily, gFontSize);
-        ui->fontPreview->setFont(f);
-        ui->fontComboBox->setCurrentFont(f);
-        ui->fonSizeSpinBox->setValue(gFontSize);
+    QFont f (gFontFamily, gFontSize);
+    ui->fontPreview->setFont(f);
+    ui->fontComboBox->setCurrentFont(f);
+    ui->fonSizeSpinBox->setValue(gFontSize);
     settings.endGroup();
 }
 
@@ -378,23 +384,16 @@ void MainWindow::BuildBookTree()
             twi->setText(0, dn);
 
             //set the icon:
-            QIcon *icon;
-            if(gBookList[i]->IsDir())
-            {
-                icon = new QIcon(":/Icons/folder-blue.png");
-            }
-            else
-            {
-                icon = new QIcon(":/Icons/book-blue.png");
-            }
-            twi->setIcon(0, *icon);
+            QIcon *icon = bookIcon(gBookList[i]->IsDir(), gBookList[i]->isMixed(), BLUE);
 
-            //
-            //twi->setFlags(twi->flags() & Qt::ItemIsUserCheckable);
+            twi->setIcon(0, *icon);
 
             delete icon;
         }
     }
+
+    //Only after the tree is done, connect the itemChanged signal
+    connect (ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
 //Load the generated Html file of the given book into the WebView widget
@@ -461,224 +460,224 @@ void MainWindow::webView_loadFinished()
 {
     if (gWebViewList[CURRENT_TAB]->url().toString() == "") return;
 #else
-void MainWindow::webView_loadFinished(bool)
-{
+    void MainWindow::webView_loadFinished(bool)
+    {
 #endif
-    QString s="";
+        QString s="";
 
-    //If only header was loaded, load the full page now
-    if(gPhaseOne == true)
-    {
-        ui->progressBar->show();
-        ui->progressBar->setValue(20);
-
-        gPhaseOne = false;
-
-        //Load the full page
-        ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
-
-
-        QString str = gWebViewList[CURRENT_TAB]->url().toString();
-        if (str.right(12) == ".header.html")
+        //If only header was loaded, load the full page now
+        if(gPhaseOne == true)
         {
-            //Cut off the ".header.html" from the path
-            s = str.mid(0, str.length() -  12);
+            ui->progressBar->show();
+            ui->progressBar->setValue(20);
 
-            gWebViewList[CURRENT_TAB]->load(QUrl(s));
+            gPhaseOne = false;
+
+            //Load the full page
+            ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
+
+
+            QString str = gWebViewList[CURRENT_TAB]->url().toString();
+            if (str.right(12) == ".header.html")
+            {
+                //Cut off the ".header.html" from the path
+                s = str.mid(0, str.length() -  12);
+
+                gWebViewList[CURRENT_TAB]->load(QUrl(s));
+            }
         }
-    }
-    else
-    {
-        //change the tabs title from "Loading..." to the book's title
-        ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
-
-        //Hide the progressbar
-        ui->progressBar->hide();
-
-        if ( gInternalLocationInHtml != "" && gWebViewList[CURRENT_TAB]->url().toString().indexOf("Empty") == -1 )
+        else
         {
-            //Mark location as "active"
-            QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
+            //change the tabs title from "Loading..." to the book's title
+            ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
 
-            gWebViewList[CURRENT_TAB]->execScript(script);
+            //Hide the progressbar
+            ui->progressBar->hide();
+
+            if ( gInternalLocationInHtml != "" && gWebViewList[CURRENT_TAB]->url().toString().indexOf("Empty") == -1 )
+            {
+                //Mark location as "active"
+                QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
+
+                gWebViewList[CURRENT_TAB]->execScript(script);
 
 #ifndef KHTML
-            gInternalLocationInHtml="";
+                gInternalLocationInHtml="";
 
-            //Scroll up in the page a bit
-            if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
-            {
-                gWebViewList[CURRENT_TAB]->page()->mainFrame()->setScrollBarValue(Qt::Vertical, gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) - 70);
-            }
-#endif
-        }
-    }
-
-    //Return cusror to normal
-    QApplication::restoreOverrideCursor();
-}
-
-void MainWindow::webView_loadProgress (int progress)
-{
-    ui->progressBar->setValue(progress);
-}
-
-void MainWindow::webView_loadStarted()
-{
-    ui->progressBar->setValue(0);
-}
-
-
-QString last = "";
-
-//Omitted when a link was clicked in the webView
-void MainWindow::webView_linkClicked(QUrl url)
-{
-    QString link = QString(url.path());
-
-#ifdef KHTML
-    //Yuck!!! Disgusting!!!
-    if (link == last)
-    {
-        last = "";
-        return;
-    }
-    last = link;
-#endif
-
-    //Not actually a link. A menu should open here
-    if(link.indexOf("$") != -1 )
-    {
-        //Find book's id and add it to the link
-        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
-
-        int p = link.indexOf("$");
-        link = stringify(id) + ":" + link.mid(p+1);
-
-#ifdef KHTML
-        QMenu menu(gWebViewList[CURRENT_TAB]->getQWidget());
-#else
-        QMenu menu(gWebViewList[CURRENT_TAB]);
-#endif
-        QAction *mark = new QAction(tr("Add bookmark here..."), &menu);
-
-        mark->setIcon(QIcon(":/Icons/bookmarks.png"));
-        menu.addAction(mark);
-
-        QSignalMapper *signalMapper = new QSignalMapper(this);
-
-        signalMapper->setMapping(mark, QString(link));
-        connect(mark, SIGNAL(triggered()), signalMapper, SLOT (map()));
-        connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(bookMarkPosition(QString)));
-
-        QAction *comment = new QAction(tr("Add/edit comment..."), &menu);
-
-        menu.addAction(comment);
-        comment->setIcon(QIcon(":/Icons/edit.png"));
-
-        QSignalMapper *csignalMapper = new QSignalMapper(this);
-        csignalMapper->setMapping(comment, QString(link));
-        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
-
-        menu.setLayoutDirection(Qt::RightToLeft);
-
-        //Open the menu to the left of the cursor's position
-        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-        menu.exec(pos);
-
-        delete signalMapper;
-        delete csignalMapper;
-    }
-    //A comment clicked. A menu should open here too
-    else if(link.indexOf("*") != -1 )
-    {
-        //Find book's id and add it to the link
-        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
-
-        int p = link.indexOf("*");
-        link = stringify(id) + ":" + link.mid(p+1);
-
-
-        QMenu menu(ui->treeWidget);
-
-        QSignalMapper *signalMapper = new QSignalMapper(this);
-
-        QAction *comment = new QAction(tr("Edit comment..."), &menu);
-
-        comment->setIcon(QIcon(":/Icons/edit.png"));
-        menu.addAction(comment);
-
-        QSignalMapper *csignalMapper = new QSignalMapper(this);
-        csignalMapper->setMapping(comment, QString(link));
-        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
-
-
-        QAction *delcomment = new QAction(tr("Delete comment"), &menu);
-        delcomment->setIcon(QIcon(":/Icons/edit-delete.png"));
-        menu.addAction(delcomment);
-        
-        QSignalMapper *dcsignalMapper = new QSignalMapper(this);
-        dcsignalMapper->setMapping(delcomment, QString(link));
-        connect(delcomment, SIGNAL(triggered()), dcsignalMapper, SLOT (map()));
-        connect(dcsignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(removeComment(QString)));
-
-        menu.setLayoutDirection(Qt::RightToLeft);
-
-        //Open the menu to the left of the cursor's position
-        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-        menu.exec(pos);
-
-        delete signalMapper;
-        delete csignalMapper;
-        delete dcsignalMapper;
-    }
-
-    //External book link
-    else if(link.indexOf("!") != -1 )
-    {
-        int pos = link.indexOf("!");
-
-        QString lnk = "";
-        lnk = link.mid(pos+1);
-
-        vector<QString> parts;
-        split(lnk, parts, ":");
-        int id;
-        if(ToNum(parts[0], &id))
-        {
-            int index = gBookList.FindBookById(id);
-            if( index != -1)
-            {
-                gInternalLocationInHtml = "#" + parts[1];
-
-                //Add a new tab and open the link there
-                addViewTab(false);
-                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-                ///%%%%%%%%%
-                if (parts.size() == 3)
+                //Scroll up in the page a bit
+                if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
                 {
-                    LoadBook(gBookList[index], parts[2]);
+                    gWebViewList[CURRENT_TAB]->page()->mainFrame()->setScrollBarValue(Qt::Vertical, gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) - 70);
                 }
-                else
-                    LoadBook(gBookList[index]);
+#endif
             }
         }
+
+        //Return cusror to normal
+        QApplication::restoreOverrideCursor();
     }
-    //Link to website
-    else if(link.indexOf("^") != -1 )
+
+    void MainWindow::webView_loadProgress (int progress)
     {
-        int pos = link.indexOf("^");
-
-        QString lnk = "";
-        lnk = link.mid(pos+1);
-
-        //Open using browser
-        QDesktopServices::openUrl("http://" + lnk);
+        ui->progressBar->setValue(progress);
     }
-}
+
+    void MainWindow::webView_loadStarted()
+    {
+        ui->progressBar->setValue(0);
+    }
+
+
+    QString last = "";
+
+    //Omitted when a link was clicked in the webView
+    void MainWindow::webView_linkClicked(QUrl url)
+    {
+        QString link = QString(url.path());
+
+#ifdef KHTML
+        //Yuck!!! Disgusting!!!
+        if (link == last)
+        {
+            last = "";
+            return;
+        }
+        last = link;
+#endif
+
+        //Not actually a link. A menu should open here
+        if(link.indexOf("$") != -1 )
+        {
+            //Find book's id and add it to the link
+            int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+
+            int p = link.indexOf("$");
+            link = stringify(id) + ":" + link.mid(p+1);
+
+#ifdef KHTML
+            QMenu menu(gWebViewList[CURRENT_TAB]->getQWidget());
+#else
+            QMenu menu(gWebViewList[CURRENT_TAB]);
+#endif
+            QAction *mark = new QAction(tr("Add bookmark here..."), &menu);
+
+            mark->setIcon(QIcon(":/Icons/bookmarks.png"));
+            menu.addAction(mark);
+
+            QSignalMapper *signalMapper = new QSignalMapper(this);
+
+            signalMapper->setMapping(mark, QString(link));
+            connect(mark, SIGNAL(triggered()), signalMapper, SLOT (map()));
+            connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(bookMarkPosition(QString)));
+
+            QAction *comment = new QAction(tr("Add/edit comment..."), &menu);
+
+            menu.addAction(comment);
+            comment->setIcon(QIcon(":/Icons/edit.png"));
+
+            QSignalMapper *csignalMapper = new QSignalMapper(this);
+            csignalMapper->setMapping(comment, QString(link));
+            connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
+            connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
+
+            menu.setLayoutDirection(Qt::RightToLeft);
+
+            //Open the menu to the left of the cursor's position
+            QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
+            menu.exec(pos);
+
+            delete signalMapper;
+            delete csignalMapper;
+        }
+        //A comment clicked. A menu should open here too
+        else if(link.indexOf("*") != -1 )
+        {
+            //Find book's id and add it to the link
+            int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+
+            int p = link.indexOf("*");
+            link = stringify(id) + ":" + link.mid(p+1);
+
+
+            QMenu menu(ui->treeWidget);
+
+            QSignalMapper *signalMapper = new QSignalMapper(this);
+
+            QAction *comment = new QAction(tr("Edit comment..."), &menu);
+
+            comment->setIcon(QIcon(":/Icons/edit.png"));
+            menu.addAction(comment);
+
+            QSignalMapper *csignalMapper = new QSignalMapper(this);
+            csignalMapper->setMapping(comment, QString(link));
+            connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
+            connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
+
+
+            QAction *delcomment = new QAction(tr("Delete comment"), &menu);
+            delcomment->setIcon(QIcon(":/Icons/edit-delete.png"));
+            menu.addAction(delcomment);
+
+            QSignalMapper *dcsignalMapper = new QSignalMapper(this);
+            dcsignalMapper->setMapping(delcomment, QString(link));
+            connect(delcomment, SIGNAL(triggered()), dcsignalMapper, SLOT (map()));
+            connect(dcsignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(removeComment(QString)));
+
+            menu.setLayoutDirection(Qt::RightToLeft);
+
+            //Open the menu to the left of the cursor's position
+            QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
+            menu.exec(pos);
+
+            delete signalMapper;
+            delete csignalMapper;
+            delete dcsignalMapper;
+        }
+
+        //External book link
+        else if(link.indexOf("!") != -1 )
+        {
+            int pos = link.indexOf("!");
+
+            QString lnk = "";
+            lnk = link.mid(pos+1);
+
+            vector<QString> parts;
+            split(lnk, parts, ":");
+            int id;
+            if(ToNum(parts[0], &id))
+            {
+                int index = gBookList.FindBookById(id);
+                if( index != -1)
+                {
+                    gInternalLocationInHtml = "#" + parts[1];
+
+                    //Add a new tab and open the link there
+                    addViewTab(false);
+                    ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+                    ///%%%%%%%%%
+                    if (parts.size() == 3)
+                    {
+                        LoadBook(gBookList[index], parts[2]);
+                    }
+                    else
+                        LoadBook(gBookList[index]);
+                }
+            }
+        }
+        //Link to website
+        else if(link.indexOf("^") != -1 )
+        {
+            int pos = link.indexOf("^");
+
+            QString lnk = "";
+            lnk = link.mid(pos+1);
+
+            //Open using browser
+            QDesktopServices::openUrl("http://" + lnk);
+        }
+    }
 
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
@@ -1037,7 +1036,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
                                 str = removeTeamim(str);
 
                                 //Chop to the maximum length
-                                Html += endChop(str, CHAR_LIMIT);                                
+                                Html += endChop(str, CHAR_LIMIT);
 
                                 Html += "<br><br><br>\n";
 
@@ -1317,7 +1316,7 @@ void MainWindow::printBook()
         gWebViewList[CURRENT_TAB]->print(&printer);
     }
 #else
-        gWebViewList[CURRENT_TAB]->view()->print();
+    gWebViewList[CURRENT_TAB]->view()->print();
 #endif
 }
 
@@ -1364,7 +1363,7 @@ void MainWindow::addBookMark(QString link, QString title)
     if ( linkdisplay == title) title = "";
 
     addBookMarkToList(link, title);
-    
+
     //Write to bookmark file
     writetofile(USERPATH + "BookMarkList.txt", link + "|" + title + "\n", "UTF-8", false);
 }
@@ -1639,10 +1638,10 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     int uid;
     ToNum(link.mid(0,p), &uid);
     gInternalLocationInHtml = "#" + link.mid(p+1);
-    
+
     int id = gBookList.FindBookById(uid);
     openBook(id);
-    
+
 }
 
 void MainWindow::removeComment(QString link)
@@ -1691,9 +1690,9 @@ void MainWindow::on_viewTab_currentChanged(int index)
     //Show / hide menu options depending on the book:
     if ( gWebViewList.size() > index)
     {
-        //Show / Hide nikud and teamim buttons
         if ( gWebViewList[index]->book() != NULL )
         {
+            //Show / Hide nikud and teamim buttons
             ui->showNikudAction->setVisible( gWebViewList[index]->book()->hasNikud );
             ui->showTeamimAction->setVisible( gWebViewList[index]->book()->hasTeamim );
         }
@@ -1719,9 +1718,10 @@ void MainWindow::menuErrorReport()
     }
 }
 
+
 void MainWindow::on_treeWidget_clicked(QModelIndex index)
 {
-    QTreeWidgetItem* current = ui->treeWidget->currentItem();
+    QTreeWidgetItem * current = ui->treeWidget->currentItem();
 
     int bookid = gBookList.FindBookByTWI(current);
 
@@ -1742,6 +1742,72 @@ void MainWindow::on_treeWidget_clicked(QModelIndex index)
     {
         ui->addToSearchAction->setEnabled(true);
         ui->removeFromSearchAction->setEnabled(true);
+    }
+}
+
+QList <QCheckBox *> weavedList;
+
+void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* old)
+{
+    int bookid = gBookList.FindBookByTWI(current);
+
+    //Show / Hide mixed display stuff
+    if (gBookList[bookid]->isMixed())
+    {
+        ui->mixedGroup->show();
+
+        //Clear old entries
+        for (int i=0; i<weavedList.size(); i++)
+        {
+            weavedList[i]->hide();
+        }
+        weavedList.clear();
+
+        //Create new entries
+        bool anychecked = false;
+        for(int i=gBookList[bookid]->mWeavedSources.size()-1; i>0; i--)
+        {
+            QCheckBox *chk = new QCheckBox(gBookList[bookid]->mWeavedSources[i].Title, ui->mixedFrame);
+            ui->verticalLayout_11->addWidget(chk);
+
+            if (gBookList[bookid]->mWeavedSources[i].show == true)
+            {
+                chk->setChecked(true);
+                anychecked = true;
+            }
+
+            chk->setWhatsThis(stringify(gBookList[bookid]->mWeavedSources[i].id));
+
+            weavedList << chk;
+
+            QSignalMapper *signalMapper = new QSignalMapper(this);
+
+            connect(chk, SIGNAL(clicked()), signalMapper, SLOT(map()));
+            signalMapper->setMapping(chk, weavedList.size() - 1);
+            connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
+        }
+        if (!anychecked) ui->aloneCheckBox->setChecked(true);
+
+    }
+    else ui->mixedGroup->hide();
+}
+
+void MainWindow::weavedCheckBoxClicked(int btnIndex)
+{
+    //Still a bit ugly
+
+    QTreeWidgetItem* current = ui->treeWidget->currentItem();
+    int bookid = gBookList.FindBookByTWI(current);
+
+
+    QString id = weavedList[btnIndex]->whatsThis();
+
+    for(int i=1; i<gBookList[bookid]->mWeavedSources.size(); i++)
+    {
+        if (stringify(gBookList[bookid]->mWeavedSources[i].id) == id)
+        {
+            gBookList[bookid]->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
+        }
     }
 }
 
@@ -1850,8 +1916,8 @@ void MainWindow::on_changeLangButton_clicked()
 {
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-        int i = gLangsDisplay.indexOf(ui->langComboBox->currentText());
-        if (i != -1) settings.setValue("lang", gLangs[i]);
+    int i = gLangsDisplay.indexOf(ui->langComboBox->currentText());
+    if (i != -1) settings.setValue("lang", gLangs[i]);
     settings.endGroup();
 
     QApplication::processEvents();
@@ -1859,4 +1925,15 @@ void MainWindow::on_changeLangButton_clicked()
     //Reboot the program
     QProcess::startDetached("\"" + QApplication::applicationFilePath() + "\"");
     exit(0);
+}
+
+void MainWindow::on_aloneCheckBox_toggled(bool checked)
+{
+    ui->mixedFrame->setEnabled(!checked);
+}
+
+void MainWindow::on_openMixed_clicked()
+{
+    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
+    if (ind != -1) openBook(ind);
 }

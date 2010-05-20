@@ -35,24 +35,6 @@
 QString gFontFamily;
 int gFontSize;
 
-//A simple struct holding all information needed for every source in the weaved display mode
-struct weavedSource
-{
-    vector <QString> text;
-    QString Title;
-    QString FileName;
-    QString Prefix;
-    QString Suffix;
-    QString str;
-
-    BookIter itr;
-
-    int ind;
-
-    int Zoom;
-    int SmallFactor;
-};
-
 //Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
 const QString LevelSigns = "!~@#^";
 
@@ -67,7 +49,7 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
 {
     if ( !isMixed())
     {
-        return normalHtmlRender(outfilename, shownikud, showteamim, QRegExp(unescapeFromBase32(mark)));
+        return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp(unescapeFromBase32(mark)));
     }
     else
     {
@@ -77,10 +59,7 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
 
 bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRegExp mark)
 {
-    ///$#$#$
-    int id = 1;
-
-    //TODO: Fix this whole mess up
+    int linkid = 0;
 
     //TODO: implement zoom attribute?
 
@@ -99,115 +78,31 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         return false;
     }
 
-
-
     vector<QString> comment_titles, comment_texts;
     //Read coment file into it's vectors
     ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
 
+    QList <weavedSource> Sources;
 
-    vector < weavedSource > sources;
-
-    //TODO: add array limit checks here
-    int Ind = -1;
-    for (int i=0; i<text.size(); i++)
+    for (int i=0; i<mWeavedSources.size(); i++)
     {
-        //Conf line, skip
-        if (text[i][0] == '&')
-        { }
-        //Book name, ignore
-        else if (text[i][0] == '$')
-        { }
-        //Emtpy lines, ignore
-        else if ((text[i] == "") || (text[i] == " "))
-        { }
-        else if (text[i].mid(0,5) == "[File")
-        {
-            Ind ++;
-            //Create a new 'weavedSource' struct and add it to the list.
-            weavedSource a;
-            a.FileName = "";
-
-            a.Zoom = 0;
-            a.SmallFactor = 0;
-
-            a.Suffix="";
-            a.Prefix="";
-
-
-            //Get source's index
-            int p = text[i].indexOf("]");
-            int x;
-
-            if (ToNum(text[i].mid(5,p-5), &x))
-            {
-                a.ind = x;
-            }
-
-            sources.push_back(a);
-        }
-        //Title of each source
-        else if (text[i].mid(0,6) == "Title=")
-        {
-            GetStringValue(text[i],&sources[Ind].Title);
-        }
-        //Filename of each source
-        else if (text[i].mid(0,9) == "FileName=")
-        {
-            GetStringValue(text[i],&sources[Ind].FileName);
-        }
-        //Html prefix of each source
-        else if (text[i].mid(0,7) == "Prefix=")
-        {
-            GetStringValue(text[i],&sources[Ind].Prefix);
-            //Their html is invalid, this should fix it
-            sources[Ind].Prefix = fixSpan( sources[Ind].Prefix );
-        }
-        //Html suffix of each source
-        else if (text[i].mid(0,7) == "Suffix=")
-        {
-            GetStringValue(text[i],&sources[Ind].Suffix);
-        }
-        else if (text[i].mid(0,5) == "Zoom=")
-        {
-            GetIntValue(text[i], &sources[Ind].Zoom);
-        }
-        else if (text[i].mid(0,12) == "SmallFactor=")
-        {
-            GetIntValue(text[i], &sources[Ind].SmallFactor);
-        }
+        if (mWeavedSources[i].show == true)  Sources.append(mWeavedSources[i]);
     }
 
-
-
-    //HACK:
-    //Force the source with the first index to be first in the vector
-    for (int i=1; i<sources.size(); i++)
+    QStringList colors;
+    colors << "#4682B4" << "#0000FF" << "#A52A2A" << "#4B0082";
+    for (int i=1; i<Sources.size(); i++)
     {
-        if (sources[i].ind == 1)
-        {
-            swap(sources[i], sources[0]);
-            break;
-        }
-    }
+        int j = ((i - 1) % colors.size());
 
-    //TODO: Add more colors here
-    QString color[] = {"#7733cc", "#3377cc","#7733cc", "#3377cc","#7733cc", "#3377cc"};
-    for (int i=1; i<sources.size(); i++)
-    {
-        if (sources[i].Prefix == "" && i < 6) sources[i].Prefix = "<span style= color:" + color[i] + ">";
-        if (sources[i].Suffix == "") sources[i].Suffix = "<small> (" +  sources[i].Title + ") </small></span>";
-
+        if (Sources[i].Prefix == "") Sources[i].Prefix = "<span style= color:" + colors[j] + ">";
+        if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> (" +  Sources[i].Title + ") </small></span>";
 
         //TODO: Ugly hack. fix the font-family thing!
-        sources[i].Prefix.replace(QRegExp("font-family:[^\"]*"),"");
+        //Sources[i].Prefix.replace(QRegExp("font-family:[^\"]*"),"");
         //TODO: Ugly hack. wtf did they do with the font size?!
-        sources[i].Prefix.replace(QRegExp("font-size:[^\;]*"),"");
+        //Sources[i].Prefix.replace(QRegExp("font-size:[^\;]*"),"");
     }
-
-
-
-
 
 
     QString html;
@@ -218,25 +113,31 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     vector <IndexItem> indexitemlist;
 
     //Load all sources to the memory:
-    for (int i=0; i<sources.size(); i++)
+    for (int i=0; i<Sources.size(); i++)
     {
-        if(!ReadFileToVector(base + sources[i].FileName, sources[i].text, "UTF-8", true))
+        if(!ReadFileToVector(base + Sources[i].FileName, Sources[i].text, "UTF-8", true))
         {
-            print( "ERROR: Unable to open file: " + base + sources[i].FileName + " !");
+            print( "ERROR: Unable to open file: " + base + Sources[i].FileName + " !");
         }
 
-        sources[i].str = "";
+        Sources[i].str = "";
     }
 
-    if ( sources.size() == 0) return false;
+    if ( Sources.size() == 0) return false;
+
+
+    //BEWARE: Super ugly hack; But it's still better than what we had before.
+    //Add a fake level sign to the end of the main source, so we know we're done
+    Sources[0].text.push_back("! {EOF}");
+
 
     //Go over every line in the main source:
-    while (sources[0].text.size() > 0)
+    while (Sources[0].text.size() > 0)
     {
         //Use the first line of whats left of the file, and chop it off
-        QString line = sources[0].text[0];
+        QString line = Sources[0].text[0];
 
-        sources[0].text.erase(sources[0].text.begin());
+        Sources[0].text.erase(Sources[0].text.begin());
 
         //Display nikud and teamim depending on the NikudMode
         if ( shownikud == false) line = removeNikud(line);
@@ -247,35 +148,35 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         if ( LevelSigns.indexOf(line[0]) != -1 )
         {
             // Go over all other sources
-            for (int j=1; j<sources.size(); j++)
+            for (int j=1; j<Sources.size(); j++)
             {
-                if (sources[j].text.size() > 0)
+                if (Sources[j].text.size() > 0)
                 {
                     //Update the sources' itr to this line
                     // (It should be a level line that matters, because the loop doesn't stop before that)
-                    sources[j].itr.SetLevelFromLine(sources[j].text[0]);
+                    Sources[j].itr.SetLevelFromLine(Sources[j].text[0]);
 
                     //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-                    if (sources[0].itr.toHumanString() == sources[j].itr.toHumanString())
+                    if (Sources[0].itr.toHumanString() == Sources[j].itr.toHumanString())
                     {
-                        sources[j].text.erase(sources[j].text.begin());
+                        Sources[j].text.erase(Sources[j].text.begin());
 
-                        QString source_line = sources[j].text[0];
+                        QString source_line = Sources[j].text[0];
 
                         //Clone the sources' itr, so we can see if it changed
-                        BookIter tmpitr(sources[j].itr);
+                        BookIter tmpitr(Sources[j].itr);
                         tmpitr.SetLevelFromLine(source_line);
 
                         //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr.toHumanString() == sources[0].itr.toHumanString()) && (sources[j].text.size() > 0))
+                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].text.size() > 0))
                         {
-                            if (LevelSigns.indexOf(source_line[0]) == -1) sources[j].str += source_line + "\n";
+                            if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
 
                             //Remove the passed line
-                            sources[j].text.erase(sources[j].text.begin());
+                            Sources[j].text.erase(Sources[j].text.begin());
 
                             //Update the cloned itr
-                            source_line = sources[j].text[0];
+                            source_line = Sources[j].text[0];
                             tmpitr.SetLevelFromLine(source_line);
 
                         }
@@ -286,22 +187,20 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
             if (last_label != "")
             {
-                for (int j=0; j<sources.size(); j++)
+                for (int j=0; j<Sources.size(); j++)
                 {
-                    if ( sources[j].str.replace("\n", "") != "")
+                    if ( Sources[j].str.replace("\n", "") != "")
                     {
-                        htmlbody += stringTimes( "<small>", sources[j].SmallFactor);
-                        htmlbody += sources[j].Prefix;
-                        htmlbody += sources[j].str;
-                        htmlbody += sources[j].Suffix;
+                        htmlbody += Sources[j].Prefix;
+                        htmlbody += Sources[j].str;
+                        htmlbody += Sources[j].Suffix;
                         htmlbody += "<BR><BR>\n";
-                        htmlbody += stringTimes( "</small>", sources[j].SmallFactor);
                     }
                 }
             }
 
             //Emtpy str-s
-            for (int j=0; j<sources.size(); j++) sources[j].str = "";
+            for (int j=0; j<Sources.size(); j++) Sources[j].str = "";
 
 
             //See if the is a comment for the past position, and if so, insert it now
@@ -320,7 +219,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
             //Advance itr:
-            sources[0].itr.SetLevelFromLine(line);
+            Sources[0].itr.SetLevelFromLine(line);
             last_label = line;
 
             //Deal with the level sign for this book itself:
@@ -328,17 +227,20 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             //Find the level of the sign by it's position in the LevelSign array
             int level = LevelSigns.indexOf(line[0]);
 
-            lastlink = sources[0].itr.toStringForLinks(level + 1);
+            lastlink = Sources[0].itr.toStringForLinks(level + 1);
 
             //Add a name point ("<a name=...") to the html body.
-            htmlbody += namepoint("" + sources[0].itr.toStringForLinks(level + 1));
+            htmlbody += namepoint("" + Sources[0].itr.toStringForLinks(level + 1));
 
             if (level == 0)
             {
                 //This level dosn't get indexed
 
-                //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + sources[0].itr.toStringForLinks(level + 1), line.mid(2), id); id ++;
+                //Add the text as a special link so menu's can be opened here (and know where this is), unless it's a fake sign.
+                if (line.mid(2).indexOf("EOF") == -1)
+                {
+                    htmlbody += link("$" + Sources[0].itr.toStringForLinks(level + 1), line.mid(2), linkid); linkid ++;
+                }
             }
             else
             {
@@ -347,7 +249,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 indexitem.level = level + 1;
 
                 //Add a name point ("<a name=...") to html index (for the small index to point to it)
-                indexitem.linkPoint =  "#" + sources[0].itr.toStringForLinks(level + 1);
+                indexitem.linkPoint =  "#" + Sources[0].itr.toStringForLinks(level + 1);
 
                 //Display of link levels in the Html itself, and in the index
                 QString dispname = line.mid(2);
@@ -355,7 +257,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
                 if ( (mPath.indexOf("תלמוד") != -1) && ( level == 1) )
                 {
-                    dispname = sources[0].itr.toGmaraString();
+                    dispname = Sources[0].itr.toGmaraString();
                 }
                 else
                 {
@@ -384,7 +286,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 htmlbody += stringify(fontsize) + "px\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + sources[0].itr.toStringForLinks(level + 1), dispname, id); id ++;
+                htmlbody += link("$" + Sources[0].itr.toStringForLinks(level + 1), dispname, linkid); linkid ++;
 
                 htmlbody += "</span><BR>\n";
             }
@@ -394,86 +296,16 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         else if(line.mid(0,6) == "<!--ex")
         {
             //htmlbody += ExternalLink(line);
-            sources[0].str += ExternalLink(line) + ' ';
+            Sources[0].str += ExternalLink(line) + ' ';
         }
         else
         {
             ///$$$$$$$
             if (mark.pattern() != "") line = line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
 
-            sources[0].str += line + ' ';          
+            Sources[0].str += line + ' ';
         }
     }
-
-    //Add stuff from the last level too
-
-    /////////////////
-    // TODO: fix this mess...
-
-    // Go over all other sources
-    for (int j=1; j<sources.size(); j++)
-    {
-        if (sources[j].text.size() > 0)
-        {
-            //Update the sources' itr to this line
-            // (It should be a level line that matters, because the loop doesn't stop before that)
-            sources[j].itr.SetLevelFromLine(sources[j].text[0]);
-
-            //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-            if (sources[0].itr.toHumanString() == sources[j].itr.toHumanString())
-            {
-                sources[j].text.erase(sources[j].text.begin());
-
-                QString source_line = sources[j].text[0];
-
-                //Clone the sources' itr, so we can see if it changed
-                BookIter tmpitr(sources[j].itr);
-                tmpitr.SetLevelFromLine(source_line);
-
-                //As long as the file didn't end and no level that matters was changed, keep on adding text
-                while ( (tmpitr.toHumanString() == sources[0].itr.toHumanString()) && (sources[j].text.size() > 0))
-                {
-                    if (LevelSigns.indexOf(source_line[0]) == -1) sources[j].str += source_line + "\n";
-                    //Remove the passed line
-                    sources[j].text.erase(sources[j].text.begin());
-
-                    //Update the cloned itr
-                    source_line = sources[j].text[0];
-                    tmpitr.SetLevelFromLine(source_line);
-                }
-            }
-        }
-    }
-
-
-    for (int j=0; j<sources.size(); j++)
-    {
-        if ( sources[j].str.replace("\n", "") != "")
-        {
-            htmlbody += stringTimes( "<small>", sources[j].SmallFactor);
-            htmlbody += sources[j].Prefix;
-            htmlbody += sources[j].str;
-            htmlbody += sources[j].Suffix;
-            htmlbody += "<BR><BR>\n";
-            htmlbody += stringTimes( "</small>", sources[j].SmallFactor);
-        }
-    }
-
-    //See if the is a comment for the past position, and if so, insert it now
-    vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlink);
-    int index = distance (comment_titles.begin (), vitr);
-    if (index != comment_titles.size())
-    {
-        QString comment = "<span style=\"color:blue; font-size:14px\"> [*] ";
-        comment += comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-        comment += "</span>";
-
-        //Add the text as a special link so menu's can be opened here (and know where this is)
-        htmlbody += link("*" + last_label, comment);
-        htmlbody += "<BR>";
-    }
-
-    //////////////
 
     //Stick together all parts of HTML:
     html += html_head(mNormallDisplayName);
@@ -507,10 +339,9 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     return true;
 }
 
-bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim, QRegExp mark)
+bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud, bool showteamim, QRegExp mark)
 {
-    ///$#$#$
-    int id = 1;
+    int linkid = 0;
 
     vector <IndexItem> indexitemlist;
 
@@ -527,7 +358,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     QString lastlabel = "";
 
     //Read the source file associated to this book:
-    QString filename = absPath(mPath);
+    QString filename = absPath(infile);
     if(!ReadFileToVector(filename, text, "UTF-8"))
     {
         print( "ERROR: Unable to open file: " + filename + " !");
@@ -631,7 +462,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 //This level dosn't get indexed
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + itr.toStringForLinks(level + 1), text[i].mid(2), id); id ++;
+                htmlbody += link("$" + itr.toStringForLinks(level + 1), text[i].mid(2), linkid); linkid ++;
             }
             else
             {
@@ -680,7 +511,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 htmlbody += stringify(fontsize) + "px\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + itr.toStringForLinks(level + 1), dispname, id); id ++;
+                htmlbody += link("$" + itr.toStringForLinks(level + 1), dispname, linkid); linkid ++;
 
                 htmlbody += "</span><BR>\n";
             }
@@ -1109,7 +940,7 @@ QString Script()
 
     str += "function paintNext()";
     str += "{";
-    str += "    var i = 1;";
+    str += "    var i = 0;";
     str += "";
     str += "    if(currentlyPainted)";
     str += "    {";
@@ -1122,12 +953,12 @@ QString Script()
 
     str += "function paintPrevious()";
     str += "{";
-    str += "    var i = 1;";
+    str += "    var i = 0;";
     str += "";
     str += "    if(currentlyPainted)";
     str += "    {";
     str += "        var num = parseInt(currentlyPainted.id.substring(3)) - 1;";
-    str += "        if ( num > 0 )";
+    str += "        if ( num >= 0 )";
     str += "        {";
     str += "            i = num;";
     str += "        }";

@@ -106,10 +106,18 @@ private:
 
 private slots:
 
+    //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
+    void on_treeWidget_clicked(QModelIndex index);
+    void on_openMixed_clicked();
+    void on_aloneCheckBox_toggled(bool checked);
+
+    void weavedCheckBoxClicked(int btnIndex);
+
     void on_changeLangButton_clicked();
     void on_lineEdit_textChanged(QString );
     void on_viewTab_tabCloseRequested(int index);
-    void on_treeWidget_clicked(QModelIndex index);
+
+    void treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*);
 
     void on_fontComboBox_currentIndexChanged(QString );
     void on_fonSizeSpinBox_valueChanged(int );

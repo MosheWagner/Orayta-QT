@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'mainwindow.ui'
 **
-** Created: Fri May 14 11:30:48 2010
+** Created: Thu May 20 11:49:37 2010
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -15,10 +15,12 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QFontComboBox>
 #include <QtGui/QFrame>
+#include <QtGui/QGroupBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -134,6 +136,16 @@ public:
     QSpacerItem *horizontalSpacer_6;
     QPushButton *changeLangButton;
     QSpacerItem *horizontalSpacer_7;
+    QFrame *mixedGroup;
+    QVBoxLayout *verticalLayout_8;
+    QCheckBox *aloneCheckBox;
+    QGroupBox *mixedFrame;
+    QVBoxLayout *verticalLayout_10;
+    QVBoxLayout *verticalLayout_11;
+    QHBoxLayout *horizontalLayout_8;
+    QSpacerItem *horizontalSpacer_8;
+    QPushButton *openMixed;
+    QSpacerItem *horizontalSpacer_9;
     QProgressBar *progressBar;
     QMenuBar *menuBar;
     QMenu *menu;
@@ -625,7 +637,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 270, 562));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 254, 463));
         verticalLayout_7 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_7->setSpacing(-1);
         verticalLayout_7->setMargin(11);
@@ -783,6 +795,59 @@ public:
         treeTab->addTab(tab_3, icon22, QString());
 
         verticalLayout_9->addWidget(treeTab);
+
+        mixedGroup = new QFrame(dockWidgetContents_2);
+        mixedGroup->setObjectName(QString::fromUtf8("mixedGroup"));
+        mixedGroup->setFont(font3);
+        mixedGroup->setFrameShape(QFrame::NoFrame);
+        mixedGroup->setFrameShadow(QFrame::Plain);
+        verticalLayout_8 = new QVBoxLayout(mixedGroup);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setMargin(11);
+        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
+        verticalLayout_8->setContentsMargins(4, 4, 4, 6);
+        aloneCheckBox = new QCheckBox(mixedGroup);
+        aloneCheckBox->setObjectName(QString::fromUtf8("aloneCheckBox"));
+
+        verticalLayout_8->addWidget(aloneCheckBox);
+
+        mixedFrame = new QGroupBox(mixedGroup);
+        mixedFrame->setObjectName(QString::fromUtf8("mixedFrame"));
+        verticalLayout_10 = new QVBoxLayout(mixedFrame);
+        verticalLayout_10->setSpacing(6);
+        verticalLayout_10->setMargin(0);
+        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
+        verticalLayout_11 = new QVBoxLayout();
+        verticalLayout_11->setSpacing(6);
+        verticalLayout_11->setObjectName(QString::fromUtf8("verticalLayout_11"));
+        verticalLayout_11->setContentsMargins(-1, 14, -1, -1);
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_8);
+
+        openMixed = new QPushButton(mixedFrame);
+        openMixed->setObjectName(QString::fromUtf8("openMixed"));
+
+        horizontalLayout_8->addWidget(openMixed);
+
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_8->addItem(horizontalSpacer_9);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_8);
+
+
+        verticalLayout_10->addLayout(verticalLayout_11);
+
+
+        verticalLayout_8->addWidget(mixedFrame);
+
+
+        verticalLayout_9->addWidget(mixedGroup);
 
         progressBar = new QProgressBar(dockWidgetContents_2);
         progressBar->setObjectName(QString::fromUtf8("progressBar"));
@@ -955,6 +1020,9 @@ public:
         label_8->setText(QApplication::translate("MainWindowClass", "Changing the language will restart the application, and close all open books", 0, QApplication::UnicodeUTF8));
         changeLangButton->setText(QApplication::translate("MainWindowClass", "Change language", 0, QApplication::UnicodeUTF8));
         treeTab->setTabText(treeTab->indexOf(tab_3), QApplication::translate("MainWindowClass", "Configure", 0, QApplication::UnicodeUTF8));
+        aloneCheckBox->setText(QApplication::translate("MainWindowClass", "Display alone", 0, QApplication::UnicodeUTF8));
+        mixedFrame->setTitle(QApplication::translate("MainWindowClass", "Display with:", 0, QApplication::UnicodeUTF8));
+        openMixed->setText(QApplication::translate("MainWindowClass", "Open", 0, QApplication::UnicodeUTF8));
         menu->setTitle(QApplication::translate("MainWindowClass", "File", 0, QApplication::UnicodeUTF8));
         menu_2->setTitle(QApplication::translate("MainWindowClass", "Help", 0, QApplication::UnicodeUTF8));
         menu_3->setTitle(QApplication::translate("MainWindowClass", "Display", 0, QApplication::UnicodeUTF8));

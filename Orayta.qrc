@@ -33,5 +33,7 @@
         <file>Icons/bug.png</file>
         <file>Icons/configure.png</file>
         <file>Images/Wellcome.png</file>
+        <file>Icons/book-grey-double.png</file>
+        <file>Icons/book-blue-double.png</file>
     </qresource>
 </RCC>
