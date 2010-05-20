@@ -28,8 +28,6 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
 
     mIsDir = is_dir;
 
-    mIsUnSelectable = false;
-
     mpTreeItem = NULL;
 
     for(int i=0;i<5;i++)
@@ -86,9 +84,6 @@ QString Book::getName()
 bool Book::IsHidden()
 { return mIsHidden; }
 
-bool Book::IsUnSelectable()
-{ return mIsUnSelectable; }
-
 bool Book::IsDir()
 {   return mIsDir;    }
 
@@ -144,9 +139,6 @@ void Book::setIsInSearch(bool in_search)
 void Book::setIsHidden(bool isHidden)
 { mIsHidden = isHidden; }
 
-void Book::setIsUnSelectable(bool un)
-{ mIsUnSelectable = un; }
-
 void Book::repainticon()
 {
     //UnSelectable should allways be grey
@@ -158,7 +150,7 @@ void Book::repainticon()
     //Check children
     for (unsigned int i=0;i < mvChildren.size(); i++)
     {
-        if ( mvChildren[i]->mIsHidden == false && mvChildren[i]->IsUnSelectable() == false)
+        if ( mvChildren[i]->mIsHidden == false)
         {
             if(mvChildren[i]->mIconState == BLUE)
                 blue_child = true;
@@ -335,6 +327,14 @@ void Book::setCosmetics(QString confline)
                     mTitleEmptyLines[num - 1] = num2;
             }
         }
+
+        else if(costypevals[0].mid(0,3) == "rep")
+        {
+            print ("Book: " + mPath);
+            print ("From: " + costypevals[1]);
+            print ("To: " + costypevals[2]);
+        }
+
         costypevals.clear();
     }
     costype.clear();

@@ -59,7 +59,6 @@ public:
     bool IsDir();
     bool IsInSearch();
     bool IsHidden();
-    bool IsUnSelectable();
     Book * getParent();
     QTreeWidgetItem * getTreeItemPtr();
 
@@ -76,7 +75,6 @@ public:
     void setTreeItemPtr(QTreeWidgetItem * treeitem);
     void setIsInSearch(bool);
     void setIsHidden(bool);
-    void setIsUnSelectable(bool);
 
     //Sets the cosmetic types of the book, by the given conf line
     void setCosmetics(QString);
@@ -137,10 +135,6 @@ protected:
     //Tells if the book should be searched trough.
     //  Has no affect on folders
     bool mInSearch;
-
-    //Tells if the book can't be selected at all. I.E., mixed displays and welcome page
-    bool mIsUnSelectable;
-
 
     //Vector containing pointers to the folders children
     vector<Book *> mvChildren;

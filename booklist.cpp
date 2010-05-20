@@ -160,10 +160,8 @@ void BookList::AddBookConfs(Book *book, QString filename)
                 {
                     //Add the book it self as the first source
                     weavedSource base;
-    
-                    QFileInfo b(book->getPath());
-    
-                    base.FileName = b.fileName();
+
+                    base.FileName = book->getPath();
     
                     base.Zoom = 0;
 
@@ -179,7 +177,7 @@ void BookList::AddBookConfs(Book *book, QString filename)
 
                 QStringList p = text[i].mid(10).split(":");
                 weavedSource src;
-                src.FileName = p[0];
+                src.FileName = BOOKPATH + "/" + p[0];
                 src.Title = p[1];
 
                 src.Zoom = 0;

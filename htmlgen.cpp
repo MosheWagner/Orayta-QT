@@ -14,9 +14,9 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
-//TODO: Merge as much of Mixed and Normal diaplay as possible
+//TODO: Keep same font for mixed sources
 
-//TODO: Ovveride bad colors in mixed display conf files
+//TODO: Merge as much of Mixed and Normal diaplay as possible
 
 //TODO: Use CSS!
 //TODO: Diet the html
@@ -68,9 +68,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     //Read the source file associated to this book:
     QString filename = absPath(mPath);
 
-    int p = filename.lastIndexOf("/");
-    QString base = filename.mid(0,p+1);
-
 
     if(!ReadFileToVector(filename, text, "UTF-8"))
     {
@@ -97,11 +94,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
         if (Sources[i].Prefix == "") Sources[i].Prefix = "<span style= color:" + colors[j] + ">";
         if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> (" +  Sources[i].Title + ") </small></span>";
-
-        //TODO: Ugly hack. fix the font-family thing!
-        //Sources[i].Prefix.replace(QRegExp("font-family:[^\"]*"),"");
-        //TODO: Ugly hack. wtf did they do with the font size?!
-        //Sources[i].Prefix.replace(QRegExp("font-size:[^\;]*"),"");
     }
 
 
@@ -115,9 +107,9 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     //Load all sources to the memory:
     for (int i=0; i<Sources.size(); i++)
     {
-        if(!ReadFileToVector(base + Sources[i].FileName, Sources[i].text, "UTF-8", true))
+        if(!ReadFileToVector(Sources[i].FileName, Sources[i].text, "UTF-8", true))
         {
-            print( "ERROR: Unable to open file: " + base + Sources[i].FileName + " !");
+            print( "ERROR: Unable to open file: " + Sources[i].FileName + " !");
         }
 
         Sources[i].str = "";
