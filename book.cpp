@@ -247,6 +247,8 @@ void Book::setCosmetics(QString confline)
 {
     Cosmetics = confline.mid(14);
 
+
+
     vector <QString> costype;
     int pos = confline.indexOf("=");
     confline = confline.mid(pos + 1);
@@ -330,9 +332,15 @@ void Book::setCosmetics(QString confline)
 
         else if(costypevals[0].mid(0,3) == "rep")
         {
-            print ("Book: " + mPath);
-            print ("From: " + costypevals[1]);
-            print ("To: " + costypevals[2]);
+            QString reper = costype[j].mid(costype[j].indexOf("=") + 1);
+            QStringList p = reper.split(QString("^^"));
+            for (int i=0; i<p.size(); i++)
+            {
+                QStringList pp = p[i].split("=");
+
+                replaceFrom << pp[0].replace(" ", "");
+                replaceTo << pp[1].replace(" ", "");
+            }
         }
 
         costypevals.clear();

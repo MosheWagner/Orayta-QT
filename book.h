@@ -174,6 +174,10 @@ protected:
     QString mIndexSuffix[5];
     QString mIndexPrefix[5];
 
+    QList <QString> replaceFrom;
+    QList <QString> replaceTo;
+
+
     int mIndexTextSize[5];
     int mTitleEmptyLines[5];
 
