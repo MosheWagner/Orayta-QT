@@ -292,6 +292,13 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         }
         else
         {
+            //Hope this is OK... Not realy tested yet
+            //Run all pre-set replaces
+            for (int i=0; i<replaceFrom.size(); i++)
+            {
+                line = line.replace(replaceFrom[i], replaceTo[i]);
+            }
+
             ///$$$$$$$
             if (mark.pattern() != "") line = line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
 
@@ -518,13 +525,13 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
         //Plain text
         else
         {
-            QString txt;
-            if (mNormallDisplayName.indexOf("הגדה") != -1)
+            QString txt = text[i];
+
+            //Run all pre-set replaces
+            for (int i=0; i<replaceFrom.size(); i++)
             {
-                //New wierd stuff added in the "הגדה של פסח".
-                txt += text[i].replace(QRegExp("[\[][\[]*"), "<i><small><small>").replace(QRegExp("[]][]]*"), "&nbsp</i></small></small>").replace("{", "<b>").replace("}", "</b>");
+                txt = txt.replace(replaceFrom[i], replaceTo[i]);
             }
-            else txt += text[i];
 
             ///$$$$$$$
             if (mark.pattern() != "") txt = txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
