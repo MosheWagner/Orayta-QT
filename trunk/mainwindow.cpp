@@ -16,10 +16,7 @@
 
 #include "mainwindow.h"
 
-
-//TODO: Re-build mixed display
-
-
+//TODO: Fix all wierd stuff in the new books
 
 //TODO: Remove wierd books
 
@@ -38,19 +35,13 @@ TODO: KHTML progress bar
 
 //TODO: Allow adding custom html books through the program
 
-//TODO: Mixed display choose what to show
-
 //TODO: dictionary
 
 //TODO: allow search to be stopped or canceled
 
-//TODO: disable checkbox & color changes for books not in search
-
 //TODO: Fix the way ספר המידות looks (compare to the original TE)
 
 //TODO: English welcpme page
-//TODO: Whole new welcome page
-//TODO: לזכר רועי רוט
 //(TODO: create help page for linux version)
 //TODO: hide welcomepage from search
 
@@ -70,15 +61,9 @@ TODO: KHTML progress bar
 
 //TODO: more of the search - two word search, etc'
 
-//TODO: see what else to do ;-)
-
-//TODO: (right align window title)
-
 //TODO: Requested Feature: parallel tab (like in the originall)
 
-//TODO: Fix mixed displays font-family and font size system
-
-
+//TODO: see what else to do ;-)
 
 
 
@@ -517,167 +502,168 @@ void MainWindow::webView_loadFinished()
         QApplication::restoreOverrideCursor();
     }
 
-    void MainWindow::webView_loadProgress (int progress)
-    {
-        ui->progressBar->setValue(progress);
-    }
+void MainWindow::webView_loadProgress (int progress)
+{
+    ui->progressBar->setValue(progress);
+}
 
-    void MainWindow::webView_loadStarted()
-    {
-        ui->progressBar->setValue(0);
-    }
+void MainWindow::webView_loadStarted()
+{
+    ui->progressBar->setValue(0);
+}
 
 
-    QString last = "";
+QString last = "";
 
-    //Omitted when a link was clicked in the webView
-    void MainWindow::webView_linkClicked(QUrl url)
-    {
-        QString link = QString(url.path());
+//Omitted when a link was clicked in the webView
+void MainWindow::webView_linkClicked(QUrl url)
+{
+    QString link = QString(url.path());
 
+        print (link);
 #ifdef KHTML
-        //Yuck!!! Disgusting!!!
-        if (link == last)
-        {
-            last = "";
-            return;
-        }
-        last = link;
+    //Yuck!!! Disgusting!!!
+    if (link == last)
+    {
+        last = "";
+        return;
+    }
+    last = link;
 #endif
 
-        //Not actually a link. A menu should open here
-        if(link.indexOf("$") != -1 )
-        {
-            //Find book's id and add it to the link
-            int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+    //Not actually a link. A menu should open here
+    if(link.indexOf("$") != -1 )
+    {
+        //Find book's id and add it to the link
+        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
 
-            int p = link.indexOf("$");
-            link = stringify(id) + ":" + link.mid(p+1);
+        int p = link.indexOf("$");
+        link = stringify(id) + ":" + link.mid(p+1);
 
 #ifdef KHTML
-            QMenu menu(gWebViewList[CURRENT_TAB]->getQWidget());
+        QMenu menu(gWebViewList[CURRENT_TAB]->getQWidget());
 #else
-            QMenu menu(gWebViewList[CURRENT_TAB]);
+        QMenu menu(gWebViewList[CURRENT_TAB]);
 #endif
-            QAction *mark = new QAction(tr("Add bookmark here..."), &menu);
+        QAction *mark = new QAction(tr("Add bookmark here..."), &menu);
 
-            mark->setIcon(QIcon(":/Icons/bookmarks.png"));
-            menu.addAction(mark);
+        mark->setIcon(QIcon(":/Icons/bookmarks.png"));
+        menu.addAction(mark);
 
-            QSignalMapper *signalMapper = new QSignalMapper(this);
+        QSignalMapper *signalMapper = new QSignalMapper(this);
 
-            signalMapper->setMapping(mark, QString(link));
-            connect(mark, SIGNAL(triggered()), signalMapper, SLOT (map()));
-            connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(bookMarkPosition(QString)));
+        signalMapper->setMapping(mark, QString(link));
+        connect(mark, SIGNAL(triggered()), signalMapper, SLOT (map()));
+        connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(bookMarkPosition(QString)));
 
-            QAction *comment = new QAction(tr("Add/edit comment..."), &menu);
+        QAction *comment = new QAction(tr("Add/edit comment..."), &menu);
 
-            menu.addAction(comment);
-            comment->setIcon(QIcon(":/Icons/edit.png"));
+        menu.addAction(comment);
+        comment->setIcon(QIcon(":/Icons/edit.png"));
 
-            QSignalMapper *csignalMapper = new QSignalMapper(this);
-            csignalMapper->setMapping(comment, QString(link));
-            connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-            connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
+        QSignalMapper *csignalMapper = new QSignalMapper(this);
+        csignalMapper->setMapping(comment, QString(link));
+        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
+        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
 
-            menu.setLayoutDirection(Qt::RightToLeft);
+        menu.setLayoutDirection(Qt::RightToLeft);
 
-            //Open the menu to the left of the cursor's position
-            QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-            menu.exec(pos);
+        //Open the menu to the left of the cursor's position
+        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
+        menu.exec(pos);
 
-            delete signalMapper;
-            delete csignalMapper;
-        }
-        //A comment clicked. A menu should open here too
-        else if(link.indexOf("*") != -1 )
+        delete signalMapper;
+        delete csignalMapper;
+    }
+    //A comment clicked. A menu should open here too
+    else if(link.indexOf("*") != -1 )
+    {
+        //Find book's id and add it to the link
+        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+
+        int p = link.indexOf("*");
+        link = stringify(id) + ":" + link.mid(p+1);
+
+
+        QMenu menu(ui->treeWidget);
+
+        QSignalMapper *signalMapper = new QSignalMapper(this);
+
+        QAction *comment = new QAction(tr("Edit comment..."), &menu);
+
+        comment->setIcon(QIcon(":/Icons/edit.png"));
+        menu.addAction(comment);
+
+        QSignalMapper *csignalMapper = new QSignalMapper(this);
+        csignalMapper->setMapping(comment, QString(link));
+        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
+        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
+
+
+        QAction *delcomment = new QAction(tr("Delete comment"), &menu);
+        delcomment->setIcon(QIcon(":/Icons/edit-delete.png"));
+        menu.addAction(delcomment);
+
+        QSignalMapper *dcsignalMapper = new QSignalMapper(this);
+        dcsignalMapper->setMapping(delcomment, QString(link));
+        connect(delcomment, SIGNAL(triggered()), dcsignalMapper, SLOT (map()));
+        connect(dcsignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(removeComment(QString)));
+
+        menu.setLayoutDirection(Qt::RightToLeft);
+
+        //Open the menu to the left of the cursor's position
+        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
+        menu.exec(pos);
+
+        delete signalMapper;
+        delete csignalMapper;
+        delete dcsignalMapper;
+    }
+
+    //External book link
+    else if(link.indexOf("!") != -1 )
+    {
+        int pos = link.indexOf("!");
+
+        QString lnk = "";
+        lnk = link.mid(pos+1);
+
+        vector<QString> parts;
+        split(lnk, parts, ":");
+        int id;
+        if(ToNum(parts[0], &id))
         {
-            //Find book's id and add it to the link
-            int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
-
-            int p = link.indexOf("*");
-            link = stringify(id) + ":" + link.mid(p+1);
-
-
-            QMenu menu(ui->treeWidget);
-
-            QSignalMapper *signalMapper = new QSignalMapper(this);
-
-            QAction *comment = new QAction(tr("Edit comment..."), &menu);
-
-            comment->setIcon(QIcon(":/Icons/edit.png"));
-            menu.addAction(comment);
-
-            QSignalMapper *csignalMapper = new QSignalMapper(this);
-            csignalMapper->setMapping(comment, QString(link));
-            connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-            connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
-
-
-            QAction *delcomment = new QAction(tr("Delete comment"), &menu);
-            delcomment->setIcon(QIcon(":/Icons/edit-delete.png"));
-            menu.addAction(delcomment);
-
-            QSignalMapper *dcsignalMapper = new QSignalMapper(this);
-            dcsignalMapper->setMapping(delcomment, QString(link));
-            connect(delcomment, SIGNAL(triggered()), dcsignalMapper, SLOT (map()));
-            connect(dcsignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(removeComment(QString)));
-
-            menu.setLayoutDirection(Qt::RightToLeft);
-
-            //Open the menu to the left of the cursor's position
-            QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-            menu.exec(pos);
-
-            delete signalMapper;
-            delete csignalMapper;
-            delete dcsignalMapper;
-        }
-
-        //External book link
-        else if(link.indexOf("!") != -1 )
-        {
-            int pos = link.indexOf("!");
-
-            QString lnk = "";
-            lnk = link.mid(pos+1);
-
-            vector<QString> parts;
-            split(lnk, parts, ":");
-            int id;
-            if(ToNum(parts[0], &id))
+            int index = gBookList.FindBookById(id);
+            if( index != -1)
             {
-                int index = gBookList.FindBookById(id);
-                if( index != -1)
+                gInternalLocationInHtml = "#" + parts[1];
+
+                //Add a new tab and open the link there
+                addViewTab(false);
+                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+                ///%%%%%%%%%
+                if (parts.size() == 3)
                 {
-                    gInternalLocationInHtml = "#" + parts[1];
-
-                    //Add a new tab and open the link there
-                    addViewTab(false);
-                    ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-                    ///%%%%%%%%%
-                    if (parts.size() == 3)
-                    {
-                        LoadBook(gBookList[index], parts[2]);
-                    }
-                    else
-                        LoadBook(gBookList[index]);
+                    LoadBook(gBookList[index], parts[2]);
                 }
+                else
+                    LoadBook(gBookList[index]);
             }
         }
-        //Link to website
-        else if(link.indexOf("^") != -1 )
-        {
-            int pos = link.indexOf("^");
-
-            QString lnk = "";
-            lnk = link.mid(pos+1);
-
-            //Open using browser
-            QDesktopServices::openUrl("http://" + lnk);
-        }
     }
+    //Link to website
+    else if(link.indexOf("^") != -1 )
+    {
+        int pos = link.indexOf("^");
+
+        QString lnk = "";
+        lnk = link.mid(pos+1);
+
+        //Open using browser
+        QDesktopServices::openUrl("http://" + lnk);
+    }
+}
 
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
