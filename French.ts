@@ -4,34 +4,21 @@
 <context>
     <name></name>
     <message>
-        <location filename="htmlgen.cpp" line="825"/>
+        <location filename="htmlgen.cpp" line="656"/>
         <source>All right reserved </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1205"/>
-        <source>Open book</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="1207"/>
         <source>Open in new tab</source>
-        <translation type="unfinished">Ouvrir dans un nouvel onglet</translation>
+        <translation type="obsolete">Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1232"/>
         <source>Edit bookmark title...</source>
-        <translation type="unfinished">Editer le marque-page...</translation>
+        <translation type="obsolete">Editer le marque-page...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1235"/>
         <source>Delete bookmark</source>
-        <translation type="unfinished">Supprimer le marque page</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="1427"/>
-        <source>Orayta</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Supprimer le marque page</translation>
     </message>
 </context>
 <context>
@@ -106,80 +93,85 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="140"/>
-        <location filename="mainwindow.cpp" line="658"/>
-        <location filename="mainwindow.cpp" line="739"/>
-        <location filename="mainwindow.cpp" line="894"/>
+        <location filename="mainwindow.cpp" line="143"/>
+        <location filename="mainwindow.cpp" line="657"/>
+        <location filename="mainwindow.cpp" line="738"/>
+        <location filename="mainwindow.cpp" line="893"/>
+        <location filename="mainwindow.cpp" line="1426"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="148"/>
+        <location filename="mainwindow.cpp" line="151"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>Aucun livre trouvé !
 Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="478"/>
+        <location filename="mainwindow.cpp" line="477"/>
         <source>Loading...</source>
         <translation>Chargement...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="563"/>
+        <location filename="mainwindow.cpp" line="562"/>
         <source>Add bookmark here...</source>
         <translation>Ajouter un marque-page ici...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="574"/>
+        <location filename="mainwindow.cpp" line="573"/>
         <source>Add/edit comment...</source>
         <translation>Ajouter/Editer un commentaire...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="607"/>
+        <location filename="mainwindow.cpp" line="606"/>
         <source>Edit comment...</source>
         <translation>Editer le commentaire...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="618"/>
+        <location filename="mainwindow.cpp" line="617"/>
         <source>Delete comment</source>
         <translation>Supprimer le commentaire</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="902"/>
+        <location filename="mainwindow.cpp" line="901"/>
         <source>Searching: </source>
         <translation>Recherche: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1056"/>
+        <location filename="mainwindow.cpp" line="1055"/>
         <source>No serach results found:</source>
         <translation>Aucun résultat :</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1061"/>
+        <location filename="mainwindow.cpp" line="1060"/>
         <source>Short result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1069"/>
+        <location filename="mainwindow.cpp" line="1068"/>
         <source>Full result list:</source>
         <translation>Liste complète:</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1204"/>
         <source>Open book</source>
-        <translation type="obsolete">Ouvrir un livre</translation>
+        <translation type="unfinished">Ouvrir un livre</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1206"/>
         <source>Open in new tab</source>
-        <translation type="obsolete">Ouvrir dans un nouvel onglet</translation>
+        <translation type="unfinished">Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1231"/>
         <source>Edit bookmark title...</source>
-        <translation type="obsolete">Editer le marque-page...</translation>
+        <translation type="unfinished">Editer le marque-page...</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1234"/>
         <source>Delete bookmark</source>
-        <translation type="obsolete">Supprimer le marque page</translation>
+        <translation type="unfinished">Supprimer le marque page</translation>
     </message>
 </context>
 <context>
@@ -196,7 +188,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="506"/>
-        <location filename="mainwindow.ui" line="1626"/>
+        <location filename="mainwindow.ui" line="1718"/>
         <source>Open new tab</source>
         <translation>Ouvrir un nouvel onglet</translation>
     </message>
@@ -222,19 +214,19 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="692"/>
-        <location filename="mainwindow.ui" line="1590"/>
+        <location filename="mainwindow.ui" line="1682"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="721"/>
-        <location filename="mainwindow.ui" line="1581"/>
+        <location filename="mainwindow.ui" line="1673"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="750"/>
-        <location filename="mainwindow.ui" line="1599"/>
+        <location filename="mainwindow.ui" line="1691"/>
         <source>Jump to top</source>
         <translation>Revenir au début</translation>
     </message>
@@ -350,117 +342,132 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation>Changer la langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1490"/>
+        <location filename="mainwindow.ui" line="1475"/>
+        <source>Display alone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1482"/>
+        <source>Display with:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1511"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1582"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1503"/>
+        <location filename="mainwindow.ui" line="1595"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1512"/>
+        <location filename="mainwindow.ui" line="1604"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1525"/>
+        <location filename="mainwindow.ui" line="1617"/>
         <source>Search</source>
         <translation>Recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1545"/>
+        <location filename="mainwindow.ui" line="1637"/>
         <source>Location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1563"/>
+        <location filename="mainwindow.ui" line="1655"/>
         <source>Exit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1572"/>
+        <location filename="mainwindow.ui" line="1664"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1608"/>
+        <location filename="mainwindow.ui" line="1700"/>
         <source>Print book</source>
         <translation>Imprime le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1617"/>
+        <location filename="mainwindow.ui" line="1709"/>
         <source>Close tab</source>
         <translation>Fermer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1637"/>
+        <location filename="mainwindow.ui" line="1729"/>
         <source>Show nikud</source>
         <translation>Afficher le Nikud</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1648"/>
+        <location filename="mainwindow.ui" line="1740"/>
         <source>Show teamim</source>
         <translation>Afficher les Teamim</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1657"/>
+        <location filename="mainwindow.ui" line="1749"/>
         <source>Add bookmark</source>
         <translation>Ajouter un marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1666"/>
+        <location filename="mainwindow.ui" line="1758"/>
         <source>Add/edit comment</source>
         <translation>Ajouter/éditer un commentaire</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1675"/>
+        <location filename="mainwindow.ui" line="1767"/>
         <source>Report typo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1684"/>
+        <location filename="mainwindow.ui" line="1776"/>
         <source>Advanced search</source>
         <translation>Recherche avancée</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1693"/>
+        <location filename="mainwindow.ui" line="1785"/>
         <source>Search in book</source>
         <translation type="unfinished">Chercher dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1702"/>
+        <location filename="mainwindow.ui" line="1794"/>
         <source>Search forward</source>
         <translation>Chercher en avant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1711"/>
+        <location filename="mainwindow.ui" line="1803"/>
         <source>Search backwards</source>
         <translation>Chercher en arrière</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1720"/>
+        <location filename="mainwindow.ui" line="1812"/>
         <source>Remove book from search</source>
         <translation>Enlever ce livre de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1729"/>
+        <location filename="mainwindow.ui" line="1821"/>
         <source>Add book to search</source>
         <translation>Ajouter ce livre à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1738"/>
+        <location filename="mainwindow.ui" line="1830"/>
         <source>Add all to search</source>
         <translation>Tout ajouter à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1747"/>
+        <location filename="mainwindow.ui" line="1839"/>
         <source>Remove all from search</source>
         <translation>Tout enlever de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1756"/>
+        <location filename="mainwindow.ui" line="1848"/>
         <source>Find book by name</source>
         <translation>Trouver un livre d&apos;aprés le titre</translation>
     </message>

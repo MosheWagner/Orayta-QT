@@ -4,34 +4,29 @@
 <context>
     <name></name>
     <message>
-        <location filename="htmlgen.cpp" line="825"/>
+        <location filename="htmlgen.cpp" line="656"/>
         <source>All right reserved </source>
         <translation>כל הזכויות שמורות</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1205"/>
         <source>Open book</source>
-        <translation>פתח ספר</translation>
+        <translation type="obsolete">פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1207"/>
         <source>Open in new tab</source>
-        <translation>פתח בלשונית חדשה</translation>
+        <translation type="obsolete">פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1232"/>
         <source>Edit bookmark title...</source>
-        <translation>ערוך כותרת סימנייה...</translation>
+        <translation type="obsolete">ערוך כותרת סימנייה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1235"/>
         <source>Delete bookmark</source>
-        <translation>מחק סימנייה</translation>
+        <translation type="obsolete">מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1427"/>
         <source>Orayta</source>
-        <translation>אורייתא</translation>
+        <translation type="obsolete">אורייתא</translation>
     </message>
 </context>
 <context>
@@ -106,80 +101,85 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="140"/>
-        <location filename="mainwindow.cpp" line="658"/>
-        <location filename="mainwindow.cpp" line="739"/>
-        <location filename="mainwindow.cpp" line="894"/>
+        <location filename="mainwindow.cpp" line="143"/>
+        <location filename="mainwindow.cpp" line="657"/>
+        <location filename="mainwindow.cpp" line="738"/>
+        <location filename="mainwindow.cpp" line="893"/>
+        <location filename="mainwindow.cpp" line="1426"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="148"/>
+        <location filename="mainwindow.cpp" line="151"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>לא נמצאו ספרים מותקנים! &gt;BR&lt; בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="478"/>
+        <location filename="mainwindow.cpp" line="477"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="563"/>
+        <location filename="mainwindow.cpp" line="562"/>
         <source>Add bookmark here...</source>
         <translation>הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="574"/>
+        <location filename="mainwindow.cpp" line="573"/>
         <source>Add/edit comment...</source>
         <translation>הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="607"/>
+        <location filename="mainwindow.cpp" line="606"/>
         <source>Edit comment...</source>
         <translation>ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="618"/>
+        <location filename="mainwindow.cpp" line="617"/>
         <source>Delete comment</source>
         <translation>מחק הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="902"/>
+        <location filename="mainwindow.cpp" line="901"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1056"/>
+        <location filename="mainwindow.cpp" line="1055"/>
         <source>No serach results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1061"/>
+        <location filename="mainwindow.cpp" line="1060"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1069"/>
+        <location filename="mainwindow.cpp" line="1068"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1204"/>
         <source>Open book</source>
-        <translation type="obsolete">פתח ספר</translation>
+        <translation>פתח ספר</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1206"/>
         <source>Open in new tab</source>
-        <translation type="obsolete">פתח בלשונית חדשה</translation>
+        <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1231"/>
         <source>Edit bookmark title...</source>
-        <translation type="obsolete">ערוך כותרת סימנייה...</translation>
+        <translation>ערוך כותרת סימנייה...</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="1234"/>
         <source>Delete bookmark</source>
-        <translation type="obsolete">מחק סימנייה</translation>
+        <translation>מחק סימנייה</translation>
     </message>
 </context>
 <context>
@@ -211,7 +211,7 @@ Check your installation, or contact the developer.</source>
         <translation>חפש בספרים המסומנים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1525"/>
+        <location filename="mainwindow.ui" line="1617"/>
         <source>Search</source>
         <translation>חפש</translation>
     </message>
@@ -227,19 +227,19 @@ Check your installation, or contact the developer.</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="692"/>
-        <location filename="mainwindow.ui" line="1590"/>
+        <location filename="mainwindow.ui" line="1682"/>
         <source>Zoom out</source>
         <translation>הגדל כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="721"/>
-        <location filename="mainwindow.ui" line="1581"/>
+        <location filename="mainwindow.ui" line="1673"/>
         <source>Zoom in</source>
         <translation>הקטן כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="750"/>
-        <location filename="mainwindow.ui" line="1599"/>
+        <location filename="mainwindow.ui" line="1691"/>
         <source>Jump to top</source>
         <translation>קפוץ לראש הספר</translation>
     </message>
@@ -338,48 +338,48 @@ Check your installation, or contact the developer.</source>
         <translation>שנה שפה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1490"/>
+        <location filename="mainwindow.ui" line="1582"/>
         <source>File</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1503"/>
+        <location filename="mainwindow.ui" line="1595"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1512"/>
+        <location filename="mainwindow.ui" line="1604"/>
         <source>Display</source>
         <translation>תצוגה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1545"/>
+        <location filename="mainwindow.ui" line="1637"/>
         <source>Location</source>
         <translation>מיקום נוכחי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1563"/>
+        <location filename="mainwindow.ui" line="1655"/>
         <source>Exit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1572"/>
+        <location filename="mainwindow.ui" line="1664"/>
         <source>About</source>
         <translation>אודות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1608"/>
+        <location filename="mainwindow.ui" line="1700"/>
         <source>Print book</source>
         <translation>הדפס ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1617"/>
+        <location filename="mainwindow.ui" line="1709"/>
         <source>Close tab</source>
         <translation>סגור לשונית</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="506"/>
-        <location filename="mainwindow.ui" line="1626"/>
+        <location filename="mainwindow.ui" line="1718"/>
         <source>Open new tab</source>
         <translation>פתח לשונית חדשה</translation>
     </message>
@@ -389,72 +389,87 @@ Check your installation, or contact the developer.</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1637"/>
+        <location filename="mainwindow.ui" line="1475"/>
+        <source>Display alone</source>
+        <translation>הצג לבד</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1482"/>
+        <source>Display with:</source>
+        <translation>הצג בשילוב עם:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1511"/>
+        <source>Open</source>
+        <translation>הצג</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1729"/>
         <source>Show nikud</source>
         <translation>הצג ניקוד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1648"/>
+        <location filename="mainwindow.ui" line="1740"/>
         <source>Show teamim</source>
         <translation>הצג טעמים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1657"/>
+        <location filename="mainwindow.ui" line="1749"/>
         <source>Add bookmark</source>
         <translation>הוסף סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1666"/>
+        <location filename="mainwindow.ui" line="1758"/>
         <source>Add/edit comment</source>
         <translation>הוסף/ערוך הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1675"/>
+        <location filename="mainwindow.ui" line="1767"/>
         <source>Report typo</source>
         <translation>דווח על טעות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1684"/>
+        <location filename="mainwindow.ui" line="1776"/>
         <source>Advanced search</source>
         <translation>חיפוש מתקדם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1693"/>
+        <location filename="mainwindow.ui" line="1785"/>
         <source>Search in book</source>
         <translation>חפש בספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1702"/>
+        <location filename="mainwindow.ui" line="1794"/>
         <source>Search forward</source>
         <translation>חפש קדימה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1711"/>
+        <location filename="mainwindow.ui" line="1803"/>
         <source>Search backwards</source>
         <translation>חפש אחורה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1720"/>
+        <location filename="mainwindow.ui" line="1812"/>
         <source>Remove book from search</source>
         <translation>הוצא מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1729"/>
+        <location filename="mainwindow.ui" line="1821"/>
         <source>Add book to search</source>
         <translation>הוסף לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1738"/>
+        <location filename="mainwindow.ui" line="1830"/>
         <source>Add all to search</source>
         <translation>הוסף הכל לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1747"/>
+        <location filename="mainwindow.ui" line="1839"/>
         <source>Remove all from search</source>
         <translation>הוצא הכל מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1756"/>
+        <location filename="mainwindow.ui" line="1848"/>
         <source>Find book by name</source>
         <translation>חפש ספר לפי שם</translation>
     </message>
