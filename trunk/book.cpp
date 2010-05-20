@@ -50,8 +50,6 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     PutNewLinesAsIs = true;
     LastLevelIndex = 0;
 
-    mWeavedSources = 0;
-
     mIsHidden = false;
 
     GroupId = "";
@@ -98,7 +96,7 @@ bool Book::IsInSearch()
 {  return mInSearch; }
 
 bool Book::isMixed()
-{ return (mWeavedSources != 0); }
+{ return (mWeavedSources.size() != 0); }
 
 QTreeWidgetItem * Book::getTreeItemPtr()
 {   return mpTreeItem; }
@@ -236,24 +234,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     //set icon state
     mIconState = newiconstate;
     QIcon *icon;
-    if(IsDir())
-    {
-        if (mIconState == BLUE)
-            icon = new QIcon(":/Icons/folder-blue.png");
-        else if (mIconState == HALF)
-            icon = new QIcon(":/Icons/folder-blue-grey.png");
-        else if (mIconState == GREY)
-            icon = new QIcon(":/Icons/folder-grey.png");
-    }
-    else
-    {
-        if (mIconState == BLUE)
-            icon = new QIcon(":/Icons/book-blue.png");
-        else if (mIconState == HALF)
-            icon = new QIcon(":/Icons/book-blue-grey.png");
-        else if (mIconState == GREY)
-            icon = new QIcon(":/Icons/book-grey.png");
-    }
+    icon = bookIcon(IsDir(), isMixed(), mIconState);
     TreeItem->setIcon(0, *icon);
     delete icon;
 
@@ -388,7 +369,10 @@ QString Book::confEntry()
     conf += QString("ChainFolderName=1") + "\n";
 
     conf += QString("HiddenFromIndex=") + QString(mIsHidden ? "1" : "0") + QString("\n");
-    conf += QString("MixedDisplay=") + stringify(mWeavedSources) + "\n";
+
+    //TODO: Re-Implement this
+    //conf += QString("MixedDisplay=") + stringify(mWeavedSources) + "\n";
+
     conf += QString("CosmeticsType=") + Cosmetics + "\n";
     conf += QString("UniqueId=") + stringify(mUniqueId) + "\n";
 

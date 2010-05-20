@@ -145,13 +145,52 @@ void BookList::AddBookConfs(Book *book, QString filename)
                     book->setIsInSearch(false);
                 }
             }
-
+/*
             else if (text[i].indexOf("MixedDisplay") != -1)
             {
                 GetIntValue(text[i], &(book->mWeavedSources));
 
                 //All mixed books can't be searched or selected from the tree
                 if (book->isMixed()) book->setIsUnSelectable(true);
+            }
+*/
+            else if (text[i].indexOf("AddSource") != -1)
+            {
+                if ( book->mWeavedSources.size() == 0)
+                {
+                    //Add the book it self as the first source
+                    weavedSource base;
+    
+                    QFileInfo b(book->getPath());
+    
+                    base.FileName = b.fileName();
+    
+                    base.Zoom = 0;
+
+                    base.Suffix="";
+                    base.Prefix="";
+
+                    base.id = 0;
+
+                    base.show = true;
+    
+                    book->mWeavedSources.append(base);
+                }
+
+                QStringList p = text[i].mid(10).split(":");
+                weavedSource src;
+                src.FileName = p[0];
+                src.Title = p[1];
+
+                src.Zoom = 0;
+
+                src.id = book->mWeavedSources.size();
+
+                src.Suffix="";
+                src.Prefix="";
+                src.show = false;
+
+                book->mWeavedSources.append(src);
             }
 
             else if (text[i].indexOf("CosmeticsType") != -1)

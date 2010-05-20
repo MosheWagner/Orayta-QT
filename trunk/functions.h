@@ -27,6 +27,14 @@
 #include <QTextStream>
 #include <QStringList>
 #include <QRegExp>
+#include <QIcon>
+
+
+//Enum defining the color of the folder icon.
+// Blue is when all it's children are selected;
+// Grey when none are;
+// And half grey and half blue - when some are, and some are not.
+enum IconState { BLUE, HALF, GREY};
 
 using namespace std;
 
@@ -138,5 +146,7 @@ QString removeTeamim(QString str);
 
 QString allowNikudAndTeamim( QString str );
 QRegExp withNikudAndTeamim( QString str );
+
+QIcon * bookIcon(bool isFolder, bool isDouble, IconState state);
 
 #endif // FUNCTIONS_H

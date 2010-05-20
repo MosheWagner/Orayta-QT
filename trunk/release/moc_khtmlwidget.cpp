@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'khtmlwidget.h'
 **
-** Created: Fri May 14 11:32:21 2010
+** Created: Thu May 20 12:35:42 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!

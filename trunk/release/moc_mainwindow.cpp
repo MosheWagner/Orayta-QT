@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Fri May 14 11:31:58 2010
+** Created: Thu May 20 12:44:49 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,82 +23,90 @@ static const uint qt_meta_data_MainWindow[] = {
        2,       // revision
        0,       // classname
        0,    0, // classinfo
-      61,   12, // methods
+      65,   12, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x08,
-      42,   11,   11,   11, 0x08,
-      81,   75,   11,   11, 0x08,
-     115,   75,   11,   11, 0x08,
-     150,   11,   11,   11, 0x08,
-     195,   11,   11,   11, 0x08,
-     231,   11,   11,   11, 0x08,
-     253,   11,   11,   11, 0x08,
-     271,   75,   11,   11, 0x08,
-     315,  302,   11,   11, 0x08,
-     329,   11,   11,   11, 0x08,
-     348,   11,   11,   11, 0x08,
-     375,   11,   11,   11, 0x08,
-     390,   11,   11,   11, 0x08,
-     407,  403,   11,   11, 0x08,
-     472,  468,  460,   11, 0x08,
-     506,  495,   11,   11, 0x08,
-     535,  468,   11,   11, 0x08,
-     571,  561,   11,   11, 0x08,
-     606,  468,   11,   11, 0x28,
-     633,   11,   11,   11, 0x08,
-     659,   11,   11,   11, 0x08,
-     683,   11,   11,   11, 0x08,
-     711,   11,   11,   11, 0x08,
-     736,  731,   11,   11, 0x08,
-     790,   11,   11,   11, 0x08,
-     831,  816,   11,   11, 0x08,
-     862,   11,   11,   11, 0x08,
-     881,  877,   11,   11, 0x08,
-     910,  908,   11,   11, 0x08,
-     953,  948,   11,   11, 0x08,
-     976,   11,   11,   11, 0x08,
-     990,   11,   11,   11, 0x08,
-    1008,  403,   11,   11, 0x08,
-    1057,   11,   11,   11, 0x08,
-    1086,   11,   11,   11, 0x08,
-    1113,   11,   11,   11, 0x08,
+      18,   12,   11,   11, 0x08,
+      53,   11,   11,   11, 0x08,
+      84,   76,   11,   11, 0x08,
+     124,  115,   11,   11, 0x08,
+     151,   11,   11,   11, 0x08,
+     181,   11,   11,   11, 0x08,
+     214,   12,   11,   11, 0x08,
+     250,  248,   11,   11, 0x08,
+     312,   11,   11,   11, 0x08,
+     357,   11,   11,   11, 0x08,
+     393,   11,   11,   11, 0x08,
+     415,   11,   11,   11, 0x08,
+     433,   12,   11,   11, 0x08,
+     477,  464,   11,   11, 0x08,
+     491,   11,   11,   11, 0x08,
+     510,   11,   11,   11, 0x08,
+     537,   11,   11,   11, 0x08,
+     552,   11,   11,   11, 0x08,
+     569,  565,   11,   11, 0x08,
+     634,  630,  622,   11, 0x08,
+     668,  657,   11,   11, 0x08,
+     697,  630,   11,   11, 0x08,
+     733,  723,   11,   11, 0x08,
+     768,  630,   11,   11, 0x28,
+     795,   11,   11,   11, 0x08,
+     821,   11,   11,   11, 0x08,
+     845,   11,   11,   11, 0x08,
+     873,   11,   11,   11, 0x08,
+     898,  893,   11,   11, 0x08,
+     952,   11,   11,   11, 0x08,
+     993,  978,   11,   11, 0x08,
+    1024,   11,   11,   11, 0x08,
+    1043, 1039,   11,   11, 0x08,
+    1070,  248,   11,   11, 0x08,
+    1113, 1108,   11,   11, 0x08,
     1136,   11,   11,   11, 0x08,
-    1164,   11,   11,   11, 0x08,
-    1191,   11,   11,   11, 0x08,
+    1150,   11,   11,   11, 0x08,
+    1168,  565,   11,   11, 0x08,
     1217,   11,   11,   11, 0x08,
-    1256,   11,   11,   11, 0x08,
-    1290,   11,   11,   11, 0x08,
-    1309,   11,   11,   11, 0x08,
-    1323,   11,   11,   11, 0x08,
-    1349,   11,   11,   11, 0x08,
-    1375,   11,   11,   11, 0x08,
-    1391, 1387,   11,   11, 0x08,
-    1417,   11,   11,   11, 0x08,
-    1448, 1439,   11,   11, 0x08,
-    1474,   11,   11,   11, 0x08,
-    1509, 1497,   11,   11, 0x08,
-    1563,   11,   11,   11, 0x08,
-    1587, 1580,   11,   11, 0x08,
-    1621, 1609,   11,   11, 0x08,
-    1652,   11,   11,   11, 0x08,
-    1669,   11,   11,   11, 0x08,
-    1688, 1684,   11,   11, 0x08,
-    1706,   11,   11,   11, 0x08,
-    1724, 1714,   11,   11, 0x08,
-    1753, 1742,   11,   11, 0x08,
+    1246,   11,   11,   11, 0x08,
+    1273,   11,   11,   11, 0x08,
+    1296,   11,   11,   11, 0x08,
+    1324,   11,   11,   11, 0x08,
+    1351,   11,   11,   11, 0x08,
+    1377,   11,   11,   11, 0x08,
+    1416,   11,   11,   11, 0x08,
+    1450,   11,   11,   11, 0x08,
+    1469,   11,   11,   11, 0x08,
+    1483,   11,   11,   11, 0x08,
+    1509,   11,   11,   11, 0x08,
+    1535,   11,   11,   11, 0x08,
+    1551, 1547,   11,   11, 0x08,
+    1577,   11,   11,   11, 0x08,
+    1608, 1599,   11,   11, 0x08,
+    1634,   11,   11,   11, 0x08,
+    1669, 1657,   11,   11, 0x08,
+    1723,   11,   11,   11, 0x08,
+    1747, 1740,   11,   11, 0x08,
+    1781, 1769,   11,   11, 0x08,
+    1812,   11,   11,   11, 0x08,
+    1829,   11,   11,   11, 0x08,
+    1848, 1844,   11,   11, 0x08,
+    1866,   11,   11,   11, 0x08,
+    1884, 1874,   11,   11, 0x08,
+    1913, 1902,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0on_changeLangButton_clicked()\0"
-    "on_lineEdit_textChanged(QString)\0index\0"
-    "on_viewTab_tabCloseRequested(int)\0"
-    "on_treeWidget_clicked(QModelIndex)\0"
+    "MainWindow\0\0index\0on_treeWidget_clicked(QModelIndex)\0"
+    "on_openMixed_clicked()\0checked\0"
+    "on_aloneCheckBox_toggled(bool)\0btnIndex\0"
+    "weavedCheckBoxClicked(int)\0"
+    "on_changeLangButton_clicked()\0"
+    "on_lineEdit_textChanged(QString)\0"
+    "on_viewTab_tabCloseRequested(int)\0,\0"
+    "treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*)\0"
     "on_fontComboBox_currentIndexChanged(QString)\0"
     "on_fonSizeSpinBox_valueChanged(int)\0"
     "on_saveConf_clicked()\0closeCurrentTab()\0"
@@ -120,7 +128,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_bookmarkEdit_clicked()\0index,newtitle\0"
     "editBookMarkTitle(int,QString)\0"
     "menuBookMark()\0str\0openCommentDialog(QString)\0"
-    ",\0addCommentAtPosition(QString,QString)\0"
+    "addCommentAtPosition(QString,QString)\0"
     "link\0removeComment(QString)\0menuComment()\0"
     "menuErrorReport()\0"
     "on_treeWidget_customContextMenuRequested(QPoint)\0"
@@ -173,71 +181,75 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_changeLangButton_clicked(); break;
-        case 1: on_lineEdit_textChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: on_viewTab_tabCloseRequested((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: on_treeWidget_clicked((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
-        case 4: on_fontComboBox_currentIndexChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 5: on_fonSizeSpinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: on_saveConf_clicked(); break;
-        case 7: closeCurrentTab(); break;
-        case 8: on_viewTab_currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 9: openBook((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 10: openSelectedBook(); break;
-        case 11: openSelectedBookInNewTab(); break;
-        case 12: collapseItem(); break;
-        case 13: expandItem(); break;
-        case 14: on_bookmarkWidget_customContextMenuRequested((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 15: { QString _r = bookMarkTitle((*reinterpret_cast< QString(*)>(_a[1])));
+        case 0: on_treeWidget_clicked((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
+        case 1: on_openMixed_clicked(); break;
+        case 2: on_aloneCheckBox_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 3: weavedCheckBoxClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: on_changeLangButton_clicked(); break;
+        case 5: on_lineEdit_textChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 6: on_viewTab_tabCloseRequested((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: treeWidgetSelectionChanged((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< QTreeWidgetItem*(*)>(_a[2]))); break;
+        case 8: on_fontComboBox_currentIndexChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 9: on_fonSizeSpinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: on_saveConf_clicked(); break;
+        case 11: closeCurrentTab(); break;
+        case 12: on_viewTab_currentChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: openBook((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 14: openSelectedBook(); break;
+        case 15: openSelectedBookInNewTab(); break;
+        case 16: collapseItem(); break;
+        case 17: expandItem(); break;
+        case 18: on_bookmarkWidget_customContextMenuRequested((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 19: { QString _r = bookMarkTitle((*reinterpret_cast< QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
-        case 16: addBookMark((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 17: bookMarkPosition((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 18: addBookMarkToList((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 19: addBookMarkToList((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 20: on_bookmarkDown_clicked(); break;
-        case 21: on_bookmarkUp_clicked(); break;
-        case 22: on_removeBookmark_clicked(); break;
-        case 23: buildBookMarkList(); break;
-        case 24: on_bookmarkWidget_itemDoubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
-        case 25: on_bookmarkEdit_clicked(); break;
-        case 26: editBookMarkTitle((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 27: menuBookMark(); break;
-        case 28: openCommentDialog((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 29: addCommentAtPosition((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 30: removeComment((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 31: menuComment(); break;
-        case 32: menuErrorReport(); break;
-        case 33: on_treeWidget_customContextMenuRequested((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 34: on_searchBackwords_clicked(); break;
-        case 35: on_searchForward_clicked(); break;
-        case 36: on_topButton_clicked(); break;
-        case 37: on_lineEdit_returnPressed(); break;
-        case 38: on_zoomoutButton_clicked(); break;
-        case 39: on_zoominButton_clicked(); break;
-        case 40: on_removeAllFromSearchButton_clicked(); break;
-        case 41: on_addAllToSearchButton_clicked(); break;
-        case 42: removeFromSearch(); break;
-        case 43: addToSearch(); break;
-        case 44: on_searchButton_clicked(); break;
-        case 45: on_newTabButton_clicked(); break;
-        case 46: printBook(); break;
-        case 47: webView_linkClicked((*reinterpret_cast< QUrl(*)>(_a[1]))); break;
-        case 48: webView_loadStarted(); break;
-        case 49: webView_loadProgress((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 50: webView_loadFinished(); break;
-        case 51: on_treeWidget_itemDoubleClicked((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 52: addViewTab((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 53: simpleSearch((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 54: SearchInBooks((*reinterpret_cast< QRegExp(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 55: advancedSearch(); break;
-        case 56: findBookForm(); break;
-        case 57: menuOpenBook((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 58: about(); break;
-        case 59: toggleNikud((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 60: toggleTeamim((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 20: addBookMark((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 21: bookMarkPosition((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 22: addBookMarkToList((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 23: addBookMarkToList((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 24: on_bookmarkDown_clicked(); break;
+        case 25: on_bookmarkUp_clicked(); break;
+        case 26: on_removeBookmark_clicked(); break;
+        case 27: buildBookMarkList(); break;
+        case 28: on_bookmarkWidget_itemDoubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 29: on_bookmarkEdit_clicked(); break;
+        case 30: editBookMarkTitle((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 31: menuBookMark(); break;
+        case 32: openCommentDialog((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 33: addCommentAtPosition((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 34: removeComment((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 35: menuComment(); break;
+        case 36: menuErrorReport(); break;
+        case 37: on_treeWidget_customContextMenuRequested((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
+        case 38: on_searchBackwords_clicked(); break;
+        case 39: on_searchForward_clicked(); break;
+        case 40: on_topButton_clicked(); break;
+        case 41: on_lineEdit_returnPressed(); break;
+        case 42: on_zoomoutButton_clicked(); break;
+        case 43: on_zoominButton_clicked(); break;
+        case 44: on_removeAllFromSearchButton_clicked(); break;
+        case 45: on_addAllToSearchButton_clicked(); break;
+        case 46: removeFromSearch(); break;
+        case 47: addToSearch(); break;
+        case 48: on_searchButton_clicked(); break;
+        case 49: on_newTabButton_clicked(); break;
+        case 50: printBook(); break;
+        case 51: webView_linkClicked((*reinterpret_cast< QUrl(*)>(_a[1]))); break;
+        case 52: webView_loadStarted(); break;
+        case 53: webView_loadProgress((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 54: webView_loadFinished(); break;
+        case 55: on_treeWidget_itemDoubleClicked((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 56: addViewTab((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 57: simpleSearch((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 58: SearchInBooks((*reinterpret_cast< QRegExp(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 59: advancedSearch(); break;
+        case 60: findBookForm(); break;
+        case 61: menuOpenBook((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 62: about(); break;
+        case 63: toggleNikud((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 64: toggleTeamim((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 61;
+        _id -= 65;
     }
     return _id;
 }

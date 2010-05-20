@@ -18,14 +18,27 @@
 #define BOOK_H
 
 #include "functions.h"
+#include "bookiter.h"
 #include <QtGui/QTreeWidgetItem>
 
-//Enum defining the color of the folder icon.
-// Blue is when all it's children are selected;
-// Grey when none are;
-// And half grey and half blue - when some are, and some are not.
-enum IconState { BLUE, HALF, GREY};
 
+//A simple struct holding all information needed for every source in the weaved display mode
+struct weavedSource
+{
+    vector <QString> text;
+    QString Title;
+    QString FileName;
+    QString Prefix;
+    QString Suffix;
+    int Zoom;
+
+    int id;
+
+    bool show;
+
+    BookIter itr;
+    QString str;
+};
 
 //Class containing information about the books and folders.
 class Book
@@ -103,7 +116,7 @@ public:
     bool hasNikud;
     bool hasTeamim;
 
-    int mWeavedSources;
+    QList <weavedSource> mWeavedSources;
 
     //Returns a conf entry representing this book
     QString confEntry();
@@ -171,8 +184,10 @@ protected:
     int mTitleEmptyLines[5];
 
 
-    bool normalHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
+    bool normalHtmlRender(QString infile, QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
     bool mixedHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
 };
+
+
 
 #endif // BOOK_H
