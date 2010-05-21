@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'mainwindow.ui'
 **
-** Created: Thu May 20 11:49:37 2010
+** Created: Fri May 21 11:42:37 2010
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -15,7 +15,6 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
 #include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QFontComboBox>
@@ -138,7 +137,6 @@ public:
     QSpacerItem *horizontalSpacer_7;
     QFrame *mixedGroup;
     QVBoxLayout *verticalLayout_8;
-    QCheckBox *aloneCheckBox;
     QGroupBox *mixedFrame;
     QVBoxLayout *verticalLayout_10;
     QVBoxLayout *verticalLayout_11;
@@ -637,7 +635,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 254, 463));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 222, 477));
         verticalLayout_7 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_7->setSpacing(-1);
         verticalLayout_7->setMargin(11);
@@ -806,11 +804,6 @@ public:
         verticalLayout_8->setMargin(11);
         verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
         verticalLayout_8->setContentsMargins(4, 4, 4, 6);
-        aloneCheckBox = new QCheckBox(mixedGroup);
-        aloneCheckBox->setObjectName(QString::fromUtf8("aloneCheckBox"));
-
-        verticalLayout_8->addWidget(aloneCheckBox);
-
         mixedFrame = new QGroupBox(mixedGroup);
         mixedFrame->setObjectName(QString::fromUtf8("mixedFrame"));
         verticalLayout_10 = new QVBoxLayout(mixedFrame);
@@ -1020,7 +1013,6 @@ public:
         label_8->setText(QApplication::translate("MainWindowClass", "Changing the language will restart the application, and close all open books", 0, QApplication::UnicodeUTF8));
         changeLangButton->setText(QApplication::translate("MainWindowClass", "Change language", 0, QApplication::UnicodeUTF8));
         treeTab->setTabText(treeTab->indexOf(tab_3), QApplication::translate("MainWindowClass", "Configure", 0, QApplication::UnicodeUTF8));
-        aloneCheckBox->setText(QApplication::translate("MainWindowClass", "Display alone", 0, QApplication::UnicodeUTF8));
         mixedFrame->setTitle(QApplication::translate("MainWindowClass", "Display with:", 0, QApplication::UnicodeUTF8));
         openMixed->setText(QApplication::translate("MainWindowClass", "Open", 0, QApplication::UnicodeUTF8));
         menu->setTitle(QApplication::translate("MainWindowClass", "File", 0, QApplication::UnicodeUTF8));

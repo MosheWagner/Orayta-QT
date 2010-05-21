@@ -16,7 +16,7 @@
 
 #include "about.h"
 
-#define VERSION "0.12-1"
+#define VERSION "0.02-1"
 
 
 About::About(QWidget *parent) :
