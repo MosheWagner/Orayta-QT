@@ -23,9 +23,11 @@
 
 //TODO: make spaces after level signs be done after the comments (thus in the next entry of the loop)
 
+//TODO: Fix they way books such as חפץ חיים look
+
 //TODO: fix remove until (RUS) ...
 //TODO: implement "ip" and "is"
-//TODO: Implement more fetures
+//TODO: Implement more features
 
 //TODO: Take over the world :-)
 
@@ -47,7 +49,10 @@ const int LevelFontSizeAdd[] = {2,12,18,18,18};
 //bool Book::htmlrender(QString filename, QString outfilename)
 bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QString mark)
 {
-    if ( !isMixed())
+    int shownMixed = 0;
+    for (int i=1; i<mWeavedSources.size(); i++) if (mWeavedSources[i].show) shownMixed ++;
+
+    if (!isMixed() || !shownMixed)
     {
         return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp(unescapeFromBase32(mark)));
     }

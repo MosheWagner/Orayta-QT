@@ -16,10 +16,6 @@
 
 #include "mainwindow.h"
 
-//TODO: Fix all wierd stuff in the new books
-
-//TODO: Remove wierd books
-
 /* KHTML TODOs:
 TODO: Finish up KHTML:
     TODO: See what about windows
@@ -31,6 +27,8 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
+//TODO: Remove wierd books
+
 //TODO: Edit welcome image
 
 //TODO: Allow adding custom html books through the program
@@ -41,7 +39,9 @@ TODO: KHTML progress bar
 
 //TODO: Fix the way ספר המידות looks (compare to the original TE)
 
-//TODO: English welcpme page
+//BUG: Crashes!!!
+
+//TODO: Translatable welcome page
 //(TODO: create help page for linux version)
 //TODO: hide welcomepage from search
 
@@ -1750,7 +1750,6 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
         weavedList.clear();
 
         //Create new entries
-        bool anychecked = false;
         for(int i=gBookList[bookid]->mWeavedSources.size()-1; i>0; i--)
         {
             QCheckBox *chk = new QCheckBox(gBookList[bookid]->mWeavedSources[i].Title, ui->mixedFrame);
@@ -1759,7 +1758,6 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
             if (gBookList[bookid]->mWeavedSources[i].show == true)
             {
                 chk->setChecked(true);
-                anychecked = true;
             }
 
             chk->setWhatsThis(stringify(gBookList[bookid]->mWeavedSources[i].id));
@@ -1772,7 +1770,6 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
             signalMapper->setMapping(chk, weavedList.size() - 1);
             connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
         }
-        if (!anychecked) ui->aloneCheckBox->setChecked(true);
 
     }
     else ui->mixedGroup->hide();
