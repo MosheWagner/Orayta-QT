@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'errorreport.ui'
 **
-** Created: Fri May 14 11:30:48 2010
+** Created: Fri May 21 14:01:20 2010
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
