@@ -39,7 +39,7 @@ TODO: KHTML progress bar
 
 //TODO: Fix the way ספר המידות looks (compare to the original TE)
 
-//BUG: Crashes!!!
+//BUG: תומר דבורה Crashes!!!
 
 //TODO: Translatable welcome page
 //(TODO: create help page for linux version)

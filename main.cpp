@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
 
     //Show splash screen:
-    QPixmap pixmap(":/Images/Wellcome.png");
+    QPixmap pixmap(":/Images/Orayta.png");
     QSplashScreen *splash = new QSplashScreen(pixmap);
     splash->show();
     QApplication::setOverrideCursor(Qt::WaitCursor);
