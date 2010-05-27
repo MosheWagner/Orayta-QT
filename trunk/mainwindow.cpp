@@ -29,8 +29,6 @@ TODO: KHTML progress bar
 
 //TODO: Remove wierd books
 
-//TODO: Edit welcome image
-
 //TODO: Allow adding custom html books through the program
 
 //TODO: dictionary
@@ -901,7 +899,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
-            if (gBookList[i]->IsDir() == false && !gBookList[i]->isMixed() && gBookList[i]->IsInSearch() == true)
+            if (!gBookList[i]->IsDir() && gBookList[i]->IsInSearch())
             {
                 text.clear();
 
@@ -1038,7 +1036,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         if(results == 0)
         {
             //TODO: write better explenation
-            Htmlhead +="<BR><BR>"; Htmlhead += tr("No serach results found:"); Htmlhead += "\"" + disp + "\"";
+            Htmlhead +="<BR><BR>"; Htmlhead += tr("No search results found:"); Htmlhead += "\"" + disp + "\"";
             Htmlhead += "</B><BR>";
         }
         else
@@ -1418,16 +1416,19 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
 //Opens a dialog allowing to edit the selected bookmark's title
 void MainWindow::on_bookmarkEdit_clicked()
 {
-    int ind = ui->bookmarkWidget->currentIndex().row();
+    if (ui->bookmarkWidget->currentIndex().isValid())
+    {
+        int ind = ui->bookmarkWidget->currentIndex().row();
 
-    QString otitle = ui->bookmarkWidget->item(ind)->data(Qt::WhatsThisRole).toString();
+        QString otitle = ui->bookmarkWidget->item(ind)->data(Qt::WhatsThisRole).toString();
 
-    //Open the bookmark title giving dialog with this index and title
-    BookMarkTitle *t = new BookMarkTitle(this, ind, otitle);
-    t->show();
+        //Open the bookmark title giving dialog with this index and title
+        BookMarkTitle *t = new BookMarkTitle(this, ind, otitle);
+        t->show();
 
-    //The dialog will call the editBookMarkTitle function when it's done
-    connect (t, SIGNAL(RenameOK(int, QString)), this, SLOT(editBookMarkTitle(int, QString)));
+        //The dialog will call the editBookMarkTitle function when it's done
+        connect (t, SIGNAL(RenameOK(int, QString)), this, SLOT(editBookMarkTitle(int, QString)));
+    }
 }
 
 //Changes the title of the given bookmark (by it's index) to the given one

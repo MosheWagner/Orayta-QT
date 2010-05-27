@@ -96,7 +96,9 @@ void bookfind::on_pushButton_2_clicked()
 void bookfind::on_pushButton_clicked()
 {
     int x;
-    if ( ToNum( m_ui->listWidget->currentItem()->statusTip(), &x)) emit openBook(x);
-
-    close();
+    if (m_ui->listWidget->currentItem() != NULL && ToNum( m_ui->listWidget->currentItem()->statusTip(), &x))
+    {
+        emit openBook(x);
+        close();
+    }    
 }

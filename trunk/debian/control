@@ -1,5 +1,5 @@
 Source: orayta
-Section: unknown
+Section: misc
 Priority: extra
 Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
 Build-Depends: debhelper (>= 7), kdelibs5-dev, libqt4-dev (>= 4.5), 

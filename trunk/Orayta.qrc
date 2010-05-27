@@ -8,7 +8,6 @@
         <file>Icons/folder-grey.png</file>
         <file>Icons/tab-close.png</file>
         <file>Icons/tab-new.png</file>
-        <file>Icons/Orayta.png</file>
         <file>Icons/doublegreenv.png</file>
         <file>Icons/doublegreyv.png</file>
         <file>Icons/greenv.png</file>
@@ -35,5 +34,6 @@
         <file>Icons/book-grey-double.png</file>
         <file>Icons/book-blue-double.png</file>
         <file>Images/Orayta.png</file>
+        <file>Icons/Orayta.png</file>
     </qresource>
 </RCC>
