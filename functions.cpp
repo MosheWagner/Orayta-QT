@@ -186,15 +186,9 @@ void splittotwo(QString str, vector <QString>& split, QString seperater) //will 
 bool ToNum(QString str, int *out)
 {
     bool ok;
-    str.toInt(&ok);
-    
-    if (ok)
-    {
-        *out = str.toInt();
-        return true;
-    }
-    else
-        return false;
+    *out = str.toInt(&ok);
+
+    return ok;
 }
 
 //Prints (couts) the given Qstring
@@ -226,10 +220,9 @@ int GematriaValueOfString (QString str)
 int GematriaOfChar(QString ch)
 {
     QString hchars = "אבגדהוזחטיכלמנסעפצקרשת";
-    int vals[22] = {1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400};
+    int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400};
 
-    if ( hchars.indexOf(ch) != -1) return vals[hchars.indexOf(ch)];
-    else return 0;
+    return vals[hchars.indexOf(ch)+1];
 }
 
 
@@ -286,25 +279,14 @@ QString NumberToGematria (int num, bool addquotes)
 //Returns gmara page name of the given page number (From 4, which is Bet Amud Alef)
 QString GmaraPage(int num)
 {
-    int gnum = num;
-    QChar amud;
-    if (gnum % 2 == 1)
-    {
-        amud = ':';
-        gnum--;
-    }
-    else
-        amud = '.';
-
-    QString daf = NumberToGematria(gnum / 2, false);
-    return daf + amud;
+    QChar amud[2] = {'.',':'};
+    return NumberToGematria(num / 2, false) + amud[num%2];
 }
 
 //Converts numbers into strs:
 QString stringify(double x)
 {
-    QString qs = QString::number(x);
-    return qs;
+    return QString::number(x);
 }
 
 //Fix file path to the correct way they should be,
@@ -313,8 +295,7 @@ QString stringify(double x)
 QString absPath(QString str)
 {
     //Make into full path
-    QFileInfo f(str);
-    return f.absoluteFilePath();
+    return QFileInfo(str).absoluteFilePath();
 }
 
 // Returns the given string without it's "(", ")", "{", and "}".

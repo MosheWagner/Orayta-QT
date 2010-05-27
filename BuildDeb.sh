@@ -4,7 +4,7 @@
 
 #Run this script only from the source dir that you want to build the .deb file from
 
-echo "This script should update all needed files that configure Toratemet's .deb package, and build a new package for you"
+echo "This script should update all needed files that configure Orayta's .deb package, and build a new package for you"
 echo "Internal use only! This should not be used for anythong else, ever!!!"
 
 #update debian it's a new version:

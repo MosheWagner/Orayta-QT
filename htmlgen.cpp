@@ -327,10 +327,12 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     html += index_to_index(indexitemlist,mShortIndexLevel);
     html += html_link_table(indexitemlist, mShortIndexLevel , true, mRemoveSuffix[1]!="");
 
+#ifndef KHTML
     //Save the top of the file
     QString top = html + "</body></html>";
     //Write the top of the Html to the header file
     writetofile(outfile + ".header.html", top, "UTF-8");
+#endif
 
     html += htmlbody;
 
@@ -578,10 +580,12 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
     html += index_to_index(indexitemlist,mShortIndexLevel);
     html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
 
+#ifndef KHTML
     //Save the top of the file
     QString top = html + "</body></html>";
     //Write the top of the Html to the header file
     writetofile(outfilename + ".header.html", top, "UTF-8");
+#endif
 
     html += htmlbody;
 
@@ -1117,21 +1121,14 @@ QString ExternalLink (QString linkcode)
     QString Html="";
 
     // DisplayStyle BITS:  0-bold, 1-underline, 2-italic, 3-small, 4-big, 5-red, 6-green, 7-blue
-
-    //I'm ignoring the coloers at the moment
     int DS = DisplayStyle;
 
-    if ( DS % 2 == 1) Html += "<B>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html + ""; //Html += "<U>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "<I>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "<small>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "<big>";
-    DS = (DS - (DS % 2)) / 2;
-
+    //I'm ignoring the coloers at the moment
+    if ( DS>>0 & 0x1 ) Html += "<B>";
+    if ( DS>>1 & 0x1 ) Html + ""; //Html += "<U>";
+    if ( DS>>2 & 0x1 ) Html += "<I>";
+    if ( DS>>3 & 0x1 ) Html += "<small>";
+    if ( DS>>4 & 0x1 ) Html += "<big>";
 
     //if (ShouldBePrintedOnNewLine)
     //    Html += "<BR>\n";
@@ -1168,18 +1165,12 @@ QString ExternalLink (QString linkcode)
     }
 
     //I'm ignoring the coloers at the moment
-    DS = DisplayStyle;
-
-    if ( DS % 2 == 1) Html += "</B>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html + ""; //Html += "</U>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "</I>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "</small>";
-    DS = (DS - (DS % 2)) / 2;
-    if ( DS % 2 == 1) Html += "</big>";
-    DS = (DS - (DS % 2)) / 2;
+    //revert order to respect html tags nested
+    if ( DS>>4 & 0x1 ) Html += "</big>";
+    if ( DS>>3 & 0x1 ) Html += "</small>";
+    if ( DS>>2 & 0x1 ) Html += "</I>";
+    if ( DS>>1 & 0x1 ) Html + ""; //Html += "</U>";
+    if ( DS>>0 & 0x1 ) Html += "</B>";
 
     return Html;
 }
