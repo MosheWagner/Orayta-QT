@@ -102,6 +102,8 @@ public:
 
     bool isMixed();
 
+    bool showAlone;
+
     //Variables that don't seem to do much yet; maybe I'll use them later
     bool SearchInTitles;
     bool PutNewLinesAsIs;

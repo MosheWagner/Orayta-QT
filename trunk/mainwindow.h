@@ -86,6 +86,7 @@ protected:
     void closeEvent(QCloseEvent *event);
     //Restores the program's confs
     void restoreConfs();
+    void restoreBookConfs();
 
 private:
     Ui::MainWindowClass *ui;
@@ -107,9 +108,10 @@ private:
 private slots:
 
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
+    void on_showaloneCBX_clicked(bool checked);
+
     void on_treeWidget_clicked(QModelIndex index);
     void on_openMixed_clicked();
-    void on_aloneCheckBox_toggled(bool checked);
 
     void weavedCheckBoxClicked(int btnIndex);
 

@@ -104,7 +104,7 @@ void BookList::AddBookConfs(Book *book, QString filename)
 
             else if (text[i].indexOf("DisplayName") != -1)
             {
-                book->setNormallDisplayName(text[i].mid(12));
+                book->setNormallDisplayName(text[i].mid(12).replace(QRegExp("^ *"), ""));
             }
 
             else if (text[i].indexOf("LastLevelIndex") != -1)

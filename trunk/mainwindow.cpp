@@ -140,6 +140,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     BuildBookTree();
 
+    //Load mixed display confs
+    restoreBookConfs();
+
     //Sort the book tree by the second column ( that holds the whole name, including the number before it)
     ui->treeWidget->setColumnCount(2);  //Small hack to allow sorting the right way...
     ui->treeWidget->sortItems(1, Qt::AscendingOrder);
@@ -291,6 +294,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("fontfamily", gFontFamily);
     settings.setValue("fontsize", gFontSize);
     settings.endGroup();
+
+
+    //Save books settings
+    for(int i=0; i<gBookList.size(); i++)
+    {
+        settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
+            settings.setValue("MixedDisplayes", gBookList[i]->mWeavedSources.size());
+            settings.setValue("ShowAlone", gBookList[i]->showAlone);
+            for (int j=0; j<gBookList[i]->mWeavedSources.size(); j++)
+            {
+                settings.setValue("Shown" + stringify(j), gBookList[i]->mWeavedSources[j].show);
+            }
+        settings.endGroup();
+    }
 }
 
 //Restores the window's state from the last run
@@ -322,11 +339,30 @@ void MainWindow::restoreConfs()
     gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
     gFontSize = settings.value("fontsize",16).toInt();
 
+
     QFont f (gFontFamily, gFontSize);
     ui->fontPreview->setFont(f);
     ui->fontComboBox->setCurrentFont(f);
     ui->fonSizeSpinBox->setValue(gFontSize);
     settings.endGroup();
+}
+
+void MainWindow::restoreBookConfs()
+{
+    QSettings settings("Orayta", "SingleUser");
+
+    //Load books settings
+    for(int i=0; i<gBookList.size(); i++)
+    {
+        settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
+            int n = settings.value("MixedDisplayes", 0).toInt();
+            gBookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
+            for (int j=0; j<n; j++)
+            {
+                gBookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
+            }
+        settings.endGroup();
+    }
 }
 
 void MainWindow::BuildBookTree()
@@ -1772,6 +1808,8 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
             connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
         }
 
+        ui->showaloneCBX->setChecked(gBookList[bookid]->showAlone);
+        ui->mixedFrame->setEnabled(!ui->showaloneCBX->isChecked());
     }
     else ui->mixedGroup->hide();
 }
@@ -1783,6 +1821,7 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
     QTreeWidgetItem* current = ui->treeWidget->currentItem();
     int bookid = gBookList.FindBookByTWI(current);
 
+    if (bookid == -1) return;
 
     QString id = weavedList[btnIndex]->whatsThis();
 
@@ -1911,13 +1950,17 @@ void MainWindow::on_changeLangButton_clicked()
     exit(0);
 }
 
-void MainWindow::on_aloneCheckBox_toggled(bool checked)
-{
-    ui->mixedFrame->setEnabled(!checked);
-}
 
 void MainWindow::on_openMixed_clicked()
 {
     int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1) openBook(ind);
+}
+
+void MainWindow::on_showaloneCBX_clicked(bool checked)
+{
+    ui->mixedFrame->setEnabled(!checked);
+
+    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
+    if (ind != -1) gBookList[ind]->showAlone = checked;
 }
