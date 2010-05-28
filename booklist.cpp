@@ -39,19 +39,11 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 
     for (int i=0; i<list.size(); i++)
     {
-        if ( (list[i].isDir()
-            || list[i].fileName().indexOf("txt") != -1
-            || list[i].fileName().indexOf("TXT") != -1 )
+        if ( (list[i].isDir() || list[i].fileName().indexOf("txt") != -1 )
             && list[i].fileName().indexOf("Pics") == -1 )
         {
-            //Get books name (comes after the first "_")
-            QString n = list[i].fileName();
-            QStringList np = n.split("_");
-
-            QString Name = "";
-
-            for(int j=1; j<np.size()-1; j++) Name += np[j] + " ";
-            Name += np[np.size()-1];
+            QString Name = list[i].fileName();
+            Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ");
 
             //Create BookListItem
             Book *b = new Book(NULL,list[i].absoluteFilePath(),list[i].absoluteFilePath(),Name,list[i].isDir());
