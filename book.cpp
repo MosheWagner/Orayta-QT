@@ -58,7 +58,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     hasNikud = false;
     hasTeamim = false;
 
-    showAlone = false;
+    showAlone = true;
 }
 
 Book::~Book()

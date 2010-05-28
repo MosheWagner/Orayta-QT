@@ -356,7 +356,7 @@ void MainWindow::restoreBookConfs()
     {
         settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
             int n = settings.value("MixedDisplayes", 0).toInt();
-            gBookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
+            gBookList[i]->showAlone = settings.value("ShowAlone", true).toBool();
             for (int j=0; j<n; j++)
             {
                 gBookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
