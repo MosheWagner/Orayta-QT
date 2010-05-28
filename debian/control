@@ -8,7 +8,7 @@ Homepage: http://orayta.googlecode.com
 
 Package: orayta
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, kdelibs5, libqt4-xmlpatterns, libqt4-gui (>= 4.5)
+Depends: ${misc:Depends}, kdelibs5, libqt4-xmlpatterns, libqt4-gui (>= 4.5)
 Description: This project is an open-source, cross platform port to the "תורת אמת" project. 
  The "תורת אמת" project intends to allow free and simple access to Jewish sources, from the Bible, Mishna and Talmud, to books written in the last years.
  The original project can be found at: http://www.oraytafreeware.com/

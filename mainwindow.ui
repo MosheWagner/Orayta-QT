@@ -26,7 +26,7 @@
    <string>Orayta - Hebrew books</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Orayta.qrc">
+   <iconset>
     <normaloff>:/Icons/Orayta.png</normaloff>:/Icons/Orayta.png</iconset>
   </property>
   <property name="layoutDirection">
@@ -509,7 +509,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Orayta.qrc">
+           <iconset>
             <normaloff>:/Icons/tab-new.png</normaloff>:/Icons/tab-new.png</iconset>
           </property>
           <property name="iconSize">
@@ -592,7 +592,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
          </property>
          <property name="iconSize">
@@ -621,7 +621,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/search-left.png</normaloff>:/Icons/search-left.png</iconset>
          </property>
          <property name="iconSize">
@@ -650,7 +650,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/search-right.png</normaloff>:/Icons/search-right.png</iconset>
          </property>
          <property name="iconSize">
@@ -695,7 +695,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
          </property>
          <property name="iconSize">
@@ -724,7 +724,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
          </property>
          <property name="iconSize">
@@ -753,7 +753,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="Orayta.qrc">
+          <iconset>
            <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
          </property>
          <property name="iconSize">
@@ -832,7 +832,7 @@
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="icon">
-           <iconset resource="Orayta.qrc">
+           <iconset>
             <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
           </attribute>
           <attribute name="title">
@@ -852,7 +852,7 @@
             <number>0</number>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+            <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
              <property name="rightMargin">
               <number>0</number>
              </property>
@@ -870,7 +870,7 @@
                   <string>...</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="Orayta.qrc">
+                  <iconset>
                    <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
                  </property>
                 </widget>
@@ -884,7 +884,7 @@
                   <string>...</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="Orayta.qrc">
+                  <iconset>
                    <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
                  </property>
                 </widget>
@@ -961,13 +961,105 @@
                </column>
               </widget>
              </item>
+             <item>
+              <widget class="QFrame" name="mixedGroup">
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <property name="leftMargin">
+                 <number>4</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>4</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>6</number>
+                </property>
+                <item>
+                 <widget class="QCheckBox" name="showaloneCBX">
+                  <property name="text">
+                   <string>showAlone</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="mixedFrame">
+                  <property name="title">
+                   <string>Display with:</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                   <property name="margin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_11">
+                     <property name="topMargin">
+                      <number>14</number>
+                     </property>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                   <spacer name="horizontalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="openMixed">
+                    <property name="text">
+                     <string>Open</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_8">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="icon">
-           <iconset resource="Orayta.qrc">
+           <iconset>
             <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
           </attribute>
           <attribute name="title">
@@ -988,7 +1080,7 @@
                 <string>Erase bookmark</string>
                </property>
                <property name="icon">
-                <iconset resource="Orayta.qrc">
+                <iconset>
                  <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
                </property>
                <property name="iconSize">
@@ -1017,7 +1109,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="Orayta.qrc">
+                <iconset>
                  <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
                </property>
                <property name="iconSize">
@@ -1046,7 +1138,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="Orayta.qrc">
+                <iconset>
                  <normaloff>:/Icons/arrow-down.png</normaloff>:/Icons/arrow-down.png</iconset>
                </property>
                <property name="iconSize">
@@ -1075,7 +1167,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="Orayta.qrc">
+                <iconset>
                  <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
                </property>
                <property name="iconSize">
@@ -1142,7 +1234,7 @@
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="icon">
-           <iconset resource="Orayta.qrc">
+           <iconset>
             <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
           </attribute>
           <attribute name="title">
@@ -1165,8 +1257,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>222</width>
-                <height>477</height>
+                <width>270</width>
+                <height>562</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1192,7 +1284,7 @@
                   <string>font: 8pt &quot;Sans Serif&quot;;</string>
                  </property>
                  <property name="currentIndex">
-                  <number>124</number>
+                  <number>125</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -1308,7 +1400,7 @@
                     <string>Save changes</string>
                    </property>
                    <property name="icon">
-                    <iconset resource="Orayta.qrc">
+                    <iconset>
                      <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
                    </property>
                   </widget>
@@ -1444,91 +1536,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="mixedGroup">
-         <property name="font">
-          <font>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_8">
-          <property name="leftMargin">
-           <number>4</number>
-          </property>
-          <property name="topMargin">
-           <number>4</number>
-          </property>
-          <property name="rightMargin">
-           <number>4</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QGroupBox" name="mixedFrame">
-            <property name="title">
-             <string>Display with:</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_10">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_11">
-               <property name="topMargin">
-                <number>14</number>
-               </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="openMixed">
-                   <property name="text">
-                    <string>Open</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QProgressBar" name="progressBar">
          <property name="maximumSize">
           <size>
@@ -1641,7 +1648,7 @@
   </widget>
   <action name="exitAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
    </property>
    <property name="text">
@@ -1650,7 +1657,7 @@
   </action>
   <action name="aboutAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/help-about.png</normaloff>:/Icons/help-about.png</iconset>
    </property>
    <property name="text">
@@ -1659,7 +1666,7 @@
   </action>
   <action name="zoominAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
    </property>
    <property name="text">
@@ -1668,7 +1675,7 @@
   </action>
   <action name="zoomoutAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
    </property>
    <property name="text">
@@ -1677,7 +1684,7 @@
   </action>
   <action name="jumptotopAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
    </property>
    <property name="text">
@@ -1686,7 +1693,7 @@
   </action>
   <action name="printAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/document-print.png</normaloff>:/Icons/document-print.png</iconset>
    </property>
    <property name="text">
@@ -1695,7 +1702,7 @@
   </action>
   <action name="closetabAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/tab-close.png</normaloff>:/Icons/tab-close.png</iconset>
    </property>
    <property name="text">
@@ -1704,7 +1711,7 @@
   </action>
   <action name="opentabAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/tab-new.png</normaloff>:/Icons/tab-new.png</iconset>
    </property>
    <property name="text">
@@ -1735,7 +1742,7 @@
   </action>
   <action name="bookMarkAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
    </property>
    <property name="text">
@@ -1744,7 +1751,7 @@
   </action>
   <action name="commentAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
    </property>
    <property name="text">
@@ -1753,7 +1760,7 @@
   </action>
   <action name="reportErrorAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/bug.png</normaloff>:/Icons/bug.png</iconset>
    </property>
    <property name="text">
@@ -1762,7 +1769,7 @@
   </action>
   <action name="advancedSearchAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
    </property>
    <property name="text">
@@ -1771,7 +1778,7 @@
   </action>
   <action name="searchInBooksAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
    </property>
    <property name="text">
@@ -1780,7 +1787,7 @@
   </action>
   <action name="searchForwardAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/search-right.png</normaloff>:/Icons/search-right.png</iconset>
    </property>
    <property name="text">
@@ -1789,7 +1796,7 @@
   </action>
   <action name="searchBackwardsAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/search-left.png</normaloff>:/Icons/search-left.png</iconset>
    </property>
    <property name="text">
@@ -1798,7 +1805,7 @@
   </action>
   <action name="removeFromSearchAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/greyv.png</normaloff>:/Icons/greyv.png</iconset>
    </property>
    <property name="text">
@@ -1807,7 +1814,7 @@
   </action>
   <action name="addToSearchAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/greenv.png</normaloff>:/Icons/greenv.png</iconset>
    </property>
    <property name="text">
@@ -1816,7 +1823,7 @@
   </action>
   <action name="addAllToSearchAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
    </property>
    <property name="text">
@@ -1825,7 +1832,7 @@
   </action>
   <action name="removeAllFromSearchAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
    </property>
    <property name="text">
@@ -1834,7 +1841,7 @@
   </action>
   <action name="findBookAction">
    <property name="icon">
-    <iconset resource="Orayta.qrc">
+    <iconset>
      <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
    </property>
    <property name="text">
@@ -1851,9 +1858,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="Orayta.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>exitAction</sender>
