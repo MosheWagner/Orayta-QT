@@ -4,11 +4,6 @@
 <context>
     <name></name>
     <message>
-        <location filename="htmlgen.cpp" line="664"/>
-        <source>All right reserved </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Open in new tab</source>
         <translation type="obsolete">Ouvrir dans un nouvel onglet</translation>
     </message>
@@ -99,7 +94,7 @@
         <location filename="mainwindow.cpp" line="913"/>
         <location filename="mainwindow.cpp" line="1446"/>
         <source>Orayta</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="134"/>
@@ -141,7 +136,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.cpp" line="1075"/>
         <source>No search results found:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun résultat:</translation>
     </message>
     <message>
         <source>No serach results found:</source>
@@ -160,22 +155,22 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.cpp" line="1224"/>
         <source>Open book</source>
-        <translation type="unfinished">Ouvrir un livre</translation>
+        <translation>Ouvrir le livre</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="1226"/>
         <source>Open in new tab</source>
-        <translation type="unfinished">Ouvrir dans un nouvel onglet</translation>
+        <translation>Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="1251"/>
         <source>Edit bookmark title...</source>
-        <translation type="unfinished">Editer le marque-page...</translation>
+        <translation>Editer le marque-page...</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="1254"/>
         <source>Delete bookmark</source>
-        <translation type="unfinished">Supprimer le marque page</translation>
+        <translation>Supprimer le marque page</translation>
     </message>
 </context>
 <context>
@@ -220,13 +215,13 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <location filename="mainwindow.ui" line="692"/>
         <location filename="mainwindow.ui" line="1682"/>
         <source>Zoom out</source>
-        <translation type="unfinished"></translation>
+        <translation>Réduire</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="721"/>
         <location filename="mainwindow.ui" line="1673"/>
         <source>Zoom in</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrandir</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="750"/>
@@ -258,7 +253,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="993"/>
         <source>showAlone</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher seul</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1066"/>
@@ -353,12 +348,12 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="1000"/>
         <source>Display with:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1034"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1582"/>
@@ -383,7 +378,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="1637"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Position</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1655"/>
@@ -438,7 +433,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="1785"/>
         <source>Search in book</source>
-        <translation type="unfinished">Chercher dans le livre</translation>
+        <translation>Chercher dans le livre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1794"/>

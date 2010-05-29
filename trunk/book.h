@@ -25,7 +25,7 @@
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
 {
-    vector <QString> text;
+    QList <QString> text;
     QString Title;
     QString FileName;
     QString Prefix;
@@ -33,6 +33,7 @@ struct weavedSource
     int Zoom;
 
     int id;
+    int line;
 
     bool show;
 

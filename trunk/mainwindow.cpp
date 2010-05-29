@@ -901,7 +901,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
     QString title, Html="",Htmlhead="", HtmlTopLinks="";
 
     int results = 0;
-    vector <QString> text;
+    QList <QString> text;
 
     if ( regexp.pattern() != "" )
     {
@@ -939,7 +939,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             {
                 text.clear();
 
-                if(!ReadFileToVector(absPath(gBookList[i]->getPath()), text, "UTF-8" , true))
+                if(!ReadFileToList(absPath(gBookList[i]->getPath()), text, "UTF-8" , true))
                 {
                     //File not found
                     print("ERROR! file " + absPath(gBookList[i]->getPath()) + " not found.");
@@ -1413,8 +1413,8 @@ void MainWindow::addBookMarkToList(QString lnk, QString title)
 //Build the bookmark list from the bookmark file
 void MainWindow::buildBookMarkList()
 {
-    vector <QString> text;
-    ReadFileToVector(USERPATH + "BookMarkList.txt", text, "UTF-8");
+    QList <QString> text;
+    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
 
     for ( int i=0; i<text.size(); i++)
     {
@@ -1480,8 +1480,8 @@ void MainWindow::editBookMarkTitle(int ind, QString newtitle)
     ui->bookmarkWidget->item(ind)->setData(Qt::WhatsThisRole, newtitle);
 
     //Update file:
-    vector <QString> text;
-    ReadFileToVector(USERPATH + "BookMarkList.txt", text, "UTF-8");
+    QList <QString> text;
+    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
 
     QString str = "";
     for (int i=0; i<text.size(); i++)
@@ -1514,8 +1514,8 @@ void MainWindow::on_removeBookmark_clicked()
 {
     int ind = ui->bookmarkWidget->currentIndex().row();
 
-    vector <QString> text;
-    ReadFileToVector(USERPATH + "BookMarkList.txt", text, "UTF-8");
+    QList <QString> text;
+    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
 
     QString str = "";
     for (int i=0; i<text.size(); i++)
@@ -1536,8 +1536,8 @@ void MainWindow::on_bookmarkUp_clicked()
 
     if (ind > 0)
     {
-        vector <QString> text;
-        ReadFileToVector(USERPATH + "BookMarkList.txt", text, "UTF-8");
+        QList <QString> text;
+        ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
 
         swap(text[ind], text[ind-1]);
 
@@ -1561,8 +1561,8 @@ void MainWindow::on_bookmarkDown_clicked()
 
     if (ind < ui->bookmarkWidget->count() - 1 )
     {
-        vector <QString> text;
-        ReadFileToVector(USERPATH + "BookMarkList.txt", text, "UTF-8");
+        QList <QString> text;
+        ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
 
         swap(text[ind], text[ind+1]);
 

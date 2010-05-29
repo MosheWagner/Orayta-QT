@@ -27,6 +27,8 @@ sed -i 's|[@][$][(]QMAKE[)] -unix -o Makefile Orayta.pro||g' Makefile
 
 sed -i 's|Orayta.pro||g' Makefile 
 
+sed -i 's|/home/moshe/Orayta/svn/|\`pwd\`\/|g' Makefile
+
 mv Orayta.pro hide.tmp
 
 

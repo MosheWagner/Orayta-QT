@@ -68,13 +68,13 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     //TODO: implement zoom attribute?
 
-    vector<QString> text;
+    QList <QString> text;
 
     //Read the source file associated to this book:
     QString filename = absPath(mPath);
 
 
-    if(!ReadFileToVector(filename, text, "UTF-8"))
+    if(!ReadFileToList(filename, text, "UTF-8"))
     {
         print( "ERROR: Unable to open file: " + filename + " !");
         return false;
@@ -112,12 +112,13 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     //Load all sources to the memory:
     for (int i=0; i<Sources.size(); i++)
     {
-        if(!ReadFileToVector(Sources[i].FileName, Sources[i].text, "UTF-8", true))
+        Sources[i].text.clear();
+        if(!ReadFileToList(Sources[i].FileName, Sources[i].text, "UTF-8", true))
         {
             print( "ERROR: Unable to open file: " + Sources[i].FileName + " !");
         }
-
         Sources[i].str = "";
+        Sources[i].line = 0;
     }
 
     if ( Sources.size() == 0) return false;
@@ -129,12 +130,13 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
     //Go over every line in the main source:
-    while (Sources[0].text.size() > 0)
+    //while (Sources[0].text.size() > 0)
+    for (int i=0; i<Sources[0].text.size(); i++)
     {
         //Use the first line of whats left of the file, and chop it off
-        QString line = Sources[0].text[0];
+        QString line = Sources[0].text[i];
 
-        Sources[0].text.erase(Sources[0].text.begin());
+        //Sources[0].text.erase(Sources[0].text.begin());
 
         //Display nikud and teamim depending on the NikudMode
         if ( shownikud == false) line = removeNikud(line);
@@ -147,18 +149,18 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             // Go over all other sources
             for (int j=1; j<Sources.size(); j++)
             {
-                if (Sources[j].text.size() > 0)
+                if (Sources[j].line < Sources[j].text.size())
                 {
                     //Update the sources' itr to this line
                     // (It should be a level line that matters, because the loop doesn't stop before that)
-                    Sources[j].itr.SetLevelFromLine(Sources[j].text[0]);
+                    Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
 
                     //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
                     if (Sources[0].itr.toHumanString() == Sources[j].itr.toHumanString())
                     {
-                        Sources[j].text.erase(Sources[j].text.begin());
+                        Sources[j].line ++;
 
-                        QString source_line = Sources[j].text[0];
+                        QString source_line = Sources[j].text[Sources[j].line];
 
                         //Clone the sources' itr, so we can see if it changed
                         BookIter tmpitr(Sources[j].itr);
@@ -169,15 +171,15 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                         {
                             if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
 
-                            //Remove the passed line
-                            Sources[j].text.erase(Sources[j].text.begin());
+                            Sources[j].line ++;
 
-                            //Update the cloned itr
-                            source_line = Sources[j].text[0];
-                            tmpitr.SetLevelFromLine(source_line);
-
+                            if (Sources[j].line < Sources[j].text.size())
+                            {
+                                //Update the cloned itr
+                                source_line = Sources[j].text[Sources[j].line];
+                                tmpitr.SetLevelFromLine(source_line);
+                            }
                         }
-
                     }
                 }
             }
@@ -213,7 +215,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 htmlbody += link("*" + last_label, comment);
                 htmlbody += "<BR>";
             }
-
 
             //Advance itr:
             Sources[0].itr.SetLevelFromLine(line);
@@ -261,7 +262,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                     //If only part of the link name should be in the index - cut it.
                     if(mRemoveSuffix[level] != "")
                     {
-                        splittotwo ( line.mid(2),tmp , mRemoveSuffix[level]);
+                        splittotwo ( line.mid(2), tmp , mRemoveSuffix[level]);
                         if(tmp[1] != "")
                             dispname = tmp[1];
                         else
@@ -311,6 +312,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         }
     }
 
+    for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
+
     //Stick together all parts of HTML:
     html += html_head(mNormallDisplayName);
 
@@ -356,7 +359,8 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
     //These are just like consts, but I might change these some day...
     bool dot = true;
 
-    vector<QString> text, tmp;
+    QList <QString> text;
+    vector <QString> tmp;
 
     QString low_comments="";
     QString html="";
@@ -365,7 +369,7 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
 
     //Read the source file associated to this book:
     QString filename = absPath(infile);
-    if(!ReadFileToVector(filename, text, "UTF-8"))
+    if(!ReadFileToList(filename, text, "UTF-8"))
     {
         print( "ERROR: Unable to open file: " + filename + " !");
         return false;
@@ -1125,7 +1129,7 @@ QString ExternalLink (QString linkcode)
 
     //I'm ignoring the coloers at the moment
     if ( DS>>0 & 0x1 ) Html += "<B>";
-    if ( DS>>1 & 0x1 ) Html + ""; //Html += "<U>";
+    //if ( DS>>1 & 0x1 ) Html += "<U>";
     if ( DS>>2 & 0x1 ) Html += "<I>";
     if ( DS>>3 & 0x1 ) Html += "<small>";
     if ( DS>>4 & 0x1 ) Html += "<big>";
@@ -1169,7 +1173,7 @@ QString ExternalLink (QString linkcode)
     if ( DS>>4 & 0x1 ) Html += "</big>";
     if ( DS>>3 & 0x1 ) Html += "</small>";
     if ( DS>>2 & 0x1 ) Html += "</I>";
-    if ( DS>>1 & 0x1 ) Html + ""; //Html += "</U>";
+    //if ( DS>>1 & 0x1 ) Html += "</U>";
     if ( DS>>0 & 0x1 ) Html += "</B>";
 
     return Html;

@@ -67,7 +67,7 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
             else
             {
                 //Add confs for this book
-                AddBookConfs(b, b->getPath().replace(".txt",".conf").replace(".TXT",".conf"));
+                AddBookConfs(b, b->getPath().replace(".txt",".conf"));
             }
         }
     }
@@ -76,11 +76,11 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 //Add the book's confs, from it's conf file
 void BookList::AddBookConfs(Book *book, QString filename)
 {
-    vector<QString> text;
+    QList <QString> text;
     vector<QString> linesplit;
 
     //Read the book's conf file file:
-    if(ReadFileToVector(filename, text, "UTF-8"))
+    if(ReadFileToList(filename, text, "UTF-8"))
     {
         for(unsigned int i=0; i<text.size() ; i++)
         {
