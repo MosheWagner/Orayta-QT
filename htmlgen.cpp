@@ -167,7 +167,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                         tmpitr.SetLevelFromLine(source_line);
 
                         //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].text.size() > 0))
+                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].line < Sources[j].text.size()))
                         {
                             if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
 

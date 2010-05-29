@@ -428,9 +428,12 @@ void MainWindow::LoadBook(Book *book, QString markString)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     gHtmlCnt ++;
+
+    print (QTime::currentTime().toString());
     //Check if the file renders OK
     if (book->htmlrender(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html", shownikud, showteamim, markString))
     {
+        print (QTime::currentTime().toString());
         if(gInternalLocationInHtml == "")
         {
             //Load html header only; The rest will be loaded when this is done
