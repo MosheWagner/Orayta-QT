@@ -29,7 +29,7 @@ QString USERPATH;
 QString LANG="Hebrew";
 
 //Reads the file with the given name, and inserts it's contents into the given vector
-bool ReadFileToVector(QString filename, vector<QString>& text, QString encoding_name, bool skipconflines)
+bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
     //Read the source file:
@@ -39,17 +39,10 @@ bool ReadFileToVector(QString filename, vector<QString>& text, QString encoding_
 
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
-    if ( (fi.isDir() == true) || (fi.exists() == false))
-    {
-        return false;
-    }
+    if ( (fi.isDir() == true) || (fi.exists() == false)) return false;
 
     // Open the file
-    if ((!infile.open(QIODevice::ReadOnly)))
-    {
-        return false;
-    }
-
+    if ((!infile.open(QIODevice::ReadOnly))) return false;
 
     // Set the stream to read from the file
     QTextStream t( &infile );
@@ -59,14 +52,14 @@ bool ReadFileToVector(QString filename, vector<QString>& text, QString encoding_
         line = t.readLine();
         if ( (skipconflines == false) || (conflinesended == true))
         {
-            text.push_back(line);
+            text << line;
         }
         //#$#%#^%
         //if (line[0] == '$')
         else if ((line[0] == '!') || (line[0] == '~') || (line[0] == '@') || (line[0] == '#') || (line[0] == '^'))
         {
             conflinesended = true;
-            text.push_back(line);
+            text << line;
         }
     }
     infile.close();
@@ -78,8 +71,8 @@ bool ReadFileToVector(QString filename, vector<QString>& text, QString encoding_
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.
 bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, QString encoding_name, int id)
 {
-    vector <QString> text;
-    if (ReadFileToVector(path, text, encoding_name))
+    QList <QString> text;
+    if (ReadFileToList(path, text, encoding_name))
     {
         titles.clear();
         texts.clear();

@@ -1,4 +1,34 @@
-orayta (0.01-2ubuntu12) lucid; urgency=low
+orayta (0.01-2ubuntu17) karmic; urgency=low
+
+  * Another try?
+
+ -- moshe <moshe.wagner@gmail.com>  Fri, 28 May 2010 17:00:16 +0300
+
+orayta (0.01-2ubuntu16) lucid; urgency=low
+
+  * Another try
+
+ -- moshe <moshe.wagner@gmail.com>  Fri, 28 May 2010 16:55:26 +0300
+
+orayta (0.01-2ubuntu15) lucid; urgency=low
+
+  * Lucid build
+
+ -- moshe <moshe.wagner@gmail.com>  Fri, 28 May 2010 16:41:25 +0300
+
+orayta (0.01-2ubuntu14) karmic; urgency=low
+
+  * BT 
+
+ -- moshe <moshe.wagner@gmail.com>  Fri, 28 May 2010 16:38:51 +0300
+
+orayta (0.01-2ubuntu13) karmic; urgency=low
+
+  * Build test
+
+ -- moshe <moshe.wagner@gmail.com>  Fri, 28 May 2010 16:36:55 +0300
+
+orayta (0.01-2ubuntu12) karmic; urgency=low
 
   * Lucid version
 
