@@ -11,12 +11,18 @@ install_books:
 	$(COPY) * /usr/share/Orayta/Books
 	chmod 777 /usr/share/Orayta/Books
 	
-	find * -prune | grep -v "Makefile" | sed 's\^\/usr/share/ToratEmet/Books/\g' | sed 's/\(.*\)/\x27\1\x27/g' > installedfiles
-	chmod 777 installedfiles
+#	find * -prune | grep -v "Makefile" | sed 's\^\/usr/share/ToratEmet/Books/\g' | sed 's/\(.*\)/\x27\1\x27/g' > installedfiles
+#	chmod 777 installedfiles
 
-uninstall_books: 
-	xargs rm -r < installedfiles
-	rm installedfiles
+
+#uninstall_books: 
+#	xargs rm -r < installedfiles
+#	rm installedfiles
+
+clean:
+	
+distclean:
+
 
 install: install_books
 
