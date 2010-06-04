@@ -251,16 +251,16 @@ void Book::setCosmetics(QString confline)
 
 
 
-    vector <QString> costype;
+    QStringList costype;
     int pos = confline.indexOf("=");
     confline = confline.mid(pos + 1);
-    split(confline , costype , "#");
+    costype = confline.split("#");
 
     //Handle 'CosmeticsType' confs:
     for(unsigned int j=0;j<costype.size();j++)
     {
         vector <QString> costypevals;
-        split(costype[j],costypevals,"=");
+        splittotwo(costype[j],costypevals,"=");
 
         int num, num2;
 
@@ -338,10 +338,11 @@ void Book::setCosmetics(QString confline)
             QStringList p = reper.split(QString("^^"));
             for (int i=0; i<p.size(); i++)
             {
-                QStringList pp = p[i].split("=");
+                vector<QString> pp;
+                splittotwo(p[i], pp, "=");
 
-                replaceFrom << pp[0].replace(" ", "");
-                replaceTo << pp[1].replace(" ", "");
+                replaceFrom << pp[0];
+                replaceTo << pp[1];
             }
         }
 

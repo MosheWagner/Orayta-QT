@@ -125,53 +125,17 @@ void writetofile(QString filename, QString data, QString encoding_name, bool ove
 }
 
 //Splits the given QString with the given splitter, into the given vector
-void split(QString ostr, vector<QString>& splitinto, QString splitter = " ")
+void split(QString str, vector<QString>& splitinto, QString splitter = " ")
 {
-    
-    QString str = ostr;
-    
-    int oldp = 0;
-    
-    int p = str.indexOf(splitter);
-    if (p != 0)
-    {
-        str = splitter + str;
-        p = 0;
-    }
-    
-    while (p!=-1)
-    {
-        if (p!=0)
-        {
-            int n = p - oldp -splitter.length();
-            QString part = str.mid(oldp + splitter.length() ,n);
-            splitinto.push_back(part);
-        }
-        oldp = p;
-        p = str.indexOf(splitter, p+1);
-    }
-    QString part = str.mid(oldp + splitter.length(), str.length()-1);
-    splitinto.push_back(part);
+    for (int i=0; i<=str.count(splitter); i++) splitinto.push_back(str.section(splitter, i, i));
 }
 
 //Split given string by given seperater into the given vector, but allways to two
 // (split by first appearance of the seperator)
-void splittotwo(QString str, vector <QString>& split, QString seperater) //will split a string into 2
+void splittotwo(QString str, vector <QString>& split, QString separator) //will split a string into 2
 {
-    QString first = "", second="";
-    int p = str.indexOf(seperater);
-    if (p == -1)
-    {
-        first = str;
-        second = "";
-    }
-    else
-    {
-        first = str.mid(0,p);
-        second = str.mid(p+seperater.length(), str.length());
-    }
-    split.push_back(first);
-    split.push_back(second);
+    split.push_back(str.section(separator, 0, 0));
+    split.push_back(str.section(separator, 1));
 }
 
 //Sets the given int to the value represented by the string
