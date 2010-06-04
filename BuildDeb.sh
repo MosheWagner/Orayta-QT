@@ -4,11 +4,8 @@
 
 #Run this script only from the source dir that you want to build the .deb file from
 
-echo "This script should update all needed files that configure Orayta's .deb package, and build a new package for you"
+echo "This script should update all needed files that configure Orayta's .deb package, and make a release redy for a .deb build (or PPA upload)"
 echo "Internal use only! This should not be used for anythong else, ever!!!"
-
-#update debian it's a new version:
-dch -i
 
 #Hack around qmake's bug...
 touch Orayta
@@ -33,7 +30,20 @@ mv Orayta.pro hide.tmp
 
 
 #Build the .deb package
-dpkg-buildpackage
+#dpkg-buildpackage
+
+echo "* Building first package..."
+dch -imD karmic
+debuild -S -k2C383923
+
+echo "* Building second package..."
+dch -imD lucid 
+debuild -S -k2C383923
+
+echo "Now you can upload your files!"
+echo "Using:"
+echo "	cd .."
+echo "	dput ppa:moshe-wagner/moshewag <source.changes>"
 
 #Clean up
 make clean

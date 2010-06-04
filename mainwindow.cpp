@@ -45,8 +45,6 @@ TODO: KHTML progress bar
 
 //TODO: Speed up search. (Better progress bar too?)
 
-//TODO: Speed up HhtmlGen. Especially for mixed books.
-
 //TODO: Add rav kook books
 
 //TODO: Fix עשרת הדיברות's teamim
@@ -149,8 +147,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeWidget->setColumnCount(1);
 
     //Load start page. Assuming it's book[0] of course.
-
-    LoadBook(gBookList[0]);
+    if (!gBookList[0]->IsDir())
+    {
+        LoadBook(gBookList[0]);
+    }
+    else
+    {
+        gWebViewList[0]->setHtml("<html><title>אורייתא</title><body><center><i><big><big><big><big>אורייתא - ספרי קודש</big></big></big></big></i></center></body></html>");
+    }
 
 
     ui->mixedGroup->hide();
@@ -429,11 +433,9 @@ void MainWindow::LoadBook(Book *book, QString markString)
 
     gHtmlCnt ++;
 
-    print (QTime::currentTime().toString());
     //Check if the file renders OK
     if (book->htmlrender(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html", shownikud, showteamim, markString))
     {
-        print (QTime::currentTime().toString());
         if(gInternalLocationInHtml == "")
         {
             //Load html header only; The rest will be loaded when this is done
@@ -523,9 +525,10 @@ void MainWindow::webView_loadFinished()
 
                 gWebViewList[CURRENT_TAB]->execScript(script);
 
-#ifndef KHTML
+
                 gInternalLocationInHtml="";
 
+#ifndef KHTML
                 //Scroll up in the page a bit
                 if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
                 {
