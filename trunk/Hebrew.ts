@@ -101,10 +101,10 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.cpp" line="124"/>
-        <location filename="mainwindow.cpp" line="682"/>
-        <location filename="mainwindow.cpp" line="763"/>
-        <location filename="mainwindow.cpp" line="916"/>
-        <location filename="mainwindow.cpp" line="1449"/>
+        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="765"/>
+        <location filename="mainwindow.cpp" line="918"/>
+        <location filename="mainwindow.cpp" line="1451"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
@@ -116,37 +116,37 @@ Check your installation, or contact the developer.</source>
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="501"/>
+        <location filename="mainwindow.cpp" line="503"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="589"/>
         <source>Add bookmark here...</source>
         <translation>הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="598"/>
+        <location filename="mainwindow.cpp" line="600"/>
         <source>Add/edit comment...</source>
         <translation>הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="631"/>
+        <location filename="mainwindow.cpp" line="633"/>
         <source>Edit comment...</source>
         <translation>ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="642"/>
+        <location filename="mainwindow.cpp" line="644"/>
         <source>Delete comment</source>
         <translation>מחק הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="924"/>
+        <location filename="mainwindow.cpp" line="926"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1078"/>
+        <location filename="mainwindow.cpp" line="1080"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
@@ -155,33 +155,33 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1083"/>
+        <location filename="mainwindow.cpp" line="1085"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1091"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1227"/>
+        <location filename="mainwindow.cpp" line="1229"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1229"/>
+        <location filename="mainwindow.cpp" line="1231"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1254"/>
+        <location filename="mainwindow.cpp" line="1256"/>
         <source>Edit bookmark title...</source>
         <translation>ערוך כותרת סימנייה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1257"/>
+        <location filename="mainwindow.cpp" line="1259"/>
         <source>Delete bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
@@ -264,9 +264,8 @@ Check your installation, or contact the developer.</source>
         <translation>הוצא את כל הספרים מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="993"/>
         <source>showAlone</source>
-        <translation>הצג לבד</translation>
+        <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1066"/>
@@ -402,9 +401,14 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1000"/>
+        <location filename="mainwindow.ui" line="993"/>
         <source>Display with:</source>
         <translation>הצג בשילוב עם:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1012"/>
+        <source>Hide commentaries</source>
+        <translation>הסתר פרושים</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1034"/>

@@ -158,6 +158,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     ui->mixedGroup->hide();
+
     ui->verticalLayout_11->setDirection(QBoxLayout::BottomToTop);
 
     ui->searchDockWidget->setMaximumHeight(30);
@@ -360,7 +361,7 @@ void MainWindow::restoreBookConfs()
     {
         settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
             int n = settings.value("MixedDisplayes", 0).toInt();
-            gBookList[i]->showAlone = settings.value("ShowAlone", true).toBool();
+            gBookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
             for (int j=0; j<n; j++)
             {
                 gBookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();

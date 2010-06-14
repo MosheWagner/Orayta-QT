@@ -988,13 +988,6 @@
                  <number>6</number>
                 </property>
                 <item>
-                 <widget class="QCheckBox" name="showaloneCBX">
-                  <property name="text">
-                   <string>showAlone</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QGroupBox" name="mixedFrame">
                   <property name="title">
                    <string>Display with:</string>
@@ -1011,6 +1004,13 @@
                     </layout>
                    </item>
                   </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="showaloneCBX">
+                  <property name="text">
+                   <string>Hide commentaries</string>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -1257,8 +1257,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>270</width>
-                <height>562</height>
+                <width>222</width>
+                <height>477</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1284,7 +1284,7 @@
                   <string>font: 8pt &quot;Sans Serif&quot;;</string>
                  </property>
                  <property name="currentIndex">
-                  <number>125</number>
+                  <number>153</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
