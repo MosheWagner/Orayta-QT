@@ -4,9 +4,8 @@
 <context>
     <name></name>
     <message>
-        <location filename="htmlgen.cpp" line="664"/>
         <source>All right reserved </source>
-        <translation>כל הזכויות שמורות</translation>
+        <translation type="obsolete">כל הזכויות שמורות</translation>
     </message>
     <message>
         <source>Open book</source>
@@ -101,52 +100,53 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="126"/>
-        <location filename="mainwindow.cpp" line="677"/>
-        <location filename="mainwindow.cpp" line="758"/>
-        <location filename="mainwindow.cpp" line="913"/>
-        <location filename="mainwindow.cpp" line="1446"/>
+        <location filename="mainwindow.cpp" line="124"/>
+        <location filename="mainwindow.cpp" line="682"/>
+        <location filename="mainwindow.cpp" line="763"/>
+        <location filename="mainwindow.cpp" line="916"/>
+        <location filename="mainwindow.cpp" line="1449"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="134"/>
+        <location filename="mainwindow.cpp" line="132"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
-        <translation>לא נמצאו ספרים מותקנים! &gt;BR&lt; בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
+        <translation>לא נמצאו ספרים מותקנים! 
+ בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="496"/>
+        <location filename="mainwindow.cpp" line="501"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="582"/>
+        <location filename="mainwindow.cpp" line="587"/>
         <source>Add bookmark here...</source>
         <translation>הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="593"/>
+        <location filename="mainwindow.cpp" line="598"/>
         <source>Add/edit comment...</source>
         <translation>הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="626"/>
+        <location filename="mainwindow.cpp" line="631"/>
         <source>Edit comment...</source>
         <translation>ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="637"/>
+        <location filename="mainwindow.cpp" line="642"/>
         <source>Delete comment</source>
         <translation>מחק הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="921"/>
+        <location filename="mainwindow.cpp" line="924"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1075"/>
+        <location filename="mainwindow.cpp" line="1078"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
@@ -155,33 +155,33 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1080"/>
+        <location filename="mainwindow.cpp" line="1083"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1088"/>
+        <location filename="mainwindow.cpp" line="1091"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1224"/>
+        <location filename="mainwindow.cpp" line="1227"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1226"/>
+        <location filename="mainwindow.cpp" line="1229"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1251"/>
+        <location filename="mainwindow.cpp" line="1254"/>
         <source>Edit bookmark title...</source>
         <translation>ערוך כותרת סימנייה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1254"/>
+        <location filename="mainwindow.cpp" line="1257"/>
         <source>Delete bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
