@@ -85,9 +85,8 @@ khtml {
 TRANSLATIONS = Hebrew.ts \
                French.ts
 
-# Install binaries
-binary.path = /usr/local/bin
-binary.files = Orayta
+# Install binary
+target.path = /usr/bin
 
 # Install books
 books.path = /usr/share/Orayta/
@@ -109,7 +108,7 @@ menu.files = Orayta.desktop
 trans.path = /usr/share/Orayta/
 trans.files = Hebrew.qm
 
-INSTALLS += binary
+INSTALLS += target
 INSTALLS += books
 INSTALLS += icon
 INSTALLS += trans
