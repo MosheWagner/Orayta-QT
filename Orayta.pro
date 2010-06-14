@@ -11,7 +11,7 @@ TEMPLATE = app
 }
 
 khtml {
-   # DEFINES += KHTML
+    DEFINES += KHTML
 }
 
 SOURCES += main.cpp \
