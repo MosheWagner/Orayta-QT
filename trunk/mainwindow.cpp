@@ -487,6 +487,7 @@ void MainWindow::webView_loadFinished()
     void MainWindow::webView_loadFinished(bool)
     {
 #endif
+
         QString s="";
 
         //If only header was loaded, load the full page now
@@ -511,7 +512,7 @@ void MainWindow::webView_loadFinished()
             }
         }
         else
-        {
+        {            
             //change the tabs title from "Loading..." to the book's title
             ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
 
