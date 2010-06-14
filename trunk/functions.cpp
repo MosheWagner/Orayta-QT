@@ -124,12 +124,6 @@ void writetofile(QString filename, QString data, QString encoding_name, bool ove
     delete mode;
 }
 
-//Splits the given QString with the given splitter, into the given vector
-void split(QString str, vector<QString>& splitinto, QString splitter = " ")
-{
-    for (int i=0; i<=str.count(splitter); i++) splitinto.push_back(str.section(splitter, i, i));
-}
-
 //Split given string by given seperater into the given vector, but allways to two
 // (split by first appearance of the seperator)
 void splittotwo(QString str, vector <QString>& split, QString separator) //will split a string into 2
@@ -329,11 +323,9 @@ void WordExclude(QString stra , QString strb, vector<QString>& out)
 {
     bool match = false;
 
-    vector <QString> splita;
-    split(stra, splita, " ");
+    QStringList splita = stra.split(" ");
 
-    vector <QString> splitb;
-    split(strb, splitb, " ");
+    QStringList splitb = strb.split(" ");
 
     //Loop over all words of first string
     for (unsigned int i=0; i<splita.size(); i++)

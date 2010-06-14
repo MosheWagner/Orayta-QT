@@ -786,15 +786,14 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
 
     unsigned int levelMIN=0, higherLevel=0;
     //Find lowest level
-    for (levelMIN=0; haslevel[levelMIN] == false; levelMIN++) ;
+    for (levelMIN=0; levelMIN < 4 && haslevel[levelMIN] == false; levelMIN++) {};
 
     //Find the next one above it:
-    higherLevel = levelMIN + 1;
-    for ( ; haslevel[higherLevel] == false; higherLevel++) {};
+    for (higherLevel = levelMIN + 1 ; higherLevel < 4 && haslevel[higherLevel] == false; higherLevel++) {};
 
     // (The found numbers are 2 under the real levels, because they started from 0 and the levels start from 2)
-    levelMIN = levelMIN + 2;
-    higherLevel = higherLevel + 2;
+    levelMIN += 2;
+    higherLevel += 2;
 
 
     //If only one link level is present (and thus higherLevel became 6)
@@ -1100,8 +1099,7 @@ QString ExternalLink (QString linkcode)
         return false;
 
     //Split to parts
-    vector<QString> split_up;
-    split (Data, split_up, "|");
+    QStringList split_up = Data.split("|");
 
     //Get display style
     if (!ToNum( split_up[0], &DisplayStyle))
@@ -1140,7 +1138,7 @@ QString ExternalLink (QString linkcode)
     vector<int> inlinks;
     split_up.clear();
 
-    split (BookInternalLabel, split_up, "-");
+    split_up = BookInternalLabel.split("-");
 
     //TODO: use removebrackets function
     QString  linkto = "";

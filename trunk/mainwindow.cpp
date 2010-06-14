@@ -560,7 +560,6 @@ void MainWindow::webView_linkClicked(QUrl url)
 {
     QString link = QString(url.path());
 
-        print (link);
 #ifdef KHTML
     //Yuck!!! Disgusting!!!
     if (link == last)
@@ -668,8 +667,8 @@ void MainWindow::webView_linkClicked(QUrl url)
         QString lnk = "";
         lnk = link.mid(pos+1);
 
-        vector<QString> parts;
-        split(lnk, parts, ":");
+        QStringList parts = lnk.split(":");
+
         int id;
         if(ToNum(parts[0], &id))
         {
@@ -773,13 +772,12 @@ void MainWindow::addViewTab(bool empty)
     gWebViewList.push_back(newview);
 
     //Connect the signalls sent from the new widgets to their slots
+    QObject::connect(newview, SIGNAL(LinkClicked(QUrl)), this , SLOT(webView_linkClicked(QUrl)));
 #ifdef KHTML
     QObject::connect(newview, SIGNAL(completed()), this , SLOT(webView_loadFinished()));
-    QObject::connect(newview, SIGNAL(LinkClicked(QUrl)), this , SLOT(webView_linkClicked(QUrl)));
 #else
     //QObject::connect(newview, SIGNAL(started(KIO::Job*)), this , SLOT(webView_loadStarted(KIO::Job*)));
     QObject::connect(newview, SIGNAL(loadFinished(bool)), this , SLOT(webView_loadFinished(bool)));
-    QObject::connect(newview, SIGNAL(linkClicked(QUrl)), this , SLOT(webView_linkClicked(QUrl)));
     QObject::connect(newview, SIGNAL(loadStarted()), this , SLOT(webView_loadStarted()));
     QObject::connect(newview, SIGNAL(loadProgress (int)), this , SLOT(webView_loadProgress(int)));
 
@@ -789,7 +787,6 @@ void MainWindow::addViewTab(bool empty)
     //The myWebView class will handle all link, but will emit "LinkMenu" when one should be shown
     newview->page()->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
 #endif
-    QObject::connect(newview, SIGNAL(LinkClicked(QUrl)), this, SLOT(webView_linkClicked(QUrl)));
 
     //Create new hbox
     QVBoxLayout *vbox = new QVBoxLayout(tab);
@@ -1887,54 +1884,20 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
     if (ui->viewTab->count() > 1)
     {
-        //Destroy tab
-        ui->viewTab->removeTab(index);
+        gWebViewList[index]->deleteLater();
+
         //Erase it's web view and hbox
         gWebViewList.erase(gWebViewList.begin() + index);
         gVboxList.erase(gVboxList.begin() + index);
+
+        //Destroy tab
+        ui->viewTab->widget(index)->layout()->deleteLater();
+        ui->viewTab->widget(index)->deleteLater();
+        ui->viewTab->removeTab(index);
     }
     else
     {
-        //Yes, this is an ugly hack. It just wouldn't clear without it...
-
-        //Erase the web view and hbox
-        gWebViewList.erase(gWebViewList.begin() + index);
-        gVboxList.erase(gVboxList.begin() + index);
-
-        //Rebuild them:
-        //Create new webview
-#ifdef KHTML
-        KHTMLWidget *newview = new KHTMLWidget();
-#else
-        myWebView *newview = new myWebView();
-#endif
-        gWebViewList.push_back(newview);
-
-        //Connect the signalls sent from the new widgets to their slots
-        QObject::connect(newview, SIGNAL(loadFinished(bool)), this , SLOT(webView_loadFinished(bool)));
-        QObject::connect(newview, SIGNAL(linkClicked(QUrl)), this , SLOT(webView_linkClicked(QUrl)));
-        QObject::connect(newview, SIGNAL(loadStarted()), this , SLOT(webView_loadStarted()));
-        QObject::connect(newview, SIGNAL(loadProgress (int)), this , SLOT(webView_loadProgress(int)));
-
-#ifndef KHTML
-        newview->setContextMenuPolicy(Qt::PreventContextMenu);
-#endif
-        //Set all externall links to be handeled by the LickClick signal instead of automatically
-        //  (All links I care about are marked as externall)
-#ifndef KHTML
-        newview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
-#endif
-        delete ui->viewTab->widget(CURRENT_TAB)->layout();
-        QVBoxLayout *vbox = new QVBoxLayout(ui->viewTab->widget(index));
-        gVboxList.push_back(vbox);
-#ifdef KHTML
-        vbox->addWidget(newview->getQWidget());
-#else
-        vbox->addWidget(newview);
-#endif
-
-        vbox->setMargin(0);
-        newview->setHtml("<html></html>");
+        gWebViewList[index]->setHtml("<html><title>" + QString("אורייתא - ספרי קודש") + "</title></html>");
     }
 
     //Update the stupid tab widget

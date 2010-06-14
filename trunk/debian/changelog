@@ -1,3 +1,33 @@
+orayta (0.03ubuntu2) lucid; urgency=low
+
+  * Lucid
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 06 Jun 2010 04:21:33 +0300
+
+orayta (0.03ubuntu1) karmic; urgency=low
+
+  * Karmic
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 06 Jun 2010 04:21:04 +0300
+
+orayta (0.03) karmic; urgency=low
+
+  * Karmic again
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 06 Jun 2010 02:03:17 +0300
+
+orayta (0.02ubuntu1) lucid; urgency=low
+
+  * lucid deb
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 06 Jun 2010 01:45:33 +0300
+
+orayta (0.02) karmic; urgency=low
+
+  * Good deb?
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 06 Jun 2010 01:44:55 +0300
+
 orayta (0.01-2ubuntu17) karmic; urgency=low
 
   * Another try?
