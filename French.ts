@@ -89,10 +89,10 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.cpp" line="124"/>
-        <location filename="mainwindow.cpp" line="682"/>
-        <location filename="mainwindow.cpp" line="763"/>
-        <location filename="mainwindow.cpp" line="916"/>
-        <location filename="mainwindow.cpp" line="1449"/>
+        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="765"/>
+        <location filename="mainwindow.cpp" line="918"/>
+        <location filename="mainwindow.cpp" line="1451"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
@@ -104,37 +104,37 @@ Check your installation, or contact the developer.</source>
 Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="501"/>
+        <location filename="mainwindow.cpp" line="503"/>
         <source>Loading...</source>
         <translation>Chargement...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="589"/>
         <source>Add bookmark here...</source>
         <translation>Ajouter un marque-page ici...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="598"/>
+        <location filename="mainwindow.cpp" line="600"/>
         <source>Add/edit comment...</source>
         <translation>Ajouter/Editer un commentaire...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="631"/>
+        <location filename="mainwindow.cpp" line="633"/>
         <source>Edit comment...</source>
         <translation>Editer le commentaire...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="642"/>
+        <location filename="mainwindow.cpp" line="644"/>
         <source>Delete comment</source>
         <translation>Supprimer le commentaire</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="924"/>
+        <location filename="mainwindow.cpp" line="926"/>
         <source>Searching: </source>
         <translation>Recherche: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1078"/>
+        <location filename="mainwindow.cpp" line="1080"/>
         <source>No search results found:</source>
         <translation>Aucun résultat:</translation>
     </message>
@@ -143,32 +143,32 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">Aucun résultat :</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1083"/>
+        <location filename="mainwindow.cpp" line="1085"/>
         <source>Short result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1091"/>
+        <location filename="mainwindow.cpp" line="1093"/>
         <source>Full result list:</source>
         <translation>Liste complète:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1227"/>
+        <location filename="mainwindow.cpp" line="1229"/>
         <source>Open book</source>
         <translation>Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1229"/>
+        <location filename="mainwindow.cpp" line="1231"/>
         <source>Open in new tab</source>
         <translation>Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1254"/>
+        <location filename="mainwindow.cpp" line="1256"/>
         <source>Edit bookmark title...</source>
         <translation>Editer le marque-page...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1257"/>
+        <location filename="mainwindow.cpp" line="1259"/>
         <source>Delete bookmark</source>
         <translation>Supprimer le marque page</translation>
     </message>
@@ -251,9 +251,8 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation>Supprimer tous les livres de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="993"/>
         <source>showAlone</source>
-        <translation>Afficher seul</translation>
+        <translation type="obsolete">Afficher seul</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1066"/>
@@ -346,9 +345,14 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation>Changer la langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1000"/>
+        <location filename="mainwindow.ui" line="993"/>
         <source>Display with:</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1012"/>
+        <source>Hide commentaries</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1034"/>
