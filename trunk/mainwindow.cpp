@@ -27,6 +27,8 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
+//TODO: Finsh up funny "loading" message
+
 //TODO: Change tab title when setHtml used...
 
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
@@ -156,8 +158,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else
     {
-        //gWebViewList[0]->setHtml("<html><title>אורייתא</title><body><center><i><big><big><big><big>אורייתא - ספרי קודש</big></big></big></big></i></center></body></html>");
         gWebViewList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
+        ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
 
@@ -432,6 +434,7 @@ void MainWindow::LoadBook(Book *book, QString markString)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), book->getNormallDisplayName() + ": <br> הספר בטעינה..."));
+    ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
 
     gHtmlCnt ++;
 
@@ -490,7 +493,7 @@ void MainWindow::webView_loadFinished(bool)
     ui->progressBar->hide();
 
 
-    if ( gInternalLocationInHtml != "" && gWebViewList[CURRENT_TAB]->url().toString().indexOf("Empty") == -1 )
+    if ( gInternalLocationInHtml != "")
     {
         //Mark location as "active"
         QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
@@ -769,6 +772,7 @@ void MainWindow::addViewTab(bool empty)
     vbox->setMargin(0);
 
     if (empty == true) newview->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+    ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
     //Switch to the new tab
     ui->viewTab->setCurrentIndex(ui->viewTab->count()-1);
@@ -888,6 +892,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             addViewTab(false);
             gWebViewList[CURRENT_TAB]->setTextSizeMultiplier(1);
             gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
 
         //Set the title of the tab to show what it's searching for
@@ -1868,6 +1873,7 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     else
     {
         gWebViewList[index]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
+        ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta - Jewish books"));
     }
 
     //Update the stupid tab widget
