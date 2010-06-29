@@ -518,3 +518,18 @@ QIcon * bookIcon(bool isFolder, bool isDouble, IconState state)
 
     return icon;
 }
+
+
+QString simpleHtmlPage(QString title, QString contents)
+{
+    QString html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
+    html += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
+    html += "<html >\n<head>\n\t";
+    html += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
+
+    html += "\n<title>" + title + "</title>\n</head>";
+
+    html += "\n<body><br><br><br><div style=\"text-align:center\"; dir=\"RTL\"><h1>" + contents + "</h1></div></body></html>";
+
+    return html;
+}

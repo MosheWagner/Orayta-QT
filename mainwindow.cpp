@@ -27,6 +27,8 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
+//TODO: Change tab title when setHtml used...
+
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
 
 //TODO: Allow מפרשים to open at book's current position
@@ -88,7 +90,6 @@ vector<KHTMLWidget *> gWebViewList;
 vector<QVBoxLayout *> gVboxList;
 
 int gHtmlCnt = 0;
-bool gPhaseOne = false;
 QString gInternalLocationInHtml = "";
 
 //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
@@ -155,7 +156,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else
     {
-        gWebViewList[0]->setHtml("<html><title>אורייתא</title><body><center><i><big><big><big><big>אורייתא - ספרי קודש</big></big></big></big></i></center></body></html>");
+        //gWebViewList[0]->setHtml("<html><title>אורייתא</title><body><center><i><big><big><big><big>אורייתא - ספרי קודש</big></big></big></big></i></center></body></html>");
+        gWebViewList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
     }
 
 
@@ -272,11 +274,7 @@ MainWindow::~MainWindow()
 {
     //Remove all html tmp files created
     QFile f;
-    for (int i=0; i <= gHtmlCnt; i++)
-    {
-        f.remove(TMPPATH + "Orayta" + stringify(i) + ".html");
-        f.remove(TMPPATH + "Orayta" + stringify(i) + ".html.header.html");
-    }
+    for (int i=0; i <= gHtmlCnt; i++) f.remove(TMPPATH + "Orayta" + stringify(i) + ".html");
 
     //TODO: Don't I need to free all the items?
     gWebViewList.clear();
@@ -428,11 +426,12 @@ void MainWindow::LoadBook(Book *book, QString markString)
     ui->progressBar->show();
     ui->progressBar->setValue(10);
 
-    //NikudMode nikudmode = gWebViewList[CURRENT_TAB]->mNikudMode;
     bool shownikud = gWebViewList[CURRENT_TAB]->ShowNikud;
     bool showteamim = gWebViewList[CURRENT_TAB]->ShowTeamim;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), book->getNormallDisplayName() + ": <br> הספר בטעינה..."));
 
     gHtmlCnt ++;
 
@@ -441,14 +440,7 @@ void MainWindow::LoadBook(Book *book, QString markString)
     {
         if(gInternalLocationInHtml == "")
         {
-            //Load html header only; The rest will be loaded when this is done
-#ifndef KHTML
-            ui->progressBar->setValue(50);
-            gPhaseOne = true;
-            gWebViewList[CURRENT_TAB]->load(QUrl(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html" + ".header.html"));
-#else
             gWebViewList[CURRENT_TAB]->load(QUrl(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html"));
-#endif
         }
         else
         {
@@ -487,64 +479,38 @@ void MainWindow::webView_loadFinished()
 {
     if (gWebViewList[CURRENT_TAB]->url().toString() == "") return;
 #else
-    void MainWindow::webView_loadFinished(bool)
-    {
+void MainWindow::webView_loadFinished(bool)
+{
 #endif
 
-        QString s="";
+    //change the tabs title from "Loading..." to the book's title
+    ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
 
-        //If only header was loaded, load the full page now
-        if(gPhaseOne == true)
-        {
-            ui->progressBar->show();
-            ui->progressBar->setValue(20);
-
-            gPhaseOne = false;
-
-            //Load the full page
-            ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
+    //Hide the progressbar
+    ui->progressBar->hide();
 
 
-            QString str = gWebViewList[CURRENT_TAB]->url().toString();
-            if (str.right(12) == ".header.html")
-            {
-                //Cut off the ".header.html" from the path
-                s = str.mid(0, str.length() -  12);
+    if ( gInternalLocationInHtml != "" && gWebViewList[CURRENT_TAB]->url().toString().indexOf("Empty") == -1 )
+    {
+        //Mark location as "active"
+        QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
 
-                gWebViewList[CURRENT_TAB]->load(QUrl(s));
-            }
-        }
-        else
-        {            
-            //change the tabs title from "Loading..." to the book's title
-            ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
+        gWebViewList[CURRENT_TAB]->execScript(script);
 
-            //Hide the progressbar
-            ui->progressBar->hide();
-
-            if ( gInternalLocationInHtml != "" && gWebViewList[CURRENT_TAB]->url().toString().indexOf("Empty") == -1 )
-            {
-                //Mark location as "active"
-                QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
-
-                gWebViewList[CURRENT_TAB]->execScript(script);
-
-
-                gInternalLocationInHtml="";
+        gInternalLocationInHtml="";
 
 #ifndef KHTML
-                //Scroll up in the page a bit
-                if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
-                {
-                    gWebViewList[CURRENT_TAB]->page()->mainFrame()->setScrollBarValue(Qt::Vertical, gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) - 70);
-                }
-#endif
-            }
+        //Scroll up in the page a bit
+        if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
+        {
+            gWebViewList[CURRENT_TAB]->page()->mainFrame()->setScrollBarValue(Qt::Vertical, gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) - 70);
         }
-
-        //Return cusror to normal
-        QApplication::restoreOverrideCursor();
+#endif
     }
+
+    //Return cusror to normal
+    QApplication::restoreOverrideCursor();
+}
 
 void MainWindow::webView_loadProgress (int progress)
 {
@@ -802,7 +768,7 @@ void MainWindow::addViewTab(bool empty)
 #endif
     vbox->setMargin(0);
 
-    if (empty == true) newview->setHtml("<html></html>");
+    if (empty == true) newview->setHtml(simpleHtmlPage(tr("Orayta"), ""));
 
     //Switch to the new tab
     ui->viewTab->setCurrentIndex(ui->viewTab->count()-1);
@@ -921,7 +887,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         {
             addViewTab(false);
             gWebViewList[CURRENT_TAB]->setTextSizeMultiplier(1);
-            gWebViewList[CURRENT_TAB]->setHtml("<html></html>");
+            gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), ""));
         }
 
         //Set the title of the tab to show what it's searching for
@@ -1901,7 +1867,7 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     }
     else
     {
-        gWebViewList[index]->setHtml("<html><title>" + QString("אורייתא - ספרי קודש") + "</title></html>");
+        gWebViewList[index]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
     }
 
     //Update the stupid tab widget
