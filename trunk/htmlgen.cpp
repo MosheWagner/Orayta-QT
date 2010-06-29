@@ -528,7 +528,7 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
         }
 
         //External link ("<!--ex" type)
-        else if(text[i].mid(0,6) == "<!--ex")
+        else if(text[i].startsWith("<!--ex"))
         {
             htmlbody += ExternalLink(text[i]);
         }
@@ -891,27 +891,27 @@ QString Script()
     str +="        obj.blur();\n";
 
 #ifdef KHTML
-    str +="        ScrollToElement(obj);";
+    str +="        ScrollToElement(obj);\n";
 #endif
     str +="        obj.style.color='red';\n";
     str +="        window.status = obj.getAttributeNode(\"href\").value\n";
     str +="}\n";
 
 
-    str += "var zoom = 1.0;";
-    str += "function ScrollToElement(theElement){";
-    str += "";
-    str += "    var selectedPosX = 0;";
-    str += "    var selectedPosY = 0;";
-    str += "              ";
-    str += "    while(theElement != null){";
-    str += "        selectedPosX += theElement.offsetLeft * zoom;";
-    str += "        selectedPosY += theElement.offsetTop * zoom ;";
-    str += "        theElement = theElement.offsetParent;";
-    str += "    }";
-    str += "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))";
-    str += "    window.scrollTo(selectedPosX , selectedPosY);";
-    str += "}";
+    str += "var zoom = 1.0;\n";
+    str += "function ScrollToElement(theElement){\n";
+    str += "\n";
+    str += "    var selectedPosX = 0;\n";
+    str += "    var selectedPosY = 0;\n";
+    str += "\n";
+    str += "    while(theElement != null){\n";
+    str += "        selectedPosX += theElement.offsetLeft * zoom;\n";
+    str += "        selectedPosY += theElement.offsetTop * zoom ;\n";
+    str += "        theElement = theElement.offsetParent;\n";
+    str += "    }\n";
+    str += "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))\n";
+    str += "    window.scrollTo(selectedPosX , selectedPosY);\n";
+    str += "}\n";
 
 
 
@@ -945,38 +945,38 @@ QString Script()
 
     str +="function paintWhoILinkTo(obj)\n";
     str +="{\n";
-    str +="     var p = obj.href.indexOf(\"#\");";
+    str +="     var p = obj.href.indexOf(\"#\");\n";
     str +="     paintByHref(\"$\" + obj.href.substr(p+1));\n";
     str +="}\n";
 
-    str += "function paintNext()";
-    str += "{";
-    str += "    var i = 0;";
-    str += "";
-    str += "    if(currentlyPainted)";
-    str += "    {";
-    str += "        i = parseInt(currentlyPainted.id.substring(3)) + 1;";
-    str += "    }";
-    str += "";
-    str += "    paintById(\"id_\" + i);";
-    str += "}";
-    str += "";
+    str += "function paintNext()\n";
+    str += "{\n";
+    str += "    var i = 0;\n";
+    str += "\n";
+    str += "    if(currentlyPainted)\n";
+    str += "    {\n";
+    str += "        i = parseInt(currentlyPainted.id.substring(3)) + 1;\n";
+    str += "    }\n";
+    str += "\n";
+    str += "    paintById(\"id_\" + i);\n";
+    str += "}\n";
+    str += "\n";
 
-    str += "function paintPrevious()";
-    str += "{";
-    str += "    var i = 0;";
-    str += "";
-    str += "    if(currentlyPainted)";
-    str += "    {";
-    str += "        var num = parseInt(currentlyPainted.id.substring(3)) - 1;";
-    str += "        if ( num >= 0 )";
-    str += "        {";
-    str += "            i = num;";
-    str += "        }";
-    str += "    }";
-    str += "";
-    str += "    paintById(\"id_\" + i);";
-    str += "}";
+    str += "function paintPrevious()\n";
+    str += "{\n";
+    str += "    var i = 0;\n";
+    str += "\n";
+    str += "    if(currentlyPainted)\n";
+    str += "    {\n";
+    str += "        var num = parseInt(currentlyPainted.id.substring(3)) - 1;\n";
+    str += "        if ( num >= 0 )\n";
+    str += "        {\n";
+    str += "            i = num;\n";
+    str += "        }\n";
+    str += "    }\n";
+    str += "\n";
+    str += "    paintById(\"id_\" + i);\n";
+    str += "}\n";
 
 /*
     str += "document.onkeyup = KeyCheck;       ";
@@ -1040,22 +1040,17 @@ QString ExternalLink (QString linkcode)
 {
     bool ToraOr;
     bool ShouldBePrintedOnNewLine;
-    int  BookUniqueId;
-    QString BookInternalLabel;
-    QString DisplayedText;
+    //UniqueId of target link
+    int  BookUniqueId = 0;
+    //Label within the target book
+    QString BookInternalLabel = "";
+    //Link's display name
+    QString DisplayedText = "";
+    //Link's display style
     int  DisplayStyle = 0;  // BITS:  0-bold, 1-underline, 2-italic, 3-small, 4-big, 5-red, 6-green, 7-blue
 
-    //UniqueId of target link
-    BookUniqueId = 0;
-    //Link's display name
-    DisplayedText = "";
-    //Link's display style
-    DisplayStyle = 0;
-    //Label within the target book
-    BookInternalLabel = "";
-
     //Validate line
-    if (linkcode.mid(0,6) != "<!--ex")
+    if (linkcode.startsWith("<!--ex"))
         return "";
 
     //Check type
@@ -1078,17 +1073,13 @@ QString ExternalLink (QString linkcode)
         return "";
 
     //Find location of "-->"
-    size_t ptr;
-    ptr = linkcode.indexOf("-->");
+    size_t ptr = linkcode.indexOf("-->");
 
     //Get displayed text
     DisplayedText = linkcode.mid(ptr+3, linkcode.length()-1);
 
-    //Get data
-    //Skip the first 7 chars
-    QString Data = linkcode.mid(7);
-    //Cut of the lenth of the displayed text and the "-->"
-    Data = Data.mid(0, Data.length() -(DisplayedText.length()) -3 );
+    //Get data : skip the first 7 chars - cut of the lenth of the displayed text and the "-->"
+    QString Data = linkcode.mid(7, ptr-4);  //linkcode.mid(0, ptr+3).mid(7);
 
     //Decrypt link, and convert the data to unicode
     QByteArray qba = Decrypt(string(Data.toUtf8()), true).c_str();
@@ -1108,7 +1099,7 @@ QString ExternalLink (QString linkcode)
     if(split_up[1]!="")
     {
         //If part starts with "bm:"
-        if(split_up[1].mid(0,3) == "bm:")
+        if(split_up[1].startsWith("bm:"))
         {
             //Find #
             ptr = split_up[1].indexOf("#");
@@ -1145,10 +1136,7 @@ QString ExternalLink (QString linkcode)
     for (int i=0; i<split_up.size(); i++)
     {
         //Eliminate spaces
-        for (int j=0; j<split_up[i].size(); j++)
-            if (split_up[i][j] == ' ')
-                split_up[i][j] = '_';
-        linkto += split_up[i] + "-";
+        linkto += split_up[i].replace(' ','_') + "-";
     }
 
 

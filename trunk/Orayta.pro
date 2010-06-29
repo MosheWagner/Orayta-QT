@@ -66,6 +66,10 @@ win32 {
     RC_FILE = orayta.rc
 }
 
+
+KDEBASE=`kde-config --prefix`
+KDELIBS=`kde-config --expandvars --install lib`
+KDEINCLUDES=`kde-config --expandvars --install include`
 khtml {
     win32 {
         INCLUDEPATH += C:\KDE\include
@@ -76,7 +80,11 @@ khtml {
         LIBS += -llibkhtml -lkdeui -lkparts -lkdecore
     }
     unix {
-        LIBS += -lkhtml
+       INCLUDEPATH += $KDEBASE/include/kde4 \
+                      $KDEBASE/include
+       LIBS += -L$KDELIBS
+
+       LIBS += -lkhtml -lkdeui -lkparts -lkdecore
     }
 }
 

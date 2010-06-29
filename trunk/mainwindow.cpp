@@ -27,7 +27,9 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
-//TODO: Remove wierd books
+//TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
+
+//TODO: Allow מפרשים to open at book's current position
 
 //TODO: Allow adding custom html books through the program
 
@@ -47,7 +49,7 @@ TODO: KHTML progress bar
 
 //TODO: Add rav kook books
 
-//TODO: Fix עשרת הדיברות's teamim
+//Should עשרת הדיברות's teamim be both at both places?
 
 //TODO: Remove wierd nikud
 
