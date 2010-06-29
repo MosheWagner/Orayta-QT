@@ -330,13 +330,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     html += index_to_index(indexitemlist,mShortIndexLevel);
     html += html_link_table(indexitemlist, mShortIndexLevel , true, mRemoveSuffix[1]!="");
 
-#ifndef KHTML
-    //Save the top of the file
-    QString top = html + "</body></html>";
-    //Write the top of the Html to the header file
-    writetofile(outfile + ".header.html", top, "UTF-8");
-#endif
-
     html += htmlbody;
 
     html += "</div>";
@@ -583,13 +576,6 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
 
     html += index_to_index(indexitemlist,mShortIndexLevel);
     html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
-
-#ifndef KHTML
-    //Save the top of the file
-    QString top = html + "</body></html>";
-    //Write the top of the Html to the header file
-    writetofile(outfilename + ".header.html", top, "UTF-8");
-#endif
 
     html += htmlbody;
 
