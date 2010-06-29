@@ -1234,7 +1234,7 @@
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="../../Luach/Luach.qrc">
             <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
           </attribute>
           <attribute name="title">
@@ -1400,7 +1400,7 @@
                     <string>Save changes</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="../../Luach/Luach.qrc">
                      <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
                    </property>
                   </widget>
@@ -1657,7 +1657,7 @@
   </action>
   <action name="aboutAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../Luach/Luach.qrc">
      <normaloff>:/Icons/help-about.png</normaloff>:/Icons/help-about.png</iconset>
    </property>
    <property name="text">
@@ -1693,7 +1693,7 @@
   </action>
   <action name="printAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../Luach/Luach.qrc">
      <normaloff>:/Icons/document-print.png</normaloff>:/Icons/document-print.png</iconset>
    </property>
    <property name="text">

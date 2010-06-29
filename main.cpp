@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
     if (!translator.load(LANG + ".qm", ".")) translator.load(LANG + ".qm", "/usr/share/Orayta/");
     app.installTranslator( &translator );
 
+    system("pwd");
 
     //Show splash screen:
     QPixmap pixmap(":/Images/Orayta.png");
