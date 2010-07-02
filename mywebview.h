@@ -43,6 +43,7 @@ public:
     QString activeLink();
 
     void execScript(QString script);
+    QString getJSVar(QString var);
 
     QString documentSource();
 public slots:

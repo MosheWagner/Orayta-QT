@@ -147,3 +147,12 @@ QString myWebView::documentSource()
 {
     return page()->mainFrame()->toPlainText();
 }
+
+//Returns the value of given JS variable
+QString myWebView::getJSVar(QString var)
+{
+    QVariant val = page()->mainFrame()->evaluateJavaScript("ReturnValue(" + var + ");");
+
+    //Return the requested var
+    return val.toString();
+}
