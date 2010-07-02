@@ -319,6 +319,15 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
     html += "<body>";
+    /*
+    html += "<body onLoad=\"hideWaitSign();\">";
+    html += "<div id=\"wait\" align=\"center\">";
+    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
+    html += "<img src=\"please_wait.gif\"></img>";
+    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
+    html += "</div>";
+    */
+
 
     html += namepoint("Top");
 
@@ -566,6 +575,14 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
     html += html_head(mNameForTitle);
 
     html += "<body>";
+    /*
+    html += "<body onLoad=\"hideWaitSign();\">";
+    html += "<div id=\"wait\" align=\"center\">";
+    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
+    html += "<img src=\"please_wait.gif\"></img>";
+    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
+    html += "</div>";
+    */
 
     html += namepoint("Top");
 
@@ -625,7 +642,7 @@ QString html_head(QString title)
 
     //Add scripts to the HTML
     t += Script();
-
+    
     t +="\n</head>";
 
     return t;
@@ -885,8 +902,8 @@ QString Script()
 
 
     str += "var zoom = 1.0;\n";
-    str += "function ScrollToElement(theElement){\n";
-    str += "\n";
+    str += "function ScrollToElement(theElement)\n";
+    str += "{\n";
     str += "    var selectedPosX = 0;\n";
     str += "    var selectedPosY = 0;\n";
     str += "\n";
@@ -899,6 +916,42 @@ QString Script()
     str += "    window.scrollTo(selectedPosX , selectedPosY);\n";
     str += "}\n";
 
+    str += "function ReturnValue(varname)\n";
+    str += "{\n";
+    str += "    return varname;";
+    str += "}\n";
+
+    /*
+    str += "function hideWaitSign()\n";
+    str += "{\n";
+    str += "    document.getElementById('wait').style.display='none';\n";
+    str += "}\n";
+    ///////////////////////////////
+    //////////@@@@@@@@@@@@@@@############$$$$$$$$$$$$$$$$$$
+    */
+
+    str +="function ClosestElementToView(){\n";
+    str +="\n";
+    str +="    var closest = null;";
+    str +="    var closestoffset = -1 * window.innerHeight;";
+
+    str +="    var i = 0;";
+    str +="    var obj = document.getElementById(\"id_\" + i);\n";
+    str +="    while(obj)\n";
+    str +="    {\n";
+    str +="         var offset = obj.offsetTop - window.pageYOffset;";
+    str +="         if (offset > closestoffset && offset < 5)\n";
+    str +="         {\n";
+    str +="             closestoffset = offset;";
+    str +="             closest = obj;";
+    str +="         }\n";
+
+    str +="         i++;\n";
+    str +="         var id = \"id_\" + i;";
+    str +="         var obj = document.getElementById(id);\n";
+    str +="    }\n";
+    str +="    return closest;";
+    str +="}\n";
 
 
     str +="function paintById(id)\n";

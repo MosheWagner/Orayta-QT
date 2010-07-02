@@ -17,6 +17,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <dom/dom_node.h>
+
 #include <QTextStream>
 #include <QIcon>
 #include <QUrl>

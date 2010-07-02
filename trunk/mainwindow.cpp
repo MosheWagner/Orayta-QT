@@ -27,9 +27,13 @@ TODO: KHTML progress bar
     http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
 */
 
-//TODO: Finsh up funny "loading" message
+//TODO: Add 'getJSVar' for webkit
 
-//TODO: Change tab title when setHtml used...
+//TODO: BUG!!! Full word search fails on pasuk beggining
+
+//TODO: FIXME: RegExp search fails because of nikud. Shouldn't nikud just allways be ignored?
+
+//TODO: Finsh up funny "loading" message
 
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
 
@@ -206,6 +210,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         }
     print (c);
      --------------------------- */
+
 }
 
 //Switch GUI direction to RTL
@@ -433,9 +438,7 @@ void MainWindow::LoadBook(Book *book, QString markString)
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), book->getNormallDisplayName() + ": <br> הספר בטעינה..."));
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
-
     gHtmlCnt ++;
 
     //Check if the file renders OK
@@ -880,6 +883,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
     int results = 0;
     QList <QString> text;
 
+
     if ( regexp.pattern() != "" )
     {
         ui->progressBar->show();
@@ -945,8 +949,12 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
                             thisline.replace( QRegExp("<[^>]*>"), "" );
                             thisline = removeTeamim(thisline);
 
+                            //////////////////
+                            thisline = removeNikud(thisline);
+
                             //Find if the search phrase appears is in this line (after omitting html tags)
                             int pos = thisline.indexOf (regexp);
+
                             while (pos < thisline.length() && pos!= -1 && (results <= RESULTS_MAX))
                             {
                                 results ++;
@@ -1896,10 +1904,30 @@ void MainWindow::on_changeLangButton_clicked()
 }
 
 
+
 void MainWindow::on_openMixed_clicked()
 {
     int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1) openBook(ind);
+    if (ind != -1)
+    {
+        //Reopen at current position, if exists
+
+        //TODO: If active part is in view, use it instead
+
+        //If it's the same book:
+        if (gBookList.FindBookById(gWebViewList[CURRENT_TAB]->book()->getUniqueId()) == ind)
+        {
+            QString script = "var obj = ClosestElementToView();";
+            gWebViewList[CURRENT_TAB]->execScript(script);
+            QString closest = gWebViewList[CURRENT_TAB]->getJSVar("obj.href");
+
+            QString link = closest.mid(closest.indexOf("$")+1);
+
+            if (link != "") gInternalLocationInHtml = "#" + link;
+        }
+
+        openBook(ind);
+    }
 }
 
 void MainWindow::on_showaloneCBX_clicked(bool checked)
