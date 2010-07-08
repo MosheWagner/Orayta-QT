@@ -63,9 +63,6 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     stackedWidget->show();
     vbox->addWidget(stackedWidget);
 
-    stackedWidget->setCurrentIndex(1);
-    
-
 
     setHtml(simpleHtmlPage(tr("Orayta"), ""));
 }
@@ -107,7 +104,7 @@ void bookDisplayer::htmlView_loadFinished(bool)
 
     }
 
-    //stackedWidget->setCurrentIndex(0);
+    stackedWidget->setCurrentIndex(0);
 
     //Return cusror to normal
     QApplication::restoreOverrideCursor();
