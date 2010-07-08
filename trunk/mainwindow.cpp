@@ -19,8 +19,9 @@
 ///////////////////////////////////
 ///////UNSTABLE!!! DO NOT USE TILL FIXED!!!
 
+//Comment and clean this whle new mess!!!
 
-//Regression: Comments don't really eork now
+//Regression: Comments don't really work now
 
 
 /*
