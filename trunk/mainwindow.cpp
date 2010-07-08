@@ -16,18 +16,33 @@
 
 #include "mainwindow.h"
 
-/* KHTML TODOs:
-TODO: Finish up KHTML:
-    TODO: See what about windows
-    TODO: BUG: KHTML anchores miss when zoomed in
+///////////////////////////////////
+///////UNSTABLE!!! DO NOT USE TILL FIXED!!!
 
 
-TODO: KHTML progress bar
-    http://api.kde.org/3.5-api/kdelibs-apidocs/kparts/html/classKParts_1_1ReadOnlyPart.html#a2d8af6ecaf7d70e2670af6420fee7af3
-    http://api.kde.org/3.5-api/kdelibs-apidocs/kio/html/classKIO_1_1Job.html#a9727943a6d95ebf8fdccdf8a9c022509
+//Regression: Comments don't really eork now
+
+
+/*
+  Roadmap for 0.02:
+
+  - Make every book a seperate object with it's own thread and everything.
+
+  - Put the settings tab in a form instead
+
+  - Put search-in-books in a tab, and leave on top a button allowing to search in current book (like firefox?)
+
+  - Improve all search stuff (including better result page. using side bar?)
+  
+  - Solve all book issues (wierd nikud, a few books that render incorrectly, better book names in tree)
+
+  - Add import books menu, including a "get from hebrewbooks" option
+  
+  - PDF support
 */
 
-//TODO: Add 'getJSVar' for webkit
+
+//TODO: BUG: KHTML anchores miss when zoomed in
 
 //TODO: BUG!!! Full word search fails on pasuk beggining
 
@@ -80,23 +95,17 @@ TODO: KHTML progress bar
 //  It just made the code much more readable, I couldn't resist
 # define CURRENT_TAB ui->viewTab->currentIndex()
 
+#define CurrentBook gBookDisplayerList[CURRENT_TAB]
+
 //Gloabals:
 
 //Gloabal BookList
 BookList gBookList;
 
-//Global webview and hbox vector
 
-#ifndef KHTML
-vector<myWebView *> gWebViewList;
-#else
-vector<KHTMLWidget *> gWebViewList;
-#endif
 
-vector<QVBoxLayout *> gVboxList;
+QList <bookDisplayer *> gBookDisplayerList;
 
-int gHtmlCnt = 0;
-QString gInternalLocationInHtml = "";
 
 //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
 QStringList gLangs, gLangsDisplay;
@@ -128,7 +137,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->viewTab->removeTab(0);
     //Now add a good one:
     addViewTab(false);
-
     //Set window title:
     setWindowTitle(tr("Orayta"));
 
@@ -162,7 +170,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else
     {
-        gWebViewList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
+        gBookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
@@ -280,12 +288,19 @@ void MainWindow::connectMenuActions()
 MainWindow::~MainWindow()
 {
     //Remove all html tmp files created
+    QDir dir(TMPPATH);
+    QStringList list = dir.entryList(QStringList("*.html"));
+
     QFile f;
-    for (int i=0; i <= gHtmlCnt; i++) f.remove(TMPPATH + "Orayta" + stringify(i) + ".html");
+    for (int i=0; i<list.size(); i++)
+    {
+        f.remove(dir.absoluteFilePath(list[i]));
+    }
 
     //TODO: Don't I need to free all the items?
-    gWebViewList.clear();
-    gVboxList.clear();
+    for (int i=0; i<gBookDisplayerList.size(); i++) { delete gBookDisplayerList[i]; }
+    gBookDisplayerList.clear();
+
     delete ui;
 }
 
@@ -433,27 +448,43 @@ void MainWindow::LoadBook(Book *book, QString markString)
     ui->progressBar->show();
     ui->progressBar->setValue(10);
 
-    bool shownikud = gWebViewList[CURRENT_TAB]->ShowNikud;
-    bool showteamim = gWebViewList[CURRENT_TAB]->ShowTeamim;
+    bool shownikud = CurrentBook->isNikudShown();
+    bool showteamim = CurrentBook->areTeamimShown();
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    //////@@@@@@@@@@@@@@@@@@@@@@@@
+    //////@@@@@@@@@@@@@@@@@@@@@@@@ QApplication::setOverrideCursor(Qt::WaitCursor);
 
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
-    gHtmlCnt ++;
+
+    //////@@@@@@@@@@@@@@@@@@@@@@@@
+    //////@@@@@@@@@@@@@@@@@@@@@@@@
+    ///gHtmlCnt ++;
 
     //Check if the file renders OK
-    if (book->htmlrender(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html", shownikud, showteamim, markString))
+
+
+    //Generate filename representing this file and commentreis that should open
+
+    //Create a string representing the commenteries state
+    QString CommenteriesMagicString = "-";
+    for (int i=1; i<book->mWeavedSources.size(); i++) CommenteriesMagicString += stringify(book->mWeavedSources[i].show);
+
+    if (book->showAlone || book->mWeavedSources.size() == 0) CommenteriesMagicString = "";
+
+    QString htmlfilename = TMPPATH + stringify(book->getUniqueId()) + CommenteriesMagicString + ".html";
+
+    //Check if file already exists. If not, amke sure it renders ok.
+    QFile f(htmlfilename);
+    bool ok = true;
+    if (!f.exists()) ok = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+
+    if (ok)
     {
-        if(gInternalLocationInHtml == "")
-        {
-            gWebViewList[CURRENT_TAB]->load(QUrl(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html"));
-        }
-        else
-        {
-            QString p =  absPath(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html" + gInternalLocationInHtml);
-            gWebViewList[CURRENT_TAB]->load(QUrl(p));
-        }
-        gWebViewList[CURRENT_TAB]->setBook(book);
+        QString p =  absPath(htmlfilename);
+
+        CurrentBook->load(QUrl(p));
+
+        CurrentBook->setBook(book);
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -479,45 +510,6 @@ void MainWindow::LoadBook(Book *book, QString markString)
     ui->showTeamimAction->setVisible( book->hasTeamim );
 }
 
-//Signall omitted when the webView finishes loading a file
-#ifdef KHTML
-void MainWindow::webView_loadFinished()
-{
-    if (gWebViewList[CURRENT_TAB]->url().toString() == "") return;
-#else
-void MainWindow::webView_loadFinished(bool)
-{
-#endif
-
-    //change the tabs title from "Loading..." to the book's title
-    ui->viewTab->setTabText(CURRENT_TAB, gWebViewList[CURRENT_TAB]->title());
-
-    //Hide the progressbar
-    ui->progressBar->hide();
-
-
-    if ( gInternalLocationInHtml != "")
-    {
-        //Mark location as "active"
-        QString script = "paintByHref(\"" + gInternalLocationInHtml.replace("#", "$") + "\");";
-
-        gWebViewList[CURRENT_TAB]->execScript(script);
-
-        gInternalLocationInHtml="";
-
-#ifndef KHTML
-        //Scroll up in the page a bit
-        if ( gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarMaximum(Qt::Vertical) != gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) )
-        {
-            gWebViewList[CURRENT_TAB]->page()->mainFrame()->setScrollBarValue(Qt::Vertical, gWebViewList[CURRENT_TAB]->page()->mainFrame()->scrollBarValue(Qt::Vertical) - 70);
-        }
-#endif
-    }
-
-    //Return cusror to normal
-    QApplication::restoreOverrideCursor();
-}
-
 void MainWindow::webView_loadProgress (int progress)
 {
     ui->progressBar->setValue(progress);
@@ -525,160 +517,12 @@ void MainWindow::webView_loadProgress (int progress)
 
 void MainWindow::webView_loadStarted()
 {
+    ///////////////////////////////
+    ///////@@@@@@@@@@@@@@@@@@@@@@
+    //CurrentBook->hide();
     ui->progressBar->setValue(0);
 }
 
-
-QString last = "";
-
-//Omitted when a link was clicked in the webView
-void MainWindow::webView_linkClicked(QUrl url)
-{
-    QString link = QString(url.path());
-
-#ifdef KHTML
-    //Yuck!!! Disgusting!!!
-    if (link == last)
-    {
-        last = "";
-        return;
-    }
-    last = link;
-#endif
-
-    //Not actually a link. A menu should open here
-    if(link.indexOf("$") != -1 )
-    {
-        //Find book's id and add it to the link
-        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
-
-        int p = link.indexOf("$");
-        link = stringify(id) + ":" + link.mid(p+1);
-
-#ifdef KHTML
-        QMenu menu(gWebViewList[CURRENT_TAB]->getQWidget());
-#else
-        QMenu menu(gWebViewList[CURRENT_TAB]);
-#endif
-        QAction *mark = new QAction(tr("Add bookmark here..."), &menu);
-
-        mark->setIcon(QIcon(":/Icons/bookmarks.png"));
-        menu.addAction(mark);
-
-        QSignalMapper *signalMapper = new QSignalMapper(this);
-
-        signalMapper->setMapping(mark, QString(link));
-        connect(mark, SIGNAL(triggered()), signalMapper, SLOT (map()));
-        connect(signalMapper, SIGNAL(mapped(const QString &)), this, SLOT(bookMarkPosition(QString)));
-
-        QAction *comment = new QAction(tr("Add/edit comment..."), &menu);
-
-        menu.addAction(comment);
-        comment->setIcon(QIcon(":/Icons/edit.png"));
-
-        QSignalMapper *csignalMapper = new QSignalMapper(this);
-        csignalMapper->setMapping(comment, QString(link));
-        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
-
-        menu.setLayoutDirection(Qt::RightToLeft);
-
-        //Open the menu to the left of the cursor's position
-        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-        menu.exec(pos);
-
-        delete signalMapper;
-        delete csignalMapper;
-    }
-    //A comment clicked. A menu should open here too
-    else if(link.indexOf("*") != -1 )
-    {
-        //Find book's id and add it to the link
-        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
-
-        int p = link.indexOf("*");
-        link = stringify(id) + ":" + link.mid(p+1);
-
-
-        QMenu menu(ui->treeWidget);
-
-        QSignalMapper *signalMapper = new QSignalMapper(this);
-
-        QAction *comment = new QAction(tr("Edit comment..."), &menu);
-
-        comment->setIcon(QIcon(":/Icons/edit.png"));
-        menu.addAction(comment);
-
-        QSignalMapper *csignalMapper = new QSignalMapper(this);
-        csignalMapper->setMapping(comment, QString(link));
-        connect(comment, SIGNAL(triggered()), csignalMapper, SLOT (map()));
-        connect(csignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(openCommentDialog(QString)));
-
-
-        QAction *delcomment = new QAction(tr("Delete comment"), &menu);
-        delcomment->setIcon(QIcon(":/Icons/edit-delete.png"));
-        menu.addAction(delcomment);
-
-        QSignalMapper *dcsignalMapper = new QSignalMapper(this);
-        dcsignalMapper->setMapping(delcomment, QString(link));
-        connect(delcomment, SIGNAL(triggered()), dcsignalMapper, SLOT (map()));
-        connect(dcsignalMapper, SIGNAL(mapped(const QString &)), this, SLOT(removeComment(QString)));
-
-        menu.setLayoutDirection(Qt::RightToLeft);
-
-        //Open the menu to the left of the cursor's position
-        QPoint pos = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-        menu.exec(pos);
-
-        delete signalMapper;
-        delete csignalMapper;
-        delete dcsignalMapper;
-    }
-
-    //External book link
-    else if(link.indexOf("!") != -1 )
-    {
-        int pos = link.indexOf("!");
-
-        QString lnk = "";
-        lnk = link.mid(pos+1);
-
-        QStringList parts = lnk.split(":");
-
-        int id;
-        if(ToNum(parts[0], &id))
-        {
-            int index = gBookList.FindBookById(id);
-            if( index != -1)
-            {
-                gInternalLocationInHtml = "#" + parts[1];
-
-                //Add a new tab and open the link there
-                addViewTab(false);
-                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-                ///%%%%%%%%%
-                if (parts.size() == 3)
-                {
-                    LoadBook(gBookList[index], parts[2]);
-                }
-                else
-                    LoadBook(gBookList[index]);
-            }
-        }
-    }
-    //Link to website
-    else if(link.indexOf("^") != -1 )
-    {
-        int pos = link.indexOf("^");
-
-        QString lnk = "";
-        lnk = link.mid(pos+1);
-
-        //Open using browser
-        QDesktopServices::openUrl("http://" + lnk);
-    }
-}
 
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
@@ -699,7 +543,7 @@ void MainWindow::openBook( int ind )
             //If the filename ends with ".html", load it as is, without rendering
             if((gBookList[ind]->getPath().right(5) == ".html") || (gBookList[ind]->getPath().right(4) == ".htm"))
             {
-                gWebViewList[CURRENT_TAB]->load( QUrl( gBookList[ind]->getPath()));
+                CurrentBook->load( QUrl( gBookList[ind]->getPath()));
             }
             else
             {
@@ -735,46 +579,16 @@ void MainWindow::on_newTabButton_clicked()
 void MainWindow::addViewTab(bool empty)
 {
     //Create new tab:
-    QWidget *tab = new QWidget();
-    ui->viewTab->addTab(tab, tr("Orayta"));
 
-    //Create new webview
-#ifdef KHTML
-    KHTMLWidget *newview = new KHTMLWidget(this);
-#else
-    myWebView *newview = new myWebView();
-#endif
+    bookDisplayer * bd = new bookDisplayer(this, ui->viewTab);
 
-    gWebViewList.push_back(newview);
+    gBookDisplayerList << bd;
 
-    //Connect the signalls sent from the new widgets to their slots
-    QObject::connect(newview, SIGNAL(LinkClicked(QUrl)), this , SLOT(webView_linkClicked(QUrl)));
-#ifdef KHTML
-    QObject::connect(newview, SIGNAL(completed()), this , SLOT(webView_loadFinished()));
-#else
-    //QObject::connect(newview, SIGNAL(started(KIO::Job*)), this , SLOT(webView_loadStarted(KIO::Job*)));
-    QObject::connect(newview, SIGNAL(loadFinished(bool)), this , SLOT(webView_loadFinished(bool)));
-    QObject::connect(newview, SIGNAL(loadStarted()), this , SLOT(webView_loadStarted()));
-    QObject::connect(newview, SIGNAL(loadProgress (int)), this , SLOT(webView_loadProgress(int)));
+    ui->viewTab->addTab(bd, tr("Orayta"));
 
-    //Prevent context menus. If needed, they will be created manually
-    newview->setContextMenuPolicy(Qt::PreventContextMenu);
+    //bd->show();
 
-    //The myWebView class will handle all link, but will emit "LinkMenu" when one should be shown
-    newview->page()->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
-#endif
-
-    //Create new hbox
-    QVBoxLayout *vbox = new QVBoxLayout(tab);
-    gVboxList.push_back(vbox);
-#ifdef KHTML
-    vbox->addWidget(newview->getQWidget());
-#else
-    vbox->addWidget(newview);
-#endif
-    vbox->setMargin(0);
-
-    if (empty == true) newview->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+    if (empty == true) bd->setHtml(simpleHtmlPage(tr("Orayta"), ""));
     ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
     //Switch to the new tab
@@ -833,14 +647,14 @@ void MainWindow::on_removeAllFromSearchButton_clicked()
 
 void MainWindow::on_zoominButton_clicked()
 {
-    gWebViewList[CURRENT_TAB]->setTextSizeMultiplier(gWebViewList[CURRENT_TAB]->textSizeMultiplier() + 0.1);
+    CurrentBook->setTextSizeMultiplier(CurrentBook->textSizeMultiplier() + 0.1);
 }
 
 void MainWindow::on_zoomoutButton_clicked()
 {
-    if (gWebViewList[CURRENT_TAB]->textSizeMultiplier() > 0.1)
+    if (CurrentBook->textSizeMultiplier() > 0.1)
     {
-        gWebViewList[CURRENT_TAB]->setTextSizeMultiplier(gWebViewList[CURRENT_TAB]->textSizeMultiplier() - 0.1);
+        CurrentBook->setTextSizeMultiplier(CurrentBook->textSizeMultiplier() - 0.1);
     }
 }
 
@@ -848,7 +662,7 @@ void MainWindow::on_zoomoutButton_clicked()
 void MainWindow::on_topButton_clicked()
 {
     //Jump to the top of the page using javascript
-    gWebViewList[CURRENT_TAB]->execScript("window.scrollTo(0, 0)");
+    CurrentBook->execScript("window.scrollTo(0, 0)");
 }
 
 
@@ -894,8 +708,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
         {
             addViewTab(false);
-            gWebViewList[CURRENT_TAB]->setTextSizeMultiplier(1);
-            gWebViewList[CURRENT_TAB]->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            CurrentBook->setTextSizeMultiplier(1);
+            CurrentBook->setHtml(simpleHtmlPage(tr("Orayta"), ""));
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
 
@@ -1078,21 +892,25 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Html += "</span></div>\n";
         Html += "\n</body>\n</html>";
 
-        gHtmlCnt ++;
-        writetofile(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html", Html, "UTF-8");
+        //////@@@@@@@@@@@@@@@@@@@@@@@@
+        //////@@@@@@@@@@@@@@@@@@@@@@@@gHtmlCnt ++;
 
-        gWebViewList[CURRENT_TAB]->load(QUrl(TMPPATH + "Orayta" + stringify(gHtmlCnt) + ".html"));
+        //TODO: Serch results are special books
+        writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
+
+        CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
     }
 }
 
-
+/*
+  ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
 void MainWindow::on_lineEdit_textChanged(QString text)
 {
 #ifdef KHTML
-    gWebViewList[ui->viewTab->currentIndex()]->buildSearch(text);
+    CurrentBook->buildSearch(text);
 #endif
 }
-
+*/
 
 QString lastSearch = "";
 
@@ -1106,18 +924,14 @@ void MainWindow::on_searchForward_clicked()
     //BEWARE: Amaizingly ugly hack! Watch out!
 
     //Mark current cursor position using JS, grab the Html, and hide the marking
-    gWebViewList[CURRENT_TAB]->execScript("markCursorPos();");
+    CurrentBook->execScript("markCursorPos();");
 
-#ifdef KHTML
-    QString text = gWebViewList[ui->viewTab->currentIndex()]->document().toString().string();
-#else
-    QString text = gWebViewList[ui->viewTab->currentIndex()]->page()->mainFrame()->toPlainText();
-#endif
+    QString text = CurrentBook->htmlSource();
 
     int ppp = text.indexOf("**|*|**");
 
     //Hide the marking in the html
-    gWebViewList[CURRENT_TAB]->execScript("unMarkCursorPos();");
+    CurrentBook->execScript("unMarkCursorPos();");
 
     //Search only in the text after the cursor's position
     if (ppp != -1) text = text.mid(ppp + 7 + 1);
@@ -1131,16 +945,19 @@ void MainWindow::on_searchForward_clicked()
         next = regexp.cap(0);
     }
 
+    /*
+      ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
 #ifdef KHTML
-    if (next != lastSearch) gWebViewList[ui->viewTab->currentIndex()]->buildSearch (next);
+    if (next != lastSearch) CurrentBook->buildSearch (next);
     lastSearch = next;
 
     //Now make the webview search for that normally
-    gWebViewList[ui->viewTab->currentIndex()]->searchText(false);
+    CurrentBook->searchText(false);
 #else
     //Now make the webview search for that normally
-    if (next != "") gWebViewList[ui->viewTab->currentIndex()]->findText(next,0);
+    if (next != "") CurrentBook->findText(next,0);
 #endif
+    */
 }
 
 void MainWindow::on_searchBackwords_clicked()
@@ -1150,19 +967,16 @@ void MainWindow::on_searchBackwords_clicked()
     //BEWARE: Amaizingly ugly hack! Watch out!
 
     //Mark current cursor position using JS, grab the Html, and hide the marking
-    gWebViewList[CURRENT_TAB]->execScript("markCursorPos();");
+    CurrentBook->execScript("markCursorPos();");
 
-#ifdef KHTML
-    QString text = gWebViewList[ui->viewTab->currentIndex()]->document().toString().string();
-#else
-    QString text = gWebViewList[ui->viewTab->currentIndex()]->page()->mainFrame()->toPlainText();
-#endif
+    QString text = CurrentBook->htmlSource();
+
 
     int ppp = text.indexOf("**|*|**");
     int ppb = text.indexOf("</SCRIPT");
 
     //Hide the marking in the html
-    gWebViewList[CURRENT_TAB]->execScript("unMarkCursorPos();");
+    CurrentBook->execScript("unMarkCursorPos();");
 
     //Search only in the text before the cursor's position
     if (ppp != -1) text = text.mid(ppb, ppp - 1 - ppb);
@@ -1178,16 +992,19 @@ void MainWindow::on_searchBackwords_clicked()
     }
     else return;
 
+    /*
+      ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
 #ifdef KHTML
-    if (last != lastSearch) gWebViewList[ui->viewTab->currentIndex()]->buildSearch (last);
+    if (last != lastSearch) CurrentBook->buildSearch (last);
     lastSearch = last;
 
     //Now make the webview search for that normally
-    gWebViewList[ui->viewTab->currentIndex()]->searchText(true);
+    CurrentBook->searchText(true);
 #else
     //Now make the webview search for that normally
-    if (last != "") gWebViewList[ui->viewTab->currentIndex()]->findText(last,QWebPage::FindBackward);
+    if (last != "") CurrentBook->findText(last,QWebPage::FindBackward);
 #endif
+    */
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -1301,12 +1118,14 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
         {
 #ifndef KHTML
             //Call the copy function of the current webView
-            gWebViewList[ui->viewTab->currentIndex()]->triggerPageAction(QWebPage::Copy);
+            ////////////@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //CurrentBook->triggerPageAction(QWebPage::Copy);
 #endif
         }
     }
 }
 
+/*
 //Print the current book (all pages I think...)
 void MainWindow::printBook()
 {
@@ -1319,12 +1138,13 @@ void MainWindow::printBook()
         return;
     else
     {
-        gWebViewList[CURRENT_TAB]->print(&printer);
+        CurrentBook->print(&printer);
     }
 #else
-    gWebViewList[CURRENT_TAB]->view()->print();
+    CurrentBook->view()->print();
 #endif
 }
+*/
 
 QString MainWindow::bookMarkTitle(QString lnk)
 {
@@ -1425,11 +1245,11 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
         int index = gBookList.FindBookById(id);
         if( index != -1)
         {
-            gInternalLocationInHtml = "#" + parts[1];
-
             //Add a new tab and open the link there
             addViewTab(false);
             ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+            CurrentBook->setInternalLocation("#" + parts[1]);
             openBook(index);
         }
     }
@@ -1567,10 +1387,10 @@ void MainWindow::on_bookmarkDown_clicked()
 
 void MainWindow::menuBookMark()
 {
-    QString link = gWebViewList[CURRENT_TAB]->activeLink().replace("$","");
+    QString link = CurrentBook->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+    int id = CurrentBook->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     bookMarkPosition( link );
@@ -1639,14 +1459,14 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     if ( comment != "") writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
 
     //Force the webview to clear [seems to be needed only for empty comments]
-    if ( comment == "") gWebViewList[CURRENT_TAB]->setHtml("");
+    if ( comment == "") CurrentBook->setHtml("");
 
     //Re-load the page at the comment's position
     // NOTE: this isn't perfect, but I have nothing better
     int p = link.indexOf(":");
     int uid;
     ToNum(link.mid(0,p), &uid);
-    gInternalLocationInHtml = "#" + link.mid(p+1);
+    CurrentBook->setInternalLocation("#" + link.mid(p+1));
 
     int id = gBookList.FindBookById(uid);
     openBook(id);
@@ -1661,10 +1481,10 @@ void MainWindow::removeComment(QString link)
 
 void MainWindow::menuComment()
 {
-    QString link = gWebViewList[CURRENT_TAB]->activeLink().replace("$","");
+    QString link = CurrentBook->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+    int id = CurrentBook->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     openCommentDialog( link );
@@ -1672,6 +1492,10 @@ void MainWindow::menuComment()
 
 void MainWindow::about()
 {
+    //////////
+    //@@@@@@@@@@@@@@@
+    qDebug() << CurrentBook->getJSVar("paintByHref");
+
     About *aboutfrm = new About(this);
 
     aboutfrm->show();
@@ -1684,42 +1508,44 @@ void MainWindow::closeCurrentTab()
 
 void MainWindow::toggleNikud(bool showNikud)
 {
-    gWebViewList[CURRENT_TAB]->ShowNikud = showNikud;
-    LoadBook( gWebViewList[CURRENT_TAB]->book() );
+    CurrentBook->showNikud(showNikud);
+    LoadBook( CurrentBook->book() );
 }
 
 void MainWindow::toggleTeamim(bool showTeamim)
 {
-    gWebViewList[CURRENT_TAB]->ShowTeamim = showTeamim;
-    LoadBook( gWebViewList[CURRENT_TAB]->book() );
+    CurrentBook->showTeamim(showTeamim);
+    LoadBook( CurrentBook->book() );
 }
 
 void MainWindow::on_viewTab_currentChanged(int index)
 {
-    //Show / hide menu options depending on the book:
-    if ( gWebViewList.size() > index)
+    if (index != -1)
     {
-        if ( gWebViewList[index]->book() != NULL )
+        //Show / hide menu options depending on the book:
+        if ( gBookDisplayerList.size() > index && gBookDisplayerList.size() > 0)
         {
-            //Show / Hide nikud and teamim buttons
-            ui->showNikudAction->setVisible( gWebViewList[index]->book()->hasNikud );
-            ui->showTeamimAction->setVisible( gWebViewList[index]->book()->hasTeamim );
+            if ( gBookDisplayerList[index]->book() != NULL )
+            {
+                //Show / Hide nikud and teamim buttons
+                ui->showNikudAction->setVisible( gBookDisplayerList[index]->book()->hasNikud );
+                ui->showTeamimAction->setVisible( gBookDisplayerList[index]->book()->hasTeamim );
+            }
+
+            //Disable / Enable them by what's displayed
+            ui->showNikudAction->setChecked( gBookDisplayerList[index]->isNikudShown() );
+            ui->showTeamimAction->setChecked( gBookDisplayerList[index]->areTeamimShown() );
         }
-
-        //Disable / Enable them by what's displayed
-        ui->showNikudAction->setChecked( gWebViewList[index]->ShowNikud );
-        ui->showTeamimAction->setChecked( gWebViewList[index]->ShowTeamim );
     }
-
 }
 
 void MainWindow::menuErrorReport()
 {
-    QString link = gWebViewList[CURRENT_TAB]->activeLink().replace("$","");
+    QString link = CurrentBook->activeLink().replace("$","");
 
     if (link != "")
     {
-        int id = gWebViewList[CURRENT_TAB]->book()->getUniqueId();
+        int id = CurrentBook->book()->getUniqueId();
         int index = gBookList.FindBookById(id);
 
         errorReport *err = new errorReport( this, link, gBookList[index]->getNormallDisplayName() );
@@ -1867,11 +1693,8 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
     if (ui->viewTab->count() > 1)
     {
-        gWebViewList[index]->deleteLater();
-
-        //Erase it's web view and hbox
-        gWebViewList.erase(gWebViewList.begin() + index);
-        gVboxList.erase(gVboxList.begin() + index);
+        gBookDisplayerList[index]->deleteLater();
+        gBookDisplayerList.removeAt(index);
 
         //Destroy tab
         ui->viewTab->widget(index)->layout()->deleteLater();
@@ -1880,12 +1703,12 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     }
     else
     {
-        gWebViewList[index]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
-        ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta - Jewish books"));
+        gBookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
+        ui->viewTab->setTabText(0, tr("Orayta - Jewish books"));
     }
 
     //Update the stupid tab widget
-    on_viewTab_currentChanged(index);
+    on_viewTab_currentChanged(index - 1);
 }
 
 void MainWindow::on_changeLangButton_clicked()
@@ -1915,15 +1738,15 @@ void MainWindow::on_openMixed_clicked()
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if (gBookList.FindBookById(gWebViewList[CURRENT_TAB]->book()->getUniqueId()) == ind)
+        if (gBookList.FindBookById(CurrentBook->book()->getUniqueId()) == ind)
         {
             QString script = "var obj = ClosestElementToView();";
-            gWebViewList[CURRENT_TAB]->execScript(script);
-            QString closest = gWebViewList[CURRENT_TAB]->getJSVar("obj.href");
+            CurrentBook->execScript(script);
+            QString closest = CurrentBook->getJSVar("obj.href");
 
             QString link = closest.mid(closest.indexOf("$")+1);
 
-            if (link != "") gInternalLocationInHtml = "#" + link;
+            if (link != "") CurrentBook->setInternalLocation("#" + link);
         }
 
         openBook(ind);
