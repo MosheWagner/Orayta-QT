@@ -58,8 +58,6 @@ public:
 
     void setBook( Book * );
     Book * book();
-    bool ShowNikud;
-    bool ShowTeamim;
 
     QString activeLink();
     QString title();

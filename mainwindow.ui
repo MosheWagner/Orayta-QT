@@ -487,7 +487,7 @@
          <bool>true</bool>
         </property>
         <property name="movable">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <widget class="QWidget" name="tab1">
          <attribute name="title">
@@ -1257,8 +1257,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>270</width>
-                <height>562</height>
+                <width>222</width>
+                <height>477</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">

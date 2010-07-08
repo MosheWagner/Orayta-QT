@@ -940,7 +940,7 @@ QString Script()
     str +="    while(obj)\n";
     str +="    {\n";
     str +="         var offset = obj.offsetTop - window.pageYOffset;";
-    str +="         if (offset > closestoffset && offset < 5)\n";
+    str +="         if (offset > closestoffset && offset < 10)\n";
     str +="         {\n";
     str +="             closestoffset = offset;";
     str +="             closest = obj;";

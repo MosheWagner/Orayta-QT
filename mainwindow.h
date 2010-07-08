@@ -17,6 +17,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
+#include <QMovie>
 #include <QTextStream>
 #include <QIcon>
 #include <QUrl>
@@ -55,11 +57,7 @@
 #include "searchform.h"
 #include "bookfind.h"
 
-#include "mywebview.h"
-
-#ifdef KHTML
-    #include "khtmlwidget.h"
-#endif
+#include "bookdisplayer.h"
 
 #include "mytreetab.h"
 
@@ -116,7 +114,9 @@ private slots:
     void weavedCheckBoxClicked(int btnIndex);
 
     void on_changeLangButton_clicked();
-    void on_lineEdit_textChanged(QString );
+
+    //////////@@@@@@@@@@@@@@@@22
+    //void on_lineEdit_textChanged(QString );
     void on_viewTab_tabCloseRequested(int index);
 
     void treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*);
@@ -193,16 +193,12 @@ private slots:
 
     void on_newTabButton_clicked();
 
-    void printBook();
+    //////////@@@@@@@@@@@@@@@
+    //void printBook();
 
-    void webView_linkClicked(QUrl url);
     void webView_loadStarted();
     void webView_loadProgress (int progress);
-#ifdef KHTML
-    void webView_loadFinished();
-#else
-    void webView_loadFinished(bool);
-#endif
+
     //void webView_menuOpen(QPoint);
 
     //Called when an item at the treeView is double clicked, and if it's a book, loads it the current tab

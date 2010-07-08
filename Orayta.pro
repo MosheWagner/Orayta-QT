@@ -6,13 +6,9 @@ QT += webkit
 TARGET = Orayta
 TEMPLATE = app
 
-!win32 {
-    CONFIG += khtml
-}
+!win32:CONFIG += khtml
+khtml:DEFINES += KHTML
 
-khtml {
-    DEFINES += KHTML
-}
 
 SOURCES += main.cpp \
     mainwindow.cpp \
@@ -28,12 +24,10 @@ SOURCES += main.cpp \
     about.cpp \
     errorreport.cpp \
     searchform.cpp \
-    bookfind.cpp
+    bookfind.cpp \
+    bookdisplayer.cpp
 
-khtml {
-    SOURCES += khtmlwidget.cpp
-}
-
+khtml:SOURCES += khtmlwidget.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -47,12 +41,10 @@ HEADERS += htmlgen.h \
     about.h \
     errorreport.h \
     searchform.h \
-    bookfind.h
+    bookfind.h \
+    bookdisplayer.h
 
-khtml {
-    HEADERS += khtmlwidget.h
-}
-
+khtml:HEADERS += khtmlwidget.h
 FORMS += mainwindow.ui \
     addcomment.ui \
     bookmarktitle.ui \
@@ -61,37 +53,35 @@ FORMS += mainwindow.ui \
     searchform.ui \
     bookfind.ui
 RESOURCES += Orayta.qrc
+win32:RC_FILE = orayta.rc
 
-win32 {
-    RC_FILE = orayta.rc
-}
+KDEBASE=$$system("kde-config --prefix")
+KDELIBS=$$system("kde-config --expandvars --install lib")
 
-
-KDEBASE=`kde-config --prefix`
-KDELIBS=`kde-config --expandvars --install lib`
-KDEINCLUDES=`kde-config --expandvars --install include`
-khtml {
-    win32 {
+khtml { 
+    win32 { 
         INCLUDEPATH += C:\KDE\include
         INCLUDEPATH += C:\KDE\include\KDE
-
         LIBS += -LC:\KDE\lib
         LIBS += -LC:\KDE\lib\kde4
-        LIBS += -llibkhtml -lkdeui -lkparts -lkdecore
+        LIBS += -llibkhtml \
+            -lkdeui \
+            -lkparts \
+            -lkdecore
     }
-    unix {
-       INCLUDEPATH += $KDEBASE/include/kde4 \
-                      $KDEBASE/include
-       LIBS += -L$KDELIBS
-
-       LIBS += -lkhtml -lkdeui -lkparts -lkdecore
+    unix { 
+        INCLUDEPATH += $$KDEBASE/include/kde4 $$KDEBASE/include
+        LIBS += -L$$KDELIBS
+        LIBS += -lkhtml \
+            -lkdeui \
+            -lkparts \
+            -lkdecore
     }
 }
-
 
 
 TRANSLATIONS = Hebrew.ts \
-               French.ts
+    French.ts
 
 # Install binary
 target.path = /usr/bin
@@ -115,7 +105,6 @@ menu.files = Orayta.desktop
 # Install translation
 trans.path = /usr/share/Orayta/
 trans.files = Hebrew.qm
-
 INSTALLS += target
 INSTALLS += books
 INSTALLS += icon

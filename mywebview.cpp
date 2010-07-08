@@ -16,12 +16,9 @@
 
 #include "mywebview.h"
 
-myWebView::myWebView()
+myWebView::myWebView(QWidget * parent)
 {
-    ShowNikud = true;
-    ShowTeamim = true;
-
-    myBook = NULL;
+    setParent(parent);
 
     //Holds currently selected link
     mActiveLink = "";
@@ -99,6 +96,7 @@ void myWebView::mouseReleaseEvent(QMouseEvent *event)
 
 }
 
+QString myWebView::activeLink() { return mActiveLink; }
 
 void myWebView::keyPressEvent( QKeyEvent *keyEvent )
 {
@@ -129,19 +127,10 @@ void myWebView::setTextSizeMultiplier(qreal factor)
     QApplication::restoreOverrideCursor();
 }
 
-void myWebView::setBook( Book * book)
-{
-    myBook = book;
-}
-
 void myWebView::rememberActiveLink(QString message)
 {
     mActiveLink = message;
 }
-
-QString myWebView::activeLink() { return mActiveLink; }
-
-Book * myWebView::book() { return myBook; }
 
 QString myWebView::documentSource()
 {

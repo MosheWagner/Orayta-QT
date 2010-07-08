@@ -19,8 +19,6 @@
 KHTMLWidget::KHTMLWidget(QWidget *parent) : KHTMLPart(parent)
 {
     m_Multiplier = 1.0;
-    ShowNikud = true;
-    ShowTeamim = true;
 
     myBook = NULL;
 
@@ -186,7 +184,6 @@ void KHTMLWidget::load(QUrl url)
     if (!nurl.startsWith("file://")) nurl = "file://" + nurl;
 
     openUrl(KUrl(nurl));
-
 }
 
 void KHTMLWidget::setHtml(QString html)

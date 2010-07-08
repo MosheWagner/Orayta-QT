@@ -33,12 +33,7 @@ class myWebView : public QWebView
     Q_OBJECT
     
 public:
-    myWebView();
-    void setBook( Book * );
-    Book * book();
-
-    bool ShowNikud;
-    bool ShowTeamim;
+    myWebView(QWidget * parent);
 
     QString activeLink();
 
@@ -61,8 +56,6 @@ signals:
     void LinkClicked(QUrl);
 
 private:
-    Book * myBook;
-
     QString mActiveLink;
 
 };
