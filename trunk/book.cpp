@@ -395,3 +395,16 @@ QString Book::confEntry()
 
     return conf;
 }
+
+//Returns the filename that should be used for the book, depending on the shown commentaries
+QString Book::HTMLFileName()
+{
+    QString CommenteriesMagicString = "-"; //QString representing the commenteries state
+    for (int i=1; i<mWeavedSources.size(); i++) CommenteriesMagicString += stringify(mWeavedSources[i].show);
+
+    if (showAlone || mWeavedSources.size() == 0) CommenteriesMagicString = "";
+
+     QString htmlfilename = TMPPATH + stringify(mUniqueId) + CommenteriesMagicString + ".html";
+
+    return htmlfilename;
+}

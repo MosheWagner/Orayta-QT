@@ -125,6 +125,9 @@ public:
     //Icon state of this book (or folder)
     IconState mIconState;
 
+    //Returns the filename that should be used for the book, depending on the shown commentaries
+    QString HTMLFileName();
+
 protected:
 
     QTreeWidgetItem *mpTreeItem;

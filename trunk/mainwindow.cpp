@@ -16,12 +16,8 @@
 
 #include "mainwindow.h"
 
-///////////////////////////////////
-///////UNSTABLE!!! DO NOT USE TILL FIXED!!!
-
-//Comment and clean this whle new mess!!!
-
-//Regression: Comments don't really work now
+//TODO: Defualt all books to not be in the search
+//TODO: Save book's "in search" state from last run
 
 
 /*
@@ -42,14 +38,11 @@
   - PDF support
 */
 
-
-//TODO: BUG: KHTML anchores miss when zoomed in
+//TODO: KHTML search starts from begining when focus lost
 
 //TODO: BUG!!! Full word search fails on pasuk beggining
 
 //TODO: FIXME: RegExp search fails because of nikud. Shouldn't nikud just allways be ignored?
-
-//TODO: Finsh up funny "loading" message
 
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
 
@@ -94,22 +87,13 @@
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 //
 //  It just made the code much more readable, I couldn't resist
-# define CURRENT_TAB ui->viewTab->currentIndex()
+#define CURRENT_TAB ui->viewTab->currentIndex()
 
-#define CurrentBook gBookDisplayerList[CURRENT_TAB]
-
-//Gloabals:
-
-//Gloabal BookList
-BookList gBookList;
+//Another define becuase I'm lasy. "CurrentBook" simply represents
+// the currently visible "bookdisplayer"
+#define CurrentBook bookDisplayerList[CURRENT_TAB]
 
 
-
-QList <bookDisplayer *> gBookDisplayerList;
-
-
-//Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
-QStringList gLangs, gLangsDisplay;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -117,6 +101,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //Setup the GUI
     ui->setupUi(this);
+
+    //Remove all temporary html files the program created
+    ClearTmp();
 
     //Loading confs
     restoreConfs();
@@ -134,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->horizontalLayout->setStretchFactor(ui->viewTab, 80);
     ui->horizontalLayout->setStretchFactor(ui->verticalLayout_9, 20);
 
-    //Close the tab:
+    //Close the default tab:
     ui->viewTab->removeTab(0);
     //Now add a good one:
     addViewTab(false);
@@ -142,9 +129,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setWindowTitle(tr("Orayta"));
 
     //Generate the BookList(s), and put it in the tree
-    gBookList.BuildFromFolder(BOOKPATH);
+    bookList.BuildFromFolder(BOOKPATH);
 
-    if (gBookList.size() == 0)
+    if (bookList.size() == 0)
     {
         QMessageBox msgBox;
         msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
@@ -154,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         exit(2);
     }
 
+    //Insert all the books into the booktree
     BuildBookTree();
 
     //Load mixed display confs
@@ -165,20 +153,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeWidget->setColumnCount(1);
 
     //Load start page. Assuming it's book[0] of course.
-    if (!gBookList[0]->IsDir())
+    if (!bookList[0]->IsDir())
     {
-        LoadBook(gBookList[0]);
+        LoadBook(bookList[0]);
     }
     else
     {
-        gBookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
+        bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
 
-    ui->mixedGroup->hide();
+    ui->progressBar->hide();
 
-    ui->verticalLayout_11->setDirection(QBoxLayout::BottomToTop);
+    ui->mixedGroup->hide();
 
     ui->searchDockWidget->setMaximumHeight(30);
 
@@ -194,18 +182,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connectMenuActions();
 
     //Set available languages
-    gLangs << "Hebrew" << "English" << "French";
-    gLangsDisplay << "עברית" << "English" << "Français";;
+    langs << "Hebrew" << "English" << "French";
+    langsDisplay << "עברית" << "English" << "Français";;
 
     //Show available languages in the language combobox
-    for (int i=0; i<gLangs.size(); i++)
+    for (int i=0; i<langs.size(); i++)
     {
-        ui->langComboBox->addItem(gLangsDisplay[i]);
+        ui->langComboBox->addItem(langsDisplay[i]);
     }
 
     //Show current language
     int is = -1;
-    for (int i=0; i<gLangs.size(); i++) if (LANG == gLangs[i]) is = i;
+    for (int i=0; i<langs.size(); i++) if (LANG == langs[i]) is = i;
     ui->langComboBox->setCurrentIndex(is);
 
     /* -------------------------
@@ -288,7 +276,18 @@ void MainWindow::connectMenuActions()
 
 MainWindow::~MainWindow()
 {
-    //Remove all html tmp files created
+    ClearTmp();
+
+    //TODO: Don't I need to free all the items?
+    for (int i=0; i<bookDisplayerList.size(); i++) { delete bookDisplayerList[i]; }
+    bookDisplayerList.clear();
+
+    delete ui;
+}
+
+//Remove all temporary html files the program created
+void MainWindow::ClearTmp()
+{
     QDir dir(TMPPATH);
     QStringList list = dir.entryList(QStringList("*.html"));
 
@@ -297,12 +296,6 @@ MainWindow::~MainWindow()
     {
         f.remove(dir.absoluteFilePath(list[i]));
     }
-
-    //TODO: Don't I need to free all the items?
-    for (int i=0; i<gBookDisplayerList.size(); i++) { delete gBookDisplayerList[i]; }
-    gBookDisplayerList.clear();
-
-    delete ui;
 }
 
 
@@ -324,15 +317,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.endGroup();
 
 
-    //Save books settings
-    for(int i=0; i<gBookList.size(); i++)
+    //Save books' settings
+    for(int i=0; i<bookList.size(); i++)
     {
-        settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
-            settings.setValue("MixedDisplayes", gBookList[i]->mWeavedSources.size());
-            settings.setValue("ShowAlone", gBookList[i]->showAlone);
-            for (int j=0; j<gBookList[i]->mWeavedSources.size(); j++)
+        settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
+            settings.setValue("MixedDisplayes", bookList[i]->mWeavedSources.size());
+            settings.setValue("ShowAlone", bookList[i]->showAlone);
+            for (int j=0; j<bookList[i]->mWeavedSources.size(); j++)
             {
-                settings.setValue("Shown" + stringify(j), gBookList[i]->mWeavedSources[j].show);
+                settings.setValue("Shown" + stringify(j), bookList[i]->mWeavedSources[j].show);
             }
         settings.endGroup();
     }
@@ -380,14 +373,14 @@ void MainWindow::restoreBookConfs()
     QSettings settings("Orayta", "SingleUser");
 
     //Load books settings
-    for(int i=0; i<gBookList.size(); i++)
+    for(int i=0; i<bookList.size(); i++)
     {
-        settings.beginGroup("Book" + stringify(gBookList[i]->getUniqueId()));
+        settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
             int n = settings.value("MixedDisplayes", 0).toInt();
-            gBookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
+            bookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
             for (int j=0; j<n; j++)
             {
-                gBookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
+                bookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
             }
         settings.endGroup();
     }
@@ -396,20 +389,20 @@ void MainWindow::restoreBookConfs()
 void MainWindow::BuildBookTree()
 {
     //Add treeItems for each book to the treeWidget
-    for(unsigned int i=0;i<gBookList.size();i++)
+    for(unsigned int i=0;i<bookList.size();i++)
     {
-        if (gBookList[i]->IsHidden() != true)
+        if (bookList[i]->IsHidden() != true)
         {
             QTreeWidgetItem *twi;
-            if(gBookList[i]->getParent() == NULL)
+            if(bookList[i]->getParent() == NULL)
                 twi = new QTreeWidgetItem(ui->treeWidget);
             else
-                twi = new QTreeWidgetItem(gBookList[i]->getParent()->getTreeItemPtr());
+                twi = new QTreeWidgetItem(bookList[i]->getParent()->getTreeItemPtr());
 
-            gBookList[i]->setTreeItemPtr(twi);
+            bookList[i]->setTreeItemPtr(twi);
 
             //Just for the sorting...
-            twi->setText(1, gBookList[i]->getName());
+            twi->setText(1, bookList[i]->getName());
 
 
             //Show a checkbox next to the item
@@ -417,21 +410,21 @@ void MainWindow::BuildBookTree()
 
 
             QString dn;
-            if(gBookList[i]->getTreeDisplayName() != "")
-                dn = gBookList[i]->getTreeDisplayName();
-            else if (gBookList[i]->getNormallDisplayName() != "")
-                dn = gBookList[i]->getNormallDisplayName();
+            if(bookList[i]->getTreeDisplayName() != "")
+                dn = bookList[i]->getTreeDisplayName();
+            else if (bookList[i]->getNormallDisplayName() != "")
+                dn = bookList[i]->getNormallDisplayName();
             else
             {
                 vector<QString> name_parts;
-                splittotwo(gBookList[i]->getName(), name_parts, "_");
+                splittotwo(bookList[i]->getName(), name_parts, "_");
                 dn = name_parts[1];
             }
             dn = dn.replace("שס", "ש\"ס");
             twi->setText(0, dn);
 
             //set the icon:
-            QIcon *icon = bookIcon(gBookList[i]->IsDir(), gBookList[i]->isMixed(), BLUE);
+            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->isMixed(), BLUE);
 
             twi->setIcon(0, *icon);
 
@@ -446,40 +439,22 @@ void MainWindow::BuildBookTree()
 //Load the generated Html file of the given book into the WebView widget
 void MainWindow::LoadBook(Book *book, QString markString)
 {
-    ui->progressBar->show();
-    ui->progressBar->setValue(10);
-
     bool shownikud = CurrentBook->isNikudShown();
     bool showteamim = CurrentBook->areTeamimShown();
 
-    //////@@@@@@@@@@@@@@@@@@@@@@@@
-    //////@@@@@@@@@@@@@@@@@@@@@@@@ QApplication::setOverrideCursor(Qt::WaitCursor);
-
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
-
-    //////@@@@@@@@@@@@@@@@@@@@@@@@
-    //////@@@@@@@@@@@@@@@@@@@@@@@@
-    ///gHtmlCnt ++;
-
-    //Check if the file renders OK
 
 
     //Generate filename representing this file and commentreis that should open
+    //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
+    QString htmlfilename = book->HTMLFileName();
 
-    //Create a string representing the commenteries state
-    QString CommenteriesMagicString = "-";
-    for (int i=1; i<book->mWeavedSources.size(); i++) CommenteriesMagicString += stringify(book->mWeavedSources[i].show);
-
-    if (book->showAlone || book->mWeavedSources.size() == 0) CommenteriesMagicString = "";
-
-    QString htmlfilename = TMPPATH + stringify(book->getUniqueId()) + CommenteriesMagicString + ".html";
-
-    //Check if file already exists. If not, amke sure it renders ok.
+    //Check if file already exists. If not, make sure it renders ok.
     QFile f(htmlfilename);
-    bool ok = true;
-    if (!f.exists()) ok = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+    bool renderedOK = true;
+    if (!f.exists()) renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
 
-    if (ok)
+    if (renderedOK == true)
     {
         QString p =  absPath(htmlfilename);
 
@@ -504,51 +479,36 @@ void MainWindow::LoadBook(Book *book, QString markString)
     }
 
     ui->treeWidget->setCurrentItem(book->getTreeItemPtr());
-    //
 
     //Show / Hide nikud and teamim buttons
     ui->showNikudAction->setVisible( book->hasNikud );
     ui->showTeamimAction->setVisible( book->hasTeamim );
 }
 
-void MainWindow::webView_loadProgress (int progress)
-{
-    ui->progressBar->setValue(progress);
-}
-
-void MainWindow::webView_loadStarted()
-{
-    ///////////////////////////////
-    ///////@@@@@@@@@@@@@@@@@@@@@@
-    //CurrentBook->hide();
-    ui->progressBar->setValue(0);
-}
-
-
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
 {
-    int ind = gBookList.FindBookByTWI(item);
+    int ind = bookList.FindBookByTWI(item);
 
     //Open the selected book
-    openBook( ind );
+    openBook(ind);
 }
 
 //Open the given book (by it's id in the booklist)
 void MainWindow::openBook( int ind )
 {
-    if (ind >= 0 && ind < gBookList.size())
+    if (ind >= 0 && ind < bookList.size())
     {
-        if(gBookList[ind]->IsDir() == false)
+        if(bookList[ind]->IsDir() == false)
         {
             //If the filename ends with ".html", load it as is, without rendering
-            if((gBookList[ind]->getPath().right(5) == ".html") || (gBookList[ind]->getPath().right(4) == ".htm"))
+            if((bookList[ind]->getPath().endsWith(".html")) || (bookList[ind]->getPath().endsWith(".htm")))
             {
-                CurrentBook->load( QUrl( gBookList[ind]->getPath()));
+                CurrentBook->load( QUrl( bookList[ind]->getPath()));
             }
             else
             {
-                LoadBook(gBookList[ind]);
+                LoadBook(bookList[ind]);
             }
         }
     }
@@ -557,7 +517,7 @@ void MainWindow::openBook( int ind )
 //Calls "openBook", but uses the currently selected book in the tree
 void MainWindow::openSelectedBook( )
 {
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
+    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
 
     openBook(ind);
 }
@@ -567,7 +527,7 @@ void MainWindow::openSelectedBookInNewTab()
 {
     addViewTab(false);
 
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
+    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
     openBook(ind);
 }
 
@@ -580,21 +540,20 @@ void MainWindow::on_newTabButton_clicked()
 void MainWindow::addViewTab(bool empty)
 {
     //Create new tab:
-
     bookDisplayer * bd = new bookDisplayer(this, ui->viewTab);
-
-    gBookDisplayerList << bd;
-
+    bookDisplayerList << bd;
     ui->viewTab->addTab(bd, tr("Orayta"));
 
-    //bd->show();
-
     if (empty == true) bd->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+
     ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
     //Switch to the new tab
     ui->viewTab->setCurrentIndex(ui->viewTab->count()-1);
+
+    connect(bd, SIGNAL(externalLink(QString)), this, SLOT(openExternalLink(QString)));
 }
+
 
 void MainWindow::on_lineEdit_returnPressed()
 {
@@ -608,9 +567,9 @@ void MainWindow::on_searchButton_clicked()
 
 void MainWindow::addToSearch()
 {
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
+    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1)
-        gBookList[ind]->select();
+        bookList[ind]->select();
 
     ui->addToSearchAction->setEnabled(false);
     ui->removeFromSearchAction->setEnabled(true);
@@ -618,9 +577,9 @@ void MainWindow::addToSearch()
 
 void MainWindow::on_addAllToSearchButton_clicked()
 {
-    for(unsigned int i=0; i<gBookList.size(); i++)
+    for(unsigned int i=0; i<bookList.size(); i++)
     {
-        gBookList[i]->select();
+        bookList[i]->select();
     }
 
     ui->addToSearchAction->setEnabled(false);
@@ -629,9 +588,9 @@ void MainWindow::on_addAllToSearchButton_clicked()
 
 void MainWindow::removeFromSearch()
 {
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
+    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1)
-        gBookList[ind]->unselect();
+        bookList[ind]->unselect();
 
     ui->addToSearchAction->setEnabled(true);
     ui->removeFromSearchAction->setEnabled(false);
@@ -639,8 +598,8 @@ void MainWindow::removeFromSearch()
 
 void MainWindow::on_removeAllFromSearchButton_clicked()
 {
-    for(unsigned int i=0; i<gBookList.size(); i++)
-        gBookList[i]->unselect();
+    for(unsigned int i=0; i<bookList.size(); i++)
+        bookList[i]->unselect();
 
     ui->addToSearchAction->setEnabled(true);
     ui->removeFromSearchAction->setEnabled(false);
@@ -648,15 +607,12 @@ void MainWindow::on_removeAllFromSearchButton_clicked()
 
 void MainWindow::on_zoominButton_clicked()
 {
-    CurrentBook->setTextSizeMultiplier(CurrentBook->textSizeMultiplier() + 0.1);
+    CurrentBook->ZoomIn();
 }
 
 void MainWindow::on_zoomoutButton_clicked()
 {
-    if (CurrentBook->textSizeMultiplier() > 0.1)
-    {
-        CurrentBook->setTextSizeMultiplier(CurrentBook->textSizeMultiplier() - 0.1);
-    }
+    CurrentBook->ZoomOut();
 }
 
 
@@ -703,13 +659,13 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
     {
         ui->progressBar->show();
         ui->progressBar->setValue(5);
-        float percentPerBook = (90.0 / gBookList.size());
+        float percentPerBook = (90.0 / bookList.size());
 
         //Make a new tab if the current tab has something in it
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
         {
             addViewTab(false);
-            CurrentBook->setTextSizeMultiplier(1);
+            CurrentBook->normalZoom();
             CurrentBook->setHtml(simpleHtmlPage(tr("Orayta"), ""));
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
@@ -728,18 +684,18 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
-        for (int i=0; i<gBookList.size() && (results <= RESULTS_MAX); i++)
+        for (int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
-            if (!gBookList[i]->IsDir() && gBookList[i]->IsInSearch())
+            if (!bookList[i]->IsDir() && bookList[i]->IsInSearch())
             {
                 text.clear();
 
-                if(!ReadFileToList(absPath(gBookList[i]->getPath()), text, "UTF-8" , true))
+                if(!ReadFileToList(absPath(bookList[i]->getPath()), text, "UTF-8" , true))
                 {
                     //File not found
-                    print("ERROR! file " + absPath(gBookList[i]->getPath()) + " not found.");
+                    print("ERROR! file " + absPath(bookList[i]->getPath()) + " not found.");
                 }
 
                 else
@@ -778,18 +734,18 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
                                 QString linkdisplay = "";
 
                                 //Regular books:
-                                if (gBookList[i]->getNormallDisplayName().indexOf("תלמוד") == -1)
+                                if (bookList[i]->getNormallDisplayName().indexOf("תלמוד") == -1)
                                 {
 
                                     //This is an overkill, but I couldn't resist:
                                     //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
 
-                                    linkdisplay += gBookList[i]->getNormallDisplayName() + " " + itr.toHumanString();
+                                    linkdisplay += bookList[i]->getNormallDisplayName() + " " + itr.toHumanString();
                                 }
                                 //Gmarot:
                                 else
                                 {
-                                    linkdisplay += gBookList[i]->getNormallDisplayName().mid(13) + " ";
+                                    linkdisplay += bookList[i]->getNormallDisplayName().mid(13) + " ";
                                     linkdisplay += itr.toGmaraString();
                                 }
 
@@ -800,7 +756,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
                                 Html += "<span style=\"font-size:23px\">";
                                 Html += "<a name=\"" + stringify(results) + "\"></a>";
 
-                                Html += "<a href=!" + stringify(gBookList[i]->getUniqueId()) + ":";
+                                Html += "<a href=!" + stringify(bookList[i]->getUniqueId()) + ":";
                                 Html += itr.toStringForLinks();
                                 Html += ":" + escapeToBase32(regexp.pattern()) + ">";
 
@@ -893,9 +849,6 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Html += "</span></div>\n";
         Html += "\n</body>\n</html>";
 
-        //////@@@@@@@@@@@@@@@@@@@@@@@@
-        //////@@@@@@@@@@@@@@@@@@@@@@@@gHtmlCnt ++;
-
         //TODO: Serch results are special books
         writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
 
@@ -903,19 +856,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
     }
 }
 
-/*
-  ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
-void MainWindow::on_lineEdit_textChanged(QString text)
-{
-#ifdef KHTML
-    CurrentBook->buildSearch(text);
-#endif
-}
-*/
-
 QString lastSearch = "";
 
-///TODO: Fix for KHTML
 void MainWindow::on_searchForward_clicked()
 {
     if (ui->lineEdit->text().replace(" ","") == "") return;
@@ -946,19 +888,7 @@ void MainWindow::on_searchForward_clicked()
         next = regexp.cap(0);
     }
 
-    /*
-      ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
-#ifdef KHTML
-    if (next != lastSearch) CurrentBook->buildSearch (next);
-    lastSearch = next;
-
-    //Now make the webview search for that normally
-    CurrentBook->searchText(false);
-#else
-    //Now make the webview search for that normally
-    if (next != "") CurrentBook->findText(next,0);
-#endif
-    */
+    CurrentBook->searchText(next, false);
 }
 
 void MainWindow::on_searchBackwords_clicked()
@@ -993,19 +923,7 @@ void MainWindow::on_searchBackwords_clicked()
     }
     else return;
 
-    /*
-      ///////////////@@@@@@@@@@@@@@@@@@@@@@@@
-#ifdef KHTML
-    if (last != lastSearch) CurrentBook->buildSearch (last);
-    lastSearch = last;
-
-    //Now make the webview search for that normally
-    CurrentBook->searchText(true);
-#else
-    //Now make the webview search for that normally
-    if (last != "") CurrentBook->findText(last,QWebPage::FindBackward);
-#endif
-    */
+    CurrentBook->searchText(last, true);
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -1016,12 +934,12 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
     int ind = -1;
     if ( item != 0 )
     {
-        ind = gBookList.FindBookByTWI(item);
+        ind = bookList.FindBookByTWI(item);
     }
 
     if( ind != -1)
     {
-        if ( gBookList[ind]->IsDir() == false)
+        if ( bookList[ind]->IsDir() == false)
         {
             QMenu menu(ui->treeWidget);
 
@@ -1092,10 +1010,10 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     {
         if (ui->treeWidget->hasFocus())
         {
-            int ind = gBookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
+            int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
             if (ind != -1)
             {
-                if ( gBookList[ind]->IsDir() )
+                if ( bookList[ind]->IsDir() )
                 {
                     if ( ui->treeWidget->selectedItems()[0]->isExpanded() ) ui->treeWidget->collapseItem(ui->treeWidget->selectedItems()[0]);
                     else ui->treeWidget->expandItem(ui->treeWidget->selectedItems()[0]);
@@ -1107,21 +1025,6 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
         {
             //Act as if the current item was clicked
             on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
-        }
-    }
-
-    ////TODO: probably useless now
-    //Ctrl was pressed when this key event happend
-    if (keyEvent->modifiers() == Qt::CTRL)
-    {
-        //If this key is "C" or "X":
-        if ( keyEvent->key() == Qt::Key_C || keyEvent->key() == Qt::Key_X)
-        {
-#ifndef KHTML
-            //Call the copy function of the current webView
-            ////////////@@@@@@@@@@@@@@@@@@@@@@@@@@
-            //CurrentBook->triggerPageAction(QWebPage::Copy);
-#endif
         }
     }
 }
@@ -1158,13 +1061,13 @@ QString MainWindow::bookMarkTitle(QString lnk)
     ToNum(lnk.mid(0,p), &id);
 
     //Find and add the book's name
-    int index = gBookList.FindBookById(id);
+    int index = bookList.FindBookById(id);
     if (index == -1)
     {
         print ("Invalid link!");
         return "";
     }
-    else lnkdisplay = gBookList[index]->getNormallDisplayName() + " " + lnkdisplay;
+    else lnkdisplay = bookList[index]->getNormallDisplayName() + " " + lnkdisplay;
 
     //Remove extra spaces that appear for some reason:
     lnkdisplay.replace(QRegExp("[ ][ ]*"), " ");
@@ -1243,7 +1146,7 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
     int id;
     if(ToNum(parts[0], &id))
     {
-        int index = gBookList.FindBookById(id);
+        int index = bookList.FindBookById(id);
         if( index != -1)
         {
             //Add a new tab and open the link there
@@ -1398,9 +1301,6 @@ void MainWindow::menuBookMark()
 }
 
 
-
-
-
 //Show the comment adding / editing dialog
 void MainWindow::openCommentDialog(QString link)
 {
@@ -1459,9 +1359,6 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     //In any case, add the new comment (if it isn't empty) to the file
     if ( comment != "") writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
 
-    //Force the webview to clear [seems to be needed only for empty comments]
-    if ( comment == "") CurrentBook->setHtml("");
-
     //Re-load the page at the comment's position
     // NOTE: this isn't perfect, but I have nothing better
     int p = link.indexOf(":");
@@ -1469,9 +1366,15 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     ToNum(link.mid(0,p), &uid);
     CurrentBook->setInternalLocation("#" + link.mid(p+1));
 
-    int id = gBookList.FindBookById(uid);
-    openBook(id);
+    int id = bookList.FindBookById(uid);
 
+    //Force a new render of the book
+    bookList[id]->htmlrender(bookList[id]->HTMLFileName(), CurrentBook->isNikudShown(), CurrentBook->areTeamimShown(), "");
+
+    //Force the webview to clear [seems to be needed only for empty comments]
+    CurrentBook->setHtml("");
+
+    openBook(id);
 }
 
 void MainWindow::removeComment(QString link)
@@ -1493,10 +1396,6 @@ void MainWindow::menuComment()
 
 void MainWindow::about()
 {
-    //////////
-    //@@@@@@@@@@@@@@@
-    qDebug() << CurrentBook->getJSVar("paintByHref");
-
     About *aboutfrm = new About(this);
 
     aboutfrm->show();
@@ -1524,18 +1423,18 @@ void MainWindow::on_viewTab_currentChanged(int index)
     if (index != -1)
     {
         //Show / hide menu options depending on the book:
-        if ( gBookDisplayerList.size() > index && gBookDisplayerList.size() > 0)
+        if ( bookDisplayerList.size() > index && bookDisplayerList.size() > 0)
         {
-            if ( gBookDisplayerList[index]->book() != NULL )
+            if ( bookDisplayerList[index]->book() != NULL )
             {
                 //Show / Hide nikud and teamim buttons
-                ui->showNikudAction->setVisible( gBookDisplayerList[index]->book()->hasNikud );
-                ui->showTeamimAction->setVisible( gBookDisplayerList[index]->book()->hasTeamim );
+                ui->showNikudAction->setVisible( bookDisplayerList[index]->book()->hasNikud );
+                ui->showTeamimAction->setVisible( bookDisplayerList[index]->book()->hasTeamim );
             }
 
             //Disable / Enable them by what's displayed
-            ui->showNikudAction->setChecked( gBookDisplayerList[index]->isNikudShown() );
-            ui->showTeamimAction->setChecked( gBookDisplayerList[index]->areTeamimShown() );
+            ui->showNikudAction->setChecked( bookDisplayerList[index]->isNikudShown() );
+            ui->showTeamimAction->setChecked( bookDisplayerList[index]->areTeamimShown() );
         }
     }
 }
@@ -1547,9 +1446,9 @@ void MainWindow::menuErrorReport()
     if (link != "")
     {
         int id = CurrentBook->book()->getUniqueId();
-        int index = gBookList.FindBookById(id);
+        int index = bookList.FindBookById(id);
 
-        errorReport *err = new errorReport( this, link, gBookList[index]->getNormallDisplayName() );
+        errorReport *err = new errorReport( this, link, bookList[index]->getNormallDisplayName() );
         err->show();
     }
 }
@@ -1559,17 +1458,17 @@ void MainWindow::on_treeWidget_clicked(QModelIndex index)
 {
     QTreeWidgetItem * current = ui->treeWidget->currentItem();
 
-    int bookid = gBookList.FindBookByTWI(current);
+    int bookid = bookList.FindBookByTWI(current);
 
     if (current->checkState(0) == Qt::Checked) addToSearch();
     if (current->checkState(0) == Qt::Unchecked) removeFromSearch();
 
-    if ( gBookList[bookid]->mIconState == BLUE )
+    if ( bookList[bookid]->mIconState == BLUE )
     {
         ui->addToSearchAction->setEnabled(false);
         ui->removeFromSearchAction->setEnabled(true);
     }
-    else if ( gBookList[bookid]->mIconState == GREY )
+    else if ( bookList[bookid]->mIconState == GREY )
     {
         ui->addToSearchAction->setEnabled(true);
         ui->removeFromSearchAction->setEnabled(false);
@@ -1585,10 +1484,10 @@ QList <QCheckBox *> weavedList;
 
 void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* old)
 {
-    int bookid = gBookList.FindBookByTWI(current);
+    int bookid = bookList.FindBookByTWI(current);
 
     //Show / Hide mixed display stuff
-    if (gBookList[bookid]->isMixed())
+    if (bookList[bookid]->isMixed())
     {
         ui->mixedGroup->show();
 
@@ -1600,17 +1499,17 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
         weavedList.clear();
 
         //Create new entries
-        for(int i=gBookList[bookid]->mWeavedSources.size()-1; i>0; i--)
+        for(int i=1; i<bookList[bookid]->mWeavedSources.size(); i++)
         {
-            QCheckBox *chk = new QCheckBox(gBookList[bookid]->mWeavedSources[i].Title, ui->mixedFrame);
+            QCheckBox *chk = new QCheckBox(bookList[bookid]->mWeavedSources[i].Title, ui->mixedFrame);
             ui->verticalLayout_11->addWidget(chk);
 
-            if (gBookList[bookid]->mWeavedSources[i].show == true)
+            if (bookList[bookid]->mWeavedSources[i].show == true)
             {
                 chk->setChecked(true);
             }
 
-            chk->setWhatsThis(stringify(gBookList[bookid]->mWeavedSources[i].id));
+            chk->setWhatsThis(stringify(bookList[bookid]->mWeavedSources[i].id));
 
             weavedList << chk;
 
@@ -1621,7 +1520,7 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
             connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
         }
 
-        ui->showaloneCBX->setChecked(gBookList[bookid]->showAlone);
+        ui->showaloneCBX->setChecked(bookList[bookid]->showAlone);
         ui->mixedFrame->setEnabled(!ui->showaloneCBX->isChecked());
     }
     else ui->mixedGroup->hide();
@@ -1632,17 +1531,17 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
     //Still a bit ugly
 
     QTreeWidgetItem* current = ui->treeWidget->currentItem();
-    int bookid = gBookList.FindBookByTWI(current);
+    int bookid = bookList.FindBookByTWI(current);
 
     if (bookid == -1) return;
 
     QString id = weavedList[btnIndex]->whatsThis();
 
-    for(int i=1; i<gBookList[bookid]->mWeavedSources.size(); i++)
+    for(int i=1; i<bookList[bookid]->mWeavedSources.size(); i++)
     {
-        if (stringify(gBookList[bookid]->mWeavedSources[i].id) == id)
+        if (stringify(bookList[bookid]->mWeavedSources[i].id) == id)
         {
-            gBookList[bookid]->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
+            bookList[bookid]->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
         }
     }
 }
@@ -1671,7 +1570,7 @@ void MainWindow::on_fontComboBox_currentIndexChanged(QString f)
 
 void MainWindow::findBookForm()
 {
-    bookfind * bf = new bookfind(this, gBookList);
+    bookfind * bf = new bookfind(this, bookList);
     bf->show();
 
     connect(bf, SIGNAL(openBook(int)), this, SLOT(menuOpenBook(int)));
@@ -1679,7 +1578,7 @@ void MainWindow::findBookForm()
 
 void MainWindow::menuOpenBook(int uid)
 {
-    int index = gBookList.FindBookById(uid);
+    int index = bookList.FindBookById(uid);
 
     if (index != -1)
     {
@@ -1694,8 +1593,8 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
     if (ui->viewTab->count() > 1)
     {
-        gBookDisplayerList[index]->deleteLater();
-        gBookDisplayerList.removeAt(index);
+        bookDisplayerList[index]->deleteLater();
+        bookDisplayerList.removeAt(index);
 
         //Destroy tab
         ui->viewTab->widget(index)->layout()->deleteLater();
@@ -1704,7 +1603,7 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     }
     else
     {
-        gBookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
+        bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
         ui->viewTab->setTabText(0, tr("Orayta - Jewish books"));
     }
 
@@ -1716,8 +1615,8 @@ void MainWindow::on_changeLangButton_clicked()
 {
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-    int i = gLangsDisplay.indexOf(ui->langComboBox->currentText());
-    if (i != -1) settings.setValue("lang", gLangs[i]);
+    int i = langsDisplay.indexOf(ui->langComboBox->currentText());
+    if (i != -1) settings.setValue("lang", langs[i]);
     settings.endGroup();
 
     QApplication::processEvents();
@@ -1727,11 +1626,36 @@ void MainWindow::on_changeLangButton_clicked()
     exit(0);
 }
 
+void MainWindow::openExternalLink(QString lnk)
+{
+    QStringList parts = lnk.split(":");
 
+    int id;
+    if(ToNum(parts[0], &id))
+    {
+        int index = bookList.FindBookById(id);
+        if( index != -1)
+        {
+            //Add a new tab and open the link there
+            addViewTab(false);
+            ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+            CurrentBook->setInternalLocation("#" + parts[1]);
+
+            ///TODO: WT* is this for?
+            if (parts.size() == 3)
+            {
+                LoadBook(bookList[index], parts[2]);
+            }
+            else
+                LoadBook(bookList[index]);
+        }
+    }
+}
 
 void MainWindow::on_openMixed_clicked()
 {
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
+    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1)
     {
         //Reopen at current position, if exists
@@ -1739,7 +1663,7 @@ void MainWindow::on_openMixed_clicked()
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if (gBookList.FindBookById(CurrentBook->book()->getUniqueId()) == ind)
+        if (bookList.FindBookById(CurrentBook->book()->getUniqueId()) == ind)
         {
             QString script = "var obj = ClosestElementToView();";
             CurrentBook->execScript(script);
@@ -1758,6 +1682,6 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
 {
     ui->mixedFrame->setEnabled(!checked);
 
-    int ind = gBookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1) gBookList[ind]->showAlone = checked;
+    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
+    if (ind != -1) bookList[ind]->showAlone = checked;
 }

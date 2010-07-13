@@ -1,3 +1,19 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Author: Moshe Wagner. <moshe.wagner@gmail.com>
+*/
+
 #ifndef BOOKDISP_H
 #define BOOKDISP_H
 
@@ -7,7 +23,10 @@
 #include <QStackedWidget>
 /*
   Class holding all widgets and objects needed to display a book.
+    The main object is a plain QWidget.
 
+    In it, a stackedwidget allows us to switch between two htmlviewers,
+     one for the "loading" image, and one for the book itself
 */
 
 class myWebView;
@@ -43,8 +62,9 @@ public:
     void execScript(QString script);
     QString getJSVar(QString var);
 
-    void setTextSizeMultiplier(qreal factor);
-    qreal textSizeMultiplier();
+    void ZoomIn();
+    void ZoomOut();
+    void normalZoom();
 
     void setInternalLocation(QString location);
 
@@ -52,7 +72,13 @@ public:
     
     QString htmlSource();
 
+#ifdef KHTML
+    void searchText(QString text, bool backwards);
+#endif
+
 private:
+
+    QString lastSearch;
 
     //Html viewer the book is shown within
 #ifndef KHTML
@@ -95,6 +121,9 @@ private slots:
 #else
     void htmlView_loadFinished(bool);
 #endif
+
+signals:
+    void externalLink(QString link);
 
 
 };

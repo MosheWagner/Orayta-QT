@@ -1,3 +1,19 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Author: Moshe Wagner. <moshe.wagner@gmail.com>
+*/
+
 #include "bookdisplayer.h"
 
 
@@ -8,6 +24,7 @@
 
 bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 {
+    //Hold a pointer to the mainwindow, so we can tell it stuff to do
     MW = (MainWindow *) parent;
     TW = tabviewptr;
 
@@ -34,12 +51,8 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     QObject::connect(htmlview, SIGNAL(completed()), this , SLOT(htmlView_loadFinished()));
 #else
     QObject::connect(htmlview, SIGNAL(loadFinished(bool)), this , SLOT(htmlView_loadFinished(bool)));
-    QObject::connect(htmlview, SIGNAL(loadStarted()), this , SLOT(htmlView_loadStarted()));
-    QObject::connect(htmlview, SIGNAL(loadProgress (int)), this , SLOT(htmlView_loadProgress(int)));
-
     //Prevent context menus. If needed, they will be created manually
     htmlview->setContextMenuPolicy(Qt::PreventContextMenu);
-
     //The myWebView class will handle all link, but will emit "LinkMenu" when one should be shown
     htmlview->page()->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
 #endif
@@ -65,6 +78,8 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
 
     setHtml(simpleHtmlPage(tr("Orayta"), ""));
+
+    //htmlview->setCaretMode(true);
 }
 
 bookDisplayer::~bookDisplayer()
@@ -86,12 +101,9 @@ void bookDisplayer::htmlView_loadFinished(bool)
 
     if (index != -1) TW->setTabText(index, title());
 
-    //Hide the progressbar
-    //ui->progressBar->hide();
-
+    //Mark location as "active"
     if ( InternalLocationInHtml != "")
     {
-        //Mark location as "active"
         QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
 
         //Make sure script was loaded before erasing InternalLocationInHtml.
@@ -101,16 +113,13 @@ void bookDisplayer::htmlView_loadFinished(bool)
             execScript(script);
             InternalLocationInHtml="";
         }
-
     }
 
+    //Hide "wait" page and show the real page
     stackedWidget->setCurrentIndex(0);
-
-    //Return cusror to normal
-    QApplication::restoreOverrideCursor();
 }
 
-
+// KHTML calls "linkClicked" twice for some stupid reason, so we ignore the second time
 QString last = "";
 
 //Omitted when a link was clicked in the webView
@@ -120,6 +129,8 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
 #ifdef KHTML
     //Yuck!!! Disgusting!!!
+
+    //Ignore the extra call of this function
     if (link == last)
     {
         last = "";
@@ -223,32 +234,8 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
         QString lnk = "";
         lnk = link.mid(pos+1);
 
-        QStringList parts = lnk.split(":");
-
-        //Emmit about this
-        /*
-        int id;
-        if(ToNum(parts[0], &id))
-        {
-            int index = gBookList.FindBookById(id);
-            if( index != -1)
-            {
-                //Add a new tab and open the link there
-                addViewTab(false);
-                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-                CurrentBook->setInternalLocation("#" + parts[1]);
-
-                ///%%%%%%%%%
-                if (parts.size() == 3)
-                {
-                    LoadBook(gBookList[index], parts[2]);
-                }
-                else
-                    LoadBook(gBookList[index]);
-            }
-        }
-        */
+        //Tell the MainWindow to open this link in a new tab
+        emit externalLink(lnk);
     }
     //Link to website
     else if(link.indexOf("^") != -1 )
@@ -289,12 +276,23 @@ QString bookDisplayer::activeLink()
     return htmlview->activeLink();
 }
 
-void bookDisplayer::setTextSizeMultiplier(qreal factor)
+void bookDisplayer::ZoomIn()
 {
-    htmlview->setTextSizeMultiplier(factor);
+    htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() + 0.1);
 }
 
-qreal bookDisplayer::textSizeMultiplier() {return htmlview->textSizeMultiplier(); }
+void bookDisplayer::ZoomOut()
+{
+    if (htmlview->textSizeMultiplier() > 0.1)
+    {
+        htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() - 0.1);
+    }
+}
+
+void bookDisplayer::normalZoom()
+{
+    htmlview->setTextSizeMultiplier(1);
+}
 
 void bookDisplayer::load(QUrl url)
 { 
@@ -350,5 +348,18 @@ QString bookDisplayer::htmlSource()
     return htmlview->document().toString().string();
 #else
     return htmlview->page()->mainFrame()->toPlainText();
+#endif
+}
+
+void bookDisplayer::searchText(QString text, bool backwards)
+{
+#ifdef KHTML
+    if (text != lastSearch) htmlview->buildSearch(text);
+    lastSearch = text;
+
+    htmlview->searchText(backwards);
+#else
+    if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
+    else htmlview->findText(text, 0);
 #endif
 }

@@ -62,6 +62,8 @@
 #include "mytreetab.h"
 
 
+class bookDisplayer;
+
 
 using namespace std;
 
@@ -89,7 +91,18 @@ protected:
 private:
     Ui::MainWindowClass *ui;
 
+    //Remove all temporary html files the program created
+    void ClearTmp();
     void connectMenuActions();
+
+    //List of all the books
+    BookList bookList;
+
+    //List of all book tabs (aka "bookdisplayers")
+    QList <bookDisplayer *> bookDisplayerList;
+
+    //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
+    QStringList langs, langsDisplay;
 
     //Load the generated Html file of the given book into the WebView widget
     void LoadBook(Book *, QString markString = "");
@@ -193,11 +206,10 @@ private slots:
 
     void on_newTabButton_clicked();
 
+    void openExternalLink(QString link);
+
     //////////@@@@@@@@@@@@@@@
     //void printBook();
-
-    void webView_loadStarted();
-    void webView_loadProgress (int progress);
 
     //void webView_menuOpen(QPoint);
 
