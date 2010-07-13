@@ -16,14 +16,8 @@
 
 #include "mainwindow.h"
 
-//TODO: Defualt all books to not be in the search
-//TODO: Save book's "in search" state from last run
-
-
 /*
-  Roadmap for 0.02:
-
-  - Make every book a seperate object with it's own thread and everything.
+  Roadmap for 0.03:
 
   - Put the settings tab in a form instead
 
@@ -33,12 +27,14 @@
   
   - Solve all book issues (wierd nikud, a few books that render incorrectly, better book names in tree)
 
+  - Improve GUI. (Remove search bar? Change in and out of search icons)
+
   - Add import books menu, including a "get from hebrewbooks" option
   
   - PDF support
 */
 
-//TODO: KHTML search starts from begining when focus lost
+//TODO: FIXME: KHTML search starts from begining when focus lost
 
 //TODO: BUG!!! Full word search fails on pasuk beggining
 
@@ -46,7 +42,7 @@
 
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
 
-//TODO: Allow מפרשים to open at book's current position
+//TODO: Improve current position detection
 
 //TODO: Allow adding custom html books through the program
 
@@ -57,6 +53,7 @@
 //TODO: Fix the way ספר המידות looks (compare to the original TE)
 
 //BUG: תומר דבורה Crashes!!!
+//BUG: בראשית Crashes!!
 
 //TODO: Translatable welcome page
 //(TODO: create help page for linux version)
@@ -65,8 +62,6 @@
 //TODO: Speed up search. (Better progress bar too?)
 
 //TODO: Add rav kook books
-
-//Should עשרת הדיברות's teamim be both at both places?
 
 //TODO: Remove wierd nikud
 
@@ -327,6 +322,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             {
                 settings.setValue("Shown" + stringify(j), bookList[i]->mWeavedSources[j].show);
             }
+            settings.setValue("InSearch", bookList[i]->IsInSearch());
         settings.endGroup();
     }
 }
@@ -382,6 +378,9 @@ void MainWindow::restoreBookConfs()
             {
                 bookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
             }
+            bool inSearch = settings.value("InSearch", false).toBool();
+            if (inSearch) bookList[i]->select();
+            else bookList[i]->unselect();
         settings.endGroup();
     }
 }
@@ -424,7 +423,7 @@ void MainWindow::BuildBookTree()
             twi->setText(0, dn);
 
             //set the icon:
-            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->isMixed(), BLUE);
+            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->isMixed(), bookList[i]->mIconState);
 
             twi->setIcon(0, *icon);
 
