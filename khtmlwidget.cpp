@@ -147,16 +147,10 @@ void KHTMLWidget::setTextSizeMultiplier(qreal factor)
 {
     m_Multiplier = factor;
 
-    //Tell the JS scripts what the zoom is
-    execScript("zoom =" + stringify(factor) + ";");
-
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     //Resize the text
-    view()->setZoomLevel(factor * 100);
-    //KHTMLWidget::setZoomFactor(factor * 100);
-
-    view()->horizontalScrollBar()->setValue( view()->horizontalScrollBar()->maximum() );
+    setFontScaleFactor(factor * 100);
 
     QApplication::restoreOverrideCursor();
 }

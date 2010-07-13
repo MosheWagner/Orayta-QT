@@ -136,8 +136,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         //Use the first line of whats left of the file, and chop it off
         QString line = Sources[0].text[i];
 
-        //Sources[0].text.erase(Sources[0].text.begin());
-
         //Display nikud and teamim depending on the NikudMode
         if ( shownikud == false) line = removeNikud(line);
         if ( showteamim == false) line = removeTeamim(line);
@@ -198,9 +196,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 }
             }
 
-            //Emtpy str-s
+            //Emtpy strs
             for (int j=0; j<Sources.size(); j++) Sources[j].str = "";
-
 
             //See if the is a comment for the past position, and if so, insert it now
             vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlink);
@@ -291,7 +288,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         }
 
         //External link ("<!--ex" type)
-        else if(line.mid(0,6) == "<!--ex")
+        else if(line.startsWith("<!--ex"))
         {
             //htmlbody += ExternalLink(line);
             Sources[0].str += ExternalLink(line) + ' ';
@@ -901,15 +898,14 @@ QString Script()
     str +="}\n";
 
 
-    str += "var zoom = 1.0;\n";
     str += "function ScrollToElement(theElement)\n";
     str += "{\n";
     str += "    var selectedPosX = 0;\n";
     str += "    var selectedPosY = 0;\n";
     str += "\n";
     str += "    while(theElement != null){\n";
-    str += "        selectedPosX += theElement.offsetLeft * zoom;\n";
-    str += "        selectedPosY += theElement.offsetTop * zoom ;\n";
+    str += "        selectedPosX += theElement.offsetLeft;\n";
+    str += "        selectedPosY += theElement.offsetTop;\n";
     str += "        theElement = theElement.offsetParent;\n";
     str += "    }\n";
     str += "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))\n";
@@ -920,15 +916,6 @@ QString Script()
     str += "{\n";
     str += "    return varname;";
     str += "}\n";
-
-    /*
-    str += "function hideWaitSign()\n";
-    str += "{\n";
-    str += "    document.getElementById('wait').style.display='none';\n";
-    str += "}\n";
-    ///////////////////////////////
-    //////////@@@@@@@@@@@@@@@############$$$$$$$$$$$$$$$$$$
-    */
 
     str +="function ClosestElementToView(){\n";
     str +="\n";
@@ -1089,7 +1076,7 @@ QString ExternalLink (QString linkcode)
     int  DisplayStyle = 0;  // BITS:  0-bold, 1-underline, 2-italic, 3-small, 4-big, 5-red, 6-green, 7-blue
 
     //Validate line
-    if (linkcode.startsWith("<!--ex"))
+    if (linkcode.startsWith("<!--ex") == false)
         return "";
 
     //Check type

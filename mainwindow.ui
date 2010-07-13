@@ -26,7 +26,7 @@
    <string>Orayta - Hebrew books</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="Orayta.qrc">
     <normaloff>:/Icons/Orayta.png</normaloff>:/Icons/Orayta.png</iconset>
   </property>
   <property name="layoutDirection">
@@ -509,7 +509,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/tab-new.png</normaloff>:/Icons/tab-new.png</iconset>
           </property>
           <property name="iconSize">
@@ -592,7 +592,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
          </property>
          <property name="iconSize">
@@ -621,7 +621,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/search-left.png</normaloff>:/Icons/search-left.png</iconset>
          </property>
          <property name="iconSize">
@@ -650,7 +650,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/search-right.png</normaloff>:/Icons/search-right.png</iconset>
          </property>
          <property name="iconSize">
@@ -695,7 +695,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
          </property>
          <property name="iconSize">
@@ -724,7 +724,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
          </property>
          <property name="iconSize">
@@ -753,7 +753,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="Orayta.qrc">
            <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
          </property>
          <property name="iconSize">
@@ -832,7 +832,7 @@
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
           </attribute>
           <attribute name="title">
@@ -870,7 +870,7 @@
                   <string>...</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Orayta.qrc">
                    <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
                  </property>
                 </widget>
@@ -884,7 +884,7 @@
                   <string>...</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="Orayta.qrc">
                    <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
                  </property>
                 </widget>
@@ -1059,7 +1059,7 @@
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
           </attribute>
           <attribute name="title">
@@ -1080,7 +1080,7 @@
                 <string>Erase bookmark</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Orayta.qrc">
                  <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
                </property>
                <property name="iconSize">
@@ -1109,7 +1109,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Orayta.qrc">
                  <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
                </property>
                <property name="iconSize">
@@ -1138,7 +1138,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Orayta.qrc">
                  <normaloff>:/Icons/arrow-down.png</normaloff>:/Icons/arrow-down.png</iconset>
                </property>
                <property name="iconSize">
@@ -1167,7 +1167,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="Orayta.qrc">
                  <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
                </property>
                <property name="iconSize">
@@ -1234,7 +1234,7 @@
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="icon">
-           <iconset>
+           <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
           </attribute>
           <attribute name="title">
@@ -1400,7 +1400,7 @@
                     <string>Save changes</string>
                    </property>
                    <property name="icon">
-                    <iconset>
+                    <iconset resource="Orayta.qrc">
                      <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
                    </property>
                   </widget>
@@ -1648,7 +1648,7 @@
   </widget>
   <action name="exitAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
    </property>
    <property name="text">
@@ -1657,7 +1657,7 @@
   </action>
   <action name="aboutAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/help-about.png</normaloff>:/Icons/help-about.png</iconset>
    </property>
    <property name="text">
@@ -1666,7 +1666,7 @@
   </action>
   <action name="zoominAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
    </property>
    <property name="text">
@@ -1675,7 +1675,7 @@
   </action>
   <action name="zoomoutAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
    </property>
    <property name="text">
@@ -1684,7 +1684,7 @@
   </action>
   <action name="jumptotopAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
    </property>
    <property name="text">
@@ -1693,7 +1693,7 @@
   </action>
   <action name="printAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/document-print.png</normaloff>:/Icons/document-print.png</iconset>
    </property>
    <property name="text">
@@ -1702,7 +1702,7 @@
   </action>
   <action name="closetabAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/tab-close.png</normaloff>:/Icons/tab-close.png</iconset>
    </property>
    <property name="text">
@@ -1711,7 +1711,7 @@
   </action>
   <action name="opentabAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/tab-new.png</normaloff>:/Icons/tab-new.png</iconset>
    </property>
    <property name="text">
@@ -1742,7 +1742,7 @@
   </action>
   <action name="bookMarkAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
    </property>
    <property name="text">
@@ -1751,7 +1751,7 @@
   </action>
   <action name="commentAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
    </property>
    <property name="text">
@@ -1760,7 +1760,7 @@
   </action>
   <action name="reportErrorAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/bug.png</normaloff>:/Icons/bug.png</iconset>
    </property>
    <property name="text">
@@ -1769,7 +1769,7 @@
   </action>
   <action name="advancedSearchAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
    </property>
    <property name="text">
@@ -1778,7 +1778,7 @@
   </action>
   <action name="searchInBooksAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
    </property>
    <property name="text">
@@ -1787,7 +1787,7 @@
   </action>
   <action name="searchForwardAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/search-right.png</normaloff>:/Icons/search-right.png</iconset>
    </property>
    <property name="text">
@@ -1796,7 +1796,7 @@
   </action>
   <action name="searchBackwardsAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/search-left.png</normaloff>:/Icons/search-left.png</iconset>
    </property>
    <property name="text">
@@ -1805,7 +1805,7 @@
   </action>
   <action name="removeFromSearchAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/greyv.png</normaloff>:/Icons/greyv.png</iconset>
    </property>
    <property name="text">
@@ -1814,7 +1814,7 @@
   </action>
   <action name="addToSearchAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/greenv.png</normaloff>:/Icons/greenv.png</iconset>
    </property>
    <property name="text">
@@ -1823,7 +1823,7 @@
   </action>
   <action name="addAllToSearchAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
    </property>
    <property name="text">
@@ -1832,7 +1832,7 @@
   </action>
   <action name="removeAllFromSearchAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
    </property>
    <property name="text">
@@ -1841,7 +1841,7 @@
   </action>
   <action name="findBookAction">
    <property name="icon">
-    <iconset>
+    <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
    </property>
    <property name="text">
@@ -1858,7 +1858,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="Orayta.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>exitAction</sender>
