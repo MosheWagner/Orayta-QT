@@ -72,9 +72,7 @@ public:
     
     QString htmlSource();
 
-#ifdef KHTML
     void searchText(QString text, bool backwards);
-#endif
 
 private:
 

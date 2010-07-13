@@ -101,10 +101,16 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.cpp" line="124"/>
-        <location filename="mainwindow.cpp" line="684"/>
-        <location filename="mainwindow.cpp" line="765"/>
-        <location filename="mainwindow.cpp" line="918"/>
-        <location filename="mainwindow.cpp" line="1451"/>
+        <location filename="mainwindow.cpp" line="157"/>
+        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="544"/>
+        <location filename="mainwindow.cpp" line="546"/>
+        <location filename="mainwindow.cpp" line="548"/>
+        <location filename="mainwindow.cpp" line="664"/>
+        <location filename="mainwindow.cpp" line="668"/>
+        <location filename="mainwindow.cpp" line="669"/>
+        <location filename="mainwindow.cpp" line="1153"/>
+        <location filename="mainwindow.cpp" line="1640"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
@@ -116,37 +122,38 @@ Check your installation, or contact the developer.</source>
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="503"/>
+        <location filename="mainwindow.cpp" line="157"/>
+        <source>Jewish books</source>
+        <translation>ספרי קודש</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="444"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="589"/>
         <source>Add bookmark here...</source>
-        <translation>הוסף סימנייה כאן...</translation>
+        <translation type="obsolete">הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="600"/>
         <source>Add/edit comment...</source>
-        <translation>הוסף/ערוך הערה...</translation>
+        <translation type="obsolete">הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="633"/>
         <source>Edit comment...</source>
-        <translation>ערוך הערה...</translation>
+        <translation type="obsolete">ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="644"/>
         <source>Delete comment</source>
-        <translation>מחק הערה</translation>
+        <translation type="obsolete">מחק הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="926"/>
+        <location filename="mainwindow.cpp" line="673"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1080"/>
+        <location filename="mainwindow.cpp" line="831"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
@@ -155,35 +162,41 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1085"/>
+        <location filename="mainwindow.cpp" line="836"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1093"/>
+        <location filename="mainwindow.cpp" line="844"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1229"/>
+        <location filename="mainwindow.cpp" line="945"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1231"/>
+        <location filename="mainwindow.cpp" line="947"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1256"/>
+        <location filename="mainwindow.cpp" line="972"/>
         <source>Edit bookmark title...</source>
         <translation>ערוך כותרת סימנייה...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1259"/>
+        <location filename="mainwindow.cpp" line="975"/>
         <source>Delete bookmark</source>
         <translation>מחק סימנייה</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1605"/>
+        <location filename="mainwindow.cpp" line="1606"/>
+        <source>Orayta - Jewish books</source>
+        <translation>אורייתא - ספרי קודש</translation>
     </message>
 </context>
 <context>
@@ -233,13 +246,13 @@ Check your installation, or contact the developer.</source>
         <location filename="mainwindow.ui" line="692"/>
         <location filename="mainwindow.ui" line="1682"/>
         <source>Zoom out</source>
-        <translation>הגדל כתב</translation>
+        <translation>הקטן כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="721"/>
         <location filename="mainwindow.ui" line="1673"/>
         <source>Zoom in</source>
-        <translation>הקטן כתב</translation>
+        <translation>הגדל כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="750"/>
@@ -551,6 +564,34 @@ Check your installation, or contact the developer.</source>
     </message>
 </context>
 <context>
+    <name>bookDisplayer</name>
+    <message>
+        <location filename="bookdisplayer.cpp" line="80"/>
+        <source>Orayta</source>
+        <translation>אורייתא</translation>
+    </message>
+    <message>
+        <location filename="bookdisplayer.cpp" line="154"/>
+        <source>Add bookmark here...</source>
+        <translation>הוסף סימנייה כאן...</translation>
+    </message>
+    <message>
+        <location filename="bookdisplayer.cpp" line="165"/>
+        <source>Add/edit comment...</source>
+        <translation>הוסף/ערוך הערה...</translation>
+    </message>
+    <message>
+        <location filename="bookdisplayer.cpp" line="198"/>
+        <source>Edit comment...</source>
+        <translation>ערוך הערה...</translation>
+    </message>
+    <message>
+        <location filename="bookdisplayer.cpp" line="209"/>
+        <source>Delete comment</source>
+        <translation>מחק הערה</translation>
+    </message>
+</context>
+<context>
     <name>bookfind</name>
     <message>
         <location filename="bookfind.ui" line="14"/>
@@ -609,7 +650,7 @@ Check your installation, or contact the developer.</source>
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="58"/>
+        <location filename="mywebview.cpp" line="55"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>

@@ -128,8 +128,6 @@ private slots:
 
     void on_changeLangButton_clicked();
 
-    //////////@@@@@@@@@@@@@@@@22
-    //void on_lineEdit_textChanged(QString );
     void on_viewTab_tabCloseRequested(int index);
 
     void treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*);
@@ -208,10 +206,9 @@ private slots:
 
     void openExternalLink(QString link);
 
-    //////////@@@@@@@@@@@@@@@
+    //@@@
+    //TODO: Make this useful...
     //void printBook();
-
-    //void webView_menuOpen(QPoint);
 
     //Called when an item at the treeView is double clicked, and if it's a book, loads it the current tab
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column);
