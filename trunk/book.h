@@ -20,7 +20,7 @@
 #include "functions.h"
 #include "bookiter.h"
 #include <QtGui/QTreeWidgetItem>
-
+#include <QDebug>
 
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
@@ -39,6 +39,15 @@ struct weavedSource
 
     BookIter itr;
     QString str;
+};
+
+//Simplest struct holding results for a search in book.
+// Includes an iter of the result's position, and a preview of results
+//  (some puretext before and after it).
+struct SerachResult
+{
+    BookIter itr;
+    QString preview;
 };
 
 //Class containing information about the books and folders.
@@ -127,8 +136,24 @@ public:
 
     //Returns the filename that should be used for the book, depending on the shown commentaries
     QString HTMLFileName();
+    
+    //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
+    QList <SerachResult> findInBook(QString phrase);
+    //Overloaded function of the above
+    QList <SerachResult> findInBook(QRegExp regexp);
 
 protected:
+
+    //Fills "pureText" and "levelMap" with their values
+    void BuildSearchTextDB();
+    //Holds book's text as pure as possible. No nikud, punctuation marks, no level signs.
+    // This should be used for searching in the book.
+    // The results ahould later be mapped to BookIters using the "levelMap"
+    QString pureText;
+    //Holds the offsets of each BookIters of book in the "pureText". Use this to map search results in positions in the book
+    QMap<int, BookIter> levelMap;
+    //Returns a preview of the search result  (by it's search regexp and offset in puretext)
+    QString resultPreview(QRegExp exp, int offset);
 
     QTreeWidgetItem *mpTreeItem;
 

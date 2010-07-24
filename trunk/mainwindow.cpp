@@ -16,6 +16,12 @@
 
 #include "mainwindow.h"
 
+//TODO: Finish GUI changes
+//TODO: Build search DB in the backgorund?
+
+//TODO: BUG: Mark string fails! (in all books, but differently in gmarot)
+//TODO: Program slows down after search. Is the search fully stoped?
+
 /*
   Roadmap for 0.03:
 
@@ -35,10 +41,6 @@
 */
 
 //TODO: FIXME: KHTML search starts from begining when focus lost
-
-//TODO: BUG!!! Full word search fails on pasuk beggining
-
-//TODO: FIXME: RegExp search fails because of nikud. Shouldn't nikud just allways be ignored?
 
 //TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
 
@@ -113,8 +115,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (LANG == "Hebrew") toRTL();
 
     //Force the viewTab to take 80 percent of the window
-    ui->horizontalLayout->setStretchFactor(ui->viewTab, 80);
-    ui->horizontalLayout->setStretchFactor(ui->verticalLayout_9, 20);
+    ui->verticalLayout_12->setStretchFactor(ui->viewTab, 80);
+    ui->verticalLayout_12->setStretchFactor(ui->verticalLayout_9, 20);
 
     //Close the default tab:
     ui->viewTab->removeTab(0);
@@ -158,14 +160,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
+    ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->zoominButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->zoomoutButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->showSearchBarButton, QDialogButtonBox::ActionRole);
+
+    ui->searchGroupBX->hide();
+    ui->showSearchBarButton->setChecked(false);
 
     ui->progressBar->hide();
 
     ui->mixedGroup->hide();
 
-    ui->searchDockWidget->setMaximumHeight(30);
-
-    ui->viewTab->setCornerWidget(ui->newTabButton, Qt::TopRightCorner);
+    ui->viewTab->setCornerWidget(ui->btnBox, Qt::TopRightCorner);
 
     ui->treeWidget->setHeaderHidden(true);
     //Hack for windows:
@@ -202,15 +210,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         }
     print (c);
      --------------------------- */
-
 }
 
 //Switch GUI direction to RTL
 void MainWindow::toRTL()
 {
     this->setLayoutDirection(Qt::RightToLeft);
-    ui->dockWidgetContents->setLayoutDirection(Qt::RightToLeft);
-    ui->dockWidgetContents_2->setLayoutDirection(Qt::RightToLeft);
+
+    ui->progressBar->setLayoutDirection(Qt::RightToLeft);
+
+    ui->searchGroupBX->setLayoutDirection(Qt::RightToLeft);
 
     ui->treeDockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
 
@@ -258,7 +267,7 @@ void MainWindow::connectMenuActions()
     connect(ui->commentAction, SIGNAL(triggered()), this, SLOT(menuComment()));
     connect(ui->reportErrorAction, SIGNAL(triggered()), this, SLOT(menuErrorReport()));
 
-    connect(ui->advancedSearchAction, SIGNAL(triggered()), this, SLOT(advancedSearch()));
+    connect(ui->advancedSearchAction, SIGNAL(triggered()), this, SLOT(showSearchTab()));
     connect(ui->searchForwardAction, SIGNAL(triggered()), this, SLOT(on_searchForward_clicked()));
     connect(ui->searchBackwardsAction, SIGNAL(triggered()), this, SLOT(on_searchBackwords_clicked()));
 
@@ -443,7 +452,6 @@ void MainWindow::LoadBook(Book *book, QString markString)
 
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
 
-
     //Generate filename representing this file and commentreis that should open
     //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
     QString htmlfilename = book->HTMLFileName();
@@ -553,16 +561,11 @@ void MainWindow::addViewTab(bool empty)
     connect(bd, SIGNAL(externalLink(QString)), this, SLOT(openExternalLink(QString)));
 }
 
-
 void MainWindow::on_lineEdit_returnPressed()
 {
-    simpleSearch(ui->lineEdit->text());
+    on_searchForward_clicked();
 }
 
-void MainWindow::on_searchButton_clicked()
-{
-    simpleSearch(ui->lineEdit->text());
-}
 
 void MainWindow::addToSearch()
 {
@@ -621,41 +624,67 @@ void MainWindow::on_topButton_clicked()
     CurrentBook->execScript("window.scrollTo(0, 0)");
 }
 
-
-void MainWindow::advancedSearch()
+void MainWindow::on_SearchInBooksBTN_clicked()
 {
-    SearchForm *sf = new SearchForm(this);
+    //TODO: כתיב מלא / חסר
 
-    connect(sf, SIGNAL(Search(QRegExp,QString)), this, SLOT(SearchInBooks(QRegExp,QString)));
-    connect(sf, SIGNAL(Search(QString)), this, SLOT(simpleSearch(QString)));
+    QString otxt = ui->searchInBooksLine->text();
+    QString stxt = otxt;
 
-    sf->show();
+    //Search as regexp entered
+    if (ui->regexpCheckBox->isChecked())
+    {
+        //Prevent greedy searches by mistake
+        QRegExp regexp(stxt);
+        regexp.setMinimal(true);
+        SearchInBooks(regexp, tr("RegExp: ") + otxt);
+    }
+    else
+    {
+        //Find any of the words
+        if ( ui->radioButton->isChecked() )
+        {
+            QString pat = "";
+
+            QStringList words = stxt.split(" ");
+            for (int i=0; i<words.size(); i++)
+            {
+                if (words[i] != "")
+                {
+                    //See if to force full words
+                    // (This is OK because the search DB has forced spaces at it's beginning and end too)
+                    if ( ui->fullCheckBox->isChecked()) pat += " " + words[i] + " ";
+                    else pat += words[i]; //Part of word will be found too
+                }
+                if ( i != words.size()-1 ) pat+= "|";
+            }
+            SearchInBooks(QRegExp(pat), otxt);
+        }
+        //Search for all of the words
+        else
+        {
+            if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
+
+            SearchInBooks(QRegExp(stxt), otxt);
+        }
+    }
 }
 
-void MainWindow::simpleSearch(QString phrase)
-{
-    SearchInBooks(withNikudAndTeamim(phrase) , phrase);
-}
 
 #define RESULTS_MAX 200
-#define CHAR_LIMIT 200
-#define LINES_TO_SHOW 6
-
 void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 {
-    //TODO: find two words with line break between them
-
-    //TODO: remove gmara externall links from preview
-    //TODO: remove level signs from preview
+    //TODO: make preview look nice
 
     QString title, Html="",Htmlhead="", HtmlTopLinks="";
 
     int results = 0;
     QList <QString> text;
 
-
     if ( regexp.pattern() != "" )
     {
+        CurrentBook->ShowWaitPage();
+
         ui->progressBar->show();
         ui->progressBar->setValue(5);
         float percentPerBook = (90.0 / bookList.size());
@@ -683,146 +712,61 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
+        int results = 0;
         for (int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
             if (!bookList[i]->IsDir() && bookList[i]->IsInSearch())
             {
-                text.clear();
+                QList <SerachResult> searchResults = bookList[i]->findInBook(regexp);
 
-                if(!ReadFileToList(absPath(bookList[i]->getPath()), text, "UTF-8" , true))
-                {
-                    //File not found
-                    print("ERROR! file " + absPath(bookList[i]->getPath()) + " not found.");
-                }
+                //Let the animation move...
+                QApplication::processEvents();
 
-                else
+                for (int j=0; j<searchResults.size(); j++)
                 {
-                    //Iter holding the current position in the book
-                    BookIter itr;
-                    for (int j=0; j<text.size(); j++)
+                    results ++;
+                    //Get the text best to show for this reult's description
+                    QString linkdisplay = "";
+
+                    //Regular books:
+                    if (!bookList[i]->getPath().contains("תלמוד") && !bookList[i]->getPath().contains("שס"))
                     {
-                        if ((text[j][0] == '!') || (text[j][0] == '~') || (text[j][0] == '@') || (text[j][0] == '#') || (text[j][0] == '^'))
-                        {
-                            itr.SetLevelFromLine(text[j]);
-                        }
-                        else if (text[j].mid(0,6) == "<!--ex")
-                        { //Ignore lines starting with "<!--ex"
-                        }
-                        //A line that should be searched
-                        else
-                        {
-                            QString thisline = text[j];
 
-                            //Remove all HTML tags in this line
-                            thisline.replace( QRegExp("<[^>]*>"), "" );
-                            thisline = removeTeamim(thisline);
+                        //This is an overkill, but I couldn't resist:
+                        //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
 
-                            //////////////////
-                            thisline = removeNikud(thisline);
-
-                            //Find if the search phrase appears is in this line (after omitting html tags)
-                            int pos = thisline.indexOf (regexp);
-
-                            while (pos < thisline.length() && pos!= -1 && (results <= RESULTS_MAX))
-                            {
-                                results ++;
-
-                                //Get the text best to show for this reult's description
-                                QString linkdisplay = "";
-
-                                //Regular books:
-                                if (bookList[i]->getNormallDisplayName().indexOf("תלמוד") == -1)
-                                {
-
-                                    //This is an overkill, but I couldn't resist:
-                                    //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
-
-                                    linkdisplay += bookList[i]->getNormallDisplayName() + " " + itr.toHumanString();
-                                }
-                                //Gmarot:
-                                else
-                                {
-                                    linkdisplay += bookList[i]->getNormallDisplayName().mid(13) + " ";
-                                    linkdisplay += itr.toGmaraString();
-                                }
-
-                                //Add a small link (at the inex) to the full result
-                                HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
-
-                                //Add the full result to the page
-                                Html += "<span style=\"font-size:23px\">";
-                                Html += "<a name=\"" + stringify(results) + "\"></a>";
-
-                                Html += "<a href=!" + stringify(bookList[i]->getUniqueId()) + ":";
-                                Html += itr.toStringForLinks();
-                                Html += ":" + escapeToBase32(regexp.pattern()) + ">";
-
-                                Html += linkdisplay;
-                                Html += "</a><BR></span>\n";
-
-
-                                QString str = "";
-
-                                for (int k = j-LINES_TO_SHOW; k < j ; k++)
-                                {
-                                    if (( k > 0) && ( k < text.size()))
-                                    {
-                                        if (text[k][0] == '!')
-                                            str += "(" +  text[k].mid(3, text[k].length() - 4) + ") ";
-                                        else if ((text[k][0] != '~') || (text[k][0] != '@') || (text[k][0] != '#') || (text[k][0] != '^'))
-                                            str += text[k] + " ";
-                                    }
-                                }
-                                //Remove HTML tags and nikud
-                                str.replace( QRegExp("<[^>]*>"), "" );
-                                str = removeTeamim(str);
-
-
-                                //Chop to the maximum length
-                                //Html += startChop(str, CHAR_LIMIT);
-
-
-                                str += thisline.mid(0,pos);
-
-                                Html += startChop(str, CHAR_LIMIT);
-
-
-                                Html += "<span style=\"background-color:#FFF532\">";
-                                Html += thisline.mid(pos, regexp.cap(0).length());
-                                Html += "</span>";
-
-
-                                str = "";
-                                str += thisline.mid(pos + regexp.cap(0).length()) + " ";
-
-                                for (unsigned int k=1; k <= LINES_TO_SHOW ; k++)
-                                {
-                                    if (j+k < text.size())
-                                    {
-                                        if (text[j+k][0] == '!')
-                                            str += "(" +  text[j+k].mid(3, text[j+k].length() - 4) + ") ";
-                                        else if ((text[j+k][0] != '~') || (text[j+k][0] != '@') || (text[j+k][0] != '#') || (text[j+k][0] != '^'))
-                                            str += text[j+k] + " ";
-                                    }
-                                }
-                                //Remove HTML tags and nikud
-                                str.replace( QRegExp("<[^>]*>"), "" );
-                                str = removeTeamim(str);
-
-                                //Chop to the maximum length
-                                Html += endChop(str, CHAR_LIMIT);
-
-                                Html += "<br><br><br>\n";
-
-                                //Search the rest of the line:
-                                pos = thisline.indexOf (regexp, pos + 1);
-
-                            }
-                        }
+                        linkdisplay += bookList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
                     }
+                    //Gmarot:
+                    else
+                    {
+                        linkdisplay += bookList[i]->getNormallDisplayName() + " ";
+                        linkdisplay += searchResults[j].itr.toGmaraString();
+                    }
+
+
+                    //Add a small link (at the index) to the full result
+                    HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
+
+                    //Add the full result to the page
+                    Html += "<span style=\"font-size:23px\">";
+                    Html += "<a name=\"" + stringify(results) + "\"></a>";
+
+                    Html += "<a href=!" + stringify(bookList[i]->getUniqueId()) + ":";
+                    Html += searchResults[j].itr.toStringForLinks();
+                    Html += ":" + escapeToBase32(regexp.pattern()) + ">";
+
+                    Html += linkdisplay;
+                    Html += "</a><BR></span>\n";
+
+                    //Show result
+                    Html += searchResults[j].preview;
+
+                    Html += "<br><br><br>\n";
                 }
+
             }
         }
         if(results == 0)
@@ -851,6 +795,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         //TODO: Serch results are special books
         writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
 
+        CurrentBook->HideWaitPage();
         CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
     }
 }
@@ -1024,6 +969,15 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
         {
             //Act as if the current item was clicked
             on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
+        }
+    }
+    //Ctrl
+    if (keyEvent->modifiers() == Qt::CTRL)
+    {
+        //If this key is "F", show "search in books" bar
+        if ( keyEvent->key() == Qt::Key_F)
+        {
+            ui->showSearchBarButton->click();
         }
     }
 }
@@ -1641,13 +1595,12 @@ void MainWindow::openExternalLink(QString lnk)
 
             CurrentBook->setInternalLocation("#" + parts[1]);
 
-            ///TODO: WT* is this for?
             if (parts.size() == 3)
             {
-                LoadBook(bookList[index], parts[2]);
+                //Mark the requested text in the new book
+                LoadBook(bookList[index], unescapeFromBase32(parts[2]));
             }
-            else
-                LoadBook(bookList[index]);
+            else LoadBook(bookList[index]);
         }
     }
 }
@@ -1683,4 +1636,19 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
 
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1) bookList[ind]->showAlone = checked;
+}
+
+void MainWindow::on_showSearchBarButton_clicked(bool checked)
+{
+    ui->searchGroupBX->setVisible(checked);
+}
+
+void MainWindow::on_hideSearchButton_clicked()
+{
+    ui->showSearchBarButton->click();
+}
+
+void MainWindow::showSearchTab()
+{
+    ui->treeTab->setCurrentIndex(1);
 }

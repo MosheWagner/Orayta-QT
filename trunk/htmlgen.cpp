@@ -250,7 +250,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 QString dispname = line.mid(2);
 
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
-                if ( (mPath.indexOf("תלמוד") != -1) && ( level == 1) )
+                if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1) )
                 {
                     dispname = Sources[0].itr.toGmaraString();
                 }
@@ -487,7 +487,7 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
                 QString dispname = text[i].mid(2);
 
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
-                if ( (mPath.indexOf("תלמוד") != -1) && ( level == 1) )
+                if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1) )
                 {
                     dispname = itr.toGmaraString();
                 }

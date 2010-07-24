@@ -59,12 +59,15 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     hasTeamim = false;
 
     showAlone = true;
+
+    pureText = "";
 }
 
 Book::~Book()
 {
     delete mpTreeItem;
 }
+
 
 // Book Getters
 
@@ -407,4 +410,125 @@ QString Book::HTMLFileName()
      QString htmlfilename = TMPPATH + stringify(mUniqueId) + CommenteriesMagicString + ".html";
 
     return htmlfilename;
+}
+
+void Book::BuildSearchTextDB()
+{
+    //TODO: remove references to other books
+
+    //TODO: still much to be done
+
+    //TODO: test thoroughly!
+
+    //Ignore dirs
+    if (mIsDir) return;
+
+    //No need to build the DB twice...
+    if (pureText != "") return ;
+
+    //Read book's contents
+    QStringList text;
+    if (!ReadFileToList(mPath, text, "UTF-8", true))
+    {
+        qDebug() << "Error reading the book's text" << mPath;
+        return ;
+    }
+
+
+    BookIter itr;
+
+    //If a line starts with one of these, it's a level sign
+    QString levelSigns = "!@#$^~";
+    //Any char not matchong this pattern, is no *pure* text.
+    QRegExp notText("[^א-תa-zA-Z0-9 ]");
+    //These are turned into spaces, and not just ignored.
+    QString spaceSigns = "-_'::.,?";
+
+    for (int i=0; i<text.size(); i++)
+    {
+        //Level line
+        if (levelSigns.contains(text[i][0]))
+        {
+            //Update iter
+            itr.SetLevelFromLine(text[i]);
+
+            //Map with it's position in the pureText
+            levelMap.insert(pureText.length(), itr);
+
+            pureText += " ";
+        }
+        //Link
+        else if (text.startsWith("<!--ex"))
+        {
+
+        }
+        //Text line
+        else
+        {
+            //Test if book is from the bible. Hope this is ok...
+            if (mPath.contains("מקרא") == true)
+            {
+                //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+                text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+            }
+
+            //Remove html tags
+            text[i] = text[i].replace( QRegExp("<[^>]*>"), "" );
+
+            //Remove all non "pure-text" chars
+            text[i] = text[i].replace(QChar(0x05BE), " "); //Makaf
+            text[i] = text[i].replace(spaceSigns, " ");
+            text[i] = text[i].replace(notText, "");
+
+            //Remove double spaces and line breaks
+            pureText += text[i].simplified();
+        }
+    }
+
+    //Pad with spaces, so "full word searches" work on begining and end of text too
+    pureText = " " + pureText + " ";
+}
+
+QList <SerachResult> Book::findInBook(QString phrase)
+{
+    //Naive convert to regexp
+    return findInBook(QRegExp(phrase));
+}
+
+QList <SerachResult> Book::findInBook(QRegExp exp)
+{
+    QList <SerachResult> results;
+
+    //Make sure DB exists
+    BuildSearchTextDB();
+
+    int j = 0;
+    while ((j = pureText.indexOf(exp, j)) != -1)
+    {
+        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(j);
+        mapitr --;
+
+        SerachResult s;
+        s.preview = resultPreview(exp, j);
+        s.itr = mapitr.value();
+
+        //Prevent double results
+        if (results.size() == 0) results << s;
+        else if (results[results.size()-1].itr.toStringForLinks() != s.itr.toStringForLinks()) results << s;
+
+        ++j;
+    }
+
+    return results;
+}
+
+#define CHAR_LIMIT 200
+QString Book::resultPreview(QRegExp exp, int offset)
+{
+    QString s = pureText.mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
+    //Force full words
+    s = s.mid(s.indexOf(" "));
+    s = s.mid(0, s.lastIndexOf(" "));
+    s = "... " + s + " ...";
+    return s.replace(exp, "<span style='color:Yellow'>" + exp.cap(0) + "</span>");
 }
