@@ -54,7 +54,6 @@
 #include "booklist.h"
 #include "about.h"
 #include "errorreport.h"
-#include "searchform.h"
 #include "bookfind.h"
 
 #include "bookdisplayer.h"
@@ -119,6 +118,10 @@ private:
 private slots:
 
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
+    void on_SearchInBooksBTN_clicked();
+    void on_hideSearchButton_clicked();
+    void on_showSearchBarButton_clicked(bool checked);
+
     void on_showaloneCBX_clicked(bool checked);
 
     void on_treeWidget_clicked(QModelIndex index);
@@ -200,8 +203,6 @@ private slots:
     void removeFromSearch();
     void addToSearch();
 
-    void on_searchButton_clicked();
-
     void on_newTabButton_clicked();
 
     void openExternalLink(QString link);
@@ -218,11 +219,10 @@ private slots:
 
     //Searches for the given phrase in all books that have SearchMe as true,
     // creates a html file with the results, and loads it a new tab (unless current tab is empty)
-    void simpleSearch(QString phrase);
-
     void SearchInBooks (QRegExp regexp, QString disp);
 
-    void advancedSearch();
+    //Shows the search tab
+    void showSearchTab();
 
     void findBookForm();
     //TODO: ///

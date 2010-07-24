@@ -14,6 +14,8 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
+//TODO: Make CTRL-F work here too
+
 #include "khtmlwidget.h"
 
 KHTMLWidget::KHTMLWidget(QWidget *parent) : KHTMLPart(parent)
@@ -139,6 +141,7 @@ void KHTMLView::keyPressEvent (QKeyEvent * keyEvent)
             clipboard->setText(part()->selectedText());
         }
     }
+
 }
 
 //Zooms the text by the given factor (not percent!)

@@ -116,7 +116,7 @@ void bookDisplayer::htmlView_loadFinished(bool)
     }
 
     //Hide "wait" page and show the real page
-    stackedWidget->setCurrentIndex(0);
+    HideWaitPage();
 }
 
 // KHTML calls "linkClicked" twice for some stupid reason, so we ignore the second time
@@ -296,8 +296,7 @@ void bookDisplayer::normalZoom()
 
 void bookDisplayer::load(QUrl url)
 { 
-
-    stackedWidget->setCurrentIndex(1);
+    ShowWaitPage();
 
     url.setUrl(QString(url.toString() + InternalLocationInHtml));
 
@@ -362,4 +361,17 @@ void bookDisplayer::searchText(QString text, bool backwards)
     if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
     else htmlview->findText(text, 0);
 #endif
+}
+
+
+void bookDisplayer::ShowWaitPage()
+{
+    //Show wait page
+    stackedWidget->setCurrentIndex(1);
+}
+
+void bookDisplayer::HideWaitPage()
+{
+    //Hide "wait" page and show the real page
+    stackedWidget->setCurrentIndex(0);
 }

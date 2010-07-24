@@ -74,6 +74,9 @@ public:
 
     void searchText(QString text, bool backwards);
 
+    void ShowWaitPage();
+    void HideWaitPage();
+
 private:
 
     QString lastSearch;
