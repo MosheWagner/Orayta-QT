@@ -144,6 +144,10 @@ QString removeTeamim(QString str);
 QString allowNikudAndTeamim( QString str );
 QRegExp withNikudAndTeamim( QString str );
 
+//Returns a regexp pattern matching all strings that are the same as the given string,
+//  ignoring differences in the ו-s and י-s they have.
+QString AllowKtivMaleh(QString str);
+
 QIcon * bookIcon(bool isFolder, bool isDouble, IconState state);
 
 QString simpleHtmlPage(QString title, QString contents);

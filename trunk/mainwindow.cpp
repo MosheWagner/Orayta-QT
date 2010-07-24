@@ -646,6 +646,8 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         {
             QString pat = "";
 
+            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
+
             QStringList words = stxt.split(" ");
             for (int i=0; i<words.size(); i++)
             {
@@ -664,6 +666,8 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         else
         {
             if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
+
+            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
 
             SearchInBooks(QRegExp(stxt), otxt);
         }

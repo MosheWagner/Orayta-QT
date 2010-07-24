@@ -1124,6 +1124,11 @@
           <layout class="QVBoxLayout" name="verticalLayout_13">
            <item>
             <widget class="QLabel" name="label_10">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Search for:</string>
              </property>
@@ -1140,7 +1145,8 @@
               </font>
              </property>
              <property name="text">
-              <string>(Punctuation, Nikud and Teamim are not searched )</string>
+              <string>( The search ignores Punctuation, Nikud and Teamim. )
+</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -1149,6 +1155,11 @@
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
              <property name="title">
               <string>String search</string>
              </property>
@@ -1163,6 +1174,11 @@
                 </property>
                 <item>
                  <widget class="QRadioButton" name="radioButton">
+                  <property name="font">
+                   <font>
+                    <pointsize>9</pointsize>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>Find any of the words</string>
                   </property>
@@ -1170,6 +1186,11 @@
                 </item>
                 <item>
                  <widget class="QRadioButton" name="radioButton_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>9</pointsize>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>Find all words</string>
                   </property>
@@ -1182,6 +1203,11 @@
               </item>
               <item>
                <widget class="QCheckBox" name="fullCheckBox">
+                <property name="font">
+                 <font>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>Find full words only</string>
                 </property>
@@ -1189,8 +1215,16 @@
               </item>
               <item>
                <widget class="QCheckBox" name="fuzzyCheckBox">
+                <property name="font">
+                 <font>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>Allow &quot;Ktiv Maleh&quot; / &quot;Ktiv Haser&quot;</string>
+                </property>
+                <property name="tristate">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -1199,6 +1233,11 @@
            </item>
            <item>
             <widget class="QCheckBox" name="regexpCheckBox">
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Find regular expression</string>
              </property>
@@ -1208,6 +1247,9 @@
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Maximum</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
