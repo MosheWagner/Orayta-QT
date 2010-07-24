@@ -492,6 +492,24 @@ QRegExp withNikudAndTeamim( QString str )
     return QRegExp("(" + allowNikudAndTeamim(str) + ")");
 }
 
+//Returns a regexp pattern all strings that are the same as the given string,
+//  ignoring differences in the ו-s and י-s they have.
+QString AllowKtivMaleh(QString str)
+{
+    QString exp;
+    //Remove ו-s and י-s, because they become optional now
+    str = str.replace("ו","");
+    str = str.replace("י","");
+    for (int i=0; i<str.size()-1; i++)
+    {
+        //Allow any number (including zero) of ו and י after every char in the string
+        exp += str.at(i) + QString("[וי]*");
+    }
+    exp += str[str.size()-1];
+
+    return exp;
+}
+
 QIcon * bookIcon(bool isFolder, bool isDouble, IconState state)
 {
     QIcon * icon;
@@ -518,7 +536,6 @@ QIcon * bookIcon(bool isFolder, bool isDouble, IconState state)
 
     return icon;
 }
-
 
 QString simpleHtmlPage(QString title, QString contents)
 {
