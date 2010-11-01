@@ -686,11 +686,9 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
     if ( regexp.pattern() != "" )
     {
-        CurrentBook->ShowWaitPage();
-
         ui->progressBar->show();
         ui->progressBar->setValue(5);
-        float percentPerBook = (90.0 / bookList.size());
+        float percentPerBook = (95.0 / bookList.size());
 
         //Make a new tab if the current tab has something in it
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
@@ -700,6 +698,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             CurrentBook->setHtml(simpleHtmlPage(tr("Orayta"), ""));
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
+
+        CurrentBook->ShowWaitPage();
 
         //Set the title of the tab to show what it's searching for
         title = tr("Searching: "); title += "\"" + disp + "\"" + " ...";
@@ -800,6 +800,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
         CurrentBook->HideWaitPage();
         CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
+
+        ui->progressBar->hide();
     }
 }
 
