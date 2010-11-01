@@ -125,7 +125,7 @@ private slots:
     void on_showaloneCBX_clicked(bool checked);
 
     void on_treeWidget_clicked(QModelIndex index);
-    void on_openMixed_clicked();
+    //void on_openMixed_clicked();
 
     void weavedCheckBoxClicked(int btnIndex);
 
