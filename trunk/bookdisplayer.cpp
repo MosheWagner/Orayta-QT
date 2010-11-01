@@ -59,7 +59,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     QFileInfo f("Images/Wait.gif");
     QString html = simpleHtmlPage("hello", "<br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
     
-    waitView->setHtml(html);
+    waitView->setHtml(html, QUrl::fromLocalFile(QDir::current().absoluteFilePath("htmlfile.html")));
 
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(htmlQWidget());
