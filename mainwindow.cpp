@@ -302,7 +302,6 @@ void MainWindow::ClearTmp()
     }
 }
 
-
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MainWindow::closeEvent(QCloseEvent *event)
 {
@@ -492,15 +491,6 @@ void MainWindow::LoadBook(Book *book, QString markString)
     ui->showTeamimAction->setVisible( book->hasTeamim );
 }
 
-//Called when a TreeItem is double clicked
-void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
-{
-    int ind = bookList.FindBookByTWI(item);
-
-    //Open the selected book
-    openBook(ind);
-}
-
 //Open the given book (by it's id in the booklist)
 void MainWindow::openBook( int ind )
 {
@@ -566,7 +556,6 @@ void MainWindow::on_lineEdit_returnPressed()
     on_searchForward_clicked();
 }
 
-
 void MainWindow::addToSearch()
 {
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
@@ -617,262 +606,10 @@ void MainWindow::on_zoomoutButton_clicked()
     CurrentBook->ZoomOut();
 }
 
-
 void MainWindow::on_topButton_clicked()
 {
     //Jump to the top of the page using javascript
     CurrentBook->execScript("window.scrollTo(0, 0)");
-}
-
-void MainWindow::on_SearchInBooksBTN_clicked()
-{
-    //TODO: כתיב מלא / חסר
-
-    QString otxt = ui->searchInBooksLine->text();
-    QString stxt = otxt;
-
-    //Search as regexp entered
-    if (ui->regexpCheckBox->isChecked())
-    {
-        //Prevent greedy searches by mistake
-        QRegExp regexp(stxt);
-        regexp.setMinimal(true);
-        SearchInBooks(regexp, tr("RegExp: ") + otxt);
-    }
-    else
-    {
-        //Find any of the words
-        if ( ui->radioButton->isChecked() )
-        {
-            QString pat = "";
-
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
-
-            QStringList words = stxt.split(" ");
-            for (int i=0; i<words.size(); i++)
-            {
-                if (words[i] != "")
-                {
-                    //See if to force full words
-                    // (This is OK because the search DB has forced spaces at it's beginning and end too)
-                    if ( ui->fullCheckBox->isChecked()) pat += " " + words[i] + " ";
-                    else pat += words[i]; //Part of word will be found too
-                }
-                if ( i != words.size()-1 ) pat+= "|";
-            }
-            SearchInBooks(QRegExp(pat), otxt);
-        }
-        //Search for all of the words
-        else
-        {
-            if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
-
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
-
-            SearchInBooks(QRegExp(stxt), otxt);
-        }
-    }
-}
-
-
-#define RESULTS_MAX 500
-void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
-{
-    //TODO: make preview look nice
-
-    QString title, Html="",Htmlhead="", HtmlTopLinks="";
-
-    QList <QString> text;
-
-    if ( regexp.pattern() != "" )
-    {
-        ui->progressBar->show();
-        ui->progressBar->setValue(5);
-        float percentPerBook = (95.0 / bookList.size());
-
-        //Make a new tab if the current tab has something in it
-        if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
-        {
-            addViewTab(false);
-            CurrentBook->normalZoom();
-            CurrentBook->setHtml(simpleHtmlPage(tr("Orayta"), ""));
-            ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
-        }
-
-        CurrentBook->ShowWaitPage();
-
-        //Set the title of the tab to show what it's searching for
-        title = tr("Searching: "); title += "\"" + disp + "\"" + " ...";
-        ui->viewTab->setTabText(CURRENT_TAB,title);
-
-        //Head and title of the Html
-        title = "תוצאות חיפוש: "; title +="\"" + disp+ "\"";
-        Htmlhead = html_head(title);
-
-        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
-        Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
-        Htmlhead += title + ":" + "</center></i></b></div><BR>";
-
-        Htmlhead += "\n<span style=\"font-size:17px\">";
-
-        int results = 0;
-        for (unsigned int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
-        {
-            ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
-
-            if (!bookList[i]->IsDir() && bookList[i]->IsInSearch())
-            {
-                QList <SearchResult> searchResults = bookList[i]->findInBook(regexp);
-
-                //Let the animation move...
-                QApplication::processEvents();
-
-                for (int j=0; j<searchResults.size(); j++)
-                {
-                    results ++;
-                    //Get the text best to show for this reult's description
-                    QString linkdisplay = "";
-
-                    //Regular books:
-                    if (!bookList[i]->getPath().contains("תלמוד") && !bookList[i]->getPath().contains("שס"))
-                    {
-
-                        //This is an overkill, but I couldn't resist:
-                        //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
-
-                        linkdisplay += bookList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
-                    }
-                    //Gmarot:
-                    else
-                    {
-                        linkdisplay += bookList[i]->getNormallDisplayName() + " ";
-                        linkdisplay += searchResults[j].itr.toGmaraString();
-                    }
-
-
-                    //Add a small link (at the index) to the full result
-                    HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
-
-                    //Add the full result to the page
-                    Html += "<span style=\"font-size:23px\">";
-                    Html += "<a name=\"" + stringify(results) + "\"></a>";
-
-                    Html += "<a href=!" + stringify(bookList[i]->getUniqueId()) + ":";
-                    Html += searchResults[j].itr.toStringForLinks();
-                    Html += ":" + escapeToBase32(regexp.pattern()) + ">";
-
-                    Html += linkdisplay;
-                    Html += "</a><BR></span>\n";
-
-                    //Show result
-                    Html += searchResults[j].preview;
-
-                    Html += "<br><br><br>\n";
-                }
-
-            }
-        }
-        if(results == 0)
-        {
-            //TODO: write better explenation
-            Htmlhead +="<BR><BR>"; Htmlhead += tr("No search results found:"); Htmlhead += "\"" + disp + "\"";
-            Htmlhead += "</B><BR>";
-        }
-        else
-        {
-            Htmlhead += "<B>"; Htmlhead += tr("Short result list: "); Htmlhead += "</B><BR>";
-            if (results >= RESULTS_MAX)
-            {
-                Htmlhead += "(" +  stringify(RESULTS_MAX) + " ";
-                Htmlhead += "תוצאות ראשונות בלבד )"; Htmlhead += "<BR><BR>";
-            }
-            Htmlhead += HtmlTopLinks;
-
-            Htmlhead += "<BR><BR><B>" +  tr("Full result list:") + "</B><BR><BR>";
-        }
-        Html = Htmlhead + Html;
-
-        Html += "</span></div>\n";
-        Html += "\n</body>\n</html>";
-
-        //TODO: Serch results are special books
-        writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
-
-        CurrentBook->HideWaitPage();
-        CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
-
-        ui->progressBar->hide();
-    }
-}
-
-QString lastSearch = "";
-
-void MainWindow::on_searchForward_clicked()
-{
-    if (ui->lineEdit->text().replace(" ","") == "") return;
-
-    QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
-
-    //BEWARE: Amaizingly ugly hack! Watch out!
-
-    //Mark current cursor position using JS, grab the Html, and hide the marking
-    CurrentBook->execScript("markCursorPos();");
-
-    QString text = CurrentBook->htmlSource();
-
-    int ppp = text.indexOf("**|*|**");
-
-    //Hide the marking in the html
-    CurrentBook->execScript("unMarkCursorPos();");
-
-    //Search only in the text after the cursor's position
-    if (ppp != -1) text = text.mid(ppp + 7 + 1);
-
-    //Find the closest occurence of the RegExp
-    QString next = "";
-
-    int pos = regexp.indexIn(text);
-    if (pos > -1)
-    {
-        next = regexp.cap(0);
-    }
-
-    CurrentBook->searchText(next, false);
-}
-
-void MainWindow::on_searchBackwords_clicked()
-{
-    if (ui->lineEdit->text().replace(" ","") == "") return;
-
-    //BEWARE: Amaizingly ugly hack! Watch out!
-
-    //Mark current cursor position using JS, grab the Html, and hide the marking
-    CurrentBook->execScript("markCursorPos();");
-
-    QString text = CurrentBook->htmlSource();
-
-
-    int ppp = text.indexOf("**|*|**");
-    int ppb = text.indexOf("</SCRIPT");
-
-    //Hide the marking in the html
-    CurrentBook->execScript("unMarkCursorPos();");
-
-    //Search only in the text before the cursor's position
-    if (ppp != -1) text = text.mid(ppb, ppp - 1 - ppb);
-
-    QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
-
-    //Find the closest occurence of the RegExp, backwards
-    QString last = "";
-
-    int pos = regexp.lastIndexIn(text);
-    if (pos > -1) {
-        last = regexp.cap(0);
-    }
-    else return;
-
-    CurrentBook->searchText(last, true);
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -911,34 +648,6 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
         }
     }
 }
-
-
-void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
-{
-    int row = ui->bookmarkWidget->currentRow();
-
-    QMenu menu(ui->treeWidget);
-
-    QAction *edit = new QAction(tr("Edit bookmark title..."), &menu);
-    edit->setIcon(QIcon(":/Icons/edit.png"));
-
-    QAction *del = new QAction(tr("Delete bookmark"), &menu);
-    del->setIcon(QIcon(":/Icons/edit-delete.png"));
-
-    //Im to lazy to do this the right way...
-    QObject::connect(edit, SIGNAL(triggered()), this , SLOT(on_bookmarkEdit_clicked()));
-    QObject::connect(del, SIGNAL(triggered()), this , SLOT(on_removeBookmark_clicked()));
-
-    menu.addAction(edit);
-    menu.addAction(del);
-
-    menu.setLayoutDirection(Qt::RightToLeft);
-
-    //Open the menu to the left of the cursor's position
-    QPoint point = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
-    menu.exec(point);
-}
-
 
 //Collapse the currently selected item in the treewidget
 void MainWindow::collapseItem()
@@ -1003,256 +712,6 @@ void MainWindow::printBook()
     }
 }
 */
-
-QString MainWindow::bookMarkTitle(QString lnk)
-{
-    //Format position for human display
-    int p = lnk.indexOf(":");
-    QString lnkdisplay = lnk.mid(p+1);
-    lnkdisplay = unescapeFromBase32(lnkdisplay).replace("_", " ").replace("-", " ").replace("{", "").replace("}", "").replace(" 0", "");
-
-    int id;
-    ToNum(lnk.mid(0,p), &id);
-
-    //Find and add the book's name
-    int index = bookList.FindBookById(id);
-    if (index == -1)
-    {
-        print ("Invalid link!");
-        return "";
-    }
-    else lnkdisplay = bookList[index]->getNormallDisplayName() + " " + lnkdisplay;
-
-    //Remove extra spaces that appear for some reason:
-    lnkdisplay.replace(QRegExp("[ ][ ]*"), " ");
-
-    return lnkdisplay;
-}
-
-//Opens the bookmark dialog
-void MainWindow::bookMarkPosition(QString lnk)
-{
-    QString linkdisplay = bookMarkTitle(lnk);
-
-    BookMarkTitle *t = new BookMarkTitle(this, lnk, linkdisplay);
-    t->show();
-
-    connect (t, SIGNAL(OK(QString,QString)), this, SLOT(addBookMark(QString,QString)));
-}
-
-//Adds the given book position to the bookmark list and file
-void MainWindow::addBookMark(QString link, QString title)
-{
-    QString linkdisplay = bookMarkTitle(link);
-    if ( linkdisplay == title) title = "";
-
-    addBookMarkToList(link, title);
-
-    //Write to bookmark file
-    writetofile(USERPATH + "BookMarkList.txt", link + "|" + title + "\n", "UTF-8", false);
-}
-
-
-//Adds a bookmark to the bookmark list, (giving it's encoded link)
-void MainWindow::addBookMarkToList(QString lnk, QString title)
-{
-    QListWidgetItem *item = new QListWidgetItem(ui->bookmarkWidget);
-
-    QString linkdisplay = bookMarkTitle(lnk);
-
-    if ( title == "")
-    {
-        item->setText( linkdisplay);
-        title = linkdisplay;
-    }
-    else item->setText( title + " (" + linkdisplay + ")" );
-
-    //This is clearly not the right way to do this, but hey, it works.
-    item->setData(Qt::StatusTipRole, lnk);
-    item->setData(Qt::WhatsThisRole, title);
-
-    item->setIcon(QIcon(":Icons/bookmarks.png"));
-}
-
-//Build the bookmark list from the bookmark file
-void MainWindow::buildBookMarkList()
-{
-    QList <QString> text;
-    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
-
-    for ( int i=0; i<text.size(); i++)
-    {
-        QString title = "";
-        //Split title and link
-        int p = text[i].indexOf("|"); //TODO: escape this guy
-        if ( p != -1) title = text[i].mid(p+1);
-        addBookMarkToList(text[i].mid(0,p), title);
-    }
-}
-
-//Open the clicked bookmark
-void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
-{
-    QString lnk = item->data(Qt::StatusTipRole).toString();
-
-    vector<QString> parts;
-    splittotwo(lnk, parts, ":");
-    int id;
-    if(ToNum(parts[0], &id))
-    {
-        int index = bookList.FindBookById(id);
-        if( index != -1)
-        {
-            //Add a new tab and open the link there
-            addViewTab(false);
-            ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-            CurrentBook->setInternalLocation("#" + parts[1]);
-            openBook(index);
-        }
-    }
-}
-
-//Opens a dialog allowing to edit the selected bookmark's title
-void MainWindow::on_bookmarkEdit_clicked()
-{
-    if (ui->bookmarkWidget->currentIndex().isValid())
-    {
-        int ind = ui->bookmarkWidget->currentIndex().row();
-
-        QString otitle = ui->bookmarkWidget->item(ind)->data(Qt::WhatsThisRole).toString();
-
-        //Open the bookmark title giving dialog with this index and title
-        BookMarkTitle *t = new BookMarkTitle(this, ind, otitle);
-        t->show();
-
-        //The dialog will call the editBookMarkTitle function when it's done
-        connect (t, SIGNAL(RenameOK(int, QString)), this, SLOT(editBookMarkTitle(int, QString)));
-    }
-}
-
-//Changes the title of the given bookmark (by it's index) to the given one
-void MainWindow::editBookMarkTitle(int ind, QString newtitle)
-{
-    QString link = ui->bookmarkWidget->item(ind)->data(Qt::StatusTipRole).toString();
-
-    QString otitle = ui->bookmarkWidget->item(ind)->data(Qt::WhatsThisRole).toString();
-    if (otitle == bookMarkTitle(link)) otitle = "";
-
-
-    //Edit the item title data (it's saved here...) to the new one
-    ui->bookmarkWidget->item(ind)->setData(Qt::WhatsThisRole, newtitle);
-
-    //Update file:
-    QList <QString> text;
-    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
-
-    QString str = "";
-    for (int i=0; i<text.size(); i++)
-    {
-        if ( i != ind) str += text[i] + "\n";
-        else str += link + "|" + newtitle + "\n";
-    }
-
-    writetofile(USERPATH + "BookMarkList.txt", str, "UTF-8", true);
-
-    //Uodate the new title in the list
-    if (newtitle != "")
-    {
-        //Replace the titles
-        if (otitle != "") ui->bookmarkWidget->item(ind)->setText( ui->bookmarkWidget->item(ind)->text().replace(otitle, newtitle) );
-        //If there was an empty title before, add the newtitle and "("-s
-        else ui->bookmarkWidget->item(ind)->setText( newtitle + " (" + bookMarkTitle(link) + ")");
-    }
-    //Empty title given
-    else
-    {
-        //Remove the title and "("-s
-        if (otitle != "") ui->bookmarkWidget->item(ind)->setText( ui->bookmarkWidget->item(ind)->text().replace(otitle + " (", "").replace(QRegExp("[)]$"), ""));
-    }
-}
-
-
-//Remove the selected bookmark from the list and file
-void MainWindow::on_removeBookmark_clicked()
-{
-    int ind = ui->bookmarkWidget->currentIndex().row();
-
-    QList <QString> text;
-    ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
-
-    QString str = "";
-    for (int i=0; i<text.size(); i++)
-    {
-        if ( i != ind) str += text[i] + "\n";
-    }
-
-    writetofile(USERPATH + "BookMarkList.txt", str, "UTF-8", true);
-
-    ui->bookmarkWidget->takeItem( ind );
-}
-
-
-//Move the selected bookmark up in the list by one position
-void MainWindow::on_bookmarkUp_clicked()
-{
-    int ind = ui->bookmarkWidget->currentIndex().row();
-
-    if (ind > 0)
-    {
-        QList <QString> text;
-        ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
-
-        swap(text[ind], text[ind-1]);
-
-        QString str = "";
-        for (int i=0; i<text.size(); i++) str += text[i] + "\n";
-
-        writetofile(USERPATH + "BookMarkList.txt", str, "UTF-8", true);
-
-        //Swap the list elements:
-        QListWidgetItem *tmp = ui->bookmarkWidget->currentItem();
-        ui->bookmarkWidget->takeItem( ind );
-        ui->bookmarkWidget->insertItem( ind - 1 ,tmp);
-        ui->bookmarkWidget->setCurrentRow( ind - 1 );
-    }
-}
-
-//Move the selected bookmark down in the list by one position
-void MainWindow::on_bookmarkDown_clicked()
-{
-    int ind = ui->bookmarkWidget->currentIndex().row();
-
-    if (ind < ui->bookmarkWidget->count() - 1 )
-    {
-        QList <QString> text;
-        ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
-
-        swap(text[ind], text[ind+1]);
-
-        QString str = "";
-        for (int i=0; i<text.size(); i++) str += text[i] + "\n";
-
-        writetofile(USERPATH + "BookMarkList.txt", str, "UTF-8", true);
-
-        //Swap the list elements:
-        QListWidgetItem *tmp = ui->bookmarkWidget->currentItem();
-        ui->bookmarkWidget->takeItem( ind );
-        ui->bookmarkWidget->insertItem( ind + 1 ,tmp);
-        ui->bookmarkWidget->setCurrentRow( ind + 1 );
-    }
-}
-
-void MainWindow::menuBookMark()
-{
-    QString link = CurrentBook->activeLink().replace("$","");
-
-    //Find book's id and add it to the link
-    int id = CurrentBook->book()->getUniqueId();
-    link = stringify(id) + ":" + link;
-
-    bookMarkPosition( link );
-}
 
 
 //Show the comment adding / editing dialog
@@ -1407,7 +866,6 @@ void MainWindow::menuErrorReport()
     }
 }
 
-
 void MainWindow::on_treeWidget_clicked(QModelIndex index)
 {
     QTreeWidgetItem * current = ui->treeWidget->currentItem();
@@ -1432,6 +890,15 @@ void MainWindow::on_treeWidget_clicked(QModelIndex index)
         ui->addToSearchAction->setEnabled(true);
         ui->removeFromSearchAction->setEnabled(true);
     }
+}
+
+//Called when a TreeItem is double clicked
+void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
+{
+    int ind = bookList.FindBookByTWI(item);
+
+    //Open the selected book
+    openBook(ind);
 }
 
 QList <QCheckBox *> weavedList;
@@ -1539,9 +1006,7 @@ void MainWindow::menuOpenBook(int uid)
         addViewTab(false);
         openBook(index);
     }
-
 }
-
 
 void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
@@ -1605,7 +1070,7 @@ void MainWindow::openExternalLink(QString lnk)
         }
     }
 }
-
+/*
 void MainWindow::on_openMixed_clicked()
 {
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
@@ -1630,7 +1095,7 @@ void MainWindow::on_openMixed_clicked()
         openBook(ind);
     }
 }
-
+*/
 void MainWindow::on_showaloneCBX_clicked(bool checked)
 {
     ui->mixedFrame->setEnabled(!checked);
