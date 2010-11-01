@@ -31,11 +31,7 @@ About::About(QWidget *parent) :
     text += QString(" , ") + VERSION;
 
     //Add some info about this build
-#ifdef KHTML
-    text += " , KHTML Engine";
-#else
     text += " , QT-WEBKIT Engine";
-#endif
 
 #ifdef Q_WS_WIN
     text += " , Win32";

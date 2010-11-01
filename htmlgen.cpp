@@ -890,9 +890,6 @@ QString Script()
     str +="        obj.focus();\n";
     str +="        obj.blur();\n";
 
-#ifdef KHTML
-    str +="        ScrollToElement(obj);\n";
-#endif
     str +="        obj.style.color='red';\n";
     str +="        window.status = obj.getAttributeNode(\"href\").value\n";
     str +="}\n";
