@@ -44,7 +44,7 @@ struct weavedSource
 //Simplest struct holding results for a search in book.
 // Includes an iter of the result's position, and a preview of results
 //  (some puretext before and after it).
-struct SerachResult
+struct SearchResult
 {
     BookIter itr;
     QString preview;
@@ -134,9 +134,9 @@ public:
     QString HTMLFileName();
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
-    QList <SerachResult> findInBook(QString phrase);
+    QList <SearchResult> findInBook(QString phrase);
     //Overloaded function of the above
-    QList <SerachResult> findInBook(QRegExp regexp);
+    QList <SearchResult> findInBook(QRegExp regexp);
 
 protected:
 
