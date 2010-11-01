@@ -262,7 +262,7 @@ void Book::setCosmetics(QString confline)
     costype = confline.split("#");
 
     //Handle 'CosmeticsType' confs:
-    for(unsigned int j=0;j<costype.size();j++)
+    for(int j=0; j<costype.size(); j++)
     {
         vector <QString> costypevals;
         splittotwo(costype[j],costypevals,"=");

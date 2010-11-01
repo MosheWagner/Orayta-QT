@@ -328,10 +328,10 @@ void WordExclude(QString stra , QString strb, vector<QString>& out)
     QStringList splitb = strb.split(" ");
 
     //Loop over all words of first string
-    for (unsigned int i=0; i<splita.size(); i++)
+    for (int i=0; i<splita.size(); i++)
     {
         //For each word loop over all words of second string
-        for (unsigned int j=0; j<splitb.size(); j++)
+        for (int j=0; j<splitb.size(); j++)
         {
             //Both have the same word
             if (splita[i] == splitb[j])

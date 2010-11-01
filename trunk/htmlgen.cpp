@@ -386,7 +386,7 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
     //Read coment file into it's vectors
     ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
 
-    for(unsigned int i=0;i<text.size();i++)
+    for(int i=0; i<text.size(); i++)
     {
 
         //Display nikud and teamim depending on the NikudMode

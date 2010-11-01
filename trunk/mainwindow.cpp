@@ -322,7 +322,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 
     //Save books' settings
-    for(int i=0; i<bookList.size(); i++)
+    for(unsigned int i=0; i<bookList.size(); i++)
     {
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
             settings.setValue("MixedDisplayes", bookList[i]->mWeavedSources.size());
@@ -378,7 +378,7 @@ void MainWindow::restoreBookConfs()
     QSettings settings("Orayta", "SingleUser");
 
     //Load books settings
-    for(int i=0; i<bookList.size(); i++)
+    for(unsigned int i=0; i<bookList.size(); i++)
     {
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
             int n = settings.value("MixedDisplayes", 0).toInt();
@@ -675,14 +675,13 @@ void MainWindow::on_SearchInBooksBTN_clicked()
 }
 
 
-#define RESULTS_MAX 200
+#define RESULTS_MAX 500
 void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 {
     //TODO: make preview look nice
 
     QString title, Html="",Htmlhead="", HtmlTopLinks="";
 
-    int results = 0;
     QList <QString> text;
 
     if ( regexp.pattern() != "" )
@@ -717,7 +716,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0;
-        for (int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
+        for (unsigned int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
@@ -1302,7 +1301,7 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
         comment_texts.erase( comment_texts.begin() + index);
 
         QString str = "";
-        for (int i=0; i<comment_titles.size(); i++)
+        for (unsigned int i=0; i<comment_titles.size(); i++)
         {
             str += comment_titles[i] + "\n" + comment_texts[i] + "\n";
         }
