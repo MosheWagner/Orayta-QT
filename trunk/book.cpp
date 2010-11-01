@@ -371,7 +371,7 @@ QString Book::confEntry()
 
     conf += "SearchInTitles=" + QString(SearchInTitles ? "1" : "0") + "\n";
     conf += QString("LastLevelIndex=") + stringify(LastLevelIndex) + "\n";
-    if (mPath.indexOf("××©× ×”") != -1 && mPath.indexOf("×¡×“×¨") != -1) conf += "PutNewLinesAsIs=" + QString("0") + QString("\n");
+    if (mPath.indexOf("îùğä") != -1 && mPath.indexOf("ñãø") != -1) conf += "PutNewLinesAsIs=" + QString("0") + QString("\n");
     else conf += "PutNewLinesAsIs=" + QString(PutNewLinesAsIs ? "1" :  "0") + QString("\n");
     // ?
     conf += QString("PasukIndMode=0") + "\n";
@@ -442,7 +442,7 @@ void Book::BuildSearchTextDB()
     //If a line starts with one of these, it's a level sign
     QString levelSigns = "!@#$^~";
     //Any char not matchong this pattern, is no *pure* text.
-    QRegExp notText("[^×-×ªa-zA-Z0-9 ]");
+    QRegExp notText("[^à-úa-zA-Z0-9 ]");
     //These are turned into spaces, and not just ignored.
     QString spaceSigns = "-_'::.,?";
 
@@ -468,7 +468,7 @@ void Book::BuildSearchTextDB()
         else
         {
             //Test if book is from the bible. Hope this is ok...
-            if (mPath.contains("××§×¨×") == true)
+            if (mPath.contains("î÷øà") == true)
             {
                 //Turn ×§×¨×™ ×•×›×ª×™×‘ into only ×§×¨×™. Maybe this should be an option?
                 text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
@@ -491,15 +491,15 @@ void Book::BuildSearchTextDB()
     pureText = " " + pureText + " ";
 }
 
-QList <SerachResult> Book::findInBook(QString phrase)
+QList <SearchResult> Book::findInBook(QString phrase)
 {
     //Naive convert to regexp
     return findInBook(QRegExp(phrase));
 }
 
-QList <SerachResult> Book::findInBook(QRegExp exp)
+QList <SearchResult> Book::findInBook(QRegExp exp)
 {
-    QList <SerachResult> results;
+    QList <SearchResult> results;
 
     //Make sure DB exists
     BuildSearchTextDB();
@@ -510,7 +510,7 @@ QList <SerachResult> Book::findInBook(QRegExp exp)
         QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(j);
         mapitr --;
 
-        SerachResult s;
+        SearchResult s;
         s.preview = resultPreview(exp, j);
         s.itr = mapitr.value();
 

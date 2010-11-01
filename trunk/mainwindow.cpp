@@ -722,7 +722,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
             if (!bookList[i]->IsDir() && bookList[i]->IsInSearch())
             {
-                QList <SerachResult> searchResults = bookList[i]->findInBook(regexp);
+                QList <SearchResult> searchResults = bookList[i]->findInBook(regexp);
 
                 //Let the animation move...
                 QApplication::processEvents();
