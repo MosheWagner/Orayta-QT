@@ -371,7 +371,7 @@ QString Book::confEntry()
 
     conf += "SearchInTitles=" + QString(SearchInTitles ? "1" : "0") + "\n";
     conf += QString("LastLevelIndex=") + stringify(LastLevelIndex) + "\n";
-    if (mPath.indexOf("îùğä") != -1 && mPath.indexOf("ñãø") != -1) conf += "PutNewLinesAsIs=" + QString("0") + QString("\n");
+    if (mPath.indexOf("××©× ×”") != -1 && mPath.indexOf("×¡×“×¨") != -1) conf += "PutNewLinesAsIs=" + QString("0") + QString("\n");
     else conf += "PutNewLinesAsIs=" + QString(PutNewLinesAsIs ? "1" :  "0") + QString("\n");
     // ?
     conf += QString("PasukIndMode=0") + "\n";
@@ -442,7 +442,7 @@ void Book::BuildSearchTextDB()
     //If a line starts with one of these, it's a level sign
     QString levelSigns = "!@#$^~";
     //Any char not matchong this pattern, is no *pure* text.
-    QRegExp notText("[^à-úa-zA-Z0-9 ]");
+    QRegExp notText("[^×-×ªa-zA-Z0-9 ]");
     //These are turned into spaces, and not just ignored.
     QString spaceSigns = "-_'::.,?";
 
@@ -468,7 +468,7 @@ void Book::BuildSearchTextDB()
         else
         {
             //Test if book is from the bible. Hope this is ok...
-            if (mPath.contains("î÷øà") == true)
+            if (mPath.contains("××§×¨×") == true)
             {
                 //Turn ×§×¨×™ ×•×›×ª×™×‘ into only ×§×¨×™. Maybe this should be an option?
                 text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
