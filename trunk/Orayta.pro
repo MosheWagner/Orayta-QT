@@ -5,8 +5,6 @@
 QT += webkit
 TARGET = Orayta
 TEMPLATE = app
-!win32:CONFIG += khtml
-khtml:DEFINES += KHTML
 SOURCES += main.cpp \
     mainwindow.cpp \
     htmlgen.cpp \
@@ -22,7 +20,6 @@ SOURCES += main.cpp \
     errorreport.cpp \
     bookfind.cpp \
     bookdisplayer.cpp
-khtml:SOURCES += khtmlwidget.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -37,7 +34,6 @@ HEADERS += htmlgen.h \
     errorreport.h \
     bookfind.h \
     bookdisplayer.h
-khtml:HEADERS += khtmlwidget.h
 FORMS += mainwindow.ui \
     addcomment.ui \
     bookmarktitle.ui \
@@ -46,29 +42,7 @@ FORMS += mainwindow.ui \
     bookfind.ui
 RESOURCES += Orayta.qrc
 win32:RC_FILE = orayta.rc
-KDEBASE = $$system("kde-config --prefix")
-KDELIBS = $$system("kde-config --expandvars --install lib")
-khtml { 
-    win32 { 
-        INCLUDEPATH += C:\KDE\include
-        INCLUDEPATH += C:\KDE\include\KDE
-        LIBS += -LC:\KDE\lib
-        LIBS += -LC:\KDE\lib\kde4
-        LIBS += -llibkhtml \
-            -lkdeui \
-            -lkparts \
-            -lkdecore
-    }
-    unix { 
-        INCLUDEPATH += $$KDEBASE/include/kde4 \
-            $$KDEBASE/include
-        LIBS += -L$$KDELIBS
-        LIBS += -lkhtml \
-            -lkdeui \
-            -lkparts \
-            -lkdecore
-    }
-}
+
 TRANSLATIONS = Hebrew.ts \
     French.ts
 

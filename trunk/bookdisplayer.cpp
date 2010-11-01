@@ -39,29 +39,21 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     myurl = "";
 
     //Create new webview
-#ifdef KHTML
-    htmlview = new KHTMLWidget(this);
-#else
     htmlview = new myWebView(this);
-#endif
 
     //Connect the signalls sent from the new widgets to their slots
     QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
-#ifdef KHTML
-    QObject::connect(htmlview, SIGNAL(completed()), this , SLOT(htmlView_loadFinished()));
-#else
     QObject::connect(htmlview, SIGNAL(loadFinished(bool)), this , SLOT(htmlView_loadFinished(bool)));
     //Prevent context menus. If needed, they will be created manually
     htmlview->setContextMenuPolicy(Qt::PreventContextMenu);
     //The myWebView class will handle all link, but will emit "LinkMenu" when one should be shown
     htmlview->page()->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
-#endif
 
     //Create new hbox
     vbox = new QVBoxLayout(this);
     vbox->setMargin(0);
 
-    waitView = new KHTMLWidget(this);
+    waitView = new myWebView(this);
 
 
     QFileInfo f("Images/Wait.gif");
@@ -71,7 +63,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     stackedWidget = new QStackedWidget(this);
     stackedWidget->addWidget(htmlQWidget());
-    stackedWidget->addWidget(waitView->getQWidget());
+    stackedWidget->addWidget(waitView);
 
     stackedWidget->show();
     vbox->addWidget(stackedWidget);
@@ -88,14 +80,8 @@ bookDisplayer::~bookDisplayer()
 }
 
 //Signall omitted when the webView finishes loading a file
-#ifdef KHTML
-void bookDisplayer::htmlView_loadFinished()
-{
-    if (myurl.toString() == "") return;
-#else
 void bookDisplayer::htmlView_loadFinished(bool)
 {
-#endif
     //change the tabs title from "Loading..." to the book's title
     int index = TW->indexOf(this);
 
@@ -126,18 +112,6 @@ QString last = "";
 void bookDisplayer::htmlView_linkClicked(QUrl url)
 {
     QString link = QString(url.path());
-
-#ifdef KHTML
-    //Yuck!!! Disgusting!!!
-
-    //Ignore the extra call of this function
-    if (link == last)
-    {
-        last = "";
-        return;
-    }
-    last = link;
-#endif
 
     //Not actually a link. A menu should open here
     if(link.indexOf("$") != -1 )
@@ -334,35 +308,19 @@ void bookDisplayer::setBook( Book * book)
 
 QWidget * bookDisplayer::htmlQWidget()
 {
-#ifdef KHTML
-    return htmlview->getQWidget();
-#else
     return htmlview;
-#endif
 }
 
 QString bookDisplayer::htmlSource()
 {
-#ifdef KHTML
-    return htmlview->document().toString().string();
-#else
     return htmlview->page()->mainFrame()->toPlainText();
-#endif
 }
 
 void bookDisplayer::searchText(QString text, bool backwards)
 {
-#ifdef KHTML
-    if (text != lastSearch) htmlview->buildSearch(text);
-    lastSearch = text;
-
-    htmlview->searchText(backwards);
-#else
     if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
     else htmlview->findText(text, 0);
-#endif
 }
-
 
 void bookDisplayer::ShowWaitPage()
 {

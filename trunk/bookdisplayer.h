@@ -18,7 +18,6 @@
 #define BOOKDISP_H
 
 #include "mainwindow.h"
-#include "khtmlwidget.h"
 #include "mywebview.h"
 #include <QStackedWidget>
 /*
@@ -82,11 +81,7 @@ private:
     QString lastSearch;
 
     //Html viewer the book is shown within
-#ifndef KHTML
     myWebView * htmlview;
-#else
-    KHTMLWidget * htmlview;
-#endif
 
     MainWindow * MW;
     QTabWidget * TW;
@@ -112,16 +107,14 @@ private:
     QUrl myurl;
     QString mActiveLink;
 
-    KHTMLWidget * waitView;
+    myWebView * waitView;
 
     QStackedWidget *stackedWidget;
+
 private slots:
     void htmlView_linkClicked(QUrl url);
-#ifdef KHTML
-    void htmlView_loadFinished();
-#else
+
     void htmlView_loadFinished(bool);
-#endif
 
 signals:
     void externalLink(QString link);

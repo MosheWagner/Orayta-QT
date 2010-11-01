@@ -990,7 +990,6 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
 //Print the current book (all pages I think...)
 void MainWindow::printBook()
 {
-#ifndef KHTML
     QPrinter printer;
 
     QPrintDialog *dialog = new QPrintDialog(&printer, this);
@@ -1001,9 +1000,6 @@ void MainWindow::printBook()
     {
         CurrentBook->print(&printer);
     }
-#else
-    CurrentBook->view()->print();
-#endif
 }
 */
 
