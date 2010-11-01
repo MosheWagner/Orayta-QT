@@ -46,10 +46,8 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
             Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ");
 
             //Create BookListItem
-            Book *b = new Book(NULL,list[i].absoluteFilePath(),list[i].absoluteFilePath(),Name,list[i].isDir());
-            //Set it's parent (by it's position in the list of the books added in this list)
-            if (parentindex != -1)
-                b->setParent((*this)[parentindex]);
+            Book *b = new Book(parentindex != -1 ? (*this)[parentindex] : NULL,
+                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, list[i].isDir());
 
             //Tell the parent it has a new child
             if (b->getParent() != NULL)

@@ -106,10 +106,6 @@ public:
     //  Applies to all children, and changes icon state and color
     void select();
 
-    //Repaints the icon of this book or folder, by the state of it's children
-    // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
-    void repainticon();
-
     bool isMixed();
 
     bool showAlone;
@@ -143,6 +139,13 @@ public:
     QList <SerachResult> findInBook(QRegExp regexp);
 
 protected:
+
+    //Repaints the icon of this book or folder, by the state of it's children
+    // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
+    void repainticon();
+    // recursives function
+    void _unselect();
+    void _select();
 
     //Fills "pureText" and "levelMap" with their values
     void BuildSearchTextDB();
