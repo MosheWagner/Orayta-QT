@@ -47,7 +47,7 @@ void bookfind::reBuildList(QString text)
 
     if ( text != "")
     {
-        for (int i=0; i<mBookList.size(); i++)
+        for (unsigned int i=0; i<mBookList.size(); i++)
         {
             if (!mBookList[i]->IsDir())
             {

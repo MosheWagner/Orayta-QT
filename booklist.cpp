@@ -80,7 +80,7 @@ void BookList::AddBookConfs(Book *book, QString filename)
     //Read the book's conf file file:
     if(ReadFileToList(filename, text, "UTF-8"))
     {
-        for(unsigned int i=0; i<text.size() ; i++)
+        for(int i=0; i<text.size() ; i++)
         {
             if (text[i].indexOf("Comments") != -1)
             {
