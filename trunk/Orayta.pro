@@ -19,7 +19,9 @@ SOURCES += main.cpp \
     about.cpp \
     errorreport.cpp \
     bookfind.cpp \
-    bookdisplayer.cpp
+    bookdisplayer.cpp \
+    bookmark.cpp \
+    search.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
