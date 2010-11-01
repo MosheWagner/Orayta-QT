@@ -149,7 +149,6 @@ void Book::repainticon()
     //UnSelectable should allways be grey
     //if (mIsUnSelectable) setIcon(mpTreeItem, GREY);
 
-
     bool blue_child = false, grey_child = false, mixed_child = false;
 
     //Check children
@@ -186,42 +185,45 @@ void Book::repainticon()
         getParent()->repainticon();
 }
 
+void Book::_unselect()
+{
+    mInSearch = false;
+
+    //Darken icon
+    setIcon(mpTreeItem, GREY);
+
+    //Unselect all children
+    for (unsigned int i=0;i < mvChildren.size(); i++)
+        mvChildren[i]->_unselect();
+}
+
 void Book::unselect()
 {
-    //if (!mIsUnSelectable)
-    //{
-        mInSearch = false;
+    this->_unselect();
 
-        //Darken icon
-        setIcon(mpTreeItem, GREY);
+    //Repaint parent (it will tell it's parent to repaint too, and so on...)
+    if(mpParent != NULL)
+        mpParent->repainticon();
+}
 
-        //Unselect all children
-        for (unsigned int i=0;i < mvChildren.size(); i++)
-            mvChildren[i]->unselect();
+void Book::_select()
+{
+    mInSearch = true;
 
-        //Repaint parent (it will tell it's parent to repaint too, and so on...)
-        if(mpParent != NULL)
-            mpParent->repainticon();
-    //}
+    //Make icon blue
+    setIcon(mpTreeItem, BLUE);
+
+    //select all children
+    for (unsigned int i=0;i < mvChildren.size(); i++)
+        mvChildren[i]->_select();
 }
 
 void Book::select()
 {
-    //if (!mIsUnSelectable)
-    //{
-        mInSearch = true;
-
-        //Make icon blue
-        setIcon(mpTreeItem, BLUE);
-
-        //Unselect all children
-        for (unsigned int i=0;i < mvChildren.size(); i++)
-            mvChildren[i]->select();
-
-        //Repaint parent (it will tell it's parent to repaint too, and so on)
-        if(mpParent != NULL)
-            mpParent->repainticon();
-    //}
+    this->_select();
+    //Repaint parent (it will tell it's parent to repaint too, and so on)
+    if(mpParent != NULL)
+        mpParent->repainticon();
 }
 
 void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
