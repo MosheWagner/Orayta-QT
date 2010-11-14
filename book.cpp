@@ -744,5 +744,5 @@ QString Book::resultPreview(QRegExp exp, int offset)
     s = s.mid(s.indexOf(" "));
     s = s.mid(0, s.lastIndexOf(" "));
     s = "... " + s + " ...";
-    return s.replace(exp, "<span style='color:Yellow'>" + exp.cap(0) + "</span>");
+    return s.replace(exp, "<span style='background-color:Yellow'>" + exp.cap(0) + "</span>");
 }
