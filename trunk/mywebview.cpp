@@ -114,7 +114,19 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
     //Ignore backspace clicks
     if ( keyEvent->key() != Qt::Key_Backspace) QWebView::keyPressEvent(keyEvent);
 
+    //Ctrl-F
+    if (keyEvent->modifiers() == Qt::CTRL)
+    {
+        //If this key is "F", show "search in books" bar
+        if ( keyEvent->key() == Qt::Key_F)
+        {
+            emit ToggleSearchBar();
+        }
+    }
+
 }
+
+
 
 //Set a busy cursor before actually resizing the text, and restores it by the end
 void myWebView::setTextSizeMultiplier(qreal factor)

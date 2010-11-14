@@ -138,7 +138,6 @@ public:
     //Overloaded function of the above
     QList <SearchResult> findInBook(QRegExp regexp);
 
-protected:
 
     //Repaints the icon of this book or folder, by the state of it's children
     // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
@@ -149,12 +148,29 @@ protected:
 
     //Fills "pureText" and "levelMap" with their values
     void BuildSearchTextDB();
-    //Holds book's text as pure as possible. No nikud, punctuation marks, no level signs.
+
+   // QString mPureText;
+
+    QString pureText;
+protected:
+    BookIter itrFromOffset(QString posString);
+
+    //Returns the book's text as pure as possible. No nikud, punctuation marks, no level signs.
     // This should be used for searching in the book.
     // The results ahould later be mapped to BookIters using the "levelMap"
-    QString pureText;
+    //QString pureText();
+
+    void setPureText(QString);
+
+    /*
+    //Saved in Line:offsetInLine string format
+    QList <int> Map;
+    */
+
     //Holds the offsets of each BookIters of book in the "pureText". Use this to map search results in positions in the book
     QMap<int, BookIter> levelMap;
+
+
     //Returns a preview of the search result  (by it's search regexp and offset in puretext)
     QString resultPreview(QRegExp exp, int offset);
 

@@ -54,6 +54,7 @@ private slots:
 
 signals:
     void LinkClicked(QUrl);
+    void ToggleSearchBar();
 
 private:
     QString mActiveLink;

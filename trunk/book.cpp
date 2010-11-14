@@ -16,6 +16,10 @@
 
 #include "book.h"
 
+
+//TODO: Make sure bookiters are intiallized
+
+
 //Constructor of the Books
 Book::Book(Book * parent, QString path, QString name, QString displayname, bool is_dir)
 {
@@ -60,7 +64,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
 
     showAlone = true;
 
-    pureText = "";
+    //pureText = "";
 }
 
 Book::~Book()
@@ -409,10 +413,212 @@ QString Book::HTMLFileName()
 
     if (showAlone || mWeavedSources.size() == 0) CommenteriesMagicString = "";
 
-     QString htmlfilename = TMPPATH + stringify(mUniqueId) + CommenteriesMagicString + ".html";
+    QString htmlfilename = TMPPATH + stringify(mUniqueId) + CommenteriesMagicString;
 
     return htmlfilename;
 }
+
+
+
+
+
+
+/*
+void Book::BuildSearchTextDB()
+{
+
+
+    //TODO: remove non-link references to other books (?)
+
+    //TODO: still much to be done
+
+    //TODO: test thoroughly!
+
+
+    //Ignore dirs
+    if (mIsDir) return;
+
+    //No need to build the DB twice...
+    if (pureText() != "") return ;
+
+    //Lock the DB from other functions:
+    //(Because once pureText isn't empty, the function exists right away)
+    setPureText("Locked!");
+
+    //Read book's contents
+    QStringList text;
+    if (!ReadFileToList(mPath, text, "UTF-8", true))
+    {
+        qDebug() << "Error reading the book's text" << mPath;
+        return ;
+    }
+
+    //If a line starts with one of these, it's a level sign
+    QString levelSigns = "!@#$^~";
+    //Any char not matching this pattern, is no puretext.
+    //QRegExp notText("[^א-תa-zA-Z0-9 ]");
+    //These are turned into spaces, and not just ignored.
+    QString spaceSigns = " ־-_'::.,?";
+
+
+    QString hebrew = "אבגדהוזחטיכלמנסעפצקרשתםןץףך";
+    QString ptxt = " ";
+    //The first char has no source in the real text
+    Map.append(-1);
+    for (int i=0; i<text.size(); i++)
+    {
+        //Level line or link -> Ignore
+        if (levelSigns.contains(text[i][0]) || text[i].startsWith("<!--ex"))
+        {
+            //
+        }
+        //Text line
+        else
+        {
+            //Test if book is from the bible. Hope this is ok...
+            if (mPath.contains("מקרא") == true)
+            {
+                //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+                text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+            }
+
+            //Add only hebrew (or space-like) chars to the puretxt, and map thier originall position
+            for (int j=0; j<text[i].size(); j++)
+            {
+                if (hebrew.contains(text[i][j]))
+                {
+                    ptxt += text[i][j];
+                    Map.append(i);
+                }
+                else if (spaceSigns.contains(text[i][j]))
+                {
+                    if (ptxt[ptxt.size()-1] != ' ') ptxt += ' ';
+                    Map.append(i);
+                }
+            }
+        }
+    }
+
+
+    //Pad with spaces, so "full word searches" work on begining and end of text too
+    ptxt += " ";
+
+    setPureText(ptxt);
+
+
+}
+
+QList <SerachResult> Book::findInBook(QString phrase)
+{
+    //Naive convert to regexp
+    return findInBook(QRegExp(phrase));
+}
+
+QList <SerachResult> Book::findInBook(QRegExp exp)
+{
+
+
+    QList <SerachResult> results;
+
+    //Make sure DB exists
+    BuildSearchTextDB();
+
+
+    //Wait for the DB to unlock
+    while (pureText() == "Locked!") {};
+
+    int j = 0;
+
+    QString ptxt = pureText();
+
+    while ((j = ptxt.indexOf(exp, j)) != -1)
+    {
+        SerachResult s;
+        //s.preview = resultPreview(exp, j);
+        //s.itr = itrFromOffset(upper_bound(Map.begin(), Map.end(), j));
+
+        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(j);
+        mapitr --;
+
+        SerachResult s;
+        s.preview = resultPreview(exp, j);
+        s.itr = mapitr.value();
+
+
+        //Prevent double results
+        if (results.isEmpty()) results << s;
+        else if (results[results.size()-1].itr.toStringForLinks() != s.itr.toStringForLinks()) results << s;
+
+        ++j;
+    }
+
+    return results;
+
+
+}
+
+#define CHAR_LIMIT 200
+QString Book::resultPreview(QRegExp exp, int offset)
+{
+
+    QString s = pureText().mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
+
+    //Force full words
+    s = s.mid(s.indexOf(" "));
+    s = s.mid(0, s.lastIndexOf(" "));
+    s = "... " + s + " ...";
+    return s.replace(exp, "<span style='color:Yellow'>" + exp.cap(0) + "</span>");
+}
+
+
+QString Book::pureText()
+{
+    //return mPureText;
+    return readfile(TMPPATH + "/" + stringify(mUniqueId) + ".TDB", "UTF-8");
+}
+
+void Book::setPureText(QString ptxt)
+{
+    //mPureText = ptxt;
+    writetofile(TMPPATH + "/" + stringify(mUniqueId) + ".TDB", ptxt, "UTF-8", true);
+}
+
+BookIter Book::itrFromOffset(QString posString)
+{
+    BookIter itr;
+
+    //Read book's contents
+    QStringList text;
+    if (!ReadFileToList(mPath, text, "UTF-8", true))
+    {
+        qDebug() << "Error reading the book's text" << mPath;
+        return itr;
+    }
+
+    bool ok = true;
+    QStringList p = posString.split(":");
+    int line = p[0].toInt(&ok);
+
+    if (!ok) return itr;
+
+    //If a line starts with one of these, it's a level sign
+    QString levelSigns = "!@#$^~";
+
+
+    for (int i=0; i<line; i++)
+    {
+        if (levelSigns.indexOf(text[i][0]) != -1 )
+        {
+            //Advance the book itr to the new position
+            itr.SetLevelFromLine(text[i]);
+        }
+    }
+
+    return itr;
+}
+
+*/
+
 
 void Book::BuildSearchTextDB()
 {
@@ -520,6 +726,12 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
 
         ++j;
     }
+
+
+    // --- *** ---
+    pureText = "";
+    levelMap.clear();
+
 
     return results;
 }

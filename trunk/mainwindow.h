@@ -45,6 +45,7 @@
 #include <QMouseEvent>
 #include <QSplashScreen>
 #include <QDesktopWidget>
+#include <QFuture>
 #include "functions.h"
 #include "htmlgen.h"
 #include "ui_mainwindow.h"
@@ -115,9 +116,13 @@ private:
     //Switch GUI direction to RTL
     void toRTL();
 
+    //Set to true if the current search in books should be stopped
+    bool stopSearchFlag ;
+
 private slots:
 
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
+    void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
     void on_hideSearchButton_clicked();
     void on_showSearchBarButton_clicked(bool checked);
@@ -233,6 +238,10 @@ private slots:
 
     void toggleNikud(bool showNikud );
     void toggleTeamim(bool showTeamim);
+
+    void ToggleSearchBar();
 };
+
+void buidSearchDBinBG(BookList * bl);
 
 #endif // MAINWINDOW_H

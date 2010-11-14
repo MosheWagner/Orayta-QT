@@ -90,7 +90,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
     if ( regexp.pattern() != "" )
     {
-        ui->progressBar->show();
+        ui->pbarbox->show();
         ui->progressBar->setValue(5);
         float percentPerBook = (95.0 / bookList.size());
 
@@ -110,7 +110,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         ui->viewTab->setTabText(CURRENT_TAB,title);
 
         //Head and title of the Html
-        title = "תוצאות חיפוש: "; title +="\"" + disp+ "\"";
+        title = tr("Search results: "); title +="\"" + disp+ "\"";
         Htmlhead = html_head(title);
 
         Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
@@ -120,7 +120,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0;
-        for (unsigned int i=0; i<bookList.size() && (results <= RESULTS_MAX); i++)
+        for (unsigned int i=0; i<bookList.size() && (results <= RESULTS_MAX) && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
@@ -176,6 +176,12 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
             }
         }
+
+        if (stopSearchFlag == true)
+        {
+            Htmlhead += "<BR><BR>" + tr("(Search stopped by user)") + "<BR><BR>";
+        }
+
         if(results == 0)
         {
             //TODO: write better explenation
@@ -194,6 +200,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
             Htmlhead += "<BR><BR><B>" +  tr("Full result list:") + "</B><BR><BR>";
         }
+
         Html = Htmlhead + Html;
 
         Html += "</span></div>\n";
@@ -205,7 +212,9 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         CurrentBook->HideWaitPage();
         CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
 
-        ui->progressBar->hide();
+        ui->pbarbox->hide();
+
+        stopSearchFlag = false;
     }
 }
 

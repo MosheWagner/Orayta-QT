@@ -57,8 +57,11 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
 
     QFileInfo f("Images/Wait.gif");
+
     QString html = simpleHtmlPage("hello", "<br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
     
+    waitView->setHtml(html, QUrl::fromLocalFile(QDir::current().absoluteFilePath("htmlfile.html")));
+
     waitView->setHtml(html, QUrl::fromLocalFile(QDir::current().absoluteFilePath("htmlfile.html")));
 
     stackedWidget = new QStackedWidget(this);
@@ -67,7 +70,6 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     stackedWidget->show();
     vbox->addWidget(stackedWidget);
-
 
     setHtml(simpleHtmlPage(tr("Orayta"), ""));
 
@@ -277,6 +279,8 @@ void bookDisplayer::load(QUrl url)
     myurl = url;
 
     htmlview->load(url);
+
+    QApplication::processEvents();
 }
 
 void bookDisplayer::setInternalLocation(QString location)
