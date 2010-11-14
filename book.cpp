@@ -648,9 +648,9 @@ void Book::BuildSearchTextDB()
     //If a line starts with one of these, it's a level sign
     QString levelSigns = "!@#$^~";
     //Any char not matchong this pattern, is no *pure* text.
-    QRegExp notText("[^א-תa-zA-Z0-9 ]");
+    QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
     //These are turned into spaces, and not just ignored.
-    QString spaceSigns = "-_'::.,?";
+    QString spaceSigns = "[-_:.,?]";
 
     for (int i=0; i<text.size(); i++)
     {
@@ -685,11 +685,12 @@ void Book::BuildSearchTextDB()
 
             //Remove all non "pure-text" chars
             text[i] = text[i].replace(QChar(0x05BE), " "); //Makaf
-            text[i] = text[i].replace(spaceSigns, " ");
+            text[i] = text[i].replace(QRegExp(spaceSigns), " ");
+            text[i] = text[i].replace("{", "(").replace("}",")");
             text[i] = text[i].replace(notText, "");
 
             //Remove double spaces and line breaks
-            pureText += text[i].simplified();
+            pureText += text[i];//.simplified();
         }
     }
 
@@ -703,6 +704,7 @@ QList <SearchResult> Book::findInBook(QString phrase)
     return findInBook(QRegExp(phrase));
 }
 
+#define CHAR_LIMIT 250
 QList <SearchResult> Book::findInBook(QRegExp exp)
 {
     QList <SearchResult> results;
@@ -710,21 +712,22 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
     //Make sure DB exists
     BuildSearchTextDB();
 
-    int j = 0;
-    while ((j = pureText.indexOf(exp, j)) != -1)
+    int curr = 0, last = 0;
+    while ((curr = pureText.indexOf(exp, last)) != -1)
     {
-        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(j);
+        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(curr);
         mapitr --;
 
         SearchResult s;
-        s.preview = resultPreview(exp, j);
+        s.preview = resultPreview(exp, curr);
         s.itr = mapitr.value();
 
         //Prevent double results
         if (results.size() == 0) results << s;
         else if (results[results.size()-1].itr.toStringForLinks() != s.itr.toStringForLinks()) results << s;
+        else if (curr-last > CHAR_LIMIT/2) results << s;
 
-        ++j;
+        last = curr+1;
     }
 
 
@@ -736,7 +739,6 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
     return results;
 }
 
-#define CHAR_LIMIT 200
 QString Book::resultPreview(QRegExp exp, int offset)
 {
     QString s = pureText.mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
