@@ -15,12 +15,33 @@
 */
 
 #include "mainwindow.h"
+#include <QShortcut>
+
+
+//------------
+//TODO: Full map for puretext.
+//---------------
+
+
+
+
+//BUG: DB in file mode doesn't save the levelMap, so it crashes
+
+//BUG: do not allow english letters in puretext
+
+//Check whats wrong with  שמירת הלשון (או חפץ חיים)?
+
+//TODO: Fix Ctrl-F in KHTML
+//TODO: Fix KHTML search in book (especailly with teamim)
+
+//TODO: Improve search result preview
+//TODO: Solve search result marking problem
 
 //TODO: Finish GUI changes
-//TODO: Build search DB in the backgorund?
+//TODO: Make auto DB building an option.
+//TODO: Save DB to file?
 
-//TODO: BUG: Mark string fails! (in all books, but differently in gmarot)
-//TODO: Program slows down after search. Is the search fully stoped?
+//TODO: Allow finding ktiv too (only kri is found now)
 
 /*
   Roadmap for 0.03:
@@ -40,9 +61,11 @@
   - PDF support
 */
 
-//TODO: FIXME: KHTML search starts from begining when focus lost
+//TODO: Allow printing
 
-//TODO: BUG!!! When קרי וכתיב, none are found by searches. But both should...
+//TODO: Add date to bookmarks (somewhere), and "sort by" option?
+
+//TODO: FIXME: KHTML search starts from begining when focus lost
 
 //TODO: Improve current position detection
 
@@ -50,47 +73,40 @@
 
 //TODO: dictionary
 
-//TODO: allow search to be stopped or canceled
-
-//TODO: Fix the way ספר המידות looks (compare to the original TE)
-
-//BUG: תומר דבורה Crashes!!!
-//BUG: בראשית Crashes!!
-
 //TODO: Translatable welcome page
 //(TODO: create help page for linux version)
 //TODO: hide welcomepage from search
 
-//TODO: Speed up search. (Better progress bar too?)
-
 //TODO: Add rav kook books
-
-//TODO: Remove wierd nikud
 
 //TODO: see if printing dialog really appears in hebrew on hebrew locals
 
 //TODO: document & clean code
 
-//TODO: more of the search - two word search, etc'
-
 //TODO: Requested Feature: parallel tab (like in the originall)
 
 //TODO: see what else to do ;-)
 
+/*
+  Book issues:
+
+  - שמירת הלשון / חפץ חיים - Gives errors and dosnt seem ok
+  - תומר דבורה Crashes!!!
+  - ספר המידות is bad
+  - קרבן העדה on שקלים is all bold, and a conf line is slipped in the text
+*/
 
 
 
-// This is just a very simple define. every place in the code,
+// This is just a very simple define. anywhere in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 //
-//  It just made the code much more readable, I couldn't resist
+//  It just made the code so much more readable, I couldn't resist
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
 //Another define becuase I'm lasy. "CurrentBook" simply represents
 // the currently visible "bookdisplayer"
 #define CurrentBook bookDisplayerList[CURRENT_TAB]
-
-
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -169,7 +185,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->searchGroupBX->hide();
     ui->showSearchBarButton->setChecked(false);
 
-    ui->progressBar->hide();
+    ui->pbarbox->hide();
 
     ui->mixedGroup->hide();
 
@@ -199,6 +215,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     for (int i=0; i<langs.size(); i++) if (LANG == langs[i]) is = i;
     ui->langComboBox->setCurrentIndex(is);
 
+
+    stopSearchFlag = false;
     /* -------------------------
     //Output a new conf file:
     QString c="";
@@ -210,7 +228,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         }
     print (c);
      --------------------------- */
+
+    //Build the search DB while the program is running
+    //QtConcurrent::run(buidSearchDBinBG, &bookList);
 }
+
 
 //Switch GUI direction to RTL
 void MainWindow::toRTL()
@@ -286,6 +308,8 @@ MainWindow::~MainWindow()
     for (int i=0; i<bookDisplayerList.size(); i++) { delete bookDisplayerList[i]; }
     bookDisplayerList.clear();
 
+    bookList.clear();
+
     delete ui;
 }
 
@@ -305,6 +329,9 @@ void MainWindow::ClearTmp()
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    //Cancel any running searches
+    stopSearchFlag = true;
+
     QSettings settings("Orayta", "SingleUser");
 
     settings.beginGroup("MainWindow");
@@ -449,16 +476,20 @@ void MainWindow::LoadBook(Book *book, QString markString)
     bool shownikud = CurrentBook->isNikudShown();
     bool showteamim = CurrentBook->areTeamimShown();
 
+    //Show the wait sign even before rendering
+    CurrentBook->ShowWaitPage();
+
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
 
-    //Generate filename representing this file and commentreis that should open
+    //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
     //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
-    QString htmlfilename = book->HTMLFileName();
+    QString htmlfilename = book->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
 
     //Check if file already exists. If not, make sure it renders ok.
     QFile f(htmlfilename);
     bool renderedOK = true;
-    if (!f.exists()) renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+
+    if (!f.exists() || markString.simplified() != "") renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
 
     if (renderedOK == true)
     {
@@ -683,6 +714,10 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
         {
             //Act as if the current item was clicked
             on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
+        }
+        if (ui->searchInBooksLine->hasFocus())
+        {
+            on_SearchInBooksBTN_clicked();
         }
     }
     //Ctrl
@@ -1042,7 +1077,8 @@ void MainWindow::on_changeLangButton_clicked()
 
     //Reboot the program
     QProcess::startDetached("\"" + QApplication::applicationFilePath() + "\"");
-    exit(0);
+
+    close();
 }
 
 void MainWindow::openExternalLink(QString lnk)
@@ -1057,10 +1093,12 @@ void MainWindow::openExternalLink(QString lnk)
         {
             //Add a new tab and open the link there
             addViewTab(false);
+            CurrentBook->ShowWaitPage();
+            QApplication::processEvents();
+
             ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
             CurrentBook->setInternalLocation("#" + parts[1]);
-
             if (parts.size() == 3)
             {
                 //Mark the requested text in the new book
@@ -1117,4 +1155,23 @@ void MainWindow::on_hideSearchButton_clicked()
 void MainWindow::showSearchTab()
 {
     ui->treeTab->setCurrentIndex(1);
+}
+
+void MainWindow::on_cancelSearchBTN_clicked()
+{
+    stopSearchFlag = true;
+}
+
+void MainWindow::ToggleSearchBar()
+{
+    ui->showSearchBarButton->click();
+}
+
+//Builds all book's search DB's, while the program is running
+void buidSearchDBinBG(BookList * bl)
+{
+    for (int i=0; i<bl->size(); i++)
+    {
+        (*bl)[i]->BuildSearchTextDB();
+    }
 }

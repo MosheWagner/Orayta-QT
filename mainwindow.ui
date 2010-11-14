@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>725</height>
+    <width>1093</width>
+    <height>721</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1004,12 +1004,6 @@
                <attribute name="headerStretchLastSection">
                 <bool>false</bool>
                </attribute>
-               <attribute name="headerVisible">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="headerStretchLastSection">
-                <bool>false</bool>
-               </attribute>
                <column>
                 <property name="text">
                  <string notr="true">1</string>
@@ -1145,7 +1139,8 @@
               </font>
              </property>
              <property name="text">
-              <string>( The search ignores Punctuation, Nikud and Teamim. )
+              <string>( The search ignores Punctuation,
+        Nikud and Teamim. )
 </string>
              </property>
              <property name="wordWrap">
@@ -1221,7 +1216,8 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Allow &quot;Ktiv Maleh&quot; / &quot;Ktiv Haser&quot;</string>
+                 <string>Allow &quot;Ktiv Maleh&quot; /
+    &quot;Ktiv Haser&quot;</string>
                 </property>
                 <property name="tristate">
                  <bool>false</bool>
@@ -1298,6 +1294,89 @@
               </spacer>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QFrame" name="pbarbox">
+             <layout class="QVBoxLayout" name="pbarlayout">
+              <property name="topMargin">
+               <number>9</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Searching ...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QProgressBar" name="progressBar">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="baseSize">
+                 <size>
+                  <width>200</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="value">
+                 <number>21</number>
+                </property>
+                <property name="textVisible">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <item>
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="cancelSearchBTN">
+                  <property name="text">
+                   <string>Cancel search</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_13">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
             <spacer name="verticalSpacer_3">
@@ -1514,8 +1593,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>263</width>
-                <height>604</height>
+                <width>231</width>
+                <height>479</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1541,7 +1620,7 @@
                   <string>font: 8pt &quot;Sans Serif&quot;;</string>
                  </property>
                  <property name="currentIndex">
-                  <number>153</number>
+                  <number>155</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -1792,28 +1871,6 @@
          </widget>
         </widget>
        </item>
-       <item>
-        <widget class="QProgressBar" name="progressBar">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="baseSize">
-          <size>
-           <width>200</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="value">
-          <number>21</number>
-         </property>
-         <property name="textVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
     </layout>
@@ -1824,8 +1881,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1097</width>
-     <height>28</height>
+     <width>1093</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="layoutDirection">

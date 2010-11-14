@@ -54,11 +54,11 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
 
     if (!isMixed() || !shownMixed || showAlone)
     {
-        return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp(unescapeFromBase32(mark)));
+        return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
     }
     else
     {
-        return mixedHtmlRender(outfilename, shownikud, showteamim, QRegExp(unescapeFromBase32(mark)));
+        return mixedHtmlRender(outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
     }
 }
 
@@ -133,6 +133,9 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     //while (Sources[0].text.size() > 0)
     for (int i=0; i<Sources[0].text.size(); i++)
     {
+        //Be nice to other people too
+        QApplication::processEvents();
+
         //Use the first line of whats left of the file, and chop it off
         QString line = Sources[0].text[i];
 
@@ -302,8 +305,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 line = line.replace(replaceFrom[i], replaceTo[i]);
             }
 
-            ///$$$$$$$
-            if (mark.pattern() != "") line = line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+            if (mark.pattern() != "()" && mark.pattern() != "") line = line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
 
             Sources[0].str += line + ' ';
         }
@@ -388,6 +390,8 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
 
     for(int i=0; i<text.size(); i++)
     {
+        //Be nice to other people too
+        QApplication::processEvents();
 
         //Display nikud and teamim depending on the NikudMode
         if ( shownikud == false) text[i] = removeNikud(text[i]);
@@ -543,8 +547,10 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
                 txt = txt.replace(replaceFrom[i], replaceTo[i]);
             }
 
-            ///$$$$$$$
-            if (mark.pattern() != "") txt = txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+            if (mark.pattern() != "()" && mark.pattern() != "")
+            {
+                txt = txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+            }
 
             htmlbody += txt;
 

@@ -54,9 +54,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_na
         {
             text << line;
         }
-        //#$#%#^%
-        //if (line[0] == '$')
-        else if ((line[0] == '!') || (line[0] == '~') || (line[0] == '@') || (line[0] == '#') || (line[0] == '^'))
+        else if ((line[0] == '$') || (line[0] == '!') || (line[0] == '~') || (line[0] == '@') || (line[0] == '#') || (line[0] == '^'))
         {
             conflinesended = true;
             text << line;
@@ -98,6 +96,25 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
         return true;
     }
     else return false;
+}
+
+QString readfile(QString filename, QString encoding_name)
+{
+    //Read the source file:
+    QFile infile(filename);
+
+    //Stop if it's not a valid file:
+    QFileInfo fi(filename);
+    if ( (fi.isDir() == true) || (fi.exists() == false)) return false;
+
+    // Open the file
+    if ((!infile.open(QIODevice::ReadOnly))) return false;
+
+    // Set the stream to read from the file
+    QTextStream t( &infile );
+    t.setCodec(QTextCodec::codecForName(encoding_name.toUtf8()));
+
+    return t.readAll();
 }
 
 //Writes the given data to the given file path
@@ -435,6 +452,12 @@ QString removeSigns(QString str)
 //Removes any nikud sign from the given unicode string
 QString removeNikud(QString str)
 {
+    //Make sure nikud is in the normall format:
+        // QString::normalized(QString::NormalizationForm_D) - Means nikud is allways treated as two chars
+        // See: http://www.unicode.org/reports/tr15/#Norm_Forms
+    str = str.normalized(QString::NormalizationForm_D);
+
+
     //TODO: Very ugly way of doing this. Why can't there be a range execpt a few chars?!
 
     //These are all of the nikud signs besides the teamim ones mixed in them
