@@ -26,7 +26,6 @@
 #define CurrentBook bookDisplayerList[CURRENT_TAB]
 
 
-
 void MainWindow::on_SearchInBooksBTN_clicked()
 {
     //TODO: כתיב מלא / חסר
@@ -103,7 +102,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
 
-        CurrentBook->ShowWaitPage();
+        bookDisplayer *pCurrentBook = CurrentBook;
+        pCurrentBook->ShowWaitPage();
 
         //Set the title of the tab to show what it's searching for
         title = tr("Searching: "); title += "\"" + disp + "\"" + " ...";
@@ -209,8 +209,8 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         //TODO: Serch results are special books
         writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
 
-        CurrentBook->HideWaitPage();
-        CurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
+        pCurrentBook->HideWaitPage();
+        pCurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
 
         ui->pbarbox->hide();
 
