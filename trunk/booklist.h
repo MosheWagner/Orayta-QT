@@ -43,6 +43,8 @@ public:
     //Add the book's confs, from it's conf file
     void AddBookConfs(Book *book, QString filename);
 
+    vector<Book*> BooksInSearch (void);
+
 private:
 };
 
