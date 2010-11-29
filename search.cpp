@@ -87,11 +87,13 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
     QList <QString> text;
 
+    vector<Book*> searchList = bookList.BooksInSearch();
+
     if ( regexp.pattern() != "" )
     {
         ui->pbarbox->show();
         ui->progressBar->setValue(5);
-        float percentPerBook = (95.0 / bookList.size());
+        float percentPerBook = (95.0 / searchList.size());
 
         //Make a new tab if the current tab has something in it
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
@@ -120,61 +122,58 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0;
-        for (unsigned int i=0; i<bookList.size() && (results <= RESULTS_MAX) && stopSearchFlag == false; i++)
+        for (unsigned int i=0; i < searchList.size() && (results <= RESULTS_MAX) && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
-            if (!bookList[i]->IsDir() && bookList[i]->IsInSearch())
+            QList <SearchResult> searchResults = searchList[i]->findInBook(regexp);
+
+            //Let the animation move...
+            QApplication::processEvents();
+
+            for (int j=0; j<searchResults.size(); j++)
             {
-                QList <SearchResult> searchResults = bookList[i]->findInBook(regexp);
+                results ++;
+                //Get the text best to show for this reult's description
+                QString linkdisplay = "";
 
-                //Let the animation move...
-                QApplication::processEvents();
-
-                for (int j=0; j<searchResults.size(); j++)
+                //Regular books:
+                if (!searchList[i]->getPath().contains("תלמוד") && !searchList[i]->getPath().contains("שס"))
                 {
-                    results ++;
-                    //Get the text best to show for this reult's description
-                    QString linkdisplay = "";
 
-                    //Regular books:
-                    if (!bookList[i]->getPath().contains("תלמוד") && !bookList[i]->getPath().contains("שס"))
-                    {
+                    //This is an overkill, but I couldn't resist:
+                    //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
 
-                        //This is an overkill, but I couldn't resist:
-                        //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
-
-                        linkdisplay += bookList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
-                    }
-                    //Gmarot:
-                    else
-                    {
-                        linkdisplay += bookList[i]->getNormallDisplayName() + " ";
-                        linkdisplay += searchResults[j].itr.toGmaraString();
-                    }
-
-
-                    //Add a small link (at the index) to the full result
-                    HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
-
-                    //Add the full result to the page
-                    Html += "<span style=\"font-size:23px\">";
-                    Html += "<a name=\"" + stringify(results) + "\"></a>";
-
-                    Html += "<a href=!" + stringify(bookList[i]->getUniqueId()) + ":";
-                    Html += searchResults[j].itr.toStringForLinks();
-                    Html += ":" + escapeToBase32(regexp.pattern()) + ">";
-
-                    Html += linkdisplay;
-                    Html += "</a><BR></span>\n";
-
-                    //Show result
-                    Html += searchResults[j].preview;
-
-                    Html += "<br><br><br>\n";
+                    linkdisplay += searchList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
+                }
+                //Gmarot:
+                else
+                {
+                    linkdisplay += searchList[i]->getNormallDisplayName() + " ";
+                    linkdisplay += searchResults[j].itr.toGmaraString();
                 }
 
+
+                //Add a small link (at the index) to the full result
+                HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
+
+                //Add the full result to the page
+                Html += "<span style=\"font-size:23px\">";
+                Html += "<a name=\"" + stringify(results) + "\"></a>";
+
+                Html += "<a href=!" + stringify(searchList[i]->getUniqueId()) + ":";
+                Html += searchResults[j].itr.toStringForLinks();
+                Html += ":" + escapeToBase32(regexp.pattern()) + ">";
+
+                Html += linkdisplay;
+                Html += "</a><BR></span>\n";
+
+                //Show result
+                Html += searchResults[j].preview;
+
+                Html += "<br><br><br>\n";
             }
+
         }
 
         if (stopSearchFlag == true)

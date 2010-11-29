@@ -231,3 +231,14 @@ int BookList::FindBookByTWI(QTreeWidgetItem *TWI)
     }
     return index;
 }
+
+vector<Book*> BookList::BooksInSearch (void)
+{
+    vector<Book*> ret;
+
+    for ( vector<Book*>::iterator it=this->begin() ; it < this->end(); it++ )
+        if (!(*it)->IsDir() && (*it)->IsInSearch())
+            ret.push_back(*it);
+
+    return ret;
+}
