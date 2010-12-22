@@ -47,7 +47,8 @@ private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_radioButton_2_toggled(bool checked);
-    void on_lineEdit_textEdited(QString );
+    void on_lineEdit_textEdited(QString);
+    void on_bookfindWidget_item_double_clicked(QListWidgetItem *);
 };
 
 #endif // BOOKFIND_H

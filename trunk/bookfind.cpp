@@ -24,6 +24,8 @@ bookfind::bookfind(QWidget *parent, BookList booklist) : QDialog(parent), m_ui(n
     if (LANG == "Hebrew") toRTL();
 
     mBookList = booklist;
+
+    connect(m_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(on_bookfindWidget_item_double_clicked(QListWidgetItem*)));
 }
 
 void bookfind::toRTL()
@@ -102,4 +104,13 @@ void bookfind::on_pushButton_clicked()
         emit openBook(x);
         close();
     }    
+}
+
+void bookfind::on_bookfindWidget_item_double_clicked(QListWidgetItem *item)
+{
+    int x;
+    if (ToNum( item->statusTip(), &x))
+    {
+        emit openBook(x);
+    }
 }
