@@ -574,10 +574,10 @@ void MainWindow::addViewTab(bool empty)
 
     if (empty == true) bd->setHtml(simpleHtmlPage(tr("Orayta"), ""));
 
-    ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
     //Switch to the new tab
     ui->viewTab->setCurrentIndex(ui->viewTab->count()-1);
+
+    ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
     connect(bd, SIGNAL(externalLink(QString)), this, SLOT(openExternalLink(QString)));
 }
