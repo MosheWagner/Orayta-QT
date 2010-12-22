@@ -47,12 +47,11 @@ void bookfind::reBuildList(QString text)
 
     if ( text != "")
     {
+        QListWidgetItem *item = NULL;
         for (unsigned int i=0; i<mBookList.size(); i++)
         {
             if (!mBookList[i]->IsDir())
             {
-                QListWidgetItem *item = new QListWidgetItem();
-
                 QString bookname = mBookList[i]->getNormallDisplayName();
 
                 //Mixed display book
@@ -62,6 +61,7 @@ void bookfind::reBuildList(QString text)
                 {
                     if ( bookname.indexOf(text) != -1)
                     {
+                        item = new QListWidgetItem();
                         item->setText(bookname);
                         m_ui->listWidget->addItem(item);
 
@@ -70,8 +70,9 @@ void bookfind::reBuildList(QString text)
                 }
                 else
                 {
-                    if (bookname.startsWith(text) == true )
+                    if (bookname.startsWith(text))
                     {
+                        item = new QListWidgetItem();
                         item->setText( bookname );
                         m_ui->listWidget->addItem(item);
 
