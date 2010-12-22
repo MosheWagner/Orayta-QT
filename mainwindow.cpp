@@ -546,7 +546,6 @@ void MainWindow::openBook( int ind )
 void MainWindow::openSelectedBook( )
 {
     int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
-
     openBook(ind);
 }
 
@@ -554,9 +553,7 @@ void MainWindow::openSelectedBook( )
 void MainWindow::openSelectedBookInNewTab()
 {
     addViewTab(false);
-
-    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
-    openBook(ind);
+    openSelectedBook();
 }
 
 void MainWindow::on_newTabButton_clicked()
@@ -685,6 +682,7 @@ void MainWindow::collapseItem()
 {
     ui->treeWidget->collapseItem(ui->treeWidget->selectedItems()[0]);
 }
+
 //Expand the currently selected item in the treewidget
 void MainWindow::expandItem()
 {
@@ -710,12 +708,12 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
                 else openBook(ind);
             }
         }
-        if (ui->bookmarkWidget->hasFocus())
+        else if (ui->bookmarkWidget->hasFocus())
         {
             //Act as if the current item was clicked
             on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
         }
-        if (ui->searchInBooksLine->hasFocus())
+        else if (ui->searchInBooksLine->hasFocus())
         {
             on_SearchInBooksBTN_clicked();
         }
@@ -1145,6 +1143,7 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
 void MainWindow::on_showSearchBarButton_clicked(bool checked)
 {
     ui->searchGroupBX->setVisible(checked);
+    ui->lineEdit->setFocus(Qt::ActiveWindowFocusReason);
 }
 
 void MainWindow::on_hideSearchButton_clicked()
