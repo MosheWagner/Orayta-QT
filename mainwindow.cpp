@@ -276,7 +276,7 @@ void MainWindow::connectMenuActions()
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
     connect(ui->zoomoutAction, SIGNAL(triggered()), this, SLOT(on_zoomoutButton_clicked()));
     connect(ui->jumptotopAction, SIGNAL(triggered()), this, SLOT(on_topButton_clicked()));
-    connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
+    //connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
 
     connect(ui->findBookAction, SIGNAL(triggered()), this, SLOT(findBookForm()));
     connect(ui->opentabAction, SIGNAL(triggered()), this, SLOT(on_newTabButton_clicked()));
@@ -290,8 +290,10 @@ void MainWindow::connectMenuActions()
     connect(ui->reportErrorAction, SIGNAL(triggered()), this, SLOT(menuErrorReport()));
 
     connect(ui->advancedSearchAction, SIGNAL(triggered()), this, SLOT(showSearchTab()));
+    connect(ui->searchInBooksLine, SIGNAL(returnPressed()), this, SLOT(on_SearchInBooksBTN_clicked()));
     connect(ui->searchForwardAction, SIGNAL(triggered()), this, SLOT(on_searchForward_clicked()));
     connect(ui->searchBackwardsAction, SIGNAL(triggered()), this, SLOT(on_searchBackwords_clicked()));
+    connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(on_lineEdit_returnPressed()));
 
     connect(ui->addAllToSearchAction, SIGNAL(triggered()), this, SLOT(on_addAllToSearchButton_clicked()));
     connect(ui->removeAllFromSearchAction, SIGNAL(triggered()), this, SLOT(on_removeAllFromSearchButton_clicked()));
@@ -707,15 +709,11 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
                 }
                 else openBook(ind);
             }
-        }
-        else if (ui->bookmarkWidget->hasFocus())
-        {
-            //Act as if the current item was clicked
-            on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
-        }
-        else if (ui->searchInBooksLine->hasFocus())
-        {
-            on_SearchInBooksBTN_clicked();
+            else if (ui->bookmarkWidget->hasFocus())
+            {
+                //Act as if the current item was clicked
+                on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
+            }
         }
     }
     //Ctrl
@@ -745,7 +743,6 @@ void MainWindow::printBook()
     }
 }
 */
-
 
 //Show the comment adding / editing dialog
 void MainWindow::openCommentDialog(QString link)
