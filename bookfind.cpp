@@ -17,13 +17,11 @@
 #include "bookfind.h"
 #include "ui_bookfind.h"
 
-bookfind::bookfind(QWidget *parent, BookList booklist) : QDialog(parent), m_ui(new Ui::bookfind)
+bookfind::bookfind(QWidget *parent, BookList& booklist) : QDialog(parent), m_ui(new Ui::bookfind), mBookList(booklist)
 {
     m_ui->setupUi(this);
 
     if (LANG == "Hebrew") toRTL();
-
-    mBookList = booklist;
 
     connect(m_ui->listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(on_bookfindWidget_item_double_clicked(QListWidgetItem*)));
 }
@@ -57,7 +55,7 @@ void bookfind::reBuildList(QString text)
                 QString bookname = mBookList[i]->getNormallDisplayName();
 
                 //Mixed display book
-                if ( mBookList[i]->isMixed() ) bookname = bookname + " - תצוגה משולבת";
+                if ( !mBookList[i]->ShowAlone() ) bookname = bookname + " [תצוגה משולבת]";
 
                 if ( m_ui->radioButton->isChecked())
                 {

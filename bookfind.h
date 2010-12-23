@@ -28,15 +28,15 @@ namespace Ui {
 class bookfind : public QDialog {
     Q_OBJECT
 public:
-    bookfind(QWidget *parent, BookList booklist);
+    bookfind(QWidget *parent, BookList& booklist);
     ~bookfind();
 
 protected:
 
 private:
     Ui::bookfind *m_ui;
+    BookList& mBookList;
 
-    BookList mBookList;
     void toRTL();
     void reBuildList(QString);
 

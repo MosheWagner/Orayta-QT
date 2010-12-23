@@ -460,7 +460,7 @@ void MainWindow::BuildBookTree()
             twi->setText(0, dn);
 
             //set the icon:
-            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->isMixed(), bookList[i]->mIconState);
+            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->IsMixed(), bookList[i]->mIconState);
 
             twi->setIcon(0, *icon);
 
@@ -938,7 +938,7 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
     int bookid = bookList.FindBookByTWI(current);
 
     //Show / Hide mixed display stuff
-    if (bookList[bookid]->isMixed())
+    if (bookList[bookid]->IsMixed())
     {
         ui->mixedGroup->show();
 
