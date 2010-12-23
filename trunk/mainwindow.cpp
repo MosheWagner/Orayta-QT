@@ -290,10 +290,8 @@ void MainWindow::connectMenuActions()
     connect(ui->reportErrorAction, SIGNAL(triggered()), this, SLOT(menuErrorReport()));
 
     connect(ui->advancedSearchAction, SIGNAL(triggered()), this, SLOT(showSearchTab()));
-    connect(ui->searchInBooksLine, SIGNAL(returnPressed()), this, SLOT(on_SearchInBooksBTN_clicked()));
     connect(ui->searchForwardAction, SIGNAL(triggered()), this, SLOT(on_searchForward_clicked()));
     connect(ui->searchBackwardsAction, SIGNAL(triggered()), this, SLOT(on_searchBackwords_clicked()));
-    connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(on_lineEdit_returnPressed()));
 
     connect(ui->addAllToSearchAction, SIGNAL(triggered()), this, SLOT(on_addAllToSearchButton_clicked()));
     connect(ui->removeAllFromSearchAction, SIGNAL(triggered()), this, SLOT(on_removeAllFromSearchButton_clicked()));
