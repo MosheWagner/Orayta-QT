@@ -76,6 +76,11 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     }
 }
 
+void MainWindow::on_searchInBooksLine_returnPressed()
+{
+    on_SearchInBooksBTN_clicked();
+}
+
 
 
 #define RESULTS_MAX 500
