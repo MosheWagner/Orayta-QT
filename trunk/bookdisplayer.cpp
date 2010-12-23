@@ -321,7 +321,7 @@ QString bookDisplayer::htmlSource()
 void bookDisplayer::searchText(QString text, bool backwards)
 {
     if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
-    else htmlview->findText(text, 0);
+    else htmlview->findText(text);
 }
 
 void bookDisplayer::ShowWaitPage()
