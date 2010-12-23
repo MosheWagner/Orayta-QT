@@ -141,7 +141,7 @@ void BookList::AddBookConfs(Book *book, QString filename)
                 GetIntValue(text[i], &(book->mWeavedSources));
 
                 //All mixed books can't be searched or selected from the tree
-                if (book->isMixed()) book->setIsUnSelectable(true);
+                if (book->IsMixed()) book->setIsUnSelectable(true);
             }
 */
             else if (text[i].indexOf("AddSource") != -1)

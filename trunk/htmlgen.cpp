@@ -52,7 +52,7 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
     int shownMixed = 0;
     for (int i=1; i<mWeavedSources.size(); i++) if (mWeavedSources[i].show) shownMixed ++;
 
-    if (!isMixed() || !shownMixed || showAlone)
+    if (!IsMixed() || !shownMixed || showAlone)
     {
         return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
     }

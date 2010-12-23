@@ -69,6 +69,8 @@ public:
     bool IsDir();
     bool IsInSearch();
     bool IsHidden();
+    bool IsMixed();
+    bool ShowAlone();
     Book * getParent();
     QTreeWidgetItem * getTreeItemPtr();
 
@@ -105,8 +107,6 @@ public:
     // Selects this book (or folder) for searching.
     //  Applies to all children, and changes icon state and color
     void select();
-
-    bool isMixed();
 
     bool showAlone;
 

@@ -85,25 +85,28 @@ QString Book::getNormallDisplayName()
 { return mNormallDisplayName;         }
 
 QString Book::getTreeDisplayName()
-{ return mTreeDisplayName;         }
+{  return mTreeDisplayName;         }
 
 QString Book::getName()
-{   return mNameForTitle;  }
+{  return mNameForTitle;  }
 
 bool Book::IsHidden()
-{ return mIsHidden; }
+{  return mIsHidden; }
 
 bool Book::IsDir()
-{   return mIsDir;    }
+{  return mIsDir;    }
 
 bool Book::IsInSearch()
 {  return mInSearch; }
 
-bool Book::isMixed()
-{ return (mWeavedSources.size() != 0); }
+bool Book::IsMixed()
+{  return (mWeavedSources.size() != 0); }
+
+bool Book::ShowAlone()
+{  return !IsMixed() || showAlone;  }
 
 QTreeWidgetItem * Book::getTreeItemPtr()
-{   return mpTreeItem; }
+{  return mpTreeItem; }
 
 // Book Setters:
 void Book::setPath(QString path)
@@ -237,7 +240,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     //set icon state
     mIconState = newiconstate;
     QIcon *icon;
-    icon = bookIcon(IsDir(), isMixed(), mIconState);
+    icon = bookIcon(IsDir(), IsMixed(), mIconState);
     TreeItem->setIcon(0, *icon);
     delete icon;
 
