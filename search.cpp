@@ -127,7 +127,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0;
-        for (unsigned int i=0; i < searchList.size() && (results <= RESULTS_MAX) && stopSearchFlag == false; i++)
+        for (unsigned int i=0; i < searchList.size() && results <= RESULTS_MAX && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
