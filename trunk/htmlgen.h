@@ -48,10 +48,10 @@ QString html_head(QString title);
 QString html_book_title(QString , QString, QString);
 
 //Generates and returns the Index ('Tochen') of the HTML file
-QString html_link_table(vector<IndexItem>& ,int short_index_level, bool dot , bool hasRUS = false);
+QString html_link_table(vector<IndexItem>,int short_index_level, bool dot , bool hasRUS = false);
 
 //Generates an index to all LINKS with the given level (NOTE: links to links, not to text)
-inline QString index_to_index(vector<IndexItem>& indexitemlist, int short_index_level);
+inline QString index_to_index(vector<IndexItem> indexitemlist,int short_index_level);
 
 //Generates the div declaration for the top of the html file
 inline QString html_main_div();
@@ -60,7 +60,7 @@ inline QString html_main_div();
 //Returns true if the given line has either a empty line after it,
 // or only lines with "//" and an empty line at the end of them.
 // (Recusive function). Used to recognize the 'special name' links.
-bool space_or_slash_after_this(vector <QString>& text, int line);
+bool space_or_slash_after_this(vector <QString> text, int line);
 
 //Returns html code of a "<a name" tag, for the given name
 inline QString namepoint (QString name);
@@ -78,11 +78,11 @@ QString Script();
 
 
 //Returns the Html code for the given external link
-QString ExternalLink(QString& linkcode);
+QString ExternalLink(QString linkcode);
 
 //I have no idea how this works, it just does.
 // Many thanks to the developer of the originall program
-string Decrypt (string& text, bool decrypt);
+string Decrypt (string text, bool decrypt);
 
 
 #endif

@@ -47,7 +47,7 @@ const int LevelFontSizeAdd[] = {2,12,18,18,18};
 //Renders a html file from the given Orayta file.
 //Generates a full file into the given outfile name, and a header file into outfile + ".header.html"
 //bool Book::htmlrender(QString filename, QString outfilename)
-bool Book::htmlrender(QString& outfilename, bool shownikud, bool showteamim, QString mark)
+bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QString mark)
 {
     int shownMixed = 0;
     for (int i=1; i<mWeavedSources.size(); i++) if (mWeavedSources[i].show) shownMixed ++;
@@ -62,7 +62,7 @@ bool Book::htmlrender(QString& outfilename, bool shownikud, bool showteamim, QSt
     }
 }
 
-bool Book::mixedHtmlRender(QString& outfile, bool shownikud, bool showteamim, QRegExp& mark)
+bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRegExp mark)
 {
     int linkid = 0;
 
@@ -349,7 +349,7 @@ bool Book::mixedHtmlRender(QString& outfile, bool shownikud, bool showteamim, QR
     return true;
 }
 
-bool Book::normalHtmlRender(QString& infile, QString& outfilename, bool shownikud, bool showteamim, QRegExp& mark)
+bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud, bool showteamim, QRegExp mark)
 {
     int linkid = 0;
 
@@ -611,7 +611,7 @@ bool Book::normalHtmlRender(QString& infile, QString& outfilename, bool showniku
 //Returns true if the given line has either a empty line after it,
 // or only lines with "//" and an empty line at the end of them.
 // (Recusive function). Used to recognize the 'special name' links.
-bool space_or_slash_after_this(vector <QString>& text, int line)
+bool space_or_slash_after_this(vector <QString> text, int line)
 {
     if(text[line+1] == "")
     {
@@ -730,7 +730,7 @@ QString reddot()
 {	return "<span style=\"color:red\"><B>&bull;</B></span>";  }
 
 
-QString index_to_index(vector<IndexItem>& indexitemlist,int level)
+QString index_to_index(vector<IndexItem> indexitemlist,int level)
 {
     QString str="";
 
@@ -759,7 +759,7 @@ QString index_to_index(vector<IndexItem>& indexitemlist,int level)
     return str;
 }
 
-QString html_link_table(vector<IndexItem>& indexitemlist, int short_index_level, bool dot, bool hasRUS)
+QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, bool dot, bool hasRUS)
 {
 
     //TODO: Make those in tables look better (strech to both sides?)
@@ -1065,7 +1065,7 @@ QString Script()
 //External links:
 
 //Returns the Html code for the given external link
-QString ExternalLink (QString& linkcode)
+QString ExternalLink (QString linkcode)
 {
     bool ToraOr;
     bool ShouldBePrintedOnNewLine;
@@ -1196,7 +1196,7 @@ QString ExternalLink (QString& linkcode)
 
 //I have no idea how this works, it just does.
 // Many thanks to the developer of the originall program
-string Decrypt (string& text, bool decrypt)
+string Decrypt (string text, bool decrypt)
 {
     string ret;
 

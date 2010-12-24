@@ -25,7 +25,7 @@
 #define CurrentBook bookDisplayerList[CURRENT_TAB]
 
 
-void MainWindow::on_bookmarkWidget_customContextMenuRequested(const QPoint& pos)
+void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
 {
     int row = ui->bookmarkWidget->currentRow();
 
