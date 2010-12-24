@@ -118,7 +118,7 @@ QString readfile(QString filename, QString encoding_name)
 }
 
 //Writes the given data to the given file path
-void writetofile(QString filename, QString data, QString encoding_name, bool overwrite)
+void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite)
 {
     //Open given file
     QFile outfile(filename);
@@ -143,7 +143,7 @@ void writetofile(QString filename, QString data, QString encoding_name, bool ove
 
 //Split given string by given seperater into the given vector, but allways to two
 // (split by first appearance of the seperator)
-void splittotwo(QString str, vector <QString>& split, QString separator) //will split a string into 2
+void splittotwo(QString& str, vector <QString>& split, QString separator) //will split a string into 2
 {
     split.push_back(str.section(separator, 0, 0));
     split.push_back(str.section(separator, 1));
@@ -151,11 +151,10 @@ void splittotwo(QString str, vector <QString>& split, QString separator) //will 
 
 //Sets the given int to the value represented by the string
 //  Returns if it failed or succedeed
-bool ToNum(QString str, int *out)
+bool ToNum(QString& str, int *out)
 {
     bool ok;
     *out = str.toInt(&ok);
-
     return ok;
 }
 
@@ -176,7 +175,7 @@ void print(int num)
 
 
 //Returns the Gematria of the given string
-int GematriaValueOfString (QString str)
+int GematriaValueOfString (QString& str)
 {
     int gematria = 0;
     for(int i=0; i<str.length(); i++) gematria += GematriaOfChar(str.mid(i,1));
@@ -185,7 +184,7 @@ int GematriaValueOfString (QString str)
 }
 
 //Returns the gematria of the single given hebrew char
-int GematriaOfChar(QString ch)
+int GematriaOfChar(QString& ch)
 {
     QString hchars = "אבגדהוזחטיכלמנסעפצקרשת";
     int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400};
@@ -260,14 +259,14 @@ QString stringify(double x)
 //Fix file path to the correct way they should be,
 // By switch the "\"'s to "/", so POSIX os's can deal with it (But will still work on MS systems)
 // And replacing the relative path's to the installed ones, if available
-QString absPath(QString str)
+QString absPath(QString& str)
 {
     //Make into full path
     return QFileInfo(str).absoluteFilePath();
 }
 
 // Returns the given string without it's "(", ")", "{", and "}".
-QString RemoveBrackets(QString str)
+QString RemoveBrackets(QString& str)
 {
     return str.replace("{", "").replace("}", "").replace("(", "").replace(")", "");
 }
@@ -279,7 +278,7 @@ QString RemoveBrackets(QString str)
 
 //Thanks to Josh Rosenfeld for making me do this correctly :-D
 
-QString escapeToBase32(QString str)
+QString escapeToBase32(QString& str)
 {
     QString base32 = "";
 
@@ -291,7 +290,7 @@ QString escapeToBase32(QString str)
     return base32;
 }
 
-QString unescapeFromBase32(QString str)
+QString unescapeFromBase32(QString& str)
 {
     QString newstr = "";
 
@@ -336,7 +335,7 @@ QString BookSearchDisplay (QString BookDisplayName , QString PositionName)
 
 // Puts into the vector, all words of the first string,
 //  excluding any words that are also in the second.
-void WordExclude(QString stra , QString strb, vector<QString>& out)
+void WordExclude(QString& stra, QString& strb, vector<QString>& out)
 {
     bool match = false;
 
@@ -364,7 +363,7 @@ void WordExclude(QString stra , QString strb, vector<QString>& out)
 //Gets a line in the form of foo=bar,
 // and iserts bar to the pointed integer (if it's a valud integer)
 // (Otherwise the value isn"t changed)
-void GetIntValue (QString valueline, int * pVar)
+void GetIntValue (QString& valueline, int * pVar)
 {
     vector<QString> parts;
     //Split along the = sign
@@ -382,7 +381,7 @@ void GetIntValue (QString valueline, int * pVar)
 
 //Gets a line in the form of foo="bar",
 // and iserts bar to the pointed qstring, unless it's empty
-void GetStringValue (QString valueline, QString * pStr)
+void GetStringValue (QString& valueline, QString * pStr)
 {
     vector<QString> parts;
     //Split along the = sign
@@ -405,25 +404,24 @@ void GetStringValue (QString valueline, QString * pStr)
 //Fix the syntax of the 'span' attributes given in source files
 //Fixes the double single quotes to a single double quote
 //Fixes the '=' sign given with "color=", to "color:"
-QString fixSpan(QString str)
+QString fixSpan(QString& str)
 {
     QString newstr = str.replace("''", "\"");
     newstr = newstr.replace("color=", "color:");
-
     return newstr;
 }
 
 //Returns the given string the given number of times
-QString stringTimes(QString str, int t)
+QString stringTimes(QString& str, int t)
 {
     QString s="";
-    for (int i=0; i<t; i++) s+= str;
+    for (int i=0; i<t; i++) s += str;
     return s;
 }
 
 //Limits the given string to the given length, removing the beggining of the string.
 // Cuts only at spaces.
-QString startChop(QString str, int limit)
+QString startChop(QString& str, int limit)
 {
     QString newstr = str.mid(str.length() - limit);
     int p = newstr.indexOf(" ");
@@ -432,7 +430,7 @@ QString startChop(QString str, int limit)
 
 //Limits the given string to the given length, removing the end of the string.
 // Cuts only at spaces.
-QString endChop(QString str, int limit)
+QString endChop(QString& str, int limit)
 {
     QString newstr = str.mid(0, limit);
     int p = newstr.lastIndexOf(" ");
@@ -441,21 +439,18 @@ QString endChop(QString str, int limit)
 
 //Removes any sign from the given unicode string
 // (Nikud or teamim)
-QString removeSigns(QString str)
+QString removeSigns(QString& str)
 {
-    str = removeNikud(str);
-    str = removeTeamim(str);
-
-    return str;
+    return removeNikud(removeTeamim(str));
 }
 
 //Removes any nikud sign from the given unicode string
-QString removeNikud(QString str)
+QString removeNikud(QString& str)
 {
     //Make sure nikud is in the normall format:
         // QString::normalized(QString::NormalizationForm_D) - Means nikud is allways treated as two chars
         // See: http://www.unicode.org/reports/tr15/#Norm_Forms
-    str = str.normalized(QString::NormalizationForm_D);
+    QString s = str.normalized(QString::NormalizationForm_D);
 
 
     //TODO: Very ugly way of doing this. Why can't there be a range execpt a few chars?!
@@ -465,11 +460,11 @@ QString removeNikud(QString str)
 
     QRegExp regexp("[" + nikudchars + "]");
 
-    return str.replace(regexp, "");
+    return s.replace(regexp, "");
 }
 
 //Removes any teamim sign from the given unicode string
-QString removeTeamim(QString str)
+QString removeTeamim(QString& str)
 {
     //QChar(0x0590) - (one before) HEBREW ACCENT ETNAHTA
     //QChar(0x05AF) - HEBREW MARK MASORA CIRCLE
@@ -486,12 +481,10 @@ QString removeTeamim(QString str)
 
     //QChar(0x05C3) - HEBREW PUNCTUATION SOF PASUQ
     //Replace sof pasuk with ":"
-    str = str.replace(QChar(0x05C3), ":");
-
-    return str.replace(regexp, "");
+    return str.replace(QChar(0x05C3), ":").replace(regexp, "");
 }
 
-QString allowNikudAndTeamim( QString str )
+QString allowNikudAndTeamim( QString& str )
 {
     //TODO: remove makaf?
 
@@ -510,7 +503,7 @@ QString allowNikudAndTeamim( QString str )
     return pat;
 }
 
-QRegExp withNikudAndTeamim( QString str )
+QRegExp withNikudAndTeamim( QString& str )
 {
     return QRegExp("(" + allowNikudAndTeamim(str) + ")");
 }
@@ -566,9 +559,7 @@ QString simpleHtmlPage(QString title, QString contents)
     html += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
     html += "<html >\n<head>\n\t";
     html += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
-
     html += "\n<title>" + title + "</title>\n</head>";
-
     html += "\n<body><br><br><br><div style=\"text-align:center\"; dir=\"RTL\"><h1>" + contents + "</h1></div></body></html>";
 
     return html;

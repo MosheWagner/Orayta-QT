@@ -50,10 +50,10 @@ private slots:
 
     void keyPressEvent( QKeyEvent *keyEvent );
 
-    void rememberActiveLink(QString);
+    void rememberActiveLink(const QString&);
 
 signals:
-    void LinkClicked(QUrl);
+    void LinkClicked(QUrl&);
     void ToggleSearchBar();
 
 private:

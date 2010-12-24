@@ -42,7 +42,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     htmlview = new myWebView(this);
 
     //Connect the signalls sent from the new widgets to their slots
-    QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
+    QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl&)), this , SLOT(htmlView_linkClicked(QUrl&)));
     QObject::connect(htmlview, SIGNAL(loadFinished(bool)), this , SLOT(htmlView_loadFinished(bool)));
     //Prevent context menus. If needed, they will be created manually
     htmlview->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -109,7 +109,7 @@ void bookDisplayer::htmlView_loadFinished(bool)
 QString last = "";
 
 //Omitted when a link was clicked in the webView
-void bookDisplayer::htmlView_linkClicked(QUrl url)
+void bookDisplayer::htmlView_linkClicked(QUrl& url)
 {
     QString link = QString(url.path());
 
@@ -268,7 +268,7 @@ void bookDisplayer::normalZoom()
     htmlview->setTextSizeMultiplier(1);
 }
 
-void bookDisplayer::load(QUrl url)
+void bookDisplayer::load(QUrl& url)
 { 
     ShowWaitPage();
 
@@ -281,7 +281,7 @@ void bookDisplayer::load(QUrl url)
     QApplication::processEvents();
 }
 
-void bookDisplayer::setInternalLocation(QString location)
+void bookDisplayer::setInternalLocation(const QString& location)
 {
     InternalLocationInHtml = location;
 }
@@ -318,7 +318,7 @@ QString bookDisplayer::htmlSource()
     return htmlview->page()->mainFrame()->toPlainText();
 }
 
-void bookDisplayer::searchText(QString text, bool backwards)
+void bookDisplayer::searchText(QString& text, bool backwards)
 {
     if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
     else htmlview->findText(text);
