@@ -95,7 +95,7 @@ public:
     // Generates a full file into the given outfile name, and a header file into outfile + ".header.html"
     // (Returns false on failure, true on success)
     // Implemented in htmlgen.cpp
-    bool htmlrender(QString& outfile, bool showNikud = true, bool showTeamim = true, QString mark = "");
+    bool htmlrender(QString outfile, bool showNikud = true, bool showTeamim = true, QString mark = "");
 
     //Add the pointed book as a child to this folder
     void add_child(Book * child);
@@ -134,9 +134,9 @@ public:
     QString HTMLFileName();
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
-    QList <SearchResult> findInBook(QString& phrase);
+    QList <SearchResult> findInBook(QString phrase);
     //Overloaded function of the above
-    QList <SearchResult> findInBook(QRegExp& regexp);
+    QList <SearchResult> findInBook(QRegExp regexp);
 
 
     //Repaints the icon of this book or folder, by the state of it's children
@@ -153,14 +153,14 @@ public:
 
     QString pureText;
 protected:
-    //BookIter itrFromOffset(QString posString);
+    BookIter itrFromOffset(QString posString);
 
     //Returns the book's text as pure as possible. No nikud, punctuation marks, no level signs.
     // This should be used for searching in the book.
     // The results ahould later be mapped to BookIters using the "levelMap"
     //QString pureText();
 
-    //void setPureText(QString);
+    void setPureText(QString);
 
     /*
     //Saved in Line:offsetInLine string format
@@ -172,7 +172,7 @@ protected:
 
 
     //Returns a preview of the search result  (by it's search regexp and offset in puretext)
-    QString resultPreview(QRegExp& exp, int offset);
+    QString resultPreview(QRegExp exp, int offset);
 
     QTreeWidgetItem *mpTreeItem;
 
@@ -232,8 +232,8 @@ protected:
     int mTitleEmptyLines[5];
 
 
-    bool normalHtmlRender(QString& infile, QString& outfile, bool showNikud, bool showTeamim, QRegExp& mark);
-    bool mixedHtmlRender(QString& outfile, bool showNikud, bool showTeamim, QRegExp& mark);
+    bool normalHtmlRender(QString infile, QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
+    bool mixedHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
 };
 
 

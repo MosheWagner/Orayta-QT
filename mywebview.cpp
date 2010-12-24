@@ -23,7 +23,7 @@ myWebView::myWebView(QWidget * parent)
     //Holds currently selected link
     mActiveLink = "";
 
-    connect(this, SIGNAL(statusBarMessage(const QString&)), this, SLOT(rememberActiveLink(const QString&)));
+    connect(this, SIGNAL(statusBarMessage(QString)), this, SLOT(rememberActiveLink(QString)));
 
 }
 
@@ -139,7 +139,7 @@ void myWebView::setTextSizeMultiplier(qreal factor)
     QApplication::restoreOverrideCursor();
 }
 
-void myWebView::rememberActiveLink(const QString& message)
+void myWebView::rememberActiveLink(QString message)
 {
     mActiveLink = message;
 }

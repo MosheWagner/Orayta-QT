@@ -576,7 +576,7 @@ void MainWindow::addViewTab(bool empty)
 
     ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
-    connect(bd, SIGNAL(externalLink(QString&)), this, SLOT(openExternalLink(QString&)));
+    connect(bd, SIGNAL(externalLink(QString)), this, SLOT(openExternalLink(QString)));
 }
 
 void MainWindow::on_lineEdit_returnPressed()
@@ -640,7 +640,7 @@ void MainWindow::on_topButton_clicked()
     CurrentBook->execScript("window.scrollTo(0, 0)");
 }
 
-void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint& pos)
+void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
 {
     QTreeWidgetItem * item = 0 ;
     item = ui->treeWidget->itemAt(pos);
@@ -1074,7 +1074,7 @@ void MainWindow::on_changeLangButton_clicked()
     close();
 }
 
-void MainWindow::openExternalLink(QString& lnk)
+void MainWindow::openExternalLink(QString lnk)
 {
     QStringList parts = lnk.split(":");
 
