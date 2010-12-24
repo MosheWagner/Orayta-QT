@@ -1167,11 +1167,32 @@
                <number>8</number>
               </property>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_14">
-                <property name="topMargin">
-                 <number>0</number>
+               <layout class="QFormLayout" name="formLayout">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::FieldsStayAtSizeHint</enum>
                 </property>
-                <item>
+                <item row="0" column="0">
+                 <widget class="QRadioButton" name="radioButton_2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>9</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Find all words</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
                  <widget class="QRadioButton" name="radioButton">
                   <property name="font">
                    <font>
@@ -1183,18 +1204,16 @@
                   </property>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>9</pointsize>
-                   </font>
+                <item row="0" column="1">
+                 <widget class="QSpinBox" name="spinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
                   </property>
-                  <property name="text">
-                   <string>Find all words</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
+                  <property name="toolTip">
+                   <string>spacing (in words)</string>
                   </property>
                  </widget>
                 </item>
@@ -1220,8 +1239,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>Allow &quot;Ktiv Maleh&quot; /
-    &quot;Ktiv Haser&quot;</string>
+                 <string>Allow &quot;Ktiv Haser&quot;</string>
                 </property>
                 <property name="tristate">
                  <bool>false</bool>
@@ -1249,7 +1267,7 @@
               <enum>Qt::Vertical</enum>
              </property>
              <property name="sizeType">
-              <enum>QSizePolicy::Maximum</enum>
+              <enum>QSizePolicy::Preferred</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
