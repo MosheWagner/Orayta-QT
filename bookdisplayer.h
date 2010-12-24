@@ -42,7 +42,7 @@ public:
     //Set the html that should be shown in the htmlviewer
     void setHtml(QString html);
     //Load given url
-    void load(QUrl url);
+    void load(QUrl& url);
 
     //The book displayed here
     void setBook( Book * );
@@ -65,13 +65,13 @@ public:
     void ZoomOut();
     void normalZoom();
 
-    void setInternalLocation(QString location);
+    void setInternalLocation(const QString& location);
 
     QWidget * htmlQWidget();
     
     QString htmlSource();
 
-    void searchText(QString text, bool backwards);
+    void searchText(QString& text, bool backwards);
 
     void ShowWaitPage();
     void HideWaitPage();
@@ -112,12 +112,12 @@ private:
     QStackedWidget *stackedWidget;
 
 private slots:
-    void htmlView_linkClicked(QUrl url);
+    void htmlView_linkClicked(QUrl& url);
 
     void htmlView_loadFinished(bool);
 
 signals:
-    void externalLink(QString link);
+    void externalLink(QString& link);
 
 
 };

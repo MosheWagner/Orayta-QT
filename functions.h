@@ -55,15 +55,16 @@ bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_na
 bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, QString encoding_name, int id=-1);
 
 //Writes the given data to the given file path with the given encoding
-void writetofile(QString filename, QString data, QString encoding_name, bool overwrite = true);
+void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite = true);
+
 QString readfile(QString filename, QString encoding_name);
 
 //Splits the given QString to two parts, (ONLY) on the FIRST occurrence of the splitter
-void splittotwo(QString , vector <QString>& , QString);
+void splittotwo(QString& , vector <QString>& , QString );
 
 //Sets the value of the pointed int to the value represented by the string
 //  Returns failure or success
-bool ToNum(QString str, int *out);
+bool ToNum(QString& str, int *out);
 
 //Prints (couts) the given Qstring
 void print(QString);
@@ -72,17 +73,17 @@ void print(QString);
 void print(int);
 
 //Returns the Gematria of the given string
-int GematriaValueOfString (QString str);
+int GematriaValueOfString (QString& str);
 
 //Returns the gematria of the single given hebrew char
-int GematriaOfChar(QString ch);
+int GematriaOfChar(QString& ch);
 
 //Returns a hebrew string representing the given gematria value
 // You can tell it weather to add quote signs (Geresh or Gershaiim) or not
 QString NumberToGematria (int num, bool addquotes = true);
 
 //Return only the hebrew letters in the given string, and makes every space into "_"
-QString RemoveBrackets(QString str);
+QString RemoveBrackets(QString& str);
 
 //Converts numbers into strings:
 // (Returns a QString representing the given value)
@@ -92,58 +93,59 @@ QString stringify(double);
 QString GmaraPage(int num);
 
 //Makes sure the given filepath is absolute
-QString absPath(QString);
+QString absPath(QString&);
 
 //Because for some stupid reason QT can't handle internal html links with Hebrew chars, this function
 // (which is called by the itr's toString), converts any given QString to a string representing each char's
 // Base32 value, (seperated by 'U's), thus giving a valid digit-or-english-letter-only string.
-QString escapeToBase32(QString str);
-QString unescapeFromBase32(QString str);
+QString escapeToBase32(QString& str);
+QString unescapeFromBase32(QString& str);
 
 // Returns a string the search should display for this book and position
 ///QString BookSearchDisplay (QString BookDisplayName , QString PositionName);
 
 // Puts into the vector, all words of the first string,
 //  excluding any words that are also in the second.
-void WordExclude(QString stra , QString strb, vector<QString>& out);
+void WordExclude(QString& stra , QString& strb, vector<QString>& out);
 
 //Gets a line in the form of foo=bar,
 // and iserts bar to the pointed integer (if it's a valud integer)
 // (Otherwise the value isn't changed)
-void GetIntValue (QString valueline, int * pVar);
+void GetIntValue (QString& valueline, int * pVar);
 
 //Gets a line in the form of foo="bar",
 // and iserts bar to the pointed qstring, unless it's empty
-void GetStringValue (QString valueline, QString * pStr);
+void GetStringValue (QString& valueline, QString * pStr);
 
 //Fix the syntax of the 'span' attributes given in source files
     //Fixes the double single quotes to a single double quote
     //Fixes the '=' sign given with "color=", to "color:"
-QString fixSpan(QString str);
+QString fixSpan(QString& str);
 
 //Returns the given string the given number of times
-QString stringTimes(QString str, int t);
+QString stringTimes(QString& str, int t);
 
 //Limits the given string to the given length, removing the beggining of the string.
 // Cuts only at spaces.
-QString startChop(QString str, int limit);
+QString startChop(QString& str, int limit);
 //Limits the given string to the given length, removing the end of the string.
 // Cuts only at spaces.
-QString endChop(QString str, int limit);
+QString endChop(QString& str, int limit);
 
 
 //Removes any sign from the given unicode string
 // (Nikud or teamim)
-QString removeSigns(QString str);
+QString removeSigns(QString& str);
 
 //Removes any nikud sign from the given unicode string
-QString removeNikud(QString);
+QString removeNikud(QString&);
 
 //Removes any teamim sign from the given unicode string
-QString removeTeamim(QString str);
+QString removeTeamim(QString& str);
 
-QString allowNikudAndTeamim( QString str );
-QRegExp withNikudAndTeamim( QString str );
+QString allowNikudAndTeamim( QString& str );
+
+QRegExp withNikudAndTeamim( QString& str );
 
 //Returns a regexp pattern matching all strings that are the same as the given string,
 //  ignoring differences in the ו-s and י-s they have.

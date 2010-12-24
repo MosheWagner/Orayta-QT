@@ -160,7 +160,7 @@ private slots:
     //Expand the currently selected item in the treewidget
     void expandItem();
 
-    void on_bookmarkWidget_customContextMenuRequested(QPoint pos);
+    void on_bookmarkWidget_customContextMenuRequested(const QPoint& pos);
     QString bookMarkTitle(QString lnk);
     //Opens the bookmark dialog
     void addBookMark(QString link, QString title);
@@ -196,7 +196,7 @@ private slots:
     void menuComment();
     void menuErrorReport();
 
-    void on_treeWidget_customContextMenuRequested(QPoint pos);
+    void on_treeWidget_customContextMenuRequested(const QPoint& pos);
     void on_searchBackwords_clicked();
     void on_searchForward_clicked();
     void on_topButton_clicked();
@@ -211,7 +211,7 @@ private slots:
 
     void on_newTabButton_clicked();
 
-    void openExternalLink(QString link);
+    void openExternalLink(QString& link);
 
     //@@@
     //TODO: Make this useful...
