@@ -48,7 +48,7 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         {
             QString pat = "";
 
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
+            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivHasser(stxt);
 
             QStringList words = stxt.split(" ");
             for (int i=0; i<words.size(); i++)
@@ -57,8 +57,10 @@ void MainWindow::on_SearchInBooksBTN_clicked()
                 {
                     //See if to force full words
                     // (This is OK because the search DB has forced spaces at it's beginning and end too)
-                    if ( ui->fullCheckBox->isChecked()) pat += " " + words[i] + " ";
-                    else pat += words[i]; //Part of word will be found too
+                    if ( ui->fullCheckBox->isChecked())
+                        pat += " " + words[i] + " ";
+                    else
+                        pat += words[i]; //Part of word will be found too
                 }
                 if ( i != words.size()-1 ) pat+= "|";
             }
@@ -67,13 +69,24 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         //Search for all of the words
         else
         {
-            if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
+            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivHasser(stxt);
 
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivMaleh(stxt);
+            if (ui->spinBox->value() > 0)
+                stxt = stxt.replace(" ", " ([א-ת]+ ){0," + QString::number(ui->spinBox->value()) + "}");
+
+            if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
 
             SearchInBooks(QRegExp(stxt), otxt);
         }
     }
+}
+
+void MainWindow::on_regexpCheckBox_stateChanged(int state)
+{
+    if (state == Qt::Checked)
+        ui->groupBox->setEnabled (false);
+    else
+        ui->groupBox->setEnabled (true);;
 }
 
 void MainWindow::on_searchInBooksLine_returnPressed()

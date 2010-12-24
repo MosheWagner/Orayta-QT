@@ -196,6 +196,8 @@ private slots:
     void menuComment();
     void menuErrorReport();
 
+    void on_regexpCheckBox_stateChanged(int state);
+
     void on_treeWidget_customContextMenuRequested(QPoint pos);
     void on_searchBackwords_clicked();
     void on_searchForward_clicked();
