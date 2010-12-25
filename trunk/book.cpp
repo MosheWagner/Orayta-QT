@@ -102,8 +102,20 @@ bool Book::IsInSearch()
 bool Book::IsMixed()
 {  return (mWeavedSources.size() != 0); }
 
+bool Book::ShowMixed()
+{
+    if (!IsMixed() || showAlone)
+        return false;
+
+    unsigned shownMixed = 0;
+    for (int i=1; i<mWeavedSources.size(); i++)
+        if (mWeavedSources[i].show)
+            shownMixed++;
+    return shownMixed > 0;
+}
+
 bool Book::ShowAlone()
-{  return !IsMixed() || showAlone;  }
+{  return !ShowMixed(); }
 
 QTreeWidgetItem * Book::getTreeItemPtr()
 {  return mpTreeItem; }
