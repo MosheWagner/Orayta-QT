@@ -55,7 +55,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_na
 bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, QString encoding_name, int id=-1);
 
 //Writes the given data to the given file path with the given encoding
-void writetofile(QString filename, QString data, QString encoding_name, bool overwrite = true);
+void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite = true);
 QString readfile(QString filename, QString encoding_name);
 
 //Splits the given QString to two parts, (ONLY) on the FIRST occurrence of the splitter
