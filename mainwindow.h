@@ -124,6 +124,8 @@ private slots:
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
     void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
+    void on_radioButton_2_toggled(bool checked);
+
     void on_searchInBooksLine_returnPressed();
     void on_hideSearchButton_clicked();
     void on_showSearchBarButton_clicked(bool checked);

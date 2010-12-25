@@ -489,7 +489,8 @@ void MainWindow::LoadBook(Book *book, QString markString)
     QFile f(htmlfilename);
     bool renderedOK = true;
 
-    if (!f.exists() || markString.simplified() != "") renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+    if (!f.exists() || markString.simplified() != "")
+        renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
 
     if (renderedOK == true)
     {
@@ -527,17 +528,9 @@ void MainWindow::openBook( int ind )
 {
     if (ind >= 0 && ind < bookList.size())
     {
-        if(bookList[ind]->IsDir() == false)
+        if( !bookList[ind]->IsDir() )
         {
-            //If the filename ends with ".html", load it as is, without rendering
-            if((bookList[ind]->getPath().endsWith(".html")) || (bookList[ind]->getPath().endsWith(".htm")))
-            {
-                CurrentBook->load( QUrl( bookList[ind]->getPath()));
-            }
-            else
-            {
-                LoadBook(bookList[ind]);
-            }
+            LoadBook(bookList[ind]);
         }
     }
 }
@@ -805,7 +798,6 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     int p = link.indexOf(":");
     int uid;
     ToNum(link.mid(0,p), &uid);
-    CurrentBook->setInternalLocation("#" + link.mid(p+1));
 
     int id = bookList.FindBookById(uid);
 
@@ -815,6 +807,7 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     //Force the webview to clear [seems to be needed only for empty comments]
     CurrentBook->setHtml("");
 
+    CurrentBook->setInternalLocation("#" + link.mid(p+1));
     openBook(id);
 }
 
