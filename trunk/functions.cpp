@@ -118,7 +118,7 @@ QString readfile(QString filename, QString encoding_name)
 }
 
 //Writes the given data to the given file path
-void writetofile(QString filename, QString data, QString encoding_name, bool overwrite)
+void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite)
 {
     //Open given file
     QFile outfile(filename);

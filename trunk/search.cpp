@@ -86,7 +86,15 @@ void MainWindow::on_regexpCheckBox_stateChanged(int state)
     if (state == Qt::Checked)
         ui->groupBox->setEnabled (false);
     else
-        ui->groupBox->setEnabled (true);;
+        ui->groupBox->setEnabled (true);
+}
+
+void MainWindow::on_radioButton_2_toggled(bool checked)
+{
+    if (checked)
+        ui->spinBox->setEnabled (true);
+    else
+        ui->spinBox->setEnabled (false);
 }
 
 void MainWindow::on_searchInBooksLine_returnPressed()
