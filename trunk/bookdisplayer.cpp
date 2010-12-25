@@ -97,8 +97,8 @@ void bookDisplayer::htmlView_loadFinished(bool)
         if (getJSVar("findByLink").replace(" ","") != "")
         {
             execScript(script);
-            InternalLocationInHtml="";
         }
+        InternalLocationInHtml="";
     }
 
     //Hide "wait" page and show the real page
