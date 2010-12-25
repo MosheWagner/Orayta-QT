@@ -71,6 +71,7 @@ public:
     bool IsHidden();
     bool IsMixed();
     bool ShowAlone();
+    bool ShowMixed();
     Book * getParent();
     QTreeWidgetItem * getTreeItemPtr();
 

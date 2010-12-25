@@ -49,10 +49,7 @@ const int LevelFontSizeAdd[] = {2,12,18,18,18};
 //bool Book::htmlrender(QString filename, QString outfilename)
 bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QString mark)
 {
-    int shownMixed = 0;
-    for (int i=1; i<mWeavedSources.size(); i++) if (mWeavedSources[i].show) shownMixed ++;
-
-    if (!IsMixed() || !shownMixed || showAlone)
+    if (ShowAlone())
     {
         return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
     }
