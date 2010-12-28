@@ -234,7 +234,6 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         //TODO: Serch results are special books
         writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
 
-        pCurrentBook->HideWaitPage();
         pCurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
 
         ui->pbarbox->hide();

@@ -92,12 +92,8 @@ void bookDisplayer::htmlView_loadFinished(bool)
     {
         QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
 
-        //Make sure script was loaded before erasing InternalLocationInHtml.
-        //This should only affect KHTML anyway
-        if (getJSVar("findByLink").replace(" ","") != "")
-        {
-            execScript(script);
-        }
+        execScript(script);
+
         InternalLocationInHtml="";
     }
 
