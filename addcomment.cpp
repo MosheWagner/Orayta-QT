@@ -46,9 +46,9 @@ AddComment::~AddComment()
 
 void AddComment::on_ok_clicked()
 {
+    close();
     //Update the mainwindow with the new comment
     emit commentWritten(mLnk, m_ui->textEdit->toPlainText());
-    close();
 }
 
 void AddComment::on_cancel_clicked()

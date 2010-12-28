@@ -31,9 +31,6 @@
 
 //Check whats wrong with  שמירת הלשון (או חפץ חיים)?
 
-//TODO: Fix Ctrl-F in KHTML
-//TODO: Fix KHTML search in book (especailly with teamim)
-
 //TODO: Improve search result preview
 //TODO: Solve search result marking problem
 
@@ -496,9 +493,9 @@ void MainWindow::LoadBook(Book *book, QString markString)
     {
         QString p =  absPath(htmlfilename);
 
-        CurrentBook->load(QUrl(p));
-
         CurrentBook->setBook(book);
+
+        CurrentBook->load(QUrl(p));
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -791,8 +788,10 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     }
 
     //In any case, add the new comment (if it isn't empty) to the file
-    if ( comment != "") writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
+    if ( comment != "" )
+        writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
 
+    CurrentBook->ShowWaitPage();
     //Re-load the page at the comment's position
     // NOTE: this isn't perfect, but I have nothing better
     int p = link.indexOf(":");
@@ -802,10 +801,13 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     int id = bookList.FindBookById(uid);
 
     //Force a new render of the book
-    bookList[id]->htmlrender(bookList[id]->HTMLFileName(), CurrentBook->isNikudShown(), CurrentBook->areTeamimShown(), "");
+    bool shownikud = CurrentBook->isNikudShown();
+    bool showteamim = CurrentBook->areTeamimShown();
+    QString htmlfilename = bookList[id]->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
+    bookList[id]->htmlrender(htmlfilename, shownikud, showteamim, "");
 
     //Force the webview to clear [seems to be needed only for empty comments]
-    CurrentBook->setHtml("");
+    //CurrentBook->setHtml("");
 
     CurrentBook->setInternalLocation("#" + link.mid(p+1));
     openBook(id);
