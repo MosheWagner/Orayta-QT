@@ -138,17 +138,16 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         ui->viewTab->setTabText(CURRENT_TAB,title);
 
         //Head and title of the Html
-        title = tr("Search results: "); title +="\"" + disp+ "\"";
-        Htmlhead = html_head(title);
+        title = tr("Search results: ") + "\"" + disp + "\"";
 
+        Htmlhead = html_head(title);
         Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
         Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
-
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0;
-        for (unsigned int i=0; i < searchList.size() && results <= RESULTS_MAX && stopSearchFlag == false; i++)
+        for (unsigned int i=0; i < searchList.size() && results < RESULTS_MAX && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
@@ -157,7 +156,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             //Let the animation move...
             QApplication::processEvents();
 
-            for (int j=0; j<searchResults.size(); j++)
+            for (int j=0; j<searchResults.size() && results < RESULTS_MAX ; j++)
             {
                 results ++;
                 //Get the text best to show for this reult's description
@@ -181,7 +180,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
 
 
                 //Add a small link (at the index) to the full result
-                HtmlTopLinks += reddot() + "&nbsp&nbsp&nbsp<a href=\"#" + stringify(results) + "\">" + linkdisplay  + "</a><BR>";
+                HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>";
 
                 //Add the full result to the page
                 Html += "<span style=\"font-size:23px\">";
@@ -218,8 +217,11 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
             Htmlhead += "<B>"; Htmlhead += tr("Short result list: "); Htmlhead += "</B><BR>";
             if (results >= RESULTS_MAX)
             {
-                Htmlhead += "(" +  stringify(RESULTS_MAX) + " ";
-                Htmlhead += "תוצאות ראשונות בלבד )"; Htmlhead += "<BR><BR>";
+                Htmlhead += "(" +  stringify(results) + " " + "תוצאות ראשונות בלבד)" + "<BR><BR>";
+            }
+            else
+            {
+                Htmlhead += "(" +  stringify(results) + " " + "תוצאות נמצאו)" + "<BR><BR>";
             }
             Htmlhead += HtmlTopLinks;
 
