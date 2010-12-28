@@ -233,7 +233,7 @@ protected:
     int mTitleEmptyLines[5];
 
 
-    bool normalHtmlRender(QString infile, QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
+    bool normalHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
     bool mixedHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
 };
 

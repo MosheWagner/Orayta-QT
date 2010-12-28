@@ -72,7 +72,7 @@ void print(QString);
 void print(int);
 
 //Returns the Gematria of the given string
-int GematriaValueOfString (QString str);
+int GematriaValueOfString (QString& str);
 
 //Returns the gematria of the single given hebrew char
 int GematriaOfChar(QString ch);
@@ -82,7 +82,7 @@ int GematriaOfChar(QString ch);
 QString NumberToGematria (int num, bool addquotes = true);
 
 //Return only the hebrew letters in the given string, and makes every space into "_"
-QString RemoveBrackets(QString str);
+QString RemoveBrackets(QString& str);
 
 //Converts numbers into strings:
 // (Returns a QString representing the given value)
@@ -110,26 +110,26 @@ void WordExclude(QString stra , QString strb, vector<QString>& out);
 //Gets a line in the form of foo=bar,
 // and iserts bar to the pointed integer (if it's a valud integer)
 // (Otherwise the value isn't changed)
-void GetIntValue (QString valueline, int * pVar);
+void GetIntValue (QString& valueline, int * pVar);
 
 //Gets a line in the form of foo="bar",
 // and iserts bar to the pointed qstring, unless it's empty
-void GetStringValue (QString valueline, QString * pStr);
+void GetStringValue (QString& valueline, QString * pStr);
 
 //Fix the syntax of the 'span' attributes given in source files
     //Fixes the double single quotes to a single double quote
     //Fixes the '=' sign given with "color=", to "color:"
-QString fixSpan(QString str);
+QString fixSpan(QString& str);
 
 //Returns the given string the given number of times
-QString stringTimes(QString str, int t);
+QString stringTimes(QString& str, int t);
 
 //Limits the given string to the given length, removing the beggining of the string.
 // Cuts only at spaces.
-QString startChop(QString str, int limit);
+QString startChop(QString& str, int limit);
 //Limits the given string to the given length, removing the end of the string.
 // Cuts only at spaces.
-QString endChop(QString str, int limit);
+QString endChop(QString& str, int limit);
 
 
 //Removes any sign from the given unicode string
