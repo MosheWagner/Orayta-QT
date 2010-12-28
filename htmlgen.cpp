@@ -51,7 +51,7 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
 {
     if (ShowAlone())
     {
-        return normalHtmlRender(mPath, outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
+        return normalHtmlRender(outfilename, shownikud, showteamim, QRegExp( "(" + mark + ")"));
     }
     else
     {
@@ -346,7 +346,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     return true;
 }
 
-bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud, bool showteamim, QRegExp mark)
+bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim, QRegExp mark)
 {
     int linkid = 0;
 
@@ -366,7 +366,7 @@ bool Book::normalHtmlRender(QString infile, QString outfilename, bool shownikud,
     QString lastlabel = "";
 
     //Read the source file associated to this book:
-    QString filename = absPath(infile);
+    QString filename = absPath(mPath);
     if(!ReadFileToList(filename, text, "UTF-8"))
     {
         print( "ERROR: Unable to open file: " + filename + " !");
