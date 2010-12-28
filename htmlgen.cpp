@@ -628,7 +628,7 @@ QString html_head(QString title)
     QString t;
     t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
     t += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    t += "<html >\n<head>\n\t";
+    t += "<html dir=\"RTL\">\n<head>\n\t";
 
     t += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
 
