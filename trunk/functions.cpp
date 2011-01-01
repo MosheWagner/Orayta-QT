@@ -441,9 +441,7 @@ QString endChop(QString& str, int limit)
 // (Nikud or teamim)
 QString removeSigns(QString str)
 {
-    removeNikud(str);
-    removeTeamim(str);
-    return str;
+    return removeNikud(removeTeamim(str));
 }
 
 //Removes any nikud sign from the given unicode string

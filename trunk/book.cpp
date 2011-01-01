@@ -713,6 +713,7 @@ void Book::BuildSearchTextDB()
     pureText = " " + pureText + " ";
 }
 
+/*
 QList <SearchResult> Book::findInBook(QString phrase)
 {
     //Naive convert to regexp
@@ -763,3 +764,113 @@ QString Book::resultPreview(QRegExp exp, int offset)
     s = "... " + s + " ...";
     return s.replace(QRegExp("(" + exp.pattern()+ ")"), "<span style='background-color:Yellow'>\\1</span>");
 }
+*/
+
+#define RESULTS_MAX 200
+#define CHAR_LIMIT 200
+#define LINES_TO_SHOW 6
+
+QList <SearchResult> Book::findInBook(QRegExp regexp)
+{
+    QList <SearchResult> results;
+
+    QList <QString> text;
+
+    if(!ReadFileToList(getPath(), text, "UTF-8" , true))
+    {
+        //File not found
+        print("ERROR! file " + getPath() + " not found.");
+    }
+    else
+    {
+        //Iter holding the current position in the book
+        BookIter itr;
+        for (int j=0; j<text.size(); j++)
+        {
+            if ((text[j][0] == '!') || (text[j][0] == '~') || (text[j][0] == '@') || (text[j][0] == '#') || (text[j][0] == '^'))
+            {
+                itr.SetLevelFromLine(text[j]);
+            }
+            else if (text[j].mid(0,6) == "<!--ex")
+            { //Ignore lines starting with "<!--ex"
+            }
+            //A line that should be searched
+            else
+            {
+                QString thisline = removeSigns(text[j]);
+
+                //Remove all HTML tags in this line
+                thisline.replace( QRegExp("<[^>]*>"), "" );
+                //Remove nikud and teamim from the searched line
+                thisline = removeSigns(thisline);
+
+                //Find if the search phrase appears is in this line (after omitting html tags)
+                int pos = thisline.indexOf (regexp);
+                while (pos < thisline.length() && pos!= -1 && (results.size() <= RESULTS_MAX))
+                {
+                    SearchResult sr;
+                    sr.itr = itr;
+                    sr.preview = "";
+
+                    QString str = "";
+
+                    for (int k = j-LINES_TO_SHOW; k < j ; k++)
+                    {
+                        if (( k > 0) && ( k < text.size()))
+                        {
+                            if (text[k][0] == '!')
+                                str += "(" +  text[k].mid(3, text[k].length() - 4) + ") ";
+                            else if ((text[k][0] != '~') || (text[k][0] != '@') || (text[k][0] != '#') || (text[k][0] != '^'))
+                                str += text[k] + " ";
+                        }
+                    }
+                    //Remove HTML tags and nikud
+                    str.replace( QRegExp("<[^>]*>"), "" );
+                    str = removeSigns(str);
+
+                    str += thisline.mid(0,pos);
+
+
+                    sr.preview += str;
+
+
+                    sr.preview += "<span style=\"background-color:#FFF532\">";
+                    sr.preview += thisline.mid(pos, regexp.cap(0).length());
+                    sr.preview += "</span>";
+
+
+
+                    str = "";
+                    str += thisline.mid(pos + regexp.cap(0).length()) + " ";
+
+                    for (unsigned int k=1; k <= LINES_TO_SHOW ; k++)
+                    {
+                        if (j+k < text.size())
+                        {
+                            if (text[j+k][0] == '!')
+                                str += "(" +  text[j+k].mid(3, text[j+k].length() - 4) + ") ";
+                            else if ((text[j+k][0] != '~') || (text[j+k][0] != '@') || (text[j+k][0] != '#') || (text[j+k][0] != '^'))
+                                str += text[j+k] + " ";
+                        }
+                    }
+                    //Remove HTML tags and nikud
+                    str.replace( QRegExp("<[^>]*>"), "" );
+                    str = removeSigns(str);
+
+                    sr.preview += str;
+
+
+                    results.append(sr);
+
+
+                    //Search the rest of the line:
+                    pos = thisline.indexOf (regexp, pos + 1);
+
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
