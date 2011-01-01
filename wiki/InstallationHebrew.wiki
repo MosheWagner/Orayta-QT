@@ -1,5 +1,10 @@
 <div dir="rtl">
 
+
+
+= לא מוכן, אשמח אם יעזרו לכתוב את זה =
+
+
 = התקנת אורייתא =
 
 ניתן להתקין את אורייתא בכמה דרכים. 
@@ -14,7 +19,7 @@ _עובד רק על אובונטו, החל מגרסא *8.10 . *_
 <BR>
 
 נוסיף את המאגר למערכת עם הפקודה הבאה: <BR>
-sudo add-apt-repository ppa:moshe-wagner/luach
+sudo add-apt-repository ppa:moshe-wagner/orayta
 <BR>
 ונתקין את התוכנה עם הפקודה: <BR>
 sudo apt-get install orayta orayta-books
