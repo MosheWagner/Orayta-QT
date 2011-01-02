@@ -888,7 +888,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="booksTab">
           <attribute name="icon">
@@ -1615,8 +1615,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>231</width>
-                <height>479</height>
+                <width>208</width>
+                <height>422</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1642,7 +1642,7 @@
                   <string>font: 8pt &quot;Sans Serif&quot;;</string>
                  </property>
                  <property name="currentIndex">
-                  <number>155</number>
+                  <number>233</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -1904,7 +1904,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="layoutDirection">
