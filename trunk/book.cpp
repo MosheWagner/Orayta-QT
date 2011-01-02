@@ -273,8 +273,6 @@ void Book::setCosmetics(QString confline)
 {
     Cosmetics = confline.mid(14);
 
-
-
     QStringList costype;
     int pos = confline.indexOf("=");
     confline = confline.mid(pos + 1);
@@ -289,7 +287,7 @@ void Book::setCosmetics(QString confline)
         int num, num2;
 
         //The rus[x] option, says names of the given level links should be trimmed until the given suffix
-        if(costypevals[0].mid(0,3) == "rus")
+        if(costypevals[0].startsWith("rus"))
         {
             if ( ToNum((QString(costypevals[0][3])), &num) && num <= 5 && num > 0)
             {
@@ -307,9 +305,8 @@ void Book::setCosmetics(QString confline)
             if(ToNum(costypevals[1], &num))
                 mShortIndexLevel = num;
         }
-
         //Index prefix code (for the given level)
-        else if(costypevals[0].mid(0,2) == "ip")
+        else if(costypevals[0].startsWith("ip"))
         {
             if ( ToNum((QString(costypevals[0][2])), &num) && num <= 5 && num > 0)
             {
@@ -320,9 +317,8 @@ void Book::setCosmetics(QString confline)
                 mIndexPrefix[num - 1] = costypevals[1];
             }
         }
-
         //Index suffix code (for the given level)
-        else if(costypevals[0].mid(0,2) == "ix")
+        else if(costypevals[0].startsWith("ix"))
         {
             if ( ToNum((QString(costypevals[0][2])), &num) && num <= 5 && num > 0)
             {
@@ -333,9 +329,8 @@ void Book::setCosmetics(QString confline)
                 mIndexSuffix[num - 1] = costypevals[1];
             }
         }
-
         //Index suffix code (for the given level)
-        else if(costypevals[0].mid(0,2) == "is")
+        else if(costypevals[0].startsWith("is"))
         {
             if ( ToNum((QString(costypevals[0][2])), &num) && num < 5 && num > 0)
             {
@@ -344,9 +339,8 @@ void Book::setCosmetics(QString confline)
                     mIndexTextSize[num - 1] = num2;
             }
         }
-
         //Index suffix code (for the given level)
-        else if(costypevals[0].mid(0,2) == "sp")
+        else if(costypevals[0].startsWith("sp"))
         {
             if ( ToNum((QString(costypevals[0][2])), &num) && num <= 5 && num > 0)
             {
@@ -356,7 +350,7 @@ void Book::setCosmetics(QString confline)
             }
         }
 
-        else if(costypevals[0].mid(0,3) == "rep")
+        else if(costypevals[0].startsWith("rep"))
         {
             QString reper = costype[j].mid(costype[j].indexOf("=") + 1);
             QStringList p = reper.split(QString("^^"));
@@ -374,7 +368,6 @@ void Book::setCosmetics(QString confline)
     }
     costype.clear();
 }
-
 
 //Returns a conf entry representing this book
 QString Book::confEntry()
