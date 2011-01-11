@@ -26,6 +26,48 @@
 #define CurrentBook bookDisplayerList[CURRENT_TAB]
 
 
+QString createSearchPattern (QString userInput, bool allWords = true, bool fullWords = false, int spacing = 0)
+{
+    QStringList words = userInput.split(" ", QString::SkipEmptyParts);
+    QString pattern;
+
+    if (!fullWords)
+    {
+        for (unsigned i=0; i < words.size(); i++)
+            words[i] = "[^ ]*" + words[i] + "[^ ]*";
+    }
+    else if (!allWords) // && fullWords
+    {
+        for (unsigned i=0; i < words.size(); i++)
+            words[i] = " " + words[i] + " ";
+    }
+
+
+    unsigned i;
+    if (allWords)
+    {
+        QString sep = (spacing == 0 ? " " : " ([א-ת]+ ){0," + QString::number(spacing) + "}");
+        for ( i=0; i < words.size()-1; i++ )
+        {
+            pattern += words[i] + sep;
+        }
+        pattern += words[i];
+
+        if (fullWords)
+            pattern = " " + pattern + " ";
+    }
+    else
+    {
+        for ( i=0; i < words.size()-1; i++ )
+        {
+            pattern += "(" + words[i] + ")|";
+        }
+        pattern += "(" + words[i] + ")";
+    }
+
+    return pattern;
+}
+
 void MainWindow::on_SearchInBooksBTN_clicked()
 {
     //TODO: כתיב מלא / חסר
@@ -43,41 +85,21 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     }
     else
     {
-        //Find any of the words
-        if ( ui->radioButton->isChecked() )
-        {
-            QString pat = "";
+        if (ui->fuzzyCheckBox->isChecked())
+            stxt = AllowKtivHasser(stxt);
 
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivHasser(stxt);
+        bool allwords = ui->radioButton_2->isChecked();
+        bool fullwords = ui->fullCheckBox->isChecked();
+        int spacing = ui->spinBox->value();
 
-            QStringList words = stxt.split(" ");
-            for (int i=0; i<words.size(); i++)
-            {
-                if (words[i] != "")
-                {
-                    //See if to force full words
-                    // (This is OK because the search DB has forced spaces at it's beginning and end too)
-                    if ( ui->fullCheckBox->isChecked())
-                        pat += " " + words[i] + " ";
-                    else
-                        pat += words[i]; //Part of word will be found too
-                }
-                if ( i != words.size()-1 ) pat+= "|";
-            }
-            SearchInBooks(QRegExp(pat), otxt);
-        }
-        //Search for all of the words
+        QRegExp regexp;
+        if (ui->radioButton_3->isChecked())
+            regexp = QRegExp( stxt );
         else
-        {
-            if (ui->fuzzyCheckBox->isChecked()) stxt = AllowKtivHasser(stxt);
+            regexp = QRegExp( createSearchPattern (stxt, allwords, fullwords, spacing) );
+        regexp.setMinimal(true);
 
-            if (ui->spinBox->value() > 0)
-                stxt = stxt.replace(" ", " ([א-ת]+ ){0," + QString::number(ui->spinBox->value()) + "}");
-
-            if ( ui->fullCheckBox->isChecked()) stxt = " " + otxt + " ";
-
-            SearchInBooks(QRegExp(stxt), otxt);
-        }
+        SearchInBooks(regexp, otxt);
     }
 }
 
@@ -95,6 +117,14 @@ void MainWindow::on_radioButton_2_toggled(bool checked)
         ui->spinBox->setEnabled (true);
     else
         ui->spinBox->setEnabled (false);
+}
+
+void MainWindow::on_radioButton_3_toggled(bool checked)
+{
+    if (checked)
+        ui->fullCheckBox->setEnabled (false);
+    else
+        ui->fullCheckBox->setEnabled (true);
 }
 
 void MainWindow::on_searchInBooksLine_returnPressed()
