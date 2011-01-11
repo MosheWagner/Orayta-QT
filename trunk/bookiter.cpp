@@ -211,7 +211,7 @@ QString BookIter::toGmaraString()
 
     unsigned int i;
     //Find lowest level with value
-    for (i=0; mLevelName[i] == ""; i++) ;
+    for (i=0; !mLevelName[i].contains("דף "); i++) ;
 
     int p = mLevelName[i].indexOf("דף ");
     str = mLevelName[i].mid(p+3);
