@@ -125,6 +125,8 @@ private slots:
     void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
     void on_radioButton_2_toggled(bool checked);
+    void on_regexpCheckBox_stateChanged(int state);
+    void on_radioButton_3_toggled(bool checked);
 
     void on_searchInBooksLine_returnPressed();
     void on_hideSearchButton_clicked();
@@ -197,8 +199,6 @@ private slots:
 
     void menuComment();
     void menuErrorReport();
-
-    void on_regexpCheckBox_stateChanged(int state);
 
     void on_treeWidget_customContextMenuRequested(QPoint pos);
     void on_searchBackwords_clicked();

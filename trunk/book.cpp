@@ -658,7 +658,10 @@ void Book::BuildSearchTextDB()
     //Any char not matchong this pattern, is no *pure* text.
     QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
     //These are turned into spaces, and not just ignored.
-    QString spaceSigns = "[-_:.,?]";
+    QString spaceSigns = "[-_:\.,\?]";
+
+    //Pad with spaces, so "full word searches" work on begining and end of text too
+    pureText = " ";
 
     for (int i=0; i<text.size(); i++)
     {
@@ -671,7 +674,9 @@ void Book::BuildSearchTextDB()
             //Map with it's position in the pureText
             levelMap.insert(pureText.length(), itr);
 
-            pureText += " ";
+            if (text[i][0] == '!')
+                pureText += " " +  text[i].mid(2, text[i].length() - 2) + " ";
+            //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
         }
         //Link
         else if (text.startsWith("<!--ex"))
@@ -682,7 +687,7 @@ void Book::BuildSearchTextDB()
         else
         {
             //Test if book is from the bible. Hope this is ok...
-            if (mPath.contains("מקרא") == true)
+            if ( mPath.contains("מקרא") )
             {
                 //Turn קרי וכתיב into only קרי. Maybe this should be an option?
                 text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
@@ -698,15 +703,15 @@ void Book::BuildSearchTextDB()
             text[i] = text[i].replace(notText, "");
 
             //Remove double spaces and line breaks
-            pureText += text[i];//.simplified();
+            pureText += text[i].simplified() + " ";
         }
     }
 
     //Pad with spaces, so "full word searches" work on begining and end of text too
-    pureText = " " + pureText + " ";
+    //pureText = pureText + " ";
 }
 
-/*
+
 QList <SearchResult> Book::findInBook(QString phrase)
 {
     //Naive convert to regexp
@@ -739,11 +744,9 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
         last = curr+1;
     }
 
-
     // --- *** ---
     pureText = "";
     levelMap.clear();
-
 
     return results;
 }
@@ -757,10 +760,11 @@ QString Book::resultPreview(QRegExp exp, int offset)
     s = "... " + s + " ...";
     return s.replace(QRegExp("(" + exp.pattern()+ ")"), "<span style='background-color:Yellow'>\\1</span>");
 }
-*/
 
-#define RESULTS_MAX 200
-#define CHAR_LIMIT 200
+
+
+/*
+#define CHAR_LIMIT 250
 #define LINES_TO_SHOW 6
 
 QList <SearchResult> Book::findInBook(QRegExp regexp)
@@ -784,13 +788,9 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
             {
                 itr.SetLevelFromLine(text[j]);
             }
-            else if (text[j].mid(0,6) == "<!--ex")
-            { //Ignore lines starting with "<!--ex"
-            }
-            //A line that should be searched
-            else
+            else if ( !text[j].startsWith("<!--ex") )
             {
-                QString thisline = removeSigns(text[j]);
+                QString thisline = text[j];
 
                 //Remove all HTML tags in this line
                 thisline.replace( QRegExp("<[^>]*>"), "" );
@@ -799,7 +799,7 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
 
                 //Find if the search phrase appears is in this line (after omitting html tags)
                 int pos = thisline.indexOf (regexp);
-                while (pos < thisline.length() && pos!= -1 && (results.size() <= RESULTS_MAX))
+                while (pos < thisline.length() && pos!= -1)
                 {
                     SearchResult sr;
                     sr.itr = itr;
@@ -809,7 +809,7 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
 
                     for (int k = j-LINES_TO_SHOW; k < j ; k++)
                     {
-                        if (( k > 0) && ( k < text.size()))
+                        if ( k > 0 )
                         {
                             if (text[k][0] == '!')
                                 str += "(" +  text[k].mid(3, text[k].length() - 4) + ") ";
@@ -825,7 +825,6 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
 
 
                     sr.preview += str;
-
 
                     sr.preview += "<span style=\"background-color:#FFF532\">";
                     sr.preview += thisline.mid(pos, regexp.cap(0).length());
@@ -866,4 +865,4 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
 
     return results;
 }
-
+*/
