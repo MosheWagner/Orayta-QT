@@ -74,12 +74,13 @@ void MainWindow::on_SearchInBooksBTN_clicked()
 
     QString otxt = ui->searchInBooksLine->text();
     QString stxt = otxt;
+    QRegExp regexp;
 
     //Search as regexp entered
     if (ui->regexpCheckBox->isChecked())
     {
         //Prevent greedy searches by mistake
-        QRegExp regexp(stxt);
+        regexp = QRegExp(stxt);
         regexp.setMinimal(true);
         SearchInBooks(regexp, tr("RegExp: ") + otxt);
     }
@@ -92,9 +93,8 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         bool fullwords = ui->fullCheckBox->isChecked();
         int spacing = ui->spinBox->value();
 
-        QRegExp regexp;
         if (ui->radioButton_3->isChecked())
-            regexp = QRegExp( stxt );
+            regexp = QRegExp(stxt);
         else
             regexp = QRegExp( createSearchPattern (stxt, allwords, fullwords, spacing) );
         regexp.setMinimal(true);
