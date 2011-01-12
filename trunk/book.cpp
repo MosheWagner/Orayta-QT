@@ -722,6 +722,7 @@ QList <SearchResult> Book::findInBook(QString phrase)
 QList <SearchResult> Book::findInBook(QRegExp exp)
 {
     QList <SearchResult> results;
+    QRegExp regexp = QRegExp("(" + exp.pattern()+ ")");
 
     //Make sure DB exists
     BuildSearchTextDB();
@@ -733,7 +734,7 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
         mapitr --;
 
         SearchResult s;
-        s.preview = resultPreview(exp, curr);
+        s.preview = resultPreview(regexp, curr);
         s.itr = mapitr.value();
 
         //Prevent double results
@@ -758,7 +759,7 @@ QString Book::resultPreview(QRegExp exp, int offset)
     s = s.mid(s.indexOf(" "));
     s = s.mid(0, s.lastIndexOf(" "));
     s = "... " + s + " ...";
-    return s.replace(QRegExp("(" + exp.pattern()+ ")"), "<span style='background-color:Yellow'>\\1</span>");
+    return s.replace(exp, "<span style='background-color:Yellow'>\\1</span>");
 }
 
 
