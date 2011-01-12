@@ -29,8 +29,6 @@
 
 //BUG: do not allow english letters in puretext
 
-//Check whats wrong with  שמירת הלשון (או חפץ חיים)?
-
 //TODO: Improve search result preview
 //TODO: Solve search result marking problem
 
@@ -90,7 +88,6 @@
   - שמירת הלשון / חפץ חיים - Gives errors and dosnt seem ok
   - תומר דבורה Crashes!!!
   - ספר המידות is bad
-  - קרבן העדה on שקלים is all bold, and a conf line is slipped in the text
 */
 
 
