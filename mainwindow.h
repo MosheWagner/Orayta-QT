@@ -229,7 +229,7 @@ private slots:
 
     //Searches for the given phrase in all books that have SearchMe as true,
     // creates a html file with the results, and loads it a new tab (unless current tab is empty)
-    void SearchInBooks (QRegExp regexp, QString disp);
+    void SearchInBooks (QRegExp& regexp, QString disp);
 
     //Shows the search tab
     void showSearchTab();

@@ -63,7 +63,6 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     hasTeamim = false;
 
     showAlone = true;
-
     //pureText = "";
 }
 
@@ -162,6 +161,7 @@ void Book::setIsInSearch(bool in_search)
 
 void Book::setIsHidden(bool isHidden)
 { mIsHidden = isHidden; }
+
 
 void Book::repainticon()
 {
@@ -712,14 +712,15 @@ void Book::BuildSearchTextDB()
 }
 
 
-QList <SearchResult> Book::findInBook(QString phrase)
+QList <SearchResult> Book::findInBook(QString& phrase)
 {
     //Naive convert to regexp
-    return findInBook(QRegExp(phrase));
+    QRegExp regexp = QRegExp(phrase);
+    return findInBook(regexp);
 }
 
 #define CHAR_LIMIT 250
-QList <SearchResult> Book::findInBook(QRegExp exp)
+QList <SearchResult> Book::findInBook(QRegExp& exp)
 {
     QList <SearchResult> results;
     QRegExp regexp = QRegExp("(" + exp.pattern()+ ")");
@@ -746,13 +747,13 @@ QList <SearchResult> Book::findInBook(QRegExp exp)
     }
 
     // --- *** ---
-    pureText = "";
+    pureText.clear();
     levelMap.clear();
 
     return results;
 }
 
-QString Book::resultPreview(QRegExp exp, int offset)
+QString Book::resultPreview(QRegExp& exp, int offset)
 {
     QString s = pureText.mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
     //Force full words
@@ -867,3 +868,4 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
     return results;
 }
 */
+
