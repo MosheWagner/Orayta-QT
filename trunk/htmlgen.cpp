@@ -98,7 +98,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> (" +  Sources[i].Title + ") </small></span>";
     }
 
-
     QString html;
     QString htmlbody;
     QString last_label="", lastlink="";
@@ -634,7 +633,7 @@ QString html_head(QString title)
 
     t += "\n<title>";
     t += title;
-    t += "</title>";
+    t += "</title>\n";
 
 
     //Add CSS settings to the html file:
@@ -653,7 +652,7 @@ QString CSS()
     QString str = "";
     //Add a cute effect when hovering over links
     str += "<style type=\"text/css\">";
-    str += "A:hover {text-decoration: underline; color: red;}";
+    str += "A {text-decoration: none;}";    str += "A:hover {text-decoration: underline; color: red;}";
     str += "div { line-height: 1.6;}";
     str += "</style>\n";
 
@@ -698,7 +697,7 @@ inline QString html_main_div()
 
 //Returns html code of a "<a name" tag, for the given name
 inline QString namepoint (QString name)
-{     return "<a name=\"" + name + "\">&nbsp</a>\n";          }
+{     return "<a name=\"" + name + "\">&nbsp;</a>\n";          }
 
 
 //Returns an html link by the given link_to and display text
@@ -710,11 +709,11 @@ inline QString link (QString linkto, QString text, int id)
     }
     else if (linkto.indexOf("#") != -1)
     {
-        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp";
+        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp;";
     }
     else
     {
-        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp";
+        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
     }
 
 }
@@ -733,18 +732,18 @@ QString index_to_index(vector<IndexItem> indexitemlist,int level)
 
     int indexcount = 0;
 
-    str += "<center> &nbsp <span style=\"font-size:16px;\">";
+    str += "<center> &nbsp; <span style=\"font-size:16px;\">";
     for(unsigned int i=0; i<indexitemlist.size(); i++)
     {
         if(indexitemlist[i].level == level)
         {
             str += reddot();
-            str += "&nbsp" + link("#Index" + stringify(indexcount), indexitemlist[i].displayText);
-            str += "&nbsp&nbsp&nbsp";
-            //str += "&nbsp<a href=\"#Index";
+            str += "&nbsp;" + link("#Index" + stringify(indexcount), indexitemlist[i].displayText);
+            str += "&nbsp;&nbsp;&nbsp;";
+            //str += "&nbsp;<a href=\"#Index";
             //str += stringify(indexcount);
             //str += "\">";
-            //str += indexitemlist[i].displayText + "</a>&nbsp&nbsp&nbsp";
+            //str += indexitemlist[i].displayText + "</a>&nbsp;&nbsp;&nbsp;";
             indexcount++;
         }
     }
@@ -806,8 +805,8 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
         link_table += "<span style=\"font-size:20px;\">";
         for (unsigned int j=0; j<indexitemlist.size(); j++)
         {
-            link_table += "&nbsp&nbsp&nbsp&nbsp&nbsp";
-            link_table += bluedot() + "&nbsp";
+            link_table += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            link_table += bluedot() + "&nbsp;";
 
             link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
 
@@ -845,7 +844,7 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
             }
             else if (indexitemlist[j].level == higherLevel)
             {
-                link_table += "<span style=\"font-size:28px;\"> &nbsp&nbsp";
+                link_table += "<span style=\"font-size:28px;\"> &nbsp;&nbsp;";
 
                 link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +=  "</span>\n";
@@ -858,7 +857,7 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
                     link_table += bluedot() + " " + link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 else
                     link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table +="&nbsp\n";
+                link_table +="&nbsp;\n";
             }
         }
     }
@@ -1026,32 +1025,6 @@ QString Script()
     str += "   }";
     str += "}";
 */
-
-
-    //Script for marking current cursur position
-    str+= "function markCursorPos() \n";
-    str+= "{\n";
-    str+= "    var cursorPos;\n";
-    str+= "\n";
-    str+= "    var selObj = window.getSelection();\n";
-    str+= "    cursorPos =  selObj.anchorOffset;\n";
-    str+= "    var sign = \"**|*|\";";
-    str+= "    sign = sign + \"**\";";
-    str+= "\n";
-    str+= "        \n";
-    str+= "    selObj.anchorNode.nodeValue = selObj.anchorNode.nodeValue.substr(0, cursorPos) + sign + selObj.anchorNode.nodeValue.substr(cursorPos);\n";
-    str+= "        \n";
-    str+= "}\n";
-    str+= "\n";
-
-    str+= "function unMarkCursorPos() \n";
-    str+= "{\n";
-    str+= "    var sign = \"**|*|\";";
-    str+= "    sign = sign + \"**\";";
-    str+= "    var selObj = window.getSelection();\n";
-    str+= "    selObj.anchorNode.nodeValue = selObj.anchorNode.nodeValue.replace(sign, \"\");\n";
-    str+= "}\n";
-
 
 
     str += "</script>\n";

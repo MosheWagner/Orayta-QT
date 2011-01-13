@@ -98,9 +98,9 @@
 //  It just made the code so much more readable, I couldn't resist
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBook" simply represents
+//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
 // the currently visible "bookdisplayer"
-#define CurrentBook bookDisplayerList[CURRENT_TAB]
+#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -467,11 +467,11 @@ void MainWindow::BuildBookTree()
 //Load the generated Html file of the given book into the WebView widget
 void MainWindow::LoadBook(Book *book, QString markString)
 {
-    bool shownikud = CurrentBook->isNikudShown();
-    bool showteamim = CurrentBook->areTeamimShown();
+    bool shownikud = CurrentBookdisplayer->isNikudShown();
+    bool showteamim = CurrentBookdisplayer->areTeamimShown();
 
     //Show the wait sign even before rendering
-    CurrentBook->ShowWaitPage();
+    CurrentBookdisplayer->ShowWaitPage();
 
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
 
@@ -490,9 +490,9 @@ void MainWindow::LoadBook(Book *book, QString markString)
     {
         QString p =  absPath(htmlfilename);
 
-        CurrentBook->setBook(book);
+        CurrentBookdisplayer->setBook(book);
 
-        CurrentBook->load(QUrl(p));
+        CurrentBookdisplayer->load(QUrl(p));
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -613,18 +613,18 @@ void MainWindow::on_removeAllFromSearchButton_clicked()
 
 void MainWindow::on_zoominButton_clicked()
 {
-    CurrentBook->ZoomIn();
+    CurrentBookdisplayer->ZoomIn();
 }
 
 void MainWindow::on_zoomoutButton_clicked()
 {
-    CurrentBook->ZoomOut();
+    CurrentBookdisplayer->ZoomOut();
 }
 
 void MainWindow::on_topButton_clicked()
 {
     //Jump to the top of the page using javascript
-    CurrentBook->execScript("window.scrollTo(0, 0)");
+    CurrentBookdisplayer->execScript("window.scrollTo(0, 0)");
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -724,7 +724,7 @@ void MainWindow::printBook()
         return;
     else
     {
-        CurrentBook->print(&printer);
+        CurrentBookdisplayer->print(&printer);
     }
 }
 */
@@ -788,7 +788,7 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     if ( comment != "" )
         writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
 
-    CurrentBook->ShowWaitPage();
+    CurrentBookdisplayer->ShowWaitPage();
     //Re-load the page at the comment's position
     // NOTE: this isn't perfect, but I have nothing better
     int p = link.indexOf(":");
@@ -798,15 +798,15 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     int id = bookList.FindBookById(uid);
 
     //Force a new render of the book
-    bool shownikud = CurrentBook->isNikudShown();
-    bool showteamim = CurrentBook->areTeamimShown();
+    bool shownikud = CurrentBookdisplayer->isNikudShown();
+    bool showteamim = CurrentBookdisplayer->areTeamimShown();
     QString htmlfilename = bookList[id]->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
     bookList[id]->htmlrender(htmlfilename, shownikud, showteamim, "");
 
     //Force the webview to clear [seems to be needed only for empty comments]
-    //CurrentBook->setHtml("");
+    //CurrentBookdisplayer->setHtml("");
 
-    CurrentBook->setInternalLocation("#" + link.mid(p+1));
+    CurrentBookdisplayer->setInternalLocation("#" + link.mid(p+1));
     openBook(id);
 }
 
@@ -818,10 +818,10 @@ void MainWindow::removeComment(QString link)
 
 void MainWindow::menuComment()
 {
-    QString link = CurrentBook->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = CurrentBook->book()->getUniqueId();
+    int id = CurrentBookdisplayer->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     openCommentDialog( link );
@@ -841,14 +841,14 @@ void MainWindow::closeCurrentTab()
 
 void MainWindow::toggleNikud(bool showNikud)
 {
-    CurrentBook->showNikud(showNikud);
-    LoadBook( CurrentBook->book() );
+    CurrentBookdisplayer->showNikud(showNikud);
+    LoadBook( CurrentBookdisplayer->book() );
 }
 
 void MainWindow::toggleTeamim(bool showTeamim)
 {
-    CurrentBook->showTeamim(showTeamim);
-    LoadBook( CurrentBook->book() );
+    CurrentBookdisplayer->showTeamim(showTeamim);
+    LoadBook( CurrentBookdisplayer->book() );
 }
 
 void MainWindow::on_viewTab_currentChanged(int index)
@@ -874,11 +874,11 @@ void MainWindow::on_viewTab_currentChanged(int index)
 
 void MainWindow::menuErrorReport()
 {
-    QString link = CurrentBook->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer->activeLink().replace("$","");
 
     if (link != "")
     {
-        int id = CurrentBook->book()->getUniqueId();
+        int id = CurrentBookdisplayer->book()->getUniqueId();
         int index = bookList.FindBookById(id);
 
         errorReport *err = new errorReport( this, link, bookList[index]->getNormallDisplayName() );
@@ -1043,6 +1043,7 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     else
     {
         bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
+        bookDisplayerList[0]->setSearchPos(-1);
         ui->viewTab->setTabText(0, tr("Orayta - Jewish books"));
     }
 
@@ -1074,22 +1075,24 @@ void MainWindow::openExternalLink(QString lnk)
     if(ToNum(parts[0], &id))
     {
         int index = bookList.FindBookById(id);
-        if( index != -1)
+        if( index != -1 )
         {
             //Add a new tab and open the link there
             addViewTab(false);
-            CurrentBook->ShowWaitPage();
-            QApplication::processEvents();
 
             ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
-            CurrentBook->setInternalLocation("#" + parts[1]);
+            CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
+
             if (parts.size() == 3)
             {
                 //Mark the requested text in the new book
                 LoadBook(bookList[index], unescapeFromBase32(parts[2]));
             }
-            else LoadBook(bookList[index]);
+            else
+            {
+                LoadBook(bookList[index]);
+            }
         }
     }
 }
@@ -1104,15 +1107,15 @@ void MainWindow::on_openMixed_clicked()
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if (bookList.FindBookById(CurrentBook->book()->getUniqueId()) == ind)
+        if (bookList.FindBookById(CurrentBookdisplayer->book()->getUniqueId()) == ind)
         {
             QString script = "var obj = ClosestElementToView();";
-            CurrentBook->execScript(script);
-            QString closest = CurrentBook->getJSVar("obj.href");
+            CurrentBookdisplayer->execScript(script);
+            QString closest = CurrentBookdisplayer->getJSVar("obj.href");
 
             QString link = closest.mid(closest.indexOf("$")+1);
 
-            if (link != "") CurrentBook->setInternalLocation("#" + link);
+            if (link != "") CurrentBookdisplayer->setInternalLocation("#" + link);
         }
 
         openBook(ind);

@@ -38,6 +38,8 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     myurl = "";
 
+    mSearchPos = -1;
+
     //Create new webview
     htmlview = new myWebView(this);
 
@@ -100,9 +102,6 @@ void bookDisplayer::htmlView_loadFinished(bool)
     //Hide "wait" page and show the real page
     HideWaitPage();
 }
-
-// KHTML calls "linkClicked" twice for some stupid reason, so we ignore the second time
-QString last = "";
 
 //Omitted when a link was clicked in the webView
 void bookDisplayer::htmlView_linkClicked(QUrl url)
@@ -201,8 +200,7 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
     {
         int pos = link.indexOf("!");
 
-        QString lnk = "";
-        lnk = link.mid(pos+1);
+        QString lnk = link.mid(pos+1);
 
         //Tell the MainWindow to open this link in a new tab
         emit externalLink(lnk);
@@ -220,7 +218,9 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
     }
 }
 
+int bookDisplayer::searchPos() { return mSearchPos; }
 
+void bookDisplayer::setSearchPos(int pos) { mSearchPos = pos; }
 
 void bookDisplayer::setHtml(QString html)
 {
@@ -309,9 +309,19 @@ QWidget * bookDisplayer::htmlQWidget()
     return htmlview;
 }
 
-QString bookDisplayer::htmlSource()
+myWebView * bookDisplayer::webview()
+{
+    return htmlview;
+}
+
+QString bookDisplayer::pageText()
 {
     return htmlview->page()->mainFrame()->toPlainText();
+}
+
+QString bookDisplayer::htmlSource()
+{
+    return htmlview->page()->mainFrame()->toHtml();
 }
 
 void bookDisplayer::searchText(QString text, bool backwards)

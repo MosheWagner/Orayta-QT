@@ -21,9 +21,9 @@
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBook" simply represents
+//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
 // the currently visible "bookdisplayer"
-#define CurrentBook bookDisplayerList[CURRENT_TAB]
+#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
 
 
 QString createSearchPattern (QString userInput, bool allWords = true, bool fullWords = false, int spacing = 0)
@@ -70,7 +70,6 @@ QString createSearchPattern (QString userInput, bool allWords = true, bool fullW
 
 void MainWindow::on_SearchInBooksBTN_clicked()
 {
-    //TODO: כתיב מלא / חסר
 
     QString otxt = ui->searchInBooksLine->text();
     QString stxt = otxt;
@@ -135,11 +134,11 @@ void MainWindow::on_searchInBooksLine_returnPressed()
 
 
 #define RESULTS_MAX 500
-void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
+void MainWindow::SearchInBooks (QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
 
-    QString title, Html="",Htmlhead="", HtmlTopLinks="";
+    QString title, Html="", Htmlhead="", HtmlTopLinks="";
 
     QList <QString> text;
 
@@ -155,17 +154,17 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
         {
             addViewTab(false);
-            CurrentBook->normalZoom();
-            CurrentBook->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            CurrentBookdisplayer->normalZoom();
+            CurrentBookdisplayer->setHtml(simpleHtmlPage(tr("Orayta"), ""));
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
 
-        bookDisplayer *pCurrentBook = CurrentBook;
-        pCurrentBook->ShowWaitPage();
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer;
+        pCurrentBookdisplayer->ShowWaitPage();
 
         //Set the title of the tab to show what it's searching for
         title = tr("Searching: "); title += "\"" + disp + "\"" + " ...";
-        ui->viewTab->setTabText(CURRENT_TAB,title);
+        ui->viewTab->setTabText(CURRENT_TAB, title);
 
         //Head and title of the Html
         title = tr("Search results: ") + "\"" + disp + "\"";
@@ -234,6 +233,7 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         if (stopSearchFlag == true)
         {
             Htmlhead += "<BR><BR>" + tr("(Search stopped by user)") + "<BR><BR>";
+            stopSearchFlag = false;
         }
 
         if(results == 0)
@@ -263,14 +263,12 @@ void MainWindow::SearchInBooks (QRegExp regexp, QString disp)
         Html += "</span></div>\n";
         Html += "\n</body>\n</html>";
 
-        //TODO: Serch results are special books
+        //TODO: Search results are special books
         writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
 
-        pCurrentBook->load(QUrl(TMPPATH + "Search" + ".html"));
+        pCurrentBookdisplayer->load(QUrl(TMPPATH + "Search" + ".html"));
 
         ui->pbarbox->hide();
-
-        stopSearchFlag = false;
     }
 }
 
@@ -282,53 +280,32 @@ void MainWindow::on_searchForward_clicked()
 
     QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
 
-    //BEWARE: Amaizingly ugly hack! Watch out!
+    QString text = CurrentBookdisplayer->pageText();
 
-    //Mark current cursor position using JS, grab the Html, and hide the marking
-    CurrentBook->execScript("markCursorPos();");
-
-    QString text = CurrentBook->htmlSource();
-
-    int ppp = text.indexOf("**|*|**");
-
-    //Hide the marking in the html
-    CurrentBook->execScript("unMarkCursorPos();");
-
-    //Search only in the text after the cursor's position
-    if (ppp != -1) text = text.mid(ppp + 7 + 1);
+    int ppp = CurrentBookdisplayer->searchPos();
 
     //Find the closest occurence of the RegExp
     QString next = "";
 
-    int pos = regexp.indexIn(text);
+    int pos = regexp.indexIn(text, ppp + 1);
     if (pos > -1)
     {
         next = regexp.cap(0);
+        CurrentBookdisplayer->setSearchPos(pos);
+        CurrentBookdisplayer->searchText(next, false);
     }
-
-    CurrentBook->searchText(next, false);
 }
 
 void MainWindow::on_searchBackwords_clicked()
 {
     if (ui->lineEdit->text().replace(" ","") == "") return;
 
-    //BEWARE: Amaizingly ugly hack! Watch out!
+    QString text = CurrentBookdisplayer->pageText();
 
-    //Mark current cursor position using JS, grab the Html, and hide the marking
-    CurrentBook->execScript("markCursorPos();");
-
-    QString text = CurrentBook->htmlSource();
-
-
-    int ppp = text.indexOf("**|*|**");
-    int ppb = text.indexOf("</SCRIPT");
-
-    //Hide the marking in the html
-    CurrentBook->execScript("unMarkCursorPos();");
+    int ppp = CurrentBookdisplayer->searchPos();
 
     //Search only in the text before the cursor's position
-    if (ppp != -1) text = text.mid(ppb, ppp - 1 - ppb);
+    if (ppp != -1) text = text.mid(0, ppp - 1);
 
     QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
 
@@ -336,11 +313,11 @@ void MainWindow::on_searchBackwords_clicked()
     QString last = "";
 
     int pos = regexp.lastIndexIn(text);
-    if (pos > -1) {
+    if (pos > -1)
+    {
         last = regexp.cap(0);
+        CurrentBookdisplayer->setSearchPos(pos);
+        CurrentBookdisplayer->searchText(last, true);
     }
-    else return;
-
-    CurrentBook->searchText(last, true);
 }
 

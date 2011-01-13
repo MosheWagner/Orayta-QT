@@ -135,9 +135,9 @@ public:
     QString HTMLFileName();
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
-    QList <SearchResult> findInBook(QString phrase);
+    QList <SearchResult> findInBook(QString& phrase);
     //Overloaded function of the above
-    QList <SearchResult> findInBook(QRegExp regexp);
+    QList <SearchResult> findInBook(QRegExp& regexp);
 
 
     //Repaints the icon of this book or folder, by the state of it's children
@@ -173,7 +173,7 @@ protected:
 
 
     //Returns a preview of the search result  (by it's search regexp and offset in puretext)
-    QString resultPreview(QRegExp exp, int offset);
+    QString resultPreview(QRegExp& exp, int offset);
 
     QTreeWidgetItem *mpTreeItem;
 

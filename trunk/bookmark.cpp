@@ -20,9 +20,9 @@
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBook" simply represents
+//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
 // the currently visible "bookdisplayer"
-#define CurrentBook bookDisplayerList[CURRENT_TAB]
+#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
 
 
 void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
@@ -154,7 +154,7 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
             addViewTab(false);
             ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
-            CurrentBook->setInternalLocation("#" + parts[1]);
+            CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
             openBook(index);
         }
     }
@@ -292,10 +292,10 @@ void MainWindow::on_bookmarkDown_clicked()
 
 void MainWindow::menuBookMark()
 {
-    QString link = CurrentBook->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = CurrentBook->book()->getUniqueId();
+    int id = CurrentBookdisplayer->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     bookMarkPosition( link );

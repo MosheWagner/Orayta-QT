@@ -54,6 +54,9 @@ public:
     void showNikud(bool show);
     void showTeamim(bool show);
 
+    int searchPos();
+    void setSearchPos (int);
+
     QString title();
     QUrl url();
     QString activeLink();
@@ -68,7 +71,9 @@ public:
     void setInternalLocation(QString location);
 
     QWidget * htmlQWidget();
+    myWebView * webview();
     
+    QString pageText();
     QString htmlSource();
 
     void searchText(QString text, bool backwards);
@@ -110,6 +115,9 @@ private:
     myWebView * waitView;
 
     QStackedWidget *stackedWidget;
+
+    //Position in search
+    int mSearchPos;
 
 private slots:
     void htmlView_linkClicked(QUrl url);
