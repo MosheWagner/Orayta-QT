@@ -30,13 +30,10 @@
 //BUG: do not allow english letters in puretext
 
 //TODO: Improve search result preview
-//TODO: Solve search result marking problem
+
+//TODO: Search result marks in books with nikud don't work
 
 //TODO: Finish GUI changes
-//TODO: Make auto DB building an option.
-//TODO: Save DB to file?
-
-//TODO: Allow finding ktiv too (only kri is found now)
 
 /*
   Roadmap for 0.03:
@@ -83,13 +80,25 @@
 //TODO: see what else to do ;-)
 
 /*
+    DB issues:
+
+    - Full map for puretext.
+    - Allow finding ktiv too (only kri is found now)
+    - Make auto DB building an option.
+    - Save DB to file?
+
+    - BUG: DB in file mode doesn't save the levelMap, so it crashes
+    - BUG: do not allow english letters in puretext
+*/
+
+
+/*
   Book issues:
 
   - שמירת הלשון / חפץ חיים - Gives errors and dosnt seem ok
   - תומר דבורה Crashes!!!
   - ספר המידות is bad
 */
-
 
 
 // This is just a very simple define. anywhere in the code,
