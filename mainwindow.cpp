@@ -30,6 +30,8 @@
 
 //TODO: Finish GUI changes
 
+//TODO: JS function "ClosestElementToView" isn't accurate. (Maybe jump there but without the red mark?)
+
 /*
   Roadmap for 0.03:
 
@@ -91,7 +93,6 @@
   Book issues:
 
   - שמירת הלשון / חפץ חיים - Gives errors and dosnt seem ok
-  - תומר דבורה Crashes!!!
   - ספר המידות is bad
 */
 
@@ -295,7 +296,6 @@ void MainWindow::connectMenuActions()
     connect(ui->removeAllFromSearchAction, SIGNAL(triggered()), this, SLOT(on_removeAllFromSearchButton_clicked()));
     connect(ui->addToSearchAction, SIGNAL(triggered()), this, SLOT(addToSearch()));
     connect(ui->removeFromSearchAction, SIGNAL(triggered()), this, SLOT(removeFromSearch()));
-
 }
 
 MainWindow::~MainWindow()
@@ -1100,7 +1100,7 @@ void MainWindow::openExternalLink(QString lnk)
         }
     }
 }
-/*
+
 void MainWindow::on_openMixed_clicked()
 {
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
@@ -1125,7 +1125,7 @@ void MainWindow::on_openMixed_clicked()
         openBook(ind);
     }
 }
-*/
+
 void MainWindow::on_showaloneCBX_clicked(bool checked)
 {
     ui->mixedFrame->setEnabled(!checked);
