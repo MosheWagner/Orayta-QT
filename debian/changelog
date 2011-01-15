@@ -1,3 +1,75 @@
+orayta (0.041~ubuntu1~maverick1ubuntu3) maverick; urgency=low
+
+  * BAAA3
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 15 Jan 2011 19:17:33 +0200
+
+orayta (0.041~ubuntu1~maverick1ubuntu2) maverick; urgency=low
+
+  * BAA2
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 15 Jan 2011 18:41:39 +0200
+
+orayta (0.041~ubuntu1~maverick1ubuntu1) maverick; urgency=low
+
+  * BAA
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 15 Jan 2011 18:40:13 +0200
+
+orayta (0.041~ubuntu1~maverick1) maverick; urgency=low
+
+  * 
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 22:34:44 +0200
+
+orayta (0.041~ubuntu1~lucid1) lucid; urgency=low
+
+  * Same
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 22:33:46 +0200
+
+orayta (0.041) karmic; urgency=low
+
+  * Test
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 22:32:45 +0200
+
+orayta (0.04ubuntu5) maverick; urgency=low
+
+  * YAT
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 21:12:08 +0200
+
+orayta (0.04ubuntu4) lucid; urgency=low
+
+  * YAT
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 21:10:14 +0200
+
+orayta (0.04ubuntu3) karmic; urgency=low
+
+  * Another try
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 21:07:47 +0200
+
+orayta (0.04ubuntu2) maverick; urgency=low
+
+  * Hope this works
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 20:19:04 +0200
+
+orayta (0.04ubuntu1) lucid; urgency=low
+
+  * Lucid
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 20:18:46 +0200
+
+orayta (0.04) karmic; urgency=low
+
+  * New version
+
+ -- moshe <moshe.wagner@gmail.com>  Sat, 01 Jan 2011 20:17:49 +0200
+
 orayta (0.03ubuntu3) maverick; urgency=low
 
   * Maverick test

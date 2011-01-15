@@ -2,11 +2,11 @@ Source: orayta
 Section: misc
 Priority: extra
 Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
-Build-Depends: debhelper (>= 7), kdelibs5-dev, libqt4-dev (>= 4.5), 
+Build-Depends: debhelper (>= 7), libqt4-dev (>= 4.5), 
 Standards-Version: 3.8.3
 Homepage: http://orayta.googlecode.com
 
 Package: orayta
 Architecture: any
-Depends: ${misc:Depends}, kdelibs5, libqt4-xmlpatterns, libqt4-gui (>= 4.5)
+Depends: ${misc:Depends}, libqt4-xmlpatterns, libqt4-gui (>= 4.5)
 Description: Jewish books program

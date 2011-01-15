@@ -5,6 +5,7 @@
 QT += webkit
 TARGET = Orayta
 TEMPLATE = app
+
 SOURCES += main.cpp \
     mainwindow.cpp \
     htmlgen.cpp \
@@ -36,7 +37,8 @@ HEADERS += htmlgen.h \
     errorreport.h \
     bookfind.h \
     bookdisplayer.h
-FORMS += mainwindow.ui \
+FORMS += \
+    mainwindow.ui \
     addcomment.ui \
     bookmarktitle.ui \
     about.ui \
