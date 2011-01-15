@@ -22,11 +22,6 @@
 //TODO: Full map for puretext.
 //---------------
 
-
-
-
-//BUG: DB in file mode doesn't save the levelMap, so it crashes
-
 //BUG: do not allow english letters in puretext
 
 //TODO: Improve search result preview

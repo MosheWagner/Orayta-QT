@@ -57,7 +57,7 @@ echo "	cd .."
 echo "	dput ppa:moshe-wagner/moshewag <source.changes>"
 
 #Clean up
-make clean
+#make clean
 
 ######
 #mv hide.tmp Orayta.pro

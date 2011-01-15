@@ -59,6 +59,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
 
     QFileInfo f("Images/Wait.gif");
+    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif");
 
     QString html = simpleHtmlPage("hello", "<br><br><br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
 
