@@ -57,9 +57,12 @@ target.path = /usr/bin
 books.path = /usr/share/Orayta/
 books.files = Books/.
 
+
 # Install icon
 icon.path = /usr/share/Orayta/
 icon.files = Icons/Orayta.png
+#Install wait image
+icon.files += Images/Wait.gif
 
 # Desktop shortcut
 desktop.path = /home/*/Desktop/
