@@ -342,3 +342,29 @@ void bookDisplayer::HideWaitPage()
     //Hide "wait" page and show the real page
     stackedWidget->setCurrentIndex(0);
 }
+
+void bookDisplayer::highlight(QRegExp rx)
+{
+    QString txt = pageText();
+    QStringList listTerms;
+    int pos = 0;
+
+    while ((pos = rx.indexIn(txt, pos)) != -1)
+    {
+        listTerms << rx.cap(0);
+        pos += rx.matchedLength();
+    }
+
+    listTerms.removeDuplicates();
+
+    unhighlight();
+    for (QStringList::iterator it = listTerms.begin(); it != listTerms.end(); ++it)
+    {
+        htmlview->findText(*it, QWebPage::HighlightAllOccurrences);
+    }
+}
+
+void bookDisplayer::unhighlight()
+{
+    htmlview->findText("", QWebPage::HighlightAllOccurrences);
+}

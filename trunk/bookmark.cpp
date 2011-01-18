@@ -150,12 +150,24 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
         int index = bookList.FindBookById(id);
         if( index != -1)
         {
-            //Add a new tab and open the link there
-            addViewTab(false);
-            ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+            int i = bookList[index]->tabIndex();
+            if ( i != -1 )
+            {
+                ui->viewTab->setCurrentIndex (i);
 
-            CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
-            openBook(index);
+                bookDisplayerList[i]->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+
+                bookDisplayerList[i]->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+            }
+            else
+            {
+                //Add a new tab and open the link there
+                addViewTab(false);
+                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+                CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
+                openBook(index);
+            }
         }
     }
 }

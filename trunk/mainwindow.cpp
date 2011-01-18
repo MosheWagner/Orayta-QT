@@ -492,11 +492,19 @@ void MainWindow::LoadBook(Book *book, QString markString)
 
     if (renderedOK == true)
     {
+        // erase tabIndex of the previous book
+        if (CurrentBookdisplayer->book() != NULL)
+            CurrentBookdisplayer->book()->setTabIndex( -1 );
+
         QString p =  absPath(htmlfilename);
 
         CurrentBookdisplayer->setBook(book);
 
+        book->setTabIndex(CURRENT_TAB);
+
         CurrentBookdisplayer->load(QUrl(p));
+
+        CurrentBookdisplayer->unhighlight();
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -526,9 +534,17 @@ void MainWindow::openBook( int ind )
 {
     if (ind >= 0 && ind < bookList.size())
     {
-        if( !bookList[ind]->IsDir() )
+        if(bookList[ind]->IsDir() == false)
         {
-            LoadBook(bookList[ind]);
+            //If the filename ends with ".html", load it as is, without rendering
+            if((bookList[ind]->getPath().endsWith(".html")) || (bookList[ind]->getPath().endsWith(".htm")))
+            {
+                CurrentBookdisplayer->load( QUrl( bookList[ind]->getPath()));
+            }
+            else
+            {
+                LoadBook(bookList[ind]);
+            }
         }
     }
 }
@@ -628,7 +644,8 @@ void MainWindow::on_zoomoutButton_clicked()
 void MainWindow::on_topButton_clicked()
 {
     //Jump to the top of the page using javascript
-    CurrentBookdisplayer->execScript("window.scrollTo(0, 0)");
+    //CurrentBookdisplayer->execScript("window.scrollTo(0, 0)");
+    CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("Top");
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -792,26 +809,18 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     if ( comment != "" )
         writetofile(USERPATH + "CommentList.txt", link + "\n" + text + "\n", "UTF-8", false);
 
-    CurrentBookdisplayer->ShowWaitPage();
-    //Re-load the page at the comment's position
-    // NOTE: this isn't perfect, but I have nothing better
-    int p = link.indexOf(":");
-    int uid;
-    ToNum(link.mid(0,p), &uid);
+    //Add this commen into the page
+    QString lnk = link.mid(link.indexOf(":") + 1);
+    QString script = "addComment(\"" + lnk + "\",\"" + comment + "\");";
+    CurrentBookdisplayer->execScript(script);
 
-    int id = bookList.FindBookById(uid);
-
-    //Force a new render of the book
+    //Recreate this page with new comment in other thread (new render of the book)
     bool shownikud = CurrentBookdisplayer->isNikudShown();
     bool showteamim = CurrentBookdisplayer->areTeamimShown();
-    QString htmlfilename = bookList[id]->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
-    bookList[id]->htmlrender(htmlfilename, shownikud, showteamim, "");
+    Book* book = CurrentBookdisplayer->book();
+    QString htmlfilename = book->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
+    QtConcurrent::run( book, &Book::htmlrender, htmlfilename, shownikud, showteamim, QString("") );
 
-    //Force the webview to clear [seems to be needed only for empty comments]
-    //CurrentBookdisplayer->setHtml("");
-
-    CurrentBookdisplayer->setInternalLocation("#" + link.mid(p+1));
-    openBook(id);
 }
 
 void MainWindow::removeComment(QString link)
@@ -919,10 +928,17 @@ void MainWindow::on_treeWidget_clicked(QModelIndex index)
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
 {
-    int ind = bookList.FindBookByTWI(item);
+    int index = bookList.FindBookByTWI(item);
 
-    //Open the selected book
-    openBook(ind);
+    if ( bookList[index]->tabIndex() != -1 )
+    {
+        ui->viewTab->setCurrentIndex( bookList[index]->tabIndex() );
+    }
+    else
+    {
+        //Open the selected book
+        openBook(index);
+    }
 }
 
 QList <QCheckBox *> weavedList;
@@ -989,6 +1005,8 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
             bookList[bookid]->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
         }
     }
+
+    bookList[bookid]->setTabIndex( -1 );
 }
 
 void MainWindow::on_saveConf_clicked()
@@ -1027,13 +1045,23 @@ void MainWindow::menuOpenBook(int uid)
 
     if (index != -1)
     {
-        addViewTab(false);
-        openBook(index);
+        if ( bookList[index]->tabIndex() != -1 )
+        {
+            ui->viewTab->setCurrentIndex (bookList[index]->tabIndex());
+        }
+        else
+        {
+            addViewTab(false);
+            openBook(index);
+        }
     }
 }
 
 void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
+    if (bookDisplayerList[index]->book() != NULL)
+        bookDisplayerList[index]->book()->setTabIndex( -1 );
+
     if (ui->viewTab->count() > 1)
     {
         bookDisplayerList[index]->deleteLater();
@@ -1081,22 +1109,30 @@ void MainWindow::openExternalLink(QString lnk)
         int index = bookList.FindBookById(id);
         if( index != -1 )
         {
-            //Add a new tab and open the link there
-            addViewTab(false);
-
-            ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
-
-            CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
-
-            if (parts.size() == 3)
+            // if this book is already open, don't add a new tab
+            int i = bookList[index]->tabIndex();
+            if ( i != -1 )
             {
-                //Mark the requested text in the new book
-                LoadBook(bookList[index], unescapeFromBase32(parts[2]));
+                ui->viewTab->setCurrentIndex (i);
+
+                bookDisplayerList[i]->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+
+                bookDisplayerList[i]->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
             }
             else
             {
+                //Add a new tab and open the link there
+                addViewTab(false);
+                ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+                CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
+
                 LoadBook(bookList[index]);
             }
+
+            // ajouter gestion nikud etc...
+            if (parts.size() == 3)
+                CurrentBookdisplayer->highlight( QRegExp(unescapeFromBase32(parts[2])) );
         }
     }
 }
@@ -1131,7 +1167,11 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
     ui->mixedFrame->setEnabled(!checked);
 
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1) bookList[ind]->showAlone = checked;
+    if (ind != -1)
+    {
+        bookList[ind]->showAlone = checked;
+        bookList[ind]->setTabIndex( -1 );
+    }
 }
 
 void MainWindow::on_showSearchBarButton_clicked(bool checked)
@@ -1160,6 +1200,7 @@ void MainWindow::ToggleSearchBar()
     ui->showSearchBarButton->click();
 }
 
+/*
 //Builds all book's search DB's, while the program is running
 void buidSearchDBinBG(BookList * bl)
 {
@@ -1168,3 +1209,4 @@ void buidSearchDBinBG(BookList * bl)
         (*bl)[i]->BuildSearchTextDB();
     }
 }
+*/

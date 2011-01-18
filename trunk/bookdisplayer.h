@@ -58,7 +58,7 @@ public:
     void setSearchPos (int);
 
     QString title();
-    QUrl url();
+    //QUrl url();
     QString activeLink();
 
     void execScript(QString script);
@@ -80,6 +80,9 @@ public:
 
     void ShowWaitPage();
     void HideWaitPage();
+
+    void highlight(QRegExp);
+    void unhighlight();
 
 private:
 

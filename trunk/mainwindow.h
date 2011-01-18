@@ -247,6 +247,6 @@ private slots:
     void ToggleSearchBar();
 };
 
-void buidSearchDBinBG(BookList * bl);
+//void buidSearchDBinBG(BookList * bl);
 
 #endif // MAINWINDOW_H

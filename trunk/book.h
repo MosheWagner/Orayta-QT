@@ -133,6 +133,9 @@ public:
 
     //Returns the filename that should be used for the book, depending on the shown commentaries
     QString HTMLFileName();
+
+    int tabIndex();
+    void setTabIndex(int index);
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
     QList <SearchResult> findInBook(QString& phrase);
@@ -215,6 +218,9 @@ protected:
 
     //Level of the short index (index to index)
     int mShortIndexLevel;
+
+    //Index in viewTab (-1 if not exists)
+    int mTabIndex;
 
     // Suffix to remove from the name of the links in it's level
     // Take Notice: this is allways one lower than the link level -
