@@ -208,8 +208,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 //Add the text as a special link so menu's can be opened here (and know where this is)
                 htmlbody += "<a href=\"*" + last_label + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
                 htmlbody += comment + "</a>";
-
-                htmlbody += "<BR>";
             }
 
             //Deal with the level sign for this book itself:
@@ -455,11 +453,9 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
             if (index != comment_titles.size())
             {
                 QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-
                 //Add the text as a special link so menu's can be opened here (and know where this is)
                 htmlbody += "<a href=\"*" + lastlabel + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
                 htmlbody += comment + "</a>";
-                htmlbody += "<BR>";
             }
 
             if (lastlabel != "") htmlbody += "</div>\n";
@@ -567,7 +563,6 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
         //Add the text as a special link so menu's can be opened here (and know where this is)
         htmlbody += "<a href=\"*" + lastlabel + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
         htmlbody += comment + "</a>";
-        htmlbody += "<BR>";
     }
 
     if (lastlabel != "") htmlbody += "</div>";
