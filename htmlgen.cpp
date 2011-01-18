@@ -203,28 +203,29 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             int index = distance (comment_titles.begin (), vitr);
             if (index != comment_titles.size())
             {
-                QString comment = "<span style=\"color:blue; font-size:14px\"> [*] ";
-                comment += comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-                comment += "</span>";
+                QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("*" + last_label, comment);
+                htmlbody += "<a href=\"*" + last_label + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
+                htmlbody += comment + "</a>";
+
                 htmlbody += "<BR>";
             }
-
-            //Advance itr:
-            Sources[0].itr.SetLevelFromLine(line);
-            last_label = line;
 
             //Deal with the level sign for this book itself:
 
             //Find the level of the sign by it's position in the LevelSign array
             int level = LevelSigns.indexOf(line[0]);
 
-            lastlink = Sources[0].itr.toStringForLinks(level + 1);
+            //Advance itr:
+            Sources[0].itr.SetLevelFromLine(line);
 
-            //Add a name point ("<a name=...") to the html body.
-            htmlbody += namepoint("" + Sources[0].itr.toStringForLinks(level + 1));
+            if (last_label != "") htmlbody += "</div>\n";
+            htmlbody += "<div name=\"" + Sources[0].itr.toStringForLinks(level + 1) + "\">";
+
+            last_label = line;
+
+            lastlink = Sources[0].itr.toStringForLinks(level + 1);
 
             if (level == 0)
             {
@@ -249,7 +250,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 QString dispname = line.mid(2);
 
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
-                if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1) )
+                if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1 ) )
                 {
                     dispname = Sources[0].itr.toGmaraString();
                 }
@@ -306,6 +307,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             Sources[0].str += line + ' ';
         }
     }
+
+    if (last_label != "") htmlbody += "</div>";
 
     for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
 
@@ -399,17 +402,17 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
         //cout<<"Im still alive!" <<i<<endl;
 
         //Configuration line (usually first), skip; it's allready configured.
-        if((text[i][0]) == '&')
+        if(text[i][0] == '&')
         { }
 
         //Special page names, or comments.
         // Because the special naming is so dangerous, and is used only in gmarot -
         // Iv'e written a function that calculates it for them manually and I'm ignoring this totally.
-        else  if((text[i][0]) == '/' && (text[i][1]) == '/')
-        { }
-
+        else  if(text[i].startsWith("//"))
+        {
+        }
         //Book name (usually second line)
-        else if ((text[i][0]) == '$')
+        else if (text[i][0] == '$')
         {
             //There's a space after the $ sign, so the name is from char 2 untill the end
             mNameForTitle = text[i].mid(2, text[i].length() -1);
@@ -451,20 +454,20 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
             int index = distance (comment_titles.begin (), vitr);
             if (index != comment_titles.size())
             {
-                QString comment = "<span style=\"color:blue; font-size:14px\"> [*] ";
-                comment += comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-                comment += "</span>";
+                QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("*" + lastlabel, comment);
+                htmlbody += "<a href=\"*" + lastlabel + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
+                htmlbody += comment + "</a>";
                 htmlbody += "<BR>";
             }
 
+            if (lastlabel != "") htmlbody += "</div>\n";
+            //Add a name point ("<div name=...") to the html body.
+            htmlbody += "<div name=\"" + itr.toStringForLinks(level + 1) + "\">";
+
             //Remember this label
             lastlabel = itr.toStringForLinks(level+1);
-
-            //Add a name point ("<a name=...") to the html body.
-            htmlbody += namepoint("" + itr.toStringForLinks(level + 1));
 
             if (level == 0)
             {
@@ -516,7 +519,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
 
                 if (PutNewLinesAsIs) htmlbody += "<BR>";
 
-                htmlbody += "<BR> <span style=\"color:blue; font-size:";
+                htmlbody += "<BR><span style=\"color:blue; font-size:";
                 htmlbody += stringify(fontsize) + "px\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
@@ -550,8 +553,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
 
             htmlbody += txt;
 
-            if(PutNewLinesAsIs == true)
-                htmlbody += "<BR>";
+            if(PutNewLinesAsIs == true) htmlbody += "<BR>";
         }
     }
 
@@ -560,15 +562,15 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     int index = distance (comment_titles.begin (), vitr);
     if (index != comment_titles.size())
     {
-        QString comment = "<span style=\"color:blue; font-size:14px\"> [*] ";
-        comment += comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-        comment += "</span>";
+        QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
 
         //Add the text as a special link so menu's can be opened here (and know where this is)
-        htmlbody += link("*" + lastlabel, comment);
+        htmlbody += "<a href=\"*" + lastlabel + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
+        htmlbody += comment + "</a>";
         htmlbody += "<BR>";
     }
 
+    if (lastlabel != "") htmlbody += "</div>";
 
     //Stick together all parts of HTML:
     html += html_head(mNameForTitle);
@@ -591,9 +593,14 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     html += html_book_title(mNameForTitle, mCopyrightInfo, low_comments);
 
     html += index_to_index(indexitemlist,mShortIndexLevel);
-    html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
 
+    html += "<div class=\"Index\">";
+    html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
+    html += "</div>";
+
+    html += "<div class=\"Content\">";
     html += htmlbody;
+    html += "</div>";
 
     html += "</div>";
     html += "</body>\n</html>";
@@ -873,135 +880,111 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
 QString Script()
 {
 
-    QString str = "<script type=\"text/javascript\">";
+    QString str = "<script type=\"text/javascript\">\n";
 
     //Script showing active part and putting it's link in the status bar
     str += "currentlyPainted=null;\n";
     str += "var currentlyPaintedColor;\n";
 
-    str +="function paintMe(obj)\n";
-    str +="{\n";
-    str +="        if(currentlyPainted)\n";
-    str +="        {\n";
-    str +="               currentlyPainted.style.color = currentlyPaintedColor;\n";
-    str +="        }\n";
-
-    str +="        currentlyPainted=obj;\n";
-    str +="        currentlyPaintedColor = currentlyPainted.style.color;\n";
-
-    str +="        obj.focus();\n";
-    str +="        obj.blur();\n";
-
-    str +="        obj.style.color='red';\n";
-    str +="        window.status = obj.getAttributeNode(\"href\").value\n";
-    str +="}\n";
+    str +="function paintMe(obj) {\n"
+          "     if(currentlyPainted)\n"
+          "     {\n"
+          "            currentlyPainted.style.color = currentlyPaintedColor;\n"
+          "     }\n"
+          "     currentlyPainted=obj;\n"
+          "     currentlyPaintedColor = currentlyPainted.style.color;\n"
+          "     obj.focus();\n"
+          "     obj.blur();\n"
+          "     obj.style.color='red';\n"
+          "     window.status = obj.getAttributeNode(\"href\").value\n"
+          "}\n";
 
 
-    str += "function ScrollToElement(theElement)\n";
-    str += "{\n";
-    str += "    var selectedPosX = 0;\n";
-    str += "    var selectedPosY = 0;\n";
-    str += "\n";
-    str += "    while(theElement != null){\n";
-    str += "        selectedPosX += theElement.offsetLeft;\n";
-    str += "        selectedPosY += theElement.offsetTop;\n";
-    str += "        theElement = theElement.offsetParent;\n";
-    str += "    }\n";
-    str += "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))\n";
-    str += "    window.scrollTo(selectedPosX , selectedPosY);\n";
-    str += "}\n";
+    str += "function ScrollToElement(theElement) {\n"
+           "    var selectedPosX = 0;\n"
+           "    var selectedPosY = 0;\n"
+           "\n"
+           "    while(theElement != null) {\n"
+           "        selectedPosX += theElement.offsetLeft;\n"
+           "        selectedPosY += theElement.offsetTop;\n"
+           "        theElement = theElement.offsetParent;\n"
+           "    }\n"
+           "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))\n"
+           "    window.scrollTo(selectedPosX , selectedPosY);\n"
+           "}\n";
 
-    str += "function ReturnValue(varname)\n";
-    str += "{\n";
-    str += "    return varname;";
-    str += "}\n";
+    str += "function ReturnValue(varname){\n"
+           "    return varname;\n"
+           "}\n";
 
-    str +="function ClosestElementToView(){\n";
-    str +="\n";
-    str +="    var closest = null;";
-    str +="    var closestoffset = -1 * window.innerHeight;";
+    str +="function ClosestElementToView(){\n"
+          "    var closest = null;\n"
+          "    var closestoffset = -1 * window.innerHeight;\n"
+          "    var i = 0;\n"
+          "    var obj = document.getElementById(\"id_\" + i);\n"
+          "    while(obj) {\n"
+          "       var offset = obj.offsetTop - window.pageYOffset;\n"
+          "       if (offset > closestoffset && offset < 10) {\n"
+          "           closestoffset = offset;\n"
+          "           closest = obj;\n"
+          "       }\n"
+          "         i++;\n"
+          "         var id = \"id_\" + i;\n"
+          "         var obj = document.getElementById(id);\n"
+          "    }\n"
+          "    return closest;\n"
+          "}\n";
 
-    str +="    var i = 0;";
-    str +="    var obj = document.getElementById(\"id_\" + i);\n";
-    str +="    while(obj)\n";
-    str +="    {\n";
-    str +="         var offset = obj.offsetTop - window.pageYOffset;";
-    str +="         if (offset > closestoffset && offset < 10)\n";
-    str +="         {\n";
-    str +="             closestoffset = offset;";
-    str +="             closest = obj;";
-    str +="         }\n";
+    str +="function paintById(id) {\n"
+          "    var obj = document.getElementById(id);\n"
+          "    if (obj) {paintMe(obj); } \n"
+          "}\n";
 
-    str +="         i++;\n";
-    str +="         var id = \"id_\" + i;";
-    str +="         var obj = document.getElementById(id);\n";
-    str +="    }\n";
-    str +="    return closest;";
-    str +="}\n";
+    str += "function findByLink(link) {\n"
+           "    var a = document.getElementsByTagName(\"A\");\n"
+           "    for(var i=0;i<a.length;i++)\n"
+           "    {\n"
+           "        if (a[i].href.indexOf(link) != -1)\n"
+           "        {\n"
+           "            return a[i];\n"
+           "        }\n"
+           "    }\n"
+           "    return null;\n"
+           "}\n";
 
-
-    str +="function paintById(id)\n";
-    str +="{\n";
-    str +="    var obj = document.getElementById(id);\n";
-    str +="    if (obj) {paintMe(obj); } \n";
-    str +="}\n";
-
-    str += "function findByLink(link)\n";
-    str += "{\n";
-    str += "    var a = document.getElementsByTagName(\"A\");\n";
-    str += "    for(var i=0;i<a.length;i++)\n";
-    str += "    {\n";
-    str += "\n";
-    str += "        if (a[i].href.indexOf(link) != -1)\n";
-    str += "        {\n";    
-    str += "            return a[i];\n";
-    str += "        }\n";
-    str += "    }\n";
-    str += "    return null;\n";
-    str += "}\n";
-
-    str += "function paintByHref(href)\n";
-    str += "{\n";
-    str += "    var obj = findByLink(href);\n";
-
-    str += "    paintMe(obj);\n";
-    str += "}\n";
+    str += "function paintByHref(href) {\n"
+           "    var obj = findByLink(href);\n"
+           "    paintMe(obj);\n"
+           "}\n";
 
 
-    str +="function paintWhoILinkTo(obj)\n";
-    str +="{\n";
-    str +="     var p = obj.href.indexOf(\"#\");\n";
-    str +="     paintByHref(\"$\" + obj.href.substr(p+1));\n";
-    str +="}\n";
+    str += "function paintWhoILinkTo(obj) {\n"
+           "     var p = obj.href.indexOf(\"#\");\n"
+           "     paintByHref(\"$\" + obj.href.substr(p+1));\n"
+           "}\n";
 
-    str += "function paintNext()\n";
-    str += "{\n";
-    str += "    var i = 0;\n";
-    str += "\n";
-    str += "    if(currentlyPainted)\n";
-    str += "    {\n";
-    str += "        i = parseInt(currentlyPainted.id.substring(3)) + 1;\n";
-    str += "    }\n";
-    str += "\n";
-    str += "    paintById(\"id_\" + i);\n";
-    str += "}\n";
-    str += "\n";
+    str += "function paintNext() {\n"
+           "    var i = 0;\n"
+           "\n"
+           "    if(currentlyPainted)\n"
+           "    {\n"
+           "        i = parseInt(currentlyPainted.id.substring(3)) + 1;\n"
+           "    }\n"
+           "    paintById(\"id_\" + i);\n"
+           "}\n";
 
-    str += "function paintPrevious()\n";
-    str += "{\n";
-    str += "    var i = 0;\n";
-    str += "\n";
-    str += "    if(currentlyPainted)\n";
-    str += "    {\n";
-    str += "        var num = parseInt(currentlyPainted.id.substring(3)) - 1;\n";
-    str += "        if ( num >= 0 )\n";
-    str += "        {\n";
-    str += "            i = num;\n";
-    str += "        }\n";
-    str += "    }\n";
-    str += "\n";
-    str += "    paintById(\"id_\" + i);\n";
-    str += "}\n";
+    str += "function paintPrevious() {\n"
+           "    var i = 0;\n"
+           "    if(currentlyPainted)\n"
+           "    {\n"
+           "        var num = parseInt(currentlyPainted.id.substring(3)) - 1;\n"
+           "        if ( num >= 0 )\n"
+           "        {\n"
+           "            i = num;\n"
+           "        }\n"
+           "    }\n"
+           "    paintById(\"id_\" + i);\n"
+           "}\n";
 
 /*
     str += "document.onkeyup = KeyCheck;       ";
@@ -1025,7 +1008,21 @@ QString Script()
     str += "   }";
     str += "}";
 */
-
+    str += "function addComment (name, comment) {\n"
+           "  if ( comment != '' ){"
+           "    var newLink = document.createElement('a');\n"
+           "    newLink.href  = '*' + name;\n"
+           "    newLink.setAttribute('style', 'text-decoration:none; color:blue; font-size:14px');\n"
+           "    var newLinkText = document.createTextNode(' [*] ' + comment);\n"
+           "    newLink.appendChild(newLinkText);"
+           "  }\n"
+           "  var nameElem = document.getElementsByName(name)[0];\n"
+           "  if (nameElem != null){\n"
+           "    var commentExists = findByLink('*' + name);\n"
+           "    if ( commentExists != null ) nameElem.removeChild(commentExists);\n"
+           "    if ( comment != '' ) nameElem.appendChild(newLink);\n"
+           "  }\n"
+           "}\n";
 
     str += "</script>\n";
 

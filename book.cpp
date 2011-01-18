@@ -63,6 +63,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     hasTeamim = false;
 
     showAlone = true;
+
+    mTabIndex = -1;
     //pureText = "";
 }
 
@@ -161,6 +163,12 @@ void Book::setIsInSearch(bool in_search)
 
 void Book::setIsHidden(bool isHidden)
 { mIsHidden = isHidden; }
+
+int Book::tabIndex()
+{ return mTabIndex; }
+
+void Book::setTabIndex(int index)
+{ mTabIndex = index; }
 
 
 void Book::repainticon()
@@ -631,9 +639,7 @@ BookIter Book::itrFromOffset(QString posString)
 void Book::BuildSearchTextDB()
 {
     //TODO: remove references to other books
-
     //TODO: still much to be done
-
     //TODO: test thoroughly!
 
     //Ignore dirs
@@ -650,7 +656,6 @@ void Book::BuildSearchTextDB()
         return ;
     }
 
-
     BookIter itr;
 
     //If a line starts with one of these, it's a level sign
@@ -658,7 +663,7 @@ void Book::BuildSearchTextDB()
     //Any char not matchong this pattern, is no *pure* text.
     QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
     //These are turned into spaces, and not just ignored.
-    QString spaceSigns = "[-_:\.,\?]";
+    QString spaceSigns = "[-_:.,?]";
 
     //Pad with spaces, so "full word searches" work on begining and end of text too
     pureText = " ";
@@ -868,4 +873,3 @@ QList <SearchResult> Book::findInBook(QRegExp regexp)
     return results;
 }
 */
-
