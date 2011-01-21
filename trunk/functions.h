@@ -48,15 +48,15 @@ extern QString USERPATH;
 //Small functions used by a few files:
 
 //Reads the file with the given name and the given encoding, and inserts it's contents into the given vector
-bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_name, bool skipconflines = false);
+bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines = false);
 
 //Reads the comment file into two vectors, one for the titles and one for the texts.
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.
-bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, QString encoding_name, int id=-1);
+bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, const char* encoding_name, int id=-1);
 
 //Writes the given data to the given file path with the given encoding
-void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite = true);
-QString readfile(QString filename, QString encoding_name);
+void writetofile(QString filename, const QString& data, const char* encoding_name, bool overwrite = true);
+QString readfile(QString filename, const char* encoding_name);
 
 //Splits the given QString to two parts, (ONLY) on the FIRST occurrence of the splitter
 void splittotwo(QString , vector <QString>& , QString);

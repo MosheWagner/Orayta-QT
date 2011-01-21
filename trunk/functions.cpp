@@ -29,7 +29,7 @@ QString USERPATH;
 QString LANG="Hebrew";
 
 //Reads the file with the given name, and inserts it's contents into the given vector
-bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_name, bool skipconflines)
+bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
     //Read the source file:
@@ -46,11 +46,11 @@ bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_na
 
     // Set the stream to read from the file
     QTextStream t( &infile );
-    t.setCodec(QTextCodec::codecForName(encoding_name.toUtf8()));
+    t.setCodec(QTextCodec::codecForName(encoding_name));
     while (!t.atEnd())
     {
         line = t.readLine();
-        if ( (skipconflines == false) || (conflinesended == true))
+        if ( skipconflines == false || conflinesended == true )
         {
             text << line;
         }
@@ -67,7 +67,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, QString encoding_na
 
 //Reads the comment file into two vectors, one for the titles and one for the texts.
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.
-bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, QString encoding_name, int id)
+bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, const char* encoding_name, int id)
 {
     QList <QString> text;
     if (ReadFileToList(path, text, encoding_name))
@@ -98,34 +98,34 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
     else return false;
 }
 
-QString readfile(QString filename, QString encoding_name)
+QString readfile(QString filename, const char* encoding_name)
 {
     //Read the source file:
     QFile infile(filename);
 
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
-    if ( (fi.isDir() == true) || (fi.exists() == false)) return false;
+    if ( fi.isDir() == true || fi.exists() == false ) return false;
 
     // Open the file
     if ((!infile.open(QIODevice::ReadOnly))) return false;
 
     // Set the stream to read from the file
     QTextStream t( &infile );
-    t.setCodec(QTextCodec::codecForName(encoding_name.toUtf8()));
+    t.setCodec(QTextCodec::codecForName(encoding_name));
 
     return t.readAll();
 }
 
 //Writes the given data to the given file path
-void writetofile(QString filename, const QString& data, QString encoding_name, bool overwrite)
+void writetofile(QString filename, const QString& data, const char* encoding_name, bool overwrite)
 {
     //Open given file
     QFile outfile(filename);
     //Set a TextStream to it
     QTextStream outstream( &outfile );
     //Set incoding to the one sent to the function
-    outstream.setCodec(QTextCodec::codecForName(encoding_name.toUtf8()));
+    outstream.setCodec(QTextCodec::codecForName(encoding_name));
 
     QFlag *mode;
     if (overwrite == false) mode = new QFlag(QIODevice::WriteOnly | QIODevice::Append);
