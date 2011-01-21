@@ -39,9 +39,14 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 
     for (int i=0; i<list.size(); i++)
     {
-        if ( (list[i].isDir() || list[i].fileName().indexOf("txt") != -1 )
-            && list[i].fileName().indexOf("Pics") == -1 )
+        if (   list[i].isDir()
+            || list[i].fileName().endsWith(".txt")
+            || list[i].fileName().endsWith(".htm")
+            || list[i].fileName().endsWith(".html")  )
         {
+            if ( list[i].fileName().indexOf("Pics") != -1 )
+                continue;
+
             QString Name = list[i].fileName();
             Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ");
 
@@ -62,7 +67,7 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
                 // Parents index of all it's children
                 addAllBooks(list[i].absoluteFilePath(), this->size() - 1);
             }
-            else
+            else if (list[i].fileName().endsWith(".txt"))
             {
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
