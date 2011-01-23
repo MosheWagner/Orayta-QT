@@ -39,10 +39,20 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 
     for (int i=0; i<list.size(); i++)
     {
-        if (   list[i].isDir()
-            || list[i].fileName().endsWith(".txt")
-            || list[i].fileName().endsWith(".htm")
-            || list[i].fileName().endsWith(".html")  )
+        Book::Filetype ft;
+        // set the file type
+        if (list[i].isDir())
+            ft = Book::Dir;
+        else if (list[i].fileName().endsWith(".txt"))
+            ft = Book::Normal;
+        else if (list[i].fileName().endsWith(".html") || list[i].fileName().endsWith(".htm"))
+            ft = Book::Html;
+        else if (list[i].fileName().endsWith(".pdf"))
+            ft = Book::Pdf;
+        else
+            ft = Book::Unkown;
+
+        if ( ft != Book::Unkown )
         {
             if ( list[i].fileName().indexOf("Pics") != -1 )
                 continue;
@@ -52,7 +62,7 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 
             //Create BookListItem
             Book *b = new Book(parentindex != -1 ? (*this)[parentindex] : NULL,
-                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, list[i].isDir());
+                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, ft);
 
             //Tell the parent it has a new child
             if (b->getParent() != NULL)
@@ -61,13 +71,13 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
             //Add this book to the list
             push_back(b);
 
-            if (list[i].isDir())
+            if (ft == Book::Dir)
             {
                 //Do the whole thing again for any dir, sending it's index in the list as the
                 // Parents index of all it's children
                 addAllBooks(list[i].absoluteFilePath(), this->size() - 1);
             }
-            else if (list[i].fileName().endsWith(".txt"))
+            else if (ft == Book::Normal)
             {
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));

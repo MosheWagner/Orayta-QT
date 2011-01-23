@@ -150,14 +150,14 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
         int index = bookList.FindBookById(id);
         if( index != -1)
         {
-            int i = bookList[index]->tabIndex();
-            if ( i != -1 )
+            QWidget* tabWidget = bookList[index]->tabWidget();
+            if ( tabWidget != 0 )
             {
-                ui->viewTab->setCurrentIndex (i);
+                ui->viewTab->setCurrentWidget (tabWidget);
 
-                bookDisplayerList[i]->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+                CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
 
-                bookDisplayerList[i]->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+                CurrentBookdisplayer->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
             }
             else
             {

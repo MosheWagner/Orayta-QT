@@ -16,6 +16,7 @@
 
 #include "mainwindow.h"
 #include <QShortcut>
+#include <QWebSettings>
 
 
 //------------
@@ -167,7 +168,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Load start page. Assuming it's book[0] of course.
     if (!bookList[0]->IsDir())
     {
-        LoadBook(bookList[0]);
+        openBook(0);
     }
     else
     {
@@ -492,15 +493,7 @@ void MainWindow::LoadBook(Book *book, QString markString)
 
     if (renderedOK == true)
     {
-        // erase tabIndex of the previous book
-        if (CurrentBookdisplayer->book() != NULL)
-            CurrentBookdisplayer->book()->setTabIndex( -1 );
-
         QString p =  absPath(htmlfilename);
-
-        CurrentBookdisplayer->setBook(book);
-
-        book->setTabIndex(CURRENT_TAB);
 
         CurrentBookdisplayer->load(QUrl(p));
 
@@ -536,15 +529,38 @@ void MainWindow::openBook( int ind )
     {
         if(bookList[ind]->IsDir() == false)
         {
+            Book* book = bookList[ind];
+
+            // erase tabWidget of the previous book
+            if (CurrentBookdisplayer->book() != NULL)
+                CurrentBookdisplayer->book()->setTabWidget( 0 );
+
             //If the filename ends with ".html", load it as is, without rendering
-            if((bookList[ind]->getPath().endsWith(".html")) || (bookList[ind]->getPath().endsWith(".htm")))
+            switch ( book->fileType() )
             {
-                CurrentBookdisplayer->load( QUrl( bookList[ind]->getPath()));
+            case ( Book::Normal ):
+                LoadBook(book);
+                break;
+
+            case ( Book::Html ):
+                CurrentBookdisplayer->load( QUrl(book->getPath()) );
+                break;
+
+            case ( Book::Pdf ):
+                CurrentBookdisplayer->enablePlugins();
+                CurrentBookdisplayer->load( QUrl(book->getPath()) );
+                ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+                break;
+
+            default:
+                qDebug("Unkown file type");
+                break;
             }
-            else
-            {
-                LoadBook(bookList[ind]);
-            }
+
+            // set tabWidget of this book
+            book->setTabWidget(ui->viewTab->currentWidget());
+
+            CurrentBookdisplayer->setBook(book);
         }
     }
 }
@@ -930,9 +946,9 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int colu
 {
     int index = bookList.FindBookByTWI(item);
 
-    if ( bookList[index]->tabIndex() != -1 )
+    if ( bookList[index]->tabWidget() != 0 )
     {
-        ui->viewTab->setCurrentIndex( bookList[index]->tabIndex() );
+        ui->viewTab->setCurrentWidget( bookList[index]->tabWidget() );
     }
     else
     {
@@ -1006,7 +1022,7 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
         }
     }
 
-    bookList[bookid]->setTabIndex( -1 );
+    bookList[bookid]->setTabWidget( 0 );
 }
 
 void MainWindow::on_saveConf_clicked()
@@ -1045,9 +1061,9 @@ void MainWindow::menuOpenBook(int uid)
 
     if (index != -1)
     {
-        if ( bookList[index]->tabIndex() != -1 )
+        if ( bookList[index]->tabWidget() != 0 )
         {
-            ui->viewTab->setCurrentIndex (bookList[index]->tabIndex());
+            ui->viewTab->setCurrentWidget (bookList[index]->tabWidget());
         }
         else
         {
@@ -1060,23 +1076,20 @@ void MainWindow::menuOpenBook(int uid)
 void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
     if (bookDisplayerList[index]->book() != NULL)
-        bookDisplayerList[index]->book()->setTabIndex( -1 );
+        bookDisplayerList[index]->book()->setTabWidget( 0 );
 
-    if (ui->viewTab->count() > 1)
-    {
-        bookDisplayerList[index]->deleteLater();
-        bookDisplayerList.removeAt(index);
+    bookDisplayerList[index]->deleteLater();
+    bookDisplayerList.removeAt(index);
 
-        //Destroy tab
-        ui->viewTab->widget(index)->layout()->deleteLater();
-        ui->viewTab->widget(index)->deleteLater();
-        ui->viewTab->removeTab(index);
-    }
-    else
+    //Destroy tab
+    ui->viewTab->widget(index)->layout()->deleteLater();
+    ui->viewTab->widget(index)->deleteLater();
+    ui->viewTab->removeTab(index);
+
+    if (ui->viewTab->count() == 0)
     {
+        addViewTab(false);
         bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
-        bookDisplayerList[0]->setSearchPos(-1);
-        ui->viewTab->setTabText(0, tr("Orayta - Jewish books"));
     }
 
     //Update the stupid tab widget
@@ -1110,14 +1123,14 @@ void MainWindow::openExternalLink(QString lnk)
         if( index != -1 )
         {
             // if this book is already open, don't add a new tab
-            int i = bookList[index]->tabIndex();
-            if ( i != -1 )
+            QWidget* tabWidget = bookList[index]->tabWidget();
+            if ( tabWidget != 0 )
             {
-                ui->viewTab->setCurrentIndex (i);
+                ui->viewTab->setCurrentWidget (tabWidget);
 
-                bookDisplayerList[i]->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+                CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
 
-                bookDisplayerList[i]->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+                CurrentBookdisplayer->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
             }
             else
             {
@@ -1127,7 +1140,7 @@ void MainWindow::openExternalLink(QString lnk)
 
                 CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
 
-                LoadBook(bookList[index]);
+                openBook(index);
             }
 
             // ajouter gestion nikud etc...
@@ -1170,7 +1183,7 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
     if (ind != -1)
     {
         bookList[ind]->showAlone = checked;
-        bookList[ind]->setTabIndex( -1 );
+        bookList[ind]->setTabWidget( 0 );
     }
 }
 
@@ -1193,6 +1206,14 @@ void MainWindow::showSearchTab()
 void MainWindow::on_cancelSearchBTN_clicked()
 {
     stopSearchFlag = true;
+}
+
+void MainWindow::on_treeTab_currentChanged(int index)
+{
+    if (index == 1)
+    {
+        ui->searchInBooksLine->setFocus(Qt::ActiveWindowFocusReason);
+    }
 }
 
 void MainWindow::ToggleSearchBar()

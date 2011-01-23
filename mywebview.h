@@ -40,7 +40,6 @@ public:
     void execScript(QString script);
     QString getJSVar(QString var);
 
-    QString documentSource();
 public slots:
     void setTextSizeMultiplier(qreal factor);
 
