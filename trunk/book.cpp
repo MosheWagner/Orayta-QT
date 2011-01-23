@@ -21,7 +21,7 @@
 
 
 //Constructor of the Books
-Book::Book(Book * parent, QString path, QString name, QString displayname, bool is_dir)
+Book::Book(Book * parent, QString path, QString name, QString displayname, Filetype ft)
 {
     mUniqueId = -1;
     mNormallDisplayName = displayname;
@@ -30,7 +30,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
     //In most cases this will be overriden when rendered
     mNameForTitle = name;
 
-    mIsDir = is_dir;
+    mFiletype = ft;
 
     mpTreeItem = NULL;
 
@@ -64,7 +64,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, bool 
 
     showAlone = true;
 
-    mTabIndex = -1;
+    mTabWidget = 0;
     //pureText = "";
 }
 
@@ -94,14 +94,14 @@ QString Book::getName()
 bool Book::IsHidden()
 {  return mIsHidden; }
 
-bool Book::IsDir()
-{  return mIsDir;    }
-
 bool Book::IsInSearch()
 {  return mInSearch; }
 
 bool Book::IsMixed()
 {  return (mWeavedSources.size() != 0); }
+
+bool Book::IsDir()
+{  return mFiletype == Book::Dir;  }
 
 bool Book::ShowMixed()
 {
@@ -134,9 +134,6 @@ void Book::setNormallDisplayName(QString displayname)
 void Book::setTreeDisplayName(QString treedisplayname)
 { mTreeDisplayName = treedisplayname;  }
 
-void Book::setIsDir(bool is_dir)
-{   mIsDir = is_dir;  }
-
 void Book::setParent(Book * parent)
 {   mpParent = parent;  }
 
@@ -164,12 +161,14 @@ void Book::setIsInSearch(bool in_search)
 void Book::setIsHidden(bool isHidden)
 { mIsHidden = isHidden; }
 
-int Book::tabIndex()
-{ return mTabIndex; }
+QWidget* Book::tabWidget()
+{ return mTabWidget; }
 
-void Book::setTabIndex(int index)
-{ mTabIndex = index; }
+void Book::setTabWidget(QWidget* w)
+{ mTabWidget = w; }
 
+Book::Filetype Book::fileType()
+{  return mFiletype;  }
 
 void Book::repainticon()
 {
@@ -259,8 +258,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
 
     //set icon state
     mIconState = newiconstate;
-    QIcon *icon;
-    icon = bookIcon(IsDir(), IsMixed(), mIconState);
+    QIcon *icon = bookIcon(IsDir(), IsMixed(), mIconState);
     TreeItem->setIcon(0, *icon);
     delete icon;
 
@@ -380,7 +378,7 @@ void Book::setCosmetics(QString confline)
 //Returns a conf entry representing this book
 QString Book::confEntry()
 {
-    if (mIsDir == TRUE) return "";
+    if (mFiletype == Book::Dir) return "";
 
     QString conf = "";
 
@@ -391,7 +389,7 @@ QString Book::confEntry()
 
     conf += "SearchInTitles=" + QString(SearchInTitles ? "1" : "0") + "\n";
     conf += QString("LastLevelIndex=") + stringify(LastLevelIndex) + "\n";
-    if (mPath.indexOf("משנה") != -1 && mPath.indexOf("סדר") != -1) conf += "PutNewLinesAsIs=" + QString("0") + QString("\n");
+    if (mPath.indexOf("משנה") != -1 && mPath.indexOf("סדר") != -1) conf += "PutNewLinesAsIs=0\n" + QString("0") + QString("\n");
     else conf += "PutNewLinesAsIs=" + QString(PutNewLinesAsIs ? "1" :  "0") + QString("\n");
     // ?
     conf += QString("PasukIndMode=0") + "\n";
@@ -643,7 +641,7 @@ void Book::BuildSearchTextDB()
     //TODO: test thoroughly!
 
     //Ignore dirs
-    if (mIsDir) return;
+    if (mFiletype == Book::Dir) return;
 
     //No need to build the DB twice...
     if (pureText != "") return ;

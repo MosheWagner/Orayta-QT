@@ -57,7 +57,6 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     waitView = new myWebView(this);
 
-
     QFileInfo f("Images/Wait.gif");
     if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif");
 
@@ -367,4 +366,14 @@ void bookDisplayer::highlight(QRegExp rx)
 void bookDisplayer::unhighlight()
 {
     htmlview->findText("", QWebPage::HighlightAllOccurrences);
+}
+
+void bookDisplayer::enablePlugins()
+{
+    htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+}
+
+void bookDisplayer::disablePlugins()
+{
+    htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
 }

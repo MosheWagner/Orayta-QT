@@ -144,11 +144,6 @@ void myWebView::rememberActiveLink(QString message)
     mActiveLink = message;
 }
 
-QString myWebView::documentSource()
-{
-    return page()->mainFrame()->toPlainText();
-}
-
 //Returns the value of given JS variable
 QString myWebView::getJSVar(QString var)
 {

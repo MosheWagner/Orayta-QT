@@ -55,9 +55,17 @@ class Book
 {
 
 public:
+    enum Filetype {
+        Dir,
+        Normal,
+        Html,
+        Pdf,
+        Unkown
+    };
+
     //Constructor of book class. gets parent book (a dir, of course), path to it's source file,
     //  it's names (see their documentation), and if it is a dir or not.
-    Book(Book * parent, QString path, QString name, QString displayname, bool is_dir);
+    Book(Book * parent, QString path, QString name, QString displayname, Filetype ft);
     ~Book();
 
     //get functions:
@@ -74,6 +82,7 @@ public:
     bool ShowMixed();
     Book * getParent();
     QTreeWidgetItem * getTreeItemPtr();
+    Filetype fileType();
 
     //set functions:
     void setPath(QString path);
@@ -81,7 +90,6 @@ public:
     void setCopyrightInfo(QString info);
     void setNormallDisplayName(QString displayname);
     void setTreeDisplayName(QString treedisplayname);
-    void setIsDir(bool is_dir);
     void setParent(Book * parent);
     void setIcon(QTreeWidgetItem *TreeItem, IconState iconstate);
     void setUniqueId(int id);
@@ -134,8 +142,8 @@ public:
     //Returns the filename that should be used for the book, depending on the shown commentaries
     QString HTMLFileName();
 
-    int tabIndex();
-    void setTabIndex(int index);
+    QWidget* tabWidget();
+    void setTabWidget(QWidget*);
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
     QList <SearchResult> findInBook(QString& phrase);
@@ -210,8 +218,7 @@ protected:
     //  (It's something like "With Nikud", etc.,)
     QString mTreeDisplayName;
 
-    //Is this book a book or a dir
-    bool mIsDir;
+    Filetype mFiletype;
 
     //Pointer to book's parent
     Book * mpParent;
@@ -219,8 +226,8 @@ protected:
     //Level of the short index (index to index)
     int mShortIndexLevel;
 
-    //Index in viewTab (-1 if not exists)
-    int mTabIndex;
+    //QWidget* of current viewTab (0 if not exists)
+    QWidget* mTabWidget;
 
     // Suffix to remove from the name of the links in it's level
     // Take Notice: this is allways one lower than the link level -

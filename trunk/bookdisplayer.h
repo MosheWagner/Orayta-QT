@@ -84,6 +84,9 @@ public:
     void highlight(QRegExp);
     void unhighlight();
 
+    void enablePlugins();
+    void disablePlugins();
+
 private:
 
     QString lastSearch;

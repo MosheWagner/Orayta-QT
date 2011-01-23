@@ -128,6 +128,8 @@ private slots:
     void on_regexpCheckBox_stateChanged(int state);
     void on_radioButton_3_toggled(bool checked);
 
+    void on_treeTab_currentChanged(int index);
+
     void on_searchInBooksLine_returnPressed();
     void on_hideSearchButton_clicked();
     void on_showSearchBarButton_clicked(bool checked);
