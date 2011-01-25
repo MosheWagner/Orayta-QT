@@ -180,6 +180,9 @@ void Book::repainticon()
     //Check children
     for (unsigned int i=0;i < mvChildren.size(); i++)
     {
+        if ( mvChildren[i]->mFiletype != Book::Normal && mvChildren[i]->mFiletype != Book::Dir )
+            continue;
+
         if ( mvChildren[i]->mIsHidden == false)
         {
             if(mvChildren[i]->mIconState == BLUE)
@@ -191,12 +194,12 @@ void Book::repainticon()
         }
     }
 
-    if ((blue_child == false) && (mixed_child == false))
+    if ( !blue_child && !mixed_child )
     {
         //Dark icon
         setIcon(mpTreeItem, GREY);
     }
-    else if (( grey_child == false) && (mixed_child == false))
+    else if ( !grey_child && !mixed_child )
     {
         //Blue icon
         setIcon(mpTreeItem, BLUE);
@@ -225,11 +228,14 @@ void Book::_unselect()
 
 void Book::unselect()
 {
-    this->_unselect();
+    if (mFiletype == Book::Normal || mFiletype == Book::Dir)
+    {
+        this->_unselect();
 
-    //Repaint parent (it will tell it's parent to repaint too, and so on...)
-    if(mpParent != NULL)
-        mpParent->repainticon();
+        //Repaint parent (it will tell it's parent to repaint too, and so on...)
+        if(mpParent != NULL)
+            mpParent->repainticon();
+    }
 }
 
 void Book::_select()
@@ -246,10 +252,50 @@ void Book::_select()
 
 void Book::select()
 {
-    this->_select();
-    //Repaint parent (it will tell it's parent to repaint too, and so on)
-    if(mpParent != NULL)
-        mpParent->repainticon();
+    if (mFiletype == Book::Normal || mFiletype == Book::Dir)
+    {
+        this->_select();
+        //Repaint parent (it will tell it's parent to repaint too, and so on)
+        if(mpParent != NULL)
+            mpParent->repainticon();
+    }
+}
+
+QIcon* bookIcon(Book* book, IconState state)
+{
+    QIcon * icon;
+
+    switch (book->fileType())
+    {
+    case (Book::Dir):
+        if (state == BLUE) icon = new QIcon(":/Icons/folder-blue.png");
+        else if (state == GREY) icon = new QIcon(":/Icons/folder-grey.png");
+        else if (state == HALF) icon = new QIcon(":/Icons/folder-blue-grey.png");
+        break;
+
+    case (Book::Normal):
+        if ( !book->IsMixed() )
+        {
+            if (state == BLUE) icon = new QIcon(":/Icons/book-blue.png");
+            else if (state == GREY) icon = new QIcon(":/Icons/book-grey.png");
+        }
+        else
+        {
+            if (state == BLUE) icon = new QIcon(":/Icons/book-blue-double.png");
+            else if (state == GREY) icon = new QIcon(":/Icons/book-grey-double.png");
+        }
+        break;
+
+    case (Book::Pdf):
+        icon = new QIcon(":/Icons/book-pdf.png");
+        break;
+
+    default:
+        icon = new QIcon(":/Icons/book-grey.png");
+        break;
+    }
+
+    return icon;
 }
 
 void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
@@ -258,17 +304,20 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
 
     //set icon state
     mIconState = newiconstate;
-    QIcon *icon = bookIcon(IsDir(), IsMixed(), mIconState);
+    QIcon *icon = bookIcon(this, mIconState);
     TreeItem->setIcon(0, *icon);
     delete icon;
 
-    //Show state in the checkbox too
-    if (mIconState == BLUE)
-        TreeItem->setCheckState(0,Qt::Checked);
-    else if (mIconState == HALF)
-        TreeItem->setCheckState(0,Qt::PartiallyChecked);
-    else if (mIconState == GREY)
-        TreeItem->setCheckState(0,Qt::Unchecked);
+    if (fileType() == Book::Normal || fileType() == Book::Dir)
+    {
+        //Show state in the checkbox too
+        if (mIconState == BLUE)
+            TreeItem->setCheckState(0,Qt::Checked);
+        else if (mIconState == HALF)
+            TreeItem->setCheckState(0,Qt::PartiallyChecked);
+        else if (mIconState == GREY)
+            TreeItem->setCheckState(0,Qt::Unchecked);
+    }
 }
 
 

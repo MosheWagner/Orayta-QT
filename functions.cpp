@@ -527,33 +527,6 @@ QString AllowKtivHasser(QString& str)
     return str.replace("ו","ו?").replace("י","י?");
 }
 
-QIcon * bookIcon(bool isFolder, bool isDouble, IconState state)
-{
-    QIcon * icon;
-
-    if (isFolder)
-    {
-        if (state == BLUE) icon = new QIcon(":/Icons/folder-blue.png");
-        else if (state == GREY) icon = new QIcon(":/Icons/folder-grey.png");
-        else if (state == HALF) icon = new QIcon(":/Icons/folder-blue-grey.png");
-    }
-    else
-    {
-        if (!isDouble)
-        {
-            if (state == BLUE) icon = new QIcon(":/Icons/book-blue.png");
-            else if (state == GREY) icon = new QIcon(":/Icons/book-grey.png");
-        }
-        else
-        {
-            if (state == BLUE) icon = new QIcon(":/Icons/book-blue-double.png");
-            else if (state == GREY) icon = new QIcon(":/Icons/book-grey-double.png");
-        }
-    }
-
-    return icon;
-}
-
 QString simpleHtmlPage(QString title, QString contents)
 {
     QString html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";

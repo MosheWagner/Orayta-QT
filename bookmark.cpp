@@ -27,7 +27,7 @@
 
 void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
 {
-    int row = ui->bookmarkWidget->currentRow();
+//    int row = ui->bookmarkWidget->currentRow();
 
     QMenu menu(ui->treeWidget);
 
