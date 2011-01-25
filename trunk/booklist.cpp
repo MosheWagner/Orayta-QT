@@ -82,6 +82,10 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
             }
+            else
+            {
+                b->setIsInSearch(false);
+            }
         }
     }
 }

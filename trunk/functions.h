@@ -151,8 +151,6 @@ QRegExp withNikudAndTeamim( QString str );
 
 QString AllowKtivHasser(QString& str);
 
-QIcon * bookIcon(bool isFolder, bool isDouble, IconState state);
-
 QString simpleHtmlPage(QString title, QString contents);
 
 #endif // FUNCTIONS_H

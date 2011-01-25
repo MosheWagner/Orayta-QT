@@ -36,5 +36,6 @@
         <file>Images/Orayta.png</file>
         <file>Icons/Orayta.png</file>
         <file>Images/Wait.gif</file>
+        <file>Icons/book-pdf.png</file>
     </qresource>
 </RCC>

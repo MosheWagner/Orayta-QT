@@ -250,6 +250,6 @@ protected:
     bool mixedHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
 };
 
-
+QIcon* bookIcon(Book* book, IconState state);
 
 #endif // BOOK_H

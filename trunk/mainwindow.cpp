@@ -315,10 +315,21 @@ MainWindow::~MainWindow()
 //Remove all temporary html files the program created
 void MainWindow::ClearTmp()
 {
-    QDir dir(TMPPATH);
-    QStringList list = dir.entryList(QStringList("*.html"));
-
+    QDir dir;
+    QStringList list;
     QFile f;
+
+    //remove all html rended files in temp path
+    dir = QDir(TMPPATH);
+    list = dir.entryList(QStringList("*.html"));
+    for (int i=0; i<list.size(); i++)
+    {
+        f.remove(dir.absoluteFilePath(list[i]));
+    }
+
+    //remove all WKP.* files (because pdf plugin not cleaned)
+    dir = QDir::currentPath();
+    list = dir.entryList(QStringList("WKP.*"));
     for (int i=0; i<list.size(); i++)
     {
         f.remove(dir.absoluteFilePath(list[i]));
@@ -438,8 +449,9 @@ void MainWindow::BuildBookTree()
             twi->setText(1, bookList[i]->getName());
 
 
-            //Show a checkbox next to the item
-            twi->setCheckState(0,Qt::Checked);
+            if (bookList[i]->fileType() == Book::Normal || bookList[i]->fileType() == Book::Dir)
+                //Show a checkbox next to the item
+                twi->setCheckState(0,Qt::Checked);
 
 
             QString dn;
@@ -457,7 +469,7 @@ void MainWindow::BuildBookTree()
             twi->setText(0, dn);
 
             //set the icon:
-            QIcon *icon = bookIcon(bookList[i]->IsDir(), bookList[i]->IsMixed(), bookList[i]->mIconState);
+            QIcon *icon = bookIcon(bookList[i], bookList[i]->mIconState);
 
             twi->setIcon(0, *icon);
 
@@ -1037,7 +1049,7 @@ void MainWindow::on_fonSizeSpinBox_valueChanged(int val)
 {
     ui->saveConf->setEnabled(true);
 
-    ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), ui->fonSizeSpinBox->value()));
+    ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), val));
 }
 
 void MainWindow::on_fontComboBox_currentIndexChanged(QString f)
