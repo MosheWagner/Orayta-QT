@@ -56,14 +56,12 @@
 #include "about.h"
 #include "errorreport.h"
 #include "bookfind.h"
-
 #include "bookdisplayer.h"
-
 #include "mytreetab.h"
 
 
-class bookDisplayer;
 
+class bookDisplayer;
 
 using namespace std;
 

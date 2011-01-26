@@ -210,11 +210,10 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
     {
         int pos = link.indexOf("^");
 
-        QString lnk = "";
-        lnk = link.mid(pos+1);
+        QString lnk = link.mid(pos+1);
 
         //Open using browser
-        QDesktopServices::openUrl("http://" + lnk);
+        QDesktopServices::openUrl( QUrl("http://" + lnk) );
     }
 }
 
@@ -231,9 +230,9 @@ void bookDisplayer::setHtml(QString html)
     //Set book to null or 0?
 }
 
-void bookDisplayer::execScript(QString script)
+QVariant bookDisplayer::execScript(QString script)
 {
-    htmlview->execScript(script);
+    return htmlview->execScript(script);
 }
 
 QString bookDisplayer::getJSVar(QString var)

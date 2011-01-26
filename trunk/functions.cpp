@@ -527,16 +527,63 @@ QString AllowKtivHasser(QString& str)
     return str.replace("ו","ו?").replace("י","י?");
 }
 
+QString pluginPage(QString title)
+{
+    QString html =  "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n"
+                    "\"http://www.w3.org/TR/html4/loose.dtd\">\n"
+                    "<html >\n<head>\n\t"
+                    "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">\n"
+                    "<title>" + title + "</title>\n"
+                    "</head>\n";
+
+    html +=         "<script type=\"text/javascript\">\n";
+
+    html +=         "function availablePlugins() {"
+                    "  document.writeln('<table border=\"1\">');"
+                    "  for(var i=0; i<navigator.mimeTypes.length; i++) {"
+                    "    document.writeln('<tr>');"
+                    "    document.writeln('<td>' + navigator.mimeTypes[i].type + '<\/td>');"
+                    "    document.writeln('<td>' + navigator.mimeTypes[i].suffixes + '<\/td>');"
+                    "    document.writeln('<td>' + navigator.mimeTypes[i].description + '<\/td>');"
+                    "    if (navigator.mimeTypes[i].enabledPlugin)"
+                    "      document.writeln('<td>' + navigator.mimeTypes[i].enabledPlugin + '<\/td>');"
+                    "    else document.writeln('<td>Not available<\/td>');"
+                    "  document.writeln('<\/tr>');"
+                    "  }"
+                    "  document.writeln('<\/table>');"
+                    "}\n";
+
+    html +=         "function testPdfPlugin() {"
+                    "  var mimetype = navigator.mimeTypes['application/pdf'];"
+                    "  if (mimetype) {"
+                    "    var plugin = mimetype.enabledPlugin;"
+                    "    if (plugin) {"
+                    "      return 'yes';"
+                    "    }"
+                    "  }"
+                    "  document.writeln(\"Sorry, can't show you this file.\");"
+                    "  document.writeln('You must install a PDF plugin to see this file.');"
+                    "  availablePlugins();"
+                    "  return 'no';"
+                    "}\n";
+
+    html +=         "</script>\n"
+                    "<body></body>"
+                    "</html>";
+
+    return html;
+}
+
 QString simpleHtmlPage(QString title, QString contents)
 {
-    QString html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
-    html += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    html += "<html >\n<head>\n\t";
-    html += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
-
-    html += "\n<title>" + title + "</title>\n</head>";
-
-    html += "\n<body><br><br><br><div style=\"text-align:center\"; dir=\"RTL\"><h1>" + contents + "</h1></div></body></html>";
+    QString html =  "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n"
+                    "\"http://www.w3.org/TR/html4/loose.dtd\">\n"
+                    "<html >\n<head>\n\t"
+                    "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">\n"
+                    "<title>" + title + "</title>\n"
+                    "</head>\n"
+                    "<body><br><br><br><div style=\"text-align:center\"; dir=\"RTL\"><h1>" + contents + "</h1></div></body>"
+                    "</html>";
 
     return html;
 }
