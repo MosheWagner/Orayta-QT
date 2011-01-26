@@ -152,5 +152,6 @@ QRegExp withNikudAndTeamim( QString str );
 QString AllowKtivHasser(QString& str);
 
 QString simpleHtmlPage(QString title, QString contents);
+QString pluginPage(QString title);
 
 #endif // FUNCTIONS_H

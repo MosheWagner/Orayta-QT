@@ -23,13 +23,15 @@ myWebView::myWebView(QWidget * parent)
     //Holds currently selected link
     mActiveLink = "";
 
+    mBookdisp = qobject_cast<bookDisplayer*>(parent);
+
     connect(this, SIGNAL(statusBarMessage(QString)), this, SLOT(rememberActiveLink(QString)));
 
 }
 
-void myWebView::execScript(QString script)
+QVariant myWebView::execScript(QString script)
 {
-    page()->mainFrame()->evaluateJavaScript(script);
+    return page()->mainFrame()->evaluateJavaScript(script);
 }
 
 void myWebView::mousePressEvent(QMouseEvent *event)
@@ -98,34 +100,34 @@ void myWebView::mouseReleaseEvent(QMouseEvent *event)
 
 QString myWebView::activeLink() { return mActiveLink; }
 
+
 void myWebView::keyPressEvent( QKeyEvent *keyEvent )
 {
-    if ( keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_Down)
+    //if this is normal book
+    if ( mBookdisp->book() != NULL && mBookdisp->book()->fileType() == Book::Normal )
     {
-        page()->mainFrame()->evaluateJavaScript("paintNext();");
-        return;
-    }
-    if ( keyEvent->key() == Qt::Key_Right || keyEvent->key() == Qt::Key_Up)
-    {
-        page()->mainFrame()->evaluateJavaScript("paintPrevious();");
-        return;
-    }
-
-    //Ignore backspace clicks
-    if ( keyEvent->key() != Qt::Key_Backspace) QWebView::keyPressEvent(keyEvent);
-
-    //Ctrl-F
-    if (keyEvent->modifiers() == Qt::CTRL)
-    {
-        //If this key is "F", show "search in books" bar
-        if ( keyEvent->key() == Qt::Key_F)
+        switch ( keyEvent->key() )
         {
-            emit ToggleSearchBar();
+        case Qt::Key_Left:
+        case Qt::Key_Down:
+            page()->mainFrame()->evaluateJavaScript("paintNext();");
+            break;
+
+        case Qt::Key_Right:
+        case Qt::Key_Up:
+            page()->mainFrame()->evaluateJavaScript("paintPrevious();");
+            break;
+
+        case Qt::Key_Backspace:  //Ignore backspace clicks
+            break;
+
+        default:
+            QWebView::keyPressEvent(keyEvent);
+            break;
         }
     }
-
+    else QWebView::keyPressEvent(keyEvent);
 }
-
 
 
 //Set a busy cursor before actually resizing the text, and restores it by the end

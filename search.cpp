@@ -42,7 +42,6 @@ QString createSearchPattern (QString userInput, bool allWords = true, bool fullW
             words[i] = " " + words[i] + " ";
     }
 
-
     unsigned i;
     if (allWords)
     {

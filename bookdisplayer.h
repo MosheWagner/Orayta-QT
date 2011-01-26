@@ -61,7 +61,7 @@ public:
     //QUrl url();
     QString activeLink();
 
-    void execScript(QString script);
+    QVariant execScript(QString script);
     QString getJSVar(QString var);
 
     void ZoomIn();

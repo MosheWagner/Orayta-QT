@@ -301,13 +301,13 @@ void MainWindow::connectMenuActions()
 
 MainWindow::~MainWindow()
 {
-    ClearTmp();
-
     //TODO: Don't I need to free all the items?
     for (int i=0; i<bookDisplayerList.size(); i++) { delete bookDisplayerList[i]; }
     bookDisplayerList.clear();
 
     bookList.clear();
+
+    ClearTmp();
 
     delete ui;
 }
@@ -560,8 +560,12 @@ void MainWindow::openBook( int ind )
 
             case ( Book::Pdf ):
                 CurrentBookdisplayer->enablePlugins();
-                CurrentBookdisplayer->load( QUrl(book->getPath()) );
-                ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+                CurrentBookdisplayer->setHtml(pluginPage(book->getNormallDisplayName()));
+                if ( CurrentBookdisplayer->execScript("testPdfPlugin()").toString() == "yes" )
+                {
+                    CurrentBookdisplayer->load( QUrl( book->getPath() ) );
+                    ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+                }
                 break;
 
             default:
@@ -750,14 +754,11 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
             }
         }
     }
-    //Ctrl
-    if (keyEvent->modifiers() == Qt::CTRL)
+    //Ctrl-F, show "search in books" bar
+    if ( keyEvent->key() == Qt::Key_F && keyEvent->modifiers() == Qt::CTRL )
     {
-        //If this key is "F", show "search in books" bar
-        if ( keyEvent->key() == Qt::Key_F)
-        {
-            ui->showSearchBarButton->click();
-        }
+        if ( CurrentBookdisplayer->book()->fileType() == Book::Normal )
+            ToggleSearchBar();
     }
 }
 

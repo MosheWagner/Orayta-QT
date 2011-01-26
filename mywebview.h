@@ -26,6 +26,9 @@ Not extremly important, but it isn't too complicated either.
 
 #include "functions.h"
 #include "mainwindow.h"
+#include "bookdisplayer.h"
+
+class bookDisplayer;
 
 class myWebView : public QWebView
 {
@@ -37,8 +40,9 @@ public:
 
     QString activeLink();
 
-    void execScript(QString script);
+    QVariant execScript(QString script);
     QString getJSVar(QString var);
+
 
 public slots:
     void setTextSizeMultiplier(qreal factor);
@@ -53,10 +57,10 @@ private slots:
 
 signals:
     void LinkClicked(QUrl);
-    void ToggleSearchBar();
 
 private:
     QString mActiveLink;
+    bookDisplayer* mBookdisp;
 
 };
 
