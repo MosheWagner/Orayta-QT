@@ -286,6 +286,10 @@ QIcon* bookIcon(Book* book, IconState state)
         }
         break;
 
+    case (Book::Html):
+        icon = new QIcon(":/Icons/book-html.png");
+        break;
+
     case (Book::Pdf):
         icon = new QIcon(":/Icons/book-pdf.png");
         break;
