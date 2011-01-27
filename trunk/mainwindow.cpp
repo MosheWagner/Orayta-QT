@@ -563,7 +563,7 @@ void MainWindow::openBook( int ind )
                 CurrentBookdisplayer->setHtml(pluginPage(book->getNormallDisplayName()));
                 if ( CurrentBookdisplayer->execScript("testPdfPlugin()").toString() == "yes" )
                 {
-                    CurrentBookdisplayer->load( QUrl( book->getPath() ) );
+                    CurrentBookdisplayer->load( QUrl( "file:///" + book->getPath() ) );
                     ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
                 }
                 break;
