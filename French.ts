@@ -88,34 +88,34 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="bookmark.cpp" line="155"/>
-        <location filename="mainwindow.cpp" line="145"/>
-        <location filename="mainwindow.cpp" line="178"/>
-        <location filename="mainwindow.cpp" line="179"/>
-        <location filename="mainwindow.cpp" line="566"/>
-        <location filename="mainwindow.cpp" line="568"/>
-        <location filename="mainwindow.cpp" line="573"/>
-        <location filename="mainwindow.cpp" line="1092"/>
-        <location filename="search.cpp" line="154"/>
+        <location filename="bookmark.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="134"/>
+        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="168"/>
+        <location filename="mainwindow.cpp" line="609"/>
+        <location filename="mainwindow.cpp" line="611"/>
+        <location filename="mainwindow.cpp" line="616"/>
+        <location filename="mainwindow.cpp" line="1125"/>
+        <location filename="search.cpp" line="153"/>
+        <location filename="search.cpp" line="157"/>
         <location filename="search.cpp" line="158"/>
-        <location filename="search.cpp" line="159"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="153"/>
+        <location filename="mainwindow.cpp" line="142"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>Aucun livre trouvé !
 Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="167"/>
         <source>Jewish books</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="485"/>
+        <location filename="mainwindow.cpp" line="493"/>
         <source>Loading...</source>
         <translation>Chargement...</translation>
     </message>
@@ -136,27 +136,27 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">Supprimer le commentaire</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="84"/>
+        <location filename="search.cpp" line="83"/>
         <source>RegExp: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="search.cpp" line="166"/>
+        <location filename="search.cpp" line="165"/>
         <source>Searching: </source>
         <translation>Recherche: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="170"/>
+        <location filename="search.cpp" line="169"/>
         <source>Search results: </source>
         <translation>Résultats :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="235"/>
+        <location filename="search.cpp" line="234"/>
         <source>(Search stopped by user)</source>
         <translation>(Recherche stoppée par l&apos;utilisateur)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="242"/>
+        <location filename="search.cpp" line="241"/>
         <source>No search results found:</source>
         <translation>Aucun résultat:</translation>
     </message>
@@ -165,22 +165,22 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">Aucun résultat :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="247"/>
+        <location filename="search.cpp" line="246"/>
         <source>Short result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="258"/>
+        <location filename="search.cpp" line="257"/>
         <source>Full result list:</source>
         <translation>Liste complète:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="656"/>
+        <location filename="mainwindow.cpp" line="700"/>
         <source>Open book</source>
         <translation>Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="658"/>
+        <location filename="mainwindow.cpp" line="702"/>
         <source>Open in new tab</source>
         <translation>Ouvrir dans un nouvel onglet</translation>
     </message>
@@ -195,8 +195,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation>Supprimer le marque page</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1054"/>
-        <location filename="mainwindow.cpp" line="1056"/>
+        <location filename="mainwindow.cpp" line="1094"/>
         <source>Orayta - Jewish books</source>
         <translation></translation>
     </message>
@@ -215,7 +214,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="514"/>
-        <location filename="mainwindow.ui" line="2067"/>
+        <location filename="mainwindow.ui" line="1791"/>
         <source>Open new tab</source>
         <translation>Ouvrir un nouvel onglet</translation>
     </message>
@@ -229,52 +228,52 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation>Chercher dans les livres sélectionnés</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="779"/>
+        <location filename="mainwindow.ui" line="782"/>
         <source>Search backwards in book</source>
         <translation>chercher en arriére dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="808"/>
+        <location filename="mainwindow.ui" line="811"/>
         <source>Search forward in book</source>
         <translation>Chercher en avant dans le livre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="629"/>
-        <location filename="mainwindow.ui" line="2031"/>
+        <location filename="mainwindow.ui" line="1755"/>
         <source>Zoom out</source>
         <translation>Réduire</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="664"/>
-        <location filename="mainwindow.ui" line="2022"/>
+        <location filename="mainwindow.ui" line="1746"/>
         <source>Zoom in</source>
         <translation>Agrandir</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="594"/>
-        <location filename="mainwindow.ui" line="2040"/>
+        <location filename="mainwindow.ui" line="1764"/>
         <source>Jump to top</source>
         <translation>Revenir au début</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="899"/>
+        <location filename="mainwindow.ui" line="905"/>
         <source>Books</source>
         <translation>Livres</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="927"/>
+        <location filename="mainwindow.ui" line="933"/>
         <source>Add all books to search</source>
         <translation>Ajouter tous les livres à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="735"/>
-        <location filename="mainwindow.ui" line="930"/>
-        <location filename="mainwindow.ui" line="944"/>
+        <location filename="mainwindow.ui" line="738"/>
+        <location filename="mainwindow.ui" line="936"/>
+        <location filename="mainwindow.ui" line="950"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="941"/>
+        <location filename="mainwindow.ui" line="947"/>
         <source>Remove all books from search</source>
         <translation>Supprimer tous les livres de la recherche</translation>
     </message>
@@ -283,117 +282,97 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">Afficher seul</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1258"/>
+        <location filename="mainwindow.ui" line="1276"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
         <translation>Autorise le &quot;Ktiv &apos;Hasser&quot;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1440"/>
+        <location filename="mainwindow.ui" line="1464"/>
         <source>Bookmarks</source>
         <translation>Marque-pages</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1451"/>
+        <location filename="mainwindow.ui" line="1475"/>
         <source>Remove bookmark</source>
         <translation>Supprimer le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1454"/>
+        <location filename="mainwindow.ui" line="1478"/>
         <source>Erase bookmark</source>
         <translation>Effacer le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1480"/>
+        <location filename="mainwindow.ui" line="1504"/>
         <source>Move bookmark up</source>
         <translation>Monter le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1509"/>
+        <location filename="mainwindow.ui" line="1533"/>
         <source>Move bookmark down</source>
         <translation>Descendre le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1538"/>
+        <location filename="mainwindow.ui" line="1562"/>
         <source>Edit bookmark&apos;s title</source>
         <translation>Editer le titre du marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1615"/>
         <source>Configure</source>
-        <translation>Configuration</translation>
+        <translation type="obsolete">Configuration</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1648"/>
         <source>Default font:</source>
-        <translation>Police par défaut:</translation>
+        <translation type="obsolete">Police par défaut:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1658"/>
-        <source>font: 8pt &quot;Sans Serif&quot;;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="1679"/>
         <source>Base font size:</source>
-        <translation>Taille de la police par défaut:</translation>
+        <translation type="obsolete">Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1696"/>
         <source>font preview:</source>
-        <translation>Prévisualisation:</translation>
+        <translation type="obsolete">Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1711"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
-        <translation>(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
-    </message>
-    <message utf8="true">
-        <location filename="mainwindow.ui" line="1733"/>
-        <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
-        <translation></translation>
+        <translation type="obsolete">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1774"/>
         <source>Save changes</source>
-        <translation>sauvegarder les modifications</translation>
+        <translation type="obsolete">sauvegarder les modifications</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1811"/>
         <source>(Confs will apply as of next book)</source>
-        <translation>(cette configuration prendra effet sur le prochain livre)</translation>
+        <translation type="obsolete">(cette configuration prendra effet sur le prochain livre)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1831"/>
         <source>Gui language:</source>
-        <translation>Langage:</translation>
+        <translation type="obsolete">Langage:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1849"/>
         <source>Changing the language will restart the application, and close all open books</source>
-        <translation>Changer le langage va redémmarer l&apos;aplication, et fermer tous les livres ouverts</translation>
+        <translation type="obsolete">Changer le langage va redémmarer l&apos;aplication, et fermer tous les livres ouverts</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1885"/>
         <source>Change language</source>
-        <translation>Changer la langue</translation>
+        <translation type="obsolete">Changer la langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1047"/>
+        <location filename="mainwindow.ui" line="1059"/>
         <source>Display with:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1066"/>
+        <location filename="mainwindow.ui" line="1078"/>
         <source>Hide commentaries</source>
         <translation>Cacher les commentaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1088"/>
+        <location filename="mainwindow.ui" line="1100"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1146"/>
+        <location filename="mainwindow.ui" line="1164"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
@@ -401,39 +380,39 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
 </translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1177"/>
+        <location filename="mainwindow.ui" line="1195"/>
         <source>Find exact string</source>
         <translation type="unfinished">Cette expression exacte</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1934"/>
+        <location filename="mainwindow.ui" line="1657"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1947"/>
+        <location filename="mainwindow.ui" line="1671"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1956"/>
+        <location filename="mainwindow.ui" line="1680"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1120"/>
-        <location filename="mainwindow.ui" line="1317"/>
-        <location filename="mainwindow.ui" line="1969"/>
+        <location filename="mainwindow.ui" line="1135"/>
+        <location filename="mainwindow.ui" line="1335"/>
+        <location filename="mainwindow.ui" line="1693"/>
         <source>Search</source>
         <translation>Recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="765"/>
+        <location filename="mainwindow.ui" line="768"/>
         <source>Search in book:</source>
         <translation>Recherche dans la page:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1131"/>
+        <location filename="mainwindow.ui" line="1149"/>
         <source>Search for:</source>
         <translation>Rechercher:</translation>
     </message>
@@ -443,27 +422,27 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">( La recherche ignore la ponctuation, le Nikud et les Teamim)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1163"/>
+        <location filename="mainwindow.ui" line="1181"/>
         <source>String search</source>
         <translation>Texte recherché</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1229"/>
+        <location filename="mainwindow.ui" line="1247"/>
         <source>Find any of the words</source>
         <translation>Une partie des mots</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1198"/>
+        <location filename="mainwindow.ui" line="1216"/>
         <source>Find all words</source>
         <translation>Tous les mots</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1217"/>
+        <location filename="mainwindow.ui" line="1235"/>
         <source>spacing (in words)</source>
         <translation>espacement (en mots)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1246"/>
+        <location filename="mainwindow.ui" line="1264"/>
         <source>Find full words only</source>
         <translation>Mots entiers seulement</translation>
     </message>
@@ -472,116 +451,121 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <translation type="obsolete">Autoriser &quot;Ktiv Maleh&quot; / &quot;Ktiv &apos;Hasser&quot;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1276"/>
+        <location filename="mainwindow.ui" line="1294"/>
         <source>Find regular expression</source>
         <translation>Utiliser les expressions regulières</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1350"/>
+        <location filename="mainwindow.ui" line="1371"/>
         <source>Searching ...</source>
         <translation>Recherche en cours...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1397"/>
+        <location filename="mainwindow.ui" line="1418"/>
         <source>Cancel search</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1986"/>
+        <location filename="mainwindow.ui" line="1710"/>
         <source>Location</source>
         <translation>Position</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2004"/>
+        <location filename="mainwindow.ui" line="1728"/>
         <source>Exit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2013"/>
+        <location filename="mainwindow.ui" line="1737"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2049"/>
+        <location filename="mainwindow.ui" line="1773"/>
         <source>Print book</source>
         <translation>Imprime le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2058"/>
+        <location filename="mainwindow.ui" line="1782"/>
         <source>Close tab</source>
         <translation>Fermer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2078"/>
+        <location filename="mainwindow.ui" line="1802"/>
         <source>Show nikud</source>
         <translation>Afficher le Nikud</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2089"/>
+        <location filename="mainwindow.ui" line="1813"/>
         <source>Show teamim</source>
         <translation>Afficher les Teamim</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2098"/>
+        <location filename="mainwindow.ui" line="1822"/>
         <source>Add bookmark</source>
         <translation>Ajouter un marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2107"/>
+        <location filename="mainwindow.ui" line="1831"/>
         <source>Add/edit comment</source>
         <translation>Ajouter/éditer un commentaire</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2116"/>
+        <location filename="mainwindow.ui" line="1840"/>
         <source>Report typo</source>
         <translation>Rapporter une erreur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2125"/>
+        <location filename="mainwindow.ui" line="1849"/>
         <source>Search in books</source>
         <translation>Rechercher dans la bibliothèque</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1930"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Advanced search</source>
         <translation type="obsolete">Recherche avancée</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2134"/>
+        <location filename="mainwindow.ui" line="1858"/>
         <source>Search in book</source>
         <translation>Chercher dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2143"/>
+        <location filename="mainwindow.ui" line="1867"/>
         <source>Search forward</source>
         <translation>Chercher en avant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2152"/>
+        <location filename="mainwindow.ui" line="1876"/>
         <source>Search backwards</source>
         <translation>Chercher en arrière</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2161"/>
+        <location filename="mainwindow.ui" line="1885"/>
         <source>Remove book from search</source>
         <translation>Enlever ce livre de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2170"/>
+        <location filename="mainwindow.ui" line="1894"/>
         <source>Add book to search</source>
         <translation>Ajouter ce livre à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2179"/>
+        <location filename="mainwindow.ui" line="1903"/>
         <source>Add all to search</source>
         <translation>Tout ajouter à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2188"/>
+        <location filename="mainwindow.ui" line="1912"/>
         <source>Remove all from search</source>
         <translation>Tout enlever de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2197"/>
+        <location filename="mainwindow.ui" line="1921"/>
         <source>Find book by name</source>
         <translation>Trouver un livre d&apos;aprés le titre</translation>
     </message>
@@ -619,6 +603,79 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <source>Search</source>
         <translation type="obsolete">Rechercher</translation>
+    </message>
+</context>
+<context>
+    <name>Settings</name>
+    <message>
+        <location filename="settings.ui" line="14"/>
+        <source>Orayta settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="24"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="36"/>
+        <source>Default font:</source>
+        <translation type="unfinished">Police par défaut:</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="46"/>
+        <source>font: 8pt &quot;Sans Serif&quot;;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="73"/>
+        <source>Base font size:</source>
+        <translation type="unfinished">Taille de la police par défaut:</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="96"/>
+        <source>Font preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="111"/>
+        <source>(Make sure the font can handle Nikud and Teamim)</source>
+        <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
+    </message>
+    <message utf8="true">
+        <location filename="settings.ui" line="133"/>
+        <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="164"/>
+        <source>(Font confs will apply as of next book)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="175"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="195"/>
+        <source>Custom language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="207"/>
+        <source>Use system language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="242"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="262"/>
+        <source>Save settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -708,7 +765,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="55"/>
+        <location filename="mywebview.cpp" line="57"/>
         <source>Copy text</source>
         <translation>Copier le texte</translation>
     </message>

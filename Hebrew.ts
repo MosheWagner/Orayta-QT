@@ -100,34 +100,34 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="bookmark.cpp" line="155"/>
-        <location filename="mainwindow.cpp" line="145"/>
-        <location filename="mainwindow.cpp" line="178"/>
-        <location filename="mainwindow.cpp" line="179"/>
-        <location filename="mainwindow.cpp" line="566"/>
-        <location filename="mainwindow.cpp" line="568"/>
-        <location filename="mainwindow.cpp" line="573"/>
-        <location filename="mainwindow.cpp" line="1092"/>
-        <location filename="search.cpp" line="154"/>
+        <location filename="bookmark.cpp" line="166"/>
+        <location filename="mainwindow.cpp" line="134"/>
+        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="168"/>
+        <location filename="mainwindow.cpp" line="609"/>
+        <location filename="mainwindow.cpp" line="611"/>
+        <location filename="mainwindow.cpp" line="616"/>
+        <location filename="mainwindow.cpp" line="1125"/>
+        <location filename="search.cpp" line="153"/>
+        <location filename="search.cpp" line="157"/>
         <location filename="search.cpp" line="158"/>
-        <location filename="search.cpp" line="159"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="153"/>
+        <location filename="mainwindow.cpp" line="142"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>לא נמצאו ספרים מותקנים! 
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="167"/>
         <source>Jewish books</source>
         <translation>ספרי קודש</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="485"/>
+        <location filename="mainwindow.cpp" line="493"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
@@ -148,27 +148,27 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">מחק הערה</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="84"/>
+        <location filename="search.cpp" line="83"/>
         <source>RegExp: </source>
         <translation>ביטוי רגולרי:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="166"/>
+        <location filename="search.cpp" line="165"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="170"/>
+        <location filename="search.cpp" line="169"/>
         <source>Search results: </source>
         <translation>תוצאות חיפוש :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="235"/>
+        <location filename="search.cpp" line="234"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="242"/>
+        <location filename="search.cpp" line="241"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
@@ -177,23 +177,23 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="247"/>
+        <location filename="search.cpp" line="246"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="258"/>
+        <location filename="search.cpp" line="257"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="656"/>
+        <location filename="mainwindow.cpp" line="700"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="658"/>
+        <location filename="mainwindow.cpp" line="702"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
@@ -208,8 +208,7 @@ Check your installation, or contact the developer.</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1054"/>
-        <location filename="mainwindow.cpp" line="1056"/>
+        <location filename="mainwindow.cpp" line="1094"/>
         <source>Orayta - Jewish books</source>
         <translation>אורייתא - ספרי קודש</translation>
     </message>
@@ -217,9 +216,9 @@ Check your installation, or contact the developer.</source>
 <context>
     <name>MainWindowClass</name>
     <message>
-        <location filename="mainwindow.ui" line="735"/>
-        <location filename="mainwindow.ui" line="930"/>
-        <location filename="mainwindow.ui" line="944"/>
+        <location filename="mainwindow.ui" line="738"/>
+        <location filename="mainwindow.ui" line="936"/>
+        <location filename="mainwindow.ui" line="950"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -243,58 +242,58 @@ Check your installation, or contact the developer.</source>
         <translation>חפש בספרים המסומנים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1120"/>
-        <location filename="mainwindow.ui" line="1317"/>
-        <location filename="mainwindow.ui" line="1969"/>
+        <location filename="mainwindow.ui" line="1135"/>
+        <location filename="mainwindow.ui" line="1335"/>
+        <location filename="mainwindow.ui" line="1693"/>
         <source>Search</source>
         <translation>חפש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="779"/>
+        <location filename="mainwindow.ui" line="782"/>
         <source>Search backwards in book</source>
         <translation>חפש אחורה בספר זה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="808"/>
+        <location filename="mainwindow.ui" line="811"/>
         <source>Search forward in book</source>
         <translation>חפש קדימה בספר זה</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="629"/>
-        <location filename="mainwindow.ui" line="2031"/>
+        <location filename="mainwindow.ui" line="1755"/>
         <source>Zoom out</source>
         <translation>הקטן כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="664"/>
-        <location filename="mainwindow.ui" line="2022"/>
+        <location filename="mainwindow.ui" line="1746"/>
         <source>Zoom in</source>
         <translation>הגדל כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="594"/>
-        <location filename="mainwindow.ui" line="2040"/>
+        <location filename="mainwindow.ui" line="1764"/>
         <source>Jump to top</source>
         <translation>קפוץ לראש הספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="765"/>
+        <location filename="mainwindow.ui" line="768"/>
         <source>Search in book:</source>
         <translation>חיפוש בספר:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="899"/>
+        <location filename="mainwindow.ui" line="905"/>
         <source>Books</source>
         <translation>ספרים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="927"/>
+        <location filename="mainwindow.ui" line="933"/>
         <source>Add all books to search</source>
         <oldsource>Add all bokks to search</oldsource>
         <translation>הוסף את כל הספרים לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="941"/>
+        <location filename="mainwindow.ui" line="947"/>
         <source>Remove all books from search</source>
         <translation>הוצא את כל הספרים מהחיפוש</translation>
     </message>
@@ -303,64 +302,56 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1440"/>
+        <location filename="mainwindow.ui" line="1464"/>
         <source>Bookmarks</source>
         <translation>סימניות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1454"/>
+        <location filename="mainwindow.ui" line="1478"/>
         <source>Erase bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1480"/>
+        <location filename="mainwindow.ui" line="1504"/>
         <source>Move bookmark up</source>
         <translation>העלה סימנייה למעלה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1509"/>
+        <location filename="mainwindow.ui" line="1533"/>
         <source>Move bookmark down</source>
         <translation>הורד סימנייה למטה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1615"/>
         <source>Configure</source>
-        <translation>הגדרות</translation>
+        <translation type="obsolete">הגדרות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1648"/>
         <source>Default font:</source>
-        <translation>פונט ברירת מחדל:</translation>
+        <translation type="obsolete">פונט ברירת מחדל:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1679"/>
         <source>Base font size:</source>
-        <translation>גודל פונט בסיס:</translation>
+        <translation type="obsolete">גודל פונט בסיס:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1696"/>
         <source>font preview:</source>
-        <translation>תצוגה מקדימה:</translation>
+        <translation type="obsolete">תצוגה מקדימה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1711"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
-        <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
+        <translation type="obsolete">(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1774"/>
         <source>Save changes</source>
-        <translation>שמור שינויים</translation>
+        <translation type="obsolete">שמור שינויים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1811"/>
         <source>(Confs will apply as of next book)</source>
-        <translation>(ההגדרות יחולו החל מהספרים הבאים)</translation>
+        <translation type="obsolete">(ההגדרות יחולו החל מהספרים הבאים)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1831"/>
         <source>Gui language:</source>
-        <translation>שפת הממשק:</translation>
+        <translation type="obsolete">שפת הממשק:</translation>
     </message>
     <message>
         <source>English</source>
@@ -371,78 +362,76 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">עברית</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1849"/>
         <source>Changing the language will restart the application, and close all open books</source>
-        <translation>שינוי השפה יגרום לאתחול התוכנה, ולסגירת כל הספרים הפתוחים</translation>
+        <translation type="obsolete">שינוי השפה יגרום לאתחול התוכנה, ולסגירת כל הספרים הפתוחים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1885"/>
         <source>Change language</source>
-        <translation>שנה שפה</translation>
+        <translation type="obsolete">שנה שפה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1934"/>
+        <location filename="mainwindow.ui" line="1657"/>
         <source>File</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1947"/>
+        <location filename="mainwindow.ui" line="1671"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1956"/>
+        <location filename="mainwindow.ui" line="1680"/>
         <source>Display</source>
         <translation>תצוגה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1986"/>
+        <location filename="mainwindow.ui" line="1710"/>
         <source>Location</source>
         <translation>מיקום נוכחי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2004"/>
+        <location filename="mainwindow.ui" line="1728"/>
         <source>Exit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2013"/>
+        <location filename="mainwindow.ui" line="1737"/>
         <source>About</source>
         <translation>אודות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2049"/>
+        <location filename="mainwindow.ui" line="1773"/>
         <source>Print book</source>
         <translation>הדפס ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2058"/>
+        <location filename="mainwindow.ui" line="1782"/>
         <source>Close tab</source>
         <translation>סגור לשונית</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="514"/>
-        <location filename="mainwindow.ui" line="2067"/>
+        <location filename="mainwindow.ui" line="1791"/>
         <source>Open new tab</source>
         <translation>פתח לשונית חדשה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1177"/>
+        <location filename="mainwindow.ui" line="1195"/>
         <source>Find exact string</source>
         <translation>חפש משפט שלם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1217"/>
+        <location filename="mainwindow.ui" line="1235"/>
         <source>spacing (in words)</source>
         <translation>רווח בין המילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1258"/>
+        <location filename="mainwindow.ui" line="1276"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
         <translation>חפש גם בכתיב חסר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1451"/>
+        <location filename="mainwindow.ui" line="1475"/>
         <source>Remove bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
@@ -451,22 +440,22 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1047"/>
+        <location filename="mainwindow.ui" line="1059"/>
         <source>Display with:</source>
         <translation>הצג בשילוב עם:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1066"/>
+        <location filename="mainwindow.ui" line="1078"/>
         <source>Hide commentaries</source>
         <translation>הסתר פרושים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1088"/>
+        <location filename="mainwindow.ui" line="1100"/>
         <source>Open</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1131"/>
+        <location filename="mainwindow.ui" line="1149"/>
         <source>Search for:</source>
         <translation>חפש:</translation>
     </message>
@@ -476,22 +465,22 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">( החיפוש מתעלם מפיסוק, ניקוד וטעמים )</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1163"/>
+        <location filename="mainwindow.ui" line="1181"/>
         <source>String search</source>
         <translation>חיפוש מחרוזות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1229"/>
+        <location filename="mainwindow.ui" line="1247"/>
         <source>Find any of the words</source>
         <translation>חפש חלק מהמילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1198"/>
+        <location filename="mainwindow.ui" line="1216"/>
         <source>Find all words</source>
         <translation>חפש את כל המילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1246"/>
+        <location filename="mainwindow.ui" line="1264"/>
         <source>Find full words only</source>
         <translation>חפש מילים שלמות</translation>
     </message>
@@ -500,116 +489,119 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">חפש בכתיב מלא/חסר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1276"/>
+        <location filename="mainwindow.ui" line="1294"/>
         <source>Find regular expression</source>
         <translation>חפש ביטוי רגולרי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1350"/>
+        <location filename="mainwindow.ui" line="1371"/>
         <source>Searching ...</source>
         <translation>מחפש ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1397"/>
+        <location filename="mainwindow.ui" line="1418"/>
         <source>Cancel search</source>
         <translation>בטל חיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2078"/>
+        <location filename="mainwindow.ui" line="1802"/>
         <source>Show nikud</source>
         <translation>הצג ניקוד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2089"/>
+        <location filename="mainwindow.ui" line="1813"/>
         <source>Show teamim</source>
         <translation>הצג טעמים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2098"/>
+        <location filename="mainwindow.ui" line="1822"/>
         <source>Add bookmark</source>
         <translation>הוסף סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2107"/>
+        <location filename="mainwindow.ui" line="1831"/>
         <source>Add/edit comment</source>
         <translation>הוסף/ערוך הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2116"/>
+        <location filename="mainwindow.ui" line="1840"/>
         <source>Report typo</source>
         <translation>דווח על טעות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2125"/>
+        <location filename="mainwindow.ui" line="1849"/>
         <source>Search in books</source>
         <translation>חיפוש בספרים</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1930"/>
+        <source>Settings</source>
+        <translation>הגדרות</translation>
     </message>
     <message>
         <source>Advanced search</source>
         <translation type="obsolete">חיפוש מתקדם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2134"/>
+        <location filename="mainwindow.ui" line="1858"/>
         <source>Search in book</source>
         <translation>חפש בספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2143"/>
+        <location filename="mainwindow.ui" line="1867"/>
         <source>Search forward</source>
         <translation>חפש קדימה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2152"/>
+        <location filename="mainwindow.ui" line="1876"/>
         <source>Search backwards</source>
         <translation>חפש אחורה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2161"/>
+        <location filename="mainwindow.ui" line="1885"/>
         <source>Remove book from search</source>
         <translation>הוצא מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2170"/>
+        <location filename="mainwindow.ui" line="1894"/>
         <source>Add book to search</source>
         <translation>הוסף לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2179"/>
+        <location filename="mainwindow.ui" line="1903"/>
         <source>Add all to search</source>
         <translation>הוסף הכל לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2188"/>
+        <location filename="mainwindow.ui" line="1912"/>
         <source>Remove all from search</source>
         <translation>הוצא הכל מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2197"/>
+        <location filename="mainwindow.ui" line="1921"/>
         <source>Find book by name</source>
         <translation>חפש ספר לפי שם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1658"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translatorcomment>?</translatorcomment>
-        <translation>font: 8pt &quot;Sans Serif&quot;;</translation>
+        <translation type="obsolete">font: 8pt &quot;Sans Serif&quot;;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1146"/>
+        <location filename="mainwindow.ui" line="1164"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
         <translation>(החיפוש מתעלם מפיסוק, ניקוד וטעמים)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1538"/>
+        <location filename="mainwindow.ui" line="1562"/>
         <source>Edit bookmark&apos;s title</source>
         <translation>ערוך כותרת סימנייה</translation>
     </message>
     <message utf8="true">
-        <location filename="mainwindow.ui" line="1733"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
-        <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
+        <translation type="obsolete">אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
     </message>
 </context>
 <context>
@@ -649,6 +641,83 @@ Check your installation, or contact the developer.</source>
     <message>
         <source>RegExp: </source>
         <translation type="obsolete">ביטוי רגולרי:</translation>
+    </message>
+</context>
+<context>
+    <name>Settings</name>
+    <message>
+        <location filename="settings.ui" line="14"/>
+        <source>Orayta settings</source>
+        <translation>הגדרות אורייתא</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="24"/>
+        <source>Font</source>
+        <translation>גופן</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="36"/>
+        <source>Default font:</source>
+        <translation>פונט ברירת מחדל:</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="46"/>
+        <source>font: 8pt &quot;Sans Serif&quot;;</source>
+        <translation>font: 8pt &quot;Sans Serif&quot;;</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="73"/>
+        <source>Base font size:</source>
+        <translation>גודל גופן בסיס:</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="96"/>
+        <source>Font preview:</source>
+        <translation>תצוגה מקדימה:</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="111"/>
+        <source>(Make sure the font can handle Nikud and Teamim)</source>
+        <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
+    </message>
+    <message utf8="true">
+        <location filename="settings.ui" line="133"/>
+        <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
+        <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="164"/>
+        <source>(Font confs will apply as of next book)</source>
+        <translation>(ההגדרות יחולו החל מהספרים הבאים)</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="175"/>
+        <source>Language</source>
+        <translation>שפה</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="195"/>
+        <source>Custom language</source>
+        <translation>שפה מותאמת אישית</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="207"/>
+        <source>Use system language</source>
+        <translation>השתמש בשפת המערכת</translation>
+    </message>
+    <message>
+        <source>Note: Changing the language will restart the application, and close all open books</source>
+        <translation type="obsolete">שינוי השפה יגרום לאתחול התוכנה, ולסגירת כל הספרים הפתוחים</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="242"/>
+        <source>Cancel</source>
+        <translation>ביטול</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="262"/>
+        <source>Save settings</source>
+        <translation>שמור הגדרות</translation>
     </message>
 </context>
 <context>
@@ -738,7 +807,7 @@ Check your installation, or contact the developer.</source>
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="55"/>
+        <location filename="mywebview.cpp" line="57"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>

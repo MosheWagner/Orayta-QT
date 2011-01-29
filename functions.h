@@ -28,6 +28,7 @@
 #include <QStringList>
 #include <QRegExp>
 #include <QIcon>
+#include <QTranslator>
 
 
 //Enum defining the color of the folder icon.

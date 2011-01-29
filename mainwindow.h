@@ -17,8 +17,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
-#include <QMovie>
+#include <QCoreApplication>
 #include <QTextStream>
 #include <QIcon>
 #include <QUrl>
@@ -45,6 +44,8 @@
 #include <QMouseEvent>
 #include <QSplashScreen>
 #include <QDesktopWidget>
+#include <QShortcut>
+#include <QWebSettings>
 #include <QFuture>
 #include "functions.h"
 #include "htmlgen.h"
@@ -54,11 +55,11 @@
 #include "bookmarktitle.h"
 #include "booklist.h"
 #include "about.h"
+#include "settings.h"
 #include "errorreport.h"
 #include "bookfind.h"
 #include "bookdisplayer.h"
 #include "mytreetab.h"
-
 
 
 class bookDisplayer;
@@ -99,9 +100,6 @@ private:
     //List of all book tabs (aka "bookdisplayers")
     QList <bookDisplayer *> bookDisplayerList;
 
-    //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
-    QStringList langs, langsDisplay;
-
     //Load the generated Html file of the given book into the WebView widget
     void LoadBook(Book *, QString markString = "");
 
@@ -112,7 +110,7 @@ private:
     void keyPressEvent( QKeyEvent *keyEvent );
 
     //Switch GUI direction to RTL
-    void toRTL();
+    void setDirection(bool rtl);
 
     //Set to true if the current search in books should be stopped
     bool stopSearchFlag ;
@@ -139,15 +137,9 @@ private slots:
 
     void weavedCheckBoxClicked(int btnIndex);
 
-    void on_changeLangButton_clicked();
-
     void on_viewTab_tabCloseRequested(int index);
 
     void treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*);
-
-    void on_fontComboBox_currentIndexChanged(QString );
-    void on_fonSizeSpinBox_valueChanged(int );
-    void on_saveConf_clicked();
 
     void closeCurrentTab();
 
@@ -241,10 +233,16 @@ private slots:
     //Shows the about form
     void about();
 
+    //Shows the settings form
+    void settingsForm();
+
     void toggleNikud(bool showNikud );
     void toggleTeamim(bool showTeamim);
 
     void ToggleSearchBar();
+
+    //Translate to the given lang
+    void translate(QString newlang);
 };
 
 //void buidSearchDBinBG(BookList * bl);

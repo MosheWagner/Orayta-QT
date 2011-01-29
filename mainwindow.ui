@@ -710,6 +710,9 @@
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <property name="spacing">
           <number>7</number>
@@ -769,7 +772,7 @@
          <item>
           <widget class="QLineEdit" name="lineEdit">
            <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
+            <enum>Qt::LeftToRight</enum>
            </property>
           </widget>
          </item>
@@ -891,6 +894,9 @@
           <number>0</number>
          </property>
          <widget class="QWidget" name="booksTab">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
           <attribute name="icon">
            <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
@@ -1022,6 +1028,9 @@
                  <pointsize>8</pointsize>
                 </font>
                </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
@@ -1043,6 +1052,9 @@
                 </property>
                 <item>
                  <widget class="QGroupBox" name="mixedFrame">
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
                   <property name="title">
                    <string>Display with:</string>
                   </property>
@@ -1112,6 +1124,9 @@
           </layout>
          </widget>
          <widget class="QWidget" name="searchTab">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
           <attribute name="icon">
            <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
@@ -1126,6 +1141,9 @@
               <font>
                <pointsize>11</pointsize>
               </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
              </property>
              <property name="text">
               <string>Search for:</string>
@@ -1335,6 +1353,9 @@
            </item>
            <item>
             <widget class="QFrame" name="pbarbox">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
              <layout class="QVBoxLayout" name="pbarlayout">
               <property name="topMargin">
                <number>9</number>
@@ -1432,6 +1453,9 @@
           </layout>
          </widget>
          <widget class="QWidget" name="bookmarkTab">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
           <attribute name="icon">
            <iconset resource="Orayta.qrc">
             <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
@@ -1606,307 +1630,6 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="confTab">
-          <attribute name="icon">
-           <iconset resource="Orayta.qrc">
-            <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
-          </attribute>
-          <attribute name="title">
-           <string>Configure</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QScrollArea" name="scrollArea">
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
-             <property name="widgetResizable">
-              <bool>true</bool>
-             </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>222</width>
-                <height>478</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <property name="topMargin">
-                <number>24</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>Default font:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFontComboBox" name="fontComboBox">
-                 <property name="layoutDirection">
-                  <enum>Qt::LeftToRight</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string>font: 8pt &quot;Sans Serif&quot;;</string>
-                 </property>
-                 <property name="currentIndex">
-                  <number>155</number>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
-                 </property>
-                 <property name="writingSystem">
-                  <enum>QFontDatabase::Any</enum>
-                 </property>
-                 <property name="currentFont">
-                  <font>
-                   <family>Nachlieli CLM</family>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>Base font size:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="fonSizeSpinBox"/>
-               </item>
-               <item>
-                <widget class="Line" name="line_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_6">
-                 <property name="text">
-                  <string>font preview:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>7</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>(Make sure the font can handle Nikud and Teamim)</string>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="fontPreview">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Nachlieli CLM</family>
-                   <pointsize>16</pointsize>
-                  </font>
-                 </property>
-                 <property name="layoutDirection">
-                  <enum>Qt::RightToLeft</enum>
-                 </property>
-                 <property name="text">
-                  <string>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="Line" name="line_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Maximum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>50</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="saveConf">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::RightToLeft</enum>
-                   </property>
-                   <property name="text">
-                    <string>Save changes</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="Orayta.qrc">
-                     <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Maximum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>50</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>(Confs will apply as of next book)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>Gui language:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="langComboBox"/>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Changing the language will restart the application, and close all open books</string>
-                 </property>
-                 <property name="scaledContents">
-                  <bool>false</bool>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="changeLangButton">
-                   <property name="font">
-                    <font>
-                     <pointsize>8</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>Change language</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-          </layout>
-         </widget>
         </widget>
        </item>
       </layout>
@@ -1935,6 +1658,7 @@
     </property>
     <addaction name="opentabAction"/>
     <addaction name="closetabAction"/>
+    <addaction name="actionSettings"/>
     <addaction name="printAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
@@ -1981,6 +1705,9 @@
    <widget class="QMenu" name="menu_4">
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="tearOffEnabled">
+     <bool>false</bool>
     </property>
     <property name="title">
      <string>Location</string>
@@ -2195,6 +1922,15 @@
    </property>
    <property name="text">
     <string>Find book by name</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="Orayta.qrc">
+     <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>
