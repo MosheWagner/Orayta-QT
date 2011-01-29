@@ -46,6 +46,8 @@ extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
+#define VERSION "0.05"
+
 //Small functions used by a few files:
 
 //Reads the file with the given name and the given encoding, and inserts it's contents into the given vector

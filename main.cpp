@@ -83,6 +83,18 @@ int main(int argc, char *argv[])
     //Start the App
     QApplication app(argc, argv);
 
+
+    //Deal with command line options
+    //TODO: add more if it's needed
+    QStringList args = app.arguments();
+    if (args.indexOf("-v") != -1 || args.indexOf("--version") != -1)
+    {
+        cout << "Orayta, Hebrew books program, ";
+        cout << "Version " << VERSION << endl;
+
+        exit(0);
+    }
+
     //Define location for program dirs
     initPaths();
 

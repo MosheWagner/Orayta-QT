@@ -17,11 +17,9 @@
 #include "mainwindow.h"
 
 
-//TODO: RTL the menu entries!
+//TODO: Menu entries don't go RTL. is it QT's bug?
 
 //TODO: Test new runtime dependencies
-
-//BUG: do not allow english letters in puretext
 
 //TODO: Improve search result preview
 
@@ -184,8 +182,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->viewTab->setCornerWidget(ui->btnBox, Qt::TopRightCorner);
 
     ui->treeWidget->setHeaderHidden(true);
+
     //Hack for windows:
-    ui->treeWidget->setColumnWidth(0,1000);
+    ui->treeWidget->setColumnWidth(0,350);
 
     //Load the bookmarks into thier list:
     buildBookMarkList();
@@ -241,9 +240,12 @@ void MainWindow::setDirection(bool rtl)
     ui->treeDockWidget->show();
 
     ui->treeTab->setLayoutDirection(dir);
+    ui->booksTab->setLayoutDirection(dir);
     ui->searchTab->setLayoutDirection(dir);
     ui->bookmarkTab->setLayoutDirection(dir);
     ui->viewTab->setLayoutDirection(dir);
+    ui->mixedGroup->setLayoutDirection(dir);
+    ui->mixedFrame->setLayoutDirection(dir);
 
     ui->treeWidget->setLayoutDirection(dir);
 

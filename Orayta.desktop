@@ -1,8 +1,8 @@
 [Desktop Entry]
-Categories=Office
+Categories=Torah;Education
 Comment[en_US]=
 Comment=
-Exec=/usr/bin/Orayta
+Exec=/usr/bin/orayta
 GenericName[en_US]=
 GenericName=
 Icon=/usr/share/Orayta/Orayta.png

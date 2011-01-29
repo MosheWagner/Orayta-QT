@@ -3,7 +3,7 @@
 # Author: Moshe Wagner. <moshe.wagner@gmail.com>
 # -------------------------------------------------
 QT += webkit
-TARGET = Orayta
+TARGET = orayta
 TEMPLATE = app
 
 SOURCES += main.cpp \
