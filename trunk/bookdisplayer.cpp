@@ -247,14 +247,40 @@ QString bookDisplayer::activeLink()
 
 void bookDisplayer::ZoomIn()
 {
+    //@@@@@@@@@
+    //Extremely ugly hack. Why can't webkit zoom like it should?
+
+    //Find how far the scroll bar is in the existing range
+    int scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+    int cur = htmlview->page()->mainFrame()->scrollBarValue(Qt::Vertical);
+    float ratio = (float) cur / scrollMax;
+
+    //Zoomin
     htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() + 0.1);
+
+    //Update range and go back to the same position relative to it
+    scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+    htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
 }
 
 void bookDisplayer::ZoomOut()
 {
     if (htmlview->textSizeMultiplier() > 0.1)
     {
+        //@@@@@@@@@
+        //Extremely ugly hack. Why can't webkit zoom like it should?
+
+        //Find how far the scroll bar is in the existing range
+        int scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+        int cur = htmlview->page()->mainFrame()->scrollBarValue(Qt::Vertical);
+        float ratio = (float) cur / scrollMax;
+
+        //Zoomout
         htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() - 0.1);
+
+        //Update range and go back to the same position relative to it
+        scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+        htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
     }
 }
 

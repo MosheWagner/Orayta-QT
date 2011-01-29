@@ -1142,9 +1142,6 @@
                <pointsize>11</pointsize>
               </font>
              </property>
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
              <property name="text">
               <string>Search for:</string>
              </property>

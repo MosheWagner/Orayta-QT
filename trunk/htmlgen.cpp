@@ -94,8 +94,14 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     {
         int j = ((i - 1) % colors.size());
 
-        if (Sources[i].Prefix == "") Sources[i].Prefix = "<span style= color:" + colors[j] + ">";
-        if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> (" +  Sources[i].Title + ") </small></span>";
+        //Title is now before the text, not after
+        if (Sources[i].Prefix == "")
+        {
+            Sources[i].Prefix = "<span style= color:" + colors[j] + ">";
+            Sources[i].Prefix += "<i><b> " +  Sources[i].Title + ": </b></i><br>";
+        }
+        if (Sources[i].Suffix == "") Sources[i].Suffix = "</span>";
+        //if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> [" +  Sources[i].Title + ") </small></span>";
     }
 
     QString html;
@@ -315,15 +321,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
     html += "<body>";
-    /*
-    html += "<body onLoad=\"hideWaitSign();\">";
-    html += "<div id=\"wait\" align=\"center\">";
-    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
-    html += "<img src=\"please_wait.gif\"></img>";
-    html += "<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR><BR>";
-    html += "</div>";
-    */
-
 
     html += namepoint("Top");
 
