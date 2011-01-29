@@ -24,6 +24,8 @@ QString TMPPATH;
 QString HEBREWBOOKSPATH;
 QString USERPATH;
 
+//Global translator object
+QTranslator *translator;
 
 //Defualt lang. After all, this is a Hebrew program...
 QString LANG="Hebrew";

@@ -15,13 +15,11 @@
 */
 
 #include "mainwindow.h"
-#include <QShortcut>
-#include <QWebSettings>
 
 
-//------------
-//TODO: Full map for puretext.
-//---------------
+//TODO: RTL the menu entries!
+
+//TODO: Test new runtime dependencies
 
 //BUG: do not allow english letters in puretext
 
@@ -35,10 +33,6 @@
 
 /*
   Roadmap for 0.03:
-
-  - Put the settings tab in a form instead
-
-  - Put search-in-books in a tab, and leave on top a button allowing to search in current book (like firefox?)
 
   - Improve all search stuff (including better result page. using side bar?)
   
@@ -54,8 +48,6 @@
 //TODO: Allow printing
 
 //TODO: Add date to bookmarks (somewhere), and "sort by" option?
-
-//TODO: FIXME: KHTML search starts from begining when focus lost
 
 //TODO: Improve current position detection
 
@@ -93,7 +85,7 @@
 /*
   Book issues:
 
-  - שמירת הלשון / חפץ חיים - Gives errors and dosnt seem ok
+  - שמירת הלשון - Gives errors and dosnt seem ok
   - ספר המידות is bad
 */
 
@@ -128,7 +120,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->treeDockWidget->setFloating(false);
 
     //Adjust for hebrew if needed
-    if (LANG == "Hebrew") toRTL();
+    if (LANG == "Hebrew") setDirection(true);
 
     //Force the viewTab to take 80 percent of the window
     ui->verticalLayout_12->setStretchFactor(ui->viewTab, 80);
@@ -200,21 +192,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connectMenuActions();
 
-    //Set available languages
-    langs << "Hebrew" << "English" << "French";
-    langsDisplay << "עברית" << "English" << "Français";;
-
-    //Show available languages in the language combobox
-    for (int i=0; i<langs.size(); i++)
-    {
-        ui->langComboBox->addItem(langsDisplay[i]);
-    }
-
-    //Show current language
-    int is = -1;
-    for (int i=0; i<langs.size(); i++) if (LANG == langs[i]) is = i;
-    ui->langComboBox->setCurrentIndex(is);
-
 
     stopSearchFlag = false;
     /* -------------------------
@@ -235,39 +212,65 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 //Switch GUI direction to RTL
-void MainWindow::toRTL()
+void MainWindow::setDirection(bool rtl)
 {
-    this->setLayoutDirection(Qt::RightToLeft);
+    Qt::LayoutDirection dir;
+    Qt::DockWidgetArea dwa;
 
-    ui->progressBar->setLayoutDirection(Qt::RightToLeft);
+    if (rtl == true)
+    {
+        dir = Qt::RightToLeft;
+        dwa = Qt::RightDockWidgetArea;
+    }
+    else
+    {
+        dir = Qt::LeftToRight;
+        dwa = Qt::LeftDockWidgetArea;
+    }
 
-    ui->searchGroupBX->setLayoutDirection(Qt::RightToLeft);
+    this->setLayoutDirection(dir);
 
-    ui->treeDockWidget->setAllowedAreas(Qt::RightDockWidgetArea);
+    ui->progressBar->setLayoutDirection(dir);
+
+    ui->searchGroupBX->setLayoutDirection(dir);
+
+    ui->treeDockWidget->setAllowedAreas(dwa);
 
     removeDockWidget(ui->treeDockWidget);
-    addDockWidget(Qt::RightDockWidgetArea, ui->treeDockWidget);
+    addDockWidget(dwa, ui->treeDockWidget);
     ui->treeDockWidget->show();
 
-    ui->treeTab->setLayoutDirection(Qt::RightToLeft);
-    ui->viewTab->setLayoutDirection(Qt::RightToLeft);
+    ui->treeTab->setLayoutDirection(dir);
+    ui->searchTab->setLayoutDirection(dir);
+    ui->bookmarkTab->setLayoutDirection(dir);
+    ui->viewTab->setLayoutDirection(dir);
 
-    ui->treeWidget->setLayoutDirection(Qt::RightToLeft);
+    ui->treeWidget->setLayoutDirection(dir);
 
-    ui->searchForward->setIcon(QIcon(":/Icons/search-left.png"));
-    ui->searchBackwords->setIcon(QIcon(":/Icons/search-right.png"));
+    if (rtl == true)
+    {
+        ui->searchForward->setIcon(QIcon(":/Icons/search-left.png"));
+        ui->searchBackwords->setIcon(QIcon(":/Icons/search-right.png"));
 
-    ui->searchForwardAction->setIcon(QIcon(":/Icons/search-left.png"));
-    ui->searchBackwardsAction->setIcon(QIcon(":/Icons/search-right.png"));
+        ui->searchForwardAction->setIcon(QIcon(":/Icons/search-left.png"));
+        ui->searchBackwardsAction->setIcon(QIcon(":/Icons/search-right.png"));
+    }
+    else
+    {
+        ui->searchForward->setIcon(QIcon(":/Icons/search-right.png"));
+        ui->searchBackwords->setIcon(QIcon(":/Icons/search-left.png"));
 
-    ui->scrollArea->setLayoutDirection(Qt::RightToLeft);
+        ui->searchForwardAction->setIcon(QIcon(":/Icons/search-right.png"));
+        ui->searchBackwardsAction->setIcon(QIcon(":/Icons/search-left.png"));
+    }
 
-    ui->menuBar->setLayoutDirection(Qt::RightToLeft);
-    ui->menu->setLayoutDirection(Qt::RightToLeft);
-    ui->menu_2->setLayoutDirection(Qt::RightToLeft);
-    ui->menu_3->setLayoutDirection(Qt::RightToLeft);
-    ui->menu_4->setLayoutDirection(Qt::RightToLeft);
-    ui->menu_5->setLayoutDirection(Qt::RightToLeft);
+    ui->menuBar->setLayoutDirection(dir);
+
+    ui->menu->setLayoutDirection(dir);
+    ui->menu_2->setLayoutDirection(dir);
+    ui->menu_3->setLayoutDirection(dir);
+    ui->menu_4->setLayoutDirection(dir);
+    ui->menu_5->setLayoutDirection(dir);
 }
 
 void MainWindow::connectMenuActions()
@@ -297,6 +300,8 @@ void MainWindow::connectMenuActions()
     connect(ui->removeAllFromSearchAction, SIGNAL(triggered()), this, SLOT(on_removeAllFromSearchButton_clicked()));
     connect(ui->addToSearchAction, SIGNAL(triggered()), this, SLOT(addToSearch()));
     connect(ui->removeFromSearchAction, SIGNAL(triggered()), this, SLOT(removeFromSearch()));
+
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settingsForm()));
 }
 
 MainWindow::~MainWindow()
@@ -401,11 +406,6 @@ void MainWindow::restoreConfs()
     gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
     gFontSize = settings.value("fontsize",16).toInt();
 
-
-    QFont f (gFontFamily, gFontSize);
-    ui->fontPreview->setFont(f);
-    ui->fontComboBox->setCurrentFont(f);
-    ui->fonSizeSpinBox->setValue(gFontSize);
     settings.endGroup();
 }
 
@@ -1038,26 +1038,15 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
     bookList[bookid]->setTabWidget( 0 );
 }
 
-void MainWindow::on_saveConf_clicked()
+
+void MainWindow::settingsForm()
 {
-    gFontFamily = ui->fontComboBox->currentFont().family();
-    gFontSize = ui->fonSizeSpinBox->value();
+    //Open the settings form
+    Settings *settingsform = new Settings();
 
-    ui->saveConf->setEnabled(false);
-}
+    connect (settingsform, SIGNAL(ChangeLang(QString)), this, SLOT(translate(QString)));
 
-void MainWindow::on_fonSizeSpinBox_valueChanged(int val)
-{
-    ui->saveConf->setEnabled(true);
-
-    ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), val));
-}
-
-void MainWindow::on_fontComboBox_currentIndexChanged(QString f)
-{
-    ui->saveConf->setEnabled(true);
-
-    ui->fontPreview->setFont(QFont(f, ui->fonSizeSpinBox->value()));
+    settingsform->show();
 }
 
 void MainWindow::findBookForm()
@@ -1107,22 +1096,6 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
 
     //Update the stupid tab widget
     on_viewTab_currentChanged(index - 1);
-}
-
-void MainWindow::on_changeLangButton_clicked()
-{
-    QSettings settings("Orayta", "SingleUser");
-    settings.beginGroup("Confs");
-    int i = langsDisplay.indexOf(ui->langComboBox->currentText());
-    if (i != -1) settings.setValue("lang", langs[i]);
-    settings.endGroup();
-
-    QApplication::processEvents();
-
-    //Reboot the program
-    QProcess::startDetached("\"" + QApplication::applicationFilePath() + "\"");
-
-    close();
 }
 
 void MainWindow::openExternalLink(QString lnk)
@@ -1232,6 +1205,29 @@ void MainWindow::on_treeTab_currentChanged(int index)
 void MainWindow::ToggleSearchBar()
 {
     ui->showSearchBarButton->click();
+}
+
+
+void MainWindow::translate(QString newlang)
+{
+    LANG = newlang;
+
+    extern QTranslator *translator;
+
+    //Remove old translator
+    QApplication::removeTranslator(translator);
+
+    //English needs no translator, it's the default
+    if (LANG != "English")
+    {
+        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
+        QApplication::installTranslator(translator);
+    }
+
+    ui->retranslateUi(this);
+
+    if (LANG == "Hebrew") setDirection(true);
+    else setDirection(false);
 }
 
 /*

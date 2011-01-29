@@ -16,8 +16,6 @@
 
 #include "mainwindow.h"
 
-QStringList langs;
-
 //Define location for program dirs
 void initPaths()
 {
@@ -49,13 +47,36 @@ void initPaths()
     {
         //UNIX ONLY:
         #ifndef Q_WS_WIN    //Yoch's idea. Thank you very much :-)
-        //Create symbolic link to the folder
-            system("ln -s /usr/share/Orayta/Books/Pics /tmp/Orayta/Pics");
+            //Create symbolic link to the folder
+
+        //TODO: this should be solved in a different way. the html files should be corrected so the link is to the right place
+
+            system("ln -s -T /tmp/Orayta/Pics /usr/share/Orayta/Books/Pics 2> /dev/null");
         #endif
     }
 }
 
+void initLang(QApplication *app)
+{
+    //Read lang conf
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("Confs");
+    bool systemlang = settings.value("systemLang",true).toBool();
 
+    if (systemlang) LANG = QLocale::languageToString(QLocale::system().language());
+    else (LANG = settings.value("lang","Hebrew").toString());
+
+    settings.endGroup();
+
+
+    extern QTranslator *translator;
+    translator = new QTranslator();
+
+    //Update path for translator installation
+    if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
+    //Install as the app's translator
+    app->installTranslator(translator);
+}
 
 int main(int argc, char *argv[])
 {
@@ -65,18 +86,8 @@ int main(int argc, char *argv[])
     //Define location for program dirs
     initPaths();
 
-    //Read lang conf
-    QSettings settings("Orayta", "SingleUser");
-    settings.beginGroup("Confs");
-    LANG = settings.value("lang","Hebrew").toString();
-    settings.endGroup();
-
-
-    QTranslator translator;
-
-    //Update path for installation
-    if (!translator.load(LANG + ".qm", ".")) translator.load(LANG + ".qm", "/usr/share/Orayta/");
-    app.installTranslator( &translator );
+    //Define the program's language
+    initLang(&app);
 
     //Show splash screen:
     QPixmap pixmap(":/Images/Orayta.png");
