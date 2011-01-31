@@ -38,7 +38,7 @@
 
   - Improve GUI. (Remove search bar? Change in and out of search icons)
 
-  - Add import books menu, including a "get from hebrewbooks" option
+  - "get from hebrewbooks" option
   
   - PDF support
 */
@@ -83,7 +83,6 @@
 /*
   Book issues:
 
-  - שמירת הלשון - Gives errors and dosnt seem ok
   - ספר המידות is bad
 */
 
@@ -131,21 +130,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Set window title:
     setWindowTitle(tr("Orayta"));
 
-    //Generate the BookList(s), and put it in the tree
-    bookList.BuildFromFolder(BOOKPATH);
-
-    if (bookList.size() == 0)
-    {
-        QMessageBox msgBox;
-        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
-        msgBox.exec();
-
-        //No books found
-        exit(2);
-    }
-
-    //Insert all the books into the booktree
-    BuildBookTree();
+    //Generate book list and display it
+    updateBookTree();
 
     //Load mixed display confs
     restoreBookConfs();
@@ -304,6 +290,7 @@ void MainWindow::connectMenuActions()
     connect(ui->removeFromSearchAction, SIGNAL(triggered()), this, SLOT(removeFromSearch()));
 
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settingsForm()));
+    connect(ui->actionImport_books, SIGNAL(triggered()), this, SLOT(importForm()));
 }
 
 MainWindow::~MainWindow()
@@ -1050,6 +1037,42 @@ void MainWindow::settingsForm()
 
     settingsform->show();
 }
+
+void MainWindow::importForm()
+{
+    //Open the import form
+    importBook *ib = new importBook();
+
+    connect(ib, SIGNAL(updateTree()), this, SLOT(updateBookTree()));
+
+    ib->show();
+}
+
+void MainWindow::updateBookTree()
+{
+    ui->treeWidget->clear();
+    bookList.clear();
+
+    //Generate the BookList(s), and put it in the tree
+    bookList.BuildFromFolder(BOOKPATH);
+
+    //Add user-added books
+    bookList.BuildFromFolder(USERPATH + "/Books");
+
+    if (bookList.size() == 0)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
+        msgBox.exec();
+
+        //No books found
+        exit(2);
+    }
+
+    //Insert all the books
+    BuildBookTree();
+}
+
 
 void MainWindow::findBookForm()
 {

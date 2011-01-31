@@ -17,9 +17,7 @@
 #include "about.h"
 
 
-About::About(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::About)
+About::About(QWidget *parent) : QDialog(parent), m_ui(new Ui::About)
 {
     m_ui->setupUi(this);
 

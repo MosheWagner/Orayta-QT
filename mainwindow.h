@@ -60,6 +60,7 @@
 #include "bookfind.h"
 #include "bookdisplayer.h"
 #include "mytreetab.h"
+#include "importbook.h"
 
 
 class bookDisplayer;
@@ -227,6 +228,7 @@ private slots:
     void showSearchTab();
 
     void findBookForm();
+
     //TODO: ///
     void menuOpenBook(int uid);
 
@@ -235,6 +237,11 @@ private slots:
 
     //Shows the settings form
     void settingsForm();
+
+    //Shows the import form
+    void importForm();
+
+    void updateBookTree();
 
     void toggleNikud(bool showNikud );
     void toggleTeamim(bool showTeamim);
