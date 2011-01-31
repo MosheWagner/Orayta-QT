@@ -1656,6 +1656,7 @@
     <addaction name="opentabAction"/>
     <addaction name="closetabAction"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionImport_books"/>
     <addaction name="printAction"/>
     <addaction name="separator"/>
     <addaction name="exitAction"/>
@@ -1928,6 +1929,15 @@
    </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionImport_books">
+   <property name="icon">
+    <iconset resource="Orayta.qrc">
+     <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
    </property>
   </action>
  </widget>

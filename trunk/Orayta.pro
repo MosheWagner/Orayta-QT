@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     bookdisplayer.cpp \
     bookmark.cpp \
     search.cpp \
-    settings.cpp
+    settings.cpp \
+    importbook.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -38,7 +39,8 @@ HEADERS += htmlgen.h \
     errorreport.h \
     bookfind.h \
     bookdisplayer.h \
-    settings.h
+    settings.h \
+    importbook.h
 FORMS += \
     mainwindow.ui \
     addcomment.ui \
@@ -46,7 +48,8 @@ FORMS += \
     about.ui \
     errorreport.ui \
     bookfind.ui \
-    settings.ui
+    settings.ui \
+    importbook.ui
 RESOURCES += Orayta.qrc
 win32:RC_FILE = orayta.rc
 
