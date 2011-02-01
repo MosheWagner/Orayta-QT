@@ -54,11 +54,14 @@ private slots:
     void keyPressEvent( QKeyEvent *keyEvent );
 
     void rememberActiveLink(QString);
+    void copyClean();
 
 signals:
     void LinkClicked(QUrl);
 
 private:
+    QAction *copyNoSigns;
+
     QString mActiveLink;
     bookDisplayer* mBookdisp;
 

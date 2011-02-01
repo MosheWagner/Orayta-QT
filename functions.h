@@ -158,6 +158,9 @@ QString AllowKtivHasser(QString& str);
 QString simpleHtmlPage(QString title, QString contents);
 QString pluginPage(QString title);
 
+//Copy the given folder (recursively) to the given path
+void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFilters);
+
 #ifdef POPPLER
 
 // Returns a corrected Bidi string from the given one.

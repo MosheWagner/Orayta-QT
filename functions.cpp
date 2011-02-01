@@ -15,7 +15,8 @@
 */
 
 #include "functions.h"
-
+#include <QDir>
+#include <QDebug>
 
 //Global path holders. Set in mainwindow::initPaths, and used all over.
 // Should allways by absolute.
@@ -588,6 +589,37 @@ QString simpleHtmlPage(QString title, QString contents)
                     "</html>";
 
     return html;
+}
+
+//Copy the given folder (recursively) to the given path
+void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFilters)
+{
+    QDir sourceDir(sourceFolder);
+    if(!sourceDir.exists())
+        return;
+    QDir destDir(destFolder);
+    if(!destDir.exists())
+    {
+        destDir.mkdir(destFolder);
+    }
+
+    sourceDir.setNameFilters(fileNameFilters);
+
+    QStringList files = sourceDir.entryList(QDir::Files);
+    for(int i = 0; i< files.count(); i++)
+    {
+        QString srcName = sourceFolder + "/" + files[i];
+        QString destName = destFolder + "/" + files[i];
+        if (!QFile::copy(srcName, destName)) qDebug() << "Couldn't copy file: " << srcName;
+    }
+    files.clear();
+    files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    for(int i = 0; i< files.count(); i++)
+    {
+        QString srcName = sourceFolder + "/" + files[i];
+        QString destName = destFolder + "/" + files[i];
+        copyFolder(srcName, destName, fileNameFilters);
+    }
 }
 
 

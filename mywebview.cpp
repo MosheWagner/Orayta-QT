@@ -27,6 +27,20 @@ myWebView::myWebView(QWidget * parent)
 
     connect(this, SIGNAL(statusBarMessage(QString)), this, SLOT(rememberActiveLink(QString)));
 
+
+    copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this);
+    connect(copyNoSigns, SIGNAL(triggered()), this, SLOT(copyClean()));
+}
+
+void myWebView::copyClean()
+{
+    QString text = removeSigns(page()->selectedText());
+    if (!text.isEmpty())
+    {
+        //Copy to clipboard:
+        QClipboard *clipboard = QApplication::clipboard();
+        clipboard->setText(text, QClipboard::Clipboard);
+    }
 }
 
 QVariant myWebView::execScript(QString script)
@@ -58,6 +72,8 @@ void myWebView::mousePressEvent(QMouseEvent *event)
             copy->setIcon(QIcon(":/Icons/edit-copy.png"));
 
             menu.addAction(copy);
+
+            menu.addAction(copyNoSigns);
 
             menu.setLayoutDirection(Qt::RightToLeft);
             menu.exec(mapToGlobal(event->pos()));

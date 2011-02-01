@@ -35,10 +35,11 @@ private:
     Ui::importBook *ui;
 
 private slots:
+    void on_addBooks_clicked();
+    void on_addFolder_clicked();
     void on_importBTN_clicked();
     void on_cancelBTN_clicked();
     void on_label_2_linkActivated(QString link);
-    void on_addBTN_clicked();
 
 signals:
     void updateTree();
