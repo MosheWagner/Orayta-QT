@@ -16,6 +16,14 @@
 
 #include "mainwindow.h"
 
+//libpoppler-qt4-dev
+//libfribidi-dev
+
+//TODO: Add copy w/o nikud option
+
+//TODO: Search with no result dosn't need a new tab (Msgbox?)
+
+//TODO: Make dialogs modal?
 
 //TODO: Menu entries don't go RTL. is it QT's bug?
 
@@ -57,8 +65,6 @@
 //(TODO: create help page for linux version)
 //TODO: hide welcomepage from search
 
-//TODO: Add rav kook books
-
 //TODO: see if printing dialog really appears in hebrew on hebrew locals
 
 //TODO: document & clean code
@@ -84,6 +90,7 @@
   Book issues:
 
   - ספר המידות is bad
+  - Add rav kook books
 */
 
 
@@ -152,11 +159,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
+
+    //Pdf buttons:
+    //Improve look
+    ui->btnBox->addButton((QAbstractButton *)ui->pdfPageSpin, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->PDFpageLBL, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_3, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_4, QDialogButtonBox::ActionRole);
+
+
     ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoominButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoomoutButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->showSearchBarButton, QDialogButtonBox::ActionRole);
+
 
     ui->searchGroupBX->hide();
     ui->showSearchBarButton->setChecked(false);
@@ -176,6 +194,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     buildBookMarkList();
 
     connectMenuActions();
+
+    adjustMenus();
 
 
     stopSearchFlag = false;
@@ -257,7 +277,7 @@ void MainWindow::setDirection(bool rtl)
     ui->menu->setLayoutDirection(dir);
     ui->menu_2->setLayoutDirection(dir);
     ui->menu_3->setLayoutDirection(dir);
-    ui->menu_4->setLayoutDirection(dir);
+    ui->locationMenu->setLayoutDirection(dir);
     ui->menu_5->setLayoutDirection(dir);
 }
 
@@ -471,10 +491,10 @@ void MainWindow::BuildBookTree()
 }
 
 //Load the generated Html file of the given book into the WebView widget
-void MainWindow::LoadBook(Book *book, QString markString)
+void MainWindow::LoadHtmlBook(Book *book, QString markString)
 {
-    bool shownikud = CurrentBookdisplayer->isNikudShown();
-    bool showteamim = CurrentBookdisplayer->areTeamimShown();
+    bool shownikud = ui->showNikudAction->isChecked();
+    bool showteamim = ui->showTeamimAction->isChecked();
 
     //Show the wait sign even before rendering
     CurrentBookdisplayer->ShowWaitPage();
@@ -517,10 +537,6 @@ void MainWindow::LoadBook(Book *book, QString markString)
     }
 
     ui->treeWidget->setCurrentItem(book->getTreeItemPtr());
-
-    //Show / Hide nikud and teamim buttons
-    ui->showNikudAction->setVisible( book->hasNikud );
-    ui->showTeamimAction->setVisible( book->hasTeamim );
 }
 
 //Open the given book (by it's id in the booklist)
@@ -536,11 +552,13 @@ void MainWindow::openBook( int ind )
             if (CurrentBookdisplayer->book() != NULL)
                 CurrentBookdisplayer->book()->setTabWidget( 0 );
 
-            //If the filename ends with ".html", load it as is, without rendering
+            //Default
+            CurrentBookdisplayer->setPdfMode(false);
+
             switch ( book->fileType() )
             {
             case ( Book::Normal ):
-                LoadBook(book);
+                LoadHtmlBook(book);
                 break;
 
             case ( Book::Html ):
@@ -548,6 +566,10 @@ void MainWindow::openBook( int ind )
                 break;
 
             case ( Book::Pdf ):
+                CurrentBookdisplayer->setPdfMode(true);
+                CurrentBookdisplayer->load (QUrl(book->getPath()) );
+                ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+                /*
                 CurrentBookdisplayer->enablePlugins();
                 CurrentBookdisplayer->setHtml(pluginPage(book->getNormallDisplayName()));
                 if ( CurrentBookdisplayer->execScript("testPdfPlugin()").toString() == "yes" )
@@ -555,6 +577,7 @@ void MainWindow::openBook( int ind )
                     CurrentBookdisplayer->load( QUrl( "file:///" + book->getPath() ) );
                     ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
                 }
+                */
                 break;
 
             default:
@@ -566,6 +589,8 @@ void MainWindow::openBook( int ind )
             book->setTabWidget(ui->viewTab->currentWidget());
 
             CurrentBookdisplayer->setBook(book);
+
+            adjustMenus();
         }
     }
 }
@@ -664,9 +689,7 @@ void MainWindow::on_zoomoutButton_clicked()
 
 void MainWindow::on_topButton_clicked()
 {
-    //Jump to the top of the page using javascript
-    //CurrentBookdisplayer->execScript("window.scrollTo(0, 0)");
-    CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("Top");
+    CurrentBookdisplayer->jumpToTop();
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -873,13 +896,13 @@ void MainWindow::closeCurrentTab()
 void MainWindow::toggleNikud(bool showNikud)
 {
     CurrentBookdisplayer->showNikud(showNikud);
-    LoadBook( CurrentBookdisplayer->book() );
+    LoadHtmlBook( CurrentBookdisplayer->book() );
 }
 
 void MainWindow::toggleTeamim(bool showTeamim)
 {
     CurrentBookdisplayer->showTeamim(showTeamim);
-    LoadBook( CurrentBookdisplayer->book() );
+    LoadHtmlBook( CurrentBookdisplayer->book() );
 }
 
 void MainWindow::on_viewTab_currentChanged(int index)
@@ -889,17 +912,40 @@ void MainWindow::on_viewTab_currentChanged(int index)
         //Show / hide menu options depending on the book:
         if ( bookDisplayerList.size() > index && bookDisplayerList.size() > 0)
         {
-            if ( bookDisplayerList[index]->book() != NULL )
-            {
-                //Show / Hide nikud and teamim buttons
-                ui->showNikudAction->setVisible( bookDisplayerList[index]->book()->hasNikud );
-                ui->showTeamimAction->setVisible( bookDisplayerList[index]->book()->hasTeamim );
-            }
-
-            //Disable / Enable them by what's displayed
-            ui->showNikudAction->setChecked( bookDisplayerList[index]->isNikudShown() );
-            ui->showTeamimAction->setChecked( bookDisplayerList[index]->areTeamimShown() );
+            adjustMenus();
         }
+    }
+}
+
+// Show/hide buttons and menus depending on the currently visible book
+void MainWindow::adjustMenus()
+{
+    if (CurrentBookdisplayer->getPdfMode() == true)
+    {
+        //Show pdf buttons:
+        ui->pdfPageSpin->show();
+        ui->PDFpageLBL->show();
+
+        ui->locationMenu->menuAction()->setVisible(false);
+    }
+    else
+    {
+        ui->locationMenu->menuAction()->setVisible(true);
+
+        if ( CurrentBookdisplayer->book() != NULL )
+        {
+            //Show / Hide nikud and teamim buttons
+            ui->showNikudAction->setVisible( CurrentBookdisplayer->book()->hasNikud );
+            ui->showTeamimAction->setVisible( CurrentBookdisplayer->book()->hasTeamim );
+        }
+
+        //Disable / Enable them by what's displayed
+        ui->showNikudAction->setChecked( CurrentBookdisplayer->isNikudShown() );
+        ui->showTeamimAction->setChecked( CurrentBookdisplayer->areTeamimShown() );
+
+        //Disable pdf buttons:
+        ui->pdfPageSpin->hide();
+        ui->PDFpageLBL->hide();
     }
 }
 
@@ -1265,3 +1311,25 @@ void buidSearchDBinBG(BookList * bl)
     }
 }
 */
+
+
+void MainWindow::updatePdfPage(int current, int max)
+{
+    ui->pdfPageSpin->setValue(current);
+    ui->pdfPageSpin->setMaximum(max);
+
+    //Set tooltip
+    ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
+}
+
+
+void MainWindow::on_pdfPageSpin_valueChanged(int page)
+{
+    if (CurrentBookdisplayer->getPdfMode())
+    {
+        CurrentBookdisplayer->setPdfPage(page);
+
+        //Set tooltip
+        ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(page) + " / " + QString::number(ui->pdfPageSpin->maximum()));
+    }
+}

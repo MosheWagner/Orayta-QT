@@ -19,7 +19,11 @@
 
 #include "mainwindow.h"
 #include "mywebview.h"
+#include "pdfwidget.h"
 #include <QStackedWidget>
+
+//TODO: This is all so stupid. It should be done with inheritance. Maybe some day.
+
 /*
   Class holding all widgets and objects needed to display a book.
     The main object is a plain QWidget.
@@ -61,8 +65,8 @@ public:
     //QUrl url();
     QString activeLink();
 
-    QVariant execScript(QString script);
-    QString getJSVar(QString var);
+    virtual QVariant execScript(QString script);
+    virtual QString getJSVar(QString var);
 
     void ZoomIn();
     void ZoomOut();
@@ -87,12 +91,24 @@ public:
     void enablePlugins();
     void disablePlugins();
 
+
+    void setPdfMode(bool mode);
+    bool getPdfMode();
+
+    //PDF mode only:
+    void setPdfPage(int page);
+
+    void jumpToTop();
+
 private:
+
+    bool PDFMode;
 
     QString lastSearch;
 
     //Html viewer the book is shown within
     myWebView * htmlview;
+    PdfWidget * pdfView;
 
     MainWindow * MW;
     QTabWidget * TW;

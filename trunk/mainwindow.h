@@ -102,7 +102,7 @@ private:
     QList <bookDisplayer *> bookDisplayerList;
 
     //Load the generated Html file of the given book into the WebView widget
-    void LoadBook(Book *, QString markString = "");
+    void LoadHtmlBook(Book *, QString markString = "");
 
     //Builds the tree of books and folders in the treeWidget, based on the global book list
     void BuildBookTree();
@@ -119,6 +119,7 @@ private:
 private slots:
 
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
+    void on_pdfPageSpin_valueChanged(int );
     void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
     void on_radioButton_2_toggled(bool checked);
@@ -250,6 +251,11 @@ private slots:
 
     //Translate to the given lang
     void translate(QString newlang);
+
+    void updatePdfPage(int current, int num);
+
+    // Show/hide buttons and menus depending on the currently visible book
+    void adjustMenus();
 };
 
 //void buidSearchDBinBG(BookList * bl);

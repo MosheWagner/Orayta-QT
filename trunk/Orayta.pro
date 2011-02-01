@@ -6,6 +6,16 @@ QT += webkit
 TARGET = orayta
 TEMPLATE = app
 
+
+# The following are the correct include and library paths for poppler on my system (Ubuntu 10.10).
+# Modify these to refer to the directories on your system
+# that contain the poppler-qt4.h header file and [lib]poppler-qt4 library.
+INCLUDEPATH += /usr/include/poppler/qt4
+LIBS += -lpoppler-qt4
+
+#Fribidi
+LIBS += -lfribidi
+
 SOURCES += main.cpp \
     mainwindow.cpp \
     htmlgen.cpp \
@@ -24,7 +34,8 @@ SOURCES += main.cpp \
     bookmark.cpp \
     search.cpp \
     settings.cpp \
-    importbook.cpp
+    importbook.cpp \
+    pdfwidget.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -40,7 +51,8 @@ HEADERS += htmlgen.h \
     bookfind.h \
     bookdisplayer.h \
     settings.h \
-    importbook.h
+    importbook.h \
+    pdfwidget.h
 FORMS += \
     mainwindow.ui \
     addcomment.ui \
