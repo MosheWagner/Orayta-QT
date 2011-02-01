@@ -29,6 +29,7 @@
 #include <QRegExp>
 #include <QIcon>
 #include <QTranslator>
+#include <fribidi/fribidi.h>
 
 
 //Enum defining the color of the folder icon.
@@ -156,5 +157,13 @@ QString AllowKtivHasser(QString& str);
 
 QString simpleHtmlPage(QString title, QString contents);
 QString pluginPage(QString title);
+
+// Returns a corrected Bidi string from the given one.
+// (Using the 'LineToBidiText' function)
+QString ToBidiText(QString str);
+
+// Returns a corrected single line Bidi string from the given one.
+// (Using fribidi's functions)
+QString LineToBidiText(QString str);
 
 #endif // FUNCTIONS_H

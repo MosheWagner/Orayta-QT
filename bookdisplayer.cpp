@@ -16,8 +16,11 @@
 
 #include "bookdisplayer.h"
 
+//PDF TODOs:
+//TODO: Make sure pdf mode is safe.
+//TODO: Windows should use webkits plugin
 
-//////////TODO:
+//Html TODOs:
 //Auto detection on current node in view?
 //Add comment s via script?
 
@@ -43,6 +46,10 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     //Create new webview
     htmlview = new myWebView(this);
 
+    //Pdf viewer
+    pdfView = new PdfWidget(this);
+    connect (pdfView, SIGNAL(pageChanged(int,int)), MW, SLOT(updatePdfPage(int, int)));
+
     //Connect the signalls sent from the new widgets to their slots
     QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
     QObject::connect(htmlview, SIGNAL(loadFinished(bool)), this , SLOT(htmlView_loadFinished(bool)));
@@ -65,15 +72,16 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     waitView->setHtml(html, QUrl::fromLocalFile(QDir::current().absoluteFilePath("htmlfile.html")));
 
     stackedWidget = new QStackedWidget(this);
-    stackedWidget->addWidget(htmlQWidget());
+
+
     stackedWidget->addWidget(waitView);
+    stackedWidget->addWidget(htmlQWidget());
+    stackedWidget->addWidget(pdfView);
 
     stackedWidget->show();
     vbox->addWidget(stackedWidget);
 
     setHtml(simpleHtmlPage(tr("Orayta"), ""));
-
-    //htmlview->setCaretMode(true);
 }
 
 bookDisplayer::~bookDisplayer()
@@ -247,25 +255,7 @@ QString bookDisplayer::activeLink()
 
 void bookDisplayer::ZoomIn()
 {
-    //@@@@@@@@@
-    //Extremely ugly hack. Why can't webkit zoom like it should?
-
-    //Find how far the scroll bar is in the existing range
-    int scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
-    int cur = htmlview->page()->mainFrame()->scrollBarValue(Qt::Vertical);
-    float ratio = (float) cur / scrollMax;
-
-    //Zoomin
-    htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() + 0.1);
-
-    //Update range and go back to the same position relative to it
-    scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
-    htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
-}
-
-void bookDisplayer::ZoomOut()
-{
-    if (htmlview->textSizeMultiplier() > 0.1)
+    if (!PDFMode)
     {
         //@@@@@@@@@
         //Extremely ugly hack. Why can't webkit zoom like it should?
@@ -275,31 +265,76 @@ void bookDisplayer::ZoomOut()
         int cur = htmlview->page()->mainFrame()->scrollBarValue(Qt::Vertical);
         float ratio = (float) cur / scrollMax;
 
-        //Zoomout
-        htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() - 0.1);
+        //Zoomin
+        htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() + 0.1);
 
         //Update range and go back to the same position relative to it
         scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
         htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
     }
+    else
+    {
+        pdfView->setScale(pdfView->scale() + 0.1);
+    }
+}
+
+void bookDisplayer::ZoomOut()
+{
+    if (!pdfView)
+    {
+        if (htmlview->textSizeMultiplier() > 0.1)
+        {
+            //@@@@@@@@@
+            //Extremely ugly hack. Why can't webkit zoom like it should?
+
+            //Find how far the scroll bar is in the existing range
+            int scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+            int cur = htmlview->page()->mainFrame()->scrollBarValue(Qt::Vertical);
+            float ratio = (float) cur / scrollMax;
+
+            //Zoomout
+            htmlview->setTextSizeMultiplier(htmlview->textSizeMultiplier() - 0.1);
+
+            //Update range and go back to the same position relative to it
+            scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
+            htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
+        }
+    }
+    else
+    {
+        if (pdfView->scale() > 0.1)
+        {
+            pdfView->setScale(pdfView->scale() - 0.1);
+        }
+    }
 }
 
 void bookDisplayer::normalZoom()
 {
-    htmlview->setTextSizeMultiplier(1);
+    if (!PDFMode) htmlview->setTextSizeMultiplier(1);
+    else pdfView->setScale(1);
 }
 
 void bookDisplayer::load(QUrl url)
 { 
-    ShowWaitPage();
+    if (!PDFMode)
+    {
+        ShowWaitPage();
 
-    url.setUrl(QString(url.toString() + InternalLocationInHtml));
+        url.setUrl(QString(url.toString() + InternalLocationInHtml));
 
-    myurl = url;
+        myurl = url;
 
-    htmlview->load(url);
+        htmlview->load(url);
 
-    QApplication::processEvents();
+        QApplication::processEvents();
+    }
+    else
+    {
+        pdfView->setDocument(url.toString());
+
+        HideWaitPage();
+    }
 }
 
 void bookDisplayer::setInternalLocation(QString location)
@@ -307,20 +342,17 @@ void bookDisplayer::setInternalLocation(QString location)
     InternalLocationInHtml = location;
 }
 
-QString bookDisplayer::title() { return htmlview->title(); }
+QString bookDisplayer::title()
+{
+    if (!PDFMode) return htmlview->title();
+}
 
 bool bookDisplayer::isNikudShown() { return shownikud; }
 bool bookDisplayer::areTeamimShown() { return showteamim; }
 
-void bookDisplayer::showNikud(bool show)
-{
-    shownikud = show;
-}
+void bookDisplayer::showNikud(bool show) { shownikud = show; }
+void bookDisplayer::showTeamim(bool show) { showteamim = show; }
 
-void bookDisplayer::showTeamim(bool show)
-{
-    showteamim = show;
-}
 
 Book * bookDisplayer::book() { return myBook; }
 
@@ -351,20 +383,43 @@ QString bookDisplayer::htmlSource()
 
 void bookDisplayer::searchText(QString text, bool backwards)
 {
-    if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
-    else htmlview->findText(text);
+    if (!PDFMode)
+    {
+        if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
+        else htmlview->findText(text);
+    }
+    else
+    {
+        QRectF location;
+        if (backwards == true) location = pdfView->searchBackwards(text);
+        else location = pdfView->searchForwards(text);
+
+        //Force scrollarea to show the found position
+        QPoint target = pdfView->matrix().mapRect(location).center().toPoint();
+        pdfView->ensureVisible(target.x(), target.y());
+    }
 }
 
 void bookDisplayer::ShowWaitPage()
 {
     //Show wait page
-    stackedWidget->setCurrentIndex(1);
+    if (!PDFMode) stackedWidget->setCurrentIndex(0);
 }
 
 void bookDisplayer::HideWaitPage()
 {
     //Hide "wait" page and show the real page
-    stackedWidget->setCurrentIndex(0);
+    if (!PDFMode) stackedWidget->setCurrentIndex(1);
+    else stackedWidget->setCurrentIndex(2);
+}
+
+void bookDisplayer::jumpToTop()
+{
+    if (!PDFMode) htmlview->page()->mainFrame()->scrollToAnchor("Top");
+    else
+    {
+        pdfView->ensureVisible(0,0);
+    }
 }
 
 void bookDisplayer::highlight(QRegExp rx)
@@ -402,3 +457,19 @@ void bookDisplayer::disablePlugins()
 {
     htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
 }
+
+
+void bookDisplayer::setPdfMode(bool mode) { PDFMode = mode; }
+
+bool bookDisplayer::getPdfMode() { return PDFMode; }
+
+
+//PDF mode only:
+void bookDisplayer::setPdfPage(int page)
+{
+    if (page > 0 && page <= pdfView->numPages())
+    {
+        pdfView->setPage(page);
+    }
+}
+
