@@ -16,15 +16,7 @@
 
 #include "mainwindow.h"
 
-
-//libpoppler-qt4-dev
-//libfribidi-dev
-
-//TODO: Add copy w/o nikud option
-
 //TODO: Search with no result dosn't need a new tab (Msgbox?)
-
-//TODO: Make dialogs modal?
 
 //TODO: Menu entries don't go RTL. is it QT's bug?
 
@@ -39,20 +31,16 @@
 //TODO: JS function "ClosestElementToView" isn't accurate. (Maybe jump there but without the red mark?)
 
 /*
-  Roadmap for 0.03:
+  Roadmap for 0.05:
+
+  - Allow printing. (Html + Pdf) If it's really hard, html-s can become pdf-s and then printed
 
   - Improve all search stuff (including better result page. using side bar?)
   
   - Solve all book issues (wierd nikud, a few books that render incorrectly, better book names in tree)
 
   - Improve GUI. (Remove search bar? Change in and out of search icons)
-
-  - "get from hebrewbooks" option
-  
-  - PDF support
 */
-
-//TODO: Allow printing
 
 //TODO: Add date to bookmarks (somewhere), and "sort by" option?
 
@@ -65,8 +53,6 @@
 //TODO: Translatable welcome page
 //(TODO: create help page for linux version)
 //TODO: hide welcomepage from search
-
-//TODO: see if printing dialog really appears in hebrew on hebrew locals
 
 //TODO: document & clean code
 
@@ -1099,6 +1085,8 @@ void MainWindow::settingsForm()
     //Open the settings form
     Settings *settingsform = new Settings();
 
+    settingsform->setModal(true);
+
     connect (settingsform, SIGNAL(ChangeLang(QString)), this, SLOT(translate(QString)));
 
     settingsform->show();
@@ -1108,6 +1096,8 @@ void MainWindow::importForm()
 {
     //Open the import form
     importBook *ib = new importBook();
+
+    ib->setModal(true);
 
     connect(ib, SIGNAL(updateTree()), this, SLOT(updateBookTree()));
 

@@ -18,7 +18,6 @@
 
 //PDF TODOs:
 //TODO: Make sure pdf mode is safe.
-//TODO: Windows should use webkits plugin
 
 //Html TODOs:
 //Auto detection on current node in view?

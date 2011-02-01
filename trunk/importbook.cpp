@@ -37,8 +37,29 @@ importBook::~importBook()
     delete ui;
 }
 
+void importBook::on_addFolder_clicked()
+{
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::Directory);
 
-void importBook::on_addBTN_clicked()
+    dialog.setOption(QFileDialog::ShowDirsOnly, true);
+
+    QStringList dirName;
+
+    if (dialog.exec())
+    {
+        dirName = dialog.selectedFiles();
+        if (!dirName.isEmpty())
+        {
+            ui->listWidget->addItem(dirName[0]);
+            ui->cancelBTN->show();
+            ui->importBTN->show();
+        }
+    }
+}
+
+void importBook::on_addBooks_clicked()
 {
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
@@ -60,8 +81,6 @@ void importBook::on_addBTN_clicked()
     {
         ui->cancelBTN->show();
         ui->importBTN->show();
-
-        ui->addBTN->hide();
     }
 }
 
@@ -78,20 +97,31 @@ void importBook::on_cancelBTN_clicked()
 
 void importBook::on_importBTN_clicked()
 {
+    //Make sure the dir exists
+    QDir d(USERPATH + "/Books/ספרי_המשתמש") ;
+    if (!d.exists()) d.mkpath(USERPATH + "/Books/ספרי_המשתמש");
+
+    QStringList filters;
+    filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
+
+    //Copy to user's book folder
     for (int i=0; i<ui->listWidget->count(); i++)
     {
-        //Make sure the dir exists
-        QDir d(USERPATH + "/Books/ספרי_המשתמש") ;
-        if (!d.exists()) d.mkpath(USERPATH + "/Books/ספרי_המשתמש");
-
         QFileInfo f(ui->listWidget->item(i)->text());
-        QFile cf;
 
-        //Copy to user's book folder
         if (f.exists())
         {
-            //Copy the file to the user's dir
-            if (! cf.copy(f.absoluteFilePath(),USERPATH + "/Books/ספרי_המשתמש/" + f.fileName())) qDebug() << "Can't copy file" << f.absoluteFilePath();
+            //Copy whole directory
+            if(f.isDir())
+            {
+                copyFolder(f.absoluteFilePath(), USERPATH + "/Books/", filters);
+            }
+            else //Copy file
+            {
+                QFile cf;
+
+                if (! cf.copy(f.absoluteFilePath(),USERPATH + "/Books/ספרי_המשתמש/" + f.fileName())) qDebug() << "Can't copy file" << f.absoluteFilePath();
+            }
         }
     }
 
