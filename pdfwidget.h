@@ -45,8 +45,7 @@
 **
 ****************************************************************************/
 
-#ifndef PdfWidget_H
-#define PdfWidget_H
+#ifdef  POPPLER
 
 #include "functions.h"
 #include <QtGui>

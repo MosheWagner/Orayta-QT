@@ -590,6 +590,9 @@ QString simpleHtmlPage(QString title, QString contents)
     return html;
 }
 
+
+#ifdef POPPLER
+
 QString ToBidiText(QString str)
 {
     QString gbidi = "";
@@ -681,3 +684,5 @@ QString LineToBidiText(QString line)
 
     return out;
 }
+
+#endif

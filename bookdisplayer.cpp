@@ -46,9 +46,13 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     //Create new webview
     htmlview = new myWebView(this);
 
+    PDFMode = false;
+
+#ifdef POPPLER
     //Pdf viewer
     pdfView = new PdfWidget(this);
     connect (pdfView, SIGNAL(pageChanged(int,int)), MW, SLOT(updatePdfPage(int, int)));
+#endif
 
     //Connect the signalls sent from the new widgets to their slots
     QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
@@ -76,8 +80,9 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     stackedWidget->addWidget(waitView);
     stackedWidget->addWidget(htmlQWidget());
+#ifdef POPPLER
     stackedWidget->addWidget(pdfView);
-
+#endif
     stackedWidget->show();
     vbox->addWidget(stackedWidget);
 
@@ -255,6 +260,13 @@ QString bookDisplayer::activeLink()
 
 void bookDisplayer::ZoomIn()
 {
+    #ifdef POPPLER
+    if (PDFMode)
+    {
+        pdfView->setScale(pdfView->scale() + 0.1);
+    }
+    #endif
+
     if (!PDFMode)
     {
         //@@@@@@@@@
@@ -272,15 +284,21 @@ void bookDisplayer::ZoomIn()
         scrollMax = htmlview->page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
         htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
     }
-    else
-    {
-        pdfView->setScale(pdfView->scale() + 0.1);
-    }
 }
 
 void bookDisplayer::ZoomOut()
 {
-    if (!pdfView)
+    #ifdef POPPLER
+    if (PDFMode)
+    {
+        if (pdfView->scale() > 0.1)
+        {
+            pdfView->setScale(pdfView->scale() - 0.1);
+        }
+    }
+    #endif
+
+    if (!PDFMode)
     {
         if (htmlview->textSizeMultiplier() > 0.1)
         {
@@ -300,23 +318,27 @@ void bookDisplayer::ZoomOut()
             htmlview->page()->mainFrame()->setScrollBarValue(Qt::Vertical, ratio * scrollMax);
         }
     }
-    else
-    {
-        if (pdfView->scale() > 0.1)
-        {
-            pdfView->setScale(pdfView->scale() - 0.1);
-        }
-    }
 }
 
 void bookDisplayer::normalZoom()
 {
+    #ifdef POPPLER
+    if(PDFMode) pdfView->setScale(1);
+    #endif
     if (!PDFMode) htmlview->setTextSizeMultiplier(1);
-    else pdfView->setScale(1);
 }
 
 void bookDisplayer::load(QUrl url)
 { 
+#ifdef POPPLER
+    if (PDFMode)
+    {
+        pdfView->setDocument(url.toString());
+
+        HideWaitPage();
+    }
+#endif
+
     if (!PDFMode)
     {
         ShowWaitPage();
@@ -328,12 +350,6 @@ void bookDisplayer::load(QUrl url)
         htmlview->load(url);
 
         QApplication::processEvents();
-    }
-    else
-    {
-        pdfView->setDocument(url.toString());
-
-        HideWaitPage();
     }
 }
 
@@ -383,12 +399,8 @@ QString bookDisplayer::htmlSource()
 
 void bookDisplayer::searchText(QString text, bool backwards)
 {
-    if (!PDFMode)
-    {
-        if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
-        else htmlview->findText(text);
-    }
-    else
+#ifdef POPPLER
+    if (PDFMode)
     {
         QRectF location;
         if (backwards == true) location = pdfView->searchBackwards(text);
@@ -397,6 +409,13 @@ void bookDisplayer::searchText(QString text, bool backwards)
         //Force scrollarea to show the found position
         QPoint target = pdfView->matrix().mapRect(location).center().toPoint();
         pdfView->ensureVisible(target.x(), target.y());
+    }
+#endif
+
+    if (!PDFMode)
+    {
+        if (backwards == true) htmlview->findText(text, QWebPage::FindBackward);
+        else htmlview->findText(text);
     }
 }
 
@@ -415,11 +434,11 @@ void bookDisplayer::HideWaitPage()
 
 void bookDisplayer::jumpToTop()
 {
+    #ifdef POPPLER
+    if (PDFMode) pdfView->ensureVisible(0,0);
+    #endif
+
     if (!PDFMode) htmlview->page()->mainFrame()->scrollToAnchor("Top");
-    else
-    {
-        pdfView->ensureVisible(0,0);
-    }
 }
 
 void bookDisplayer::highlight(QRegExp rx)
@@ -448,28 +467,36 @@ void bookDisplayer::unhighlight()
     htmlview->findText("", QWebPage::HighlightAllOccurrences);
 }
 
-void bookDisplayer::enablePlugins()
-{
-    htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-}
 
-void bookDisplayer::disablePlugins()
-{
-    htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
-}
+#ifndef  POPPLER
 
-
-void bookDisplayer::setPdfMode(bool mode) { PDFMode = mode; }
-
-bool bookDisplayer::getPdfMode() { return PDFMode; }
-
-
-//PDF mode only:
-void bookDisplayer::setPdfPage(int page)
-{
-    if (page > 0 && page <= pdfView->numPages())
+    void bookDisplayer::enablePlugins()
     {
-        pdfView->setPage(page);
+        htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
     }
-}
+
+    void bookDisplayer::disablePlugins()
+    {
+        htmlview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
+    }
+
+    //If poppler isn't installed, pdfmode is a lie
+    bool bookDisplayer::getPdfMode() { return false; }
+#else
+
+    void bookDisplayer::setPdfMode(bool mode) { PDFMode = mode; }
+
+    bool bookDisplayer::getPdfMode() { return PDFMode; }
+
+
+    //PDF mode only:
+    void bookDisplayer::setPdfPage(int page)
+    {
+        if (page > 0 && page <= pdfView->numPages())
+        {
+            pdfView->setPage(page);
+        }
+    }
+
+#endif
 

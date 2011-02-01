@@ -88,15 +88,14 @@ public:
     void highlight(QRegExp);
     void unhighlight();
 
-    void enablePlugins();
-    void disablePlugins();
-
-
-    void setPdfMode(bool mode);
+    #ifndef  POPPLER
+        void enablePlugins();
+        void disablePlugins();
+    #else
+        void setPdfPage(int page);
+        void setPdfMode(bool mode);
+    #endif
     bool getPdfMode();
-
-    //PDF mode only:
-    void setPdfPage(int page);
 
     void jumpToTop();
 
@@ -108,7 +107,10 @@ private:
 
     //Html viewer the book is shown within
     myWebView * htmlview;
-    PdfWidget * pdfView;
+
+    #ifdef POPPLER
+        PdfWidget * pdfView;
+    #endif
 
     MainWindow * MW;
     QTabWidget * TW;

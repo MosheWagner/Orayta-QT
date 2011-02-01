@@ -16,6 +16,7 @@
 
 #include "mainwindow.h"
 
+
 //libpoppler-qt4-dev
 //libfribidi-dev
 
@@ -552,8 +553,10 @@ void MainWindow::openBook( int ind )
             if (CurrentBookdisplayer->book() != NULL)
                 CurrentBookdisplayer->book()->setTabWidget( 0 );
 
+        #ifdef POPPLER
             //Default
             CurrentBookdisplayer->setPdfMode(false);
+        #endif
 
             switch ( book->fileType() )
             {
@@ -566,10 +569,12 @@ void MainWindow::openBook( int ind )
                 break;
 
             case ( Book::Pdf ):
+    #ifdef POPPLER
                 CurrentBookdisplayer->setPdfMode(true);
                 CurrentBookdisplayer->load (QUrl(book->getPath()) );
                 ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
-                /*
+    #else
+
                 CurrentBookdisplayer->enablePlugins();
                 CurrentBookdisplayer->setHtml(pluginPage(book->getNormallDisplayName()));
                 if ( CurrentBookdisplayer->execScript("testPdfPlugin()").toString() == "yes" )
@@ -577,7 +582,7 @@ void MainWindow::openBook( int ind )
                     CurrentBookdisplayer->load( QUrl( "file:///" + book->getPath() ) );
                     ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
                 }
-                */
+    #endif
                 break;
 
             default:
@@ -920,13 +925,28 @@ void MainWindow::on_viewTab_currentChanged(int index)
 // Show/hide buttons and menus depending on the currently visible book
 void MainWindow::adjustMenus()
 {
-    if (CurrentBookdisplayer->getPdfMode() == true)
+    bool isWebkitPdf = false;
+    if (CurrentBookdisplayer->book() != NULL)
+    {
+        if (CurrentBookdisplayer->book()->getName().endsWith(".pdf", Qt::CaseInsensitive)) isWebkitPdf = true;
+    }
+
+
+    if (CurrentBookdisplayer->getPdfMode())
     {
         //Show pdf buttons:
         ui->pdfPageSpin->show();
         ui->PDFpageLBL->show();
 
         ui->locationMenu->menuAction()->setVisible(false);
+    }
+    else if(isWebkitPdf)
+    {
+        ui->locationMenu->menuAction()->setVisible(false);
+
+        //Disable poppler pdf buttons:
+        ui->pdfPageSpin->hide();
+        ui->PDFpageLBL->hide();
     }
     else
     {
@@ -943,7 +963,7 @@ void MainWindow::adjustMenus()
         ui->showNikudAction->setChecked( CurrentBookdisplayer->isNikudShown() );
         ui->showTeamimAction->setChecked( CurrentBookdisplayer->areTeamimShown() );
 
-        //Disable pdf buttons:
+        //Disable poppler pdf buttons:
         ui->pdfPageSpin->hide();
         ui->PDFpageLBL->hide();
     }
@@ -1325,6 +1345,7 @@ void MainWindow::updatePdfPage(int current, int max)
 
 void MainWindow::on_pdfPageSpin_valueChanged(int page)
 {
+#ifdef POPPLER
     if (CurrentBookdisplayer->getPdfMode())
     {
         CurrentBookdisplayer->setPdfPage(page);
@@ -1332,4 +1353,5 @@ void MainWindow::on_pdfPageSpin_valueChanged(int page)
         //Set tooltip
         ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(page) + " / " + QString::number(ui->pdfPageSpin->maximum()));
     }
+#endif
 }

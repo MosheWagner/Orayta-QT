@@ -158,6 +158,8 @@ QString AllowKtivHasser(QString& str);
 QString simpleHtmlPage(QString title, QString contents);
 QString pluginPage(QString title);
 
+#ifdef POPPLER
+
 // Returns a corrected Bidi string from the given one.
 // (Using the 'LineToBidiText' function)
 QString ToBidiText(QString str);
@@ -165,5 +167,6 @@ QString ToBidiText(QString str);
 // Returns a corrected single line Bidi string from the given one.
 // (Using fribidi's functions)
 QString LineToBidiText(QString str);
+#endif //POPPLER
 
 #endif // FUNCTIONS_H
