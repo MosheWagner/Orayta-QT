@@ -6,15 +6,22 @@ QT += webkit
 TARGET = orayta
 TEMPLATE = app
 
+!win32:CONFIG += poppler
 
-# The following are the correct include and library paths for poppler on my system (Ubuntu 10.10).
-# Modify these to refer to the directories on your system
-# that contain the poppler-qt4.h header file and [lib]poppler-qt4 library.
-INCLUDEPATH += /usr/include/poppler/qt4
-LIBS += -lpoppler-qt4
+poppler {
+    DEFINES += POPPLER
 
-#Fribidi
-LIBS += -lfribidi
+    # The following are the correct include and library paths for poppler on my system (Ubuntu 10.10).
+    # Modify these to refer to the directories on your system
+    # that contain the poppler-qt4.h header file and [lib]poppler-qt4 library.
+    INCLUDEPATH += /usr/include/poppler/qt4
+    LIBS += -lpoppler-qt4
+
+    #Fribidi
+    LIBS += -lfribidi
+}
+
+
 
 SOURCES += main.cpp \
     mainwindow.cpp \

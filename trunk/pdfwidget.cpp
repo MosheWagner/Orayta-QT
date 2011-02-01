@@ -45,9 +45,11 @@
 **
 ****************************************************************************/
 
-#include "pdfwidget.h"
-#include "functions.h"
 
+
+#ifdef  POPPLER
+
+#include "pdfwidget.h"
 
 //TODO: Document
 
@@ -340,3 +342,5 @@ void PdfWidget::setScale(qreal scale)
 }
 
 int PdfWidget::numPages() { return doc->numPages(); }
+
+#endif
