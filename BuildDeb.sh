@@ -54,7 +54,7 @@ debuild -S -k2C383923
 echo "Now you can upload your files!"
 echo "Using:"
 echo "	cd .."
-echo "	dput ppa:moshe-wagner/moshewag <source.changes>"
+echo "	dput ppa:moshe-wagner/orayta <source.changes>"
 
 #Clean up
 #make clean

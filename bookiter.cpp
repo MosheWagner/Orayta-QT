@@ -30,7 +30,7 @@ BookIter::BookIter()
 
 //Copy constructor, making this itr equivalent to the given one
 BookIter::BookIter(BookIter * other_book)
-{
+{   
     for (int i=0; i<5; i++)
     {
         this->mLevelName[i] = other_book->mLevelName[i];

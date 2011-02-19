@@ -6,7 +6,8 @@ QT += webkit
 TARGET = orayta
 TEMPLATE = app
 
-!win32:CONFIG += poppler
+
+unix:CONFIG += poppler
 
 poppler {
     DEFINES += POPPLER
