@@ -1154,7 +1154,7 @@ QString ExternalLink (QString linkcode)
 }
 
 //I have no idea how this works, it just does.
-// Many thanks to the developer of the originall program
+// Many thanks to the developer of the original program
 string Decrypt (string text, bool decrypt)
 {
     string ret;
