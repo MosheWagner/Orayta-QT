@@ -30,7 +30,7 @@
 #include <QIcon>
 #include <QTranslator>
 
-#ifndef Q_WS_WIN
+#ifdef POPPLER
     #include <fribidi/fribidi.h>
 #endif
 
