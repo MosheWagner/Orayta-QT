@@ -153,11 +153,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //Pdf buttons:
     //Improve look
+#ifdef POPPLER
     ui->btnBox->addButton((QAbstractButton *)ui->pdfPageSpin, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->PDFpageLBL, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->spaceButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_3, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_4, QDialogButtonBox::ActionRole);
+#endif
 
 
     ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
@@ -1326,7 +1328,7 @@ void buidSearchDBinBG(BookList * bl)
 }
 */
 
-
+#ifdef POPPLER
 void MainWindow::updatePdfPage(int current, int max)
 {
     ui->pdfPageSpin->setValue(current);
@@ -1336,10 +1338,8 @@ void MainWindow::updatePdfPage(int current, int max)
     ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
 }
 
-
 void MainWindow::on_pdfPageSpin_valueChanged(int page)
 {
-#ifdef POPPLER
     if (CurrentBookdisplayer->getPdfMode())
     {
         CurrentBookdisplayer->setPdfPage(page);
@@ -1347,5 +1347,5 @@ void MainWindow::on_pdfPageSpin_valueChanged(int page)
         //Set tooltip
         ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(page) + " / " + QString::number(ui->pdfPageSpin->maximum()));
     }
-#endif
 }
+#endif
