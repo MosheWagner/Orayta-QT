@@ -24,6 +24,8 @@ Not extremly important, but it isn't too complicated either.
 #ifndef MYWEBVIEW_H
 #define MYWEBVIEW_H
 
+#include <QClipboard>
+
 #include "functions.h"
 #include "mainwindow.h"
 #include "bookdisplayer.h"

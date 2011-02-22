@@ -29,7 +29,10 @@
 #include <QRegExp>
 #include <QIcon>
 #include <QTranslator>
-#include <fribidi/fribidi.h>
+
+#ifndef Q_WS_WIN
+    #include <fribidi/fribidi.h>
+#endif
 
 
 //Enum defining the color of the folder icon.
