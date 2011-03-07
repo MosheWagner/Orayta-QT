@@ -140,6 +140,9 @@ void Book::setParent(Book * parent)
 Book *  Book::getParent()
 {   return mpParent;          }
 
+vector<Book*>& Book::getChildren()
+{   return mvChildren;  }
+
 void Book::setCopyrightInfo(QString info)
 {   mCopyrightInfo = info; }
 

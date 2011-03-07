@@ -79,10 +79,10 @@ void print(QString);
 void print(int);
 
 //Returns the Gematria of the given string
-int GematriaValueOfString (QString& str);
+int GematriaValueOfString (const QString& str);
 
 //Returns the gematria of the single given hebrew char
-int GematriaOfChar(QString ch);
+inline int GematriaOfChar(const QChar ch);
 
 //Returns a hebrew string representing the given gematria value
 // You can tell it weather to add quote signs (Geresh or Gershaiim) or not
@@ -157,6 +157,7 @@ QRegExp withNikudAndTeamim( QString str );
 //QString AllowKtivMaleh(QString str);
 
 QString AllowKtivHasser(QString& str);
+
 
 QString simpleHtmlPage(QString title, QString contents);
 QString pluginPage(QString title);

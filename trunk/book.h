@@ -81,6 +81,7 @@ public:
     bool ShowAlone();
     bool ShowMixed();
     Book * getParent();
+    vector<Book*>& getChildren();
     QTreeWidgetItem * getTreeItemPtr();
     Filetype fileType();
 

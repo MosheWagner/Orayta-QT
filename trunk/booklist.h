@@ -29,6 +29,8 @@ public:
     //Return the index of the book with the given UniqueId - in the book list
     //  (Returns -1 if it doesn't exist)
     int FindBookById(int id);
+    Book* FindBookByName (QString name);
+    Book* findBookById(int id);
 
     //Return the index of the book with the given TreeWidgetItem - in the book list
     //  (Returns -1 if it doesn't exist)
@@ -44,6 +46,7 @@ public:
     void AddBookConfs(Book *book, QString filename);
 
     vector<Book*> BooksInSearch (void);
+    vector<Book*> Children ( Book* book );
 
 private:
 };

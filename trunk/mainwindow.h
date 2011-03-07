@@ -80,7 +80,6 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-
 protected:
     //Overrides the normal "closeEvent", so it can save the program's confs before quiting
     void closeEvent(QCloseEvent *event);
@@ -104,6 +103,12 @@ private:
     //Load the generated Html file of the given book into the WebView widget
     void LoadHtmlBook(Book *, QString markString = "");
 
+    //Searches for the given phrase in all books that have SearchMe as true,
+    // creates a html file with the results, and loads it a new tab (unless current tab is empty)
+    void SearchInBooks (QRegExp& regexp, QString disp);
+
+    void SearchGuematria (QString txt);
+
     //Builds the tree of books and folders in the treeWidget, based on the global book list
     void BuildBookTree();
 
@@ -125,7 +130,9 @@ private slots:
     void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
     void on_radioButton_2_toggled(bool checked);
-    void on_regexpCheckBox_stateChanged(int state);
+    void on_groupBox_toggled(bool checked);
+    void on_regexpCheckBox_toggled(bool checked);
+    void on_guematriaCheckBox_toggled(bool checked);
     void on_radioButton_3_toggled(bool checked);
 
     void on_treeTab_currentChanged(int index);
@@ -223,10 +230,6 @@ private slots:
     //Creats a new tab, including it's webView and hBox, and connects the webView's signalls to it.
     void addViewTab(bool);
 
-    //Searches for the given phrase in all books that have SearchMe as true,
-    // creates a html file with the results, and loads it a new tab (unless current tab is empty)
-    void SearchInBooks (QRegExp& regexp, QString disp);
-
     //Shows the search tab
     void showSearchTab();
 
@@ -260,6 +263,8 @@ private slots:
 
     // Show/hide buttons and menus depending on the currently visible book
     void adjustMenus();
+
+    void searchGuematria();
 };
 
 //void buidSearchDBinBG(BookList * bl);

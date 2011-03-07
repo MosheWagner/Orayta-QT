@@ -177,19 +177,20 @@ void print(int num)
 
 
 //Returns the Gematria of the given string
-int GematriaValueOfString (QString& str)
+int GematriaValueOfString (const QString& str)
 {
     int gematria = 0;
-    for(int i=0; i<str.length(); i++) gematria += GematriaOfChar(str.mid(i,1));
+    for(int i=0; i<str.length(); i++)
+        gematria += GematriaOfChar(str[i]);
 
     return gematria;
 }
 
 //Returns the gematria of the single given hebrew char
-int GematriaOfChar(QString ch)
+inline int GematriaOfChar(const QChar ch)
 {
-    QString hchars = "אבגדהוזחטיכלמנסעפצקרשת";
-    int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400};
+    QString hchars = "אבגדהוזחטיכךלמםנןסעפףצץקרשת";
+    int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,20,30,40,40,50,50,60,70,80,80,90,90,100,200,300,400};
 
     return vals[hchars.indexOf(ch)+1];
 }
@@ -621,6 +622,7 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
         copyFolder(srcName, destName, fileNameFilters);
     }
 }
+
 
 
 #ifdef POPPLER

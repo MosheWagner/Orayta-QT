@@ -304,6 +304,8 @@ void MainWindow::connectMenuActions()
 
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settingsForm()));
     connect(ui->actionImport_books, SIGNAL(triggered()), this, SLOT(importForm()));
+
+    connect(ui->actionSearchGuematria, SIGNAL(triggered()), this, SLOT(searchGuematria()));
 }
 
 MainWindow::~MainWindow()
@@ -1349,3 +1351,9 @@ void MainWindow::on_pdfPageSpin_valueChanged(int page)
     }
 }
 #endif
+
+void MainWindow::searchGuematria()
+{
+    ui->treeTab->setCurrentIndex(1);
+    ui->guematriaCheckBox->setChecked(true);
+}
