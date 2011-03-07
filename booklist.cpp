@@ -229,13 +229,37 @@ void BookList::AddBookConfs(Book *book, QString filename)
 //  (Returns -1 if it dosen't exist)
 int BookList::FindBookById(int ID)
 {
-    int index = -1;
     for(unsigned int i=0; i<size(); i++)
     {
         if((*this)[i]->getUniqueId() == ID)
-            index = i;
+            return i;
     }
-    return index;
+    return -1;
+}
+
+//Return pointer to the book with the given name - in the book list
+//  (Returns NULL if it dosen't exist)
+//  this function is unsafe, because two books can have the same name
+Book* BookList::FindBookByName (QString name)
+{
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if( (*this)[i]->getNormallDisplayName() == name )
+            return (*this)[i];
+    }
+    return NULL;
+}
+
+//Return pointer to the book with the given UniqueId - in the book list
+//  (Returns NULL if it dosen't exist)
+Book* BookList::findBookById(int id)
+{
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if((*this)[i]->getUniqueId() == id)
+            return (*this)[i];
+    }
+    return NULL;
 }
 
 //Return the index in the book list of the book with the given TreeWidgetItem
@@ -258,6 +282,31 @@ vector<Book*> BookList::BooksInSearch (void)
     for ( vector<Book*>::iterator it=this->begin() ; it < this->end(); it++ )
         if (!(*it)->IsDir() && (*it)->IsInSearch())
             ret.push_back(*it);
+
+    return ret;
+}
+
+vector<Book*> BookList::Children ( Book* book )
+{
+    vector<Book*> ret;
+
+    if ( book->IsDir() )
+    {
+        vector<Book*> children = book->getChildren();
+
+        for ( vector<Book*>::iterator it=children.begin() ; it < children.end(); ++it )
+        {
+            if ( (*it)->IsDir() )
+            {
+                vector<Book*> ch = Children( *it );
+                ret.insert( ret.end(), ch.begin(), ch.end() );
+            }
+            else
+            {
+                ret.push_back(*it);
+            }
+        }
+    }
 
     return ret;
 }

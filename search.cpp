@@ -14,6 +14,7 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
+
 #include "mainwindow.h"
 
 
@@ -82,6 +83,10 @@ void MainWindow::on_SearchInBooksBTN_clicked()
         regexp.setMinimal(true);
         SearchInBooks(regexp, tr("RegExp: ") + otxt);
     }
+    else if (ui->guematriaCheckBox->isChecked())
+    {
+        SearchGuematria (otxt);
+    }
     else
     {
         if (ui->fuzzyCheckBox->isChecked())
@@ -101,12 +106,31 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     }
 }
 
-void MainWindow::on_regexpCheckBox_stateChanged(int state)
+void MainWindow::on_groupBox_toggled(bool checked)
 {
-    if (state == Qt::Checked)
-        ui->groupBox->setEnabled (false);
-    else
-        ui->groupBox->setEnabled (true);
+    if (checked)
+    {
+        ui->guematriaCheckBox->setChecked(false);
+        ui->regexpCheckBox->setChecked (false);
+    }
+}
+
+void MainWindow::on_regexpCheckBox_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->guematriaCheckBox->setChecked(false);
+        ui->groupBox->setChecked (false);
+    }
+}
+
+void MainWindow::on_guematriaCheckBox_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->regexpCheckBox->setChecked(false);
+        ui->groupBox->setChecked (false);
+    }
 }
 
 void MainWindow::on_radioButton_2_toggled(bool checked)
@@ -320,3 +344,275 @@ void MainWindow::on_searchBackwords_clicked()
     }
 }
 
+
+
+static vector < pair <BookIter,QString> > TanachBookContent (Book* book)
+{
+    vector < pair <BookIter,QString> > ret;
+
+    //Read book's contents
+    QStringList text;
+    if (!ReadFileToList( book->getName(), text, "UTF-8", true))
+    {
+        qDebug() << "Error reading the book's text" << book->getName();
+        return ret;
+    }
+
+    BookIter itr;
+    QString line;
+
+    //If a line starts with one of these, it's a level sign
+    QString levelSigns = "!@#$^~";
+    //Any char not matchong this pattern, is no *pure* text.
+    QRegExp notText("[^ א-ת]");
+    //These are turned into spaces, and not just ignored.
+    QString spaceSigns = "[-_:.,?]";
+
+    for (int i=0; i<text.size(); i++)
+    {
+        //Level line
+        if (levelSigns.contains(text[i][0]))
+        {
+            //Update iter
+            itr.SetLevelFromLine(text[i]);
+        }
+        //Text line
+        else
+        {
+            //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+            line = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+
+            //Remove all non "pure-text" chars
+            line = line.replace(QChar(0x05BE), " "); //Makaf
+            //line = line.replace(QRegExp(spaceSigns), " ");
+            line = line.replace(notText, "");
+
+            //Remove double spaces and line breaks
+            line = line.simplified();
+
+            ret.push_back( make_pair(itr,line) );
+        }
+    }
+
+    return ret;
+}
+
+
+void MainWindow::SearchGuematria (QString txt)
+{
+/*
+    QTime t1;
+    t1.start();
+*/
+
+    QString title = "", Htmlhead = "", Html = "";
+
+    int guematria = GematriaValueOfString ( txt );
+
+    if ( guematria != 0 )
+    {
+
+        Book* tanachRoot = bookList.FindBookByName(" מקרא");
+        if (tanachRoot == NULL)
+        {
+            qDebug("tanach root not found !");
+            return;
+        }
+
+        vector<Book*> tanach = bookList.Children( tanachRoot );
+
+        //Make a new tab if the current tab has something in it
+        if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
+        {
+            addViewTab(false);
+            CurrentBookdisplayer->normalZoom();
+            CurrentBookdisplayer->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+        }
+
+        ui->pbarbox->show();
+        ui->progressBar->setValue(0);
+        float percentPerBook = (100.0 / tanach.size());
+
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer;
+        pCurrentBookdisplayer->ShowWaitPage();
+
+        //Set the title of the tab to show what it's searching for
+        title = tr("Searching guematria for: ");
+        title += "\"" + txt + "\"" + " ...";
+
+        ui->viewTab->setTabText(CURRENT_TAB, title);
+
+
+        int results = 0;
+        for (unsigned i=0; i < tanach.size() && stopSearchFlag == false; i++)
+        {
+            vector < pair <BookIter,QString> > list = TanachBookContent ( tanach[i] );
+
+            ui->progressBar->setValue( (i + 1) * percentPerBook ) ;
+
+            for (unsigned j=0; j < list.size(); j++)
+            {
+                // split the pasuk in words
+                QStringList words = list[j].second.split(" ");
+
+                // retrieve guematria for all words
+                vector<int> wordsValues = vector<int>(words.size());
+                for (int n=0; n < words.size(); n++)
+                    wordsValues[n] = GematriaValueOfString ( words[n] );
+
+                //Let the animation move...
+                QApplication::processEvents();
+
+                // search the guematria
+                int calc = wordsValues[0];
+                unsigned first = 0, last = 0;
+                while ( last < wordsValues.size() )
+                {
+                    if (calc == guematria)
+                    {
+                        results ++;
+
+                        QString occ = "";
+                        for (unsigned cmpt = first; cmpt <= last; cmpt++)
+                        {
+                            occ += words[cmpt];
+                            if (cmpt < last)
+                                occ += " ";
+                        }
+
+                        //Get the text best to show for this reult's description
+                        QString linkdisplay = tanach[i]->getNormallDisplayName() + " " + list[j].first.toHumanString();
+
+                        //Add the full result to the page
+                        Html += stringify(results) + ") ";
+                        Html += "<span style=\"font-size:20px\">";
+                        Html += "<a href=!" + stringify(tanach[i]->getUniqueId()) + ":";
+                        Html += list[j].first.toStringForLinks();
+                        Html += ":" + escapeToBase32(occ) + ">";
+                        Html += linkdisplay;
+                        Html += "</a><br></span>\n";
+                        Html += list[j].second.replace( QRegExp("(" + occ + ")"), "<span style='background-color:Yellow'>\\1</span>" );
+                        Html += "<br><br>\n";
+
+                        //qDebug(occ.toStdString().c_str());
+
+                        first++;
+                        last = first;
+                        if (last < wordsValues.size())
+                            calc = wordsValues[first];
+                    }
+
+                    while (calc < guematria)
+                    {
+                        last++;
+                        if (last < wordsValues.size())
+                            calc += wordsValues[last];
+                        else
+                            break;
+                    }
+                    while (calc > guematria)
+                    {
+                        calc -= wordsValues[first];
+                        first++;
+                    }
+                }
+/*
+
+            for (unsigned j=0; j < list.size(); j++)
+            {
+                QStringList words = list[j].second.split(" ");
+
+                vector<int> wordsValues = vector<int>(words.size());
+                for (unsigned n=0; n < words.size(); n++)
+                    wordsValues[n] = GematriaValueOfString ( words[n] );
+
+                //Let the animation move...
+                QApplication::processEvents();
+
+                for (unsigned n=0; n < wordsValues.size(); n++)
+                {
+                    int calc = 0;
+                    for (unsigned k = n; k < wordsValues.size() && calc < guematria; k++)
+                    {
+                        calc += wordsValues[k];
+                        if (calc == guematria)
+                        {
+                            results ++;
+
+                            QString occ = "";
+                            for (unsigned cmpt = n; cmpt <= k; cmpt++)
+                            {
+                                occ += words[cmpt];
+                                if (cmpt < k)
+                                    occ += " ";
+                            }
+
+                            //Get the text best to show for this reult's description
+                            QString linkdisplay = tanach[i]->getNormallDisplayName() + " " + list[j].first.toHumanString();
+
+                            //Add the full result to the page
+                            Html += "<span style=\"font-size:23px\">";
+                            Html += "<a name=\"" + stringify(results) + "\"></a>";
+
+                            Html += "<a href=!" + stringify(tanach[i]->getUniqueId()) + ":";
+                            Html += list[j].first.toStringForLinks();
+                            Html += ":" + escapeToBase32(occ) + ">";
+
+                            Html += linkdisplay;
+                            Html += "</a><br></span>\n";
+
+                            Html += markText (list[j].second, occ) + "<br><br>\n";
+
+                            //qDebug(occ.toStdString().c_str());
+
+                            break;
+                        }
+                    }
+                }
+*/
+            }
+        }
+
+        //Head and title of the Html
+        title = tr("Search results for guematria : ") + "\"" + txt + "\"";
+        title += " (" + stringify(guematria) + ")";
+
+        Htmlhead = html_head(title);
+        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
+        Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
+        Htmlhead += title + ":" + "</center></i></b></div><BR>";
+        Htmlhead += "\n<span style=\"font-size:17px\">";
+
+        if (stopSearchFlag == true)
+        {
+            Htmlhead += "<BR><BR>" + tr("(Search stopped by user)") + "<BR><BR>";
+            stopSearchFlag = false;
+        }
+
+        if(results == 0)
+        {
+            Htmlhead +="<br><br>"; Htmlhead += tr("No guematria results found:"); Htmlhead += "\"" + txt + "\"";
+            Htmlhead += "</b><br>";
+        }
+        else
+        {
+            Htmlhead += "<b>"; Htmlhead += tr("Result list: ");
+            Htmlhead += "</b> "+ QString::number(results) + tr(" results founds.") + "<br><br>";
+        }
+
+        Html = Htmlhead + Html;
+
+        Html += "</span></div>\n";
+        Html += "\n</body>\n</html>";
+
+        /*
+                qDebug("elapsed : %d ms", t1.elapsed());
+        */
+
+        writetofile(TMPPATH + "Guematria" + ".html", Html, "UTF-8");
+
+        pCurrentBookdisplayer->load(QUrl(TMPPATH + "Guematria" + ".html"));
+
+        ui->pbarbox->hide();
+    }
+}
