@@ -125,7 +125,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
         <location filename="mainwindow.cpp" line="1342"/>
         <location filename="mainwindow.cpp" line="1352"/>
         <source>Page: </source>
-        <translation type="unfinished"></translation>
+        <translation>Page: </translation>
     </message>
     <message>
         <source>Add bookmark here...</source>
@@ -172,28 +172,28 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="search.cpp" line="440"/>
         <source>Searching guematria for: </source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche la guematria de: </translation>
     </message>
     <message>
         <location filename="search.cpp" line="577"/>
         <source>Search results for guematria : </source>
-        <translation type="unfinished"></translation>
+        <translation>Résultats pour la quematria de : </translation>
     </message>
     <message>
         <location filename="search.cpp" line="594"/>
         <source>No guematria results found:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune guematria trouvée:</translation>
     </message>
     <message>
         <location filename="search.cpp" line="599"/>
         <source>Result list: </source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des résultats: </translation>
     </message>
     <message>
         <location filename="search.cpp" line="600"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>résultats trouvés.</translation>
     </message>
     <message>
         <source>No serach results found:</source>
@@ -293,12 +293,12 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="662"/>
         <source>Pdf page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pdf page:</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="821"/>
         <source>Search in current books</source>
-        <translation type="unfinished"></translation>
+        <translation>Cherche dans ce livre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1051"/>
@@ -427,17 +427,17 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="1341"/>
         <source>Find exact string</source>
-        <translation type="unfinished">Cette expression exacte</translation>
+        <translation>Cette expression exacte</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1440"/>
         <source>Regular expression search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher une regex</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1455"/>
         <source>Guematria search (tanach only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher une guematria (tanach uniquement)</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1821"/>
@@ -577,17 +577,17 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="mainwindow.ui" line="2098"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Préférences</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2107"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2116"/>
         <source>Search guematria</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher une guematria</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -639,7 +639,7 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="pdfwidget.cpp" line="74"/>
         <source>Copy text</source>
-        <translation type="unfinished">Copier le texte</translation>
+        <translation>Copier le texte</translation>
     </message>
 </context>
 <context>
@@ -682,57 +682,57 @@ Verifiez votre installation, ou contactez le devloppeur.</translation>
     <message>
         <location filename="settings.ui" line="14"/>
         <source>Orayta settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Réglages Orayta</translation>
     </message>
     <message>
         <location filename="settings.ui" line="24"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Police</translation>
     </message>
     <message>
         <location filename="settings.ui" line="36"/>
         <source>Default font:</source>
-        <translation type="unfinished">Police par défaut:</translation>
+        <translation>Police par défaut:</translation>
     </message>
     <message>
         <location filename="settings.ui" line="46"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="settings.ui" line="76"/>
         <source>Base font size:</source>
-        <translation type="unfinished">Taille de la police par défaut:</translation>
+        <translation>Taille de la police par défaut:</translation>
     </message>
     <message>
         <location filename="settings.ui" line="99"/>
         <source>Font preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prévisualisation:</translation>
     </message>
     <message>
         <location filename="settings.ui" line="114"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
-        <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
+        <translation>(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
         <location filename="settings.ui" line="254"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="settings.ui" line="285"/>
         <source>(Font confs will apply as of next book)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
         <location filename="settings.ui" line="296"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="settings.ui" line="316"/>
         <source>Custom language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langage</translation>
     </message>
     <message>
         <location filename="settings.ui" line="325"/>
@@ -746,17 +746,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="settings.ui" line="345"/>
         <source>Use system language</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la langue du système</translation>
     </message>
     <message>
         <location filename="settings.ui" line="380"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="settings.ui" line="400"/>
         <source>Save settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder</translation>
     </message>
 </context>
 <context>
@@ -848,12 +848,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="importbook.ui" line="14"/>
         <source>Import books</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer des livres</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="26"/>
         <source>Books to import:</source>
-        <translation type="unfinished"></translation>
+        <translation>Livres à importer:</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="32"/>
@@ -867,27 +867,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="importbook.ui" line="76"/>
         <source>Add folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un dossier</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="83"/>
         <source>Add books</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter des fichiers</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="106"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="126"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer</translation>
     </message>
     <message>
         <location filename="importbook.cpp" line="67"/>
         <source>Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers html(*.htm *.html);;Fichiers texte(*.txt);;Fichiers pdf(*.pdf)</translation>
     </message>
 </context>
 <context>
@@ -895,7 +895,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mywebview.cpp" line="31"/>
         <source>Copy text only</source>
-        <translation type="unfinished"></translation>
+        <translation>Coiper le texte uniquement</translation>
     </message>
     <message>
         <location filename="mywebview.cpp" line="71"/>
