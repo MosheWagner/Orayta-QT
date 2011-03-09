@@ -19,8 +19,11 @@
 
 #include "functions.h"
 #include "bookiter.h"
+#include "guematria.h"
+
 #include <QtGui/QTreeWidgetItem>
 #include <QDebug>
+#include <vector>
 
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
@@ -165,6 +168,13 @@ public:
    // QString mPureText;
 
     QString pureText;
+
+    vector <GuematriaDb> guematriaDb;
+    bool guematriaDbExists;
+
+    void BuildGuematriaDb ();
+    const vector <GuematriaDb>& getGuematriaDb();
+
 protected:
     BookIter itrFromOffset(QString posString);
 

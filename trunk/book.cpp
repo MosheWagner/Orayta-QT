@@ -66,6 +66,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
 
     mTabWidget = 0;
     //pureText = "";
+    guematriaDbExists = false;
 }
 
 Book::~Book()
