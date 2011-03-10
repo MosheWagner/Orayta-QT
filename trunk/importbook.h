@@ -39,6 +39,7 @@ private slots:
     void on_addFolder_clicked();
     void on_importBTN_clicked();
     void on_cancelBTN_clicked();
+    void on_deleteButton_clicked();
     void on_label_2_linkActivated(QString link);
 
 signals:
