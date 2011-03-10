@@ -388,12 +388,13 @@ void MainWindow::SearchGuematria (QString txt)
 
         ui->viewTab->setTabText(CURRENT_TAB, title);
 
-        int results = 0;
+        int results = 0, nbBooksInSearch = 0;
         for (unsigned i=0; i < tanach.size() && stopSearchFlag == false; i++)
         {
             if (tanach[i]->IsInSearch() == false)
                 continue;
 
+            nbBooksInSearch++;
             vector <GuematriaDb> bookGuematriaDb = tanach[i]->getGuematriaDb();
 
             ui->progressBar->setValue( (i + 1) * percentPerBook ) ;
@@ -471,14 +472,23 @@ void MainWindow::SearchGuematria (QString txt)
             stopSearchFlag = false;
         }
 
-        if(results == 0)
+        if (nbBooksInSearch == 0)
         {
-            Htmlhead +="<br><br>"; Htmlhead += tr("No guematria results found:"); Htmlhead += "\"" + txt + "\"";
+            Htmlhead +="<br><br><center><b>";
+            Htmlhead += tr("Any tanach books selected : please select books in tanach and search again.");
+            Htmlhead += "</b></center><br>";
+        }
+        else if(results == 0)
+        {
+            Htmlhead +="<br><b>";
+            Htmlhead += tr("No guematria results found:");
+            Htmlhead += "\"" + txt + "\"";
             Htmlhead += "</b><br>";
         }
         else
         {
-            Htmlhead += "<b>"; Htmlhead += tr("Result list: ");
+            Htmlhead += "<b>";
+            Htmlhead += tr("Result list: ");
             Htmlhead += "</b> "+ QString::number(results) + tr(" results founds.") + "<br><br>";
         }
 

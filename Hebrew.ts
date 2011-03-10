@@ -107,17 +107,17 @@
         <location filename="mainwindow.cpp" line="622"/>
         <location filename="mainwindow.cpp" line="624"/>
         <location filename="mainwindow.cpp" line="629"/>
-        <location filename="mainwindow.cpp" line="1216"/>
-        <location filename="search.cpp" line="177"/>
-        <location filename="search.cpp" line="181"/>
+        <location filename="mainwindow.cpp" line="1214"/>
+        <location filename="search.cpp" line="178"/>
         <location filename="search.cpp" line="182"/>
-        <location filename="search.cpp" line="425"/>
-        <location filename="search.cpp" line="429"/>
+        <location filename="search.cpp" line="183"/>
+        <location filename="search.cpp" line="371"/>
+        <location filename="search.cpp" line="375"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1131"/>
+        <location filename="mainwindow.cpp" line="1129"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>לא נמצאו ספרים מותקנים! 
@@ -134,8 +134,8 @@ Check your installation, or contact the developer.</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1342"/>
-        <location filename="mainwindow.cpp" line="1352"/>
+        <location filename="mainwindow.cpp" line="1340"/>
+        <location filename="mainwindow.cpp" line="1350"/>
         <source>Page: </source>
         <translation>עמוד: </translation>
     </message>
@@ -156,53 +156,58 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">מחק הערה</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="84"/>
+        <location filename="search.cpp" line="85"/>
         <source>RegExp: </source>
         <translation>ביטוי רגולרי:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="189"/>
+        <location filename="search.cpp" line="190"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="193"/>
+        <location filename="search.cpp" line="194"/>
         <source>Search results: </source>
         <translation>תוצאות חיפוש :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="258"/>
-        <location filename="search.cpp" line="588"/>
+        <location filename="search.cpp" line="259"/>
+        <location filename="search.cpp" line="471"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="265"/>
+        <location filename="search.cpp" line="266"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="440"/>
+        <location filename="search.cpp" line="386"/>
         <source>Searching guematria for: </source>
         <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="577"/>
+        <location filename="search.cpp" line="460"/>
         <source>Search results for guematria : </source>
         <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="594"/>
+        <location filename="search.cpp" line="478"/>
+        <source>Any tanach books selected : please select books in tanach and search again.</source>
+        <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש</translation>
+    </message>
+    <message>
+        <location filename="search.cpp" line="484"/>
         <source>No guematria results found:</source>
         <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="599"/>
+        <location filename="search.cpp" line="491"/>
         <source>Result list: </source>
         <translation>רשימת תוצאות: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="600"/>
+        <location filename="search.cpp" line="492"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation> תוצאות נמצאו.</translation>
@@ -212,12 +217,12 @@ Check your installation, or contact the developer.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="270"/>
+        <location filename="search.cpp" line="271"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="281"/>
+        <location filename="search.cpp" line="282"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
@@ -243,7 +248,7 @@ Check your installation, or contact the developer.</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1185"/>
+        <location filename="mainwindow.cpp" line="1183"/>
         <source>Orayta - Jewish books</source>
         <translation>אורייתא - ספרי קודש</translation>
     </message>
@@ -478,12 +483,12 @@ Check your installation, or contact the developer.</source>
     <message>
         <location filename="mainwindow.ui" line="1440"/>
         <source>Regular expression search</source>
-        <translation>חפש ביטוי רגולרי</translation>
+        <translation>חיפוש ביטוי רגולרי</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1455"/>
         <source>Guematria search (tanach only)</source>
-        <translation type="unfinished">חפש גימטריא - תנ&quot;ך בלבד</translation>
+        <translation>חיפוש גימטריא - תנ&quot;ך בלבד</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1639"/>
@@ -903,33 +908,43 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Imoported books will be copied to the user&apos;s book folder. In order to import the books for all users, see &amp;quot;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/orayta/wiki/AddingNewBooks&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Installing new books&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; In Orayt&apos;a wiki.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Imported books will be copied to the user&apos;s book folder. In order to import the books for all users, see &amp;quot;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/orayta/wiki/AddingNewBooks&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Installing new books&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; In Orayt&apos;a wiki.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Imoported books will be copied to the user&apos;s book folder. In order to import the books for all users, see &amp;quot;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/orayta/wiki/AddingNewBooks&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Installing new books&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; In Orayt&apos;a wiki.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="76"/>
+        <location filename="importbook.ui" line="79"/>
+        <source>Delete</source>
+        <translation>הסר</translation>
+    </message>
+    <message>
+        <location filename="importbook.ui" line="86"/>
         <source>Add folder</source>
         <translation>הוסף תיקיה</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="83"/>
+        <location filename="importbook.ui" line="93"/>
         <source>Add books</source>
         <translation>הוסף ספרים</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="106"/>
+        <location filename="importbook.ui" line="116"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="126"/>
+        <location filename="importbook.ui" line="136"/>
         <source>Import</source>
         <translation>יבוא</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="67"/>
-        <source>Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
-        <translation></translation>
+        <location filename="importbook.cpp" line="69"/>
+        <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
