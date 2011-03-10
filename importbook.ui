@@ -71,6 +71,16 @@ p, li { white-space: pre-wrap; }
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="deleteButton">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="addFolder">
           <property name="text">
            <string>Add folder</string>

@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     search.cpp \
     settings.cpp \
     importbook.cpp \
-    pdfwidget.cpp
+    pdfwidget.cpp \
+    guematria.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -60,7 +61,8 @@ HEADERS += htmlgen.h \
     bookdisplayer.h \
     settings.h \
     importbook.h \
-    pdfwidget.h
+    pdfwidget.h \
+    guematria.h
 FORMS += \
     mainwindow.ui \
     addcomment.ui \

@@ -27,9 +27,10 @@ importBook::importBook(QWidget *parent) : QDialog(parent), ui(new Ui::importBook
 {
     ui->setupUi(this);
 
-
+    ui->listWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
     ui->cancelBTN->hide();
     ui->importBTN->hide();
+    ui->deleteButton->hide();
 }
 
 importBook::~importBook()
@@ -55,6 +56,7 @@ void importBook::on_addFolder_clicked()
             ui->listWidget->addItem(dirName[0]);
             ui->cancelBTN->show();
             ui->importBTN->show();
+            ui->deleteButton->show();
         }
     }
 }
@@ -64,7 +66,7 @@ void importBook::on_addBooks_clicked()
     QFileDialog dialog(this);
     dialog.setDirectory(QDir::homePath());
     dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)"));
+    dialog.setNameFilter(tr("All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)"));
     QStringList fileNames;
 
     if (dialog.exec())
@@ -81,7 +83,20 @@ void importBook::on_addBooks_clicked()
     {
         ui->cancelBTN->show();
         ui->importBTN->show();
+        ui->deleteButton->show();
     }
+}
+
+void importBook::on_deleteButton_clicked()
+{
+    QList<QListWidgetItem *> selected_items = ui->listWidget->selectedItems();
+    for (int i=0; i < selected_items.size(); i++)
+    {
+        delete selected_items[i];
+    }
+
+    if ( ui->listWidget->count() == 0 )
+        ui->deleteButton->hide();
 }
 
 void importBook::on_label_2_linkActivated(QString link)
