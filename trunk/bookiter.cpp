@@ -191,9 +191,7 @@ QString BookIter::toHumanString()
     for (i=relevantValues.size()-1; i>= 0 ; i--)
         str += relevantValues[i] + " ";
 
-    for (i=0; i<str.size(); i++)
-        if (str[i] == '-')
-            str[i] = ' ';
+    str = str.replace('-',' ');
 
     str = RemoveBrackets(str);
 
@@ -211,14 +209,22 @@ QString BookIter::toGmaraString()
 
     unsigned int i;
     //Find lowest level with value
-    for (i=0; !mLevelName[i].contains("דף "); i++) ;
+    for (i=0; mLevelName[i] == "" && i < 5; i++);
 
     int p = mLevelName[i].indexOf("דף ");
-    str = mLevelName[i].mid(p+3);
-    splittotwo(str, tmp, "-");
 
-    daf = GematriaValueOfString(tmp[0]) * 2;
-    amud = GematriaValueOfString(tmp[1]) - 1;
+    if (p != -1)
+    {
+        str = mLevelName[i].mid(p+3);
+        splittotwo(str, tmp, "-");
 
-    return GmaraPage( daf + amud );
+        daf = GematriaValueOfString(tmp[0]) * 2;
+        amud = GematriaValueOfString(tmp[1]) - 1;
+
+        return GmaraPage( daf + amud );
+    }
+    else
+    {
+        return mLevelName[i];
+    }
 }
