@@ -76,15 +76,8 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     QString stxt = otxt;
     QRegExp regexp;
 
-    //Search as regexp entered
-    if (ui->regexpCheckBox->isChecked())
-    {
-        //Prevent greedy searches by mistake
-        regexp = QRegExp(stxt);
-        regexp.setMinimal(true);
-        SearchInBooks(regexp, tr("RegExp: ") + otxt);
-    }
-    else if (ui->guematriaCheckBox->isChecked())
+
+    if (ui->guematriaCheckBox->isChecked())
     {
         SearchGuematria (otxt);
     }
@@ -112,16 +105,6 @@ void MainWindow::on_groupBox_toggled(bool checked)
     if (checked)
     {
         ui->guematriaCheckBox->setChecked(false);
-        ui->regexpCheckBox->setChecked (false);
-    }
-}
-
-void MainWindow::on_regexpCheckBox_toggled(bool checked)
-{
-    if (checked)
-    {
-        ui->guematriaCheckBox->setChecked(false);
-        ui->groupBox->setChecked (false);
     }
 }
 
@@ -129,7 +112,6 @@ void MainWindow::on_guematriaCheckBox_toggled(bool checked)
 {
     if (checked)
     {
-        ui->regexpCheckBox->setChecked(false);
         ui->groupBox->setChecked (false);
     }
 }

@@ -16,6 +16,8 @@
 
 #include "mainwindow.h"
 
+//TODO: Search in html files too
+
 //TODO: Added books should have a "remove" option in the context menu.
 //TODO: All books should have a "book settings" option via the menu too.
 //TODO: Add the book settings whatever (dialog ?)
