@@ -313,3 +313,15 @@ void MainWindow::menuBookMark()
     bookMarkPosition( link );
 }
 
+void MainWindow::on_addBookMark_clicked()
+{
+    QString link = CurrentBookdisplayer->activeLink().replace("$","");
+
+    //Find book's id and add it to the link
+    int id = CurrentBookdisplayer->book()->getUniqueId();
+    link = stringify(id) + ":" + link;
+
+    if (id != -1) addBookMark(link, ui->bookmarkTitleLine->text());
+
+    ui->bookmarkTitleLine->clear();
+}
