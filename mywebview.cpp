@@ -16,6 +16,8 @@
 
 #include "mywebview.h"
 
+#include <QClipboard>
+
 myWebView::myWebView(QWidget * parent)
 {
     setParent(parent);
