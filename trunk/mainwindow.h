@@ -125,9 +125,9 @@ private slots:
 
     //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
 #ifdef POPPLER
-    void on_addBookMark_clicked();
     void on_pdfPageSpin_valueChanged(int );
 #endif
+    void on_addBookMark_clicked();
     void on_cancelSearchBTN_clicked();
     void on_SearchInBooksBTN_clicked();
     void on_radioButton_2_toggled(bool checked);
