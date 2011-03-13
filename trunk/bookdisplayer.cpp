@@ -76,9 +76,8 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 
     stackedWidget = new QStackedWidget(this);
 
-
     stackedWidget->addWidget(waitView);
-    stackedWidget->addWidget(htmlQWidget());
+    stackedWidget->addWidget(htmlview);
 #ifdef POPPLER
     stackedWidget->addWidget(pdfView);
 #endif
@@ -359,7 +358,8 @@ void bookDisplayer::setInternalLocation(QString location)
 
 QString bookDisplayer::title()
 {
-    if (!PDFMode) return htmlview->title();
+    if (!PDFMode)
+        return htmlview->title();
 }
 
 bool bookDisplayer::isNikudShown() { return shownikud; }

@@ -114,7 +114,8 @@ void importBook::on_importBTN_clicked()
 {
     //Make sure the dir exists
     QDir d(USERPATH + "/Books/ספרי_המשתמש") ;
-    if (!d.exists()) d.mkpath(USERPATH + "/Books/ספרי_המשתמש");
+    if ( !d.exists() )
+        d.mkpath(USERPATH + "/Books/ספרי_המשתמש");
 
     QStringList filters;
     filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
@@ -122,20 +123,21 @@ void importBook::on_importBTN_clicked()
     //Copy to user's book folder
     for (int i=0; i<ui->listWidget->count(); i++)
     {
-        QFileInfo f(ui->listWidget->item(i)->text());
+        QFileInfo f( ui->listWidget->item(i)->text() );
 
-        if (f.exists())
+        if ( f.exists() )
         {
             //Copy whole directory
-            if(f.isDir())
+            if( f.isDir() )
             {
-                copyFolder(f.absoluteFilePath(), USERPATH + "/Books/", filters);
+                copyFolder( f.absoluteFilePath(), USERPATH + "/Books/" + f.fileName(), filters);
             }
             else //Copy file
             {
                 QFile cf;
 
-                if (! cf.copy(f.absoluteFilePath(),USERPATH + "/Books/ספרי_המשתמש/" + f.fileName())) qDebug() << "Can't copy file" << f.absoluteFilePath();
+                if ( !cf.copy(f.absoluteFilePath(),USERPATH + "/Books/ספרי_המשתמש/" + f.fileName()) )
+                    qDebug() << "Can't copy file" << f.absoluteFilePath();
             }
         }
     }

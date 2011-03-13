@@ -471,7 +471,7 @@ void MainWindow::BuildBookTree()
                 splittotwo(bookList[i]->getName(), name_parts, "_");
                 dn = name_parts[1];
             }
-            dn = dn.replace("שס", "ש\"ס");
+            dn.replace("שס", "ש\"ס");
             twi->setText(0, dn);
 
             //set the icon:
