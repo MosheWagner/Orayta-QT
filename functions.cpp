@@ -596,8 +596,9 @@ QString simpleHtmlPage(QString title, QString contents)
 void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFilters)
 {
     QDir sourceDir(sourceFolder);
-    if(!sourceDir.exists())
+    if( !sourceDir.exists() )
         return;
+
     QDir destDir(destFolder);
     if(!destDir.exists())
     {
@@ -611,8 +612,10 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
     {
         QString srcName = sourceFolder + "/" + files[i];
         QString destName = destFolder + "/" + files[i];
-        if (!QFile::copy(srcName, destName)) qDebug() << "Couldn't copy file: " << srcName;
+        if (!QFile::copy(srcName, destName))
+            qDebug() << "Couldn't copy file: " << srcName;
     }
+
     files.clear();
     files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for(int i = 0; i< files.count(); i++)

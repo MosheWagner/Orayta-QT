@@ -99,26 +99,19 @@ void BookIter::ZeroLevel(int level)
 QString BookIter::toStringForLinks(int from_level)
 {
     int lastlevel = 100;
-    vector<QString> relevantValues;
-    QString str="";
+    QStringList relevantValues;
 
     //Find all continuous level values, starting from the given level (-1 because the array is 1 lower) or 0.
 
     //Find all values of continuous levels , starting from 0
-    int i;
-    for (i=0; i<5; i++)
+    for (int i=0; i<5; i++)
     {
         if( mLevelName[i] != "")
         {
-            if (relevantValues.size() == 0)
+            if ( (relevantValues.size() == 0) || (i - lastlevel == 1) )
             {
                 lastlevel = i;
-                relevantValues.push_back(mLevelName[i]);
-            }
-            else if ( i - lastlevel == 1)
-            {
-                lastlevel = i;
-                relevantValues.push_back(mLevelName[i]);
+                relevantValues.prepend( mLevelName[i] );
             }
         }
     }
@@ -130,34 +123,21 @@ QString BookIter::toStringForLinks(int from_level)
         relevantValues.clear();
         lastlevel = 100;
 
-        for (i = from_level-1; i<5; i++)
+        for (int i = from_level-1; i<5; i++)
         {
             if( mLevelName[i] != "")
             {
-                if (relevantValues.size() == 0)
+                if ( (relevantValues.size() == 0) || (i - lastlevel == 1) )
                 {
                     lastlevel = i;
-                    relevantValues.push_back(mLevelName[i]);
-                }
-                else if ( i - lastlevel == 1)
-                {
-                    lastlevel = i;
-                    relevantValues.push_back(mLevelName[i]);
+                    relevantValues.prepend( mLevelName[i] );
                 }
             }
         }
     }
 
-    //Join all relevant values:
-    for (i=relevantValues.size()-1; i>= 0 ; i--)
-    {
-        //But first make thier spaces into '_':
-        for (int j=0; j<relevantValues[i].size(); j++)
-            if (relevantValues[i][j] == ' ')
-                relevantValues[i][j] = '_';
-
-        str += relevantValues[i] + "-";
-    }
+    //Join all relevant values, and make thier spaces into '_':
+    QString str = relevantValues.join("-").replace(' ','_');
 
     //Escape the position so it has no hebrew letters, because QT can't deal with hebrew links (!)
     return escapeToBase32(removeSigns(str));
@@ -166,32 +146,22 @@ QString BookIter::toStringForLinks(int from_level)
 QString BookIter::toHumanString()
 {
     int lastlevel = 100;
-    vector<QString> relevantValues;
-    QString str="";
+    QStringList relevantValues;
 
     //Find all continuous level values, starting from the lowest
-    int i;
-    for (i=0; i<5; i++)
+    for (int i=0; i<5; i++)
     {
         if( (mLevelName[i] != "") && (mLevelName[i] != "0") )
         {
-            if (relevantValues.size() == 0)
+            if ( (relevantValues.size() == 0) || (i - lastlevel == 1) )
             {
                 lastlevel = i;
-                relevantValues.push_back(mLevelName[i]);
-            }
-            else if ( i - lastlevel == 1)
-            {
-                lastlevel = i;
-                relevantValues.push_back(mLevelName[i]);
+                relevantValues.prepend( mLevelName[i] );
             }
         }
     }
 
-    for (i=relevantValues.size()-1; i>= 0 ; i--)
-        str += relevantValues[i] + " ";
-
-    str = str.replace('-',' ');
+    QString str = relevantValues.join(" ").replace('-',' ');
 
     str = RemoveBrackets(str);
 
@@ -205,26 +175,23 @@ QString BookIter::toGmaraString()
     QString str;
     vector <QString> tmp;
 
-    int daf, amud;
-
     unsigned int i;
     //Find lowest level with value
-    for (i=0; mLevelName[i] == "" && i < 5; i++);
+    for (i=0; !mLevelName[i].contains("דף ") && i < 5; i++);
 
-    int p = mLevelName[i].indexOf("דף ");
-
-    if (p != -1)
+    if (i < 5)
     {
+        int p = mLevelName[i].indexOf("דף ");
         str = mLevelName[i].mid(p+3);
         splittotwo(str, tmp, "-");
 
-        daf = GematriaValueOfString(tmp[0]) * 2;
-        amud = GematriaValueOfString(tmp[1]) - 1;
+        int daf = GematriaValueOfString(tmp[0]) * 2;
+        int amud = GematriaValueOfString(tmp[1]) - 1;
 
         return GmaraPage( daf + amud );
     }
     else
     {
-        return mLevelName[i];
+        return toHumanString();
     }
 }

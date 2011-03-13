@@ -8,7 +8,6 @@ void Book::BuildGuematriaDb()
         return;
 
     GuematriaDb current;
-    QString line;
 
     //Read book's contents
     QStringList text;
@@ -37,16 +36,15 @@ void Book::BuildGuematriaDb()
         else
         {
             //Turn קרי וכתיב into only קרי. Maybe this should be an option?
-            line = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+            text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
 
             //Remove all non "pure-text" chars
-            line = line.replace(QChar(0x05BE), " "); //Makaf
-            line = line.replace(notText, "");
+            text[i].replace(QChar(0x05BE), " "); //Makaf
+            text[i].replace(notText, "");
 
             //Remove double spaces and line breaks
-            line = line.simplified();
-
-            current.words = line.split(' ');
+            //and split in words
+            current.words = text[i].simplified().split(' ');
 
             current.values.resize( current.words.size() );
             for (int n=0; n < current.words.size(); n++)

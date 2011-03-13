@@ -1114,20 +1114,9 @@ QString ExternalLink (QString linkcode)
     //if (ShouldBePrintedOnNewLine)
     //    Html += "<BR>\n";
 
-    vector<int> inlinks;
-    split_up.clear();
 
-    split_up = BookInternalLabel.split("-");
-
-    //TODO: use removebrackets function
-    QString  linkto = "";
-    for (int i=0; i<split_up.size(); i++)
-    {
-        //Eliminate spaces
-        linkto += split_up[i].replace(' ','_') + "-";
-    }
-
-
+    // Eliminate spaces
+    QString  linkto = BookInternalLabel.replace(' ','_');
     //Escape the hebrew chars
     linkto = escapeToBase32(linkto);
 

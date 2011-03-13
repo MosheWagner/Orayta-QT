@@ -747,17 +747,17 @@ void Book::BuildSearchTextDB()
             if ( mPath.contains("מקרא") )
             {
                 //Turn קרי וכתיב into only קרי. Maybe this should be an option?
-                text[i] = text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+                text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
             }
 
             //Remove html tags
-            text[i] = text[i].replace( QRegExp("<[^>]*>"), "" );
+            text[i].replace( QRegExp("<[^>]*>"), "" );
 
             //Remove all non "pure-text" chars
-            text[i] = text[i].replace(QChar(0x05BE), " "); //Makaf
-            text[i] = text[i].replace(QRegExp(spaceSigns), " ");
-            text[i] = text[i].replace("{", "(").replace("}",")");
-            text[i] = text[i].replace(notText, "");
+            text[i].replace(QChar(0x05BE), " "); //Makaf
+            text[i].replace(QRegExp(spaceSigns), " ");
+            text[i].replace("{", "(").replace("}",")");
+            text[i].replace(notText, "");
 
             //Remove double spaces and line breaks
             pureText += text[i].simplified() + " ";
