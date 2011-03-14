@@ -204,7 +204,7 @@ private slots:
     void menuErrorReport();
 
     void on_treeWidget_customContextMenuRequested(QPoint pos);
-    void on_searchBackwords_clicked();
+    void on_searchBackward_clicked();
     void on_searchForward_clicked();
     void on_topButton_clicked();
     void on_lineEdit_returnPressed();
