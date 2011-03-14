@@ -261,7 +261,7 @@ void bookDisplayer::ZoomIn()
     #ifdef POPPLER
     if (PDFMode)
     {
-        pdfView->setScale(pdfView->scale() + 0.1);
+        pdfView->setScale(pdfView->scale() * 1.2);
     }
     #endif
 
@@ -291,7 +291,7 @@ void bookDisplayer::ZoomOut()
     {
         if (pdfView->scale() > 0.1)
         {
-            pdfView->setScale(pdfView->scale() - 0.1);
+            pdfView->setScale(pdfView->scale() * 0.8);
         }
     }
     #endif
@@ -384,6 +384,11 @@ QWidget * bookDisplayer::htmlQWidget()
 myWebView * bookDisplayer::webview()
 {
     return htmlview;
+}
+
+PdfWidget * bookDisplayer::pdfview()
+{
+    return pdfView;
 }
 
 QString bookDisplayer::pageText()
