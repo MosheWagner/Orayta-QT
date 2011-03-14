@@ -152,23 +152,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
+    //Corner Widget : contain standard buttons & pdf buttons
+    QWidget* cornerWidget = new QWidget;
+    QHBoxLayout* cornerWidgetLayout = new QHBoxLayout;
+    cornerWidgetLayout->setContentsMargins(2,0,2,0);
 
-    //Pdf buttons:
-    //Improve look
 #ifdef POPPLER
-    ui->btnBox->addButton((QAbstractButton *)ui->pdfPageSpin, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->PDFpageLBL, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_3, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->spaceButton_4, QDialogButtonBox::ActionRole);
+    //Pdf buttons:
+    cornerWidgetLayout->addWidget(ui->pdfPageSpin);
+    cornerWidgetLayout->addWidget(ui->PDFpageLBL);
+    cornerWidgetLayout->addSpacing(45);
 #endif
-
 
     ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoominButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoomoutButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->showSearchBarButton, QDialogButtonBox::ActionRole);
+
+    cornerWidgetLayout->addWidget(ui->btnBox);
+
+    cornerWidget->setLayout(cornerWidgetLayout);
+    ui->viewTab->setCornerWidget(cornerWidget, Qt::TopRightCorner);
 
 
     ui->searchGroupBX->hide();
@@ -177,8 +182,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->pbarbox->hide();
 
     ui->mixedGroup->hide();
-
-    ui->viewTab->setCornerWidget(ui->btnBox, Qt::TopRightCorner);
 
     ui->treeWidget->setHeaderHidden(true);
 
@@ -253,18 +256,18 @@ void MainWindow::setDirection(bool rtl)
     if (rtl == true)
     {
         ui->searchForward->setIcon(QIcon(":/Icons/search-left.png"));
-        ui->searchBackwords->setIcon(QIcon(":/Icons/search-right.png"));
+        ui->searchBackward->setIcon(QIcon(":/Icons/search-right.png"));
 
         ui->searchForwardAction->setIcon(QIcon(":/Icons/search-left.png"));
-        ui->searchBackwardsAction->setIcon(QIcon(":/Icons/search-right.png"));
+        ui->searchBackwardAction->setIcon(QIcon(":/Icons/search-right.png"));
     }
     else
     {
         ui->searchForward->setIcon(QIcon(":/Icons/search-right.png"));
-        ui->searchBackwords->setIcon(QIcon(":/Icons/search-left.png"));
+        ui->searchBackward->setIcon(QIcon(":/Icons/search-left.png"));
 
         ui->searchForwardAction->setIcon(QIcon(":/Icons/search-right.png"));
-        ui->searchBackwardsAction->setIcon(QIcon(":/Icons/search-left.png"));
+        ui->searchBackwardAction->setIcon(QIcon(":/Icons/search-left.png"));
     }
 
     ui->menuBar->setLayoutDirection(dir);
@@ -297,7 +300,7 @@ void MainWindow::connectMenuActions()
 
     connect(ui->advancedSearchAction, SIGNAL(triggered()), this, SLOT(showSearchTab()));
     connect(ui->searchForwardAction, SIGNAL(triggered()), this, SLOT(on_searchForward_clicked()));
-    connect(ui->searchBackwardsAction, SIGNAL(triggered()), this, SLOT(on_searchBackwords_clicked()));
+    connect(ui->searchBackwardAction, SIGNAL(triggered()), this, SLOT(on_searchBackward_clicked()));
 
     connect(ui->addAllToSearchAction, SIGNAL(triggered()), this, SLOT(on_addAllToSearchButton_clicked()));
     connect(ui->removeAllFromSearchAction, SIGNAL(triggered()), this, SLOT(on_removeAllFromSearchButton_clicked()));
@@ -770,7 +773,9 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     //Ctrl-F, show "search in books" bar
     if ( keyEvent->key() == Qt::Key_F && keyEvent->modifiers() == Qt::CTRL )
     {
-        if ( CurrentBookdisplayer->book()->fileType() == Book::Normal )
+        if (    CurrentBookdisplayer->book()->fileType() == Book::Normal
+             || CurrentBookdisplayer->book()->fileType() == Book::Pdf
+             || CurrentBookdisplayer->book()->fileType() == Book::Html )
             ToggleSearchBar();
     }
 }

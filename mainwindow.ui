@@ -503,16 +503,6 @@
          </attribute>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QPushButton" name="spaceButton">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QDialogButtonBox" name="btnBox">
             <property name="standardButtons">
              <set>QDialogButtonBox::NoButton</set>
@@ -686,27 +676,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="spaceButton_4">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="spaceButton_3">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="newTabButton">
+           <widget class="QToolButton" name="newTabButton">
             <property name="toolTip">
              <string>Open new tab</string>
             </property>
@@ -723,7 +693,7 @@
               <height>18</height>
              </size>
             </property>
-            <property name="flat">
+            <property name="autoRaise">
              <bool>true</bool>
             </property>
            </widget>
@@ -923,7 +893,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="searchBackwords">
+          <widget class="QToolButton" name="searchBackward">
            <property name="toolTip">
             <string>Search backwards in book</string>
            </property>
@@ -2094,7 +2064,7 @@
     <string>Search forward</string>
    </property>
   </action>
-  <action name="searchBackwardsAction">
+  <action name="searchBackwardAction">
    <property name="icon">
     <iconset resource="Orayta.qrc">
      <normaloff>:/Icons/search-left.png</normaloff>:/Icons/search-left.png</iconset>
