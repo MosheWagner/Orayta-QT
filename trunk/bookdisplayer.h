@@ -76,6 +76,7 @@ public:
 
     QWidget * htmlQWidget();
     myWebView * webview();
+    PdfWidget * pdfview();
     
     QString pageText();
     QString htmlSource();
