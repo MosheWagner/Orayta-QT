@@ -120,6 +120,8 @@ void importBook::on_importBTN_clicked()
     QStringList filters;
     filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
 
+    QString booksUserPath = USERPATH + "/Books/ספרי_המשתמש/";
+
     //Copy to user's book folder
     for (int i=0; i<ui->listWidget->count(); i++)
     {
@@ -130,13 +132,13 @@ void importBook::on_importBTN_clicked()
             //Copy whole directory
             if( f.isDir() )
             {
-                copyFolder( f.absoluteFilePath(), USERPATH + "/Books/" + f.fileName(), filters);
+                copyFolder( f.absoluteFilePath(), booksUserPath + f.fileName(), filters);
             }
             else //Copy file
             {
                 QFile cf;
 
-                if ( !cf.copy(f.absoluteFilePath(),USERPATH + "/Books/ספרי_המשתמש/" + f.fileName()) )
+                if ( !cf.copy(f.absoluteFilePath(), booksUserPath + f.fileName()) )
                     qDebug() << "Can't copy file" << f.absoluteFilePath();
             }
         }

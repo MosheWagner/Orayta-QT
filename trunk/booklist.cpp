@@ -26,11 +26,11 @@ BookList::~BookList() {   clear();  }
 
 //Builds the booklist from all fles within the given folder
 // (Simply calls "addAllBooks")
-void BookList::BuildFromFolder(QString dirpath)
-{    addAllBooks (dirpath);     }
+void BookList::BuildFromFolder(QString dirpath, bool isUserBooks)
+{    addAllBooks (dirpath, isUserBooks);     }
 
 // Recursivly add all book files to the list
-void BookList::addAllBooks (QString dirpath, int parentindex)
+void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 {
     QDir cdir(absPath(dirpath));
 
@@ -62,7 +62,7 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
 
             //Create BookListItem
             Book *b = new Book(parentindex != -1 ? (*this)[parentindex] : NULL,
-                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, ft);
+                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, ft, isUserBooks);
 
             //Tell the parent it has a new child
             if (b->getParent() != NULL)
@@ -75,7 +75,7 @@ void BookList::addAllBooks (QString dirpath, int parentindex)
             {
                 //Do the whole thing again for any dir, sending it's index in the list as the
                 // Parents index of all it's children
-                addAllBooks(list[i].absoluteFilePath(), this->size() - 1);
+                addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
             }
             else if (ft == Book::Normal)
             {
