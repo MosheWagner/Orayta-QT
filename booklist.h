@@ -39,9 +39,9 @@ public:
 
     //Builds the booklist from all fles within the given folder
     // (Simply calls "addAllBooks")
-    void BuildFromFolder(QString dirpath);
+    void BuildFromFolder(QString dirpath, bool userBooks = false);
     // Recursivly add all book files to the list
-    void addAllBooks (QString dirpath, int parentindex = -1);
+    void addAllBooks (QString dirpath, bool userBooks = false, int parentindex = -1);
     //Add the book's confs, from it's conf file
     void AddBookConfs(Book *book, QString filename);
 

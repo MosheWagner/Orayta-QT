@@ -164,6 +164,8 @@ QString pluginPage(QString title);
 
 //Copy the given folder (recursively) to the given path
 void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFilters);
+//delete the given folder (recursively) to the given path
+void deleteBooksFolder(QString sourceFolder);
 
 #ifdef POPPLER
 
@@ -174,6 +176,7 @@ QString ToBidiText(QString str);
 // Returns a corrected single line Bidi string from the given one.
 // (Using fribidi's functions)
 QString LineToBidiText(QString str);
+
 #endif //POPPLER
 
 #endif // FUNCTIONS_H

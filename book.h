@@ -68,7 +68,7 @@ public:
 
     //Constructor of book class. gets parent book (a dir, of course), path to it's source file,
     //  it's names (see their documentation), and if it is a dir or not.
-    Book(Book * parent, QString path, QString name, QString displayname, Filetype ft);
+    Book(Book * parent, QString path, QString name, QString displayname, Filetype ft, bool isUserBook = false);
     ~Book();
 
     //get functions:
@@ -83,6 +83,7 @@ public:
     bool IsMixed();
     bool ShowAlone();
     bool ShowMixed();
+    bool IsUserBook();
     Book * getParent();
     vector<Book*>& getChildren();
     QTreeWidgetItem * getTreeItemPtr();
@@ -208,6 +209,8 @@ protected:
     //Tells if the book should be searched trough.
     //  Has no affect on folders
     bool mInSearch;
+
+    bool mUserBook;
 
     //Vector containing pointers to the folders children
     vector<Book *> mvChildren;

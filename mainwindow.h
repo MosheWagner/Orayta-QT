@@ -143,7 +143,7 @@ private slots:
 
     void on_showaloneCBX_clicked(bool checked);
 
-    void on_treeWidget_clicked(QModelIndex index);
+    void on_treeWidget_itemClicked(QTreeWidgetItem* current, int column);
     void on_openMixed_clicked();
 
     void weavedCheckBoxClicked(int btnIndex);
@@ -161,6 +161,8 @@ private slots:
     void openSelectedBook();
     //Opens a new tab and Calls "openBook" (using the currently selected book in the tree).
     void openSelectedBookInNewTab();
+    //Delete selected book
+    void deleteSelectedBook();
 
     //Collapse the currently selected item in the treewidget
     void collapseItem();

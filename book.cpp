@@ -21,7 +21,7 @@
 
 
 //Constructor of the Books
-Book::Book(Book * parent, QString path, QString name, QString displayname, Filetype ft)
+Book::Book(Book * parent, QString path, QString name, QString displayname, Filetype ft, bool isUserBook)
 {
     mUniqueId = -1;
     mNormallDisplayName = displayname;
@@ -31,6 +31,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     mNameForTitle = name;
 
     mFiletype = ft;
+    mUserBook = isUserBook;
 
     mpTreeItem = NULL;
 
@@ -103,6 +104,9 @@ bool Book::IsMixed()
 
 bool Book::IsDir()
 {  return mFiletype == Book::Dir;  }
+
+bool Book::IsUserBook()
+{ return mUserBook; }
 
 bool Book::ShowMixed()
 {

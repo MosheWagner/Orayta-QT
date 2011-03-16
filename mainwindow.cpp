@@ -613,6 +613,43 @@ void MainWindow::openSelectedBookInNewTab()
     openSelectedBook();
 }
 
+void MainWindow::deleteSelectedBook()
+{
+    QTreeWidgetItem * selectedItem = ui->treeWidget->selectedItems()[0];
+    int ind = bookList.FindBookByTWI( selectedItem );
+
+    Book* book = bookList[ind];
+    QString path = book->getPath();
+
+    QString displayText = tr("Are you sure you want to remove this ")
+                          + ( book->IsDir() ? tr("books directory ?\nThis will remove all the books in this directory.")
+                                            : tr("book ?") );
+
+    int ret = QMessageBox::warning(this, tr("Deleting book"),
+                                   displayText,
+                                   QMessageBox::Ok | QMessageBox::Cancel,
+                                   QMessageBox::Cancel);
+    switch (ret) {
+    case QMessageBox::Ok:
+
+        if (book->IsDir())
+        {
+            deleteBooksFolder( path );
+        }
+        else
+        {
+            if ( !QFile::remove( path ) )
+                qDebug() << "Couldn't remove file: " << path;
+        }
+        updateBookTree();
+        break;
+    case QMessageBox::Cancel:
+        break;
+    default:
+        break;
+    }
+}
+
 void MainWindow::on_newTabButton_clicked()
 {
     //Create the new tab and switch to it
@@ -709,10 +746,11 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
 
     if( ind != -1)
     {
-        if ( bookList[ind]->IsDir() == false)
-        {
-            QMenu menu(ui->treeWidget);
+        bool setMenu = false;
+        QMenu menu(ui->treeWidget);
 
+        if ( bookList[ind]->IsDir() == false )
+        {
             QAction *openbook = new QAction(tr("Open book"), &menu);
             openbook->setIcon(QIcon(":/Icons/book-blue.png"));
             QAction *openbooknewtab = new QAction(tr("Open in new tab"), &menu);
@@ -724,8 +762,23 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
             menu.addAction(openbook);
             menu.addAction(openbooknewtab);
 
-            menu.setLayoutDirection(Qt::RightToLeft);
+            setMenu = true;
+        }
+        if ( bookList[ind]->IsUserBook() == true )
+        {
+            QAction *deleteBook = new QAction(tr("Delete book"), &menu);
+            deleteBook->setIcon(QIcon(":/Icons/edit-delete.png"));
 
+            QObject::connect(deleteBook, SIGNAL(triggered()), this, SLOT(deleteSelectedBook()));
+
+            menu.addAction(deleteBook);
+
+            setMenu = true;
+        }
+
+        if ( setMenu )
+        {
+            menu.setLayoutDirection(Qt::RightToLeft);
             //Open the menu to the left of the cursor's position
             QPoint point = QPoint(QCursor::pos().x() - menu.width(), QCursor::pos().y());
             menu.exec(point);
@@ -984,10 +1037,8 @@ void MainWindow::menuErrorReport()
     }
 }
 
-void MainWindow::on_treeWidget_clicked(QModelIndex index)
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 {
-    QTreeWidgetItem * current = ui->treeWidget->currentItem();
-
     int bookid = bookList.FindBookByTWI(current);
 
     if (current->checkState(0) == Qt::Checked) addToSearch();
@@ -1128,7 +1179,7 @@ void MainWindow::updateBookTree()
     bookList.BuildFromFolder(BOOKPATH);
 
     //Add user-added books
-    bookList.BuildFromFolder(USERPATH + "/Books");
+    bookList.BuildFromFolder(USERPATH + "/Books", true);
 
     if (bookList.size() == 0)
     {

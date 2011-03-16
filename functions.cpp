@@ -626,6 +626,36 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
     }
 }
 
+//delete the given folder (recursively) to the given path
+void deleteBooksFolder(QString sourceFolder)
+{
+    QDir sourceDir(sourceFolder);
+    if( !sourceDir.exists() )
+        return;
+
+    QStringList files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    for(int i = 0; i< files.count(); i++)
+    {
+        QString srcName = sourceFolder + "/" + files[i];
+        deleteBooksFolder(srcName);
+    }
+
+    QStringList filters;
+    filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
+    sourceDir.setNameFilters(filters);
+
+    files = sourceDir.entryList(QDir::Files);
+    for(int i = 0; i< files.count(); i++)
+    {
+        QString srcName = sourceFolder + "/" + files[i];
+        if ( !QFile::remove(srcName) )
+            qDebug() << "Couldn't remove file: " << srcName;
+    }
+
+    if ( !sourceDir.rmdir( sourceFolder ) )
+        qDebug() << "Couldn't remove directory: " << sourceFolder;
+}
+
 
 
 #ifdef POPPLER
