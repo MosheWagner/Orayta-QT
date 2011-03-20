@@ -136,10 +136,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Load mixed display confs
     restoreBookConfs();
 
+    /*
     //Sort the book tree by the second column ( that holds the whole name, including the number before it)
     ui->treeWidget->setColumnCount(2);  //Small hack to allow sorting the right way...
     ui->treeWidget->sortItems(1, Qt::AscendingOrder);
     ui->treeWidget->setColumnCount(1);
+    */
 
     //Load start page. Assuming it's book[0] of course.
     if (!bookList[0]->IsDir())
@@ -340,7 +342,7 @@ void MainWindow::ClearTmp()
     {
         f.remove(dir.absoluteFilePath(list[i]));
     }
-
+#ifndef POPPLER
     //remove all WKP.* files (because pdf plugin not cleaned)
     dir = QDir::currentPath();
     list = dir.entryList(QStringList("WKP.*"));
@@ -348,6 +350,7 @@ void MainWindow::ClearTmp()
     {
         f.remove(dir.absoluteFilePath(list[i]));
     }
+#endif
 }
 
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
@@ -454,15 +457,6 @@ void MainWindow::BuildBookTree()
 
             bookList[i]->setTreeItemPtr(twi);
 
-            //Just for the sorting...
-            twi->setText(1, bookList[i]->getName());
-
-
-            if (bookList[i]->fileType() == Book::Normal || bookList[i]->fileType() == Book::Dir)
-                //Show a checkbox next to the item
-                twi->setCheckState(0,Qt::Checked);
-
-
             QString dn;
             if(bookList[i]->getTreeDisplayName() != "")
                 dn = bookList[i]->getTreeDisplayName();
@@ -479,9 +473,7 @@ void MainWindow::BuildBookTree()
 
             //set the icon:
             QIcon *icon = bookIcon(bookList[i], bookList[i]->mIconState);
-
             twi->setIcon(0, *icon);
-
             delete icon;
         }
     }
@@ -1179,7 +1171,7 @@ void MainWindow::updateBookTree()
     bookList.BuildFromFolder(BOOKPATH);
 
     //Add user-added books
-    bookList.BuildFromFolder(USERPATH + "/Books", true);
+    bookList.BuildFromFolder(USERPATH + "Books", true);
 
     if (bookList.size() == 0)
     {

@@ -35,11 +35,13 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
     QDir cdir(absPath(dirpath));
 
     //Get all files in this dir
-    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries |  QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
+                                            QDir::DirsFirst | QDir::Name);
 
     for (int i=0; i<list.size(); i++)
     {
         Book::Filetype ft;
+
         // set the file type
         if (list[i].isDir())
             ft = Book::Dir;
@@ -82,7 +84,8 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
             }
-            else
+
+            if ( isUserBooks )
             {
                 b->setIsInSearch(false);
             }
