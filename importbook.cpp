@@ -64,10 +64,20 @@ void importBook::on_addFolder_clicked()
 void importBook::on_addBooks_clicked()
 {
     QFileDialog dialog(this);
+
     dialog.setDirectory(QDir::homePath());
     dialog.setFileMode(QFileDialog::ExistingFiles);
     dialog.setNameFilter(tr("All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)"));
+
     QStringList fileNames;
+    /*  //Provide native dialog
+    fileNames = QFileDialog::getOpenFileNames(
+                this,
+                "",
+                QDir::homePath(),
+                tr("All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)")
+                );
+    */
 
     if (dialog.exec())
     {
@@ -113,14 +123,14 @@ void importBook::on_cancelBTN_clicked()
 void importBook::on_importBTN_clicked()
 {
     //Make sure the dir exists
-    QDir d(USERPATH + "/Books/ספרי_המשתמש") ;
+    QDir d(USERPATH + "Books/ספרי_המשתמש") ;
     if ( !d.exists() )
-        d.mkpath(USERPATH + "/Books/ספרי_המשתמש");
+        d.mkpath(USERPATH + "Books/ספרי_המשתמש");
 
     QStringList filters;
     filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
 
-    QString booksUserPath = USERPATH + "/Books/ספרי_המשתמש/";
+    QString booksUserPath = USERPATH + "Books/ספרי_המשתמש/";
 
     //Copy to user's book folder
     for (int i=0; i<ui->listWidget->count(); i++)
