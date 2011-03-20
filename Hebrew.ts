@@ -220,7 +220,7 @@ This will remove all the books in this directory.</source>
     <message>
         <location filename="search.cpp" line="484"/>
         <source>Any tanach books selected : please select books in tanach and search again.</source>
-        <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש</translation>
+        <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
         <location filename="search.cpp" line="490"/>
@@ -344,7 +344,7 @@ This will remove all the books in this directory.</source>
     <message>
         <location filename="mainwindow.ui" line="652"/>
         <source>Pdf page:</source>
-        <translation>עמוד pdf</translation>
+        <translation>עמוד:</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="791"/>
@@ -605,7 +605,8 @@ This will remove all the books in this directory.</source>
     <message>
         <location filename="mainwindow.ui" line="1311"/>
         <source>Find exact string (or regexp)</source>
-        <translation>חפש משפט מדיוק - או ביטוי רגולרי</translation>
+        <translation>חפש משפט מדיוק
+- או ביטוי רגולרי</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1769"/>
@@ -984,7 +985,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="importbook.cpp" line="69"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
