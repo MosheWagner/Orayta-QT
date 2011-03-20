@@ -39,5 +39,7 @@
         <file>Icons/book-pdf.png</file>
         <file>Icons/book-html.png</file>
         <file>Icons/copy-clean.png</file>
+        <file>Icons/book-user.png</file>
+        <file>Icons/folder-user.png</file>
     </qresource>
 </RCC>

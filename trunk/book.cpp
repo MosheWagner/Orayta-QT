@@ -276,13 +276,18 @@ QIcon* bookIcon(Book* book, IconState state)
     switch (book->fileType())
     {
     case (Book::Dir):
-        if (state == BLUE) icon = new QIcon(":/Icons/folder-blue.png");
+        if (book->IsUserBook()) icon = new QIcon(":/Icons/folder-user.png");
+        else if (state == BLUE) icon = new QIcon(":/Icons/folder-blue.png");
         else if (state == GREY) icon = new QIcon(":/Icons/folder-grey.png");
         else if (state == HALF) icon = new QIcon(":/Icons/folder-blue-grey.png");
         break;
 
     case (Book::Normal):
-        if ( !book->IsMixed() )
+        if ( book->IsUserBook() )
+        {
+            icon = new QIcon(":/Icons/book-user.png");
+        }
+        else if ( !book->IsMixed() )
         {
             if (state == BLUE) icon = new QIcon(":/Icons/book-blue.png");
             else if (state == GREY) icon = new QIcon(":/Icons/book-grey.png");
@@ -320,7 +325,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     TreeItem->setIcon(0, *icon);
     delete icon;
 
-    if (fileType() == Book::Normal || fileType() == Book::Dir)
+    if ( fileType() == Book::Normal || ( fileType() == Book::Dir && !IsUserBook() ) )
     {
         //Show state in the checkbox too
         if (mIconState == BLUE)
