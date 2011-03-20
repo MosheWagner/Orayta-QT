@@ -149,12 +149,22 @@ void PdfWidget::showPage(int page)
         emit pageChanged(page, doc->numPages());
     }
 
-    QImage image = doc->page(currentPage)
-                   ->renderToImage(scaleFactor * viewlbl->physicalDpiX(), scaleFactor * viewlbl->physicalDpiY());
+    Poppler::Page* pdfPage = doc->page(currentPage);
+    if (pdfPage == 0) {
+        qDebug() << "Couldn't open page " << currentPage;
+        return;
+    }
+
+    QImage image = pdfPage->renderToImage(scaleFactor * viewlbl->physicalDpiX(), scaleFactor * viewlbl->physicalDpiY());
+    if (image.isNull()) {
+        qDebug() << "Poppler::Page::renderToImage fail...";
+        return;
+    }
 
     if (!searchLocation.isEmpty()) {
         QRect highlightRect = matrix().mapRect(searchLocation).toRect();
         highlightRect.adjust(-1, -1, 1, 1);
+
         QPainter painter;
         painter.begin(&image);
 
@@ -187,9 +197,8 @@ QRectF PdfWidget::searchBackwards(const QString &stext)
         QList<QRectF> locations;
         searchLocation = QRectF();
 
-        while (doc->page(page)->search(text, searchLocation,
-                                       Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) {
-
+        while (doc->page(page)->search(text, searchLocation, Poppler::Page::NextResult, Poppler::Page::CaseInsensitive))
+        {
             if (searchLocation != oldLocation)
                 locations.append(searchLocation);
             else
@@ -312,7 +321,22 @@ bool PdfWidget::setDocument(const QString &filePath)
 {
     Poppler::Document *oldDocument = doc;
 
+    /*
+    //Don't work on some MS-Windows systems
     doc = Poppler::Document::load(filePath);
+    */
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "couldn't open " << filePath;
+        return false;
+    }
+
+    //QByteArray ba = QFile::encodeName(filePath);
+
+    QByteArray data = file.read( file.size() ); file.close();
+
+    doc = Poppler::Document::loadFromData(data);
     if (doc) {
         delete oldDocument;
         doc->setRenderHint(Poppler::Document::Antialiasing);
@@ -321,13 +345,17 @@ bool PdfWidget::setDocument(const QString &filePath)
         currentPage = -1;
         setPage(1);
     }
+    else
+    {
+        qDebug() << "Couldn't open " << filePath;
+    }
 
     return doc != 0;
 }
 
 void PdfWidget::setPage(int page)
 {
-    if (page != currentPage + 1) {
+    if (page != -1 && page != currentPage + 1) {
         searchLocation = QRectF();
         showPage(page);
     }
@@ -341,6 +369,12 @@ void PdfWidget::setScale(qreal scale)
     }
 }
 
-int PdfWidget::numPages() { return doc->numPages(); }
+int PdfWidget::numPages()
+{
+    if (doc)
+        return doc->numPages();
+    else
+        return 0;
+}
 
 #endif
