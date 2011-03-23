@@ -200,7 +200,6 @@ void MainWindow::SearchInBooks (QRegExp& regexp, QString disp)
                 //Regular books:
                 if (!searchList[i]->getPath().contains("תלמוד") && !searchList[i]->getPath().contains("שס"))
                 {
-
                     //This is an overkill, but I couldn't resist:
                     //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
 
@@ -427,15 +426,14 @@ void MainWindow::SearchGuematria (QString txt)
                         }
 
                         //Get the text best to show for this reult's description
-                        QString linkdisplay = tanach[i]->getNormallDisplayName() + " " + bookGuematriaDb[j].itr.toHumanString();
-
+                        QString linkdisplay /* = tanach[i]->getNormallDisplayName() + " "*/;  // title not needed in tanach...
+                        linkdisplay += bookGuematriaDb[j].itr.toHumanString();
                         //Add the full result to the page
-                        Html += stringify(results) + ") ";
                         Html += "<span style=\"font-size:20px\">";
                         Html += "<a href=!" + stringify(tanach[i]->getUniqueId()) + ":";
                         Html += bookGuematriaDb[j].itr.toStringForLinks();
                         Html += ":" + escapeToBase32(occ) + ">";
-                        Html += linkdisplay;
+                        Html += stringify(results) + ") " + linkdisplay;
                         Html += "</a><br></span>\n";
                         Html += bookGuematriaDb[j].words.join(" ").replace( QRegExp("(" + occ + ")"), "<span style='background-color:Yellow'>\\1</span>" );
                         Html += "<br><br>\n";

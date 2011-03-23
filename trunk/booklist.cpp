@@ -60,7 +60,8 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
                 continue;
 
             QString Name = list[i].fileName();
-            Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ");
+            if (!isUserBooks)
+                Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ");
 
             //Create BookListItem
             Book *b = new Book(parentindex != -1 ? (*this)[parentindex] : NULL,
