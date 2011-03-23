@@ -337,6 +337,11 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     }
 }
 
+void Book::restoreIconeState()
+{
+    setIcon( mpTreeItem, mIconState);
+}
+
 //Sets the cosmetic types of the book, by the given conf line
 void Book::setCosmetics(QString confline)
 {

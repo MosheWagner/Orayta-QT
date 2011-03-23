@@ -475,6 +475,15 @@ void MainWindow::BuildBookTree()
             QIcon *icon = bookIcon(bookList[i], bookList[i]->mIconState);
             twi->setIcon(0, *icon);
             delete icon;
+
+            if ( bookList[i]->IsUserBook() )
+            {
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+            }
+            else
+            {
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+            }
         }
     }
 
@@ -1165,10 +1174,19 @@ void MainWindow::importForm()
 void MainWindow::updateBookTree()
 {
     ui->treeWidget->clear();
-    bookList.clear();
 
-    //Generate the BookList(s), and put it in the tree
-    bookList.BuildFromFolder(BOOKPATH);
+    static vector<Book*>::iterator endOfNormalBooks;
+
+    if (bookList.empty())
+    {
+        bookList.BuildFromFolder(BOOKPATH);
+        endOfNormalBooks = bookList.end();
+    }
+    else
+    {
+        //Erase all user books
+        bookList.erase(endOfNormalBooks, bookList.end());
+    }
 
     //Add user-added books
     bookList.BuildFromFolder(USERPATH + "Books", true);
@@ -1183,8 +1201,12 @@ void MainWindow::updateBookTree()
         exit(2);
     }
 
-    //Insert all the books
+    //Insert all the books in the tree Widget
     BuildBookTree();
+
+    //Restore books icons state
+    for (vector<Book*>::iterator it = bookList.begin(); it != endOfNormalBooks; ++it)
+        (*it)->restoreIconeState();
 }
 
 

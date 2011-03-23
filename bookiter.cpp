@@ -81,7 +81,7 @@ void BookIter::SetLevelFromLine(QString& level_line)
 // But when they are 2 or more apart, they are not related (like perek and daf), And don't effect each other
 // So if level 4 is increased, if level 3 is not 0, it is zerod, and level 2 is zeroed too.
 // (because it is affected by level 3). And so on, until level 1 is zeroed.
-// but if 3 was zero, 2 is not zeroed, becuase it is not realated to 4, and the chain stops.
+// but if 3 was zero, 2 is not zeroed, because it is not realated to 4, and the chain stops.
 void BookIter::ZeroLevel(int level)
 {
     if ( mLevelName[level] != "") mLevelName[level] = "0";
@@ -106,7 +106,7 @@ QString BookIter::toStringForLinks(int from_level)
     //Find all values of continuous levels , starting from 0
     for (int i=0; i<5; i++)
     {
-        if( mLevelName[i] != "")
+        if( (mLevelName[i] != "") && (mLevelName[i] != "0") )
         {
             if ( (relevantValues.size() == 0) || (i - lastlevel == 1) )
             {
@@ -125,7 +125,7 @@ QString BookIter::toStringForLinks(int from_level)
 
         for (int i = from_level-1; i<5; i++)
         {
-            if( mLevelName[i] != "")
+            if( (mLevelName[i] != "") && (mLevelName[i] != "0") )
             {
                 if ( (relevantValues.size() == 0) || (i - lastlevel == 1) )
                 {

@@ -155,7 +155,7 @@ public:
     //Overloaded function of the above
     QList <SearchResult> findInBook(QRegExp& regexp);
 
-
+    void restoreIconeState();
     //Repaints the icon of this book or folder, by the state of it's children
     // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
     void repainticon();
