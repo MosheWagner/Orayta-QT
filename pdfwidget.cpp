@@ -332,8 +332,6 @@ bool PdfWidget::setDocument(const QString &filePath)
         return false;
     }
 
-    //QByteArray ba = QFile::encodeName(filePath);
-
     QByteArray data = file.read( file.size() ); file.close();
 
     doc = Poppler::Document::loadFromData(data);

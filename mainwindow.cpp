@@ -511,7 +511,9 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
     bool renderedOK = true;
 
     if (!f.exists() || markString.simplified() != "")
+    {
         renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+    }
 
     if (renderedOK == true)
     {
@@ -817,11 +819,11 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
                 }
                 else openBook(ind);
             }
-            else if (ui->bookmarkWidget->hasFocus())
-            {
-                //Act as if the current item was clicked
-                on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
-            }
+        }
+        else if (ui->bookmarkWidget->hasFocus())
+        {
+             //Act as if the current item was clicked
+            on_bookmarkWidget_itemDoubleClicked(ui->bookmarkWidget->currentItem());
         }
     }
     //Ctrl-F, show "search in books" bar
@@ -1191,7 +1193,7 @@ void MainWindow::updateBookTree()
     //Add user-added books
     bookList.BuildFromFolder(USERPATH + "Books", true);
 
-    if (bookList.size() == 0)
+    if (bookList.empty())
     {
         QMessageBox msgBox;
         msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
@@ -1299,6 +1301,7 @@ void MainWindow::openExternalLink(QString lnk)
 
 void MainWindow::on_openMixed_clicked()
 {
+
     int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
     if (ind != -1)
     {
@@ -1307,14 +1310,14 @@ void MainWindow::on_openMixed_clicked()
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if (bookList.FindBookById(CurrentBookdisplayer->book()->getUniqueId()) == ind)
+        if ( CurrentBookdisplayer->book() != NULL
+                && bookList.FindBookById(CurrentBookdisplayer->book()->getUniqueId()) == ind)
         {
             QString script = "var obj = ClosestElementToView();";
             CurrentBookdisplayer->execScript(script);
             QString closest = CurrentBookdisplayer->getJSVar("obj.href");
 
             QString link = closest.mid(closest.indexOf("$")+1);
-
             if (link != "") CurrentBookdisplayer->setInternalLocation("#" + link);
         }
 
