@@ -100,6 +100,8 @@ public:
 
     void jumpToTop();
 
+    void keyPressEvent( QKeyEvent * event );
+
 private:
 
     bool PDFMode;
