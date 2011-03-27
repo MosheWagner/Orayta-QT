@@ -93,7 +93,7 @@ bookDisplayer::~bookDisplayer()
 }
 
 //Signall omitted when the webView finishes loading a file
-void bookDisplayer::htmlView_loadFinished(bool)
+void bookDisplayer::htmlView_loadFinished(bool ok)
 {
     //change the tabs title from "Loading..." to the book's title
     int index = TW->indexOf(this);
@@ -346,8 +346,6 @@ void bookDisplayer::load(QUrl url)
         myurl = url;
 
         htmlview->load(url);
-
-        QApplication::processEvents();
     }
 }
 
@@ -504,3 +502,20 @@ void bookDisplayer::unhighlight()
 
 #endif
 
+void bookDisplayer::keyPressEvent( QKeyEvent * keyEvent )
+{
+    switch ( keyEvent->key() )
+    {
+    case Qt::Key_Plus:
+        ZoomIn();
+        break;
+
+    case Qt::Key_Minus:
+        ZoomOut();
+        break;
+
+    default:
+        QWidget::keyPressEvent(keyEvent);
+        break;
+    }
+}
