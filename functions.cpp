@@ -189,10 +189,17 @@ int GematriaValueOfString (const QString& str)
 //Returns the gematria of the single given hebrew char
 inline int GematriaOfChar(const QChar ch)
 {
-    QString hchars = "אבגדהוזחטיכךלמםנןסעפףצץקרשת";
-    int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,20,30,40,40,50,50,60,70,80,80,90,90,100,200,300,400};
+    QString hchars = "אבגדהוזחטיךכלםמןנסעףפץצקרשת";
 
+    int vals[] = {0,1,2,3,4,5,6,7,8,9,10,20,20,30,40,40,50,50,60,70,80,80,90,90,100,200,300,400};
     return vals[hchars.indexOf(ch)+1];
+
+    /*
+    //Use binary search - hchars must be sorted
+    int _vals[] = {1,2,3,4,5,6,7,8,9,10,20,20,30,40,40,50,50,60,70,80,80,90,90,100,200,300,400,0};
+    int pos = distance(hchars.begin(), qBinaryFind(hchars.begin(), hchars.end(), ch));
+    return _vals[pos];
+    */
 }
 
 
