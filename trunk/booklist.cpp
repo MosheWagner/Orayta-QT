@@ -36,7 +36,7 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 
     //Get all files in this dir
     QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
-                                            QDir::DirsFirst | QDir::Name);
+                                            QDir::Name);
 
     for (int i=0; i<list.size(); i++)
     {
