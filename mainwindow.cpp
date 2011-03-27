@@ -1177,17 +1177,17 @@ void MainWindow::updateBookTree()
 {
     ui->treeWidget->clear();
 
-    static vector<Book*>::iterator endOfNormalBooks;
+    static unsigned end;
 
-    if (bookList.empty())
+    if ( bookList.empty() )
     {
         bookList.BuildFromFolder(BOOKPATH);
-        endOfNormalBooks = bookList.end();
+        end = bookList.size();
     }
     else
     {
         //Erase all user books
-        bookList.erase(endOfNormalBooks, bookList.end());
+        bookList.erase(bookList.begin() + end, bookList.end());
     }
 
     //Add user-added books
@@ -1207,8 +1207,10 @@ void MainWindow::updateBookTree()
     BuildBookTree();
 
     //Restore books icons state
-    for (vector<Book*>::iterator it = bookList.begin(); it != endOfNormalBooks; ++it)
+    for (vector<Book*>::iterator it = bookList.begin(); it != bookList.begin() + end; ++it)
+    {
         (*it)->restoreIconeState();
+    }
 }
 
 
