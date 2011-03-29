@@ -74,13 +74,7 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             //Add this book to the list
             push_back(b);
 
-            if (ft == Book::Dir)
-            {
-                //Do the whole thing again for any dir, sending it's index in the list as the
-                // Parents index of all it's children
-                addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
-            }
-            else if (ft == Book::Normal)
+            if (ft == Book::Normal)
             {
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
@@ -94,6 +88,13 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             {
                 // call this after AddBookConfs
                 b->loadFont();
+            }
+
+            if (ft == Book::Dir)
+            {
+                //Do the whole thing again for any dir, sending it's index in the list as the
+                // Parents index of all it's children
+                addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
             }
         }
     }
