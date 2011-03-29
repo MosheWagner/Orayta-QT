@@ -101,68 +101,73 @@
     <name>MainWindow</name>
     <message>
         <location filename="bookmark.cpp" line="166"/>
-        <location filename="mainwindow.cpp" line="131"/>
-        <location filename="mainwindow.cpp" line="151"/>
-        <location filename="mainwindow.cpp" line="152"/>
-        <location filename="mainwindow.cpp" line="664"/>
-        <location filename="mainwindow.cpp" line="666"/>
-        <location filename="mainwindow.cpp" line="671"/>
-        <location filename="mainwindow.cpp" line="1272"/>
+        <location filename="mainwindow.cpp" line="135"/>
+        <location filename="mainwindow.cpp" line="157"/>
+        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="685"/>
+        <location filename="mainwindow.cpp" line="687"/>
+        <location filename="mainwindow.cpp" line="692"/>
+        <location filename="mainwindow.cpp" line="1319"/>
         <location filename="search.cpp" line="160"/>
         <location filename="search.cpp" line="164"/>
         <location filename="search.cpp" line="165"/>
-        <location filename="search.cpp" line="377"/>
-        <location filename="search.cpp" line="381"/>
+        <location filename="search.cpp" line="376"/>
+        <location filename="search.cpp" line="380"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1187"/>
+        <location filename="mainwindow.cpp" line="1228"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>לא נמצאו ספרים מותקנים! 
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="151"/>
+        <location filename="mainwindow.cpp" line="157"/>
         <source>Jewish books</source>
         <translation>ספרי קודש</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="502"/>
+        <location filename="mainwindow.cpp" line="507"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="624"/>
+        <location filename="mainwindow.cpp" line="645"/>
         <source>Are you sure you want to remove this </source>
         <translation>אתה בטוח שברצונך למחוק </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="625"/>
+        <location filename="mainwindow.cpp" line="646"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation>תיקיה זו ?
 כל הספרים הקיימים בתקיה יימחקו.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="626"/>
+        <location filename="mainwindow.cpp" line="647"/>
         <source>book ?</source>
         <translation>ספר זה?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="628"/>
+        <location filename="mainwindow.cpp" line="649"/>
         <source>Deleting book</source>
         <translation>מחיקת ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="769"/>
+        <location filename="mainwindow.cpp" line="790"/>
         <source>Delete book</source>
         <translation>מחק ספר זה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1398"/>
-        <location filename="mainwindow.cpp" line="1408"/>
+        <location filename="mainwindow.cpp" line="801"/>
+        <source>Change font</source>
+        <translation>שנה גופן</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1446"/>
+        <location filename="mainwindow.cpp" line="1456"/>
         <source>Page: </source>
         <translation>עמוד: </translation>
     </message>
@@ -197,43 +202,43 @@ This will remove all the books in this directory.</source>
         <translation>תוצאות חיפוש :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="241"/>
-        <location filename="search.cpp" line="477"/>
+        <location filename="search.cpp" line="240"/>
+        <location filename="search.cpp" line="475"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="248"/>
+        <location filename="search.cpp" line="247"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="392"/>
+        <location filename="search.cpp" line="391"/>
         <source>Searching guematria for: </source>
         <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="466"/>
+        <location filename="search.cpp" line="464"/>
         <source>Search results for guematria : </source>
         <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="484"/>
+        <location filename="search.cpp" line="482"/>
         <source>Any tanach books selected : please select books in tanach and search again.</source>
         <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="490"/>
+        <location filename="search.cpp" line="488"/>
         <source>No guematria results found:</source>
         <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="497"/>
+        <location filename="search.cpp" line="495"/>
         <source>Result list: </source>
         <translation>רשימת תוצאות: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="498"/>
+        <location filename="search.cpp" line="496"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation> תוצאות נמצאו.</translation>
@@ -243,23 +248,23 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="253"/>
+        <location filename="search.cpp" line="252"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="264"/>
+        <location filename="search.cpp" line="263"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="754"/>
+        <location filename="mainwindow.cpp" line="775"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="756"/>
+        <location filename="mainwindow.cpp" line="777"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
@@ -274,7 +279,7 @@ This will remove all the books in this directory.</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1241"/>
+        <location filename="mainwindow.cpp" line="1288"/>
         <source>Orayta - Jewish books</source>
         <translation>אורייתא - ספרי קודש</translation>
     </message>
@@ -307,9 +312,9 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">חפש בספרים המסומנים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1251"/>
-        <location filename="mainwindow.ui" line="1454"/>
-        <location filename="mainwindow.ui" line="1887"/>
+        <location filename="mainwindow.ui" line="1257"/>
+        <location filename="mainwindow.ui" line="1460"/>
+        <location filename="mainwindow.ui" line="1893"/>
         <source>Search</source>
         <translation>חפש</translation>
     </message>
@@ -325,19 +330,19 @@ This will remove all the books in this directory.</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="733"/>
-        <location filename="mainwindow.ui" line="1952"/>
+        <location filename="mainwindow.ui" line="1958"/>
         <source>Zoom out</source>
         <translation>הקטן כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="762"/>
-        <location filename="mainwindow.ui" line="1943"/>
+        <location filename="mainwindow.ui" line="1949"/>
         <source>Zoom in</source>
         <translation>הגדל כתב</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="704"/>
-        <location filename="mainwindow.ui" line="1961"/>
+        <location filename="mainwindow.ui" line="1967"/>
         <source>Jump to top</source>
         <translation>קפוץ לראש הספר</translation>
     </message>
@@ -377,22 +382,22 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1583"/>
+        <location filename="mainwindow.ui" line="1589"/>
         <source>Bookmarks</source>
         <translation>סימניות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1597"/>
+        <location filename="mainwindow.ui" line="1603"/>
         <source>Erase bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1623"/>
+        <location filename="mainwindow.ui" line="1629"/>
         <source>Move bookmark up</source>
         <translation>העלה סימנייה למעלה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1652"/>
+        <location filename="mainwindow.ui" line="1658"/>
         <source>Move bookmark down</source>
         <translation>הורד סימנייה למטה</translation>
     </message>
@@ -445,49 +450,49 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">שנה שפה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1850"/>
+        <location filename="mainwindow.ui" line="1856"/>
         <source>File</source>
         <translation>קובץ</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1865"/>
+        <location filename="mainwindow.ui" line="1871"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1874"/>
+        <location filename="mainwindow.ui" line="1880"/>
         <source>Display</source>
         <translation>תצוגה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1907"/>
+        <location filename="mainwindow.ui" line="1913"/>
         <source>Location</source>
         <translation>מיקום נוכחי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1925"/>
+        <location filename="mainwindow.ui" line="1931"/>
         <source>Exit</source>
         <translation>יציאה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1934"/>
+        <location filename="mainwindow.ui" line="1940"/>
         <source>About</source>
         <translation>אודות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1970"/>
+        <location filename="mainwindow.ui" line="1976"/>
         <source>Print book</source>
         <translation>הדפס ספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1979"/>
+        <location filename="mainwindow.ui" line="1985"/>
         <source>Close tab</source>
         <translation>סגור לשונית</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="649"/>
         <location filename="mainwindow.ui" line="681"/>
-        <location filename="mainwindow.ui" line="1988"/>
+        <location filename="mainwindow.ui" line="1994"/>
         <source>Open new tab</source>
         <translation>פתח לשונית חדשה</translation>
     </message>
@@ -496,12 +501,12 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">חפש משפט שלם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1351"/>
+        <location filename="mainwindow.ui" line="1357"/>
         <source>spacing (in words)</source>
         <translation>רווח בין המילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1392"/>
+        <location filename="mainwindow.ui" line="1398"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
         <translation>חפש גם בכתיב חסר</translation>
     </message>
@@ -510,12 +515,12 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">חיפוש ביטוי רגולרי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1410"/>
+        <location filename="mainwindow.ui" line="1416"/>
         <source>Guematria search (tanach only)</source>
         <translation>חיפוש גימטריא - תנ&quot;ך בלבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1594"/>
+        <location filename="mainwindow.ui" line="1600"/>
         <source>Remove bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
@@ -524,22 +529,22 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">הצג לבד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1175"/>
+        <location filename="mainwindow.ui" line="1181"/>
         <source>Display with:</source>
         <translation>הצג בשילוב עם:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1194"/>
+        <location filename="mainwindow.ui" line="1200"/>
         <source>Hide commentaries</source>
         <translation>הסתר פרושים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1216"/>
+        <location filename="mainwindow.ui" line="1222"/>
         <source>Open</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1262"/>
+        <location filename="mainwindow.ui" line="1268"/>
         <source>Search for:</source>
         <translation>חפש:</translation>
     </message>
@@ -549,22 +554,22 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">( החיפוש מתעלם מפיסוק, ניקוד וטעמים )</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1294"/>
+        <location filename="mainwindow.ui" line="1300"/>
         <source>String search</source>
         <translation>חיפוש מחרוזות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1363"/>
+        <location filename="mainwindow.ui" line="1369"/>
         <source>Find any of the words</source>
         <translation>חפש חלק מהמילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1332"/>
+        <location filename="mainwindow.ui" line="1338"/>
         <source>Find all words</source>
         <translation>חפש את כל המילים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1380"/>
+        <location filename="mainwindow.ui" line="1386"/>
         <source>Find full words only</source>
         <translation>חפש מילים שלמות</translation>
     </message>
@@ -577,74 +582,74 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">חפש ביטוי רגולרי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1490"/>
+        <location filename="mainwindow.ui" line="1496"/>
         <source>Searching ...</source>
         <translation>מחפש ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1537"/>
+        <location filename="mainwindow.ui" line="1543"/>
         <source>Cancel search</source>
         <translation>בטל חיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1999"/>
+        <location filename="mainwindow.ui" line="2005"/>
         <source>Show nikud</source>
         <translation>הצג ניקוד</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2010"/>
+        <location filename="mainwindow.ui" line="2016"/>
         <source>Show teamim</source>
         <translation>הצג טעמים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1815"/>
-        <location filename="mainwindow.ui" line="2019"/>
+        <location filename="mainwindow.ui" line="1821"/>
+        <location filename="mainwindow.ui" line="2025"/>
         <source>Add bookmark</source>
         <translation>הוסף סימנייה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1311"/>
+        <location filename="mainwindow.ui" line="1317"/>
         <source>Find exact string (or regexp)</source>
         <translation>חפש משפט מדיוק
 - או ביטוי רגולרי</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1769"/>
+        <location filename="mainwindow.ui" line="1775"/>
         <source>Add a bookmark here:</source>
         <translation>הוסף סימניה כאן:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1786"/>
+        <location filename="mainwindow.ui" line="1792"/>
         <source>Title:</source>
         <translation>כותרת:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2028"/>
+        <location filename="mainwindow.ui" line="2034"/>
         <source>Add/edit comment</source>
         <translation>הוסף/ערוך הערה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2037"/>
+        <location filename="mainwindow.ui" line="2043"/>
         <source>Report typo</source>
         <translation>דווח על טעות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2046"/>
+        <location filename="mainwindow.ui" line="2052"/>
         <source>Search in books</source>
         <translation>חיפוש בספרים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2127"/>
+        <location filename="mainwindow.ui" line="2133"/>
         <source>Settings</source>
         <translation>הגדרות</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2136"/>
+        <location filename="mainwindow.ui" line="2142"/>
         <source>Import</source>
         <translation>יבוא ספרים</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2145"/>
+        <location filename="mainwindow.ui" line="2151"/>
         <source>Search guematria</source>
         <translation>חיפוש גימטריא</translation>
     </message>
@@ -653,42 +658,42 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">חיפוש מתקדם</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2055"/>
+        <location filename="mainwindow.ui" line="2061"/>
         <source>Search in book</source>
         <translation>חפש בספר</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2064"/>
+        <location filename="mainwindow.ui" line="2070"/>
         <source>Search forward</source>
         <translation>חפש קדימה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2073"/>
+        <location filename="mainwindow.ui" line="2079"/>
         <source>Search backwards</source>
         <translation>חפש אחורה</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2082"/>
+        <location filename="mainwindow.ui" line="2088"/>
         <source>Remove book from search</source>
         <translation>הוצא מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2091"/>
+        <location filename="mainwindow.ui" line="2097"/>
         <source>Add book to search</source>
         <translation>הוסף לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2100"/>
+        <location filename="mainwindow.ui" line="2106"/>
         <source>Add all to search</source>
         <translation>הוסף הכל לחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2109"/>
+        <location filename="mainwindow.ui" line="2115"/>
         <source>Remove all from search</source>
         <translation>הוצא הכל מהחיפוש</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2118"/>
+        <location filename="mainwindow.ui" line="2124"/>
         <source>Find book by name</source>
         <translation>חפש ספר לפי שם</translation>
     </message>
@@ -698,14 +703,14 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">font: 8pt &quot;Sans Serif&quot;;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1277"/>
+        <location filename="mainwindow.ui" line="1283"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
         <translation>(החיפוש מתעלם מפיסוק, ניקוד וטעמים)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1681"/>
+        <location filename="mainwindow.ui" line="1687"/>
         <source>Edit bookmark&apos;s title</source>
         <translation>ערוך כותרת סימנייה</translation>
     </message>
@@ -983,7 +988,7 @@ p, li { white-space: pre-wrap; }
         <translation>יבוא</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="69"/>
+        <location filename="importbook.cpp" line="70"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
         <translation></translation>
     </message>

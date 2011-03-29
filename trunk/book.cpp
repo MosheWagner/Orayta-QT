@@ -69,6 +69,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     mTabWidget = 0;
     //pureText = "";
     guematriaDbExists = false;
+
+    mFont = QFont( gFontFamily, gFontSize );
 }
 
 Book::~Book()
@@ -211,10 +213,10 @@ void Book::loadFont()
     // if no font
     if ( fontDescription == "" || mFont.fromString(fontDescription) == false )
     {
-        if (mpParent == NULL)
-            mFont = QFont( gFontFamily, gFontSize );
-        else
+        if (mpParent != NULL)
+        {
             mFont = mpParent->mFont;
+        }
     }
 }
 
