@@ -90,6 +90,11 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             {
                 b->setIsInSearch(false);
             }
+            else
+            {
+                // call this after AddBookConfs
+                b->loadFont();
+            }
         }
     }
 }

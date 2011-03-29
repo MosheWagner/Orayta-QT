@@ -24,7 +24,7 @@ Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings)
     if (LANG == "Hebrew")
     {
         this->setLayoutDirection(Qt::RightToLeft);
-        ui->fontComboBox->setLayoutDirection(Qt::RightToLeft);
+        //ui->fontComboBox->setLayoutDirection(Qt::RightToLeft);
     }
 
     //Set available languages

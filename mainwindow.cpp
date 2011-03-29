@@ -86,6 +86,10 @@
   - Add rav kook books
 */
 
+// Global
+QString gFontFamily = "Nachlieli CLM";
+int gFontSize = 16;
+
 
 // This is just a very simple define. anywhere in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
@@ -429,8 +433,8 @@ void MainWindow::restoreBookConfs()
     for(unsigned int i=0; i<bookList.size(); i++)
     {
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
-            int n = settings.value("MixedDisplayes", 0).toInt();
             bookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
+            int n = settings.value("MixedDisplayes", 0).toInt();
             for (int j=0; j<n; j++)
             {
                 bookList[i]->mWeavedSources[j].show = settings.value("Shown" + stringify(j), true).toBool();
@@ -616,6 +620,20 @@ void MainWindow::openSelectedBookInNewTab()
     openSelectedBook();
 }
 
+void MainWindow::changeFont()
+{
+    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
+    QFont currentFont = bookList[ind]->getFont();
+
+    bool ok;
+    // a modifier...
+    QFont font = QFontDialog::getFont(&ok, QFont(currentFont.family(), currentFont.pointSize()), this);
+    if (ok)
+    {
+        bookList[ind]->setFont(font);
+    }
+}
+
 void MainWindow::deleteSelectedBook()
 {
     QTreeWidgetItem * selectedItem = ui->treeWidget->selectedItems()[0];
@@ -775,6 +793,17 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
             QObject::connect(deleteBook, SIGNAL(triggered()), this, SLOT(deleteSelectedBook()));
 
             menu.addAction(deleteBook);
+
+            setMenu = true;
+        }
+        else
+        {
+            QAction *changefont = new QAction(tr("Change font"), &menu);
+            changefont->setIcon(QIcon(":/Icons/font.png"));
+
+            QObject::connect(changefont, SIGNAL(triggered()), this , SLOT(changeFont()));
+
+            menu.addAction(changefont);
 
             setMenu = true;
         }

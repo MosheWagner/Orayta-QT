@@ -25,9 +25,10 @@
 
 using namespace std;
 
-
+/*
 extern QString gFontFamily;
 extern int gFontSize;
+*/
 
 //Helper struct and functions for generating the html of the book
 
@@ -54,7 +55,7 @@ QString html_link_table(vector<IndexItem>,int short_index_level, bool dot , bool
 inline QString index_to_index(vector<IndexItem> indexitemlist,int short_index_level);
 
 //Generates the div declaration for the top of the html file
-inline QString html_main_div();
+inline QString html_main_div( QString fontFamily, int fontSize );
 
 
 //Returns true if the given line has either a empty line after it,

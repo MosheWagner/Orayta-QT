@@ -34,9 +34,6 @@
 #include "htmlgen.h"
 
 
-QString gFontFamily;
-int gFontSize;
-
 //Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
 const QString LevelSigns = "!~@#^";
 
@@ -324,7 +321,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     html += namepoint("Top");
 
-    html += html_main_div();
+    html += html_main_div( mFont.family(), mFont.pointSize() );
 
 
     html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
@@ -580,7 +577,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     html += namepoint("Top");
 
     
-    html += html_main_div();
+    html += html_main_div( mFont.family(), mFont.pointSize() );
 
     html += html_book_title(mNameForTitle, mCopyrightInfo, low_comments);
 
@@ -684,12 +681,12 @@ QString html_book_title(QString name, QString copyright, QString low_comments)
 
 
 //Generates the div declaration for the top of the html file
-inline QString html_main_div()
+inline QString html_main_div( QString fontFamily, int fontSize )
 {
     QString str = "<div class=\"Section1\" dir=\"RTL\" style=\"font-family: ";
-    str +=  gFontFamily + ";";
+    str +=  fontFamily + ";";
     str += "font-size:";
-    str +=  stringify(gFontSize) + "px\">";
+    str +=  stringify(fontSize) + "px\">";
 
     return str;
 }
