@@ -16,6 +16,7 @@
 
 #include "book.h"
 
+#include <QSettings>
 
 //TODO: Make sure bookiters are intiallized
 
@@ -177,6 +178,45 @@ void Book::setTabWidget(QWidget* w)
 
 Book::Filetype Book::fileType()
 {  return mFiletype;  }
+
+QFont Book::getFont()
+{  return mFont;  }
+
+void Book::setFont(const QFont& font)
+{
+    mFont = font;
+
+    if ( !mvChildren.empty() )
+    {
+        for (vector<Book*>::iterator it = mvChildren.begin(); it != mvChildren.end(); ++it)
+            (*it)->setFont(font);
+    }
+
+    if (mUniqueId != -1)
+    {
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("Book" + stringify(mUniqueId));
+        settings.setValue("Font", font.toString());
+        settings.endGroup();
+    }
+}
+
+void Book::loadFont()
+{
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("Book" + stringify(mUniqueId));
+    QString fontDescription = settings.value("Font", "").toString();
+    settings.endGroup();
+
+    // if no font
+    if ( fontDescription == "" || mFont.fromString(fontDescription) == false )
+    {
+        if (mpParent == NULL)
+            mFont = QFont( gFontFamily, gFontSize );
+        else
+            mFont = mpParent->mFont;
+    }
+}
 
 void Book::repainticon()
 {

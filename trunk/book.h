@@ -25,6 +25,10 @@
 #include <QDebug>
 #include <vector>
 
+
+extern QString gFontFamily;
+extern int gFontSize;
+
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
 {
@@ -87,6 +91,7 @@ public:
     Book * getParent();
     vector<Book*>& getChildren();
     QTreeWidgetItem * getTreeItemPtr();
+    QFont getFont();
     Filetype fileType();
 
     //set functions:
@@ -101,6 +106,8 @@ public:
     void setTreeItemPtr(QTreeWidgetItem * treeitem);
     void setIsInSearch(bool);
     void setIsHidden(bool);
+    void setFont(const QFont& font);
+    void loadFont();
 
     //Sets the cosmetic types of the book, by the given conf line
     void setCosmetics(QString);
@@ -236,6 +243,9 @@ protected:
 
     //Pointer to book's parent
     Book * mpParent;
+
+    //font to display (if it's directory, applied on all children)
+    QFont mFont;
 
     //Level of the short index (index to index)
     int mShortIndexLevel;

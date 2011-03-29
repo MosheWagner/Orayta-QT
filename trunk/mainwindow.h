@@ -164,6 +164,7 @@ private slots:
     //Delete selected book
     void deleteSelectedBook();
 
+    void changeFont();
     //Collapse the currently selected item in the treewidget
     void collapseItem();
     //Expand the currently selected item in the treewidget
