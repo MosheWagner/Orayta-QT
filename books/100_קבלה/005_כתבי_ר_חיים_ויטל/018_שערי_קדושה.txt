@@ -1,6 +1,6 @@
-&UniqueId=1189&LastLevelIndex=1&SpecialTitle=כל הזכויות שמורות ל - ''ויקיטקסט'' תחת רשיון ''GNU Free Doc.'&TextSource=.
+&UniqueId=1189&LastLevelIndex=1&SpecialTitle=כל הזכויות שמורות ל - ''ויקיטקסט'' תחת רשיון ''GNU Free Doc.'&TextSource=.&CosmeticsType=#eoi=0
 $ ספר שערי קדושה
-רבי חיים ויטאל 
+רבי חיים ויטאל
 
 
 
