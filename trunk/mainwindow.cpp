@@ -875,7 +875,7 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     }
 }
 
-
+/*
 //Print the current book (all pages I think...)
 void MainWindow::printBook()
 {
@@ -890,7 +890,7 @@ void MainWindow::printBook()
         CurrentBookdisplayer->print(&printer);
     }
 }
-
+*/
 
 //Show the comment adding / editing dialog
 void MainWindow::openCommentDialog(QString link)

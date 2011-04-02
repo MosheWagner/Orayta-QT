@@ -70,8 +70,6 @@ public:
 
     int numPages();
 
-    void print(QPrinter *printer);
-
 public slots:
     QRectF searchBackwards(const QString &text);
     QRectF searchForwards(const QString &text);
