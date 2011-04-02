@@ -1836,7 +1836,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="layoutDirection">
@@ -1847,7 +1847,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="opentabAction"/>
     <addaction name="closetabAction"/>
@@ -1862,7 +1862,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="aboutAction"/>
    </widget>
@@ -1871,7 +1871,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>Display</string>
+     <string>&amp;Display</string>
     </property>
     <addaction name="jumptotopAction"/>
     <addaction name="zoominAction"/>
@@ -1884,7 +1884,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="title">
-     <string>Search</string>
+     <string>&amp;Search</string>
     </property>
     <addaction name="findBookAction"/>
     <addaction name="separator"/>
@@ -1904,7 +1904,7 @@
      <bool>false</bool>
     </property>
     <property name="title">
-     <string>Location</string>
+     <string>&amp;Location</string>
     </property>
     <addaction name="bookMarkAction"/>
     <addaction name="commentAction"/>
@@ -1922,7 +1922,7 @@
      <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
    </property>
    <property name="text">
-    <string>Exit</string>
+    <string>E&amp;xit</string>
    </property>
   </action>
   <action name="aboutAction">
@@ -1931,7 +1931,7 @@
      <normaloff>:/Icons/help-about.png</normaloff>:/Icons/help-about.png</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="zoominAction">
@@ -1940,7 +1940,7 @@
      <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom in</string>
+    <string>Zoom &amp;in</string>
    </property>
   </action>
   <action name="zoomoutAction">
@@ -1949,7 +1949,7 @@
      <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom out</string>
+    <string>Zoom &amp;out</string>
    </property>
   </action>
   <action name="jumptotopAction">
@@ -1958,7 +1958,7 @@
      <normaloff>:/Icons/arrow-up.png</normaloff>:/Icons/arrow-up.png</iconset>
    </property>
    <property name="text">
-    <string>Jump to top</string>
+    <string>&amp;Jump to top</string>
    </property>
   </action>
   <action name="printAction">
@@ -1967,7 +1967,7 @@
      <normaloff>:/Icons/document-print.png</normaloff>:/Icons/document-print.png</iconset>
    </property>
    <property name="text">
-    <string>Print book</string>
+    <string>&amp;Print book</string>
    </property>
   </action>
   <action name="closetabAction">
@@ -1976,7 +1976,7 @@
      <normaloff>:/Icons/tab-close.png</normaloff>:/Icons/tab-close.png</iconset>
    </property>
    <property name="text">
-    <string>Close tab</string>
+    <string>&amp;Close tab</string>
    </property>
   </action>
   <action name="opentabAction">
@@ -1985,7 +1985,7 @@
      <normaloff>:/Icons/tab-new.png</normaloff>:/Icons/tab-new.png</iconset>
    </property>
    <property name="text">
-    <string>Open new tab</string>
+    <string>&amp;Open new tab</string>
    </property>
   </action>
   <action name="showNikudAction">
@@ -2016,7 +2016,7 @@
      <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
    </property>
    <property name="text">
-    <string>Add bookmark</string>
+    <string>Add &amp;bookmark</string>
    </property>
   </action>
   <action name="commentAction">
@@ -2025,7 +2025,7 @@
      <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
    </property>
    <property name="text">
-    <string>Add/edit comment</string>
+    <string>Add/edit &amp;comment</string>
    </property>
   </action>
   <action name="reportErrorAction">
@@ -2034,7 +2034,7 @@
      <normaloff>:/Icons/bug.png</normaloff>:/Icons/bug.png</iconset>
    </property>
    <property name="text">
-    <string>Report typo</string>
+    <string>&amp;Report typo</string>
    </property>
   </action>
   <action name="advancedSearchAction">
@@ -2043,7 +2043,7 @@
      <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
    </property>
    <property name="text">
-    <string>Search in books</string>
+    <string>&amp;Search in books</string>
    </property>
   </action>
   <action name="searchInBooksAction">
@@ -2115,7 +2115,7 @@
      <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
    </property>
    <property name="text">
-    <string>Find book by name</string>
+    <string>&amp;Find book by name</string>
    </property>
   </action>
   <action name="actionSettings">
@@ -2124,7 +2124,7 @@
      <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
    </property>
    <property name="text">
-    <string>Settings</string>
+    <string>&amp;Settings</string>
    </property>
   </action>
   <action name="actionImport_books">
@@ -2133,7 +2133,7 @@
      <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
    </property>
    <property name="text">
-    <string>Import</string>
+    <string>&amp;Import</string>
    </property>
   </action>
   <action name="actionSearchGuematria">
@@ -2142,7 +2142,7 @@
      <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
    </property>
    <property name="text">
-    <string>Search guematria</string>
+    <string>Search &amp;guematria</string>
    </property>
   </action>
  </widget>

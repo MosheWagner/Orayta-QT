@@ -291,7 +291,7 @@ void MainWindow::connectMenuActions()
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
     connect(ui->zoomoutAction, SIGNAL(triggered()), this, SLOT(on_zoomoutButton_clicked()));
     connect(ui->jumptotopAction, SIGNAL(triggered()), this, SLOT(on_topButton_clicked()));
-    //connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
+    connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
 
     connect(ui->findBookAction, SIGNAL(triggered()), this, SLOT(findBookForm()));
     connect(ui->opentabAction, SIGNAL(triggered()), this, SLOT(on_newTabButton_clicked()));
@@ -863,9 +863,19 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
              || CurrentBookdisplayer->book()->fileType() == Book::Html )
             ToggleSearchBar();
     }
+    //Ctrl-T, new tab
+    if ( keyEvent->key() == Qt::Key_T && keyEvent->modifiers() == Qt::CTRL )
+    {
+        on_newTabButton_clicked();
+    }
+    //Ctrl-W, close tab
+    if ( keyEvent->key() == Qt::Key_W && keyEvent->modifiers() == Qt::CTRL )
+    {
+        closeCurrentTab();
+    }
 }
 
-/*
+
 //Print the current book (all pages I think...)
 void MainWindow::printBook()
 {
@@ -880,7 +890,7 @@ void MainWindow::printBook()
         CurrentBookdisplayer->print(&printer);
     }
 }
-*/
+
 
 //Show the comment adding / editing dialog
 void MainWindow::openCommentDialog(QString link)

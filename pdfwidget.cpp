@@ -58,6 +58,8 @@ PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
 {
     viewlbl = new QLabel();
 
+    viewlbl->setMouseTracking(false);
+
     setWidget(viewlbl);
     setWidgetResizable(true);
     verticalScrollBar()->setTracking(true);
@@ -99,7 +101,7 @@ void PdfWidget::mousePressEvent(QMouseEvent *event)
     if (!doc)
         return;
 
-    dragPosition = mapToGlobal(event->pos());
+    dragPosition = event->globalPos();
     dragPosition = viewlbl->mapFromGlobal(dragPosition);
 
     if (!rubberBand)
@@ -113,7 +115,7 @@ void PdfWidget::mouseMoveEvent(QMouseEvent *event)
     if (!doc)
         return;
 
-    QPoint newPosition = mapToGlobal(event->pos());
+    QPoint newPosition = event->globalPos();
     newPosition = viewlbl->mapFromGlobal(newPosition);
 
     rubberBand->setGeometry(QRect(dragPosition, newPosition).normalized());
@@ -131,7 +133,7 @@ void PdfWidget::mouseReleaseEvent(QMouseEvent * event)
         selectedRect.moveTop(selectedRect.top() - (viewlbl->height() - viewlbl->pixmap()->height()) / 2.0);
 
         menu->setLayoutDirection(Qt::RightToLeft);
-        menu->exec(viewlbl->mapToGlobal(event->pos()));
+        menu->exec(event->globalPos());
     }
 
     rubberBand->hide();
