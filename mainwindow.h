@@ -223,8 +223,6 @@ private slots:
 
     void openExternalLink(QString link);
 
-    //@@@
-    //TODO: Make this useful...
     //void printBook();
 
     //Called when an item at the treeView is double clicked, and if it's a book, loads it the current tab
