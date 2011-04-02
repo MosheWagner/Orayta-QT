@@ -479,7 +479,7 @@ void MainWindow::SearchGuematria (QString txt)
         if (nbBooksInSearch == 0)
         {
             Htmlhead +="<br><br><center><b>";
-            Htmlhead += tr("Any tanach books selected : please select books in tanach and search again.");
+            Htmlhead += tr("No tanach books selected : please select books in tanach and search again.");
             Htmlhead += "</b></center><br>";
         }
         else if(results == 0)

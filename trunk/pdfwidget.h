@@ -1,7 +1,6 @@
 /*
 * This file is taken from the "poppler" exapmle from Qt's documantation,
-* ( Copyright info here below),
-* But has changes done me.
+* ( Copyright info here below), But has changes done me.
 *
 * Moshe Wagner. <moshe.wagner@gmail.com>
 */
@@ -71,6 +70,8 @@ public:
 
     int numPages();
 
+    void print(QPrinter *printer);
+
 public slots:
     QRectF searchBackwards(const QString &text);
     QRectF searchForwards(const QString &text);
@@ -84,6 +85,13 @@ public slots:
 
     //Prints the given page to the given Qprinter
     //void printPage(QPrinter, int);
+
+
+    /*
+    void mPressEvent(QMouseEvent *event);
+    void mMoveEvent(QMouseEvent *event);
+    void mReleaseEvent(QMouseEvent *event);
+*/
 
 protected:
     void mousePressEvent(QMouseEvent *event);

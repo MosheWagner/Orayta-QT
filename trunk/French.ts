@@ -156,6 +156,7 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     <message>
         <location filename="mainwindow.cpp" line="1446"/>
         <location filename="mainwindow.cpp" line="1456"/>
+        <location filename="mainwindow.cpp" line="1418"/>
         <source>Page: </source>
         <translation>Page: </translation>
     </message>
@@ -208,8 +209,9 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="search.cpp" line="482"/>
-        <source>Any tanach books selected : please select books in tanach and search again.</source>
-        <translation>Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
+        <source>No tanach books selected : please select books in tanach and search again.</source>
+        <oldsource>Any tanach books selected : please select books in tanach and search again.</oldsource>
+        <translation type="unfinished">Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
     </message>
     <message>
         <location filename="search.cpp" line="488"/>
@@ -471,18 +473,21 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="1856"/>
-        <source>File</source>
-        <translation>Fichier</translation>
+        <source>&amp;File</source>
+        <oldsource>File</oldsource>
+        <translation type="unfinished">Fichier</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1871"/>
-        <source>Help</source>
-        <translation>Aide</translation>
+        <source>&amp;Help</source>
+        <oldsource>Help</oldsource>
+        <translation type="unfinished">Aide</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1880"/>
-        <source>Display</source>
-        <translation>Affichage</translation>
+        <source>&amp;Display</source>
+        <oldsource>Display</oldsource>
+        <translation type="unfinished">Affichage</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1257"/>
@@ -561,28 +566,33 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="1913"/>
-        <source>Location</source>
-        <translation>Position</translation>
+        <source>&amp;Location</source>
+        <oldsource>Location</oldsource>
+        <translation type="unfinished">Position</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1931"/>
-        <source>Exit</source>
-        <translation>Quitter</translation>
+        <source>E&amp;xit</source>
+        <oldsource>Exit</oldsource>
+        <translation type="unfinished">Quitter</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1940"/>
-        <source>About</source>
-        <translation>A propos</translation>
+        <source>&amp;About</source>
+        <oldsource>About</oldsource>
+        <translation type="unfinished">A propos</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1976"/>
-        <source>Print book</source>
-        <translation>Imprime le livre</translation>
+        <source>&amp;Print book</source>
+        <oldsource>Print book</oldsource>
+        <translation type="unfinished">Imprime le livre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1985"/>
-        <source>Close tab</source>
-        <translation>Fermer l&apos;onglet</translation>
+        <source>&amp;Close tab</source>
+        <oldsource>Close tab</oldsource>
+        <translation type="unfinished">Fermer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2005"/>
@@ -607,33 +617,39 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="2034"/>
-        <source>Add/edit comment</source>
-        <translation>Ajouter/éditer un commentaire</translation>
+        <source>Add/edit &amp;comment</source>
+        <oldsource>Add/edit comment</oldsource>
+        <translation type="unfinished">Ajouter/éditer un commentaire</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2043"/>
-        <source>Report typo</source>
-        <translation>Rapporter une erreur</translation>
+        <source>&amp;Report typo</source>
+        <oldsource>Report typo</oldsource>
+        <translation type="unfinished">Rapporter une erreur</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2052"/>
-        <source>Search in books</source>
-        <translation>Rechercher dans la bibliothèque</translation>
+        <source>&amp;Search in books</source>
+        <oldsource>Search in books</oldsource>
+        <translation type="unfinished">Rechercher dans la bibliothèque</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2133"/>
-        <source>Settings</source>
-        <translation>Préférences</translation>
+        <source>&amp;Settings</source>
+        <oldsource>Settings</oldsource>
+        <translation type="unfinished">Préférences</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2142"/>
-        <source>Import</source>
-        <translation>Import</translation>
+        <source>&amp;Import</source>
+        <oldsource>Import</oldsource>
+        <translation type="unfinished">Import</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2151"/>
-        <source>Search guematria</source>
-        <translation>Rechercher une guematria</translation>
+        <source>Search &amp;guematria</source>
+        <oldsource>Search guematria</oldsource>
+        <translation type="unfinished">Rechercher une guematria</translation>
     </message>
     <message>
         <source>Advanced search</source>
@@ -676,8 +692,9 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="2124"/>
-        <source>Find book by name</source>
-        <translation>Trouver un livre d&apos;aprés le titre</translation>
+        <source>&amp;Find book by name</source>
+        <oldsource>Find book by name</oldsource>
+        <translation type="unfinished">Trouver un livre d&apos;aprés le titre</translation>
     </message>
 </context>
 <context>
