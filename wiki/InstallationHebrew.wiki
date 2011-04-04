@@ -26,9 +26,9 @@ sudo apt-get install orayta orayta-books
 2) התקנה מחבילות:
 
 אפשר להוריד את החבילות מהמאגר 
-https://launchpad.net/~moshe-wagner/+archive/orayta 
+[https://launchpad.net/~moshe-wagner/+archive/orayta]
 ולהתקין אותם בעזרת הפקודה: <BR>
-sudo dpkg -i *.deb
+`sudo dpkg -i *.deb`
 <BR>
 כאשר אתם בתוך התיקיה אליה הורדתם את החבילות.<BR>
 לחלופין אפשר להתקין את החבילות גם בעזרת תוכנה גרפית. באובונטו זה נעשה פשוט על ידי לחיצה כפולה על החבילה.<BR>
@@ -36,7 +36,7 @@ sudo dpkg -i *.deb
 3)התקנה מקוד המקור של התוכנה:<BR>
 
 בעיקרון צריך להוריד את כל הקוד מכאן:
-http://orayta.googlecode.com/svn/trunk/
+[http://orayta.googlecode.com/svn/trunk/]
  ולעבוד בעזרת ההוראות שבקבצי readme.
 <BR>
 = התקנת אורייתא בחלונות =
@@ -46,6 +46,4 @@ http://orayta.googlecode.com/svn/trunk/
 = התקנת אורייתא במקינטוש =
 
 צריך להוריד את הקוד ולקמפל אותו עצמאית.
-
-
 
