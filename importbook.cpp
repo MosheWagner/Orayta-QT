@@ -40,57 +40,33 @@ importBook::~importBook()
 
 void importBook::on_addFolder_clicked()
 {
-    QFileDialog dialog(this);
-    dialog.setDirectory(QDir::homePath());
-    dialog.setFileMode(QFileDialog::Directory);
+    QString dirName = QFileDialog::getExistingDirectory(this, "", QDir::homePath(), QFileDialog::ShowDirsOnly);
 
-    dialog.setOption(QFileDialog::ShowDirsOnly, true);
-
-    QStringList dirName;
-
-    if (dialog.exec())
+    if (!dirName.isEmpty())
     {
-        dirName = dialog.selectedFiles();
-        if (!dirName.isEmpty())
-        {
-            ui->listWidget->addItem(dirName[0]);
-            ui->cancelBTN->show();
-            ui->importBTN->show();
-            ui->deleteButton->show();
-        }
+        ui->listWidget->addItem(dirName);
+        ui->cancelBTN->show();
+        ui->importBTN->show();
+        ui->deleteButton->show();
     }
 }
 
 void importBook::on_addBooks_clicked()
 {
-    QFileDialog dialog(this);
+    QString filters = tr("All supported files "
+                         "(*.html *.htm *.txt *.pdf);;"
+                         "Html files(*.htm *.html);;"
+                         "Text files(*.txt);;"
+                         "Pdf files(*.pdf)");
 
-    dialog.setDirectory(QDir::homePath());
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setNameFilter(tr("All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)"));
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, "", QDir::homePath(), filters);
 
-    QStringList fileNames;
-    /*  //Provide native dialog
-    fileNames = QFileDialog::getOpenFileNames(
-                this,
-                "",
-                QDir::homePath(),
-                tr("All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)")
-                );
-    */
-
-    if (dialog.exec())
+    if (!fileNames.empty())
     {
-        fileNames = dialog.selectedFiles();
-
         for (int i=0; i<fileNames.size(); i++)
         {
             ui->listWidget->addItem(fileNames[i]);
         }
-    }
-
-    if (!fileNames.empty())
-    {
         ui->cancelBTN->show();
         ui->importBTN->show();
         ui->deleteButton->show();
