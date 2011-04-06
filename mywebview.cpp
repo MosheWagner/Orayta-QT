@@ -122,29 +122,48 @@ QString myWebView::activeLink() { return mActiveLink; }
 void myWebView::keyPressEvent( QKeyEvent *keyEvent )
 {
     //if this is normal book
-    if ( mBookdisp->book() != NULL && mBookdisp->book()->fileType() == Book::Normal )
+    if ( mBookdisp->book() != NULL )
     {
-        switch ( keyEvent->key() )
+        if ( mBookdisp->book()->fileType() == Book::Normal )
         {
-        case Qt::Key_Left:
-        case Qt::Key_Down:
-            page()->mainFrame()->evaluateJavaScript("paintNext();");
-            break;
+            if ( keyEvent->modifiers() == Qt::NoModifier )
+            {
+                switch ( keyEvent->key() )
+                {
+                case Qt::Key_Left:
+                case Qt::Key_Down:
+                    page()->mainFrame()->evaluateJavaScript("paintNext();");
+                    return;
 
-        case Qt::Key_Right:
-        case Qt::Key_Up:
-            page()->mainFrame()->evaluateJavaScript("paintPrevious();");
-            break;
+                case Qt::Key_Right:
+                case Qt::Key_Up:
+                    page()->mainFrame()->evaluateJavaScript("paintPrevious();");
+                    return;
 
-        case Qt::Key_Backspace:  //Ignore backspace clicks
-            break;
+                case Qt::Key_Backspace:  //Ignore backspace clicks
+                    return;
+                }
+            }
+        }
+        else if ( mBookdisp->book()->fileType() == Book::Html )
+        {
+            if ( keyEvent->modifiers() == Qt::AltModifier )
+            {
+                switch ( keyEvent->key() )
+                {
+                case Qt::Key_Left:
+                    back();
+                    return;
 
-        default:
-            QWebView::keyPressEvent(keyEvent);
-            break;
+                case Qt::Key_Right:
+                    forward();
+                    return;
+                }
+            }
         }
     }
-    else QWebView::keyPressEvent(keyEvent);
+    // default
+    QWebView::keyPressEvent(keyEvent);
 }
 
 
