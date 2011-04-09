@@ -35,9 +35,11 @@ sudo apt-get install orayta orayta-books
 
 3)התקנה מקוד המקור של התוכנה:<BR>
 
-בעיקרון צריך להוריד את כל הקוד מכאן:
+צריך להוריד את כל הקוד של התכנה מכאן:
 [http://orayta.googlecode.com/svn/trunk/]
- ולעבוד בעזרת ההוראות שבקבצי readme.
+ואת הספרים מכאן:
+[http://orayta.googlecode.com/svn/books/]
+ולעבוד בעזרת ההוראות שבקבצי readme.
 <BR>
 = התקנת אורייתא בחלונות =
 
