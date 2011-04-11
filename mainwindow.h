@@ -97,8 +97,9 @@ private:
     //List of all the books
     BookList bookList;
 
-    //List of all book tabs (aka "bookdisplayers")
-    QList <bookDisplayer *> bookDisplayerList;
+
+    bookDisplayer* bookdisplayer( int index );
+    bookDisplayer* CurrentBookdisplayer();
 
     //Load the generated Html file of the given book into the WebView widget
     void LoadHtmlBook(Book *, QString markString = "");
@@ -123,9 +124,10 @@ private:
 
 private slots:
 
-    //void on_treeWidget_itemChanged(QTreeWidgetItem* item, int column);
 #ifdef POPPLER
     void on_pdfPageSpin_valueChanged(int );
+    void updatePdfPage(int current, int max);
+
 #endif
     void on_addBookMark_clicked();
     void on_cancelSearchBTN_clicked();
@@ -257,10 +259,6 @@ private slots:
 
     //Translate to the given lang
     void translate(QString newlang);
-
-#ifdef POPPLER
-    void updatePdfPage(int current, int num);
-#endif
 
     // Show/hide buttons and menus depending on the currently visible book
     void adjustMenus();

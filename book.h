@@ -23,6 +23,7 @@
 
 #include <QtGui/QTreeWidgetItem>
 #include <QDebug>
+#include <QPointer>
 #include <vector>
 
 
@@ -251,7 +252,7 @@ protected:
     int mShortIndexLevel;
 
     //QWidget* of current viewTab (0 if not exists)
-    QWidget* mTabWidget;
+    QPointer<QWidget> mTabWidget;
 
     // Suffix to remove from the name of the links in it's level
     // Take Notice: this is allways one lower than the link level -

@@ -46,8 +46,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
 
     mShortIndexLevel = 0;
 
-    mInSearch = true;
-    mIconState = BLUE;
+    mInSearch = false;
+    mIconState = GREY;
 
     mCopyrightInfo="";
     SearchInTitles = true;
@@ -367,7 +367,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     TreeItem->setIcon(0, *icon);
     delete icon;
 
-    if ( fileType() == Book::Normal || ( fileType() == Book::Dir && !IsUserBook() ) )
+    if ( !mUserBook )
     {
         //Show state in the checkbox too
         if (mIconState == BLUE)

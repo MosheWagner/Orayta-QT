@@ -109,10 +109,11 @@ private:
     QString lastSearch;
 
     //Html viewer the book is shown within
-    myWebView * htmlview;
+    QPointer<myWebView> htmlview;
+    QPointer<myWebView> waitView;
 
     #ifdef POPPLER
-        PdfWidget * pdfView;
+        QPointer<PdfWidget> pdfView;
     #endif
 
     MainWindow * MW;
@@ -138,8 +139,6 @@ private:
 
     QUrl myurl;
     QString mActiveLink;
-
-    myWebView * waitView;
 
     QStackedWidget *stackedWidget;
 

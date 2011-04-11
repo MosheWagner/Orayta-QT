@@ -97,10 +97,6 @@ int gFontSize = 16;
 //  It just made the code so much more readable, I couldn't resist
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
-// the currently visible "bookdisplayer"
-#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     //Code executed when the window is constructed:
@@ -154,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else
     {
-        bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
+        bookdisplayer(0)->setHtml(simpleHtmlPage(tr("Orayta"), tr("Jewish books")));
         ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
     }
 
@@ -322,9 +318,6 @@ void MainWindow::connectMenuActions()
 MainWindow::~MainWindow()
 {
     //TODO: Don't I need to free all the items?
-    for (int i=0; i<bookDisplayerList.size(); i++) { delete bookDisplayerList[i]; }
-    bookDisplayerList.clear();
-
     bookList.clear();
 
     ClearTmp();
@@ -502,7 +495,7 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
     bool showteamim = ui->showTeamimAction->isChecked();
 
     //Show the wait sign even before rendering
-    CurrentBookdisplayer->ShowWaitPage();
+    CurrentBookdisplayer()->ShowWaitPage();
 
     ui->viewTab->setTabText(CURRENT_TAB, tr("Loading..."));
 
@@ -523,9 +516,9 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
     {
         QString p =  absPath(htmlfilename);
 
-        CurrentBookdisplayer->load(QUrl(p));
+        CurrentBookdisplayer()->load(QUrl(p));
 
-        CurrentBookdisplayer->unhighlight();
+        CurrentBookdisplayer()->unhighlight();
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -556,12 +549,12 @@ void MainWindow::openBook( int ind )
             Book* book = bookList[ind];
 
             // erase tabWidget of the previous book
-            if (CurrentBookdisplayer->book() != NULL)
-                CurrentBookdisplayer->book()->setTabWidget( 0 );
+            if (CurrentBookdisplayer()->book() != NULL)
+                CurrentBookdisplayer()->book()->setTabWidget( 0 );
 
         #ifdef POPPLER
             //Default
-            CurrentBookdisplayer->setPdfMode(false);
+            CurrentBookdisplayer()->setPdfMode(false);
         #endif
 
             switch ( book->fileType() )
@@ -571,21 +564,21 @@ void MainWindow::openBook( int ind )
                 break;
 
             case ( Book::Html ):
-                CurrentBookdisplayer->load( QUrl(book->getPath()) );
+                CurrentBookdisplayer()->load( QUrl(book->getPath()) );
                 break;
 
             case ( Book::Pdf ):
     #ifdef POPPLER
-                CurrentBookdisplayer->setPdfMode(true);
-                CurrentBookdisplayer->load (QUrl(book->getPath()) );
+                CurrentBookdisplayer()->setPdfMode(true);
+                CurrentBookdisplayer()->load ( QUrl(book->getPath()) );
                 ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
     #else
 
-                CurrentBookdisplayer->enablePlugins();
-                CurrentBookdisplayer->setHtml(pluginPage(book->getNormallDisplayName()));
-                if ( CurrentBookdisplayer->execScript("testPdfPlugin()").toString() == "yes" )
+                CurrentBookdisplayer()->enablePlugins();
+                CurrentBookdisplayer()->setHtml(pluginPage(book->getNormallDisplayName()));
+                if ( CurrentBookdisplayer()->execScript("testPdfPlugin()").toString() == "yes" )
                 {
-                    CurrentBookdisplayer->load( QUrl( "file:///" + book->getPath() ) );
+                    CurrentBookdisplayer()->load( QUrl( "file:///" + book->getPath() ) );
                     ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
                 }
     #endif
@@ -599,7 +592,7 @@ void MainWindow::openBook( int ind )
             // set tabWidget of this book
             book->setTabWidget(ui->viewTab->currentWidget());
 
-            CurrentBookdisplayer->setBook(book);
+            CurrentBookdisplayer()->setBook(book);
 
             adjustMenus();
         }
@@ -681,7 +674,6 @@ void MainWindow::addViewTab(bool empty)
 {
     //Create new tab:
     bookDisplayer * bd = new bookDisplayer(this, ui->viewTab);
-    bookDisplayerList << bd;
     ui->viewTab->addTab(bd, tr("Orayta"));
 
     if (empty == true) bd->setHtml(simpleHtmlPage(tr("Orayta"), ""));
@@ -713,7 +705,8 @@ void MainWindow::on_addAllToSearchButton_clicked()
 {
     for(unsigned int i=0; i<bookList.size(); i++)
     {
-        bookList[i]->select();
+        if ( bookList[i]->IsUserBook() ) break;
+        else bookList[i]->select();
     }
 
     ui->addToSearchAction->setEnabled(false);
@@ -741,17 +734,17 @@ void MainWindow::on_removeAllFromSearchButton_clicked()
 
 void MainWindow::on_zoominButton_clicked()
 {
-    CurrentBookdisplayer->ZoomIn();
+    CurrentBookdisplayer()->ZoomIn();
 }
 
 void MainWindow::on_zoomoutButton_clicked()
 {
-    CurrentBookdisplayer->ZoomOut();
+    CurrentBookdisplayer()->ZoomOut();
 }
 
 void MainWindow::on_topButton_clicked()
 {
-    CurrentBookdisplayer->jumpToTop();
+    CurrentBookdisplayer()->jumpToTop();
 }
 
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
@@ -858,9 +851,9 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     //Ctrl-F, show "search in books" bar
     if ( keyEvent->key() == Qt::Key_F && keyEvent->modifiers() == Qt::CTRL )
     {
-        if (    CurrentBookdisplayer->book()->fileType() == Book::Normal
-             || CurrentBookdisplayer->book()->fileType() == Book::Pdf
-             || CurrentBookdisplayer->book()->fileType() == Book::Html )
+        if (    CurrentBookdisplayer()->book()->fileType() == Book::Normal
+             || CurrentBookdisplayer()->book()->fileType() == Book::Pdf
+             || CurrentBookdisplayer()->book()->fileType() == Book::Html )
             ToggleSearchBar();
     }
     //Ctrl-T, new tab
@@ -887,7 +880,7 @@ void MainWindow::printBook()
         return;
     else
     {
-        CurrentBookdisplayer->print(&printer);
+        CurrentBookdisplayer()->print(&printer);
     }
 }
 */
@@ -954,12 +947,12 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
     //Add this commen into the page
     QString lnk = link.mid(link.indexOf(":") + 1);
     QString script = "addComment(\"" + lnk + "\",\"" + comment + "\");";
-    CurrentBookdisplayer->execScript(script);
+    CurrentBookdisplayer()->execScript(script);
 
     //Recreate this page with new comment in other thread (new render of the book)
-    bool shownikud = CurrentBookdisplayer->isNikudShown();
-    bool showteamim = CurrentBookdisplayer->areTeamimShown();
-    Book* book = CurrentBookdisplayer->book();
+    bool shownikud = CurrentBookdisplayer()->isNikudShown();
+    bool showteamim = CurrentBookdisplayer()->areTeamimShown();
+    Book* book = CurrentBookdisplayer()->book();
     QString htmlfilename = book->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
     QtConcurrent::run( book, &Book::htmlrender, htmlfilename, shownikud, showteamim, QString("") );
 
@@ -973,10 +966,10 @@ void MainWindow::removeComment(QString link)
 
 void MainWindow::menuComment()
 {
-    QString link = CurrentBookdisplayer->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = CurrentBookdisplayer->book()->getUniqueId();
+    int id = CurrentBookdisplayer()->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     openCommentDialog( link );
@@ -996,39 +989,52 @@ void MainWindow::closeCurrentTab()
 
 void MainWindow::toggleNikud(bool showNikud)
 {
-    CurrentBookdisplayer->showNikud(showNikud);
-    LoadHtmlBook( CurrentBookdisplayer->book() );
+    CurrentBookdisplayer()->showNikud(showNikud);
+    LoadHtmlBook( CurrentBookdisplayer()->book() );
 }
 
 void MainWindow::toggleTeamim(bool showTeamim)
 {
-    CurrentBookdisplayer->showTeamim(showTeamim);
-    LoadHtmlBook( CurrentBookdisplayer->book() );
+    CurrentBookdisplayer()->showTeamim(showTeamim);
+    LoadHtmlBook( CurrentBookdisplayer()->book() );
 }
 
 void MainWindow::on_viewTab_currentChanged(int index)
 {
-    if (index != -1)
+    if ( index != -1 )
     {
         //Show / hide menu options depending on the book:
-        if ( bookDisplayerList.size() > index && bookDisplayerList.size() > 0)
+       // if ( bookDisplayerList.size() > index && bookDisplayerList.size() > 0)
         {
             adjustMenus();
         }
+
+#ifdef POPPLER
+        if ( bookdisplayer(index)->book() != NULL && bookdisplayer(index)->getPdfMode() == true )
+        {
+            PdfWidget* pdfWidget = bookdisplayer(index)->pdfview();
+            if ( pdfWidget )
+            {
+                updatePdfPage(pdfWidget->currentPage(), pdfWidget->numPages());
+            }
+        }
+#endif
+
     }
 }
+
 
 // Show/hide buttons and menus depending on the currently visible book
 void MainWindow::adjustMenus()
 {
     bool isWebkitPdf = false;
-    if (CurrentBookdisplayer->book() != NULL)
+    if (CurrentBookdisplayer()->book() != NULL)
     {
-        if (CurrentBookdisplayer->book()->getName().endsWith(".pdf", Qt::CaseInsensitive)) isWebkitPdf = true;
+        if (CurrentBookdisplayer()->book()->getName().endsWith(".pdf", Qt::CaseInsensitive)) isWebkitPdf = true;
     }
 
 
-    if (CurrentBookdisplayer->getPdfMode())
+    if (CurrentBookdisplayer()->getPdfMode())
     {
         //Show pdf buttons:
         ui->pdfPageSpin->show();
@@ -1048,16 +1054,16 @@ void MainWindow::adjustMenus()
     {
         ui->locationMenu->menuAction()->setVisible(true);
 
-        if ( CurrentBookdisplayer->book() != NULL )
+        if ( CurrentBookdisplayer()->book() != NULL )
         {
             //Show / Hide nikud and teamim buttons
-            ui->showNikudAction->setVisible( CurrentBookdisplayer->book()->hasNikud );
-            ui->showTeamimAction->setVisible( CurrentBookdisplayer->book()->hasTeamim );
+            ui->showNikudAction->setVisible( CurrentBookdisplayer()->book()->hasNikud );
+            ui->showTeamimAction->setVisible( CurrentBookdisplayer()->book()->hasTeamim );
         }
 
         //Disable / Enable them by what's displayed
-        ui->showNikudAction->setChecked( CurrentBookdisplayer->isNikudShown() );
-        ui->showTeamimAction->setChecked( CurrentBookdisplayer->areTeamimShown() );
+        ui->showNikudAction->setChecked( CurrentBookdisplayer()->isNikudShown() );
+        ui->showTeamimAction->setChecked( CurrentBookdisplayer()->areTeamimShown() );
 
         //Disable poppler pdf buttons:
         ui->pdfPageSpin->hide();
@@ -1067,11 +1073,11 @@ void MainWindow::adjustMenus()
 
 void MainWindow::menuErrorReport()
 {
-    QString link = CurrentBookdisplayer->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
     if (link != "")
     {
-        int id = CurrentBookdisplayer->book()->getUniqueId();
+        int id = CurrentBookdisplayer()->book()->getUniqueId();
         int index = bookList.FindBookById(id);
 
         errorReport *err = new errorReport( this, link, bookList[index]->getNormallDisplayName() );
@@ -1281,21 +1287,22 @@ void MainWindow::menuOpenBook(int uid)
 
 void MainWindow::on_viewTab_tabCloseRequested(int index)
 {
-    if (bookDisplayerList[index]->book() != NULL)
-        bookDisplayerList[index]->book()->setTabWidget( 0 );
+    if (bookdisplayer(index)->book() != NULL)
+        bookdisplayer(index)->book()->setTabWidget( 0 );
 
-    bookDisplayerList[index]->deleteLater();
-    bookDisplayerList.removeAt(index);
+    bookdisplayer(index)->deleteLater();
 
     //Destroy tab
+/*
     ui->viewTab->widget(index)->layout()->deleteLater();
     ui->viewTab->widget(index)->deleteLater();
+*/
     ui->viewTab->removeTab(index);
 
     if (ui->viewTab->count() == 0)
     {
         addViewTab(false);
-        bookDisplayerList[0]->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
+        bookdisplayer(0)->setHtml(simpleHtmlPage(tr("Orayta - Jewish books"), ""));
     }
 
     //Update the stupid tab widget
@@ -1318,9 +1325,9 @@ void MainWindow::openExternalLink(QString lnk)
             {
                 ui->viewTab->setCurrentWidget (tabWidget);
 
-                CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+                CurrentBookdisplayer()->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
 
-                CurrentBookdisplayer->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+                CurrentBookdisplayer()->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
             }
             else
             {
@@ -1328,14 +1335,14 @@ void MainWindow::openExternalLink(QString lnk)
                 addViewTab(false);
                 ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
-                CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
+                CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
 
                 openBook(index);
             }
 
             // ajouter gestion nikud etc...
             if (parts.size() == 3)
-                CurrentBookdisplayer->highlight( QRegExp(unescapeFromBase32(parts[2])) );
+                CurrentBookdisplayer()->highlight( QRegExp(unescapeFromBase32(parts[2])) );
         }
     }
 }
@@ -1351,15 +1358,15 @@ void MainWindow::on_openMixed_clicked()
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if ( CurrentBookdisplayer->book() != NULL
-                && bookList.FindBookById(CurrentBookdisplayer->book()->getUniqueId()) == ind)
+        if ( CurrentBookdisplayer()->book() != NULL
+                && bookList.FindBookById(CurrentBookdisplayer()->book()->getUniqueId()) == ind)
         {
             QString script = "var obj = ClosestElementToView();";
-            CurrentBookdisplayer->execScript(script);
-            QString closest = CurrentBookdisplayer->getJSVar("obj.href");
+            CurrentBookdisplayer()->execScript(script);
+            QString closest = CurrentBookdisplayer()->getJSVar("obj.href");
 
             QString link = closest.mid(closest.indexOf("$")+1);
-            if (link != "") CurrentBookdisplayer->setInternalLocation("#" + link);
+            if (link != "") CurrentBookdisplayer()->setInternalLocation("#" + link);
         }
 
         openBook(ind);
@@ -1447,10 +1454,11 @@ void buidSearchDBinBG(BookList * bl)
 */
 
 #ifdef POPPLER
+
 void MainWindow::updatePdfPage(int current, int max)
 {
-    ui->pdfPageSpin->setValue(current);
     ui->pdfPageSpin->setMaximum(max);
+    ui->pdfPageSpin->setValue(current);
 
     //Set tooltip
     ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
@@ -1458,9 +1466,10 @@ void MainWindow::updatePdfPage(int current, int max)
 
 void MainWindow::on_pdfPageSpin_valueChanged(int page)
 {
-    if (CurrentBookdisplayer->getPdfMode())
+    if (CurrentBookdisplayer()->getPdfMode())
     {
-        CurrentBookdisplayer->setPdfPage(page);
+        int page = ui->pdfPageSpin->value();
+        CurrentBookdisplayer()->setPdfPage(page);
 
         //Set tooltip
         ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(page) + " / " + QString::number(ui->pdfPageSpin->maximum()));
@@ -1472,4 +1481,16 @@ void MainWindow::searchGuematria()
 {
     ui->treeTab->setCurrentIndex(1);
     ui->guematriaCheckBox->setChecked(true);
+}
+
+bookDisplayer* MainWindow::CurrentBookdisplayer()
+{
+    QWidget* w = ui->viewTab->widget( CURRENT_TAB );
+    return qobject_cast<bookDisplayer*>(w);
+}
+
+bookDisplayer* MainWindow::bookdisplayer( int index )
+{
+    QWidget* w = ui->viewTab->widget(index);
+    return qobject_cast<bookDisplayer*>(w);
 }

@@ -50,7 +50,8 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 #ifdef POPPLER
     //Pdf viewer
     pdfView = new PdfWidget(this);
-    connect (pdfView, SIGNAL(pageChanged(int,int)), MW, SLOT(updatePdfPage(int, int)));
+    connect (pdfView, SIGNAL(pageChanged(int,int)), MW, SLOT(updatePdfPage(int,int)));
+
 #endif
 
     //Connect the signalls sent from the new widgets to their slots

@@ -22,9 +22,6 @@
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
-// the currently visible "bookdisplayer"
-#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
 
 
 
@@ -160,12 +157,12 @@ void MainWindow::SearchInBooks (QRegExp& regexp, QString disp)
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
         {
             addViewTab(false);
-            CurrentBookdisplayer->normalZoom();
-            CurrentBookdisplayer->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            CurrentBookdisplayer()->normalZoom();
+            CurrentBookdisplayer()->setHtml(simpleHtmlPage(tr("Orayta"), ""));
             ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
         }
 
-        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer;
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer();
         pCurrentBookdisplayer->ShowWaitPage();
 
         //Set the title of the tab to show what it's searching for
@@ -284,13 +281,13 @@ void MainWindow::on_searchForward_clicked()
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
 
-    if ( CurrentBookdisplayer->book()->fileType() == Book::Normal )
+    if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
     {
         QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
 
-        QString text = CurrentBookdisplayer->pageText();
+        QString text = CurrentBookdisplayer()->pageText();
 
-        int ppp = CurrentBookdisplayer->searchPos();
+        int ppp = CurrentBookdisplayer()->searchPos();
 
         //Find the closest occurence of the RegExp
         QString next = "";
@@ -299,17 +296,17 @@ void MainWindow::on_searchForward_clicked()
         if (pos > -1)
         {
             next = regexp.cap(0);
-            CurrentBookdisplayer->setSearchPos(pos);
-            CurrentBookdisplayer->searchText(next, false);
+            CurrentBookdisplayer()->setSearchPos(pos);
+            CurrentBookdisplayer()->searchText(next, false);
         }
     }
-    else if ( CurrentBookdisplayer->book()->fileType() == Book::Html )
+    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
     {
-        CurrentBookdisplayer->webview()->findText ( ui->lineEdit->text() );
+        CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
     }
-    else if ( CurrentBookdisplayer->book()->fileType() == Book::Pdf )
+    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
     {
-        CurrentBookdisplayer->pdfview()->searchForwards( ui->lineEdit->text() );
+        CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
     }
 }
 
@@ -318,11 +315,11 @@ void MainWindow::on_searchBackward_clicked()
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
 
-    if ( CurrentBookdisplayer->book()->fileType() == Book::Normal )
+    if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
     {
-        QString text = CurrentBookdisplayer->pageText();
+        QString text = CurrentBookdisplayer()->pageText();
 
-        int ppp = CurrentBookdisplayer->searchPos();
+        int ppp = CurrentBookdisplayer()->searchPos();
 
         //Search only in the text before the cursor's position
         if (ppp != -1) text = text.mid(0, ppp - 1);
@@ -336,17 +333,17 @@ void MainWindow::on_searchBackward_clicked()
         if (pos > -1)
         {
             last = regexp.cap(0);
-            CurrentBookdisplayer->setSearchPos(pos);
-            CurrentBookdisplayer->searchText(last, true);
+            CurrentBookdisplayer()->setSearchPos(pos);
+            CurrentBookdisplayer()->searchText(last, true);
         }
     }
-    else if ( CurrentBookdisplayer->book()->fileType() == Book::Html )
+    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
     {
-        CurrentBookdisplayer->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
+        CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
     }
-    else if ( CurrentBookdisplayer->book()->fileType() == Book::Pdf )
+    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
     {
-        CurrentBookdisplayer->pdfview()->searchBackwards( ui->lineEdit->text() );
+        CurrentBookdisplayer()->pdfview()->searchBackwards( ui->lineEdit->text() );
     }
 }
 
@@ -376,15 +373,15 @@ void MainWindow::SearchGuematria (QString txt)
         if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
         {
             addViewTab(false);
-            CurrentBookdisplayer->normalZoom();
-            CurrentBookdisplayer->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            CurrentBookdisplayer()->normalZoom();
+            CurrentBookdisplayer()->setHtml(simpleHtmlPage(tr("Orayta"), ""));
         }
 
         ui->pbarbox->show();
         ui->progressBar->setValue(0);
         float percentPerBook = (100.0 / tanach.size());
 
-        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer;
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer();
         pCurrentBookdisplayer->ShowWaitPage();
 
         //Set the title of the tab to show what it's searching for
