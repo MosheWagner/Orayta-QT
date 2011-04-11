@@ -64,7 +64,7 @@ PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
     setWidgetResizable(true);
     verticalScrollBar()->setTracking(true);
 
-    currentPage = -1;
+    current_page = -1;
     doc = 0;
     rubberBand = 0;
     scaleFactor = 1.0;
@@ -146,14 +146,14 @@ qreal PdfWidget::scale() const
 
 void PdfWidget::showPage(int page)
 {
-    if (page != -1 && page != currentPage + 1) {
-        currentPage = page - 1;
+    if (page != -1 && page != current_page + 1) {
+        current_page = page - 1;
         emit pageChanged(page, doc->numPages());
     }
 
-    Poppler::Page* pdfPage = doc->page(currentPage);
+    Poppler::Page* pdfPage = doc->page(current_page);
     if (pdfPage == 0) {
-        qDebug() << "Couldn't open page " << currentPage;
+        qDebug() << "Couldn't open page " << current_page;
         return;
     }
 
@@ -190,7 +190,7 @@ QRectF PdfWidget::searchBackwards(const QString &stext)
 
     QRectF oldLocation = searchLocation;
 
-    int page = currentPage;
+    int page = current_page;
     if (oldLocation.isNull())
         page -= 1;
 
@@ -222,13 +222,13 @@ QRectF PdfWidget::searchBackwards(const QString &stext)
         page -= 1;
     }
 
-    if (currentPage == doc->numPages() - 1)
+    if (current_page == doc->numPages() - 1)
         return QRectF();
 
     oldLocation = QRectF();
     page = doc->numPages() - 1;
 
-    while (page > currentPage) {
+    while (page > current_page) {
 
         QList<QRectF> locations;
         searchLocation = QRectF();
@@ -255,7 +255,7 @@ QRectF PdfWidget::searchForwards(const QString &stext)
     //Invert text to visual (flips hebrew chars).
     QString text = ToBidiText(stext);
 
-    int page = currentPage;
+    int page = current_page;
     while (page < doc->numPages()) {
 
         if (doc->page(page)->search(text, searchLocation,
@@ -271,7 +271,7 @@ QRectF PdfWidget::searchForwards(const QString &stext)
 
     page = 0;
 
-    while (page < currentPage) {
+    while (page < current_page) {
 
         searchLocation = QRectF();
 
@@ -296,7 +296,7 @@ void PdfWidget::copyText()
 
     bool hadSpace = false;
     QPointF center;
-    foreach (Poppler::TextBox *box, doc->page(currentPage)->textList()) {
+    foreach (Poppler::TextBox *box, doc->page(current_page)->textList()) {
         if (textRect.intersects(box->boundingBox())) {
             if (hadSpace)
                 text += " ";
@@ -334,7 +334,8 @@ bool PdfWidget::setDocument(const QString &filePath)
         return false;
     }
 
-    QByteArray data = file.read( file.size() ); file.close();
+    QByteArray data = file.read( file.size() );
+    file.close();
 
     doc = Poppler::Document::loadFromData(data);
     if (doc) {
@@ -342,7 +343,7 @@ bool PdfWidget::setDocument(const QString &filePath)
         doc->setRenderHint(Poppler::Document::Antialiasing);
         doc->setRenderHint(Poppler::Document::TextAntialiasing);
         searchLocation = QRectF();
-        currentPage = -1;
+        current_page = -1;
         setPage(1);
     }
     else
@@ -355,7 +356,7 @@ bool PdfWidget::setDocument(const QString &filePath)
 
 void PdfWidget::setPage(int page)
 {
-    if (page != -1 && page != currentPage + 1) {
+    if (page != -1 && page != current_page + 1) {
         searchLocation = QRectF();
         showPage(page);
     }
@@ -369,12 +370,17 @@ void PdfWidget::setScale(qreal scale)
     }
 }
 
-int PdfWidget::numPages()
+int PdfWidget::numPages() const
 {
     if (doc)
         return doc->numPages();
     else
         return 0;
+}
+
+int PdfWidget::currentPage() const
+{
+    return current_page + 1;
 }
 
 #endif

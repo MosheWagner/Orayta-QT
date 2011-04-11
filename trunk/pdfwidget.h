@@ -62,13 +62,13 @@ class PdfWidget : public QScrollArea
 public:
     PdfWidget(QWidget *parent = 0);
     ~PdfWidget();
+
     Poppler::Document *document();
     QMatrix matrix() const;
     qreal scale() const;
 
-    int currentPage;
-
-    int numPages();
+    int numPages() const;
+    int currentPage() const;
 
 public slots:
     QRectF searchBackwards(const QString &text);
@@ -97,7 +97,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
 
 signals:
-    void pageChanged(int currentPage, int numPages);
+    void pageChanged(int currentPage, int max);
+
     //void textSelected(const QString &text);
 
 private:
@@ -115,6 +116,7 @@ private:
     QRubberBand *rubberBand;
     QRectF searchLocation;
     qreal scaleFactor;
+    int current_page;
 };
 
 #endif

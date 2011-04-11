@@ -20,10 +20,6 @@
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-//Another define becuase I'm lasy. "CurrentBookdisplayer" simply represents
-// the currently visible "bookdisplayer"
-#define CurrentBookdisplayer bookDisplayerList[CURRENT_TAB]
-
 
 void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
 {
@@ -155,9 +151,9 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
             {
                 ui->viewTab->setCurrentWidget (tabWidget);
 
-                CurrentBookdisplayer->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
+                CurrentBookdisplayer()->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
 
-                CurrentBookdisplayer->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+                CurrentBookdisplayer()->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
             }
             else
             {
@@ -165,7 +161,7 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
                 addViewTab(false);
                 ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
-                CurrentBookdisplayer->setInternalLocation("#" + parts[1]);
+                CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
                 openBook(index);
             }
         }
@@ -304,10 +300,10 @@ void MainWindow::on_bookmarkDown_clicked()
 
 void MainWindow::menuBookMark()
 {
-    QString link = CurrentBookdisplayer->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = CurrentBookdisplayer->book()->getUniqueId();
+    int id = CurrentBookdisplayer()->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     bookMarkPosition( link );
@@ -315,10 +311,10 @@ void MainWindow::menuBookMark()
 
 void MainWindow::on_addBookMark_clicked()
 {
-    QString link = CurrentBookdisplayer->activeLink().replace("$","");
+    QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
     //Find book's id and add it to the link
-    int id = CurrentBookdisplayer->book()->getUniqueId();
+    int id = CurrentBookdisplayer()->book()->getUniqueId();
     link = stringify(id) + ":" + link;
 
     if (id != -1) addBookMark(link, ui->bookmarkTitleLine->text());
