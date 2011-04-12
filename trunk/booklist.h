@@ -49,6 +49,8 @@ public:
     vector<Book*> BooksInSearch (void);
     vector<Book*> Children ( Book* book );
 
+    void CheckUid();
+
 private:
 };
 

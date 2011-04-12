@@ -1268,6 +1268,8 @@ void MainWindow::updateBookTree()
         exit(2);
     }
 
+    bookList.CheckUid();
+
     //Insert all the books in the tree Widget
     BuildBookTree();
 
