@@ -143,10 +143,10 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
     int id;
     if(ToNum(parts[0], &id))
     {
-        int index = bookList.FindBookById(id);
-        if( index != -1)
+        Book* book = bookList.findBookById(id);
+        if( book )
         {
-            QWidget* tabWidget = bookList[index]->tabWidget();
+            QWidget* tabWidget = book->tabWidget();
             if ( tabWidget != 0 )
             {
                 ui->viewTab->setCurrentWidget (tabWidget);
@@ -162,7 +162,7 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
                 ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
 
                 CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
-                openBook(index);
+                openBook(book);
             }
         }
     }

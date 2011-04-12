@@ -533,11 +533,13 @@ QString Book::confEntry()
 QString Book::HTMLFileName()
 {
     QString CommenteriesMagicString = "-"; //QString representing the commenteries state
-    for (int i=1; i<mWeavedSources.size(); i++) CommenteriesMagicString += stringify(mWeavedSources[i].show);
+    for (int i=1; i<mWeavedSources.size(); i++)
+        CommenteriesMagicString += stringify(mWeavedSources[i].show);
 
     if (showAlone || mWeavedSources.size() == 0) CommenteriesMagicString = "";
 
-    QString htmlfilename = TMPPATH + stringify(mUniqueId) + CommenteriesMagicString;
+    QString name = ( mUniqueId == -1 ? getNormallDisplayName() : stringify(mUniqueId) );
+    QString htmlfilename = TMPPATH + name + CommenteriesMagicString;
 
     return htmlfilename;
 }

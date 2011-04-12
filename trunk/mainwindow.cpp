@@ -146,7 +146,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //Load start page. Assuming it's book[0] of course.
     if (!bookList[0]->IsDir())
     {
-        openBook(0);
+        openBook(bookList[0]);
     }
     else
     {
@@ -541,70 +541,65 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
 }
 
 //Open the given book (by it's id in the booklist)
-void MainWindow::openBook( int ind )
+void MainWindow::openBook( Book* book )
 {
-    if (ind >= 0 && ind < bookList.size())
+    if ( book && book->IsDir() == false )
     {
-        if(bookList[ind]->IsDir() == false)
+        // erase tabWidget of the previous book
+        if (CurrentBookdisplayer()->book() != NULL)
+            CurrentBookdisplayer()->book()->setTabWidget( 0 );
+
+#ifdef POPPLER
+        //Default
+        CurrentBookdisplayer()->setPdfMode(false);
+#endif
+
+        switch ( book->fileType() )
         {
-            Book* book = bookList[ind];
+        case ( Book::Normal ):
+            LoadHtmlBook(book);
+            break;
 
-            // erase tabWidget of the previous book
-            if (CurrentBookdisplayer()->book() != NULL)
-                CurrentBookdisplayer()->book()->setTabWidget( 0 );
+        case ( Book::Html ):
+            CurrentBookdisplayer()->load( QUrl(book->getPath()) );
+            break;
 
-        #ifdef POPPLER
-            //Default
-            CurrentBookdisplayer()->setPdfMode(false);
-        #endif
+        case ( Book::Pdf ):
+#ifdef POPPLER
+            CurrentBookdisplayer()->setPdfMode(true);
+            CurrentBookdisplayer()->load ( QUrl(book->getPath()) );
+            ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+#else
 
-            switch ( book->fileType() )
+            CurrentBookdisplayer()->enablePlugins();
+            CurrentBookdisplayer()->setHtml(pluginPage(book->getNormallDisplayName()));
+            if ( CurrentBookdisplayer()->execScript("testPdfPlugin()").toString() == "yes" )
             {
-            case ( Book::Normal ):
-                LoadHtmlBook(book);
-                break;
-
-            case ( Book::Html ):
-                CurrentBookdisplayer()->load( QUrl(book->getPath()) );
-                break;
-
-            case ( Book::Pdf ):
-    #ifdef POPPLER
-                CurrentBookdisplayer()->setPdfMode(true);
-                CurrentBookdisplayer()->load ( QUrl(book->getPath()) );
+                CurrentBookdisplayer()->load( QUrl( "file:///" + book->getPath() ) );
                 ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
-    #else
-
-                CurrentBookdisplayer()->enablePlugins();
-                CurrentBookdisplayer()->setHtml(pluginPage(book->getNormallDisplayName()));
-                if ( CurrentBookdisplayer()->execScript("testPdfPlugin()").toString() == "yes" )
-                {
-                    CurrentBookdisplayer()->load( QUrl( "file:///" + book->getPath() ) );
-                    ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
-                }
-    #endif
-                break;
-
-            default:
-                qDebug("Unkown file type");
-                break;
             }
+#endif
+            break;
 
-            // set tabWidget of this book
-            book->setTabWidget(ui->viewTab->currentWidget());
-
-            CurrentBookdisplayer()->setBook(book);
-
-            adjustMenus();
+        default:
+            qDebug("Unkown file type");
+            break;
         }
+
+        // set tabWidget of this book
+        book->setTabWidget(ui->viewTab->currentWidget());
+
+        CurrentBookdisplayer()->setBook(book);
+
+        adjustMenus();
     }
 }
 
 //Calls "openBook", but uses the currently selected book in the tree
 void MainWindow::openSelectedBook( )
 {
-    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
-    openBook(ind);
+    Book* book = bookList.findBookByTWI(ui->treeWidget->selectedItems()[0]);
+    openBook( book );
 }
 
 //Opens a new tab and Calls "openBook" (using the currently selected book in the tree).
@@ -616,24 +611,22 @@ void MainWindow::openSelectedBookInNewTab()
 
 void MainWindow::changeFont()
 {
-    int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
-    QFont currentFont = bookList[ind]->getFont();
+    Book* book = bookList.findBookByTWI(ui->treeWidget->selectedItems()[0]);
+    QFont currentFont = book->getFont();
 
     bool ok;
-    // a modifier...
     QFont font = QFontDialog::getFont(&ok, QFont(currentFont.family(), currentFont.pointSize()), this);
     if (ok)
     {
-        bookList[ind]->setFont(font);
+        book->setFont(font);
     }
 }
 
 void MainWindow::deleteSelectedBook()
 {
     QTreeWidgetItem * selectedItem = ui->treeWidget->selectedItems()[0];
-    int ind = bookList.FindBookByTWI( selectedItem );
 
-    Book* book = bookList[ind];
+    Book* book = bookList.findBookByTWI( selectedItem );
     QString path = book->getPath();
 
     QString displayText = tr("Are you sure you want to remove this ")
@@ -694,9 +687,9 @@ void MainWindow::on_lineEdit_returnPressed()
 
 void MainWindow::addToSearch()
 {
-    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1)
-        bookList[ind]->select();
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    if ( book )
+        book->select();
 
     ui->addToSearchAction->setEnabled(false);
     ui->removeFromSearchAction->setEnabled(true);
@@ -716,9 +709,9 @@ void MainWindow::on_addAllToSearchButton_clicked()
 
 void MainWindow::removeFromSearch()
 {
-    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1)
-        bookList[ind]->unselect();
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    if ( book )
+        book->unselect();
 
     ui->addToSearchAction->setEnabled(true);
     ui->removeFromSearchAction->setEnabled(false);
@@ -774,18 +767,18 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
     QTreeWidgetItem * item = 0 ;
     item = ui->treeWidget->itemAt(pos);
 
-    int ind = -1;
+    Book* book = NULL;
     if ( item != 0 )
     {
-        ind = bookList.FindBookByTWI(item);
+        book = bookList.findBookByTWI(item);
     }
 
-    if( ind != -1)
+    if( book )
     {
         bool setMenu = false;
         QMenu menu(ui->treeWidget);
 
-        if ( bookList[ind]->IsDir() == false )
+        if ( book->IsDir() == false )
         {
             QAction *openbook = new QAction(tr("Open book"), &menu);
             openbook->setIcon(QIcon(":/Icons/book-blue.png"));
@@ -800,7 +793,7 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
 
             setMenu = true;
         }
-        if ( bookList[ind]->IsUserBook() == true )
+        if ( book->IsUserBook() == true )
         {
             QAction *deleteBook = new QAction(tr("Delete book"), &menu);
             deleteBook->setIcon(QIcon(":/Icons/edit-delete.png"));
@@ -853,15 +846,17 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     {
         if (ui->treeWidget->hasFocus())
         {
-            int ind = bookList.FindBookByTWI(ui->treeWidget->selectedItems()[0]);
-            if (ind != -1)
+            Book* book = bookList.findBookByTWI(ui->treeWidget->selectedItems()[0]);
+            if ( book )
             {
-                if ( bookList[ind]->IsDir() )
+                if ( book->IsDir() )
                 {
-                    if ( ui->treeWidget->selectedItems()[0]->isExpanded() ) ui->treeWidget->collapseItem(ui->treeWidget->selectedItems()[0]);
-                    else ui->treeWidget->expandItem(ui->treeWidget->selectedItems()[0]);
+                    if ( ui->treeWidget->selectedItems()[0]->isExpanded() )
+                        ui->treeWidget->collapseItem(ui->treeWidget->selectedItems()[0]);
+                    else
+                        ui->treeWidget->expandItem(ui->treeWidget->selectedItems()[0]);
                 }
-                else openBook(ind);
+                else openBook(book);
             }
         }
         else if (ui->bookmarkWidget->hasFocus())
@@ -1111,17 +1106,17 @@ void MainWindow::menuErrorReport()
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 {
-    int bookid = bookList.FindBookByTWI(current);
+    Book* book = bookList.findBookByTWI(current);
 
     if (current->checkState(0) == Qt::Checked) addToSearch();
     if (current->checkState(0) == Qt::Unchecked) removeFromSearch();
 
-    if ( bookList[bookid]->mIconState == BLUE )
+    if ( book->mIconState == BLUE )
     {
         ui->addToSearchAction->setEnabled(false);
         ui->removeFromSearchAction->setEnabled(true);
     }
-    else if ( bookList[bookid]->mIconState == GREY )
+    else if ( book->mIconState == GREY )
     {
         ui->addToSearchAction->setEnabled(true);
         ui->removeFromSearchAction->setEnabled(false);
@@ -1136,16 +1131,16 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 //Called when a TreeItem is double clicked
 void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
 {
-    int index = bookList.FindBookByTWI(item);
+    Book* book = bookList.findBookByTWI(item);
 
-    if ( bookList[index]->tabWidget() != 0 )
+    if ( book->tabWidget() != 0 )
     {
-        ui->viewTab->setCurrentWidget( bookList[index]->tabWidget() );
+        ui->viewTab->setCurrentWidget( book->tabWidget() );
     }
     else
     {
         //Open the selected book
-        openBook(index);
+        openBook(book);
     }
 }
 
@@ -1153,10 +1148,10 @@ QList <QCheckBox *> weavedList;
 
 void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* old)
 {
-    int bookid = bookList.FindBookByTWI(current);
+    Book* book = bookList.findBookByTWI(current);
 
     //Show / Hide mixed display stuff
-    if (bookList[bookid]->IsMixed())
+    if (book->IsMixed())
     {
         ui->mixedGroup->show();
 
@@ -1168,17 +1163,17 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
         weavedList.clear();
 
         //Create new entries
-        for(int i=1; i<bookList[bookid]->mWeavedSources.size(); i++)
+        for(int i=1; i<book->mWeavedSources.size(); i++)
         {
-            QCheckBox *chk = new QCheckBox(bookList[bookid]->mWeavedSources[i].Title, ui->mixedFrame);
+            QCheckBox *chk = new QCheckBox(book->mWeavedSources[i].Title, ui->mixedFrame);
             ui->verticalLayout_11->addWidget(chk);
 
-            if (bookList[bookid]->mWeavedSources[i].show == true)
+            if (book->mWeavedSources[i].show == true)
             {
                 chk->setChecked(true);
             }
 
-            chk->setWhatsThis(stringify(bookList[bookid]->mWeavedSources[i].id));
+            chk->setWhatsThis(stringify(book->mWeavedSources[i].id));
 
             weavedList << chk;
 
@@ -1189,7 +1184,7 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
             connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
         }
 
-        ui->showaloneCBX->setChecked(bookList[bookid]->showAlone);
+        ui->showaloneCBX->setChecked(book->showAlone);
         ui->mixedFrame->setEnabled(!ui->showaloneCBX->isChecked());
     }
     else ui->mixedGroup->hide();
@@ -1200,21 +1195,22 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
     //Still a bit ugly
 
     QTreeWidgetItem* current = ui->treeWidget->currentItem();
-    int bookid = bookList.FindBookByTWI(current);
+    Book* book = bookList.findBookByTWI(current);
 
-    if (bookid == -1) return;
+    if (book == NULL) return;
 
     QString id = weavedList[btnIndex]->whatsThis();
 
-    for(int i=1; i<bookList[bookid]->mWeavedSources.size(); i++)
+    for(int i=1; i<book->mWeavedSources.size(); i++)
     {
-        if (stringify(bookList[bookid]->mWeavedSources[i].id) == id)
+        if (stringify(book->mWeavedSources[i].id) == id)
         {
-            bookList[bookid]->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
+            book->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
         }
     }
 
-    bookList[bookid]->setTabWidget( 0 );
+    //??
+    book->setTabWidget( 0 );
 }
 
 
@@ -1293,18 +1289,18 @@ void MainWindow::findBookForm()
 
 void MainWindow::menuOpenBook(int uid)
 {
-    int index = bookList.FindBookById(uid);
+    Book* book = bookList.findBookById(uid);
 
-    if (index != -1)
+    if ( book )
     {
-        if ( bookList[index]->tabWidget() != 0 )
+        if ( book->tabWidget() != 0 )
         {
-            ui->viewTab->setCurrentWidget (bookList[index]->tabWidget());
+            ui->viewTab->setCurrentWidget (book->tabWidget());
         }
         else
         {
             addViewTab(false);
-            openBook(index);
+            openBook(book);
         }
     }
 }
@@ -1340,11 +1336,11 @@ void MainWindow::openExternalLink(QString lnk)
     int id;
     if(ToNum(parts[0], &id))
     {
-        int index = bookList.FindBookById(id);
-        if( index != -1 )
+        Book* book = bookList.findBookById(id);
+        if( book )
         {
             // if this book is already open, don't add a new tab
-            QWidget* tabWidget = bookList[index]->tabWidget();
+            QWidget* tabWidget = book->tabWidget();
             if ( tabWidget != 0 )
             {
                 ui->viewTab->setCurrentWidget (tabWidget);
@@ -1361,7 +1357,7 @@ void MainWindow::openExternalLink(QString lnk)
 
                 CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
 
-                openBook(index);
+                openBook(book);
             }
 
             // ajouter gestion nikud etc...
@@ -1373,17 +1369,15 @@ void MainWindow::openExternalLink(QString lnk)
 
 void MainWindow::on_openMixed_clicked()
 {
-
-    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1)
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    if ( book )
     {
         //Reopen at current position, if exists
 
         //TODO: If active part is in view, use it instead
 
         //If it's the same book:
-        if ( CurrentBookdisplayer()->book() != NULL
-                && bookList.FindBookById(CurrentBookdisplayer()->book()->getUniqueId()) == ind)
+        if ( CurrentBookdisplayer()->book() == book )
         {
             QString script = "var obj = ClosestElementToView();";
             CurrentBookdisplayer()->execScript(script);
@@ -1393,7 +1387,7 @@ void MainWindow::on_openMixed_clicked()
             if (link != "") CurrentBookdisplayer()->setInternalLocation("#" + link);
         }
 
-        openBook(ind);
+        openBook(book);
     }
 }
 
@@ -1401,11 +1395,11 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
 {
     ui->mixedFrame->setEnabled(!checked);
 
-    int ind = bookList.FindBookByTWI(ui->treeWidget->currentItem());
-    if (ind != -1)
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    if ( book )
     {
-        bookList[ind]->showAlone = checked;
-        bookList[ind]->setTabWidget( 0 );
+        book->showAlone = checked;
+        book->setTabWidget( 0 );
     }
 }
 

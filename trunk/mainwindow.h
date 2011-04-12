@@ -159,7 +159,7 @@ private slots:
 
     void on_viewTab_currentChanged(int index);
     //Open the given book (by it's id in the booklist)
-    void openBook( int booklist_ind );
+    void openBook( Book* book );
     //Calls "openBook", but uses the currently selected book in the tree
     void openSelectedBook();
     //Opens a new tab and Calls "openBook" (using the currently selected book in the tree).
