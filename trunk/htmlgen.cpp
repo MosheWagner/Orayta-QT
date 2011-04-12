@@ -139,8 +139,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         QString line = Sources[0].text[i];
 
         //Display nikud and teamim depending on the NikudMode
-        if ( shownikud == false) line = removeNikud(line);
-        if ( showteamim == false) line = removeTeamim(line);
+        if ( hasNikud && shownikud == false) line = removeNikud(line);
+        if ( hasTeamim && showteamim == false) line = removeTeamim(line);
 
         //A new level is reached, so add all that came before it to the Html, and get all of the sources' text for this level
         //NOTE: this is a bit funny (think about it). Maybe this should be fixed. But it still works...
@@ -385,8 +385,8 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
         QApplication::processEvents();
 
         //Display nikud and teamim depending on the NikudMode
-        if ( shownikud == false) text[i] = removeNikud(text[i]);
-        if ( showteamim == false) text[i] = removeTeamim(text[i]);
+        if ( hasNikud && shownikud == false) text[i] = removeNikud(text[i]);
+        if ( hasTeamim && showteamim == false) text[i] = removeTeamim(text[i]);
 
         //Great line for debugging. Shows in what line it crashes.
         //  Don't use "print()", because it might mix up the stack and prevent the crash(!)

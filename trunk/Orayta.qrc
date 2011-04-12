@@ -42,5 +42,6 @@
         <file>Icons/book-user.png</file>
         <file>Icons/folder-user.png</file>
         <file>Icons/font.png</file>
+        <file>Icons/refresh.png</file>
     </qresource>
 </RCC>
