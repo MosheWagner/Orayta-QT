@@ -676,6 +676,23 @@
            </widget>
           </item>
           <item>
+           <widget class="QToolButton" name="refreshButton">
+            <property name="toolTip">
+             <string>refresh this book</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="Orayta.qrc">
+              <normaloff>:/Icons/refresh.png</normaloff>:/Icons/refresh.png</iconset>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QToolButton" name="newTabButton">
             <property name="toolTip">
              <string>Open new tab</string>
@@ -1836,7 +1853,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>28</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="layoutDirection">

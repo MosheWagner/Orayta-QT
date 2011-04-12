@@ -142,6 +142,7 @@ private slots:
     void on_searchInBooksLine_returnPressed();
     void on_hideSearchButton_clicked();
     void on_showSearchBarButton_clicked(bool checked);
+    void on_refreshButton_clicked();
 
     void on_showaloneCBX_clicked(bool checked);
 

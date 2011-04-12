@@ -166,6 +166,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     cornerWidgetLayout->addSpacing(45);
 #endif
 
+    ui->btnBox->addButton((QAbstractButton *)ui->refreshButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoominButton, QDialogButtonBox::ActionRole);
@@ -747,6 +748,27 @@ void MainWindow::on_topButton_clicked()
     CurrentBookdisplayer()->jumpToTop();
 }
 
+void MainWindow::on_refreshButton_clicked()
+{
+    if (CurrentBookdisplayer()->getPdfMode()) return;
+
+    Book* book = CurrentBookdisplayer()->book();
+    if ( book != NULL )
+    {
+        bool shownikud = ui->showNikudAction->isChecked();
+        bool showteamim = ui->showTeamimAction->isChecked();
+
+        //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
+        //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
+        QString htmlfilename = book->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
+
+        QFile::remove(htmlfilename);
+
+        LoadHtmlBook(book);
+    }
+}
+
+
 void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
 {
     QTreeWidgetItem * item = 0 ;
@@ -1065,9 +1087,11 @@ void MainWindow::adjustMenus()
         ui->showNikudAction->setChecked( CurrentBookdisplayer()->isNikudShown() );
         ui->showTeamimAction->setChecked( CurrentBookdisplayer()->areTeamimShown() );
 
+#ifdef POPPLER
         //Disable poppler pdf buttons:
         ui->pdfPageSpin->hide();
         ui->PDFpageLBL->hide();
+#endif
     }
 }
 
