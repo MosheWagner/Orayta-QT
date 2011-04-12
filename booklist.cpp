@@ -16,6 +16,7 @@
 
 #include "booklist.h"
 
+#include <QSet>
 #include <QDir>
 #include <QFileInfoList>
 #include <QFileInfoListIterator>
@@ -74,7 +75,7 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             //Add this book to the list
             push_back(b);
 
-            if (ft == Book::Normal)
+            if ( ft == Book::Normal )
             {
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
@@ -331,4 +332,32 @@ vector<Book*> BookList::Children ( Book* book )
     }
 
     return ret;
+}
+
+void BookList::CheckUid()
+{
+    QSet <int> existingId;
+    QList <Book*> withoutId;
+
+    for (unsigned i=0; i < this->size(); i++)
+    {
+        int id = (*this)[i]->getUniqueId();
+        if ( id != -1 )
+            existingId.insert(id);
+        else if ( (*this)[i]->fileType() == Book::Normal )
+            withoutId.push_back((*this)[i]);
+    }
+
+    //Set random id for books without id
+    for (int i=0; i < withoutId.size(); i++)
+    {
+        qDebug() << "no uniqueId for : " << withoutId[i]->getName();
+
+        int randomId;
+        do {
+            randomId = rand();
+        } while ( existingId.contains( randomId ) );
+        withoutId[i]->setUniqueId( randomId );
+        existingId.insert( randomId );
+    }
 }
