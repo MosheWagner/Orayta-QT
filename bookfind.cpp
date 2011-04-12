@@ -63,7 +63,7 @@ void bookfind::reBuildList(QString text)
                         item->setText(bookname);
                         m_ui->listWidget->addItem(item);
 
-                        item->setData(Qt::StatusTipRole, mBookList[i]->getUniqueId());
+                        item->setData(Qt::UserRole, mBookList[i]->getUniqueId());
                     }
                 }
                 else
@@ -74,7 +74,7 @@ void bookfind::reBuildList(QString text)
                         item->setText( bookname );
                         m_ui->listWidget->addItem(item);
 
-                        item->setData(Qt::StatusTipRole, mBookList[i]->getUniqueId());
+                        item->setData(Qt::UserRole, mBookList[i]->getUniqueId());
                     }
                 }
             }
@@ -94,19 +94,17 @@ void bookfind::on_pushButton_2_clicked()
 
 void bookfind::on_pushButton_clicked()
 {
-    int x;
-    if (m_ui->listWidget->currentItem() != NULL && ToNum( m_ui->listWidget->currentItem()->statusTip(), &x))
+    QListWidgetItem *item = m_ui->listWidget->currentItem();
+    if ( item )
     {
-        emit openBook(x);
+        int bookid = item->data(Qt::UserRole).toInt();
+        emit openBook(bookid);
         close();
     }    
 }
 
 void bookfind::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
-    int x;
-    if (ToNum( item->statusTip(), &x))
-    {
-        emit openBook(x);
-    }
+    int bookid = item->data(Qt::UserRole).toInt();
+    emit openBook( bookid );
 }
