@@ -276,13 +276,25 @@ Book* BookList::findBookById(int id)
 //  (Returns -1 if it dosen't exist)
 int BookList::FindBookByTWI(QTreeWidgetItem *TWI)
 {
-    int index = -1;
     for(unsigned int i=0; i<size(); i++)
     {
         if((*this)[i]->getTreeItemPtr() == TWI)
-            index = i;
+            return i;
     }
-    return index;
+    return -1;
+}
+
+//Return the pointer to the book with the given TreeWidgetItem
+//  (Returns NULL if it dosen't exist)
+Book* BookList::findBookByTWI(QTreeWidgetItem *TWI)
+{
+    Book* book = NULL;
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if((*this)[i]->getTreeItemPtr() == TWI)
+            return (*this)[i];
+    }
+    return NULL;
 }
 
 vector<Book*> BookList::BooksInSearch (void)

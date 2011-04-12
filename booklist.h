@@ -35,6 +35,7 @@ public:
     //Return the index of the book with the given TreeWidgetItem - in the book list
     //  (Returns -1 if it doesn't exist)
     int FindBookByTWI(QTreeWidgetItem *);
+    Book* findBookByTWI(QTreeWidgetItem *);
 
 
     //Builds the booklist from all fles within the given folder
