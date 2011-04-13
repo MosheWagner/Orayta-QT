@@ -288,7 +288,7 @@ void MainWindow::connectMenuActions()
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
     connect(ui->zoomoutAction, SIGNAL(triggered()), this, SLOT(on_zoomoutButton_clicked()));
     connect(ui->jumptotopAction, SIGNAL(triggered()), this, SLOT(on_topButton_clicked()));
-    connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
+    //connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
 
     connect(ui->findBookAction, SIGNAL(triggered()), this, SLOT(findBookForm()));
     connect(ui->opentabAction, SIGNAL(triggered()), this, SLOT(on_newTabButton_clicked()));
@@ -518,8 +518,6 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
         QString p =  absPath(htmlfilename);
 
         CurrentBookdisplayer()->load(QUrl(p));
-
-        CurrentBookdisplayer()->unhighlight();
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -1209,7 +1207,6 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
         }
     }
 
-    //??
     book->setTabWidget( 0 );
 }
 
@@ -1350,6 +1347,9 @@ void MainWindow::openExternalLink(QString lnk)
                 CurrentBookdisplayer()->webview()->page()->mainFrame()->scrollToAnchor("#" + parts[1]);
 
                 CurrentBookdisplayer()->execScript(QString("paintByHref(\"$" + parts[1] + "\");"));
+
+                if (parts.size() == 3)
+                    CurrentBookdisplayer()->highlight( QRegExp(unescapeFromBase32(parts[2])) );
             }
             else
             {
@@ -1359,12 +1359,11 @@ void MainWindow::openExternalLink(QString lnk)
 
                 CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
 
+                if (parts.size() == 3)
+                    CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );
+
                 openBook(book);
             }
-
-            // ajouter gestion nikud etc...
-            if (parts.size() == 3)
-                CurrentBookdisplayer()->highlight( QRegExp(unescapeFromBase32(parts[2])) );
         }
     }
 }

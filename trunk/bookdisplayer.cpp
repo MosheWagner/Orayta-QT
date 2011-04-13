@@ -96,13 +96,16 @@ bookDisplayer::~bookDisplayer()
 //Signall omitted when the webView finishes loading a file
 void bookDisplayer::htmlView_loadFinished(bool ok)
 {
+    //Hide "wait" page and show the real page
+    HideWaitPage();
+
     //change the tabs title from "Loading..." to the book's title
     int index = TW->indexOf(this);
 
     if (index != -1) TW->setTabText(index, title());
 
     //Mark location as "active"
-    if ( InternalLocationInHtml != "")
+    if ( InternalLocationInHtml != "" )
     {
         QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
 
@@ -111,8 +114,12 @@ void bookDisplayer::htmlView_loadFinished(bool ok)
         InternalLocationInHtml="";
     }
 
-    //Hide "wait" page and show the real page
-    HideWaitPage();
+    if ( SearchMarker.isValid() && !SearchMarker.isEmpty() )
+    {
+        highlight( SearchMarker );
+
+        SearchMarker = QRegExp();
+    }
 }
 
 //Omitted when a link was clicked in the webView
@@ -353,6 +360,11 @@ void bookDisplayer::load(QUrl url)
 void bookDisplayer::setInternalLocation(QString location)
 {
     InternalLocationInHtml = location;
+}
+
+void bookDisplayer::setSearchMarker(QRegExp marker)
+{
+    SearchMarker = marker;
 }
 
 QString bookDisplayer::title()
