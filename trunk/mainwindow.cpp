@@ -375,6 +375,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //Save books' settings
     for(unsigned int i=0; i<bookList.size(); i++)
     {
+        if (bookList[i]->getUniqueId() == -1)
+            continue;
+
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
             settings.setValue("MixedDisplayes", bookList[i]->mWeavedSources.size());
             settings.setValue("ShowAlone", bookList[i]->showAlone);
@@ -426,6 +429,9 @@ void MainWindow::restoreBookConfs()
     //Load books settings
     for(unsigned int i=0; i<bookList.size(); i++)
     {
+        if (bookList[i]->getUniqueId() == -1)
+            continue;
+
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
             bookList[i]->showAlone = settings.value("ShowAlone", false).toBool();
             int n = settings.value("MixedDisplayes", 0).toInt();
@@ -1264,9 +1270,9 @@ void MainWindow::updateBookTree()
         //No books found
         exit(2);
     }
-
+/*  //Dangerous
     bookList.CheckUid();
-
+*/
     //Insert all the books in the tree Widget
     BuildBookTree();
 
