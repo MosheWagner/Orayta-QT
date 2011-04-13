@@ -46,11 +46,11 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
         // set the file type
         if (list[i].isDir())
             ft = Book::Dir;
-        else if (list[i].fileName().endsWith(".txt"))
+        else if (list[i].fileName().endsWith(".txt", Qt::CaseInsensitive))
             ft = Book::Normal;
-        else if (list[i].fileName().endsWith(".html") || list[i].fileName().endsWith(".htm"))
+        else if (list[i].fileName().endsWith(".html", Qt::CaseInsensitive) || list[i].fileName().endsWith(".htm", Qt::CaseInsensitive))
             ft = Book::Html;
-        else if (list[i].fileName().endsWith(".pdf"))
+        else if (list[i].fileName().endsWith(".pdf", Qt::CaseInsensitive))
             ft = Book::Pdf;
         else
             ft = Book::Unkown;
@@ -351,7 +351,7 @@ void BookList::CheckUid()
     //Set random id for books without id
     for (int i=0; i < withoutId.size(); i++)
     {
-        qDebug() << "no uniqueId for : " << withoutId[i]->getName();
+        qDebug() << "no uniqueId found for : " << withoutId[i]->getName();
 
         int randomId;
         do {
