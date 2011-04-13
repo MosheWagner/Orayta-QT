@@ -73,6 +73,7 @@ public:
     void normalZoom();
 
     void setInternalLocation(QString location);
+    void setSearchMarker(QRegExp marker);
 
     QWidget * htmlQWidget();
     myWebView * webview();
@@ -130,6 +131,8 @@ private:
 
     //Location in html file next load should use
     QString InternalLocationInHtml;
+
+    QRegExp SearchMarker;
 
     //Pointer to the book that's displayed here
     Book *myBook;
