@@ -88,75 +88,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="bookmark.cpp" line="166"/>
-        <location filename="mainwindow.cpp" line="135"/>
-        <location filename="mainwindow.cpp" line="157"/>
-        <location filename="mainwindow.cpp" line="158"/>
-        <location filename="mainwindow.cpp" line="685"/>
-        <location filename="mainwindow.cpp" line="687"/>
-        <location filename="mainwindow.cpp" line="692"/>
-        <location filename="mainwindow.cpp" line="1319"/>
-        <location filename="search.cpp" line="160"/>
-        <location filename="search.cpp" line="164"/>
-        <location filename="search.cpp" line="165"/>
-        <location filename="search.cpp" line="376"/>
-        <location filename="search.cpp" line="380"/>
+        <location filename="bookmark.cpp" line="162"/>
+        <location filename="mainwindow.cpp" line="131"/>
+        <location filename="mainwindow.cpp" line="153"/>
+        <location filename="mainwindow.cpp" line="154"/>
+        <location filename="mainwindow.cpp" line="669"/>
+        <location filename="mainwindow.cpp" line="671"/>
+        <location filename="mainwindow.cpp" line="676"/>
+        <location filename="mainwindow.cpp" line="1358"/>
+        <location filename="search.cpp" line="157"/>
+        <location filename="search.cpp" line="161"/>
+        <location filename="search.cpp" line="162"/>
+        <location filename="search.cpp" line="373"/>
+        <location filename="search.cpp" line="377"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1228"/>
+        <location filename="mainwindow.cpp" line="1261"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>Aucun livre trouvé !
 Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="157"/>
+        <location filename="mainwindow.cpp" line="153"/>
         <source>Jewish books</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="507"/>
+        <location filename="mainwindow.cpp" line="501"/>
         <source>Loading...</source>
         <translation>Chargement...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="645"/>
+        <location filename="mainwindow.cpp" line="630"/>
         <source>Are you sure you want to remove this </source>
         <translation>Etes vous sûr de vouloir supprimer ce </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="646"/>
+        <location filename="mainwindow.cpp" line="631"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation>repertoire ?
 Ceci supprimera également tous les livres présents dans ce repertoire.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="647"/>
+        <location filename="mainwindow.cpp" line="632"/>
         <source>book ?</source>
         <translation>livre ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="649"/>
+        <location filename="mainwindow.cpp" line="634"/>
         <source>Deleting book</source>
         <translation>Suppression</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="790"/>
+        <location filename="mainwindow.cpp" line="796"/>
         <source>Delete book</source>
         <translation>Supprimer ce livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="801"/>
+        <location filename="mainwindow.cpp" line="807"/>
         <source>Change font</source>
         <translation>Changer la police</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1446"/>
-        <location filename="mainwindow.cpp" line="1456"/>
-        <location filename="mainwindow.cpp" line="1418"/>
+        <location filename="mainwindow.cpp" line="1483"/>
+        <location filename="mainwindow.cpp" line="1494"/>
         <source>Page: </source>
         <translation>Page: </translation>
     </message>
@@ -177,54 +176,54 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Supprimer le commentaire</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="172"/>
+        <location filename="search.cpp" line="169"/>
         <source>Searching: </source>
         <translation>Recherche: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="176"/>
+        <location filename="search.cpp" line="173"/>
         <source>Search results: </source>
         <translation>Résultats :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="240"/>
-        <location filename="search.cpp" line="475"/>
+        <location filename="search.cpp" line="237"/>
+        <location filename="search.cpp" line="472"/>
         <source>(Search stopped by user)</source>
         <translation>(Recherche stoppée par l&apos;utilisateur)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="247"/>
+        <location filename="search.cpp" line="244"/>
         <source>No search results found:</source>
         <translation>Aucun résultat:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="391"/>
+        <location filename="search.cpp" line="388"/>
         <source>Searching guematria for: </source>
         <translation>Recherche la guematria de: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="464"/>
+        <location filename="search.cpp" line="461"/>
         <source>Search results for guematria : </source>
         <translation>Résultats pour la quematria de : </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="482"/>
+        <location filename="search.cpp" line="479"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <oldsource>Any tanach books selected : please select books in tanach and search again.</oldsource>
-        <translation type="unfinished">Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
+        <translation>Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="488"/>
+        <location filename="search.cpp" line="485"/>
         <source>No guematria results found:</source>
         <translation>Aucune guematria trouvée:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="495"/>
+        <location filename="search.cpp" line="492"/>
         <source>Result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="496"/>
+        <location filename="search.cpp" line="493"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation>résultats trouvés.</translation>
@@ -234,37 +233,37 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Aucun résultat :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="252"/>
+        <location filename="search.cpp" line="249"/>
         <source>Short result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="263"/>
+        <location filename="search.cpp" line="260"/>
         <source>Full result list:</source>
         <translation>Liste complète:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="775"/>
+        <location filename="mainwindow.cpp" line="781"/>
         <source>Open book</source>
         <translation>Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="777"/>
+        <location filename="mainwindow.cpp" line="783"/>
         <source>Open in new tab</source>
         <translation>Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="bookmark.cpp" line="34"/>
+        <location filename="bookmark.cpp" line="30"/>
         <source>Edit bookmark title...</source>
         <translation>Editer le marque-page...</translation>
     </message>
     <message>
-        <location filename="bookmark.cpp" line="37"/>
+        <location filename="bookmark.cpp" line="33"/>
         <source>Delete bookmark</source>
         <translation>Supprimer le marque page</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1288"/>
+        <location filename="mainwindow.cpp" line="1324"/>
         <source>Orayta - Jewish books</source>
         <translation></translation>
     </message>
@@ -283,8 +282,7 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mainwindow.ui" line="649"/>
-        <location filename="mainwindow.ui" line="681"/>
-        <location filename="mainwindow.ui" line="1994"/>
+        <location filename="mainwindow.ui" line="698"/>
         <source>Open new tab</source>
         <translation>Ouvrir un nouvel onglet</translation>
     </message>
@@ -297,30 +295,27 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Chercher dans les livres sélectionnés</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="898"/>
+        <location filename="mainwindow.ui" line="915"/>
         <source>Search backwards in book</source>
         <translation>chercher en arriére dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="927"/>
+        <location filename="mainwindow.ui" line="944"/>
         <source>Search forward in book</source>
         <translation>Chercher en avant dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="733"/>
-        <location filename="mainwindow.ui" line="1958"/>
+        <location filename="mainwindow.ui" line="750"/>
         <source>Zoom out</source>
         <translation>Réduire</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="762"/>
-        <location filename="mainwindow.ui" line="1949"/>
+        <location filename="mainwindow.ui" line="779"/>
         <source>Zoom in</source>
         <translation>Agrandir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="704"/>
-        <location filename="mainwindow.ui" line="1967"/>
+        <location filename="mainwindow.ui" line="721"/>
         <source>Jump to top</source>
         <translation>Revenir au début</translation>
     </message>
@@ -330,29 +325,29 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation>Pdf page:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="791"/>
+        <location filename="mainwindow.ui" line="808"/>
         <source>Search in current books</source>
         <translation>Cherche dans ce livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1021"/>
+        <location filename="mainwindow.ui" line="1038"/>
         <source>Books</source>
         <translation>Livres</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1049"/>
+        <location filename="mainwindow.ui" line="1066"/>
         <source>Add all books to search</source>
         <translation>Ajouter tous les livres à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="854"/>
-        <location filename="mainwindow.ui" line="1052"/>
-        <location filename="mainwindow.ui" line="1066"/>
+        <location filename="mainwindow.ui" line="871"/>
+        <location filename="mainwindow.ui" line="1069"/>
+        <location filename="mainwindow.ui" line="1083"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1063"/>
+        <location filename="mainwindow.ui" line="1080"/>
         <source>Remove all books from search</source>
         <translation>Supprimer tous les livres de la recherche</translation>
     </message>
@@ -361,37 +356,37 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Afficher seul</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1398"/>
+        <location filename="mainwindow.ui" line="1409"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
         <translation>Autorise le &quot;Ktiv &apos;Hasser&quot;</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1589"/>
+        <location filename="mainwindow.ui" line="1600"/>
         <source>Bookmarks</source>
         <translation>Marque-pages</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1600"/>
+        <location filename="mainwindow.ui" line="1611"/>
         <source>Remove bookmark</source>
         <translation>Supprimer le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1603"/>
+        <location filename="mainwindow.ui" line="1614"/>
         <source>Erase bookmark</source>
         <translation>Effacer le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1629"/>
+        <location filename="mainwindow.ui" line="1640"/>
         <source>Move bookmark up</source>
         <translation>Monter le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1658"/>
+        <location filename="mainwindow.ui" line="1669"/>
         <source>Move bookmark down</source>
         <translation>Descendre le marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1687"/>
+        <location filename="mainwindow.ui" line="1698"/>
         <source>Edit bookmark&apos;s title</source>
         <translation>Editer le titre du marque-page</translation>
     </message>
@@ -436,22 +431,22 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Changer la langue</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1181"/>
+        <location filename="mainwindow.ui" line="1192"/>
         <source>Display with:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1200"/>
+        <location filename="mainwindow.ui" line="1211"/>
         <source>Hide commentaries</source>
         <translation>Cacher les commentaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1222"/>
+        <location filename="mainwindow.ui" line="1233"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1283"/>
+        <location filename="mainwindow.ui" line="1294"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
@@ -467,42 +462,41 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Rechercher une regex</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1416"/>
+        <location filename="mainwindow.ui" line="1427"/>
         <source>Guematria search (tanach only)</source>
         <translation>Rechercher une guematria (tanach uniquement)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1856"/>
+        <location filename="mainwindow.ui" line="1867"/>
         <source>&amp;File</source>
         <oldsource>File</oldsource>
-        <translation type="unfinished">Fichier</translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1871"/>
+        <location filename="mainwindow.ui" line="1882"/>
         <source>&amp;Help</source>
         <oldsource>Help</oldsource>
-        <translation type="unfinished">Aide</translation>
+        <translation>Aide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1880"/>
+        <location filename="mainwindow.ui" line="1891"/>
         <source>&amp;Display</source>
         <oldsource>Display</oldsource>
-        <translation type="unfinished">Affichage</translation>
+        <translation>&amp;Affichage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1257"/>
-        <location filename="mainwindow.ui" line="1460"/>
-        <location filename="mainwindow.ui" line="1893"/>
+        <location filename="mainwindow.ui" line="1268"/>
+        <location filename="mainwindow.ui" line="1471"/>
         <source>Search</source>
         <translation>Recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="884"/>
+        <location filename="mainwindow.ui" line="901"/>
         <source>Search in book:</source>
         <translation>Recherche dans la page:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1268"/>
+        <location filename="mainwindow.ui" line="1279"/>
         <source>Search for:</source>
         <translation>Rechercher:</translation>
     </message>
@@ -512,27 +506,27 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">( La recherche ignore la ponctuation, le Nikud et les Teamim)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1300"/>
+        <location filename="mainwindow.ui" line="1311"/>
         <source>String search</source>
         <translation>Texte recherché</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1369"/>
+        <location filename="mainwindow.ui" line="1380"/>
         <source>Find any of the words</source>
         <translation>Une partie des mots</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1338"/>
+        <location filename="mainwindow.ui" line="1349"/>
         <source>Find all words</source>
         <translation>Tous les mots</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1357"/>
+        <location filename="mainwindow.ui" line="1368"/>
         <source>spacing (in words)</source>
         <translation>espacement (en mots)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1386"/>
+        <location filename="mainwindow.ui" line="1397"/>
         <source>Find full words only</source>
         <translation>Mots entiers seulement</translation>
     </message>
@@ -545,162 +539,196 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Utiliser les expressions regulières</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1496"/>
+        <location filename="mainwindow.ui" line="1507"/>
         <source>Searching ...</source>
         <translation>Recherche en cours...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1543"/>
+        <location filename="mainwindow.ui" line="1554"/>
         <source>Cancel search</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1775"/>
+        <location filename="mainwindow.ui" line="1786"/>
         <source>Add a bookmark here:</source>
         <translation>Ajouter un marque-page ici:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1792"/>
+        <location filename="mainwindow.ui" line="1803"/>
         <source>Title:</source>
         <translation>Titre:</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1913"/>
+        <location filename="mainwindow.ui" line="1904"/>
+        <source>&amp;Search</source>
+        <translation>&amp;Recherche</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1924"/>
         <source>&amp;Location</source>
         <oldsource>Location</oldsource>
-        <translation type="unfinished">Position</translation>
+        <translation>&amp;Position</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1931"/>
+        <location filename="mainwindow.ui" line="1942"/>
         <source>E&amp;xit</source>
         <oldsource>Exit</oldsource>
-        <translation type="unfinished">Quitter</translation>
+        <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1940"/>
+        <location filename="mainwindow.ui" line="1951"/>
         <source>&amp;About</source>
         <oldsource>About</oldsource>
-        <translation type="unfinished">A propos</translation>
+        <translation>&amp;A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1976"/>
+        <location filename="mainwindow.ui" line="1960"/>
+        <source>Zoom &amp;in</source>
+        <translation>&amp;Agrandir</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1969"/>
+        <source>Zoom &amp;out</source>
+        <translation>&amp;Réduire</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1978"/>
+        <source>&amp;Jump to top</source>
+        <translation>Aller au &amp;début</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1987"/>
         <source>&amp;Print book</source>
         <oldsource>Print book</oldsource>
-        <translation type="unfinished">Imprime le livre</translation>
+        <translation>Im&amp;prime le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1985"/>
+        <location filename="mainwindow.ui" line="1996"/>
         <source>&amp;Close tab</source>
         <oldsource>Close tab</oldsource>
-        <translation type="unfinished">Fermer l&apos;onglet</translation>
+        <translation>&amp;Fermer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2005"/>
+        <source>&amp;Open new tab</source>
+        <translation>&amp;Ouvrir dans un nouvel onglet</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="2016"/>
         <source>Show nikud</source>
         <translation>Afficher le Nikud</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2016"/>
+        <location filename="mainwindow.ui" line="2027"/>
         <source>Show teamim</source>
         <translation>Afficher les Teamim</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1821"/>
-        <location filename="mainwindow.ui" line="2025"/>
+        <location filename="mainwindow.ui" line="1832"/>
         <source>Add bookmark</source>
         <translation>Ajouter un marque-page</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1317"/>
+        <location filename="mainwindow.ui" line="681"/>
+        <source>refresh this book</source>
+        <translation>recharger</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="1328"/>
         <source>Find exact string (or regexp)</source>
         <translation>Phrase exacte (ou regex)</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2034"/>
+        <location filename="mainwindow.ui" line="2036"/>
+        <source>Add &amp;bookmark</source>
+        <translation>Ajouter un &amp;signet</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="2045"/>
         <source>Add/edit &amp;comment</source>
         <oldsource>Add/edit comment</oldsource>
-        <translation type="unfinished">Ajouter/éditer un commentaire</translation>
+        <translation>Ajouter/éditer un &amp;commentaire</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2043"/>
+        <location filename="mainwindow.ui" line="2054"/>
         <source>&amp;Report typo</source>
         <oldsource>Report typo</oldsource>
-        <translation type="unfinished">Rapporter une erreur</translation>
+        <translation>&amp;Rapporter une erreur</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2052"/>
+        <location filename="mainwindow.ui" line="2063"/>
         <source>&amp;Search in books</source>
         <oldsource>Search in books</oldsource>
-        <translation type="unfinished">Rechercher dans la bibliothèque</translation>
+        <translation>&amp;Rechercher dans la bibliothèque</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2133"/>
+        <location filename="mainwindow.ui" line="2144"/>
         <source>&amp;Settings</source>
         <oldsource>Settings</oldsource>
-        <translation type="unfinished">Préférences</translation>
+        <translation>&amp;Préférences</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2142"/>
+        <location filename="mainwindow.ui" line="2153"/>
         <source>&amp;Import</source>
         <oldsource>Import</oldsource>
-        <translation type="unfinished">Import</translation>
+        <translation>&amp;Import</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2151"/>
+        <location filename="mainwindow.ui" line="2162"/>
         <source>Search &amp;guematria</source>
         <oldsource>Search guematria</oldsource>
-        <translation type="unfinished">Rechercher une guematria</translation>
+        <translation>Rechercher une &amp;guematria</translation>
     </message>
     <message>
         <source>Advanced search</source>
         <translation type="obsolete">Recherche avancée</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2061"/>
+        <location filename="mainwindow.ui" line="2072"/>
         <source>Search in book</source>
         <translation>Chercher dans le livre</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2070"/>
+        <location filename="mainwindow.ui" line="2081"/>
         <source>Search forward</source>
         <translation>Chercher en avant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2079"/>
+        <location filename="mainwindow.ui" line="2090"/>
         <source>Search backwards</source>
         <translation>Chercher en arrière</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2088"/>
+        <location filename="mainwindow.ui" line="2099"/>
         <source>Remove book from search</source>
         <translation>Enlever ce livre de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2097"/>
+        <location filename="mainwindow.ui" line="2108"/>
         <source>Add book to search</source>
         <translation>Ajouter ce livre à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2106"/>
+        <location filename="mainwindow.ui" line="2117"/>
         <source>Add all to search</source>
         <translation>Tout ajouter à la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2115"/>
+        <location filename="mainwindow.ui" line="2126"/>
         <source>Remove all from search</source>
         <translation>Tout enlever de la recherche</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="2124"/>
+        <location filename="mainwindow.ui" line="2135"/>
         <source>&amp;Find book by name</source>
         <oldsource>Find book by name</oldsource>
-        <translation type="unfinished">Trouver un livre d&apos;aprés le titre</translation>
+        <translation>&amp;Trouver un livre d&apos;aprés le titre</translation>
     </message>
 </context>
 <context>
     <name>PdfWidget</name>
     <message>
-        <location filename="pdfwidget.cpp" line="74"/>
+        <location filename="pdfwidget.cpp" line="76"/>
         <source>Copy text</source>
         <translation>Copier le texte</translation>
     </message>
@@ -825,27 +853,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>bookDisplayer</name>
     <message>
-        <location filename="bookdisplayer.cpp" line="87"/>
+        <location filename="bookdisplayer.cpp" line="88"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="134"/>
+        <location filename="bookdisplayer.cpp" line="142"/>
         <source>Add bookmark here...</source>
         <translation>Ajouter un marque-page ici...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="145"/>
+        <location filename="bookdisplayer.cpp" line="153"/>
         <source>Add/edit comment...</source>
         <translation>Ajouter/Editer un commentaire...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="178"/>
+        <location filename="bookdisplayer.cpp" line="186"/>
         <source>Edit comment...</source>
         <translation>Editer le commentaire...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="189"/>
+        <location filename="bookdisplayer.cpp" line="197"/>
         <source>Delete comment</source>
         <translation>Supprimer le commentaire</translation>
     </message>
@@ -962,7 +990,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Fichiers html(*.htm *.html);;Fichiers texte(*.txt);;Fichiers pdf(*.pdf)</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="70"/>
+        <location filename="importbook.cpp" line="56"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
         <translation>Tous les types de fichiers supportés (*.html *.htm *.txt *.pdf);;Fichiers html (*.htm *.html);;Fichiers texte (*.txt);;Fichiers pdf (*.pdf)</translation>
     </message>
