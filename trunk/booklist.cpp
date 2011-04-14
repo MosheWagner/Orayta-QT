@@ -289,7 +289,6 @@ int BookList::FindBookByTWI(QTreeWidgetItem *TWI)
 //  (Returns NULL if it dosen't exist)
 Book* BookList::findBookByTWI(QTreeWidgetItem *TWI)
 {
-    Book* book = NULL;
     for(unsigned int i=0; i<size(); i++)
     {
         if((*this)[i]->getTreeItemPtr() == TWI)

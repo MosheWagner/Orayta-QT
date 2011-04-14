@@ -753,7 +753,7 @@ void Book::BuildSearchTextDB()
     //TODO: test thoroughly!
 
     //Ignore dirs
-    if (mFiletype == Book::Dir) return;
+    if (mFiletype != Book::Normal) return;
 
     //No need to build the DB twice...
     if (pureText != "") return ;
@@ -851,7 +851,7 @@ QList <SearchResult> Book::findInBook(QRegExp& exp)
 
         SearchResult s;
         s.preview = resultPreview(regexp, curr);
-        s.itr = mapitr.value();
+        s.itr = ( !levelMap.empty() ? mapitr.value() : BookIter() );
 
         //Prevent double results
         if (results.size() == 0) results << s;
