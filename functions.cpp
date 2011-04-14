@@ -42,7 +42,8 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
 
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
-    if ( (fi.isDir() == true) || (fi.exists() == false)) return false;
+    if ( fi.isDir() || !fi.exists() )
+        return false;
 
     // Open the file
     if ((!infile.open(QIODevice::ReadOnly))) return false;

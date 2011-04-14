@@ -188,7 +188,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             {
                 for (int j=0; j<Sources.size(); j++)
                 {
-                    if ( Sources[j].str.replace("\n", "") != "")
+                    if ( Sources[j].str.replace("\n", "") != "" )
                     {
                         htmlbody += Sources[j].Prefix;
                         htmlbody += Sources[j].str;
@@ -300,10 +300,11 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             //Run all pre-set replaces
             for (int i=0; i<replaceFrom.size(); i++)
             {
-                line = line.replace(replaceFrom[i], replaceTo[i]);
+                line.replace(replaceFrom[i], replaceTo[i]);
             }
 
-            if (mark.pattern() != "()" && mark.pattern() != "") line = line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+            if (mark.pattern() != "()" && mark.pattern() != "")
+                line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
 
             Sources[0].str += line + ' ';
         }
@@ -533,12 +534,12 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
             //Run all pre-set replaces
             for (int i=0; i<replaceFrom.size(); i++)
             {
-                txt = txt.replace(replaceFrom[i], replaceTo[i]);
+                txt.replace(replaceFrom[i], replaceTo[i]);
             }
 
             if (mark.pattern() != "()" && mark.pattern() != "")
             {
-                txt = txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+                txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
             }
 
             htmlbody += txt;
