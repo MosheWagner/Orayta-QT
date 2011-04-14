@@ -137,7 +137,7 @@ void MainWindow::on_searchInBooksLine_returnPressed()
 
 
 #define RESULTS_MAX 500
-void MainWindow::SearchInBooks (QRegExp& regexp, QString disp)
+void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
 

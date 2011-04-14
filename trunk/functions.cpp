@@ -35,25 +35,24 @@ QString LANG="Hebrew";
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
-    //Read the source file:
-    QFile infile(filename);
-
-    QString line;
 
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
         return false;
 
+    //Read the source file:
+    QFile infile(filename);
     // Open the file
-    if ((!infile.open(QIODevice::ReadOnly))) return false;
+    if ( !infile.open(QIODevice::ReadOnly) )
+        return false;
 
     // Set the stream to read from the file
     QTextStream t( &infile );
     t.setCodec(QTextCodec::codecForName(encoding_name));
     while (!t.atEnd())
     {
-        line = t.readLine();
+        QString line = t.readLine();
         if ( skipconflines == false || conflinesended == true )
         {
             text << line;
@@ -104,15 +103,16 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
 
 QString readfile(QString filename, const char* encoding_name)
 {
-    //Read the source file:
-    QFile infile(filename);
-
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
-    if ( fi.isDir() == true || fi.exists() == false ) return false;
+    if ( fi.isDir() || !fi.exists() )
+        return false;
 
+    //Read the source file:
+    QFile infile(filename);
     // Open the file
-    if ((!infile.open(QIODevice::ReadOnly))) return false;
+    if ( !infile.open(QIODevice::ReadOnly) )
+        return false;
 
     // Set the stream to read from the file
     QTextStream t( &infile );
@@ -131,18 +131,15 @@ void writetofile(QString filename, const QString& data, const char* encoding_nam
     //Set incoding to the one sent to the function
     outstream.setCodec(QTextCodec::codecForName(encoding_name));
 
-    QFlag *mode;
-    if (overwrite == false) mode = new QFlag(QIODevice::WriteOnly | QIODevice::Append);
-    else mode = new QFlag(QIODevice::WriteOnly);
+    QIODevice::OpenMode mode;
+    if (overwrite == false) mode = QIODevice::WriteOnly | QIODevice::Append;
+    else mode = QIODevice::WriteOnly;
 
     //Write the data to the file
-    if (outfile.open(*mode))
-    {
+    if ( outfile.open(mode) )
         outstream << data;
-    }
-    outfile.close();
 
-    delete mode;
+    outfile.close();
 }
 
 //Split given string by given seperater into the given vector, but allways to two
@@ -277,7 +274,7 @@ QString absPath(QString str)
 }
 
 // Returns the given string without it's "(", ")", "{", and "}".
-QString RemoveBrackets(QString& str)
+QString RemoveBrackets(QString str)
 {
     return str.replace("{", "").replace("}", "").replace("(", "").replace(")", "");
 }
@@ -374,7 +371,7 @@ void WordExclude(QString stra , QString strb, vector<QString>& out)
 //Gets a line in the form of foo=bar,
 // and iserts bar to the pointed integer (if it's a valud integer)
 // (Otherwise the value isn"t changed)
-void GetIntValue (QString& valueline, int * pVar)
+void GetIntValue (const QString& valueline, int * pVar)
 {
     vector<QString> parts;
     //Split along the = sign
@@ -392,7 +389,7 @@ void GetIntValue (QString& valueline, int * pVar)
 
 //Gets a line in the form of foo="bar",
 // and iserts bar to the pointed qstring, unless it's empty
-void GetStringValue (QString& valueline, QString * pStr)
+void GetStringValue (const QString& valueline, QString * pStr)
 {
     vector<QString> parts;
     //Split along the = sign
@@ -415,7 +412,7 @@ void GetStringValue (QString& valueline, QString * pStr)
 //Fix the syntax of the 'span' attributes given in source files
 //Fixes the double single quotes to a single double quote
 //Fixes the '=' sign given with "color=", to "color:"
-QString fixSpan(QString& str)
+QString fixSpan(QString str)
 {
     QString newstr = str.replace("''", "\"");
     newstr = newstr.replace("color=", "color:");
@@ -424,7 +421,7 @@ QString fixSpan(QString& str)
 }
 
 //Returns the given string the given number of times
-QString stringTimes(QString& str, int t)
+QString stringTimes(const QString& str, int t)
 {
     QString s="";
     for (int i=0; i<t; i++) s+= str;
@@ -433,7 +430,7 @@ QString stringTimes(QString& str, int t)
 
 //Limits the given string to the given length, removing the beggining of the string.
 // Cuts only at spaces.
-QString startChop(QString& str, int limit)
+QString startChop(const QString& str, int limit)
 {
     QString newstr = str.mid(str.length() - limit);
     int p = newstr.indexOf(" ");
@@ -442,7 +439,7 @@ QString startChop(QString& str, int limit)
 
 //Limits the given string to the given length, removing the end of the string.
 // Cuts only at spaces.
-QString endChop(QString& str, int limit)
+QString endChop(const QString& str, int limit)
 {
     QString newstr = str.mid(0, limit);
     int p = newstr.lastIndexOf(" ");
@@ -534,7 +531,7 @@ QRegExp withNikudAndTeamim( QString str )
 //    return exp;
 //}
 
-QString AllowKtivHasser(QString& str)
+QString AllowKtivHasser(QString str)
 {
     return str.replace("ו","ו?").replace("י","י?");
 }

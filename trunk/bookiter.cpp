@@ -43,7 +43,7 @@ BookIter::~BookIter() {}
 //Gives the level symbolized by the first char of the string,
 // the value written in the rest of it .
 // ( I.E., "~ פרק יא ", will set  level 2 to "פרק יא" ).
-void BookIter::SetLevelFromLine(QString& level_line)
+void BookIter::SetLevelFromLine(const QString& level_line)
 {
     if (level_line.size() > 2) //It must have at least a symbol, a space, and then a value
     {
