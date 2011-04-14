@@ -159,9 +159,9 @@ public:
     void setTabWidget(QWidget*);
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
-    QList <SearchResult> findInBook(QString& phrase);
+    QList <SearchResult> findInBook(const QString& phrase);
     //Overloaded function of the above
-    QList <SearchResult> findInBook(QRegExp& regexp);
+    QList <SearchResult> findInBook(const QRegExp& regexp);
 
     void restoreIconeState();
     //Repaints the icon of this book or folder, by the state of it's children
@@ -204,7 +204,7 @@ protected:
 
 
     //Returns a preview of the search result  (by it's search regexp and offset in puretext)
-    QString resultPreview(QRegExp& exp, int offset);
+    QString resultPreview(const QRegExp& exp, int offset);
 
     QTreeWidgetItem *mpTreeItem;
 

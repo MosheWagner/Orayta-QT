@@ -51,7 +51,7 @@ public:
 
     //Moves the level symboled by the first char of the string, to the value written
     // in the rest of the string.
-    void SetLevelFromLine(QString& level_line);
+    void SetLevelFromLine(const QString& level_line);
 
     //Returns a string representing the current position
     // (for html links and name points)

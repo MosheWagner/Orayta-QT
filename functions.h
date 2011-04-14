@@ -89,7 +89,7 @@ inline int GematriaOfChar(const QChar ch);
 QString NumberToGematria (int num, bool addquotes = true);
 
 //Return only the hebrew letters in the given string, and makes every space into "_"
-QString RemoveBrackets(QString& str);
+QString RemoveBrackets(QString str);
 
 //Converts numbers into strings:
 // (Returns a QString representing the given value)
@@ -117,26 +117,26 @@ void WordExclude(QString stra , QString strb, vector<QString>& out);
 //Gets a line in the form of foo=bar,
 // and iserts bar to the pointed integer (if it's a valud integer)
 // (Otherwise the value isn't changed)
-void GetIntValue (QString& valueline, int * pVar);
+void GetIntValue (const QString& valueline, int * pVar);
 
 //Gets a line in the form of foo="bar",
 // and iserts bar to the pointed qstring, unless it's empty
-void GetStringValue (QString& valueline, QString * pStr);
+void GetStringValue (const QString& valueline, QString * pStr);
 
 //Fix the syntax of the 'span' attributes given in source files
     //Fixes the double single quotes to a single double quote
     //Fixes the '=' sign given with "color=", to "color:"
-QString fixSpan(QString& str);
+QString fixSpan(QString str);
 
 //Returns the given string the given number of times
-QString stringTimes(QString& str, int t);
+QString stringTimes(const QString& str, int t);
 
 //Limits the given string to the given length, removing the beggining of the string.
 // Cuts only at spaces.
-QString startChop(QString& str, int limit);
+QString startChop(const QString& str, int limit);
 //Limits the given string to the given length, removing the end of the string.
 // Cuts only at spaces.
-QString endChop(QString& str, int limit);
+QString endChop(const QString& str, int limit);
 
 
 //Removes any sign from the given unicode string
@@ -156,7 +156,7 @@ QRegExp withNikudAndTeamim( QString str );
 ////  ignoring differences in the ו-s and י-s they have.
 //QString AllowKtivMaleh(QString str);
 
-QString AllowKtivHasser(QString& str);
+QString AllowKtivHasser(QString str);
 
 
 QString simpleHtmlPage(QString title, QString contents);

@@ -827,7 +827,7 @@ void Book::BuildSearchTextDB()
 }
 
 
-QList <SearchResult> Book::findInBook(QString& phrase)
+QList <SearchResult> Book::findInBook(const QString& phrase)
 {
     //Naive convert to regexp
     QRegExp regexp = QRegExp(phrase);
@@ -835,7 +835,7 @@ QList <SearchResult> Book::findInBook(QString& phrase)
 }
 
 #define CHAR_LIMIT 250
-QList <SearchResult> Book::findInBook(QRegExp& exp)
+QList <SearchResult> Book::findInBook(const QRegExp& exp)
 {
     QList <SearchResult> results;
     QRegExp regexp = QRegExp("(" + exp.pattern()+ ")");
@@ -868,7 +868,7 @@ QList <SearchResult> Book::findInBook(QRegExp& exp)
     return results;
 }
 
-QString Book::resultPreview(QRegExp& exp, int offset)
+QString Book::resultPreview(const QRegExp& exp, int offset)
 {
     QString s = pureText.mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
     //Force full words
