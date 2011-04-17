@@ -321,15 +321,12 @@ void MainWindow::on_searchBackward_clicked()
 
         int ppp = CurrentBookdisplayer()->searchPos();
 
-        //Search only in the text before the cursor's position
-        if (ppp != -1) text = text.mid(0, ppp - 1);
-
         QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
 
         //Find the closest occurence of the RegExp, backwards
         QString last = "";
 
-        int pos = regexp.lastIndexIn(text);
+        int pos = regexp.lastIndexIn(text, -(text.length()-ppp+1));
         if (pos > -1)
         {
             last = regexp.cap(0);

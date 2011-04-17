@@ -64,26 +64,18 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     QList <QString> text;
 
-    //Read the source file associated to this book:
-    QString filename = absPath(mPath);
-
-
-    if(!ReadFileToList(filename, text, "UTF-8"))
-    {
-        print( "ERROR: Unable to open file: " + filename + " !");
-        return false;
-    }
-
     vector<QString> comment_titles, comment_texts;
     //Read coment file into it's vectors
     ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
 
     QList <weavedSource> Sources;
-
     for (int i=0; i<mWeavedSources.size(); i++)
     {
-        if (mWeavedSources[i].show == true)  Sources.append(mWeavedSources[i]);
+        if (mWeavedSources[i].show == true)
+            Sources.append(mWeavedSources[i]);
     }
+
+    if (Sources.size() == 0) return false;
 
     QStringList colors;
     colors << "#4682B4" << "#0000FF" << "#A52A2A" << "#4B0082";
@@ -119,9 +111,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         Sources[i].str = "";
         Sources[i].line = 0;
     }
-
-    if ( Sources.size() == 0) return false;
-
 
     //BEWARE: Super ugly hack; But it's still better than what we had before.
     //Add a fake level sign to the end of the main source, so we know we're done

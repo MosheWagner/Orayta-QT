@@ -141,22 +141,22 @@ QString endChop(const QString& str, int limit);
 
 //Removes any sign from the given unicode string
 // (Nikud or teamim)
-QString removeSigns(QString str);
+QString removeSigns(const QString& str);
 
 //Removes any nikud sign from the given unicode string
-QString removeNikud(QString);
+QString removeNikud(const QString&);
 
 //Removes any teamim sign from the given unicode string
-QString removeTeamim(QString str);
+QString removeTeamim(const QString& str);
 
-QString allowNikudAndTeamim( QString str );
-QRegExp withNikudAndTeamim( QString str );
+QString allowNikudAndTeamim( const QString& str );
+QRegExp withNikudAndTeamim( const QString& str );
 
 ////Returns a regexp pattern matching all strings that are the same as the given string,
 ////  ignoring differences in the ו-s and י-s they have.
 //QString AllowKtivMaleh(QString str);
 
-QString AllowKtivHasser(QString str);
+QString AllowKtivHasser(const QString& str);
 
 
 QString simpleHtmlPage(QString title, QString contents);
