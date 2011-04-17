@@ -790,7 +790,7 @@ void Book::BuildSearchTextDB()
             levelMap.insert(pureText.length(), itr);
 
             if (text[i][0] == '!')
-                pureText += " " +  text[i].mid(2, text[i].length() - 2) + " ";
+                pureText += " " +  text[i].mid(2) + " ";
             //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
         }
         //Link
@@ -846,7 +846,7 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
     int curr = 0, last = 0;
     while ((curr = pureText.indexOf(exp, last)) != -1)
     {
-        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(curr);
+        QMap<int, BookIter>::iterator mapitr = levelMap.lowerBound(curr);
         mapitr --;
 
         SearchResult s;
@@ -854,9 +854,10 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
         s.itr = ( !levelMap.empty() ? mapitr.value() : BookIter() );
 
         //Prevent double results
-        if (results.size() == 0) results << s;
-        else if (results[results.size()-1].itr.toStringForLinks() != s.itr.toStringForLinks()) results << s;
-        else if (curr-last > CHAR_LIMIT/2) results << s;
+        if (    results.empty()
+            || (results.back().itr.toStringForLinks() != s.itr.toStringForLinks())
+            || (curr-last > CHAR_LIMIT/2) )
+            results << s;
 
         last = curr+1;
     }

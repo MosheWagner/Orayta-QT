@@ -354,6 +354,8 @@ void bookDisplayer::load(QUrl url)
         myurl = url;
 
         htmlview->load(url);
+
+        mSearchPos = -1;
     }
 }
 

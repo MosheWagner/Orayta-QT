@@ -28,8 +28,8 @@ QString USERPATH;
 //Global translator object
 QTranslator *translator;
 
-//Defualt lang. After all, this is a Hebrew program...
-QString LANG="Hebrew";
+//Default lang. After all, this is a Hebrew program...
+QString LANG = "Hebrew";
 
 //Reads the file with the given name, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
@@ -448,18 +448,18 @@ QString endChop(const QString& str, int limit)
 
 //Removes any sign from the given unicode string
 // (Nikud or teamim)
-QString removeSigns(QString str)
+QString removeSigns(const QString& str)
 {
     return removeNikud(removeTeamim(str));
 }
 
 //Removes any nikud sign from the given unicode string
-QString removeNikud(QString str)
+QString removeNikud( const QString& str )
 {
     //Make sure nikud is in the normall format:
-        // QString::normalized(QString::NormalizationForm_D) - Means nikud is allways treated as two chars
-        // See: http://www.unicode.org/reports/tr15/#Norm_Forms
-        QString s = str.normalized(QString::NormalizationForm_D);
+    // QString::normalized(QString::NormalizationForm_D) - Means nikud is allways treated as two chars
+    // See: http://www.unicode.org/reports/tr15/#Norm_Forms
+    QString s = str.normalized(QString::NormalizationForm_D);
 
     //These are all of the nikud signs besides the teamim ones mixed in them
     QRegExp regexp(QString("[") + QChar(0x05B0) + "-" + QChar(0x05BC) +
@@ -470,8 +470,9 @@ QString removeNikud(QString str)
 }
 
 //Removes any teamim sign from the given unicode string
-QString removeTeamim(QString str)
+QString removeTeamim(const QString& str)
 {
+    QString s = str.normalized(QString::NormalizationForm_D);
     //QChar(0x0591) - HEBREW ACCENT ETNAHTA
     //QChar(0x05AF) - HEBREW MARK MASORA CIRCLE
     //QChar(0x05C0) - HEBREW PUNCTUATION PASEQ
@@ -486,10 +487,10 @@ QString removeTeamim(QString str)
     //QChar(0x05C3) - HEBREW PUNCTUATION SOF PASUQ
     //QChar(0x05BE) - HEBREW PUNCTUATION MAQAF
     //Replace sof pasuk with ":" and makaf with " "
-    return str.replace(QChar(0x05C3), ":").replace(QChar(0x05BE), " ").replace(regexp, "");
+    return s.replace(QChar(0x05C3), ":").replace(QChar(0x05BE), " ").replace(regexp, "");
 }
 
-QString allowNikudAndTeamim( QString str )
+QString allowNikudAndTeamim( const QString& str )
 {
     //TODO: remove makaf?
 
@@ -497,18 +498,17 @@ QString allowNikudAndTeamim( QString str )
     QString nikudchars = QString(QChar(0x0591)) + "-"  + QChar(0x05C7);
 
     //Build a RegExp from the search term, allowing nikud and teamin between every letter
-
     QString pat = "";
-    while (str.length() > 0)
+    for (int i=0; i < str.length(); i++)
     {
-        pat += "[" + str.mid(0,1) + "]" + "[" + nikudchars+  "]" + "*";
-        str = str.mid(1);
+        pat += str[i];
+        pat += "[" + nikudchars+  "]*";
     }
 
     return pat;
 }
 
-QRegExp withNikudAndTeamim( QString str )
+QRegExp withNikudAndTeamim( const QString& str )
 {
     return QRegExp("(" + allowNikudAndTeamim(str) + ")");
 }
@@ -531,9 +531,10 @@ QRegExp withNikudAndTeamim( QString str )
 //    return exp;
 //}
 
-QString AllowKtivHasser(QString str)
+QString AllowKtivHasser(const QString& str)
 {
-    return str.replace("ו","ו?").replace("י","י?");
+    QString s = str;
+    return s.replace("ו","ו?").replace("י","י?");
 }
 
 QString pluginPage(QString title)
