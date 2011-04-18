@@ -30,6 +30,7 @@ void Book::BuildGuematriaDb()
         if (levelSigns.contains(text[i][0]))
         {
             //Update iter
+            //but if levelSign is '$' ???
             current.itr.SetLevelFromLine(text[i]);
         }
         //Text line

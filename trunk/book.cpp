@@ -784,6 +784,7 @@ void Book::BuildSearchTextDB()
         if (levelSigns.contains(text[i][0]))
         {
             //Update iter
+            //but if levelSign is '$' ???
             itr.SetLevelFromLine(text[i]);
 
             //Map with it's position in the pureText

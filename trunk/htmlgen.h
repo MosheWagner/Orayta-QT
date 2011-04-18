@@ -25,10 +25,6 @@
 
 using namespace std;
 
-/*
-extern QString gFontFamily;
-extern int gFontSize;
-*/
 
 //Helper struct and functions for generating the html of the book
 
