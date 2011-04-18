@@ -33,20 +33,21 @@ extern int gFontSize;
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
 {
-    QList <QString> text;
     QString Title;
     QString FileName;
+    int Zoom;
+    int id;
+    bool show;
+};
+
+struct weavedSourceData : weavedSource
+{
+    QList <QString> text;
+    QString str;
     QString Prefix;
     QString Suffix;
-    int Zoom;
-
-    int id;
-    int line;
-
-    bool show;
-
     BookIter itr;
-    QString str;
+    int line;
 };
 
 //Simplest struct holding results for a search in book.

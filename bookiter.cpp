@@ -78,12 +78,12 @@ void BookIter::SetLevelFromLine(const QString& level_line)
             mLevelName[2] = removeSigns(level_line.mid(2));
             ZeroLevel(1);
         }
-        else if (symbol == '#')
+        else if (symbol == '^')
         {
             mLevelName[3] = removeSigns(level_line.mid(2));
             ZeroLevel(2);
         }
-        else if (symbol == '^')
+        else if (symbol == '#')
         {
             mLevelName[4] = removeSigns(level_line.mid(2));
             ZeroLevel(3);

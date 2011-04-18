@@ -185,9 +185,6 @@ void BookList::AddBookConfs(Book *book, QString filename)
     
                     base.Zoom = 0;
 
-                    base.Suffix="";
-                    base.Prefix="";
-
                     base.id = 0;
 
                     base.show = true;
@@ -204,8 +201,6 @@ void BookList::AddBookConfs(Book *book, QString filename)
 
                 src.id = book->mWeavedSources.size();
 
-                src.Suffix="";
-                src.Prefix="";
                 src.show = false;
 
                 book->mWeavedSources.append(src);

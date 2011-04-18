@@ -35,7 +35,7 @@
 
 
 //Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
-const QString LevelSigns = "!~@#^";
+const QString LevelSigns = "!~@^#";
 
 //Font sizes each level's label (in the text itself) should get
 //const int LevelFontSize[] = {18,28,34,34,34};
@@ -56,26 +56,40 @@ bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QStr
     }
 }
 
+weavedSourceData initWsdFrom (const weavedSource& src)
+{
+    weavedSourceData ret;
+    ret.Title = src.Title;
+    ret.FileName = src.FileName;
+    ret.Zoom = src.Zoom;
+    ret.id = src.id;
+    ret.show = src.show;
+    return ret;
+}
+
 bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRegExp mark)
 {
     int linkid = 0;
 
     //TODO: implement zoom attribute?
 
-    QList <QString> text;
+    QList <weavedSourceData> Sources;
+    for (int i=0; i<mWeavedSources.size(); i++)
+    {
+        if (mWeavedSources[i].show == true)
+        {
+            weavedSourceData src = initWsdFrom ( mWeavedSources[i] );
+            Sources.append(src);
+        }
+    }
+
+    if (Sources.size() == 0) return false;
+
 
     vector<QString> comment_titles, comment_texts;
     //Read coment file into it's vectors
     ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
 
-    QList <weavedSource> Sources;
-    for (int i=0; i<mWeavedSources.size(); i++)
-    {
-        if (mWeavedSources[i].show == true)
-            Sources.append(mWeavedSources[i]);
-    }
-
-    if (Sources.size() == 0) return false;
 
     QStringList colors;
     colors << "#4682B4" << "#0000FF" << "#A52A2A" << "#4B0082";
@@ -118,7 +132,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
     //Go over every line in the main source:
-    //while (Sources[0].text.size() > 0)
     for (int i=0; i<Sources[0].text.size(); i++)
     {
         //Be nice to other people too
@@ -147,27 +160,15 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                     //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
                     if (Sources[0].itr == Sources[j].itr)
                     {
-                        Sources[j].line ++;
-
-                        QString source_line = Sources[j].text[Sources[j].line];
-
-                        //Clone the sources' itr, so we can see if it changed
-                        BookIter tmpitr(Sources[j].itr);
-                        tmpitr.SetLevelFromLine(source_line);
-
                         //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr == Sources[0].itr) && (Sources[j].line < Sources[j].text.size()))
+                        while ( ++Sources[j].line < Sources[j].text.size() )
                         {
-                            if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
+                            QString source_line = Sources[j].text[Sources[j].line];
 
-                            Sources[j].line ++;
-
-                            if (Sources[j].line < Sources[j].text.size())
-                            {
-                                //Update the cloned itr
-                                source_line = Sources[j].text[Sources[j].line];
-                                tmpitr.SetLevelFromLine(source_line);
-                            }
+                            if (LevelSigns.indexOf(source_line[0]) == -1)
+                                Sources[j].str += source_line + "\n";
+                            else
+                                break;
                         }
                     }
                 }
@@ -188,7 +189,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             }
 
             //Emtpy strs
-            for (int j=0; j<Sources.size(); j++) Sources[j].str = "";
+            for (int j=0; j<Sources.size(); j++) Sources[j].str.clear();
 
             //See if the is a comment for the past position, and if so, insert it now
             vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlink);
@@ -237,7 +238,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 indexitem.linkPoint =  "#" + Sources[0].itr.toStringForLinks(level + 1);
 
                 //Display of link levels in the Html itself, and in the index
-                QString dispname = line.mid(2);
+                QString dispname = "";
 
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
                 if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1 ) )
@@ -257,6 +258,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
                         tmp.clear();
                     }
+                    else
+                        dispname = line.mid(2);
                 }
 
                 indexitem.displayText = dispname;
@@ -265,7 +268,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 indexitemlist.push_back(indexitem);
 
                 //Get the font size for this level from the LevelFontSize array
-                int fontsize = gFontSize + LevelFontSizeAdd[level];
+                int fontsize = mFont.pointSize() + LevelFontSizeAdd[level];
 
                 htmlbody += "<BR><span style=\"color:blue; font-size:";
                 htmlbody += stringify(fontsize) + "px\">";
@@ -397,7 +400,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
         else if (text[i][0] == '$')
         {
             //There's a space after the $ sign, so the name is from char 2 untill the end
-            mNameForTitle = text[i].mid(2, text[i].length() -1);
+            mNameForTitle = text[i].mid(2);
 
 
             //TODO: dangerous...
@@ -495,7 +498,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 indexitemlist.push_back(indexitem);
 
                 //Get the font size for this level from the LevelFontSize array
-                int fontsize = gFontSize + LevelFontSizeAdd[level];
+                int fontsize = mFont.pointSize() + LevelFontSizeAdd[level];
 
                 if (PutNewLinesAsIs) htmlbody += "<BR>";
 
