@@ -40,6 +40,22 @@ BookIter::BookIter(BookIter * other_book)
 
 BookIter::~BookIter() {}
 
+bool BookIter::operator==(const BookIter& other)
+{
+    for (int i=0; i<5; i++)
+    {
+        if ( mLevelName[i] != other.mLevelName[i])
+            return false;
+    }
+    return true;
+}
+
+bool BookIter::operator!=(const BookIter& other)
+{
+    return !(*this == other);
+}
+
+
 //Gives the level symbolized by the first char of the string,
 // the value written in the rest of it .
 // ( I.E., "~ פרק יא ", will set  level 2 to "פרק יא" ).
