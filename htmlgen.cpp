@@ -145,7 +145,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                     Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
 
                     //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-                    if (Sources[0].itr.toHumanString() == Sources[j].itr.toHumanString())
+                    if (Sources[0].itr == Sources[j].itr)
                     {
                         Sources[j].line ++;
 
@@ -156,7 +156,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                         tmpitr.SetLevelFromLine(source_line);
 
                         //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].line < Sources[j].text.size()))
+                        while ( (tmpitr == Sources[0].itr) && (Sources[j].line < Sources[j].text.size()))
                         {
                             if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
 

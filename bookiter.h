@@ -45,6 +45,11 @@ public:
     //Copy constructor, making this itr equivalent to the given one
     BookIter(BookIter * other_book);
 
+    //comparison operators
+    bool operator==(const BookIter& other);
+    bool operator!=(const BookIter& other);
+
+
     //Resets all levels related to this one (see the source file for detailed explanation).
     // The levels are zerod to "0" (as oppesed to ""), so we can tell between emptied and never used values.
     void ZeroLevel(int level);

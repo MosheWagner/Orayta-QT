@@ -855,7 +855,7 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
 
         //Prevent double results
         if (    results.empty()
-            || (results.back().itr.toStringForLinks() != s.itr.toStringForLinks())
+            || (results.back().itr != s.itr)
             || (curr-last > CHAR_LIMIT/2) )
             results << s;
 
