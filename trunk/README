@@ -12,22 +12,21 @@ http://www.oraytafreeware.com/
 
 # התקנה מקוד מקור (תחת לינוקס) :
 כדי לקמפל התוכנה מקוד המקור, יש לוודא שחבילות הפיתוח של qt4 מתוקנות.
-(בדר"כ הם נמצאות בחבילה בשם libqt4-dev)
-כמו כן צריך להתקין libfribidi-dev וגם libpoppler-qt4-dev
-וכמובן את make qt4-qmake ואת g++
+(בדר"כ הם נמצאות בחבילות בשם 'libqt4-dev' ו 'qt4-qmake')
+(כמו כן צריך להתקין libfribidi-dev וגם libpoppler-qt4-dev
+בנוסף, החבילות make ו g++ נצרכות לכל התקנה של תוכנה מבוססת c++ ורוב הסיכויים שהן כבר מותקנות אצלכם)
 
 יש להריץ בטרמינל מתוך התקייה של התוכנה את הפקודה:
 qmake
 make
-בשלב זה ניתן לבדוק שהתכנה רצה טוב על ידי הפקודה (לא יודע אם זה יעבוד אם לא התקנתם כבר את הספרים):
+בשלב זה ניתן לבדוק שהתכנה רצה טוב על ידי הפקודה הבאה (רק במידה שכבר התקנתם את הספרים):
 ./orayta
 וכמשתמש על (באובונטו sudo):
 make install
 
-
 אם הספרים הורדו בנפרד, יש להריץ מתוך התקייה שלהם (כמשתמש על):
 make install
-או לפרוס אותם לכאן לפני התקנת התוכנה.
+או לפרוס אותם לתיקיה הנוכחית לפני התקנת התוכנה.
 
 
 תחת חלונות הצלחתי לקמפל את התוכנה רק בעזרת QT Creator.
@@ -61,12 +60,15 @@ make install
 
 This should compile the program, and install it system-wide.
 
-( Qt development libraries are required. The are usually under the package 'libqt4-dev' ).
+( Qt development libraries are required. The are usually under the packages 'libqt4-dev' and 'qt4-qmake'.
+the folowing packages are also requiered: 'libfribidi-dev' and 'libpoppler-qt4-dev'.
+some packages are required for any installation of a c++ source program, and they are probbably alredy installed on your system. these are:
+'make' and 'g++' ).
 
 If the books were downaloaded seperatly, you should run (as root) in their folder:
 make install
 
-Or unpack them to this folder before installing the program
+Or unpack them to this folder before installing the program.
 
 
 I was successful compiling the code under windows using QT Creator only. Anyway, the simplest way would be to download the binaries from the site. 
