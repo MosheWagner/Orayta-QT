@@ -1,6 +1,5 @@
-&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-<B>&UniqueId=992&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&GroupId=mishna_eruvin
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2_ERUVIN Layer 2 - 36 pages
+&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=992&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&GroupId=mishna_eruvin
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2_ERUVIN Layer 2 - 36 pages
 
 // כז. כז: כח. כח: כט. כט: ל. ל: לא. לא: לב. לב: לג. לג: לד. לד: לה. לה: לו. לו: לז.
 // לז: לח. לח: לט. לט: מ. מ: מא. מא: מב. מב: מג. מג: מד. מד:

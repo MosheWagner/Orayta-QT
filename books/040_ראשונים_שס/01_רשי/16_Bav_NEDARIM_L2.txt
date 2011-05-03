@@ -1,5 +1,5 @@
 &CosmeticsType==841&ForcedBookName=רש''י&PutNewLinesAsIs=0&UniqueId=896&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רש''י *&LastLevelIndex=2&GroupId=nedarim&SearchInTitles=0
-</B>// C:\Dev\BhOCR\Runtime files\Projects\Bav NEDARIM Layer 2 - 180 pages
+// C:\Dev\BhOCR\Runtime files\Projects\Bav NEDARIM Layer 2 - 180 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
 // יב: יג. יג: יד. יד: טו. טו: טז. טז: יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב.

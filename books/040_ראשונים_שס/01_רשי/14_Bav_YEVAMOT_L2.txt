@@ -1,5 +1,5 @@
 &CosmeticsType==841&GroupId=bav yevamot&PutNewLinesAsIs=0&UniqueId=869&GroupId=bav yevamot&LastLevelIndex=2&ForcedBookName=רש''י&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-</B>// C:\Dev\BhOCR\Runtime files\Projects\Bav YEVAMOT Layer 2 - 242 pages
+// C:\Dev\BhOCR\Runtime files\Projects\Bav YEVAMOT Layer 2 - 242 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
 // יב: יג. יג: יד. יד: טו. טו: טז. טז: יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב.

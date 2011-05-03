@@ -1,6 +1,5 @@
-&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-<B><B><B><B><B>&UniqueId=1115&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&GroupId=mishna_taanit
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-TAANIT Layer 2 - 12 pages
+&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=1115&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&GroupId=mishna_taanit
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-TAANIT Layer 2 - 12 pages
 
 // קז. קז: קח. קח: קט. קט: קי. קי: קיא. קיא: קיב. קיב: 
 

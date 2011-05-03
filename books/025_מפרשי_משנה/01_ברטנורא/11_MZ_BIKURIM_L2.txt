@@ -1,6 +1,5 @@
-&ForcedBookName=רע''ב&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-<B>&UniqueId=967&ForcedBookName=רע''ב&CosmeticsType=1&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&GroupId=mishnam_bikurim
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_BIKURIM Layer 2 - 10 pages
+&ForcedBookName=רע''ב&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=967&ForcedBookName=רע''ב&CosmeticsType=1&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&GroupId=mishnam_bikurim
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_BIKURIM Layer 2 - 10 pages
 
 // קיב. קיב: קיג. קיג: קיד. קיד: קטו. קטו: קטז. קטז:
 

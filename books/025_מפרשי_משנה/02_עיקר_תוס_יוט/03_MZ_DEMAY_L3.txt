@@ -1,5 +1,4 @@
-&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==911&ForcedBookName=עיקר תוי''ט&PutNewLinesAsIs=1&SearchInTitles=0
-<B><B><B><B><B><B><B><B><B><B><B>&UniqueId=966&LastLevelIndex=2&TextSource=ר'</B></B></B></B></B></B></B></B></B></B></B> פנחס ראובן שליט''א&ForcedBookName=עיקר תוי''ט&CosmeticsType=1&GroupId=mishna_demay
+&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==911&ForcedBookName=עיקר תוי''ט&PutNewLinesAsIs=1&SearchInTitles=0&UniqueId=966&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=עיקר תוי''ט&CosmeticsType=1&GroupId=mishna_demay
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ_DEMAY Layer 3 - 16 pages
 
 // לז. לז: לח. לח: לט. לט: מ. מ: מא. מא: מב. מב: מג. מג: מד. מד:

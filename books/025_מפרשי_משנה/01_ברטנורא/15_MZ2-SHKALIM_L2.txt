@@ -1,6 +1,5 @@
-&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==911&PutNewLinesAsIs=1&SearchInTitles=0
-<B><B><B><B>&UniqueId=1053&TextSource=ר' פנחס ראובן שליט''א&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&ForcedBookName=רע''ב&GroupId=mishna_shkaim
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-SHKALIM Layer 2 - 21 pages
+&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==911&PutNewLinesAsIs=1&SearchInTitles=0&UniqueId=1053&TextSource=ר' פנחס ראובן שליט''א&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&ForcedBookName=רע''ב&GroupId=mishna_shkaim
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-SHKALIM Layer 2 - 21 pages
 
 // סא. סא: סב. סב: סג. סג: סד. סד: סה. סה: סו. סו: סז. סז: סח. סח: סט. סט: ע. ע: עא.
 // 

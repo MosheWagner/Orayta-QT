@@ -1,6 +1,5 @@
-&CosmeticsType==911&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&PutNewLinesAsIs=1&SearchInTitles=0
-<B><B><B><B><B><B><B><B>&UniqueId=965&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&CosmeticsType=1&GroupId=mishna_demay
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_DEMAY Layer 2 - 16 pages
+&CosmeticsType==911&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&PutNewLinesAsIs=1&SearchInTitles=0&UniqueId=965&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&CosmeticsType=1&GroupId=mishna_demay
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_DEMAY Layer 2 - 16 pages
 
 // לז. לז: לח. לח: לט. לט: מ. מ: מא. מא: מב. מב: מג. מג: מד. מד:
 

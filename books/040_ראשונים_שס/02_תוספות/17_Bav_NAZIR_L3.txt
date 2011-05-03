@@ -1,5 +1,4 @@
-&TextSource=ר' פנחס ראובן שליט''א&UniqueId=932&ForcedBookName=תוספות&CosmeticsType==841&GroupId=nazir&LastLevelIndex=2&PutNewLinesAsIs=0&SearchInTitles=0
-<B>&UniqueId=905&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&ForcedBookName=תוספות&GroupId=nazir
+&TextSource=ר' פנחס ראובן שליט''א&UniqueId=932&ForcedBookName=תוספות&CosmeticsType==841&GroupId=nazir&LastLevelIndex=2&PutNewLinesAsIs=0&SearchInTitles=0<B>&UniqueId=905&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&ForcedBookName=תוספות&GroupId=nazir
 // C:\Dev\BhOCR\Runtime files\Projects\Bav NAZIR Layer 3 - 130 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.

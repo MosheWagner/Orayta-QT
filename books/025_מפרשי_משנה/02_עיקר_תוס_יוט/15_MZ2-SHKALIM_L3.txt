@@ -1,5 +1,4 @@
-&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType=#bp=<HR>#sil=5#1
-<B><B>&UniqueId=1054&TextSource=ר'</B></B> פנחס ראובן שליט''א&LastLevelIndex=2&CosmeticsType=1 #bp=<HR>&ForcedBookName=עיקר תוי''ט&GroupId=mishna_shkaim
+&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType=#bp=<HR>#sil=5#1&UniqueId=1054&TextSource=ר'</B></B> פנחס ראובן שליט''א&LastLevelIndex=2&CosmeticsType=1 #bp=<HR>&ForcedBookName=עיקר תוי''ט&GroupId=mishna_shkaim
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-SHKALIM Layer 3 - 21 pages
 
 // סא. סא: סב. סב: סג. סג: סד. סד: סה. סה: סו. סו: סז. סז: סח. סח: סט. סט: ע. ע: עא.

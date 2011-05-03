@@ -1,5 +1,4 @@
-&ForcedBookName=עיקר תוי''ט&TextSource=ר' פנחס ראובן שליט''א&UniqueId=919&LastLevelIndex=2&GroupId=mishna_brahot&CosmeticsType==911&PutNewLinesAsIs=1&SearchInTitles=0
-<B>&UniqueId=913&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&CosmeticsType=1&GroupId=mishna_brahot&ForcedBookName=עיקר תוי''ט
+&ForcedBookName=עיקר תוי''ט&TextSource=ר' פנחס ראובן שליט''א&UniqueId=919&LastLevelIndex=2&GroupId=mishna_brahot&CosmeticsType==911&PutNewLinesAsIs=1&SearchInTitles=0&UniqueId=913&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&CosmeticsType=1&GroupId=mishna_brahot&ForcedBookName=עיקר תוי''ט
 // C:\Dev\BhOCR\Runtime files\Projects\MZ_BRAHOT Layer 3 - 18 pages
 
 // יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב. כב: כג. כג: כד. כד: כה. כה:

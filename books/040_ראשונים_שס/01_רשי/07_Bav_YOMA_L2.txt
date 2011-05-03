@@ -1,5 +1,5 @@
 &CosmeticsType==841&PutNewLinesAsIs=0&UniqueId=874&LastLevelIndex=2&ForcedBookName=רש''י&GroupId=yoma&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-</B>// C:\Dev\BhOCR\Runtime files\Projects\Bav YOMA Layer 2 - 173 pages
+// C:\Dev\BhOCR\Runtime files\Projects\Bav YOMA Layer 2 - 173 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
 // יב: יג. יג: יד. יד: טו. טו: טז. טז: יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב.

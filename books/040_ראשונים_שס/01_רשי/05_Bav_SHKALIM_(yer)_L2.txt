@@ -1,5 +1,5 @@
 &CosmeticsType==841&LastLevelIndex=2&ForcedBookName=קרבן העדה&UniqueId=851&GroupId=shkalim&TextSource=ר' פנחס ראובן שליט''א&PutNewLinesAsIs=0&SearchInTitles=0
-</B>// C:\Dev\BhOCR\Runtime files\Projects\Bav SHKALIM (yer) Layer 2 - 42 pages
+// C:\Dev\BhOCR\Runtime files\Projects\Bav SHKALIM (yer) Layer 2 - 42 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
 // יב: יג. יג: יד. יד: טו. טו: טז. טז: יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב.

@@ -1,6 +1,5 @@
-&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&GroupId=kidushin&UniqueId=902&ForcedBookName=רש''י&CosmeticsType==841&PutNewLinesAsIs=0&SearchInTitles=0
-<B>&UniqueId=900
-</B>// C:\Dev\BhOCR\Runtime files\Projects\Bav KIDUSHIN Layer 2 - 162 pages
+&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&GroupId=kidushin&UniqueId=902&ForcedBookName=רש''י&CosmeticsType==841&PutNewLinesAsIs=0&SearchInTitles=0&UniqueId=900
+// C:\Dev\BhOCR\Runtime files\Projects\Bav KIDUSHIN Layer 2 - 162 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
 // יב: יג. יג: יד. יד: טו. טו: טז. טז: יז. יז: יח. יח: יט. יט: כ. כ: כא. כא: כב.

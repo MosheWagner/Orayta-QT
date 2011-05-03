@@ -1,5 +1,4 @@
-&ForcedBookName=עיקר תוי''ט&CosmeticsType==911&TextSource=ר' פנחס ראובן שליט''א&PutNewLinesAsIs=1&SearchInTitles=0
-<B>&UniqueId=984&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&CosmeticsType=1&ForcedBookName=עיקר תוי''ט&GroupId=mishna_measrot
+&ForcedBookName=עיקר תוי''ט&CosmeticsType==911&TextSource=ר' פנחס ראובן שליט''א&PutNewLinesAsIs=1&SearchInTitles=0&UniqueId=984&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&CosmeticsType=1&ForcedBookName=עיקר תוי''ט&GroupId=mishna_measrot
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ_MEASROT Layer 3 - 12 pages
 
 // פו. פו: פז. פז: פח. פח: פט. פט: צ. צ: צא. צא:

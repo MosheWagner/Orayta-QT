@@ -1,5 +1,4 @@
-&TextSource=.&SpecialTitle=כל הזכויות שמורות ל - ''ויקיטקסט'' תחת רשיון ''GNU Free Doc.'&CosmeticsType=#bp=<HR><BR>#ip2=<img  alt=''''  src='..\pics\dot.bmp''>_nbsp_nbsp&LastLevelIndex=1
-יצירה&ParagraphPrefix=פרק&SpecialTitle=&LastLevelIndex=1&PutNewlinesAsIs=1&SearchInTitles=1&UniqueId=622&ChainFolderName=0
+&TextSource=.&SpecialTitle=כל הזכויות שמורות ל - ''ויקיטקסט'' תחת רשיון ''GNU Free Doc.'&CosmeticsType=#bp=<HR><BR>#ip2=<img  alt=''''  src='..\pics\dot.bmp''>_nbsp_nbsp&LastLevelIndex=1יצירה&ParagraphPrefix=פרק&SpecialTitle=&LastLevelIndex=1&PutNewlinesAsIs=1&SearchInTitles=1&UniqueId=622&ChainFolderName=0
 
 $ פירוש הרמ"ק לספר יצירה
 

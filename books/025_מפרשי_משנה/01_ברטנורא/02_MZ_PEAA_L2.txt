@@ -1,6 +1,5 @@
-&CosmeticsType==911&LastLevelIndex=2&UniqueId=923&GroupId=mishna_peaa&ForcedBookName=רע''ב&TextSource=ר' פנחס ראובן שליט''א&PutNewLinesAsIs=1&SearchInTitles=0
-<B><B><B><B><B><B><B><B>&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&CosmeticsType=1&UniqueId=917&GroupId=mishna_peaa
-</B>// C:\Dev\BhOCR\Runtime files\Projects\MZ_PEAA Layer 2 - 21 pages
+&CosmeticsType==911&LastLevelIndex=2&UniqueId=923&GroupId=mishna_peaa&ForcedBookName=רע''ב&TextSource=ר' פנחס ראובן שליט''א&PutNewLinesAsIs=1&SearchInTitles=0&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&CosmeticsType=1&UniqueId=917&GroupId=mishna_peaa
+// C:\Dev\BhOCR\Runtime files\Projects\MZ_PEAA Layer 2 - 21 pages
 
 // כו. כו: כז. כז: כח. כח: כט. כט: ל. ל: לא. לא: לב. לב: לג. לג: לד. לד: לה. לה: לו.
 //

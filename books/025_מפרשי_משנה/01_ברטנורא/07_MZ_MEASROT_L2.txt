@@ -1,6 +1,5 @@
-&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-<B><B><B><B><B>&UniqueId=983&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType=1&ForcedBookName=רע''ב&GroupId=mishna_measrot
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_MEASROT Layer 2 - 12 pages
+&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=983&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType=1&ForcedBookName=רע''ב&GroupId=mishna_measrot
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ_MEASROT Layer 2 - 12 pages
 
 // פו. פו: פז. פז: פח. פח: פט. פט: צ. צ: צא. צא:
 

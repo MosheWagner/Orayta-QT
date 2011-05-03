@@ -1,6 +1,5 @@
-&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
-<B>&UniqueId=1071&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&GroupId=mishna_beitsa
-</B>// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-BEITSA Layer 2 - 15 pages
+&CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=1071&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רע''ב&LastLevelIndex=2&CosmeticsType=1 #bp=<BR><HR>&GroupId=mishna_beitsa
+// C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-BEITSA Layer 2 - 15 pages
 
 // צג. צג: צד. צד: צה. צה: צו. צו: צז. צז: צח. צח: צט. צט: ק. 
 
