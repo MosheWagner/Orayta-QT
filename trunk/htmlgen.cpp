@@ -354,7 +354,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
 
     //Read the source file associated to this book:
     QString filename = absPath(mPath);
-    if(!ReadFileToList(filename, text, "UTF-8"))
+    if(!ReadFileToList(filename, text, "UTF-8", true))
     {
         print( "ERROR: Unable to open file: " + filename + " !");
         return false;
@@ -385,30 +385,20 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
         //  Don't use "print()", because it might mix up the stack and prevent the crash(!)
         //  (and no, that is not good. you want to find it, not live with it).
         //cout<<"Im still alive!" <<i<<endl;
+        int level;
 
-        //Configuration line (usually first), skip; it's allready configured.
-        if(text[i][0] == '&')
-        { }
-
-        //Special page names, or comments.
-        // Because the special naming is so dangerous, and is used only in gmarot -
-        // Iv'e written a function that calculates it for them manually and I'm ignoring this totally.
-        else  if(text[i].startsWith("//"))
-        {
-        }
         //Book name (usually second line)
-        else if (text[i][0] == '$')
+        if (text[i][0] == '$')
         {
             //There's a space after the $ sign, so the name is from char 2 untill the end
             mNameForTitle = text[i].mid(2);
-
 
             //TODO: dangerous...
             //Usually, after the line with the $, a comment comes until an empty line.
             //This is a bit dangerous, I hope it makes no problems now
             int tmp = i;
 
-            while((text[i+1]) != "" && (text[i+1]) != " ")
+            while( i+1 < text.size() && text[i+1] != "" && text[i+1] != " " )
             {
                 //A level sign was reached, meaning something went wrong. Undo all that was done here
                 if ( LevelSigns.indexOf(text[i][0]) != -1 )
@@ -422,17 +412,16 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 low_comments += text[i+1] + "<BR>";
                 i++;
             }
-
         }
 
         //If it's one of the level signs
-        else if ( LevelSigns.indexOf(text[i][0]) != -1 )
+        else if ( (level = LevelSigns.indexOf(text[i][0])) != -1 )
         {
             //Advance the book itr to the new position
             itr.SetLevelFromLine(text[i]);
 
             //Find the level of the sign by it's position in the LevelSign array
-            int level = LevelSigns.indexOf(text[i][0]);
+            //int level = LevelSigns.indexOf(text[i][0]);
 
             //See if the is a comment for the past position, and if so, insert it now
             vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlabel);
@@ -446,18 +435,21 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
             }
 
             if (lastlabel != "") htmlbody += "</div>\n";
+
+            QString strforlink = itr.toStringForLinks(level + 1);
+
             //Add a name point ("<div name=...") to the html body.
-            htmlbody += "<div name=\"" + itr.toStringForLinks(level + 1) + "\">";
+            htmlbody += "<div name=\"" + strforlink + "\">";
 
             //Remember this label
-            lastlabel = itr.toStringForLinks(level+1);
+            lastlabel = strforlink;
 
             if (level == 0)
             {
                 //This level dosn't get indexed
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + itr.toStringForLinks(level + 1), text[i].mid(2), linkid); linkid ++;
+                htmlbody += link("$" + strforlink, text[i].mid(2), linkid); linkid ++;
             }
             else
             {
@@ -467,10 +459,10 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
 
                 /////????
                 //Add a name point ("<a name=...") to html index (for the small index to point to it)
-                indexitem.linkPoint =  "#" + itr.toStringForLinks(level + 1);
+                indexitem.linkPoint =  "#" + strforlink;
 
                 //Display of link levels in the Html itself, and in the index
-                QString dispname = text[i].mid(2);
+                QString dispname;
 
                 //If the book is a gmara, give the pages (that are level 1) thier special names:
                 if ( (mPath.contains("תלמוד") || mPath.contains("שס")) && ( level == 1) )
@@ -482,13 +474,17 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                     //If only part of the link name should be in the index - cut it.
                     if(mRemoveSuffix[level] != "")
                     {
-                        splittotwo ( text[i].mid(2),tmp , mRemoveSuffix[level]);
+                        splittotwo ( text[i].mid(2), tmp, mRemoveSuffix[level]);
                         if(tmp[1] != "")
                             dispname = tmp[1];
                         else
                             dispname = tmp[0];
 
                         tmp.clear();
+                    }
+                    else
+                    {
+                        dispname = text[i].mid(2);
                     }
                 }
 
@@ -506,7 +502,8 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 htmlbody += stringify(fontsize) + "px\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + itr.toStringForLinks(level + 1), dispname, linkid); linkid ++;
+                htmlbody += link("$" + strforlink, dispname, linkid);
+                linkid ++;
 
                 htmlbody += "</span><BR>\n";
             }
@@ -790,7 +787,6 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
     //If only one link level is present (and thus higherLevel became 6)
     if ( higherLevel == 6)
     {
-
         link_table += "<span style=\"font-size:20px;\">";
         for (unsigned int j=0; j<indexitemlist.size(); j++)
         {
@@ -837,7 +833,7 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
 
                 link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +=  "</span>\n";
-                link_table += "<table border=\"0\" cellpadding=\"8\" cellspacing=\"2\"  width=\"100%\"><tbody><tr><td width=\"24\"><td align=\"right\">";
+                link_table += "<table border=\"0\" cellpadding=\"8\" cellspacing=\"2\" width=\"100%\"><tbody><tr><td width=\"24\"><td align=\"right\">";
                 opentable = true;
             }
             else
