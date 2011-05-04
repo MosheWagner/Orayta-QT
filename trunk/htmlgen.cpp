@@ -109,7 +109,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     QString html;
     QString htmlbody;
-    QString last_label="", lastlink="";
+    QString last_label="", lastlink="", last_level_line="";
 
     vector <QString> tmp;
     vector <IndexItem> indexitemlist;
@@ -146,7 +146,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
         //A new level is reached, so add all that came before it to the Html, and get all of the sources' text for this level
         //NOTE: this is a bit funny (think about it). Maybe this should be fixed. But it still works...
-        if ( LevelSigns.indexOf(line[0]) != -1 )
+        int level;
+        if ( (level = LevelSigns.indexOf(line[0])) != -1 )
         {
             // Go over all other sources
             for (int j=1; j<Sources.size(); j++)
@@ -158,17 +159,29 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                     Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
 
                     //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-                    if (Sources[0].itr == Sources[j].itr)
+                    if (Sources[0].itr.toHumanString() == Sources[j].itr.toHumanString())
                     {
-                        //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( ++Sources[j].line < Sources[j].text.size() )
-                        {
-                            QString source_line = Sources[j].text[Sources[j].line];
+                        Sources[j].line ++;
 
-                            if (LevelSigns.indexOf(source_line[0]) == -1)
-                                Sources[j].str += source_line + "\n";
-                            else
-                                break;
+                        QString source_line = Sources[j].text[Sources[j].line];
+
+                        //Clone the sources' itr, so we can see if it changed
+                        BookIter tmpitr(Sources[j].itr);
+                        tmpitr.SetLevelFromLine(source_line);
+
+                        //As long as the file didn't end and no level that matters was changed, keep on adding text
+                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].line < Sources[j].text.size()))
+                        {
+                            if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
+
+                            Sources[j].line ++;
+
+                            if (Sources[j].line < Sources[j].text.size())
+                            {
+                                //Update the cloned itr
+                                source_line = Sources[j].text[Sources[j].line];
+                                tmpitr.SetLevelFromLine(source_line);
+                            }
                         }
                     }
                 }
@@ -205,18 +218,17 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
             //Deal with the level sign for this book itself:
 
-            //Find the level of the sign by it's position in the LevelSign array
-            int level = LevelSigns.indexOf(line[0]);
-
             //Advance itr:
             Sources[0].itr.SetLevelFromLine(line);
 
+            QString source0_strforlink = Sources[0].itr.toStringForLinks(level + 1);
+
             if (last_label != "") htmlbody += "</div>\n";
-            htmlbody += "<div name=\"" + Sources[0].itr.toStringForLinks(level + 1) + "\">";
+            htmlbody += "<div name=\"" + source0_strforlink + "\">";
 
             last_label = line;
 
-            lastlink = Sources[0].itr.toStringForLinks(level + 1);
+            lastlink = source0_strforlink;
 
             if (level == 0)
             {
@@ -225,7 +237,8 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 //Add the text as a special link so menu's can be opened here (and know where this is), unless it's a fake sign.
                 if (line.mid(2).indexOf("EOF") == -1)
                 {
-                    htmlbody += link("$" + Sources[0].itr.toStringForLinks(level + 1), line.mid(2), linkid); linkid ++;
+                    htmlbody += link("$" + source0_strforlink, line.mid(2), linkid);
+                    linkid ++;
                 }
             }
             else
@@ -235,7 +248,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 indexitem.level = level + 1;
 
                 //Add a name point ("<a name=...") to html index (for the small index to point to it)
-                indexitem.linkPoint =  "#" + Sources[0].itr.toStringForLinks(level + 1);
+                indexitem.linkPoint =  "#" + source0_strforlink;
 
                 //Display of link levels in the Html itself, and in the index
                 QString dispname = "";
@@ -274,10 +287,12 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
                 htmlbody += stringify(fontsize) + "px\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + Sources[0].itr.toStringForLinks(level + 1), dispname, linkid); linkid ++;
+                htmlbody += link("$" + source0_strforlink, dispname, linkid); linkid ++;
 
                 htmlbody += "</span><BR>\n";
             }
+
+            last_level_line = line;
         }
 
         //External link ("<!--ex" type)
