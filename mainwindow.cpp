@@ -198,8 +198,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     adjustMenus();
 
-
     stopSearchFlag = false;
+
     /* -------------------------
     //Output a new conf file:
     QString c="";
@@ -375,7 +375,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     //Save books' settings
     for(unsigned int i=0; i<bookList.size(); i++)
     {
-        if (bookList[i]->getUniqueId() == -1)
+        if (bookList[i]->getUniqueId() == -1 || bookList[i]->hasRandomId)
             continue;
 
         settings.beginGroup("Book" + stringify(bookList[i]->getUniqueId()));
@@ -441,7 +441,7 @@ void MainWindow::restoreBookConfs()
             }
             bool inSearch = settings.value("InSearch", false).toBool();
             if (inSearch) bookList[i]->select();
-            else bookList[i]->unselect();
+            //else bookList[i]->unselect();
         settings.endGroup();
     }
 }
@@ -480,13 +480,14 @@ void MainWindow::BuildBookTree()
             twi->setIcon(0, *icon);
             delete icon;
 
-            if ( bookList[i]->IsUserBook() )
+            if ( bookList[i]->fileType() == Book::Dir || bookList[i]->fileType() == Book::Normal || bookList[i]->fileType() == Book::Html )
             {
-                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+                twi->setCheckState(0,Qt::Unchecked);
             }
             else
             {
-                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
             }
         }
     }
@@ -494,6 +495,52 @@ void MainWindow::BuildBookTree()
     //Only after the tree is done, connect the itemChanged signal
     connect (ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
+
+void MainWindow::updateBookTree()
+{
+    ui->treeWidget->clear();
+
+    static unsigned end;
+
+    if ( bookList.empty() )
+    {
+        bookList.BuildFromFolder(BOOKPATH);
+        end = bookList.size();
+    }
+    else
+    {
+        //Erase user books only
+        for (BookList::iterator it = bookList.begin() + end; it != bookList.end(); ++it)
+            delete (*it);
+
+        bookList.erase(bookList.begin() + end, bookList.end());
+    }
+
+    //Add user-added books
+    bookList.BuildFromFolder(USERPATH + "Books", true);
+
+    if (bookList.empty())
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
+        msgBox.exec();
+
+        //No books found
+        exit(2);
+    }
+
+    // Check alls uids
+    bookList.CheckUid();
+    //Insert all the books in the tree Widget
+    BuildBookTree();
+
+    //Restore books icons state
+    for (vector<Book*>::iterator it = bookList.begin(); it != bookList.begin() + end; ++it)
+    {
+        (*it)->restoreIconeState();
+    }
+}
+
 
 //Load the generated Html file of the given book into the WebView widget
 void MainWindow::LoadHtmlBook(Book *book, QString markString)
@@ -518,12 +565,22 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
     {
         renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
     }
-
     if (renderedOK == true)
     {
         QString p =  absPath(htmlfilename);
 
         CurrentBookdisplayer()->load(QUrl(p));
+    }
+    else
+    {
+        CurrentBookdisplayer()->HideWaitPage();
+
+        CurrentBookdisplayer()->setHtml( tr("<h2>An error occured...</h2><br />"
+                                            "Please report this bug : 'http://code.google.com/p/orayta/issues/entry'") );
+
+        ui->treeWidget->setCurrentItem(NULL);
+
+        return;
     }
 
     //Dirty hack to expand tree to the opend book.
@@ -652,6 +709,13 @@ void MainWindow::deleteSelectedBook()
         {
             if ( !QFile::remove( path ) )
                 qDebug() << "Couldn't remove file: " << path;
+            if ( book->fileType() == Book::Normal )
+            {
+                QString confFilename = path.replace(".txt", ".conf", Qt::CaseInsensitive);
+                QFile confFile(confFilename);
+                if ( confFile.exists() )
+                    confFile.remove();
+            }
         }
         updateBookTree();
         break;
@@ -689,9 +753,8 @@ void MainWindow::on_lineEdit_returnPressed()
     on_searchForward_clicked();
 }
 
-void MainWindow::addToSearch()
+void MainWindow::addBookToSearch(Book* book)
 {
-    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     if ( book )
         book->select();
 
@@ -699,26 +762,37 @@ void MainWindow::addToSearch()
     ui->removeFromSearchAction->setEnabled(true);
 }
 
+void MainWindow::addToSearch()
+{
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    addBookToSearch(book);
+}
+
 void MainWindow::on_addAllToSearchButton_clicked()
 {
     for(unsigned int i=0; i<bookList.size(); i++)
     {
-        if ( bookList[i]->IsUserBook() ) break;
-        else bookList[i]->select();
+        if ( bookList[i]->IsUserCheckable() )
+            bookList[i]->select();
     }
 
     ui->addToSearchAction->setEnabled(false);
     ui->removeFromSearchAction->setEnabled(true);
 }
 
-void MainWindow::removeFromSearch()
+void MainWindow::removeBookFromSearch(Book* book)
 {
-    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     if ( book )
         book->unselect();
 
     ui->addToSearchAction->setEnabled(true);
     ui->removeFromSearchAction->setEnabled(false);
+}
+
+void MainWindow::removeFromSearch()
+{
+    Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
+    removeBookFromSearch(book);
 }
 
 void MainWindow::on_removeAllFromSearchButton_clicked()
@@ -1112,8 +1186,8 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 {
     Book* book = bookList.findBookByTWI(current);
 
-    if (current->checkState(0) == Qt::Checked) addToSearch();
-    if (current->checkState(0) == Qt::Unchecked) removeFromSearch();
+    if (current->checkState(0) == Qt::Checked) addBookToSearch(book);
+    if (current->checkState(0) == Qt::Unchecked) removeBookFromSearch(book);
 
     if ( book->mIconState == BLUE )
     {
@@ -1239,48 +1313,6 @@ void MainWindow::importForm()
     connect(ib, SIGNAL(updateTree()), this, SLOT(updateBookTree()));
 
     ib->show();
-}
-
-void MainWindow::updateBookTree()
-{
-    ui->treeWidget->clear();
-
-    static unsigned end;
-
-    if ( bookList.empty() )
-    {
-        bookList.BuildFromFolder(BOOKPATH);
-        end = bookList.size();
-    }
-    else
-    {
-        //Erase all user books
-        bookList.erase(bookList.begin() + end, bookList.end());
-    }
-
-    //Add user-added books
-    bookList.BuildFromFolder(USERPATH + "Books", true);
-
-    if (bookList.empty())
-    {
-        QMessageBox msgBox;
-        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
-        msgBox.exec();
-
-        //No books found
-        exit(2);
-    }
-/*  //Dangerous
-    bookList.CheckUid();
-*/
-    //Insert all the books in the tree Widget
-    BuildBookTree();
-
-    //Restore books icons state
-    for (vector<Book*>::iterator it = bookList.begin(); it != bookList.begin() + end; ++it)
-    {
-        (*it)->restoreIconeState();
-    }
 }
 
 
@@ -1510,8 +1542,7 @@ void MainWindow::searchGuematria()
 
 bookDisplayer* MainWindow::CurrentBookdisplayer()
 {
-    QWidget* w = ui->viewTab->widget( CURRENT_TAB );
-    return qobject_cast<bookDisplayer*>(w);
+    return bookdisplayer( CURRENT_TAB );
 }
 
 bookDisplayer* MainWindow::bookdisplayer( int index )

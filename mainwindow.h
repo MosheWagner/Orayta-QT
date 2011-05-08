@@ -119,6 +119,9 @@ private:
     //Switch GUI direction to RTL
     void setDirection(bool rtl);
 
+    void addBookToSearch(Book*);
+    void removeBookFromSearch(Book*);
+
     //Set to true if the current search in books should be stopped
     bool stopSearchFlag ;
 

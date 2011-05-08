@@ -25,8 +25,8 @@
 // ! = Level 1
 // ~ = Level 2
 // @ = Level 3
-// # = Level 4
-// ^ = Level 5
+// ^ = Level 4
+// # = Level 5
 //
 // Each value holds a hebrew string representing it's position
 // A location may have all levels, but usually does not.

@@ -16,6 +16,8 @@
 
 #include "mainwindow.h"
 
+#include <Windows.h>
+
 //Define location for program dirs
 void initPaths()
 {
@@ -83,6 +85,7 @@ int main(int argc, char *argv[])
     //Start the App
     QApplication app(argc, argv);
 
+    //Sleep(4500);
 
     //Deal with command line options
     //TODO: add more if it's needed
