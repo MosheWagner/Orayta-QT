@@ -83,7 +83,7 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 
             if ( isUserBooks )
             {
-                b->setIsInSearch(false);
+                //b->setIsInSearch(false);
             }
             else
             {
@@ -328,6 +328,7 @@ vector<Book*> BookList::Children ( Book* book )
     return ret;
 }
 
+
 void BookList::CheckUid()
 {
     QSet <int> existingId;
@@ -338,7 +339,7 @@ void BookList::CheckUid()
         int id = (*this)[i]->getUniqueId();
         if ( id != -1 )
             existingId.insert(id);
-        else if ( (*this)[i]->fileType() == Book::Normal )
+        else if ( (*this)[i]->fileType() == Book::Normal || (*this)[i]->fileType() == Book::Html )
             withoutId.push_back((*this)[i]);
     }
 
@@ -352,6 +353,8 @@ void BookList::CheckUid()
             randomId = rand();
         } while ( existingId.contains( randomId ) );
         withoutId[i]->setUniqueId( randomId );
+        withoutId[i]->hasRandomId = true;
         existingId.insert( randomId );
     }
 }
+

@@ -90,6 +90,7 @@ public:
     bool ShowAlone();
     bool ShowMixed();
     bool IsUserBook();
+    bool IsUserCheckable();
     Book * getParent();
     vector<Book*>& getChildren();
     QTreeWidgetItem * getTreeItemPtr();
@@ -133,6 +134,8 @@ public:
 
     bool showAlone;
 
+    bool hasRandomId;
+
     //Variables that don't seem to do much yet; maybe I'll use them later
     bool SearchInTitles;
     bool PutNewLinesAsIs;
@@ -168,9 +171,6 @@ public:
     //Repaints the icon of this book or folder, by the state of it's children
     // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
     void repainticon();
-    // recursives function
-    void _unselect();
-    void _select();
 
     //Fills "pureText" and "levelMap" with their values
     void BuildSearchTextDB();
@@ -186,6 +186,10 @@ public:
     const vector <GuematriaDb>& getGuematriaDb();
 
 protected:
+    // recursives function
+    void _unselect();
+    void _select();
+
     BookIter itrFromOffset(QString posString);
 
     //Returns the book's text as pure as possible. No nikud, punctuation marks, no level signs.

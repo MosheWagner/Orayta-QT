@@ -70,12 +70,14 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     //pureText = "";
     guematriaDbExists = false;
 
+    hasRandomId = false;
+
     mFont = QFont( gFontFamily, gFontSize );
 }
 
 Book::~Book()
 {
-    delete mpTreeItem;
+    //delete mpTreeItem;
 }
 
 
@@ -110,6 +112,13 @@ bool Book::IsDir()
 
 bool Book::IsUserBook()
 { return mUserBook; }
+
+bool Book::IsUserCheckable()
+{
+    if (!mpTreeItem)
+        return false;
+    return mpTreeItem->flags() & Qt::ItemIsUserCheckable;
+}
 
 bool Book::ShowMixed()
 {
@@ -266,6 +275,9 @@ void Book::repainticon()
 
 void Book::_unselect()
 {
+    if ( !IsUserCheckable() )
+        return;
+
     mInSearch = false;
 
     //Darken icon
@@ -278,7 +290,7 @@ void Book::_unselect()
 
 void Book::unselect()
 {
-    if (mFiletype == Book::Normal || mFiletype == Book::Dir)
+    //if (mFiletype == Book::Normal || mFiletype == Book::Dir || mFiletype == Book::Html)
     {
         this->_unselect();
 
@@ -290,6 +302,9 @@ void Book::unselect()
 
 void Book::_select()
 {
+    if ( !IsUserCheckable() )
+        return;
+
     mInSearch = true;
 
     //Make icon blue
@@ -302,7 +317,7 @@ void Book::_select()
 
 void Book::select()
 {
-    if (mFiletype == Book::Normal || mFiletype == Book::Dir)
+    //if (mFiletype == Book::Normal || mFiletype == Book::Dir || mFiletype == Book::Html)
     {
         this->_select();
         //Repaint parent (it will tell it's parent to repaint too, and so on)
@@ -367,7 +382,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
     TreeItem->setIcon(0, *icon);
     delete icon;
 
-    if ( !mUserBook )
+    //if ( !mUserBook )
     {
         //Show state in the checkbox too
         if (mIconState == BLUE)
@@ -753,78 +768,101 @@ void Book::BuildSearchTextDB()
     //TODO: test thoroughly!
 
     //Ignore dirs
-    if (mFiletype != Book::Normal) return;
-
-    //No need to build the DB twice...
-    if (pureText != "") return ;
-
-    //Read book's contents
-    QStringList text;
-    if (!ReadFileToList(mPath, text, "UTF-8", true))
+    if (mFiletype == Book::Normal || mFiletype == Book::Html)
     {
-        qDebug() << "Error reading the book's text" << mPath;
-        return ;
-    }
+        //No need to build the DB twice...
+        if (pureText != "") return ;
 
-    BookIter itr;
+        //Read book's contents
+        QStringList text;
 
-    //If a line starts with one of these, it's a level sign
-    QString levelSigns = "!@#$^~";
-    //Any char not matchong this pattern, is no *pure* text.
-    QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
-    //These are turned into spaces, and not just ignored.
-    QString spaceSigns = "[-_:.,?]";
-
-    //Pad with spaces, so "full word searches" work on begining and end of text too
-    pureText = " ";
-
-    for (int i=0; i<text.size(); i++)
-    {
-        //Level line
-        if (levelSigns.contains(text[i][0]))
+        if (mFiletype == Book::Normal)
         {
-            //Update iter
-            //but if levelSign is '$' ???
-            itr.SetLevelFromLine(text[i]);
-
-            //Map with it's position in the pureText
-            levelMap.insert(pureText.length(), itr);
-
-            if (text[i][0] == '!')
-                pureText += " " +  text[i].mid(2) + " ";
-            //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
-        }
-        //Link
-        else if (text.startsWith("<!--ex"))
-        {
-
-        }
-        //Text line
-        else
-        {
-            //Test if book is from the bible. Hope this is ok...
-            if ( mPath.contains("מקרא") )
+            if (!ReadFileToList(mPath, text, "UTF-8", true))
             {
-                //Turn קרי וכתיב into only קרי. Maybe this should be an option?
-                text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+                qDebug() << "Error reading the book's text" << mPath;
+                return ;
+            }
+        }
+
+        else if (mFiletype == Book::Html)
+        {
+            QFile file(mPath);
+            if (!file.open(QIODevice::ReadOnly))
+            {
+                qDebug() << "couldn't open " << mPath;
+                return;
             }
 
-            //Remove html tags
-            text[i].replace( QRegExp("<[^>]*>"), "" );
+            QByteArray data = file.read( file.size() );
+            file.close();
 
-            //Remove all non "pure-text" chars
-            text[i].replace(QChar(0x05BE), " "); //Makaf
-            text[i].replace(QRegExp(spaceSigns), " ");
-            text[i].replace("{", "(").replace("}",")");
-            text[i].replace(notText, "");
-
-            //Remove double spaces and line breaks
-            pureText += text[i].simplified() + " ";
+            QTextCodec* codec = QTextCodec::codecForHtml(data, QTextCodec::codecForName("UTF-8"));
+            text = codec->toUnicode(data).replace(QRegExp("<[^>]*>"), "").split('\n', QString::SkipEmptyParts);
         }
-    }
 
-    //Pad with spaces, so "full word searches" work on begining and end of text too
-    //pureText = pureText + " ";
+
+        BookIter itr;
+
+        //If a line starts with one of these, it's a level sign
+        QString levelSigns = "!@#$^~";
+        //Any char not matchong this pattern, is no *pure* text.
+        QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
+        //These are turned into spaces, and not just ignored.
+        QString spaceSigns = "[-_:.,?]";
+
+        //Pad with spaces, so "full word searches" work on begining and end of text too
+        pureText = " ";
+
+        for (int i=0; i<text.size(); i++)
+        {
+//qDebug() << "search in " << this->getNormallDisplayName();
+            //Level line
+            if (levelSigns.contains(text[i][0]))
+            {
+                //Update iter
+                //but if levelSign is '$' ???
+                itr.SetLevelFromLine(text[i]);
+
+                //Map with it's position in the pureText
+                levelMap.insert(pureText.length(), itr);
+
+                if (text[i][0] == '!')
+                    pureText += " " +  text[i].mid(2) + " ";
+                //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
+            }
+            //Link
+            else if (text.startsWith("<!--ex"))
+            {
+
+            }
+            //Text line
+            else
+            {
+                //Test if book is from the bible. Hope this is ok...
+                if ( mPath.contains("מקרא") )
+                {
+                    //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+                    text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+                }
+
+                //Remove html tags
+                text[i].replace( QRegExp("<[^>]*>"), "" );
+
+                //Remove all non "pure-text" chars
+                text[i].replace(QChar(0x05BE), " "); //Makaf
+                text[i].replace(QRegExp(spaceSigns), " ");
+                text[i].replace("{", "(").replace("}",")");
+                text[i].replace(notText, "");
+
+                //Remove double spaces and line breaks
+                pureText += text[i].simplified() + " ";
+            }
+        }
+
+        //Pad with spaces, so "full word searches" work on begining and end of text too
+        //pureText = pureText + " ";
+    }
 }
 
 
@@ -847,8 +885,8 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
     int curr = 0, last = 0;
     while ((curr = pureText.indexOf(exp, last)) != -1)
     {
-        QMap<int, BookIter>::iterator mapitr = levelMap.lowerBound(curr);
-        mapitr --;
+        QMap<int, BookIter>::iterator mapitr = levelMap.upperBound(curr) - 1;
+        //mapitr --;
 
         SearchResult s;
         s.preview = resultPreview(regexp, curr);
