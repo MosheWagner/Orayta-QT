@@ -53,13 +53,16 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
     while (!t.atEnd())
     {
         QString line = t.readLine();
-        if ( skipconflines == false || conflinesended == true )
+        if ( skipconflines && !conflinesended )
         {
-            text << line;
+            if ( !line.startsWith("&") && !line.startsWith("//") && !line.isEmpty() )
+            {
+                conflinesended = true;
+                text << line;
+            }
         }
-        else if ((line[0] == '$') || (line[0] == '!') || (line[0] == '~') || (line[0] == '@') || (line[0] == '#') || (line[0] == '^'))
+        else
         {
-            conflinesended = true;
             text << line;
         }
     }
@@ -647,7 +650,7 @@ void deleteBooksFolder(QString sourceFolder)
     }
 
     QStringList filters;
-    filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
+    filters << "*.html" << "*.htm" << "*.pdf" << "*.txt" << "*.conf";
     sourceDir.setNameFilters(filters);
 
     files = sourceDir.entryList(QDir::Files);
