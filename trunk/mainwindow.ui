@@ -1756,11 +1756,17 @@
              <property name="autoScrollMargin">
               <number>0</number>
              </property>
+             <property name="viewMode">
+              <enum>QListView::ListMode</enum>
+             </property>
              <property name="uniformItemSizes">
               <bool>false</bool>
              </property>
              <property name="currentRow">
               <number>-1</number>
+             </property>
+             <property name="sortingEnabled">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -1853,7 +1859,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>21</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="layoutDirection">

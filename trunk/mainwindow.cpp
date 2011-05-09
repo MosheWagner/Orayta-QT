@@ -48,6 +48,8 @@
   - Improve GUI. (Remove search bar? Change in and out of search icons)
 */
 
+//TODO: Escape books with wierd chars in their name. ( ' , " , \ , / ). (For import)
+
 //TODO: Add date to bookmarks (somewhere), and "sort by" option?
 
 //TODO: Improve current position detection
@@ -66,6 +68,8 @@
 
 //TODO: see what else to do ;-)
 
+//TODO: Add rav kook books
+
 /*
     DB issues:
 
@@ -78,13 +82,6 @@
     - BUG: do not allow english letters in puretext
 */
 
-
-/*
-  Book issues:
-
-  - ספר המידות is bad
-  - Add rav kook books
-*/
 
 // Global
 QString gFontFamily = "Nachlieli CLM";
