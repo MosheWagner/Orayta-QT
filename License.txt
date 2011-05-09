@@ -16,7 +16,7 @@
 *   and were produced by the originall Orayta project
 *   http://www.oraytafreeware.com
 
-*   The rest if the icons provided with ToartEmet are from the "Oxygen" or "Nuvola" icon packages,
+*   The rest if the icons provided with Orayta are from the "Oxygen" or "Nuvola" icon packages,
 *   (A few with color changes done by me) -
 *   Licensed under the  LGPL license.
 *   See "www.oxygen-icons.org", and "http://www.icon-king.com/projects/nuvola/" for further details.
