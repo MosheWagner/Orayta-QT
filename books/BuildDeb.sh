@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "Builds uploadable files for the books (for PPA), for maverick ."
+echo "Builds uploadable files for the books (for PPA)"
 
 echo "* Exporting books..."
 #Clean folder
@@ -13,6 +13,8 @@ cp -fr $p bookstmp
 cd bookstmp
 
 find -name ".svn" -exec rm -rf {} \;
+
+./GenMakeFile.sh
 
 dch -imD maverick 
 debuild -S -k2C383923
