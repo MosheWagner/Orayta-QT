@@ -352,6 +352,7 @@ void BookList::CheckUid()
         do {
             randomId = rand();
         } while ( existingId.contains( randomId ) );
+
         withoutId[i]->setUniqueId( randomId );
         withoutId[i]->hasRandomId = true;
         existingId.insert( randomId );
