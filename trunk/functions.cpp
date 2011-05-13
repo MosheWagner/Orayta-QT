@@ -262,7 +262,7 @@ QString GmaraPage(int num)
 }
 
 //Converts numbers into strs:
-QString stringify(double x)
+QString stringify(int x)
 {
     return QString::number(x);
 }

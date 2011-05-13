@@ -93,7 +93,7 @@ QString RemoveBrackets(QString str);
 
 //Converts numbers into strings:
 // (Returns a QString representing the given value)
-QString stringify(double);
+QString stringify(int);
 
 //Returns gmara page name of the given page number (From 4, which is Bet Amud Alef)
 QString GmaraPage(int num);
