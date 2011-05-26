@@ -50,7 +50,7 @@ extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
-#define VERSION "0.05"
+#define VERSION "0.06"
 
 //Small functions used by a few files:
 
