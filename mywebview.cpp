@@ -27,8 +27,10 @@ myWebView::myWebView(QWidget * parent)
 
     mBookdisp = qobject_cast<bookDisplayer*>(parent);
 
+    /* // don't work
+    pageAction(QWebPage::Copy)->setShortcut(QKeySequence::Copy);
+    */
     connect(this, SIGNAL(statusBarMessage(QString)), this, SLOT(rememberActiveLink(QString)));
-
 
     copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this);
     connect(copyNoSigns, SIGNAL(triggered()), this, SLOT(copyClean()));
@@ -96,7 +98,7 @@ void myWebView::mouseReleaseEvent(QMouseEvent *event)
         {
             emit LinkClicked(r.linkUrl());
 
-            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonRelease, event->pos() , Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonRelease, event->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
             QWebView::mouseReleaseEvent(e);
         }
     }
@@ -124,9 +126,9 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
     //if this is normal book
     if ( mBookdisp->book() != NULL )
     {
-        if ( mBookdisp->book()->fileType() == Book::Normal )
+        if ( keyEvent->modifiers() == Qt::NoModifier )
         {
-            if ( keyEvent->modifiers() == Qt::NoModifier )
+            if ( mBookdisp->book()->fileType() == Book::Normal )
             {
                 switch ( keyEvent->key() )
                 {
@@ -145,9 +147,9 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
                 }
             }
         }
-        else if ( mBookdisp->book()->fileType() == Book::Html )
+        else if ( keyEvent->modifiers() == Qt::AltModifier )
         {
-            if ( keyEvent->modifiers() == Qt::AltModifier )
+            if ( mBookdisp->book()->fileType() == Book::Html )
             {
                 switch ( keyEvent->key() )
                 {
@@ -159,6 +161,15 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
                     forward();
                     return;
                 }
+            }
+        }
+        else if ( keyEvent->modifiers() == Qt::CTRL )
+        {
+            switch ( keyEvent->key() )
+            {
+            case Qt::Key_C:
+                copyClean();
+                return;
             }
         }
     }
