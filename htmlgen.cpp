@@ -592,7 +592,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
     html += "</div>";
 
-    html += "<div class=\"Content\">";
+    html += "<div class=\"Content\" style=\"text-align:justify\">";
     html += htmlbody;
     html += "</div>";
 
