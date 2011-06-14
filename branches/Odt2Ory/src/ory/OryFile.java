@@ -56,7 +56,7 @@ public class OryFile {
 	public Filename saveToHere()throws IOException {
 		String outPath = input.getFullPath();
 //		String baseName = bookTitle; //maybe we should switch to this later.
-		String baseName = input.getFilename();
+		String baseName = input.getBaseName();
 		Filename myFilename = new Filename (outPath, baseName, "txt");
 		
 		save(myFilename);
@@ -74,7 +74,12 @@ public class OryFile {
 		String outPath =  getOraytaDir();
 //			FileUtils.getUserDirectoryPath() + pathSeparator + ".Orayta" +
 //			pathSeparator + "Books" + pathSeparator;
-		String baseName = bookTitle;
+//		String baseName = bookTitle; 
+		/* this came to cause trouble, because bookTitle may contain characters that aren't acceptable by file system.
+		 * TODO: fix?
+		 */
+		
+		String baseName = input.getBaseName();
 		Filename myFilename = new Filename (outPath, baseName, "txt");
 
 		save(myFilename);

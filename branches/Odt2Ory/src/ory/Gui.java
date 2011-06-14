@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
+//import javax.swing.filechooser.FileFilter;
 
 public class Gui {
 	

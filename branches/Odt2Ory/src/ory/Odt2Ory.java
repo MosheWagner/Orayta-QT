@@ -57,8 +57,8 @@ public class Odt2Ory {
     	OryFile oryFile = new OryFile(inputFilename);
     	Filename oryFilename = new Filename(oryFile.saveToOryDir());
 
-    	System.out.println("Extracted Text:");
-    	System.out.println(oryFile.getFileText());
+//    	System.out.println("Extracted Text:");
+//    	System.out.println(oryFile.getFileText());
 
 
     	OryConfFile oryConf = new OryConfFile (oryFilename);
