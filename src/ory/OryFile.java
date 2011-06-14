@@ -17,7 +17,7 @@ public class OryFile {
 //	StringBuffer TextBuffer, tempString;
 	private String bookTitle, inputFilename;
 	private StringBuffer fileText;
-	private final char pathSeparator = Filename.PATH_SEPARATOR;
+	private final static char pathSeparator = Filename.PATH_SEPARATOR;
 	
 	OryFile (String path) throws Exception {
 		
@@ -29,7 +29,7 @@ public class OryFile {
 		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
 		fileText.append(extractor.getText()) ;
 		fileText.append("\n" + "--------" +
-				"הערות שוליים" + "--------" + "\n");
+				"הערות שוליים" + "--------" + "\n"); //TODO: make this a heading from highest used level.
 		fileText.append(extractor.getNotes());
 		bookTitle = extractor.getBookTitle();
 		
@@ -90,8 +90,7 @@ public class OryFile {
 		
 	}
 
-	private String getOraytaDir() {
-		// TODO Auto-generated method stub
+	public static String getOraytaDir() {
 		String home = FileUtils.getUserDirectoryPath();
 		String oraytaDir = ".Orayta"+ pathSeparator + "Books" + pathSeparator;
 		String path = FilenameUtils.concat(home, oraytaDir);

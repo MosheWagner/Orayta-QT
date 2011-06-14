@@ -20,28 +20,22 @@ package ory;
 /* TODO :
  * write output to file. DONE.
  * compile to a single jar. DONE.
- * replace Filename so the program can work with windows.
- * 		(and set local to work as well). TODO: find out if it works.
- * create a gui / command line tool.
- * get license.
+ * replace Filename so the program can work with windows. DONE.
+ * create a gui.
+ * get license. DONE.
  * loop option for many files.
  * create conf files. DONE.
- * Footnote class.
+ * Footnote class. DONE.
  * run tests.
- * upload.
+ * upload. DONE.
+ * print usage.
  */
 
-/* TODO objectate:
- * OdtFile
- * OryFile
- * 	-constructer that excepts an OdtFile
- * 	-getBookName
- * OryConf
- * class for managing filenames?
- */
 
 /**
- *
+ * this program is a helper for 'orayta' project.
+ * it is designed to except an open office file (.odt) 
+ * and transform to the format orayta understands.
  * @author izar00@gmail.com
  */
 
@@ -54,21 +48,39 @@ public class Odt2Ory {
    
     public static void main(String args[]) throws Exception
     {
-  
-    	String inputFilename = args[0];
-    	System.out.println("runing odt2ory ver 0.2");
-    	System.out.println("processing file: " + inputFilename );
-    	OryFile oryFile = new OryFile(inputFilename);
-    	Filename oryFilename = new Filename(oryFile.saveToOryDir());
+    	String inputFilename;
     	
-    	System.out.println("Extracted Text:");
-    	System.out.println(oryFile.getFileText());
+    	if (args.length == 0) {
+    		Gui gui = new Gui();
+    		inputFilename = gui.getFilename();
+    	} 
+    	else if (args.length > 1) {
+    		Gui gui = new Gui(); // change this in future.
+    		inputFilename = gui.getFilename();
+    	}
+    	else {    	
+    	inputFilename = args[0];
+    	}
     	
+    	if (inputFilename != null) {  		
     	
-    	OryConfFile oryConf = new OryConfFile (oryFilename);
-    	oryConf.setBookName(oryFile.getBookTitle());
+    		System.out.println("runing odt2ory ver 0.2");
+    		System.out.println("processing file: " + inputFilename );
+    		OryFile oryFile = new OryFile(inputFilename);
+    		Filename oryFilename = new Filename(oryFile.saveToOryDir());
 
-    	oryConf.save();
+    		System.out.println("Extracted Text:");
+    		System.out.println(oryFile.getFileText());
+
+
+    		OryConfFile oryConf = new OryConfFile (oryFilename);
+    		oryConf.setBookName(oryFile.getBookTitle());
+
+    		oryConf.save();
+    	}
+    	
+    	else
+    		System.out.println("no file selected");
     	 
     }
 }
