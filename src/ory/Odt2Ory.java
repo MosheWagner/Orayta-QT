@@ -43,44 +43,32 @@ package ory;
 
 public class Odt2Ory {
    
-   
-	
-   
-    public static void main(String args[]) throws Exception
-    {
-    	String inputFilename;
+    Odt2Ory(String inputFilename) throws Exception    {
+    	  	
     	
-    	if (args.length == 0) {
-    		Gui gui = new Gui();
-    		inputFilename = gui.getFilename();
-    	} 
-    	else if (args.length > 1) {
-    		Gui gui = new Gui(); // change this in future.
-    		inputFilename = gui.getFilename();
-    	}
-    	else {    	
-    	inputFilename = args[0];
-    	}
-    	
-    	if (inputFilename != null) {  		
-    	
-    		System.out.println("runing odt2ory ver 0.2");
-    		System.out.println("processing file: " + inputFilename );
-    		OryFile oryFile = new OryFile(inputFilename);
-    		Filename oryFilename = new Filename(oryFile.saveToOryDir());
-
-    		System.out.println("Extracted Text:");
-    		System.out.println(oryFile.getFileText());
-
-
-    		OryConfFile oryConf = new OryConfFile (oryFilename);
-    		oryConf.setBookName(oryFile.getBookTitle());
-
-    		oryConf.save();
-    	}
-    	
-    	else
+    	if (inputFilename == null) {
     		System.out.println("no file selected");
+    		return;
+    	}
+    	
+    		    	
+    	System.out.println("runing odt2ory ver 0.2");
+    	System.out.println("processing file: " + inputFilename );
+    	OryFile oryFile = new OryFile(inputFilename);
+    	Filename oryFilename = new Filename(oryFile.saveToOryDir());
+
+    	System.out.println("Extracted Text:");
+    	System.out.println(oryFile.getFileText());
+
+
+    	OryConfFile oryConf = new OryConfFile (oryFilename);
+    	oryConf.setBookName(oryFile.getBookTitle());
+
+    	oryConf.save();
+    	
+    	
+    	
+    		
     	 
     }
 }
