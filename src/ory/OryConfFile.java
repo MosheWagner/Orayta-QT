@@ -1,6 +1,5 @@
 package ory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
@@ -89,11 +88,11 @@ public class OryConfFile {
 
 	public void save() throws IOException {
 		
-		File file = new File(filename.getFilename());
+//		File file = new File(filename.getFilename());
 		String encoding = "utf-8";
 //		System.out.println("the text is:");
 //		System.out.println(text);
-		FileUtils.writeStringToFile(file, text.toString(), encoding);
+		FileUtils.writeStringToFile(filename, text.toString(), encoding);
 		
 	}
 	

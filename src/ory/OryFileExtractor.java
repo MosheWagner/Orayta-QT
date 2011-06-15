@@ -19,6 +19,7 @@ import org.odftoolkit.odfdom.dom.element.office.OfficeMetaElement;
 import org.odftoolkit.odfdom.dom.element.style.StyleMasterPageElement;
 import org.odftoolkit.odfdom.dom.element.table.TableTableElement;
 //import org.odftoolkit.odfdom.dom.element.text.TextAElement;
+import org.odftoolkit.odfdom.dom.element.text.TextAElement;
 import org.odftoolkit.odfdom.dom.element.text.TextHElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteBodyElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteCitationElement;
@@ -41,23 +42,26 @@ import org.w3c.dom.NodeList;
 
 public class OryFileExtractor extends OdfTextExtractor {
 
-	OdfDocument mDocument = null;
-	OdfElement mElement = null;
-	boolean mIsDocumentExtractor = false;
-	StringBuffer noteHolder;
-	String bookTitle;
+	private OdfDocument mDocument = null;
+	private OdfElement mElement = null;
+	private boolean mIsDocumentExtractor = false;
+	private StringBuffer noteHolder;
+	private String bookTitle;
 	protected static final char NewLineChar = '\n';
+	
+	// these will tell us which elements to extact.
+	private boolean printNotes, printTableOfContents, printAnnotations,
+		printXlinks;
 
 	/**
 	 * Constructor with an ODF document as a parameter
 	 * @param doc the ODF document whose editable text would be extracted. 
 	 */
 	private OryFileExtractor(OdfDocument doc) {
-		mTextBuilder = new StringBuilder();
-		mDocument = doc;
 		mIsDocumentExtractor = true;
-		noteHolder = new StringBuffer();
-		bookTitle = null;
+		mDocument = doc;
+		generateDefaults();
+		
 	}
 
 	/**
@@ -65,11 +69,21 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @param element the ODF element whose editable text would be extracted. 
 	 */
 	private OryFileExtractor(OdfElement element) {
-		mTextBuilder = new StringBuilder();
-		mElement = element;
 		mIsDocumentExtractor = false;
+		mElement = element;
+		generateDefaults();
+	}
+
+	private void generateDefaults() {
+		mTextBuilder = new StringBuilder();
 		noteHolder = new StringBuffer();
 		bookTitle = null;
+		
+		printNotes = true;
+		printTableOfContents = false;
+		printAnnotations = false;
+		printXlinks = false;
+		
 	}
 
 	/**
@@ -145,12 +159,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * this was meant to get text from xlinks.
 	 * yet it only causes trouble.
 	 */
-//	@Override
-//	public void visit(TextAElement ele) {
-//		String link = ele.getXlinkHrefAttribute();
-//		mTextBuilder.append(link);
-//		appendElementText(ele);
-//	}
+	public void visit(TextAElement ele) {
+		if (printXlinks) {
+			String link = ele.getXlinkHrefAttribute();
+			mTextBuilder.append(link);
+			appendElementText(ele);
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.odftoolkit.odfdom.dom.DefaultElementVisitor#visit(org.odftoolkit.odfdom.dom.element.text.TextTabElement)
@@ -200,26 +215,33 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 }
 	
 	private void appendHeading (int level) {
-    	
-    	switch (level) {
-    	case 1:
-    		mTextBuilder.append("# ");
-    		break;
-    	case 2:
-    		mTextBuilder.append("^ ");
-    		break;
-    	case 3:
-    		mTextBuilder.append("@ ");
-    		break;
-    	case 4:
-    		mTextBuilder.append("~ ");
-    		break;
-    	case 5:
-    		mTextBuilder.append("! ");
-    	default : //commented because we dont want anything to happen with stuff below this level. 
-//    		mTextBuilder.append("! ");
-        		
+		
+		mTextBuilder.append(headingSymbol(level));
+    		
     	}
+	
+	/**
+	 * returns the appropriate heading symbol for the given level
+	 * with a following space.
+	 * @param level - the heading level
+	 * @return the appropriate heading symbol for the given level
+	 */
+	public static String headingSymbol(int level) {
+		switch (level) {
+			case 1:
+				return ("# ");
+			case 2:
+				return ("^ ");
+			case 3:
+				return ("@ ");
+			case 4:
+				return ("~ ");
+			case 5:
+				return ("! ");
+			default : //commented because we dont want anything to happen with stuff below this level. 
+			//	return ("! ");
+				return null;
+		}
 	}
 
 //	public void visit(TextNoteElement note){}
@@ -232,25 +254,35 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	@Override
 	public void visit(TextNoteBodyElement ele) {
-		OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
-		
-		Note note = new Note(extractor.getText());
-		mTextBuilder.append(note.getReference());
-		noteHolder.append(note.getText() + NewLineChar);
-//		noteHolder.append(extractor.getText());
+		if (printNotes) {
+			OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
+
+			Note note = new Note(extractor.getText());
+			mTextBuilder.append(note.getReference());
+			noteHolder.append(note.getText() + NewLineChar);
+			//		noteHolder.append(extractor.getText());
+		}
 	}
 	
 	/**
 	 * override to disable printing of annotaitions.
 	 * TODO: make a way for the user to manage this option.
 	 */
-	public void visit(OfficeAnnotationElement ele) {}
+	public void visit(OfficeAnnotationElement ele) {
+		if (printAnnotations){
+			super.visit (ele);
+		}
+	}
 	
 	/**
 	 * override to disable printing of table of contents.
 	 * TODO: make a way for the user to manage this option.
 	 */
-	public void visit(TextTableOfContentElement ele) {}
+	public void visit(TextTableOfContentElement ele) {
+		if (printTableOfContents){
+			super.visit (ele);
+		}
+	}
 	
 	/**
 	 * Return the editable text content as a string
@@ -314,6 +346,63 @@ public class OryFileExtractor extends OdfTextExtractor {
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
 	}
+
+	/**
+	 * @return the printNotes
+	 */
+	public boolean isPrintNotes() {
+		return printNotes;
+	}
+
+	/**
+	 * @param printNotes set to false if you don't want us to print footnotes and end notes
+	 */
+	public void setPrintNotes(boolean printNotes) {
+		this.printNotes = printNotes;
+	}
+
+	/**
+	 * @return the printTableOfContents
+	 */
+	public boolean isPrintTableOfContents() {
+		return printTableOfContents;
+	}
+
+	/**
+	 * @param printTableOfContents set to true if you want us to print Table Of Contents
+	 */
+	public void setPrintTableOfContents(boolean printTableOfContents) {
+		this.printTableOfContents = printTableOfContents;
+	}
+
+	/**
+	 * @return the printAnnotations
+	 */
+	public boolean isPrintAnnotations() {
+		return printAnnotations;
+	}
+
+	/**
+	 * @param printAnnotations - set to true if you want us to print Annotations
+	 */
+	public void setPrintAnnotations(boolean printAnnotations) {
+		this.printAnnotations = printAnnotations;
+	}
+
+	/**
+	 * @return the printXlinks
+	 */
+	public boolean isPrintXlinks() {
+		return printXlinks;
+	}
+
+	/**
+	 * @param printXlinks set to true if you want us to print internal links
+	 */
+	public void setPrintXlinks(boolean printXlinks) {
+		this.printXlinks = printXlinks;
+	}
+	
 }
 
 
