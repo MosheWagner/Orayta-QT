@@ -14,6 +14,7 @@ import org.odftoolkit.odfdom.dom.OdfContentDom;
 import org.odftoolkit.odfdom.dom.OdfMetaDom;
 import org.odftoolkit.odfdom.dom.OdfStylesDom;
 import org.odftoolkit.odfdom.dom.element.draw.DrawObjectElement;
+import org.odftoolkit.odfdom.dom.element.office.OfficeAnnotationElement;
 import org.odftoolkit.odfdom.dom.element.office.OfficeMetaElement;
 import org.odftoolkit.odfdom.dom.element.style.StyleMasterPageElement;
 import org.odftoolkit.odfdom.dom.element.table.TableTableElement;
@@ -21,6 +22,7 @@ import org.odftoolkit.odfdom.dom.element.table.TableTableElement;
 import org.odftoolkit.odfdom.dom.element.text.TextHElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteBodyElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteCitationElement;
+import org.odftoolkit.odfdom.dom.element.text.TextTableOfContentElement;
 //import org.odftoolkit.odfdom.dom.element.text.TextNoteElement;
 import org.odftoolkit.odfdom.dom.element.text.TextPElement;
 import org.odftoolkit.odfdom.dom.element.text.TextTrackedChangesElement;
@@ -237,6 +239,18 @@ public class OryFileExtractor extends OdfTextExtractor {
 		noteHolder.append(note.getText() + NewLineChar);
 //		noteHolder.append(extractor.getText());
 	}
+	
+	/**
+	 * override to disable printing of annotaitions.
+	 * TODO: make a way for the user to manage this option.
+	 */
+	public void visit(OfficeAnnotationElement ele) {}
+	
+	/**
+	 * override to disable printing of table of contents.
+	 * TODO: make a way for the user to manage this option.
+	 */
+	public void visit(TextTableOfContentElement ele) {}
 	
 	/**
 	 * Return the editable text content as a string
