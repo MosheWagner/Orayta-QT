@@ -1,14 +1,14 @@
 package ory;
 
-//import Filename;
 
-import java.io.File;
+
+
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-//import Filename;
+
 
 public class OryFile {
 
@@ -28,9 +28,18 @@ public class OryFile {
 		
 		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
 		fileText.append(extractor.getText()) ;
-		fileText.append("\n" + "--------" +
-				"הערות שוליים" + "--------" + "\n"); //TODO: make this a heading from highest used level.
-		fileText.append(extractor.getNotes());
+		
+		String notes = extractor.getNotes();
+		if (! notes.isEmpty()){
+			int highestHeading = 4; //TODO: get the highest heading level in use.
+			
+			fileText.append("\n");
+			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
+			
+			fileText.append("הערות שוליים" + "\n"); 
+			fileText.append(notes);
+		}
+		
 		bookTitle = extractor.getBookTitle();
 		
 	}
@@ -38,9 +47,9 @@ public class OryFile {
 	
 	public void save(Filename path) throws IOException {
 				
-		File file = new File(path.getFilename());
+//		File file = new File(path.getFilename());
 		String encoding = "utf-8";
-		FileUtils.writeStringToFile(file, fileText.toString(), encoding);
+		FileUtils.writeStringToFile(path, fileText.toString(), encoding);
 		
 	
 	}
