@@ -19,7 +19,7 @@ public class OryFile {
 	private StringBuffer fileText;
 	private final static char pathSeparator = Filename.PATH_SEPARATOR;
 	
-	OryFile (String path) throws Exception {
+	OryFile (Filename path) throws Exception {
 		
 		
 		input = new Filename (path);
@@ -31,7 +31,11 @@ public class OryFile {
 		
 		String notes = extractor.getNotes();
 		if (! notes.isEmpty()){
-			int highestHeading = 4; //TODO: get the highest heading level in use.
+			int highestHeading = extractor.getHighestHeading(); 
+			
+			// make sure we have a valid value.
+			if (highestHeading < 1 || highestHeading > 4)
+				highestHeading = 4;
 			
 			fileText.append("\n");
 			fileText.append(OryFileExtractor.headingSymbol(highestHeading));

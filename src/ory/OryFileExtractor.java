@@ -48,6 +48,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private StringBuffer noteHolder;
 	private String bookTitle;
 	protected static final char NewLineChar = '\n';
+	private int highestHeading;
 	
 	// these will tell us which elements to extact.
 	private boolean printNotes, printTableOfContents, printAnnotations,
@@ -60,7 +61,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private OryFileExtractor(OdfDocument doc) {
 		mIsDocumentExtractor = true;
 		mDocument = doc;
-		generateDefaults();
+		assignDefaults();
 		
 	}
 
@@ -71,10 +72,10 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private OryFileExtractor(OdfElement element) {
 		mIsDocumentExtractor = false;
 		mElement = element;
-		generateDefaults();
+		assignDefaults();
 	}
 
-	private void generateDefaults() {
+	private void assignDefaults() {
 		mTextBuilder = new StringBuilder();
 		noteHolder = new StringBuffer();
 		bookTitle = null;
@@ -83,6 +84,8 @@ public class OryFileExtractor extends OdfTextExtractor {
 		printTableOfContents = false;
 		printAnnotations = false;
 		printXlinks = false;
+		
+		highestHeading = 5;
 		
 	}
 
@@ -189,19 +192,25 @@ public class OryFileExtractor extends OdfTextExtractor {
 		if (bookTitle == null)
          	findFirstLine(ele);
 		
-		appendElementText(ele);
+		appendElementText(ele); //TODO: make sure we dont get unwanted '$' character in begining of line.
 	}
 	
 	@Override
 	public void visit(TextHElement ele) {
 		mTextBuilder.append(NewLineChar);
-		 if (bookTitle == null)
-         	findFirstLine(ele);
-		 else {
-			 int level = ele.getTextOutlineLevelAttribute();
-			 appendHeading(level);
+		OdfTextExtractor extractor = OdfTextExtractor.newOdfTextExtractor(ele) ;
+		 String str = extractor.getText();
+		 
+		 if (StringUtils.isNotBlank(str)) {
+			 if (bookTitle == null)
+	         	findFirstLine(ele);
+			 else {
+				 
+				 int level = ele.getTextOutlineLevelAttribute();
+				 appendHeading(level);
+			 }
+			 appendElementText(ele);
 		 }
-		 appendElementText(ele);
 		 
 	}
 	
@@ -215,15 +224,24 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 }
 	
 	private void appendHeading (int level) {
-		
+		genHighestLevel(level);
 		mTextBuilder.append(headingSymbol(level));
     		
     	}
 	
 	/**
+	 * keep the highest heading level used in this file. 
+	 * @param level
+	 */
+	private void genHighestLevel(int level) {
+		if (level < highestHeading && level > 0)
+			highestHeading = level;
+	}
+
+	/**
 	 * returns the appropriate heading symbol for the given level
 	 * with a following space.
-	 * @param level - the heading level
+	 * @param level - the heading level (the lower the level, the higher the heading).
 	 * @return the appropriate heading symbol for the given level
 	 */
 	public static String headingSymbol(int level) {
@@ -401,6 +419,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 */
 	public void setPrintXlinks(boolean printXlinks) {
 		this.printXlinks = printXlinks;
+	}
+
+	/**
+	 * @return the highest Heading level used in this file.
+	 */
+	public int getHighestHeading() {
+		return highestHeading;
 	}
 	
 }

@@ -46,9 +46,14 @@ public class Gui extends Odt2Ory {
 	void errorMessage (String str, Exception e){
 		JOptionPane.showMessageDialog(null,str + "\n" + e);
 	}
-
+	
 	@Override
-	void launchInfo(String inputFilename){}
+	void errorMessage (String str){
+		JOptionPane.showMessageDialog(null,str);
+	}
+
+//	@Override
+//	void launchInfo(String inputFilename){}
 
 
 }
