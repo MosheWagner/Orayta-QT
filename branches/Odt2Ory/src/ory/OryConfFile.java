@@ -1,7 +1,7 @@
 package ory;
 
 import java.io.IOException;
-import java.util.Date;
+//import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 
@@ -16,6 +16,7 @@ public class OryConfFile {
 	private StringBuffer text;
 	private final int UID_MIN = 0;
 	private final int UID_MAX = 40000;
+//	private boolean publicFile; //if this is a public file we want to use a uid of our own range.
 	
 	/**
 	 * 
@@ -26,9 +27,10 @@ public class OryConfFile {
 		String path = file.getFullPath();
 		String baseName = file.getBaseName();
 		String extension = "conf";
-		text = new StringBuffer();
 		
 		filename = new Filename (path, baseName, extension);
+		
+		text = new StringBuffer();
 		
 		setAutoUid();
 	}
@@ -40,7 +42,7 @@ public class OryConfFile {
 	 * NOTICE: you may get a negative uid.
 	 */
 	private void setAutoUid() {
-		String str = (filename.getFilename() + new Date()); // using date to decrease probability of books with the same uid.
+		String str = (filename.getAbsolutePath()); // using date to decrease probability of books with the same uid.
 		int num = str.hashCode();
 		
 		//make sure our number isn't in the range that is in use.

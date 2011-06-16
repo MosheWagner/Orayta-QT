@@ -9,6 +9,7 @@ package ory;
 
 public class Note {
 	private StringBuffer noteReference, noteText;
+	private String originalText;
 	private static int counter;
 	private int noteNumber;
 	
@@ -19,29 +20,38 @@ public class Note {
 		counter++;
 		noteNumber = counter;
 		
+		originalText = new String(str);
+		
 		noteReference= new StringBuffer();
 		setReference();
 		noteText = new StringBuffer();
-		setText(str); //TODO - get the text from the element.
+		setText(); //TODO - get the text from the element.
 	}
 
 	
 	private void setReference() {
 		noteReference.append("&nbsp;");
 		noteReference.append("<a href=\"#footnote-" + noteNumber + "\" " + 
-				"id=\"noteref-" + noteNumber + "\">" );
+				"id=\"noteref-" + noteNumber + "\"");
+
+		//this will add the note text to the reference too, so that it would be shown when hovering above it.
+		if (originalText.length() < 500){
+			noteReference.append(" title=\"" + originalText + "\"");
+		}
+		
+		noteReference.append(">" );
 		noteReference.append("[" + noteNumber + "]");
 		noteReference.append("</a>");
 	}
 	
-	private void setText(String string) {
+	private void setText() {
 		
 		noteText.append("<p>");
 		noteText.append("<a href=\"#noteref-" + noteNumber + "\" " +
 				"id=\"footnote-" + noteNumber + "\">");
 		noteText.append("[" + noteNumber + "]");
 		noteText.append("</a>");
-		noteText.append(string); //TODO: chomp the heading newline.
+		noteText.append(originalText); //TODO: chomp the heading newline.
 		noteText.append("<p>");
 	}
 	

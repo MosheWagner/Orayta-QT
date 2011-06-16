@@ -44,24 +44,41 @@ import java.io.FileNotFoundException;
 
 
 public class Odt2Ory {
+	Filename inputFilename;
+	String fileType;
 
 	Odt2Ory()    {
 	}
 	
 	/**
 	 * this is where all the work is done.
-	 * @param inputFilename - an odt file path.
+	 * @param input - an odt file path.
 	 * @throws Exception
 	 */
-	public void process(String inputFilename)  throws Exception {
+	public void process(String input)  throws Exception {
 
 
-		if (inputFilename == null) {
+		if (input == null) {
 			message("no file selected");
 			return;
 		}
 
-		launchInfo(inputFilename);
+		launchInfo(input);
+		
+		inputFilename = new Filename(input); 
+		
+		String fileType;
+		if (! inputFilename.canRead()) {
+			errorMessage("cant read file:\n" + inputFilename + "\nהקובץ לא נמצא" );
+			return;
+		}
+		
+			fileType = inputFilename.getExtension();
+		if (! fileType.equals("odt")){
+			errorMessage("file type: " + fileType + " not supported\n" +
+					"סוג הקובץ: " + fileType + " לא נתמך.");
+			return;
+		}
 
 		try {
 			OryFile oryFile = new OryFile(inputFilename);
@@ -100,6 +117,10 @@ public class Odt2Ory {
 		System.err.println(str);
 		System.err.println(e);
 	}
+	
+	void errorMessage (String str) {
+		System.err.println(str);
+	}
 
 	void success() {
 		message("oporation completed successfully" + "\n" + "הפעולה הסתיימה בהצלחה" + "\n");
@@ -107,8 +128,12 @@ public class Odt2Ory {
 	}
 
 	void launchInfo(String inputFilename){
-		message("runing odt2ory ver 0.2");
-		message("processing file: " + inputFilename );
+		log("runing odt2ory ver 0.2");
+		log("processing file: " + inputFilename );
+	}
+
+	void log(String string) {
+		System.out.println(string);
 	}
 
 }
