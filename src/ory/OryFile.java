@@ -23,7 +23,7 @@ public class OryFile {
 		
 		
 		input = new Filename (path);
-		filename = new Filename("");
+		
 		fileText = new StringBuffer();
 		
 		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
@@ -49,13 +49,21 @@ public class OryFile {
 	}
 	
 	
-	public void save(Filename path) throws IOException {
+	private void save(Filename path) throws IOException {
 				
 //		File file = new File(path.getFilename());
 		String encoding = "utf-8";
 		FileUtils.writeStringToFile(path, fileText.toString(), encoding);
 		
 	
+	}
+	
+	public void save() throws IOException{
+		if (Main.parameters.getOutputPath() == null){
+			Main.parameters.setOutputPath(getOraytaDir());
+		}
+		filename = new Filename(Main.parameters.getOutputPath(), input.getBaseName(), "txt");
+		save(filename);
 	}
 	
 	public String getBookTitle() {
@@ -66,6 +74,11 @@ public class OryFile {
 		this.bookTitle = bookTitle;
 	}
 
+	/**
+	 * @deprecated
+	 * @return
+	 * @throws IOException
+	 */
 	public Filename saveToHere()throws IOException {
 		String outPath = input.getFullPath();
 //		String baseName = bookTitle; //maybe we should switch to this later.
@@ -83,6 +96,11 @@ public class OryFile {
 		
 	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 * @throws IOException
+	 */
 	public Filename saveToOryDir()throws IOException {
 		String outPath =  getOraytaDir();
 //			FileUtils.getUserDirectoryPath() + pathSeparator + ".Orayta" +
