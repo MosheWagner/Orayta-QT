@@ -1,5 +1,6 @@
 package ory;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 /*
@@ -44,8 +45,9 @@ import java.io.FileNotFoundException;
 
 
 public class Odt2Ory {
-	Filename inputFilename;
+	Filename inputFilename, oryFilename;
 	String fileType;
+	
 
 	Odt2Ory()    {
 	}
@@ -63,17 +65,28 @@ public class Odt2Ory {
 			return;
 		}
 
-		launchInfo(input);
-		
 		inputFilename = new Filename(input); 
 		
-		String fileType;
+		//recursively process files.
+		if (inputFilename.isDirectory()){
+			final File[] childs = inputFilename.listFiles();
+			for (File child: childs){
+				process(child.getAbsolutePath());
+			}
+			return;
+		}
+		
+		launchInfo(input);
+		
+		
+		
+		
 		if (! inputFilename.canRead()) {
 			errorMessage("cant read file:\n" + inputFilename + "\nהקובץ לא נמצא" );
 			return;
 		}
 		
-			fileType = inputFilename.getExtension();
+		String fileType = inputFilename.getExtension();
 		if (! fileType.equals("odt")){
 			errorMessage("file type: " + fileType + " not supported\n" +
 					"סוג הקובץ: " + fileType + " לא נתמך.");
@@ -82,8 +95,9 @@ public class Odt2Ory {
 
 		try {
 			OryFile oryFile = new OryFile(inputFilename);
+			oryFile.save();
 
-			Filename oryFilename = new Filename(oryFile.saveToOryDir());
+			oryFilename = new Filename(oryFile.getFilename());
 
 
 			//    	System.out.println("Extracted Text:");
@@ -92,6 +106,13 @@ public class Odt2Ory {
 
 			OryConfFile oryConf = new OryConfFile (oryFilename);
 			oryConf.setBookName(oryFile.getBookTitle());
+			
+			if (Main.parameters.getUid().isEmpty()){
+				oryConf.setAutoUid();
+			}
+			else {
+				oryConf.setUID(Main.parameters.getUid());
+			}
 
 			oryConf.save();
 
@@ -109,7 +130,10 @@ public class Odt2Ory {
 
 	}
 
+	
+
 	void message (String str){
+		System.out.println();
 		System.out.println(str);
 	}
 
@@ -123,7 +147,8 @@ public class Odt2Ory {
 	}
 
 	void success() {
-		message("oporation completed successfully" + "\n" + "הפעולה הסתיימה בהצלחה" + "\n");
+		message("oporation completed successfully" + "\n" + "הפעולה הסתיימה בהצלחה" + "\n" +
+				"input: " + inputFilename.getPath() + "\n" + "output: " + oryFilename.getPath() + "\n");
 
 	}
 

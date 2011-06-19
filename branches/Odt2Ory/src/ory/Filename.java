@@ -94,7 +94,21 @@ public class Filename extends File {
 //		extension = filename.getExtension();
 		
 	}
-
+	
+	Filename(File file) {
+		super(file.getAbsolutePath());
+		
+//		fullPath = filename.getFullPath();
+//		baseName = filename.getBaseName();
+//		extension = filename.getExtension();
+		
+	}
+	
+	public Filename (File parent, String child) {
+		super(parent, child);
+	}
+	
+	
 	public final char getPathSeparator() {
 		return PATH_SEPARATOR;
 	}

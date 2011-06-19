@@ -16,6 +16,7 @@ public class OryConfFile {
 	private StringBuffer text;
 	private final int UID_MIN = 0;
 	private final int UID_MAX = 40000;
+	private static int uid ;
 //	private boolean publicFile; //if this is a public file we want to use a uid of our own range.
 	
 	/**
@@ -32,7 +33,7 @@ public class OryConfFile {
 		
 		text = new StringBuffer();
 		
-		setAutoUid();
+//		setAutoUid();
 	}
 	
 	/**
@@ -41,7 +42,7 @@ public class OryConfFile {
 	 * of this conf file.
 	 * NOTICE: you may get a negative uid.
 	 */
-	private void setAutoUid() {
+	public void setAutoUid() {
 		String str = (filename.getAbsolutePath()); // using date to decrease probability of books with the same uid.
 		int num = str.hashCode();
 		
@@ -54,9 +55,13 @@ public class OryConfFile {
 
 	void addEntry (String label, String value){
 		String str = new String (label + "=" + value + "\n");
-//		System.out.println("to add: " + str);
 		text.append(str);
-//		System.out.println("added.");
+	}
+	
+	void addEntry (String label, int num){
+		String value = Integer.toString(num);
+		addEntry(label, value);
+		
 	}
 	
 	public void setBookName(String bookName){
@@ -68,12 +73,26 @@ public class OryConfFile {
 	}
 	
 	public void setUID(String uid){
-		addEntry("UniqueId", uid);
+		setUID( Integer.parseInt(uid));
+		
 	}
 
 	public void setUID(int num) {
-		String uid = Integer.toString(num);
-		setUID(uid);
+		
+		if(OryConfFile.uid == 0)
+			OryConfFile.uid = num;
+		else {
+			num = OryConfFile.uid;
+		}
+		OryConfFile.uid++; //increase uid by 1 for every input file.
+		
+		if (num >= UID_MIN && num <= UID_MAX){
+			System.out.println("warning: pussible violation of uid bounderies\n" +
+					"using uid: " + num);
+		}
+			
+		addEntry("UniqueId", num);
+		
 	}
 
 	public Filename getFilename() {
