@@ -49,6 +49,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private String bookTitle;
 	protected static final char NewLineChar = '\n';
 	private int highestHeading;
+	private Notes notes;
 	
 	// these will tell us which elements to extact.
 	private boolean printNotes, printTableOfContents, printAnnotations,
@@ -79,11 +80,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 		mTextBuilder = new StringBuilder();
 		noteHolder = new StringBuffer();
 		bookTitle = null;
+		notes = new Notes();
 		
-		printNotes = true;
-		printTableOfContents = false;
-		printAnnotations = false;
-		printXlinks = false;
+		printNotes = Main.parameters.isPrintNotes();
+		printTableOfContents = Main.parameters.isPrintTableOfContents();
+		printAnnotations = Main.parameters.isPrintAnnotations();
+		printXlinks = Main.parameters.isPrintXlinks();
 		
 		highestHeading = 5;
 		
@@ -275,7 +277,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		if (printNotes) {
 			OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
 
-			Note note = new Note(extractor.getText());
+			Note note = notes.newNote(extractor.getText());
 			mTextBuilder.append(note.getReference());
 			noteHolder.append(note.getText() + NewLineChar);
 			//		noteHolder.append(extractor.getText());

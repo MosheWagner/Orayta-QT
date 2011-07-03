@@ -10,15 +10,15 @@ package ory;
 public class Note {
 	private StringBuffer noteReference, noteText;
 	private String originalText;
-	private static int counter;
-	private int noteNumber;
+//	private final int counter;
+	private final int noteNumber;
 	
-	Note (String str){
+	Note (String str, int num){
 //		System.err.println("Worning! this program doesnt know how to handle " +
 //				"footnotes yet.");
 //		System.err.println("skipping footnote.");
-		counter++;
-		noteNumber = counter;
+		
+		noteNumber = num;
 		
 		originalText = new String(str);
 		
