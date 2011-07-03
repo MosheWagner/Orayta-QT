@@ -17,8 +17,10 @@ public class Gui extends Odt2Ory {
 		fileChooser.setDialogTitle(title);
 		//		FileFilter filter =  FileFilter();
 		//		fileChooser.setFileFilter(filter ); //TODO: create file filter.
-
+		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		fileChooser.setSelectedFile(null);
+		
 		int option = fileChooser.showOpenDialog(null);
 
 		if (option != JFileChooser.APPROVE_OPTION) {

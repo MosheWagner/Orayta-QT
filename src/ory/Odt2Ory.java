@@ -113,6 +113,12 @@ public class Odt2Ory {
 			else {
 				oryConf.setUID(Main.parameters.getUid());
 			}
+			
+			if (Main.parameters.getSource() != null)
+				oryConf.setBookSource(Main.parameters.getSource());
+			
+			if (Main.parameters.getBookTitle() != null)
+				oryConf.setBookName(Main.parameters.getBookTitle());
 
 			oryConf.save();
 
