@@ -161,14 +161,16 @@ public class OryFileExtractor extends OdfTextExtractor {
 	}
 
 	/* 
-	 * this was meant to get text from xlinks.
-	 * yet it only causes trouble.
+	 * this will get the link itself only if 'printXlink' has been enabled.
 	 */
 	public void visit(TextAElement ele) {
 		if (printXlinks) {
 			String link = ele.getXlinkHrefAttribute();
 			mTextBuilder.append(link);
 			appendElementText(ele);
+		}
+      else {
+			super.visit (ele);
 		}
 	}
 
