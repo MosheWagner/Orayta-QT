@@ -299,7 +299,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
         else if(line.startsWith("<!--ex"))
         {
             //htmlbody += ExternalLink(line);
-            Sources[0].str += ExternalLink(line) + ' ';
+            Sources[0].str += ExternalLink(line);
         }
         else
         {
@@ -313,7 +313,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
             if (mark.pattern() != "()" && mark.pattern() != "")
                 line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
 
-            Sources[0].str += line + ' ';
+            Sources[0].str += line + " ";
         }
     }
 
@@ -546,7 +546,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
                 txt.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
             }
 
-            htmlbody += txt;
+            htmlbody += txt + " ";
 
             if(PutNewLinesAsIs == true) htmlbody += "<BR>";
         }
@@ -653,8 +653,9 @@ QString CSS()
     QString str = "";
     //Add a cute effect when hovering over links
     str += "<style type=\"text/css\">";
-    str += "A {text-decoration: none;}";    str += "A:hover {text-decoration: underline; color: red;}";
-    str += "div { line-height: 1.6;}";
+    str += "A {text-decoration: none;}";
+    str += "A:hover {text-decoration: underline; color: red;}";
+    str += "div { line-height: 1.5;}";
     str += "</style>\n";
 
     return str;
