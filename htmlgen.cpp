@@ -592,7 +592,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
     html += "</div>";
 
-    html += "<div class=\"Content\" style=\"text-align:justify\">";
+    html += "<div class=\"Content\">";
     html += htmlbody;
     html += "</div>";
 
@@ -650,15 +650,13 @@ QString html_head(QString title)
 
 QString CSS()
 {
-    QString str = "";
     //Add a cute effect when hovering over links
-    str += "<style type=\"text/css\">";
-    str += "A {text-decoration: none;}";
-    str += "A:hover {text-decoration: underline; color: red;}";
-    str += "div { line-height: 1.5;}";
-    str += "</style>\n";
-
-    return str;
+    return "<style type=\"text/css\">\n"
+           "body {text-align: justify;}\n"
+           "A {text-decoration: none;}\n"
+           "A:hover {text-decoration: underline; color: red;}\n"
+           "div {line-height: 1.5;}\n"
+           "</style>\n";
 }
 
 //Generate the title part of the Html file
