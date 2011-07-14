@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="dependencies/jod"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="dependencies/commons-io-2.0.1.jar"/>
 	<classpathentry kind="lib" path="dependencies/commons-lang-2.6.jar"/>
@@ -10,5 +11,16 @@
 			<attribute name="javadoc_location" value="jar:file:/home/avi/avi-old/programming/java/jars/commons-cli-1.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ridl.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/java_uno.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/juh.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/jurt.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/ridl.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/unoloader.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/unoil.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/slf4j-simple-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

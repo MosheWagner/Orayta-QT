@@ -1,7 +1,16 @@
 package ory;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.ConnectException;
+import java.util.ArrayList;
+
+import com.artofsolving.jodconverter.DocumentConverter;
+import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 
 /*
  * Odt2Ory01.java
@@ -44,12 +53,24 @@ import java.io.FileNotFoundException;
 
 
 
+@SuppressWarnings("unused")
 public class Odt2Ory {
-	Filename inputFilename, oryFilename;
-	String fileType;
+	private Filename inputFilename, oryFilename;
+//	private String fileType;
+	private final ArrayList<String> SUPPORTED_TYPES = new ArrayList<String>();
 	
 
 	Odt2Ory()    {
+		SUPPORTED_TYPES.add("doc");
+		SUPPORTED_TYPES.add("docx");
+		SUPPORTED_TYPES.add("html");
+		SUPPORTED_TYPES.add("sxw");
+		SUPPORTED_TYPES.add("rtf");
+		SUPPORTED_TYPES.add("wpd");
+//		SUPPORTED_TYPES.add("txt");
+//		SUPPORTED_TYPES.add(""); //more supported types?
+//		SUPPORTED_TYPES.add("");
+		
 	}
 	
 	/**
@@ -76,7 +97,8 @@ public class Odt2Ory {
 			return;
 		}
 		
-		launchInfo(input);
+//		launchInfo(input);
+		log("processing file: " + input);
 		
 		
 		
@@ -87,7 +109,13 @@ public class Odt2Ory {
 		}
 		
 		String fileType = inputFilename.getExtension();
-		if (! fileType.equals("odt")){
+		if (SUPPORTED_TYPES.contains(fileType)){
+			Filename odtFile = doc2odt(inputFilename);
+			process(odtFile.getFilename());
+			return;
+		}
+		
+		else if (! fileType.equals("odt")){
 			errorMessage("file type: " + fileType + " not supported\n" +
 					"סוג הקובץ: " + fileType + " לא נתמך.");
 			return;
@@ -137,10 +165,139 @@ public class Odt2Ory {
 	}
 
 	
+/**
+ * converts a file from supported formats to odt, using jodconverter.
+ * @param input - input file.
+ * @return the converted odt file.
+ */
+private synchronized  Filename doc2odt(Filename input) {
+	Filename output = new Filename(input.getFullPath(), input.getBaseName(), "odt");
+	output.deleteOnExit();
+
+	OpenOfficeConnection connection = new SocketOpenOfficeConnection(8100);
+	
+	
+		try {
+//			try {
+				connection.connect();
+//			} catch (ConnectException e) {
+			/* commented because this doesnt work.
+			  	String[] command = { "soffice", "-headless",
+			 
+						"-accept=\"socket,host=127.0.0.1,port=8100;urp;\"",
+						"-nofirststartwizard" };
+				Process p = Runtime.getRuntime().exec(command);
+					{
+						String forLog = "";
+						for (String s : command){
+							forLog += (s + " ");
+						}
+						log(forLog);
+					}
+				p.waitFor();
+				log("wating...");
+//				p.wait(2000);
+//				log("done.");
+					wait(2000);
+				connection.connect();
+				*/
+//			}
+
+		} catch (Exception e) {
+
+			StringBuffer message = new StringBuffer();
+			message.append(
+					"we have encountered an error during connection to openoffice (or libreoffice)\n");
+			message.append(
+					"אירעה שגיאה בעת התחברות לתכנה אופן אופיס או ליברה אופיס\n");
+			message.append(
+					"כדי ליצור חיבור לאופן אופיס יש לפתוח פורט ל8100. בלינוקס ניתן באמצאות השורה הבאה:\n");
+			message.append(
+					"soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"\n");
+			
+
+			errorMessage(message.toString(), e);
+			return null;
+
+		}
+		
+	try {
+		try {
+			DocumentConverter converter = 
+				new OpenOfficeDocumentConverter(connection);
+			converter.convert(input, output);
+		} catch (Exception e) {
+
+			StringBuffer message = new StringBuffer();
+			message.append("we have encountered an error during conversion to odt format\n");
+			message.append("אירעה שגיאה בעת המרת קובץ לפורמט אופן אופיס\n");
+
+			errorMessage(message.toString(), e);
+			return null;
+		}
+	} finally {
+		connection.disconnect();
+	}
+	return output;
+
+		
+}
+
+/*	private Filename doc2odt(Filename input) {
+		Filename output = new Filename(input.getFullPath(), input.getBaseName(), "odt");
+		BufferedReader reader;
+		StringBuffer unoconvLog= new StringBuffer();
+		output.deleteOnExit();
+		try{
+			String[] command = {"unoconv", "-f", "odt", input.getFilename()};
+			Process p = Runtime.getRuntime().exec(command);
+			log(command.toString());
+			p.waitFor();
+//			reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//			System.out.println("unoconv end");
+			
+			String line=reader.readLine(); 
+			while(line!=null) 
+			{ 
+				unoconvLog.append(line + "\n");
+//				System.out.println(line);
+				line=reader.readLine(); 
+				
+			}
+
+			if (!output.exists()){
+				throw new Exception("unoconv error");
+			}
+			return output;
+		} catch (Exception e) {
+			StringBuffer message = new StringBuffer();
+			message.append("we have encountered an error during conversion of MS file\n");
+			message.append("אירעה שגיאה בעת המרת קובץ מיקרוסופט\n");
+			message.append("וודא שunoconv מותקן ושopenoffice פתוח\n");
+			
+			message.append(unoconvLog);
+						
+			errorMessage(message.toString(), e);
+			return null;
+		}
+		
+	} */
+	
+	
 
 	void message (String str){
 		System.out.println();
 		System.out.println(str);
+	}
+	
+	void message (String ... strings){
+		StringBuffer buffer = new StringBuffer();
+		for (String str: strings ){
+			buffer.append(str);
+			buffer.append("\n");
+		}
+		message(buffer.toString());
 	}
 
 	void errorMessage (String str, Exception e){
@@ -151,13 +308,26 @@ public class Odt2Ory {
 	void errorMessage (String str) {
 		System.err.println(str);
 	}
+	
+	void errorMessage (String ... strings ) {
+		StringBuffer buffer = new StringBuffer();
+		for (String str: strings ){
+			buffer.append(str);
+			buffer.append("\n");
+		}
+		errorMessage(buffer.toString());		
+	}
 
-	void success() {
-		message("oporation completed successfully" + "\n" + "הפעולה הסתיימה בהצלחה" + "\n" +
-				"input: " + inputFilename.getPath() + "\n" + "output: " + oryFilename.getPath() + "\n");
+	private void success() {
+		message("opporation completed successfully", "הפעולה הסתיימה בהצלחה",
+				"input: " + inputFilename.getPath(), "output: " + oryFilename.getPath());
 
 	}
 
+	/**
+	 * @deprecated
+	 * @param inputFilename
+	 */
 	void launchInfo(String inputFilename){
 		log("runing odt2ory ver 0.2");
 		log("processing file: " + inputFilename );
