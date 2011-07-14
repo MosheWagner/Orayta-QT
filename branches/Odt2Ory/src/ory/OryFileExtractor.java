@@ -169,7 +169,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 			mTextBuilder.append(link);
 			appendElementText(ele);
 		}
-      else {
+		else {
 			super.visit (ele);
 		}
 	}
