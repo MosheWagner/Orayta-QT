@@ -52,6 +52,8 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             ft = Book::Html;
         else if (list[i].fileName().endsWith(".pdf", Qt::CaseInsensitive))
             ft = Book::Pdf;
+        else if (list[i].fileName().endsWith(".link", Qt::CaseInsensitive))
+            ft = Book::Link;
         else
             ft = Book::Unkown;
 
@@ -79,6 +81,12 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             {
                 //Add confs for this book
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
+            }
+
+            if ( ft == Book::Link )
+            {
+                //Add confs for this book
+                AddBookConfs(b, b->getPath());
             }
 
             if ( isUserBooks )

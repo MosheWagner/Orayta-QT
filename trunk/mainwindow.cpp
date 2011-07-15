@@ -26,8 +26,6 @@
 
 //TODO: Menu entries don't go RTL. is it QT's bug?
 
-//TODO: Test new runtime dependencies
-
 //TODO: Improve search result preview
 
 //TODO: Search result marks in books with nikud don't work
@@ -639,6 +637,27 @@ void MainWindow::openBook( Book* book )
 #endif
             break;
 
+        case ( Book::Link ):
+            {
+                //Process link:
+
+                //Read link file
+                QList <QString> t;
+                ReadFileToList(book->getPath(), t, "UTF-8", false);
+
+                //Find the id of the book the link points to
+                int lId = -1;
+                for (int i=0; i<t.size(); i++)
+                {
+                    int p = t[i].indexOf("Link=");
+                    if (p != -1) ToNum(t[i].mid(p + 5), &lId);
+                }
+
+                if (lId != -1) openBook( bookList.findBookById(lId) );
+                else qDebug("Invalid link!");
+
+                break;
+            }
         default:
             qDebug("Unkown file type");
             break;
