@@ -69,6 +69,7 @@ public:
         Normal,
         Html,
         Pdf,
+        Link,
         Unkown
     };
 

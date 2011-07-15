@@ -1,5 +1,24 @@
 #! /bin/bash
 
+
+
+#####
+# This script should generally no longer be used,
+# as Launchpad should build a daily release of the code on it's own.
+
+# When a big release should be done, use:
+# dch -imD maverick    (To update the version number)
+# svn copy https://orayta.googlecode.com/svn/trunk/ https://orayta.googlecode.com/svn/tags/release (To tag the current code as a new release)
+# Then email me and ask me to request a build from launchpad.
+#####
+
+
+
+
+
+
+
+
 #This script should update all needed files that configure the .deb package, and build a new package for you
 
 #Run this script only from the source dir that you want to build the .deb file from
