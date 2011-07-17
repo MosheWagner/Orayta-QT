@@ -92,7 +92,7 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
 
     QStringList colors;
-    colors << "#4682B4" << "#0000FF" << "#A52A2A" << "#4B0082";
+    colors << "#009000" << "#0000FF" << "#A52A2A" << "#4B0082";
     for (int i=1; i<Sources.size(); i++)
     {
         int j = ((i - 1) % colors.size());
