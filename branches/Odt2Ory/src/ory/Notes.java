@@ -8,7 +8,7 @@ package ory;
  * @author avi
  *
  */
-public class Notes {
+public class Notes extends Hrefs {
 	private int counter;
 	
 	Notes(){

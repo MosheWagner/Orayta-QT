@@ -14,9 +14,7 @@ public class Note {
 	private final int noteNumber;
 	
 	Note (String str, int num){
-//		System.err.println("Worning! this program doesnt know how to handle " +
-//				"footnotes yet.");
-//		System.err.println("skipping footnote.");
+
 		
 		noteNumber = num;
 		
@@ -28,7 +26,9 @@ public class Note {
 		setText(); //TODO - get the text from the element.
 	}
 
-	
+	/**
+	 * this sets the place where we want to put a link. 
+	 */
 	private void setReference() {
 		noteReference.append("&nbsp;");
 		noteReference.append("<a href=\"#footnote-" + noteNumber + "\" " + 
@@ -44,6 +44,9 @@ public class Note {
 		noteReference.append("</a>");
 	}
 	
+	/**
+	 * this set the note itself.
+	 */
 	private void setText() {
 		
 		noteText.append("<p>");

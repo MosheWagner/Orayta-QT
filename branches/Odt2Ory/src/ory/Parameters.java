@@ -14,7 +14,7 @@ public class Parameters {
 	private boolean gui, help;
 	//parameters for the extractor;
 	private boolean printNotes, printTableOfContents, printAnnotations,
-	printXlinks;
+	printXlinks, useUnoconv, debug, toratHaolah;
 	private String inputFilename, outputPath, uid, bookTitle;
 	private String source;
 	
@@ -57,7 +57,9 @@ public class Parameters {
 		printTableOfContents = line.hasOption("print-toc");
 		printAnnotations = line.hasOption("print-annotations");
 		printXlinks = line.hasOption("print-xlinks");
-		
+		useUnoconv = line.hasOption("unoconv");
+		debug = line.hasOption("debug");
+		toratHaolah = line.hasOption("TH");
 	}
 
 //	private void assignDefaults() {
@@ -106,13 +108,17 @@ public class Parameters {
 		runOptions.addOption( OptionBuilder.withLongOpt( "print-xlinks" )
                 .withDescription( "extratct also internel links to the output file" )
                 .create() );
+		runOptions.addOption( OptionBuilder.withLongOpt( "unoconv" )
+                .withDescription( "use unoconv from your os to translate format other then odt" +
+                		"(default uses integrated 'jodconverter')")
+                .create() );
+		runOptions.addOption( OptionBuilder.withLongOpt( "debug" )
+                .withDescription( "enable debug information")
+                .create() );
+		runOptions.addOption( OptionBuilder.withLongOpt( "TH" )
+                .withDescription("special version for torat-ha'olah")
+                .create() );
 		
-		//TODO: add options for these:
-//		printNotes = true;
-//		printTableOfContents = false;
-//		printAnnotations = false;
-//		printXlinks = false;
-//		
 	
 	}
 	
@@ -171,6 +177,27 @@ public class Parameters {
 	 */
 	public boolean isPrintXlinks() {
 		return printXlinks;
+	}
+
+	/**
+	 * @return true if user asked to use unoconv
+	 */
+	public boolean isUseUnoconv() {
+		return useUnoconv;
+	}
+
+	/**
+	 * @return true if debug enabled
+	 */
+	public boolean isDebug() {
+		return debug;
+	}
+	
+	/**
+	 * @return the toratHaolah
+	 */
+	public boolean isToratHaolah() {
+		return toratHaolah;
 	}
 
 	/**
