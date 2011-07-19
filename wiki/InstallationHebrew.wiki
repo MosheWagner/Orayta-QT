@@ -13,23 +13,33 @@ _עובד רק על אובונטו, החל מגרסא *8.10 . *_
 <BR>
 
 נוסיף את המאגר למערכת עם הפקודה הבאה: <BR>
-`sudo add-apt-repository ppa:moshe-wagner/orayta`
+{{{
+sudo add-apt-repository ppa:moshe-wagner/orayta
+}}}
 <BR>
 לאחר עדכון המאגרים עם הפקודה:<BR>
-`sudo apt-get update`
+{{{
+sudo apt-get update
+}}}
 
 נתקין את התוכנה עם הפקודה: <BR>
-`sudo apt-get install orayta orayta-books`
+{{{
+sudo apt-get install orayta orayta-books
+}}}
 
 מכאן ואילך, כל עדכון של המערכת גם יעדכן את התוכנה (אם יש לה עדכון, כמובן).
 <BR><BR>
 _הערה: ניתן גם להתקין ממאגר אוטומטי שמתעדכן בכל פעם שנעשה שינוי בקוד של התוכנה.
 (היתרון הוא שאתם תמיד מעודכנים בגירסא הכי חדשה, החיסרון הוא שיכולות להיות לגרסאות הללו יותר באגים)<BR>
 כדי לעשות זאת נתקין עם ההוראות שלעיל, אלא שנחליף את השורה:<BR>
-`sudo add-apt-repository ppa:moshe-wagner/orayta`
+{{{
+sudo add-apt-repository ppa:moshe-wagner/orayta
+}}}
 <BR>
 בשורה הבאה:<BR>
-`sudo add-apt-repository ppa:moshe-wagner/orayta-daily`_
+{{{
+sudo add-apt-repository ppa:moshe-wagner/orayta-daily
+}}}
 <BR>
 
 ===2. התקנה מחבילות:===
@@ -37,7 +47,9 @@ _הערה: ניתן גם להתקין ממאגר אוטומטי שמתעדכן �
 אפשר להוריד את החבילות מהמאגר 
 [https://launchpad.net/~moshe-wagner/+archive/orayta]
 ולהתקין אותם בעזרת הפקודה: <BR>
-`sudo dpkg -i *.deb`
+{{{
+sudo dpkg -i *.deb
+}}}
 <BR>
 כאשר אתם בתוך התיקיה אליה הורדתם את החבילות.<BR>
 לחלופין אפשר להתקין את החבילות גם בעזרת תוכנה גרפית. באובונטו זה נעשה פשוט על ידי לחיצה כפולה על החבילה.<BR>
@@ -57,10 +69,11 @@ _הערה: ניתן גם להתקין ממאגר אוטומטי שמתעדכן �
 = התקנת אורייתא במקינטוש =
 
 אין עדיין הוראות מדויקות, קיימת גירסא נסיונית בלבד. באופן עקרוני מה שצריך לעשות הוא:
+
 להוריד את הקובץ orayta.zip מדף ההורדות ולחלץ את הקבצים מתוכו.
 
 כנראה שצריך להתקין ספריות של qt.
 
 להריץ את הקובץ orayta בתיקיה שחילצתם.
 
-נא לדווח על כל הצלחה או כשלון לizar00@gmail.com
+נא לדווח על כל הצלחה או כשלון ל[izar00@gmail.com]
