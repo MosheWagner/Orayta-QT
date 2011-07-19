@@ -23,6 +23,7 @@ import org.odftoolkit.odfdom.dom.element.text.TextAElement;
 import org.odftoolkit.odfdom.dom.element.text.TextHElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteBodyElement;
 import org.odftoolkit.odfdom.dom.element.text.TextNoteCitationElement;
+import org.odftoolkit.odfdom.dom.element.text.TextTabElement;
 import org.odftoolkit.odfdom.dom.element.text.TextTableOfContentElement;
 //import org.odftoolkit.odfdom.dom.element.text.TextNoteElement;
 import org.odftoolkit.odfdom.dom.element.text.TextPElement;
@@ -48,7 +49,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private StringBuffer noteHolder;
 	private String bookTitle;
 	protected static final char NewLineChar = '\n';
-	private int highestHeading;
+//	/**@deprecated*/
+//	private int highestHeading;
+	
+	/**
+	 * holds our location in the outline tree.
+	 */
+	private int[] outlineLevel;
 	private Notes notes;
 	
 	// these will tell us which elements to extact.
@@ -87,7 +94,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 		printAnnotations = Main.parameters.isPrintAnnotations();
 		printXlinks = Main.parameters.isPrintXlinks();
 		
-		highestHeading = 5;
+//		highestHeading = 5;
+		
+		outlineLevel = new int[10];
+		//initialize with zero's
+		for (int i=0; i<outlineLevel.length; i++)
+			outlineLevel[i]=0;
 		
 	}
 
@@ -164,8 +176,16 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * this will get the link itself only if 'printXlink' has been enabled.
 	 */
 	public void visit(TextAElement ele) {
-		if (printXlinks) {
-			String link = ele.getXlinkHrefAttribute();
+		
+		String link = ele.getXlinkHrefAttribute(); //returns link in format for example: #2.1.More H2|outline
+		
+		
+		if (Main.parameters.isToratHaolah()){
+			String text = getElementText(ele);
+			THlink thLink = new THlink(text, link);
+			mTextBuilder.append(thLink.getReference());
+		} 
+		else if (printXlinks) {
 			mTextBuilder.append(link);
 			appendElementText(ele);
 		}
@@ -202,25 +222,34 @@ public class OryFileExtractor extends OdfTextExtractor {
 	@Override
 	public void visit(TextHElement ele) {
 		mTextBuilder.append(NewLineChar);
-		OdfTextExtractor extractor = OdfTextExtractor.newOdfTextExtractor(ele) ;
-		 String str = extractor.getText();
-		 
-		 if (StringUtils.isNotBlank(str)) {
-			 if (bookTitle == null)
-	         	findFirstLine(ele);
-			 else {
-				 
-				 int level = ele.getTextOutlineLevelAttribute();
-				 appendHeading(level);
-			 }
-			 appendElementText(ele);
-		 }
+
+		int level = ele.getTextOutlineLevelAttribute();
+		increaseOutlineLevel(level);
+		
+		String str = getElementText(ele);
+
+		if (StringUtils.isNotBlank(str)) {
+			if (bookTitle == null)
+				findFirstLine(ele);
+			else {
+				appendHeading(level);
+			}
+			appendElementText(ele);
+		}
 		 
 	}
 	
+	/**
+	 * because html ignores tabs, we need to replace them with non-breaking-spaces.
+	 */
+	@Override
+	public void visit(TextTabElement ele) {
+		String spaces = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		mTextBuilder.append(spaces);
+	}
+	
 	private void findFirstLine (OdfElement ele) {
-		 OdfTextExtractor extractor = OdfTextExtractor.newOdfTextExtractor(ele) ;
-		 String str = extractor.getText();
+		 String str = getElementText(ele);
 		 if (StringUtils.isNotBlank(str)) {
 			 bookTitle= new String(str);
 			 mTextBuilder.append("$ ");
@@ -228,18 +257,72 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 }
 	
 	private void appendHeading (int level) {
-		genHighestLevel(level);
+//		genHighestLevel(level);
 		mTextBuilder.append(headingSymbol(level));
+		
     		
     	}
 	
+//	/**
+//	 * keep the highest heading level used in this file. 
+//	 * @param level
+//	 * @deprecated
+//	 */
+//	private void genHighestLevel(int level) {
+//		if (level < highestHeading && level > 0)
+//			highestHeading = level;
+//	}
+	
 	/**
-	 * keep the highest heading level used in this file. 
-	 * @param level
+	 * we want to create a table of contents in the version of e.g.:
+	 * '1.0.2' where 1 means we are at the first heading of highest level,
+	 * 0 means we have no second level headings yet under the current 1'st level heading
+	 * and 2 means we are at the 2'nd heading of level 3; 
+	 * @param level - level of new heading to add to list.
 	 */
-	private void genHighestLevel(int level) {
-		if (level < highestHeading && level > 0)
-			highestHeading = level;
+	private void increaseOutlineLevel(int level) {
+		//make sure we have a valid level
+		if (level<1 || level > 10)
+			return;
+		
+		outlineLevel[level-1]++;
+		//set all lower digits to zero
+		for (int i=level; i< outlineLevel.length; i++)
+			outlineLevel[i]=0;
+	}
+	
+	/**retrives text from element using parent class.
+	 * 
+	 * @param ele
+	 * @return
+	 */
+	private String getElementText(OdfElement ele) {
+		
+		OdfTextExtractor extractor = OdfTextExtractor.newOdfTextExtractor(ele) ;
+		String str = extractor.getText();
+		
+		return str;
+		
+	}
+
+	/**
+	 * gets the full level of the last heading. 
+	 * @return odf-like outline level.  
+	 */
+	String getOutlineLevel() {
+		String result = "";
+		
+		int i = outlineLevel.length-1;
+		
+		//skip empty levels
+		while(outlineLevel[i] == 0 && i > 0)
+			i--;
+		
+		//copy remaining digits 
+		for (; i >= 0; i--)
+			result = outlineLevel[i] + "." + result;
+			
+		return result;
 	}
 
 	/**
@@ -276,10 +359,9 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	@Override
 	public void visit(TextNoteBodyElement ele) {
+		
 		if (printNotes) {
-			OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
-
-			Note note = notes.newNote(extractor.getText());
+			Note note = notes.newNote(getElementText(ele));
 			mTextBuilder.append(note.getReference());
 			noteHolder.append(note.getText() + NewLineChar);
 			//		noteHolder.append(extractor.getText());
@@ -288,7 +370,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	/**
 	 * override to disable printing of annotaitions.
-	 * TODO: make a way for the user to manage this option.
+	 * 
 	 */
 	public void visit(OfficeAnnotationElement ele) {
 		if (printAnnotations){
@@ -298,7 +380,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	/**
 	 * override to disable printing of table of contents.
-	 * TODO: make a way for the user to manage this option.
+	 * 
 	 */
 	public void visit(TextTableOfContentElement ele) {
 		if (printTableOfContents){
@@ -429,7 +511,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @return the highest Heading level used in this file.
 	 */
 	public int getHighestHeading() {
-		return highestHeading;
+		
+		int i = 0;
+		while (outlineLevel[i] == 0 && i < outlineLevel.length)
+			i++;
+		
+		return i;
 	}
 	
 }

@@ -170,13 +170,24 @@ public class Odt2Ory {
  * @param input - input file.
  * @return the converted odt file.
  */
-private synchronized  Filename doc2odt(Filename input) {
+private  Filename doc2odt(Filename input) {
 	Filename output = new Filename(input.getFullPath(), input.getBaseName(), "odt");
 	output.deleteOnExit();
 
-	OpenOfficeConnection connection = new SocketOpenOfficeConnection(8100);
-	
-	
+	if (Main.parameters.isUseUnoconv()) {
+		return unoConvert(input, output);
+	}
+	else {
+		return jodConvert(input, output);
+	}
+
+		
+}
+
+	private Filename jodConvert(Filename input, Filename output) {
+		OpenOfficeConnection connection = new SocketOpenOfficeConnection(8100);
+		
+		
 		try {
 //			try {
 				connection.connect();
@@ -213,7 +224,7 @@ private synchronized  Filename doc2odt(Filename input) {
 			message.append(
 					"כדי ליצור חיבור לאופן אופיס יש לפתוח פורט ל8100. בלינוקס ניתן באמצאות השורה הבאה:\n");
 			message.append(
-					"soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"\n");
+					"soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\" -nofirststartwizard\n");
 			
 
 			errorMessage(message.toString(), e);
@@ -239,15 +250,13 @@ private synchronized  Filename doc2odt(Filename input) {
 		connection.disconnect();
 	}
 	return output;
+	}
 
-		
-}
-
-/*	private Filename doc2odt(Filename input) {
-		Filename output = new Filename(input.getFullPath(), input.getBaseName(), "odt");
+	private Filename unoConvert(Filename input, Filename output) {
+//		Filename output = new Filename(input.getFullPath(), input.getBaseName(), "odt");
 		BufferedReader reader;
 		StringBuffer unoconvLog= new StringBuffer();
-		output.deleteOnExit();
+//		output.deleteOnExit();
 		try{
 			String[] command = {"unoconv", "-f", "odt", input.getFilename()};
 			Process p = Runtime.getRuntime().exec(command);
@@ -272,9 +281,14 @@ private synchronized  Filename doc2odt(Filename input) {
 			return output;
 		} catch (Exception e) {
 			StringBuffer message = new StringBuffer();
-			message.append("we have encountered an error during conversion of MS file\n");
-			message.append("אירעה שגיאה בעת המרת קובץ מיקרוסופט\n");
+			message.append("we have encountered an error during conversion to odt format\n");
+			message.append("אירעה שגיאה בעת המרת קובץ לפורמט אופן אופיס\n");
 			message.append("וודא שunoconv מותקן ושopenoffice פתוח\n");
+			
+			message.append(
+			"כדי ליצור חיבור לאופן אופיס יש לפתוח פורט ל2002. בלינוקס ניתן באמצאות השורה הבאה:\n");
+	message.append(
+			"soffice -headless -accept=\"socket,host=127.0.0.1,port=2002;urp;\" -nofirststartwizard\n");
 			
 			message.append(unoconvLog);
 						
@@ -282,7 +296,7 @@ private synchronized  Filename doc2odt(Filename input) {
 			return null;
 		}
 		
-	} */
+	} 
 	
 	
 
@@ -333,8 +347,13 @@ private synchronized  Filename doc2odt(Filename input) {
 		log("processing file: " + inputFilename );
 	}
 
-	void log(String string) {
+	public static void log(String string) {
 		System.out.println(string);
+	}
+	
+	public static void dbgLog(String string) {
+		if (Main.parameters.isDebug())
+			log(string);
 	}
 
 }
