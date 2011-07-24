@@ -1187,15 +1187,11 @@ void MainWindow::adjustMenus()
 void MainWindow::menuErrorReport()
 {
     QString link = CurrentBookdisplayer()->activeLink().replace("$","");
+    int id = CurrentBookdisplayer()->book()->getUniqueId();
+    int index = bookList.FindBookById(id);
 
-    if (link != "")
-    {
-        int id = CurrentBookdisplayer()->book()->getUniqueId();
-        int index = bookList.FindBookById(id);
-
-        errorReport *err = new errorReport( this, link, bookList[index]->getNormallDisplayName() );
-        err->show();
-    }
+    errorReport *err = new errorReport( this, link, bookList[index]->getNormallDisplayName() );
+    err->show();
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
