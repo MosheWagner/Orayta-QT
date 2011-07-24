@@ -66,6 +66,9 @@ sudo dpkg -i *.deb
 
 פשוט להוריד את קובץ הexe ולהפעיל אותו.
 
+מי שחסר לו Microsoft Visual C++ 2008 SP1 Redistributable Package (x86)
+יכול להוריד אותו מכאן : [http://www.microsoft.com/download/en/details.aspx?id=5582]
+
 = התקנת אורייתא במק =
 
 אין עדיין הוראות מדויקות, קיימת גירסא נסיונית בלבד. באופן עקרוני מה שצריך לעשות הוא:
