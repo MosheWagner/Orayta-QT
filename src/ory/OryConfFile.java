@@ -36,23 +36,6 @@ public class OryConfFile {
 //		setAutoUid();
 	}
 	
-	/**
-	 * creates a unique id entry
-	 * with a number generated from the path
-	 * of this conf file.
-	 * NOTICE: you may get a negative uid.
-	 */
-	public void setAutoUid() {
-		String str = (filename.getAbsolutePath()); // using date to decrease probability of books with the same uid.
-		int num = str.hashCode();
-		
-		//make sure our number isn't in the range that is in use.
-		if (num > UID_MIN && num < UID_MAX)
-			num += UID_MAX;
-		
-		setUID(num);
-	}
-
 	void addEntry (String label, String value){
 		String str = new String (label + "=" + value + "\n");
 		text.append(str);
@@ -72,12 +55,33 @@ public class OryConfFile {
 		addEntry("TextSource", source);
 	}
 	
-	public void setUID(String uid){
-		setUID( Integer.parseInt(uid));
+	/**
+	 * creates a unique id entry
+	 * with a number generated from the path
+	 * of this conf file.
+	 * NOTICE: you may get a negative uid.
+	 */
+	public void setAutoUid() {
+		String str = (filename.getAbsolutePath()); 
+		int num = str.hashCode();
 		
+		//make sure our number isn't in the range that is in use.
+		if (num > UID_MIN && num < UID_MAX)
+			num += UID_MAX;
+		
+		setUID(num);
 	}
 
-	public void setUID(int num) {
+	public void setAutoUid(String uid){
+		setAutoUid( Integer.parseInt(uid));
+		
+	}
+	
+	/**
+	 * this will set the uid for the first file processed, then increase the uid by 1 for every following file.
+	 * @param num - uid for first file in batch.
+	 */
+	public void setAutoUid(int num) {
 		
 		if(OryConfFile.uid == 0)
 			OryConfFile.uid = num;
@@ -86,8 +90,17 @@ public class OryConfFile {
 		}
 		OryConfFile.uid++; //increase uid by 1 for every input file.
 		
+		
+		
+		setUID (num);
+		
+	}
+
+	
+	private void setUID(int num) {
+		
 		if (num >= UID_MIN && num <= UID_MAX){
-			System.out.println("warning: pussible violation of uid bounderies\n" +
+			Odt2Ory.log ("warning: pussible violation of uid bounderies\n" +
 					"using uid: " + num);
 		}
 			
