@@ -20,32 +20,32 @@ public class OryFile {
 	private StringBuffer fileText;
 	private final static char pathSeparator = Filename.PATH_SEPARATOR;
 	
-	OryFile (Filename path) throws Exception {
+	public OryFile (Filename path) {
 		
 		
 		input = new Filename (path);
 		
-		fileText = new StringBuffer();
-		
-		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
-		fileText.append(extractor.getText()) ;
-		
-		String notes = extractor.getNotes();
-		if (! notes.isEmpty()){
-			int highestHeading = extractor.getHighestHeading(); 
-			
-			// make sure we have a valid value.
-			if (highestHeading < 1 || highestHeading > 4)
-				highestHeading = 4;
-			
-			fileText.append("\n");
-			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
-			
-			fileText.append("הערות שוליים" + "\n"); 
-			fileText.append(notes);
-		}
-		
-		bookTitle = extractor.getBookTitle();
+//		fileText = new StringBuffer();
+//		
+//		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
+//		fileText.append(extractor.getText()) ;
+//		
+//		String notes = extractor.getNotes();
+//		if (! notes.isEmpty()){
+//			int highestHeading = extractor.getHighestHeading(); 
+//			
+//			// make sure we have a valid value.
+//			if (highestHeading < 1 || highestHeading > 4)
+//				highestHeading = 4;
+//			
+//			fileText.append("\n");
+//			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
+//			
+//			fileText.append("הערות שוליים" + "\n"); 
+//			fileText.append(notes);
+//		}
+//		
+//		bookTitle = extractor.getBookTitle();
 		
 		
 		
@@ -179,6 +179,10 @@ public class OryFile {
 
 	public void setInputFilename(String inputFilename) {
 		this.inputFilename = inputFilename;
+	}
+	
+	public void setFileText(CharSequence text)  {
+		fileText = new StringBuffer(text);
 	}
 
 	public String getFileText() {

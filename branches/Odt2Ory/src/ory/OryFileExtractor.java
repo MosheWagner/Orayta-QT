@@ -49,6 +49,9 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private StringBuffer noteHolder;
 	private String bookTitle;
 	protected static final char NewLineChar = '\n';
+	private Filename inputFilename = new Filename("");
+	private OryFiles files = new OryFiles();
+	private static int fileNum = -1;
 //	/**@deprecated*/
 //	private int highestHeading;
 	
@@ -133,7 +136,9 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 */
 	public static OryFileExtractor newOryFileExtractor(File file) throws Exception {
 		OdfDocument doc = OdfDocument.loadDocument(file);
-		return new OryFileExtractor(doc.getContentRoot());
+		 OryFileExtractor extractor = new OryFileExtractor(doc.getContentRoot());
+		 extractor.setFilename(file);
+		 return extractor;
 	}
 	
 	/**
@@ -182,8 +187,14 @@ public class OryFileExtractor extends OdfTextExtractor {
 		
 		if (Main.parameters.isToratHaolah()){
 			String text = getElementText(ele);
-			THlink thLink = new THlink(text, link);
-			mTextBuilder.append(thLink.getReference());
+			if (link.matches("#.*|outline")) {
+				THlink thLink = new THlink(text, link);
+				mTextBuilder.append(thLink.getReference());
+			}
+			else {
+				super.visit (ele);
+			}
+			
 		} 
 		else if (printXlinks) {
 			mTextBuilder.append(link);
@@ -250,10 +261,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	private void findFirstLine (OdfElement ele) {
 		 String str = getElementText(ele);
+		 
 		 if (StringUtils.isNotBlank(str)) {
 			 bookTitle= new String(str);
 			 mTextBuilder.append("$ ");
 		 }
+		 
 	 }
 	
 	private void appendHeading (int level) {
@@ -297,10 +310,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @return
 	 */
 	private String getElementText(OdfElement ele) {
-		
-		OdfTextExtractor extractor = OdfTextExtractor.newOdfTextExtractor(ele) ;
+		Odt2Ory.dbgLog("went through geteletext");
+		OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
 		String str = extractor.getText();
-		
+		String log = new String(str);
+		if (log.length() > 50)
+			log = str.substring(0, 50);
+		Odt2Ory.dbgLog("geteletext:\t" + log);
 		return str;
 		
 	}
@@ -398,10 +414,88 @@ public class OryFileExtractor extends OdfTextExtractor {
 			return getDocumentText();
 		} else {
 			visit(mElement);
+			
+			if (fileNum > -1) { //we want to increase the file number only if we already have more files.
+				fileNum++;
+			}
+			buildFile();
+			
 			return mTextBuilder.toString();
 		}
+		
+		
 	}
 	
+	protected void appendElementText(OdfElement ele) {
+		String line = getElementText(ele);
+		if(line.startsWith("$")){
+			fileNum++;
+			buildFile();
+			assignDefaults();
+			bookTitle = line.substring(2); //book title is in this line, so we remove the "$ " from the begining.
+			Odt2Ory.dbgLog("strats with $");
+		}
+		super.appendElementText(ele);
+	}
+	
+	public static OryFiles walkThrough(File file) throws Exception {
+		OryFileExtractor extractor = newOryFileExtractor(file);
+		extractor.getText();
+				
+		return extractor.getFiles();
+	}
+	
+	/**
+	 * generates ory files from the input.
+	 * @throws Exception 
+	 */
+	public void buildFile() {
+		
+		String name = inputFilename.getBaseName();
+		//if we have multipule files, number them
+		if (fileNum > -1) {
+			name += fileNum;
+		}
+		
+		Filename tmpFilename = new Filename (inputFilename.getFullPath(), name, "tmp");
+		OryFile oryFile = new OryFile(tmpFilename);
+		
+		
+		StringBuffer fileText = new StringBuffer();
+		
+		
+		fileText.append(mTextBuilder.toString()) ;
+		
+		String notes = getNotes();
+		if (! notes.isEmpty()){
+			int highestHeading = getHighestHeading(); 
+			
+			// make sure we have a valid value.
+			if (highestHeading < 1 || highestHeading > 4)
+				highestHeading = 4;
+			
+			fileText.append("\n");
+			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
+			
+			fileText.append("הערות שוליים" + "\n"); 
+			fileText.append(notes);
+		}
+		
+		oryFile.setFileText(fileText);
+		
+		oryFile.setBookTitle(bookTitle);
+		
+		files.add(oryFile);
+//		oryFile.save();
+		
+		
+	} //end buildFile
+	
+	private void setFilename(File file) {
+		inputFilename = new Filename(file);
+		
+	}
+
 	public String getNotes() {
 		return noteHolder.toString();
 	}
@@ -518,6 +612,16 @@ public class OryFileExtractor extends OdfTextExtractor {
 		
 		return i;
 	}
+
+	//	/**@deprecated*/
+	//	private int highestHeading;
+		
+		/**
+		 * @return the OryFile objects creates by the extractor. 
+		 */
+		public OryFiles getFiles() {
+			return files;
+		}
 	
 }
 

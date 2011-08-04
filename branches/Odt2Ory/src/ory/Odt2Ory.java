@@ -120,10 +120,13 @@ public class Odt2Ory {
 			return;
 		}
 		
-		Filename oryFilename;
+		String[] fileNames;
 		try {
-			OryFile oryFile = new OryFile(inputFilename);
-			oryFilename = oryFile.save();
+//			OryFile oryFile = new OryFile(inputFilename);
+//			oryFilename = oryFile.save();
+			
+			OryFiles oryFiles = OryFileExtractor.walkThrough(inputFilename);
+			fileNames = oryFiles.save();
 
 //			 new Filename(oryFile.getFilename());
 
@@ -160,7 +163,7 @@ public class Odt2Ory {
 			return;
 		}
 
-		success(oryFilename);
+		success(fileNames);
 
 	}
 
@@ -332,9 +335,15 @@ private  Filename doc2odt(Filename input) {
 		errorMessage(buffer.toString());		
 	}
 
-	private void success(Filename oryFilename) {
+	private void success(String[] fileNames) {
+		
+		String files = "";
+		for (String name : fileNames){
+			files += "-\t" + name + "\n";
+		}
+		
 		message("opporation completed successfully", "הפעולה הסתיימה בהצלחה",
-				"input: " + inputFilename.getPath(), "output: " + oryFilename.getPath());
+				"input: " + inputFilename.getPath(), "output:\n" + files);
 
 	}
 

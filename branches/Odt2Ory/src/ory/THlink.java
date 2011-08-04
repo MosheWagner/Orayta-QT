@@ -7,12 +7,13 @@ package ory;
  */
 public class THlink extends Href {
 	
-	String level;
+	private String level;
 	
 	THlink(String text, String link) {
 		//sets the target to the target extracted from the odf link, then transforms it to base32 as orayta does.
 		super(text, Href.escapeToBase32(Href.Xlink.parseXlink(link).getName()));
 		Xlink xlink = Href.Xlink.parseXlink(link);
+		
 		Odt2Ory.dbgLog(xlink.getName());
 		level= xlink.getLevel();
 		setLocation();
@@ -33,7 +34,7 @@ public class THlink extends Href {
 			Odt2Ory.dbgLog("level out of range :" + level);
 		}
 		
-		uid = "13650"; //TODO: remove this line if we split the book.
+//		uid = "13650"; //TODO: remove this line if we split the book.
 		
 		super.setLocation("!" + uid + ":");
 		

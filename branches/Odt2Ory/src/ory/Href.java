@@ -152,10 +152,10 @@ public class Href {
 			return empty;
 		}
 		
-		Odt2Ory.dbgLog(m.group(1));	
-		Odt2Ory.dbgLog(m.group(2));
-		Odt2Ory.dbgLog(m.group(3));
-		Odt2Ory.dbgLog(m.group(4));
+//		Odt2Ory.dbgLog(m.group(1));	
+//		Odt2Ory.dbgLog(m.group(2));
+//		Odt2Ory.dbgLog(m.group(3));
+//		Odt2Ory.dbgLog(m.group(4));
 		
 		Xlink xlink = new Xlink (m.group(1), m.group(2), m.group(3), m.group(4));
 		
