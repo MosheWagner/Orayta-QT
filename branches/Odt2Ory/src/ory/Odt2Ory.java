@@ -55,7 +55,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 
 @SuppressWarnings("unused")
 public class Odt2Ory {
-	private Filename inputFilename, oryFilename;
+	private Filename inputFilename; 
 //	private String fileType;
 	private final ArrayList<String> SUPPORTED_TYPES = new ArrayList<String>();
 	
@@ -114,42 +114,42 @@ public class Odt2Ory {
 			process(odtFile.getFilename());
 			return;
 		}
-		
 		else if (! fileType.equals("odt")){
 			errorMessage("file type: " + fileType + " not supported\n" +
 					"סוג הקובץ: " + fileType + " לא נתמך.");
 			return;
 		}
-
+		
+		Filename oryFilename;
 		try {
 			OryFile oryFile = new OryFile(inputFilename);
-			oryFile.save();
+			oryFilename = oryFile.save();
 
-			oryFilename = new Filename(oryFile.getFilename());
+//			 new Filename(oryFile.getFilename());
 
 
 			//    	System.out.println("Extracted Text:");
 			//    	System.out.println(oryFile.getFileText());
 
 
-			OryConfFile oryConf = new OryConfFile (oryFilename);
-			oryConf.setBookName(oryFile.getBookTitle());
-			
-			if (Main.parameters.getUid().isEmpty()){
-				oryConf.setAutoUid();
-			}
-			else {
-				oryConf.setUID(Main.parameters.getUid());
-			}
-			
-			if (Main.parameters.getSource() != null)
-				oryConf.setBookSource(Main.parameters.getSource());
-			
-			if (Main.parameters.getBookTitle() != null)
-				oryConf.setBookName(Main.parameters.getBookTitle());
-
-			oryConf.save();
-
+//			OryConfFile oryConf = new OryConfFile (oryFilename);
+//			oryConf.setBookName(oryFile.getBookTitle());
+//			
+//			if (Main.parameters.getUid().isEmpty()){
+//				oryConf.setAutoUid();
+//			}
+//			else {
+//				oryConf.setUID(Main.parameters.getUid());
+//			}
+//			
+//			if (Main.parameters.getSource() != null)
+//				oryConf.setBookSource(Main.parameters.getSource());
+//			
+//			if (Main.parameters.getBookTitle() != null)
+//				oryConf.setBookName(Main.parameters.getBookTitle());
+//
+//			oryConf.save();
+//
 		} catch (FileNotFoundException e) {
 			
 			errorMessage("File not found" + "\n" + "הקובץ לא נמצא" + "\n", e);
@@ -160,7 +160,7 @@ public class Odt2Ory {
 			return;
 		}
 
-		success();
+		success(oryFilename);
 
 	}
 
@@ -332,7 +332,7 @@ private  Filename doc2odt(Filename input) {
 		errorMessage(buffer.toString());		
 	}
 
-	private void success() {
+	private void success(Filename oryFilename) {
 		message("opporation completed successfully", "הפעולה הסתיימה בהצלחה",
 				"input: " + inputFilename.getPath(), "output: " + oryFilename.getPath());
 

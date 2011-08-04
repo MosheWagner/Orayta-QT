@@ -13,7 +13,8 @@ import org.apache.commons.io.FilenameUtils;
 public class OryFile {
 
 	// variables:
-	private Filename input, filename; 
+	private Filename input; //filename;
+//	private OryConfFile myConf;
 //	StringBuffer TextBuffer, tempString;
 	private String bookTitle, inputFilename;
 	private StringBuffer fileText;
@@ -46,9 +47,39 @@ public class OryFile {
 		
 		bookTitle = extractor.getBookTitle();
 		
+		
+		
 	}
 	
 	
+	/**
+	 * set up the conf file for this ory file.
+	 * @throws IOException 
+	 */
+	private void makeConf(Filename filename) throws IOException {
+		OryConfFile myConf = new OryConfFile(filename); 
+		
+		
+		myConf.setBookName(this.getBookTitle());
+		
+		if (Main.parameters.getUid().isEmpty()){
+			myConf.setAutoUid();
+		}
+		else {
+			myConf.setAutoUid(Main.parameters.getUid());
+		}
+		
+		if (Main.parameters.getSource() != null)
+			myConf.setBookSource(Main.parameters.getSource());
+		
+		if (Main.parameters.getBookTitle() != null)
+			myConf.setBookName(Main.parameters.getBookTitle());
+
+		myConf.save();
+
+	}
+
+
 	private void save(Filename path) throws IOException {
 				
 //		File file = new File(path.getFilename());
@@ -58,12 +89,15 @@ public class OryFile {
 	
 	}
 	
-	public void save() throws IOException{
+	public Filename save() throws IOException{
 		if (Main.parameters.getOutputPath() == null){
 			Main.parameters.setOutputPath(getOraytaDir());
 		}
-		filename = new Filename(Main.parameters.getOutputPath(), input.getBaseName(), "txt");
+		Filename filename = new Filename(Main.parameters.getOutputPath(), input.getBaseName(), "txt");
 		save(filename);
+		
+		makeConf(filename);
+		return filename;
 	}
 	
 	public String getBookTitle() {
@@ -106,16 +140,14 @@ public class OryFile {
 //			FileUtils.getUserDirectoryPath() + pathSeparator + ".Orayta" +
 //			pathSeparator + "Books" + pathSeparator;
 //		String baseName = bookTitle; 
-		/* this came to cause trouble, because bookTitle may contain characters that aren't acceptable by file system.
-		 * TODO: fix?
-		 */
+		
 		
 		String baseName = input.getBaseName();
 		Filename myFilename = new Filename (outPath, baseName, "txt");
 
 		save(myFilename);
 		
-		setFilename(myFilename);
+//		setFilename(myFilename);
 		
 		/*
 		 * this is a temporary workaround, we get a problem of aliasing
@@ -157,17 +189,17 @@ public class OryFile {
 //		this.fileText = fileText;
 //	}
 	
-	/**
-	 * WORNINIG! you must use one of the save methods before using this.
-	 * @return the Filename object where this was saved.
-	 */
-	public Filename getFilename() {
-		return filename;
-	}
-	
-	public void setFilename(Filename filename) {
-		this.filename = filename;
-	}
+//	/**
+//	 * WORNINIG! you must use one of the save methods before using this.
+//	 * @return the Filename object where this was saved.
+//	 */
+//	public Filename getFilename() {
+//		return filename;
+//	}
+//	
+//	public void setFilename(Filename filename) {
+//		this.filename = filename;
+//	}
 	
 	
 

@@ -47,7 +47,7 @@ public class Main {
 	private static void usage() {
 		// automatically generate the help statement
 		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp( "odt2ory [options] -i <filename>", parameters.getRunOptions());
+		formatter.printHelp( "odt2ory [OPTIONS] -i <filename>", parameters.getRunOptions());
 		
 	}
 
