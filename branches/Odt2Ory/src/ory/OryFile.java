@@ -4,6 +4,7 @@ package ory;
 
 
 import java.io.IOException;
+//import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -19,13 +20,16 @@ public class OryFile {
 	private String bookTitle, inputFilename;
 	private StringBuffer fileText;
 	private final static char pathSeparator = Filename.PATH_SEPARATOR;
+	private int[] headings;
 	
 	public OryFile (Filename path) {
 		
 		
 		input = new Filename (path);
 		
-//		fileText = new StringBuffer();
+		fileText = new StringBuffer(); //set for empty file.
+		
+		headings = new int[1]; //set for empty file.
 //		
 //		OryFileExtractor extractor = OryFileExtractor.newOryFileExtractor(input);
 //		fileText.append(extractor.getText()) ;
@@ -74,6 +78,11 @@ public class OryFile {
 		
 		if (Main.parameters.getBookTitle() != null)
 			myConf.setBookName(Main.parameters.getBookTitle());
+		
+		//if we have three levels of headings or more, or if we have two level of which the lower level appears many times, we want a secondary index table.
+		if (numberOfLevelsInUse() > 2 ||
+				(numberOfLevelsInUse() == 2 && headings[highestHeading()] > 20))
+			myConf.addSecondaryIndex(highestHeading());
 
 		myConf.save();
 
@@ -187,6 +196,49 @@ public class OryFile {
 
 	public String getFileText() {
 		return fileText.toString();
+	}
+
+
+	/**
+	 * @return the headings
+	 */
+	public int[] getHeadings() {
+		return headings;
+	}
+
+
+	/** set the heading levels use in this file.
+	 * @param headings the headings to set
+	 */
+	public void setHeadings(int[] headings) {
+		this.headings = headings;
+	}
+	
+	int numberOfLevelsInUse() {
+		int count = 0;
+		
+		for (int level : headings){
+			if (level > 0)
+				count++;
+		}
+		
+		return count;
+	}
+	
+	private int highestHeading (){
+		int i = 0, level = headings[i];
+		while (i < headings.length && level < 1){
+			i++;
+			level = headings[i];
+			
+//			Odt2Ory.dbgLog("i=" + i + " level=" + level);
+			
+		}
+//		Odt2Ory.dbgLog("i=" + i + " level=" + level);
+		int result = i+1;
+//		Odt2Ory.dbgLog("highestHeading=" + result);
+//		Odt2Ory.dbgLog(Arrays.toString(headings));
+		return result;
 	}
 
 //	public void setFileText(String fileText) {

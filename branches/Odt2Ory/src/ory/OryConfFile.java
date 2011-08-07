@@ -47,6 +47,29 @@ public class OryConfFile {
 		
 	}
 	
+	/**
+	 * adds a secondary index menu in the beginning of the file when displayed in oryata.
+	 */
+	public void addSecondaryIndex(int level){
+		String label = "CosmeticsType";
+		String cosmetics = "#sil=" + level2TE(level);
+		addEntry(label, cosmetics);
+	}
+	
+	/**
+	 * translates from my heading levels to torat emet style level. i.e. my level 1 is TE level 5, my level 5 is TE level 1.
+	 * @param in - level to translate
+	 * @return Torat Emet style level
+	 */
+	public static int level2TE (int in) {
+		if (in < 1 || in > 5 ) { //make sure we have a valid level
+			Odt2Ory.dbgLog("wrong level: " + in);
+			return 0;
+		}
+		
+		return 6 - in;
+	}
+	
 	public void setBookName(String bookName){
 		addEntry("DisplayName", bookName);
 	}
