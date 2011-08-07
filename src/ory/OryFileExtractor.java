@@ -1,6 +1,7 @@
 package ory;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +60,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * holds our location in the outline tree.
 	 */
 	private int[] outlineLevel;
+	private int[] headingsInUse;
 	private Notes notes;
 	
 	// these will tell us which elements to extact.
@@ -100,6 +102,11 @@ public class OryFileExtractor extends OdfTextExtractor {
 //		highestHeading = 5;
 		
 		outlineLevel = new int[10];
+		//initialize with zero's
+		for (int i=0; i<outlineLevel.length; i++)
+			outlineLevel[i]=0;
+		
+		headingsInUse = new int[10];
 		//initialize with zero's
 		for (int i=0; i<outlineLevel.length; i++)
 			outlineLevel[i]=0;
@@ -244,6 +251,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 				findFirstLine(ele);
 			else {
 				appendHeading(level);
+				increaseHeadingsInUse(level);
 			}
 			appendElementText(ele);
 		}
@@ -295,13 +303,21 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 */
 	private void increaseOutlineLevel(int level) {
 		//make sure we have a valid level
-		if (level<1 || level > 10)
+		if (level<1 || level > 10) {
+			Odt2Ory.dbgLog("invalid heading level: " + level);
 			return;
+		}
 		
 		outlineLevel[level-1]++;
 		//set all lower digits to zero
 		for (int i=level; i< outlineLevel.length; i++)
 			outlineLevel[i]=0;
+		
+	}
+	
+	private void increaseHeadingsInUse(int level){
+		headingsInUse[level-1]++; //if we have heading of level 1, increase the number of headingsInUse[0] which holds the first level headings.
+
 	}
 	
 	/**retrives text from element using parent class.
@@ -310,13 +326,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @return
 	 */
 	private String getElementText(OdfElement ele) {
-		Odt2Ory.dbgLog("went through geteletext");
+//		Odt2Ory.dbgLog("went through geteletext");
 		OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
 		String str = extractor.getText();
 		String log = new String(str);
 		if (log.length() > 50)
 			log = str.substring(0, 50);
-		Odt2Ory.dbgLog("geteletext:\t" + log);
+//		Odt2Ory.dbgLog("geteletext:\t" + log);
 		return str;
 		
 	}
@@ -449,7 +465,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * generates ory files from the input.
 	 * @throws Exception 
 	 */
-	public void buildFile() {
+	private void buildFile() {
 		
 		String name = inputFilename.getBaseName();
 		//if we have multipule files, number them
@@ -464,7 +480,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		StringBuffer fileText = new StringBuffer();
 		
 		
-		fileText.append(mTextBuilder.toString()) ;
+		fileText.append(mTextBuilder) ;
 		
 		String notes = getNotes();
 		if (! notes.isEmpty()){
@@ -484,6 +500,8 @@ public class OryFileExtractor extends OdfTextExtractor {
 		oryFile.setFileText(fileText);
 		
 		oryFile.setBookTitle(bookTitle);
+		
+		oryFile.setHeadings(headingsInUse);
 		
 		files.add(oryFile);
 //		oryFile.save();
@@ -606,11 +624,29 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 */
 	public int getHighestHeading() {
 		
-		int i = 0;
-		while (outlineLevel[i] == 0 && i < outlineLevel.length)
+//		int i = 0;
+//		while (outlineLevel[i] == 0 && i < outlineLevel.length)
+//			i++;
+//		
+//		i++;//this is in order to translate from computer 1=0 to normal numbering system.
+//		
+//		Odt2Ory.dbgLog("Highet Heading: " + i);
+//		Odt2Ory.dbgLog(Arrays.toString(outlineLevel));
+//		
+//		return i;
+		int i = 0, level = headingsInUse[i];
+		while (i < headingsInUse.length && level < 1){
 			i++;
-		
-		return i;
+			level = headingsInUse[i];
+			
+			Odt2Ory.dbgLog("i=" + i + " level=" + level);
+			
+		}
+		Odt2Ory.dbgLog("i=" + i + " level=" + level);
+		int result = i+1;
+		Odt2Ory.dbgLog("highestHeading=" + result);
+		Odt2Ory.dbgLog(Arrays.toString(headingsInUse));
+		return result;
 	}
 
 	//	/**@deprecated*/
