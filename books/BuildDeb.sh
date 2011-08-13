@@ -12,20 +12,14 @@ cp -fr $p bookstmp
 
 cd bookstmp
 
+echo "* Removing junk ..."
 find -name ".svn" -exec rm -rf {} \;
 
+echo "* Building makefile ..."
 ./GenMakeFile.sh
 
-dch -imD maverick 
-debuild -S -k2C383923
-
+echo "* Building package ..."
 dch -imD natty
-debuild -S -k2C383923
-
-dch -imD lucid
-debuild -S -k2C383923
-
-dch -imD oneiric
 debuild -S -k2C383923
 
 echo "Now you can upload your files, using:"
