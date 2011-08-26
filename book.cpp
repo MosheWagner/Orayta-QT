@@ -893,10 +893,10 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
         s.itr = ( !levelMap.empty() ? mapitr.value() : BookIter() );
 
         //Prevent double results
-        if (    results.empty()
-            || (results.back().itr != s.itr)
-            || (curr-last > CHAR_LIMIT/2) )
-            results << s;
+        //if (    results.empty()
+        //    || (results.back().itr != s.itr)
+        //    || (curr - last > CHAR_LIMIT/2) )
+        results << s;
 
         last = curr+1;
     }

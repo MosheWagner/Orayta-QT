@@ -70,6 +70,11 @@ public:
     int numPages() const;
     int currentPage() const;
 
+    //Returns a list of all text selected between the two given points
+    QList <QRect> SelectedText(QPoint p1, QPoint p2);
+
+    QLine TextLinePosition(QPoint p);
+
 public slots:
     QRectF searchBackwards(const QString &text);
     QRectF searchForwards(const QString &text);
@@ -107,6 +112,8 @@ private:
 
     QAction *copy;
     QMenu *menu;
+
+    QImage Image;
 
     void showPage(int page = -1);
 

@@ -178,7 +178,7 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
-        int results = 0;
+        int results = 0, allresults = 0;
         for (unsigned int i=0; i < searchList.size() && results < RESULTS_MAX && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
@@ -190,44 +190,56 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 
             for (int j=0; j<searchResults.size() && results < RESULTS_MAX ; j++)
             {
-                results ++;
-                //Get the text best to show for this reult's description
-                QString linkdisplay = "";
+                bool doubleResult = false;
 
-                //Regular books:
-                if (!searchList[i]->getPath().contains("תלמוד") && !searchList[i]->getPath().contains("שס"))
+                if (j > 0) if (searchResults[j].itr == searchResults[j - 1].itr) doubleResult = true;
+
+                if (doubleResult)
                 {
-                    //This is an overkill, but I couldn't resist:
-                    //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
-
-                    linkdisplay += searchList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
+                    allresults ++;
                 }
-                //Gmarot:
                 else
                 {
-                    linkdisplay += searchList[i]->getNormallDisplayName() + " ";
-                    linkdisplay += searchResults[j].itr.toGmaraString();
+                    allresults ++;
+                    results ++;
+                    //Get the text best to show for this reult's description
+                    QString linkdisplay = "";
+
+                    //Regular books:
+                    if (!searchList[i]->getPath().contains("תלמוד") && !searchList[i]->getPath().contains("שס"))
+                    {
+                        //This is an overkill, but I couldn't resist:
+                        //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
+
+                        linkdisplay += searchList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
+                    }
+                    //Gmarot:
+                    else
+                    {
+                        linkdisplay += searchList[i]->getNormallDisplayName() + " ";
+                        linkdisplay += searchResults[j].itr.toGmaraString();
+                    }
+
+
+                    //Add a small link (at the index) to the full result
+                    HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>";
+
+                    //Add the full result to the page
+                    Html += "<span style=\"font-size:23px\">";
+                    Html += "<a name=\"" + stringify(results) + "\"></a>";
+
+                    Html += "<a href=!" + stringify(searchList[i]->getUniqueId()) + ":";
+                    Html += searchResults[j].itr.toStringForLinks();
+                    Html += ":" + escapeToBase32(regexp.pattern()) + ">";
+
+                    Html += linkdisplay;
+                    Html += "</a><BR></span>\n";
+
+                    //Show result
+                    Html += searchResults[j].preview;
+
+                    Html += "<br><br><br>\n";
                 }
-
-
-                //Add a small link (at the index) to the full result
-                HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>";
-
-                //Add the full result to the page
-                Html += "<span style=\"font-size:23px\">";
-                Html += "<a name=\"" + stringify(results) + "\"></a>";
-
-                Html += "<a href=!" + stringify(searchList[i]->getUniqueId()) + ":";
-                Html += searchResults[j].itr.toStringForLinks();
-                Html += ":" + escapeToBase32(regexp.pattern()) + ">";
-
-                Html += linkdisplay;
-                Html += "</a><BR></span>\n";
-
-                //Show result
-                Html += searchResults[j].preview;
-
-                Html += "<br><br><br>\n";
             }
 
         }
@@ -253,7 +265,7 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
             }
             else
             {
-                Htmlhead += "(" +  stringify(results) + " " + "תוצאות נמצאו)" + "<BR><BR>";
+                Htmlhead += "(נמצאו " +  stringify(allresults) + " תוצאות ב - " + stringify(results) + " מקומות) " + "<BR><BR>";
             }
             Htmlhead += HtmlTopLinks;
 

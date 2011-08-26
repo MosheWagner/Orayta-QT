@@ -66,8 +66,6 @@
 
 //TODO: see what else to do ;-)
 
-//TODO: Add rav kook books
-
 /*
     DB issues:
 
@@ -474,6 +472,8 @@ void MainWindow::BuildBookTree()
             QIcon *icon = bookIcon(bookList[i], bookList[i]->mIconState);
             twi->setIcon(0, *icon);
             delete icon;
+
+            twi->setToolTip(1, bookList[i]->getName());
 
             if ( bookList[i]->fileType() == Book::Dir || bookList[i]->fileType() == Book::Normal || bookList[i]->fileType() == Book::Html )
             {
