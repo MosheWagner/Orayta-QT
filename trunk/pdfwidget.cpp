@@ -1,7 +1,6 @@
 /*
-* This file is taken from the "poppler" exapmle from Qt's documantation,
-* ( Copyright info here below),
-* But has changes done me.
+* This file is  based on the "poppler" exapmle from Qt's documantation,
+* ( Copyright info here below), but has many changes done me.
 *
 * Moshe Wagner. <moshe.wagner@gmail.com>
 */
@@ -76,6 +75,8 @@ PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
     copy = new QAction(QIcon(":/Icons/edit-copy.png"), tr("Copy text"), this);
     menu->addAction(copy);
     connect (copy, SIGNAL(triggered()), this, SLOT(copyText()));
+
+    setCursor(Qt::IBeamCursor);
 }
 
 PdfWidget::~PdfWidget()
@@ -96,6 +97,111 @@ QMatrix PdfWidget::matrix() const
                    0, 0);
 }
 
+
+//Returns a Line marking the size and position of the text line the given point is at.
+QLine PdfWidget::TextLinePosition(QPoint p)
+{
+    int h = 4; //Minimal size
+    int top = p.y();
+
+    QRect r(0,p.y(),10000,1);
+    foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
+    {
+        //Same line as p
+        if (box->boundingBox().intersects(r))
+        {
+            int nh = box->boundingBox().height();
+
+            if (nh > h)
+            {
+                h = nh;
+                top = box->boundingBox().top();
+            }
+        }
+
+    }
+
+
+    return QLine(QPoint(p.x(), top), QPoint(p.x(), top + h));
+}
+
+
+//Returns a list of all text selected between the two given points
+QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2)
+{
+    QList <QRect> hits;
+
+    if (p1.y() > p2.y()) swap(p1, p2);
+
+
+    //Determine top and bottem line height
+    QLine l1 = TextLinePosition(p1);
+    QLine l2 = TextLinePosition(p2);
+
+
+    //One line mode
+    if ( l2.y1() <= l1.y2() + 6 )
+    {
+        QRect textRect(p1, p2);
+        textRect = matrix().inverted().mapRect(textRect);
+
+        foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
+        {
+            for (int i=0; i<box->text().length(); i++)
+            {
+                QRect rect = box->charBoundingBox(i).toAlignedRect();
+                if (rect.intersects(textRect))
+                {
+                    rect.adjust(1,0,0,0);
+                    hits << rect;
+                }
+            }
+        }
+    }
+    else
+    {
+        qDebug() << l1.p1() << l1.p2();
+        QRect topline( QPoint(p1.x(), l1.p1().y() - 1), QPoint(0, l1.p2().y() + 1) );
+        topline = matrix().inverted().mapRect(topline);
+
+        QRect bottemline( QPoint(p2.x(), l2.p1().y() - 1), QPoint(1000, l2.p2().y() + 1) );
+        bottemline = matrix().inverted().mapRect(bottemline);
+
+        QRect rest( QPoint(0, l1.p2().y() + 7), QPoint(1000, l2.p1().y() - 7) );
+        rest = matrix().inverted().mapRect(rest);
+
+        rest.adjust(1,1,-1,-1);
+
+        if (rest.top() <= topline.bottom() || rest.bottom() >= bottemline.top()) rest = topline;
+
+        if (bottemline.top() <= topline.bottom() ) bottemline = topline;
+
+
+/*
+        hits << topline;
+        hits << bottemline;
+        hits << rest;
+*/
+
+        foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
+        {
+            for (int i=0; i<box->text().length(); i++)
+            {
+                QRect rect = box->charBoundingBox(i).toAlignedRect();
+                if (rect.intersects(topline) || rect.intersects(bottemline) || rect.intersects(rest))
+                {
+                    rect.adjust(1,0,0,0);
+                    hits << rect;
+                }
+            }
+        }
+    }
+
+
+    return hits;
+}
+
+
 void PdfWidget::mousePressEvent(QMouseEvent *event)
 {
     if (!doc)
@@ -104,10 +210,12 @@ void PdfWidget::mousePressEvent(QMouseEvent *event)
     dragPosition = event->globalPos();
     dragPosition = viewlbl->mapFromGlobal(dragPosition);
 
+    /*
     if (!rubberBand)
         rubberBand = new QRubberBand(QRubberBand::Rectangle, viewlbl);
     rubberBand->setGeometry(QRect(dragPosition, QSize()));
     rubberBand->show();
+    */
 }
 
 void PdfWidget::mouseMoveEvent(QMouseEvent *event)
@@ -118,25 +226,39 @@ void PdfWidget::mouseMoveEvent(QMouseEvent *event)
     QPoint newPosition = event->globalPos();
     newPosition = viewlbl->mapFromGlobal(newPosition);
 
-    rubberBand->setGeometry(QRect(dragPosition, newPosition).normalized());
+    QImage image(Image);
+
+    QList <QRect> r = SelectedText(dragPosition, newPosition);
+    foreach (QRect rect, r)
+    {
+        QRect highlightRect = matrix().mapRect(rect);
+        highlightRect.adjust(0, -1, 0, 1);
+
+        QPainter painter;
+        painter.begin(&image);
+
+        QColor c;
+        c.setRgb(QColor("Blue").rgb());
+        c.setAlpha(170);
+
+        QBrush  b(c);
+        painter.fillRect(highlightRect, b);
+
+        painter.end();
+    }
+
+    viewlbl->setPixmap(QPixmap::fromImage(image));
+
+    //menu->setLayoutDirection(Qt::RightToLeft);
+    //menu->exec(event->globalPos());
+
+    //rubberBand->setGeometry(QRect(dragPosition, newPosition).normalized());
 }
 
 void PdfWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     if (!doc)
         return;
-
-    if (!rubberBand->size().isEmpty()) {
-        // Correct for the margin around the image in the label.
-        selectedRect = QRectF(rubberBand->pos(), rubberBand->size());
-        selectedRect.moveLeft(selectedRect.left() - (viewlbl->width() - viewlbl->pixmap()->width()) / 2.0);
-        selectedRect.moveTop(selectedRect.top() - (viewlbl->height() - viewlbl->pixmap()->height()) / 2.0);
-
-        menu->setLayoutDirection(Qt::RightToLeft);
-        menu->exec(event->globalPos());
-    }
-
-    rubberBand->hide();
 }
 
 qreal PdfWidget::scale() const
@@ -157,8 +279,9 @@ void PdfWidget::showPage(int page)
         return;
     }
 
-    QImage image = pdfPage->renderToImage(scaleFactor * viewlbl->physicalDpiX(), scaleFactor * viewlbl->physicalDpiY());
-    if (image.isNull()) {
+    Image = pdfPage->renderToImage(scaleFactor * viewlbl->physicalDpiX(), scaleFactor * viewlbl->physicalDpiY());
+
+    if (Image.isNull()) {
         qDebug() << "Poppler::Page::renderToImage fail...";
         return;
     }
@@ -168,7 +291,7 @@ void PdfWidget::showPage(int page)
         highlightRect.adjust(-1, -1, 1, 1);
 
         QPainter painter;
-        painter.begin(&image);
+        painter.begin(&Image);
 
         QColor c;
         c.setRgb(QColor("Yellow").rgb());
@@ -180,7 +303,7 @@ void PdfWidget::showPage(int page)
         painter.end();
     }
 
-    viewlbl->setPixmap(QPixmap::fromImage(image));
+    viewlbl->setPixmap(QPixmap::fromImage(Image));
 }
 
 QRectF PdfWidget::searchBackwards(const QString &stext)
@@ -252,6 +375,7 @@ QRectF PdfWidget::searchBackwards(const QString &stext)
 
 QRectF PdfWidget::searchForwards(const QString &stext)
 {
+
     //Invert text to visual (flips hebrew chars).
     QString text = ToBidiText(stext);
 
@@ -279,6 +403,7 @@ QRectF PdfWidget::searchForwards(const QString &stext)
                                     Poppler::Page::NextResult, Poppler::Page::CaseInsensitive)) {
             if (!searchLocation.isNull()) {
                 showPage(page + 1);
+                return QRectF();
                 return searchLocation;
             }
         }
@@ -290,6 +415,17 @@ QRectF PdfWidget::searchForwards(const QString &stext)
 
 void PdfWidget::copyText()
 {
+    /*
+    qDebug() << doc->page(current_page)->text(QRectF());
+    foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
+    {
+        qDebug() << box->text();
+        qDebug() << box->boundingBox();
+    }
+
+*/
+
+
     QRectF textRect = matrix().inverted().mapRect(selectedRect);
 
     QString text = "";
