@@ -33,6 +33,8 @@
 
 #include "htmlgen.h"
 
+#define QT_USE_FAST_CONCATENATION
+#define QT_USE_FAST_OPERATOR_PLUS
 
 //Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
 const QString LevelSigns = "!~@^#";
