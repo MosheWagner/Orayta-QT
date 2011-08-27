@@ -70,10 +70,19 @@ public:
     int numPages() const;
     int currentPage() const;
 
-    //Returns a list of all text selected between the two given points
-    QList <QRect> SelectedText(QPoint p1, QPoint p2);
 
-    QLine TextLinePosition(QPoint p);
+    void DrawRects(QList <QRect> sel, QColor color);
+
+    //Returns a list of QRects, marking of all text selected between the two given points
+    // (RTL affects only multiple line selections.)
+    QList <QRect> SelectedText(QPoint p1, QPoint p2, bool RTL);
+
+    //Returns a QLine representing the size and position
+    //  of the text line that is at the given point.
+    //
+    // If the point is not in the middle of any line -
+    //  a height of 4 pixels, and the position of the given point are returned.
+    QLine TextLine(QPoint p);
 
 public slots:
     QRectF searchBackwards(const QString &text);
@@ -114,6 +123,9 @@ private:
     QMenu *menu;
 
     QImage Image;
+
+    QList <QRect> selected;
+    QList <Poppler::TextBox *> selectedWords;
 
     void showPage(int page = -1);
 
