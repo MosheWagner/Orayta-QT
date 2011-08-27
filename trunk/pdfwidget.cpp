@@ -98,16 +98,59 @@ QMatrix PdfWidget::matrix() const
 }
 
 
-//Returns a Line marking the size and position of the text line the given point is at.
-QLine PdfWidget::TextLinePosition(QPoint p)
+void PdfWidget::DrawRects(QList <QRect> rectlist, QColor color)
+{
+    QImage i(Image.size(), Image.format());
+
+    foreach (QRect rect, rectlist)
+    {
+        QRect highlightRect = matrix().mapRect(rect);
+        highlightRect.adjust(0, -1, 0, 1);
+
+        QPainter painter;
+        painter.begin(&i);
+
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+
+        QColor c;
+        c.setRgba(color.rgba());
+
+        QBrush  b(c);
+        painter.fillRect(highlightRect, b);
+
+        painter.end();
+    }
+
+    QImage image(Image);
+
+    QPainter p;
+    p.begin(&image);
+    p.drawImage(QPoint(0,0), i);
+    p.end();
+
+    viewlbl->setPixmap(QPixmap::fromImage(image));
+}
+
+//Returns a QLine representing the size and position
+//  of the text line that is at the given point.
+//
+// If the point is not in the middle of any line -
+//  a height of 4 pixels, and the position of the given point are returned.
+QLine PdfWidget::TextLine(QPoint p)
 {
     int h = 4; //Minimal size
+
+    //Create a thin rect going across the whole page
+    QRect r(0,p.y(),10000,1);
+    r = matrix().inverted().mapRect(r);
+
+    p = matrix().inverted().map(p);
     int top = p.y();
 
-    QRect r(0,p.y(),10000,1);
     foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
     {
-        //Same line as p
+        //See if the rect intersects any word on the page.
+        // Find the biggest word, and remember it's top and height.
         if (box->boundingBox().intersects(r))
         {
             int nh = box->boundingBox().height();
@@ -121,77 +164,86 @@ QLine PdfWidget::TextLinePosition(QPoint p)
 
     }
 
-
     return QLine(QPoint(p.x(), top), QPoint(p.x(), top + h));
 }
 
 
-//Returns a list of all text selected between the two given points
-QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2)
+//Returns a list of QRects, marking of all text selected between the two given points
+QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2, bool RTL)
 {
+    selectedWords.clear();
+
     QList <QRect> hits;
 
+    //Make sure p1 is the top point
     if (p1.y() > p2.y()) swap(p1, p2);
 
-
     //Determine top and bottem line height
-    QLine l1 = TextLinePosition(p1);
-    QLine l2 = TextLinePosition(p2);
+    QLine l1 = TextLine(p1);
+    QLine l2 = TextLine(p2);
 
-
-    //One line mode
-    if ( l2.y1() <= l1.y2() + 6 )
+    //One line mode (if l1 and l2's heights intersect)
+    if ( l2.y1() <= l1.y2())
     {
         QRect textRect(p1, p2);
         textRect = matrix().inverted().mapRect(textRect);
 
         foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
         {
-            for (int i=0; i<box->text().length(); i++)
+            if (box->boundingBox().intersects(textRect))
             {
-                QRect rect = box->charBoundingBox(i).toAlignedRect();
-                if (rect.intersects(textRect))
+                selectedWords << box;
+                for (int i=0; i<box->text().length(); i++)
                 {
-                    rect.adjust(1,0,0,0);
-                    hits << rect;
+                    QRect rect = box->charBoundingBox(i).toAlignedRect();
+                    if (rect.intersects(textRect))
+                    {
+                        rect.adjust(1,0,0,0);
+                        hits << rect;
+                    }
                 }
             }
         }
     }
     else
     {
-        qDebug() << l1.p1() << l1.p2();
-        QRect topline( QPoint(p1.x(), l1.p1().y() - 1), QPoint(0, l1.p2().y() + 1) );
-        topline = matrix().inverted().mapRect(topline);
+        p1 = matrix().inverted().map(p1);
+        p2 = matrix().inverted().map(p2);
+        QRect topline;
+        QRect bottemline;
 
-        QRect bottemline( QPoint(p2.x(), l2.p1().y() - 1), QPoint(1000, l2.p2().y() + 1) );
-        bottemline = matrix().inverted().mapRect(bottemline);
+        if (RTL)
+        {
+            topline.setCoords(p1.x(), l1.p1().y(), 0, l1.p2().y() );
+            bottemline.setCoords(p2.x(), l2.p1().y(), 1000, l2.p2().y());
+        }
+        else
+        {
+            topline.setCoords(p1.x(), l1.p1().y(), 1000, l1.p2().y() );
+            bottemline.setCoords(p2.x(), l2.p1().y(), 0, l2.p2().y() );
+        }
 
-        QRect rest( QPoint(0, l1.p2().y() + 7), QPoint(1000, l2.p1().y() - 7) );
-        rest = matrix().inverted().mapRect(rest);
-
-        rest.adjust(1,1,-1,-1);
+        QRect rest( QPoint(0, l1.p2().y() + 5), QPoint(1000, l2.p1().y() - 5) );
 
         if (rest.top() <= topline.bottom() || rest.bottom() >= bottemline.top()) rest = topline;
+        if (rest.intersects(topline) || rest.intersects(bottemline)) rest = topline;
 
         if (bottemline.top() <= topline.bottom() ) bottemline = topline;
 
 
-/*
-        hits << topline;
-        hits << bottemline;
-        hits << rest;
-*/
-
         foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
         {
-            for (int i=0; i<box->text().length(); i++)
+            if (box->boundingBox().intersects(topline) || box->boundingBox().intersects(bottemline) || box->boundingBox().intersects(rest))
             {
-                QRect rect = box->charBoundingBox(i).toAlignedRect();
-                if (rect.intersects(topline) || rect.intersects(bottemline) || rect.intersects(rest))
+                selectedWords << box;
+                for (int i=0; i<box->text().length(); i++)
                 {
-                    rect.adjust(1,0,0,0);
-                    hits << rect;
+                    QRect rect = box->charBoundingBox(i).toAlignedRect();
+                    if (rect.intersects(topline) || rect.intersects(bottemline) || rect.intersects(rest))
+                    {
+                        rect.adjust(-1,0,1,0);
+                        hits << rect;
+                    }
                 }
             }
         }
@@ -207,15 +259,16 @@ void PdfWidget::mousePressEvent(QMouseEvent *event)
     if (!doc)
         return;
 
-    dragPosition = event->globalPos();
-    dragPosition = viewlbl->mapFromGlobal(dragPosition);
+    if (event->button() == Qt::LeftButton)
+    {
+        dragPosition = event->globalPos();
+        dragPosition = viewlbl->mapFromGlobal(dragPosition);
 
-    /*
-    if (!rubberBand)
-        rubberBand = new QRubberBand(QRubberBand::Rectangle, viewlbl);
-    rubberBand->setGeometry(QRect(dragPosition, QSize()));
-    rubberBand->show();
-    */
+        //Clean
+        selected.clear();
+        DrawRects(selected, QColor());
+        selectedWords.clear();
+    }
 }
 
 void PdfWidget::mouseMoveEvent(QMouseEvent *event)
@@ -224,41 +277,23 @@ void PdfWidget::mouseMoveEvent(QMouseEvent *event)
         return;
 
     QPoint newPosition = event->globalPos();
-    newPosition = viewlbl->mapFromGlobal(newPosition);
+    newPosition = viewlbl->mapFromGlobal(newPosition); 
 
-    QImage image(Image);
-
-    QList <QRect> r = SelectedText(dragPosition, newPosition);
-    foreach (QRect rect, r)
-    {
-        QRect highlightRect = matrix().mapRect(rect);
-        highlightRect.adjust(0, -1, 0, 1);
-
-        QPainter painter;
-        painter.begin(&image);
-
-        QColor c;
-        c.setRgb(QColor("Blue").rgb());
-        c.setAlpha(170);
-
-        QBrush  b(c);
-        painter.fillRect(highlightRect, b);
-
-        painter.end();
-    }
-
-    viewlbl->setPixmap(QPixmap::fromImage(image));
-
-    //menu->setLayoutDirection(Qt::RightToLeft);
-    //menu->exec(event->globalPos());
-
-    //rubberBand->setGeometry(QRect(dragPosition, newPosition).normalized());
+    selected = SelectedText(dragPosition, newPosition, false);
+    QColor c("Blue"); c.setAlpha(160);
+    DrawRects(selected, c);
 }
 
 void PdfWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     if (!doc)
         return;
+
+    if (event->button() == Qt::RightButton)
+    {
+        menu->setLayoutDirection(Qt::RightToLeft);
+        menu->exec(event->globalPos());
+    }
 }
 
 qreal PdfWidget::scale() const
@@ -286,22 +321,8 @@ void PdfWidget::showPage(int page)
         return;
     }
 
-    if (!searchLocation.isEmpty()) {
-        QRect highlightRect = matrix().mapRect(searchLocation).toRect();
-        highlightRect.adjust(-1, -1, 1, 1);
-
-        QPainter painter;
-        painter.begin(&Image);
-
-        QColor c;
-        c.setRgb(QColor("Yellow").rgb());
-        c.setAlpha(130);
-
-        QBrush  b(c);
-        painter.fillRect(highlightRect, b);
-
-        painter.end();
-    }
+    QColor c; c.setRgb(QColor("Yellow").rgb()); c.setAlpha(130);
+    DrawRects(searchLocation, c);
 
     viewlbl->setPixmap(QPixmap::fromImage(Image));
 }
@@ -415,33 +436,20 @@ QRectF PdfWidget::searchForwards(const QString &stext)
 
 void PdfWidget::copyText()
 {
-    /*
-    qDebug() << doc->page(current_page)->text(QRectF());
-    foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
-    {
-        qDebug() << box->text();
-        qDebug() << box->boundingBox();
-    }
-
-*/
-
-
-    QRectF textRect = matrix().inverted().mapRect(selectedRect);
 
     QString text = "";
-
-    bool hadSpace = false;
     QPointF center;
-    foreach (Poppler::TextBox *box, doc->page(current_page)->textList()) {
-        if (textRect.intersects(box->boundingBox())) {
-            if (hadSpace)
-                text += " ";
-            if (!text.isEmpty() && box->boundingBox().top() > center.y())
-                text += "\n";
-            text += box->text();
-            hadSpace = box->hasSpaceAfter();
-            center = box->boundingBox().center();
-        }
+    bool hadSpace = false;
+
+    foreach (Poppler::TextBox *box, selectedWords)
+    {
+        if (hadSpace)
+            text += " ";
+        if (!text.isEmpty() && box->boundingBox().top() > center.y())
+            text += "\n";
+        text += box->text();
+        hadSpace = box->hasSpaceAfter();
+        center = box->boundingBox().center();
     }
 
     if (!text.isEmpty())
