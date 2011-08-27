@@ -154,7 +154,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 #ifdef POPPLER
     //Pdf buttons:
-    cornerWidgetLayout->addWidget(ui->pdfPageSpin);
+    //cornerWidgetLayout->addWidget(ui->pdfPageSpin);
+    cornerWidgetLayout->addWidget(ui->pdfDropBox);
     cornerWidgetLayout->addWidget(ui->PDFpageLBL);
     cornerWidgetLayout->addSpacing(45);
 #endif
@@ -1148,7 +1149,7 @@ void MainWindow::adjustMenus()
     if (CurrentBookdisplayer()->getPdfMode())
     {
         //Show pdf buttons:
-        ui->pdfPageSpin->show();
+        ui->pdfDropBox->show();
         ui->PDFpageLBL->show();
 
         ui->locationMenu->menuAction()->setVisible(false);
@@ -1158,7 +1159,7 @@ void MainWindow::adjustMenus()
         ui->locationMenu->menuAction()->setVisible(false);
 
         //Disable poppler pdf buttons:
-        ui->pdfPageSpin->hide();
+        ui->pdfDropBox->hide();
         ui->PDFpageLBL->hide();
     }
     else
@@ -1178,7 +1179,7 @@ void MainWindow::adjustMenus()
 
 #ifdef POPPLER
         //Disable poppler pdf buttons:
-        ui->pdfPageSpin->hide();
+        ui->pdfDropBox->hide();
         ui->PDFpageLBL->hide();
 #endif
     }
@@ -1526,24 +1527,38 @@ void buidSearchDBinBG(BookList * bl)
 
 void MainWindow::updatePdfPage(int current, int max)
 {
-    ui->pdfPageSpin->setMaximum(max);
-    ui->pdfPageSpin->setValue(current);
+    ui->pdfDropBox->setStatusTip(stringify(max));
+    ui->pdfDropBox->clear();
+
+    for (int i=1; i<=max; i++)
+    {
+        ui->pdfDropBox->addItem(stringify(i));
+    }
+    ui->pdfDropBox->setCurrentIndex(current - 1);
 
     //Set tooltip
-    ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
+    //ui->pdfDropBox->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
 }
 
-void MainWindow::on_pdfPageSpin_valueChanged(int page)
+void MainWindow::on_pdfDropBox_currentIndexChanged(QString val)
 {
-    if (CurrentBookdisplayer()->getPdfMode())
+    if (stringify(ui->pdfDropBox->count()) == ui->pdfDropBox->statusTip())
     {
-        int page = ui->pdfPageSpin->value();
-        CurrentBookdisplayer()->setPdfPage(page);
+        int page = 0;
+        if (ToNum(val, &page))
+        {
+            if (CurrentBookdisplayer()->getPdfMode())
+            {
+                CurrentBookdisplayer()->setPdfPage(page);
 
-        //Set tooltip
-        ui->pdfPageSpin->setToolTip(tr("Page: ") + QString::number(page) + " / " + QString::number(ui->pdfPageSpin->maximum()));
+                //Set tooltip
+                //ui->pdfDropBox->setToolTip(tr("Page: ") + val + " / " + ui->pdfDropBox->itemText(ui->pdfDropBox->count() - 1));
+            }
+        }
     }
 }
+
+
 #endif
 
 void MainWindow::searchGuematria()
