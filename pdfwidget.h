@@ -136,6 +136,8 @@ private:
     QRectF searchLocation;
     qreal scaleFactor;
     int current_page;
+
+    bool useRTL;
 };
 
 #endif
