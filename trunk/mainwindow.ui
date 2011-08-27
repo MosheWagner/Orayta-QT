@@ -669,9 +669,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="pdfPageSpin">
-            <property name="minimum">
-             <number>1</number>
+           <widget class="QComboBox" name="pdfDropBox">
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhDigitsOnly</set>
+            </property>
+            <property name="minimumContentsLength">
+             <number>0</number>
             </property>
            </widget>
           </item>

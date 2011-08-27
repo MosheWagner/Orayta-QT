@@ -128,9 +128,8 @@ private:
 private slots:
 
 #ifdef POPPLER
-    void on_pdfPageSpin_valueChanged(int );
     void updatePdfPage(int current, int max);
-
+    void on_pdfDropBox_currentIndexChanged(QString );
 #endif
     void on_addBookMark_clicked();
     void on_cancelSearchBTN_clicked();
@@ -268,6 +267,7 @@ private slots:
     void adjustMenus();
 
     void searchGuematria();
+
 };
 
 //void buidSearchDBinBG(BookList * bl);

@@ -76,6 +76,9 @@ PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
     menu->addAction(copy);
     connect (copy, SIGNAL(triggered()), this, SLOT(copyText()));
 
+    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sliderValueChanged(int)));
+    connect(verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(sliderRangeChanged(int,int)));
+
     setCursor(Qt::IBeamCursor);
 
     useRTL = false;
@@ -551,6 +554,60 @@ int PdfWidget::numPages() const
 int PdfWidget::currentPage() const
 {
     return current_page + 1;
+}
+
+void PdfWidget::sliderValueChanged(int val)
+{
+    if (val == mSliderTop)
+    {
+        if (mSTO == true)
+        {
+            previousPage();
+            mSTO = false;
+        }
+        else
+        {
+            mSTO = true;
+        }
+    }
+    else if (val == mSliderBottem)
+    {
+        if (mSBO == true)
+        {
+            nextPage();
+            mSBO = false;
+        }
+        else
+        {
+            mSBO = true;
+        }
+    }
+}
+
+void PdfWidget::sliderRangeChanged(int top, int bottem)
+{
+    mSliderTop = top;
+    mSliderBottem = bottem;
+}
+
+void PdfWidget::nextPage()
+{
+    if (numPages() > current_page)
+    {
+        setPage(current_page + 2);
+        verticalScrollBar()->setValue(0);
+        mSTO = false;
+    }
+}
+
+void PdfWidget::previousPage()
+{
+    if (current_page > 0)
+    {
+        setPage(current_page);
+        verticalScrollBar()->setValue(0);
+        mSTO = false;
+    }
 }
 
 #endif

@@ -51,7 +51,6 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     //Pdf viewer
     pdfView = new PdfWidget(this);
     connect (pdfView, SIGNAL(pageChanged(int,int)), MW, SLOT(updatePdfPage(int,int)));
-
 #endif
 
     //Connect the signalls sent from the new widgets to their slots
@@ -514,6 +513,7 @@ void bookDisplayer::unhighlight()
             pdfView->setPage(page);
         }
     }
+
 
 #endif
 

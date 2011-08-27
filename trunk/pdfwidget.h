@@ -95,6 +95,14 @@ public slots:
     //Copy the text in the selected rectangle to the clipboard
     void copyText();
 
+    void sliderValueChanged(int);
+    void sliderRangeChanged(int, int);
+
+    //Goes to the next page of the book (if it exists);
+    void nextPage();
+    //Goes to the previous page of the book (if it exists);
+    void previousPage();
+
     //Prints the given page to the given Qprinter
     //void printPage(QPrinter, int);
 
@@ -103,7 +111,7 @@ public slots:
     void mPressEvent(QMouseEvent *event);
     void mMoveEvent(QMouseEvent *event);
     void mReleaseEvent(QMouseEvent *event);
-*/
+    */
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -138,6 +146,11 @@ private:
     int current_page;
 
     bool useRTL;
+
+    int mSliderTop;
+    bool mSTO;
+    int mSliderBottem;
+    bool mSBO;
 };
 
 #endif
