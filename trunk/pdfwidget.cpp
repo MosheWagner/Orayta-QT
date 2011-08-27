@@ -77,6 +77,8 @@ PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
     connect (copy, SIGNAL(triggered()), this, SLOT(copyText()));
 
     setCursor(Qt::IBeamCursor);
+
+    useRTL = false;
 }
 
 PdfWidget::~PdfWidget()
@@ -192,16 +194,16 @@ QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2, bool RTL)
         {
             if (box->boundingBox().intersects(textRect))
             {
-                selectedWords << box;
-                for (int i=0; i<box->text().length(); i++)
+            selectedWords << box;
+            for (int i=0; i<box->text().length(); i++)
+            {
+                QRect rect = box->charBoundingBox(i).toAlignedRect();
+                if (rect.intersects(textRect))
                 {
-                    QRect rect = box->charBoundingBox(i).toAlignedRect();
-                    if (rect.intersects(textRect))
-                    {
-                        rect.adjust(1,0,0,0);
-                        hits << rect;
-                    }
+                    rect.adjust(1,0,0,0);
+                    hits << rect;
                 }
+            }
             }
         }
     }
@@ -279,7 +281,7 @@ void PdfWidget::mouseMoveEvent(QMouseEvent *event)
     QPoint newPosition = event->globalPos();
     newPosition = viewlbl->mapFromGlobal(newPosition); 
 
-    selected = SelectedText(dragPosition, newPosition, false);
+    selected = SelectedText(dragPosition, newPosition, useRTL);
     QColor c("Blue"); c.setAlpha(160);
     DrawRects(selected, c);
 }
@@ -303,6 +305,7 @@ qreal PdfWidget::scale() const
 
 void PdfWidget::showPage(int page)
 {
+
     if (page != -1 && page != current_page + 1) {
         current_page = page - 1;
         emit pageChanged(page, doc->numPages());
@@ -321,10 +324,33 @@ void PdfWidget::showPage(int page)
         return;
     }
 
-    QColor c; c.setRgb(QColor("Yellow").rgb()); c.setAlpha(130);
-    DrawRects(searchLocation, c);
+    if (!searchLocation.isEmpty()) {
+        QRect highlightRect = matrix().mapRect(searchLocation).toRect();
+        highlightRect.adjust(-1, -1, 1, 1);
+
+        QPainter painter;
+        painter.begin(&Image);
+
+        QColor c;
+        c.setRgb(QColor("Yellow").rgb());
+        c.setAlpha(130);
+
+        QBrush  b(c);
+        painter.fillRect(highlightRect, b);
+
+        painter.end();
+    }
 
     viewlbl->setPixmap(QPixmap::fromImage(Image));
+
+    //Decide if selection should be RTL or not:
+    int count = 0;
+    foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
+    {
+        if (QTextCodec::codecForName("latin1")->canEncode(box->text())) count ++;
+    }
+    if (count < (doc->page(current_page)->textList().size()) / 2) useRTL = true;
+
 }
 
 QRectF PdfWidget::searchBackwards(const QString &stext)
