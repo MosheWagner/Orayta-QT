@@ -176,10 +176,6 @@ public:
     //Fills "pureText" and "levelMap" with their values
     void BuildSearchTextDB();
 
-   // QString mPureText;
-
-    QString pureText;
-
     vector <GuematriaDb> guematriaDb;
     bool guematriaDbExists;
 
@@ -196,9 +192,14 @@ protected:
     //Returns the book's text as pure as possible. No nikud, punctuation marks, no level signs.
     // This should be used for searching in the book.
     // The results ahould later be mapped to BookIters using the "levelMap"
-    //QString pureText();
-
+    QString pureText();
+    //Sets the book's puretext
     void setPureText(QString);
+
+    //Build the levelMap from a string representing it
+    void setLevelMap(QString);
+    //Return a QString representing the levelMap
+    QString levelMapString();
 
     /*
     //Saved in Line:offsetInLine string format
@@ -225,6 +226,8 @@ protected:
     bool mInSearch;
 
     bool mUserBook;
+
+    QString mPureText;
 
     //Vector containing pointers to the folders children
     vector<Book *> mvChildren;

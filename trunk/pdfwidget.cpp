@@ -174,9 +174,9 @@ QLine PdfWidget::TextLine(QPoint p)
 
 
 //Returns a list of QRects, marking of all text selected between the two given points
-QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2, bool RTL)
+QList <QRect> PdfWidget::SelectText(QPoint p1, QPoint p2, bool RTL)
 {
-    selectedWords.clear();
+    selectedText = "";
 
     QList <QRect> hits;
 
@@ -193,20 +193,32 @@ QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2, bool RTL)
         QRect textRect(p1, p2);
         textRect = matrix().inverted().mapRect(textRect);
 
+        bool hadSpace = false;
+        QPointF center;
+        QRect rect ;
+
         foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
         {
             if (box->boundingBox().intersects(textRect))
             {
-            selectedWords << box;
-            for (int i=0; i<box->text().length(); i++)
-            {
-                QRect rect = box->charBoundingBox(i).toAlignedRect();
-                if (rect.intersects(textRect))
+                for (int i=0; i<box->text().length(); i++)
                 {
-                    rect.adjust(1,0,0,0);
-                    hits << rect;
+                    QRect rect = box->charBoundingBox(i).toAlignedRect();
+                    if (rect.intersects(textRect))
+                    {
+                        rect.adjust(-1,0,1,0);
+                        hits << rect;
+
+                        selectedText += box->text()[i];
+                    }
                 }
-            }
+                if (hadSpace)
+                    selectedText += " ";
+                if (!selectedText.isEmpty() && box->boundingBox().top() > center.y())
+                    selectedText += "\n";
+
+                hadSpace = box->hasSpaceAfter();
+                center = box->boundingBox().center();
             }
         }
     }
@@ -235,21 +247,33 @@ QList <QRect> PdfWidget::SelectedText(QPoint p1, QPoint p2, bool RTL)
 
         if (bottemline.top() <= topline.bottom() ) bottemline = topline;
 
+    
+        bool hadSpace = false;
+        QPointF center;
+        QRect rect ;
 
         foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
         {
             if (box->boundingBox().intersects(topline) || box->boundingBox().intersects(bottemline) || box->boundingBox().intersects(rest))
             {
-                selectedWords << box;
                 for (int i=0; i<box->text().length(); i++)
                 {
-                    QRect rect = box->charBoundingBox(i).toAlignedRect();
+                    rect = box->charBoundingBox(i).toAlignedRect();
                     if (rect.intersects(topline) || rect.intersects(bottemline) || rect.intersects(rest))
                     {
                         rect.adjust(-1,0,1,0);
                         hits << rect;
+
+                        selectedText += box->text()[i];
                     }
                 }
+                if (hadSpace)
+                    selectedText += " ";
+                if (!selectedText.isEmpty() && box->boundingBox().top() > center.y())
+                    selectedText += "\n";
+
+                hadSpace = box->hasSpaceAfter();
+                center = box->boundingBox().center();
             }
         }
     }
@@ -272,7 +296,7 @@ void PdfWidget::mousePressEvent(QMouseEvent *event)
         //Clean
         selected.clear();
         DrawRects(selected, QColor());
-        selectedWords.clear();
+        selectedText = "";
     }
 }
 
@@ -284,8 +308,8 @@ void PdfWidget::mouseMoveEvent(QMouseEvent *event)
     QPoint newPosition = event->globalPos();
     newPosition = viewlbl->mapFromGlobal(newPosition); 
 
-    selected = SelectedText(dragPosition, newPosition, useRTL);
-    QColor c("Blue"); c.setAlpha(160);
+    selected = SelectText(dragPosition, newPosition, useRTL);
+    QColor c("Blue"); c.setAlpha(100);
     DrawRects(selected, c);
 }
 
@@ -353,6 +377,8 @@ void PdfWidget::showPage(int page)
         if (QTextCodec::codecForName("latin1")->canEncode(box->text())) count ++;
     }
     if (count < (doc->page(current_page)->textList().size()) / 2) useRTL = true;
+
+    qDebug() << doc->metadata();
 
 }
 
@@ -465,30 +491,14 @@ QRectF PdfWidget::searchForwards(const QString &stext)
 
 void PdfWidget::copyText()
 {
-
-    QString text = "";
-    QPointF center;
-    bool hadSpace = false;
-
-    foreach (Poppler::TextBox *box, selectedWords)
-    {
-        if (hadSpace)
-            text += " ";
-        if (!text.isEmpty() && box->boundingBox().top() > center.y())
-            text += "\n";
-        text += box->text();
-        hadSpace = box->hasSpaceAfter();
-        center = box->boundingBox().center();
-    }
-
-    if (!text.isEmpty())
+    if (!selectedText.isEmpty())
     {
         //Invert text to visual (flips hebrew chars).
-        text = ToBidiText(text);
+        selectedText = ToBidiText(selectedText);
 
         //Copy to clipboard:
         QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(text, QClipboard::Clipboard);
+        clipboard->setText(selectedText, QClipboard::Clipboard);
     }
 }
 

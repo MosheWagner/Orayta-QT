@@ -75,7 +75,7 @@ public:
 
     //Returns a list of QRects, marking of all text selected between the two given points
     // (RTL affects only multiple line selections.)
-    QList <QRect> SelectedText(QPoint p1, QPoint p2, bool RTL);
+    QList <QRect> SelectText(QPoint p1, QPoint p2, bool RTL);
 
     //Returns a QLine representing the size and position
     //  of the text line that is at the given point.
@@ -133,7 +133,7 @@ private:
     QImage Image;
 
     QList <QRect> selected;
-    QList <Poppler::TextBox *> selectedWords;
+    QString selectedText;
 
     void showPage(int page = -1);
 

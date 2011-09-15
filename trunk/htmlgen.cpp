@@ -1077,7 +1077,7 @@ QString ExternalLink (QString linkcode)
     Data = codec->toUnicode(qba);
 
     if (Data == "")
-        return false;
+        return "";
 
     //Split to parts
     QStringList split_up = Data.split("|");

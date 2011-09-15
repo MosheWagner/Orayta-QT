@@ -16,23 +16,7 @@
 
 #include "mainwindow.h"
 
-//TODO: Search in html files too
 
-//TODO: Added books should have a "remove" option in the context menu.
-//TODO: All books should have a "book settings" option via the menu too.
-//TODO: Add the book settings whatever (dialog ?)
-
-//TODO: Search with no result dosn't need a new tab (Msgbox?)
-
-//TODO: Menu entries don't go RTL. is it QT's bug?
-
-//TODO: Improve search result preview
-
-//TODO: Search result marks in books with nikud don't work
-
-//TODO: Finish GUI changes
-
-//TODO: JS function "ClosestElementToView" isn't accurate. (Maybe jump there but without the red mark?)
 
 /*
   Roadmap for 0.05:
@@ -40,43 +24,56 @@
   - Allow printing. (Html + Pdf) If it's really hard, html-s can become pdf-s and then printed
 
   - Improve all search stuff (including better result page. using side bar?)
-  
+
   - Solve all book issues (wierd nikud, a few books that render incorrectly, better book names in tree)
 
   - Improve GUI. (Remove search bar? Change in and out of search icons)
 */
 
-//TODO: Escape books with wierd chars in their name. ( ' , " , \ , / ). (For import)
+
+/*
+  Search issues:
+
+    - TODO: Search in html files too
+    - TODO: Seach in pdf files too
+
+    - TODO: Search with no result dosn't need a new tab (Msgbox?)
+    - TODO: Search result marks in books with nikud don't work
+    - TODO: Improve search result preview
+
+    - TODO: Allow finding ktiv too (only kri is found now)
+
+    - TODO: Make auto DB building an option.
+    - TODO: Make DB in files an option
+*/
+
+//TODO: Added books should have a "remove" option in the context menu.
+//TODO: All books should have a "book settings" option via the menu too.
+//TODO: Add the book settings whatever (dialog ?)
+
+//TODO: Menu entries don't go RTL. is it QT's bug?
+//TODO: Bracets in hebrew text flipped. QT bug?
+
+//TODO: Finish GUI changes
+
+//TODO: JS function "ClosestElementToView" isn't accurate. (Maybe jump there but without the red mark?)
+
+//TODO: Escape books with wierd chars in their name. ( ' , " , \ , / ). (At import)
 
 //TODO: Add date to bookmarks (somewhere), and "sort by" option?
 
 //TODO: Improve current position detection
 
-//TODO: Allow adding custom html books through the program
-
 //TODO: dictionary
 
 //TODO: Translatable welcome page
-//(TODO: create help page for linux version)
-//TODO: hide welcomepage from search
+//TODO: create help page for linux version
 
 //TODO: document & clean code
 
 //TODO: Requested Feature: parallel tab (like in the originall)
 
 //TODO: see what else to do ;-)
-
-/*
-    DB issues:
-
-    - Full map for puretext.
-    - Allow finding ktiv too (only kri is found now)
-    - Make auto DB building an option.
-    - Save DB to file?
-
-    - BUG: DB in file mode doesn't save the levelMap, so it crashes
-    - BUG: do not allow english letters in puretext
-*/
 
 
 // Global
@@ -194,6 +191,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     stopSearchFlag = false;
 
+
     /* -------------------------
     //Output a new conf file:
     QString c="";
@@ -207,7 +205,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
      --------------------------- */
 
     //Build the search DB while the program is running
-    //QtConcurrent::run(buidSearchDBinBG, &bookList);
+    QtConcurrent::run(buidSearchDBinBG, &bookList);
 }
 
 
@@ -1512,16 +1510,14 @@ void MainWindow::translate(QString newlang)
     else setDirection(false);
 }
 
-/*
 //Builds all book's search DB's, while the program is running
 void buidSearchDBinBG(BookList * bl)
 {
-    for (int i=0; i<bl->size(); i++)
+    for (int i=bl->size()-1; i>=0; i--)
     {
         (*bl)[i]->BuildSearchTextDB();
     }
 }
-*/
 
 #ifdef POPPLER
 

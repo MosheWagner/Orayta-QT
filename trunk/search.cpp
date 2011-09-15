@@ -68,7 +68,6 @@ QString createSearchPattern (QString userInput, bool allWords = true, bool fullW
 
 void MainWindow::on_SearchInBooksBTN_clicked()
 {
-
     QString otxt = ui->searchInBooksLine->text();
     QString stxt = otxt;
     QRegExp regexp;
@@ -140,6 +139,8 @@ void MainWindow::on_searchInBooksLine_returnPressed()
 void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
+
+    //qDebug() << QTime().currentTime();
 
     QString title, Html="", Htmlhead="", HtmlTopLinks="";
 
@@ -284,6 +285,8 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 
         ui->pbarbox->hide();
     }
+
+    //qDebug() << QTime().currentTime();
 }
 
 QString lastSearch = "";
@@ -293,32 +296,39 @@ void MainWindow::on_searchForward_clicked()
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
 
-    if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
+    if (CurrentBookdisplayer()->book())
     {
-        QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
-
-        QString text = CurrentBookdisplayer()->pageText();
-
-        int ppp = CurrentBookdisplayer()->searchPos();
-
-        //Find the closest occurence of the RegExp
-        QString next = "";
-
-        int pos = regexp.indexIn(text, ppp + 1);
-        if (pos > -1)
+        if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
         {
-            next = regexp.cap(0);
-            CurrentBookdisplayer()->setSearchPos(pos);
-            CurrentBookdisplayer()->searchText(next, false);
+            QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
+
+            QString text = CurrentBookdisplayer()->pageText();
+
+            int ppp = CurrentBookdisplayer()->searchPos();
+
+            //Find the closest occurence of the RegExp
+            QString next = "";
+
+            int pos = regexp.indexIn(text, ppp + 1);
+            if (pos > -1)
+            {
+                next = regexp.cap(0);
+                CurrentBookdisplayer()->setSearchPos(pos);
+                CurrentBookdisplayer()->searchText(next, false);
+            }
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+        {
+            CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
+        {
+            CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
         }
     }
-    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+    else
     {
         CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
-    }
-    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
-    {
-        CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
     }
 }
 
@@ -327,32 +337,39 @@ void MainWindow::on_searchBackward_clicked()
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
 
-    if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
+    if (CurrentBookdisplayer()->book())
     {
-        QString text = CurrentBookdisplayer()->pageText();
-
-        int ppp = CurrentBookdisplayer()->searchPos();
-
-        QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
-
-        //Find the closest occurence of the RegExp, backwards
-        QString last = "";
-
-        int pos = regexp.lastIndexIn(text, -(text.length()-ppp+1));
-        if (pos > -1)
+        if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
         {
-            last = regexp.cap(0);
-            CurrentBookdisplayer()->setSearchPos(pos);
-            CurrentBookdisplayer()->searchText(last, true);
+            QString text = CurrentBookdisplayer()->pageText();
+
+            int ppp = CurrentBookdisplayer()->searchPos();
+
+            QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
+
+            //Find the closest occurence of the RegExp, backwards
+            QString last = "";
+
+            int pos = regexp.lastIndexIn(text, -(text.length()-ppp+1));
+            if (pos > -1)
+            {
+                last = regexp.cap(0);
+                CurrentBookdisplayer()->setSearchPos(pos);
+                CurrentBookdisplayer()->searchText(last, true);
+            }
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+        {
+            CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
+        {
+            CurrentBookdisplayer()->pdfview()->searchBackwards( ui->lineEdit->text() );
         }
     }
-    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+    else
     {
         CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
-    }
-    else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
-    {
-        CurrentBookdisplayer()->pdfview()->searchBackwards( ui->lineEdit->text() );
     }
 }
 

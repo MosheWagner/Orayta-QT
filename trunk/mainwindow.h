@@ -270,6 +270,7 @@ private slots:
 
 };
 
-//void buidSearchDBinBG(BookList * bl);
+//Build book search DB
+void buidSearchDBinBG(BookList * bl);
 
 #endif // MAINWINDOW_H
