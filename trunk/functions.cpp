@@ -118,13 +118,13 @@ QString readfile(QString filename, const char* encoding_name)
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
-        return false;
+        return "";
 
     //Read the source file:
     QFile infile(filename);
     // Open the file
     if ( !infile.open(QIODevice::ReadOnly) )
-        return false;
+        return "";
 
     // Set the stream to read from the file
     QTextStream t( &infile );

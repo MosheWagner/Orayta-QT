@@ -1585,9 +1585,10 @@ void MainWindow::translate(QString newlang)
 //Builds all book's search DB's, while the program is running
 void buidSearchDBinBG(BookList * bl)
 {
-    for (int i=bl->size()-1; i>=0; i--)
+    for (int i=bl->size()-1; i>=0 && bl->size() > 0; i--)
     {
         (*bl)[i]->BuildSearchTextDB();
+        qDebug() << "Building DB - "  << i;
     }
 }
 

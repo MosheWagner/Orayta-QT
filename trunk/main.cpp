@@ -108,13 +108,15 @@ int main(int argc, char *argv[])
 
     app.processEvents();
 
+    QApplication::restoreOverrideCursor();
+
     MainWindow w;
     w.show();
     app.processEvents();
 
     //Hide slpash screen
     splash->finish(&w);
-    QApplication::restoreOverrideCursor();
+
 
     return app.exec();
 }

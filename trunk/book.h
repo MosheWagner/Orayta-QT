@@ -173,6 +173,9 @@ public:
     // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
     void repainticon();
 
+    inline QString DBFilePath();
+    inline QString LMFilePath();
+
     //Fills "pureText" and "levelMap" with their values
     void BuildSearchTextDB();
 

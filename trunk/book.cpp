@@ -562,15 +562,26 @@ QString Book::HTMLFileName()
     return htmlfilename;
 }
 
+inline QString Book::DBFilePath()
+{
+    QString p = mPath;
+    return p.replace(".txt", ".TDB");
+}
+
+inline QString Book::LMFilePath()
+{
+    QString p = mPath;
+    return p.replace(".txt", ".LMP");
+}
 
 QString Book::pureText()
 {
     if (mPureText == "" || mPureText == "Locked!")
     {        
-        mPureText = readfile(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".TDB", "UTF-8");
+        mPureText = readfile(DBFilePath(), "UTF-8");
 
         levelMap.clear();
-        setLevelMap(readfile(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".LMP", "UTF-8"));
+        setLevelMap(readfile(LMFilePath(), "UTF-8"));
     }
 
     return mPureText;
@@ -578,12 +589,9 @@ QString Book::pureText()
 
 void Book::setPureText(QString ptxt)
 {
-    QDir d;
-    d.mkdir(TMPPATH + "/SearchDB/");
-
     mPureText = ptxt;
-    writetofile(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".TDB", ptxt, "UTF-8", true);
-    writetofile(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".LMP", levelMapString(), "UTF-8", true);
+    writetofile(DBFilePath(), ptxt, "UTF-8", true);
+    writetofile(LMFilePath(), levelMapString(), "UTF-8", true);
 }
 
 
@@ -617,9 +625,17 @@ QString Book::levelMapString()
 
 bool Book::hasDBFile()
 {
-    QFile f(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".TDB");
+    QFile f(DBFilePath());
 
-    return f.exists();
+    if (!f.exists()) return false;
+
+    if (!f.open(QIODevice::ReadOnly)) return false;
+
+    f.read(25); //Just some number...
+    if (f.atEnd()) return false;
+
+    f.close();
+    return true;
 }
 
 void Book::BuildSearchTextDB()
@@ -634,13 +650,14 @@ void Book::BuildSearchTextDB()
     {
         QString str = "";
 
-
+        /*
         //Wait for DB to unlock:
         if (pureText() == "Locked!")
         {
             qDebug() << "Waiting for DB to unlock...";
             while (pureText() == "Locked!") {};
         }
+        */
 
         //Lock the DB from other functions:
         //(Because once pureText isn't empty, the function exists right away)
@@ -728,6 +745,7 @@ void Book::BuildSearchTextDB()
                 text[i].replace(QChar(0x05BE), " "); //Makaf
                 text[i].replace(QRegExp(spaceSigns), " ");
                 text[i].replace("{", "(").replace("}",")");
+                text[i].replace("nbsp", " ");
                 text[i].replace(notText, "");
 
                 //Remove double spaces and line breaks

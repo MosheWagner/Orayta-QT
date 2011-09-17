@@ -140,7 +140,7 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
 
-    //qDebug() << QTime().currentTime();
+    qDebug() << QTime().currentTime();
 
     QString title, Html="", Htmlhead="", HtmlTopLinks="";
 
@@ -286,7 +286,7 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
         ui->pbarbox->hide();
     }
 
-    //qDebug() << QTime().currentTime();
+    qDebug() << QTime().currentTime();
 }
 
 QString lastSearch = "";
