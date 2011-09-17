@@ -81,6 +81,9 @@ QString gFontFamily = "Nachlieli CLM";
 int gFontSize = 16;
 
 
+
+#include <quazip/quazipfile.h>
+
 // This is just a very simple define. anywhere in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 //
@@ -206,6 +209,75 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //Build the search DB while the program is running
     QtConcurrent::run(buidSearchDBinBG, &bookList);
+
+    /*
+    qDebug() << bookList.size();
+
+    qDebug() << "Start - " << QTime().currentTime();
+
+    for (int i=0; i<1000; i++)
+    {
+        QuaZip zip("/home/moshe/Desktop/b.zip");
+        zip.open(QuaZip::mdUnzip);
+        zip.setCurrentFile("textfile");
+        QuaZipFile file(&zip);
+        file.open(QIODevice::ReadOnly);
+        QTextStream t( &file );
+        t.setCodec(QTextCodec::codecForName("UTF-8"));
+        QString a = t.readAll();
+        //qDebug() << t.readAll();
+    }
+
+
+    qDebug() << QTime().currentTime();
+
+    qDebug() << "Start - "<< QTime().currentTime();
+
+    for (int i=0; i<1000; i++)
+    {
+        QFile  infile("/home/moshe/Desktop/textfile");
+        infile.open(QIODevice::ReadOnly);
+
+        QTextStream t( &infile );
+        t.setCodec(QTextCodec::codecForName("UTF-8"));
+        QString a = t.readAll();
+        //qDebug() << t.readAll();
+    }
+
+    qDebug() << QTime().currentTime();
+
+    qDebug() << "Start - " << QTime().currentTime();
+
+    for (int i=0; i<1000; i++)
+    {
+        QuaZip zip("/home/moshe/Desktop/b.zip");
+        zip.open(QuaZip::mdUnzip);
+        zip.setCurrentFile("textfile");
+        QuaZipFile file(&zip);
+        file.open(QIODevice::ReadOnly);
+        QTextStream t( &file );
+        t.setCodec(QTextCodec::codecForName("UTF-8"));
+        QString a = t.readAll();
+        //qDebug() << t.readAll();
+    }
+
+    qDebug() << QTime().currentTime();
+
+    qDebug() << "Start - "<< QTime().currentTime();
+
+    for (int i=0; i<1000; i++)
+    {
+        QFile  infile("/home/moshe/Desktop/textfile");
+        infile.open(QIODevice::ReadOnly);
+
+        QTextStream t( &infile );
+        t.setCodec(QTextCodec::codecForName("UTF-8"));
+        QString a = t.readAll();
+        //qDebug() << t.readAll();
+    }
+
+    qDebug() << QTime().currentTime();
+    */
 }
 
 

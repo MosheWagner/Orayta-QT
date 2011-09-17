@@ -44,7 +44,16 @@ SOURCES += main.cpp \
     settings.cpp \
     importbook.cpp \
     pdfwidget.cpp \
-    guematria.cpp
+    guematria.cpp \
+    quazip/zip.c \
+    quazip/unzip.c \
+    quazip/quazipnewinfo.cpp \
+    quazip/quazipfile.cpp \
+    quazip/quazip.cpp \
+    quazip/quacrc32.cpp \
+    quazip/quaadler32.cpp \
+    quazip/qioapi.cpp \
+    quazip/JlCompress.cpp
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -62,7 +71,20 @@ HEADERS += htmlgen.h \
     settings.h \
     importbook.h \
     pdfwidget.h \
-    guematria.h
+    guematria.h \
+    quazip/zip.h \
+    quazip/unzip.h \
+    quazip/quazipnewinfo.h \
+    quazip/quazipfileinfo.h \
+    quazip/quazipfile.h \
+    quazip/quazip_global.h \
+    quazip/quazip.h \
+    quazip/quacrc32.h \
+    quazip/quachecksum32.h \
+    quazip/quaadler32.h \
+    quazip/JlCompress.h \
+    quazip/ioapi.h \
+    quazip/crypt.h
 FORMS += \
     mainwindow.ui \
     addcomment.ui \
@@ -110,3 +132,7 @@ INSTALLS += trans
 
 # INSTALLS += desktop
 INSTALLS += menu
+
+OTHER_FILES += \
+    quazip/quazip.pro \
+    quazip/quazip.pri

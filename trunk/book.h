@@ -196,6 +196,9 @@ protected:
     //Sets the book's puretext
     void setPureText(QString);
 
+    //Returns true if a DB file for this book already exists.
+    bool hasDBFile();
+
     //Build the levelMap from a string representing it
     void setLevelMap(QString);
     //Return a QString representing the levelMap

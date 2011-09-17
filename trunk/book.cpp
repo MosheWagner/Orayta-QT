@@ -615,9 +615,19 @@ QString Book::levelMapString()
     return str;
 }
 
+bool Book::hasDBFile()
+{
+    QFile f(TMPPATH + "/SearchDB/" + stringify(mUniqueId) + ".TDB");
+
+    return f.exists();
+}
+
 void Book::BuildSearchTextDB()
 {
     //TODO: remove references to other books
+
+    //No need to build the DB twice...
+    if (hasDBFile()) return;
 
     //Ignore dirs
     if (mFiletype == Book::Normal || mFiletype == Book::Html)
@@ -626,11 +636,11 @@ void Book::BuildSearchTextDB()
 
 
         //Wait for DB to unlock:
-        //if (pureText() == "Locked!") qDebug() << "Waiting for DB to unlock...";
-        while (pureText() == "Locked!") {};
-
-        //No need to build the DB twice...
-        if (pureText() != "") return ;
+        if (pureText() == "Locked!")
+        {
+            qDebug() << "Waiting for DB to unlock...";
+            while (pureText() == "Locked!") {};
+        }
 
         //Lock the DB from other functions:
         //(Because once pureText isn't empty, the function exists right away)

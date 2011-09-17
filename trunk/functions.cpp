@@ -31,6 +31,15 @@ QTranslator *translator;
 //Default lang. After all, this is a Hebrew program...
 QString LANG = "Hebrew";
 
+/*
+#include <quazip/quazipfile.h>
+
+bool ReadZipFile(QuaZipFile zipfile, QList <QString>& text, const char* encoding_name)
+{
+
+}
+*/
+
 //Reads the file with the given name, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
