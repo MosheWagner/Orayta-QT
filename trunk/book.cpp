@@ -589,7 +589,6 @@ QString Book::pureText()
 
 void Book::setPureText(QString ptxt)
 {
-    mPureText = ptxt;
     writetofile(DBFilePath(), ptxt, "UTF-8", true);
     writetofile(LMFilePath(), levelMapString(), "UTF-8", true);
 }
@@ -650,18 +649,10 @@ void Book::BuildSearchTextDB()
     {
         QString str = "";
 
-        /*
-        //Wait for DB to unlock:
-        if (pureText() == "Locked!")
-        {
-            qDebug() << "Waiting for DB to unlock...";
-            while (pureText() == "Locked!") {};
-        }
-        */
-
         //Lock the DB from other functions:
         //(Because once pureText isn't empty, the function exists right away)
         levelMap.clear();
+        mPureText = "Locked!";
         setPureText("Locked!");
 
         //Read book's contents
@@ -757,6 +748,9 @@ void Book::BuildSearchTextDB()
         str += " ";
 
         setPureText(str);
+
+        mPureText = "";
+        levelMap.clear();
     }
 }
 
@@ -776,7 +770,7 @@ QList <SearchResult> Book::findInBook(const QRegExp& exp)
     QList <SearchResult> results;
     QRegExp regexp = QRegExp("(" + exp.pattern()+ ")");
 
-    BuildSearchTextDB();
+    if (pureText() == "") qWarning() << this->getNormallDisplayName() << " has no Search DB, so it couldn't be searched!";
 
     int curr = 0, last = 0;
     while ((curr = pureText().indexOf(exp, last)) != -1)

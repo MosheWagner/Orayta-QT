@@ -98,15 +98,19 @@ void importBook::on_cancelBTN_clicked()
 
 void importBook::on_importBTN_clicked()
 {
+    QString booksUserPath = USERPATH + "Books/ספרי_המשתמש";
+
     //Make sure the dir exists
-    QDir d(USERPATH + "Books/ספרי_המשתמש") ;
+    QDir d(booksUserPath) ;
     if ( !d.exists() )
-        d.mkpath(USERPATH + "Books/ספרי_המשתמש");
+        d.mkpath(booksUserPath);
+
+    booksUserPath = booksUserPath + "/";
 
     QStringList filters;
     filters << "*.html" << "*.htm" << "*.pdf" << "*.txt";
 
-    QString booksUserPath = USERPATH + "Books/ספרי_המשתמש/";
+
 
     //Copy to user's book folder
     for (int i=0; i<ui->listWidget->count(); i++)
