@@ -24,7 +24,7 @@ sudo apt-get update
 
 נתקין את התוכנה עם הפקודה: <BR>
 {{{
-sudo apt-get install orayta orayta-books
+sudo apt-get install orayta orayta-books --no-install-recommends
 }}}
 
 מכאן ואילך, כל עדכון של המערכת גם יעדכן את התוכנה (אם יש לה עדכון, כמובן).
