@@ -101,13 +101,18 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 
             if (ft == Book::Dir)
             {
+                //Add confs for this directory
+                AddBookConfs(b, b->getPath().append(".conf"));
+
                 //Do the whole thing again for any dir, sending it's index in the list as the
                 // Parents index of all it's children
                 addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
+
             }
         }
     }
 }
+
 
 //Add the book's confs, from it's conf file
 void BookList::AddBookConfs(Book *book, QString filename)
@@ -133,6 +138,15 @@ void BookList::AddBookConfs(Book *book, QString filename)
             else if (text[i].indexOf("DisplayName") != -1)
             {
                 book->setNormallDisplayName(text[i].mid(12).replace(QRegExp("^ *"), ""));
+            }
+
+            else if (text[i].indexOf("BranchName") != -1)
+            {
+                linesplit.clear();
+                splittotwo(text[i],linesplit ,"=");
+                if (linesplit[1]!="") {
+                    book->setTreeDisplayName(linesplit[1]);
+                 }
             }
 
             else if (text[i].indexOf("LastLevelIndex") != -1)
@@ -190,13 +204,13 @@ void BookList::AddBookConfs(Book *book, QString filename)
                     weavedSource base;
 
                     base.FileName = book->getPath();
-    
+
                     base.Zoom = 0;
 
                     base.id = 0;
 
                     base.show = true;
-    
+
                     book->mWeavedSources.append(base);
                 }
 
