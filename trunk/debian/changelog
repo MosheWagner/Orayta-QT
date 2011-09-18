@@ -1,3 +1,15 @@
+orayta (0.10ubuntu1) maverick; urgency=low
+
+  * new DB for saerching. should be used with orayta-books >= 0.10
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 18 Sep 2011 23:55:31 +0300
+
+orayta (0.10) natty; urgency=low
+
+  * new DB for saerching. should be used with orayta-books >= 0.10
+
+ -- moshe <moshe.wagner@gmail.com>  Sun, 18 Sep 2011 23:48:03 +0300
+
 orayta (0.043ubuntu12) maverick; urgency=low
 
   * 
