@@ -75,8 +75,8 @@ sudo dpkg -i *.deb
 
 להוריד את הקובץ orayta.zip מדף ההורדות ולחלץ את הקבצים מתוכו.
 
-כנראה שצריך להתקין ספריות של qt.
+כנראה שצריך להתקין ספריות של QT. - ניתן להוריד מהאתר של QT או בכתובת הבאה: http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x
 
-להריץ את הקובץ orayta בתיקיה שחילצתם.
+להריץ את הקובץ orayta בתיקיה שחילצתם מקובץ הzip.
 
 נא לדווח על כל הצלחה או כשלון בשימוש בגירסת מק ל izar00@gmail.com
