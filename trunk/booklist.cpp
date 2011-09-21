@@ -83,6 +83,12 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
                 AddBookConfs(b, b->getPath().replace(".txt",".conf"));
             }
 
+            if ( ft == Book::Html )
+            {
+                //Add confs for this book
+                AddBookConfs(b, b->getPath().replace(QRegExp("\\.\\w{3,4}$"),".conf"));
+            }
+
             if ( ft == Book::Link )
             {
                 //Add confs for this book
@@ -101,12 +107,14 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 
             if (ft == Book::Dir)
             {
-                //Add confs for this directory
-                AddBookConfs(b, b->getPath().append(".conf"));
+
 
                 //Do the whole thing again for any dir, sending it's index in the list as the
                 // Parents index of all it's children
                 addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
+
+                //Add confs for this directory
+                AddBookConfs(b, b->getPath().append(".conf"));
 
             }
         }
@@ -140,6 +148,7 @@ void BookList::AddBookConfs(Book *book, QString filename)
                 book->setNormallDisplayName(text[i].mid(12).replace(QRegExp("^ *"), ""));
             }
 
+            //field for the display name of the directory
             else if (text[i].indexOf("BranchName") != -1)
             {
                 linesplit.clear();
