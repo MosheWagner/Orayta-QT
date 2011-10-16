@@ -34,21 +34,17 @@ public class Filename extends File {
 	private static final long serialVersionUID = -2113093790162098477L;
 //	private String fullPath, baseName, extension; //  @deprecated.
 	public static final char PATH_SEPARATOR = separatorChar;
-	public static final char EXTENSION_SEPARATOR = FilenameUtils.EXTENSION_SEPARATOR; 
+	public static final char EXTENSION_SEPARATOR = FilenameUtils.EXTENSION_SEPARATOR;
+	private String fileType= "Unknown";
 	
 	
 	/**
 	 * 
 	 * @param filename - full path filename
 	 */
-	Filename (String filename){
+	public Filename (String filename){
 		super (filename);
-//		fullPath = FilenameUtils.getFullPath(filename);
-//		baseName = FilenameUtils.getBaseName(filename);
-//		extension = FilenameUtils.getExtension(filename);
-		
-//		setLocales();
-		
+
 	}
 	
 	/**
@@ -56,14 +52,8 @@ public class Filename extends File {
 	 * @param path - the path of the file
 	 * @param name - the name of the file, without the path.
 	 */
-	Filename (String path, String name){
+	public Filename (String path, String name){
 		super(path, name);
-		
-//		fullPath = FilenameUtils.normalize(path); 
-//		baseName = FilenameUtils.getBaseName(name);
-//		extension = FilenameUtils.getExtension(name);
-				
-//		setLocales();
 		
 	}
 	
@@ -73,35 +63,21 @@ public class Filename extends File {
 	 * @param name - the base name, without extension or path
 	 * @param extn - file extension e.g "txt"
 	 */
-	Filename (String path, String name, String extn){
+	public Filename (String path, String name, String extn){
 		super(path, name + EXTENSION_SEPARATOR + extn);
 		
-//		fullPath = FilenameUtils.normalize(path); 
-//		baseName = name;
-//		extension = extn;
-		
-//		setLocales();
-		
 	}
 	
 
 
-	Filename(Filename filename) {
+	public Filename(Filename filename) {
 		super(filename.getFilename());
 		
-//		fullPath = filename.getFullPath();
-//		baseName = filename.getBaseName();
-//		extension = filename.getExtension();
-		
 	}
 	
-	Filename(File file) {
+	public Filename(File file) {
 		super(file.getAbsolutePath());
-		
-//		fullPath = filename.getFullPath();
-//		baseName = filename.getBaseName();
-//		extension = filename.getExtension();
-		
+			
 	}
 	
 	public Filename (File parent, String child) {
@@ -165,6 +141,20 @@ public class Filename extends File {
 	public String getExtension() {
 //		return extension;
 		return FilenameUtils.getExtension(this.getName());
+	}
+
+	/**
+	 * @return the fileType
+	 */
+	public String getFileType() {
+		return fileType;
+	}
+
+	/**
+	 * @param fileType the fileType to set
+	 */
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 
 //	public void setExtension(String extension) {

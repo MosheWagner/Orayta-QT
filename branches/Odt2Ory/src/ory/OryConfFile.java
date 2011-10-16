@@ -12,11 +12,15 @@ import org.apache.commons.io.FileUtils;
  *
  */
 public class OryConfFile {
-	private Filename filename;
+	private static final String EXTENSION = "conf";
+	protected Filename myFilename;
 	private StringBuffer text;
 	private final int UID_MIN = 0;
 	private final int UID_MAX = 40000;
-	private static int uid ;
+	private static int globalUid ;
+	private int myUid;
+	private OryLinkFile link;
+	private String displayName = "";
 //	private boolean publicFile; //if this is a public file we want to use a uid of our own range.
 	
 	/**
@@ -27,9 +31,9 @@ public class OryConfFile {
 		
 		String path = file.getFullPath();
 		String baseName = file.getBaseName();
-		String extension = "conf";
+//		String extension = "conf";
 		
-		filename = new Filename (path, baseName, extension);
+		myFilename = new Filename (path, baseName, EXTENSION);
 		
 		text = new StringBuffer();
 		
@@ -63,7 +67,7 @@ public class OryConfFile {
 	 */
 	public static int level2TE (int in) {
 		if (in < 1 || in > 5 ) { //make sure we have a valid level
-			Odt2Ory.dbgLog("wrong level: " + in);
+			Main.ui.dbgLog("wrong level: " + in);
 			return 0;
 		}
 		
@@ -72,6 +76,8 @@ public class OryConfFile {
 	
 	public void setBookName(String bookName){
 		addEntry("DisplayName", bookName);
+		displayName = bookName;
+		//TODO: create a hash object with entries or some other method to be coherent.
 	}
 	
 	public void setBookSource(String source){
@@ -85,14 +91,14 @@ public class OryConfFile {
 	 * NOTICE: you may get a negative uid.
 	 */
 	public void setAutoUid() {
-		String str = (filename.getAbsolutePath()); 
+		String str = (myFilename.getAbsolutePath()); 
 		int num = str.hashCode();
 		
 		//make sure our number isn't in the range that is in use.
 		if (num > UID_MIN && num < UID_MAX)
 			num += UID_MAX;
-		
-		setUID(num);
+		myUid = num;
+		setUID();
 	}
 
 	public void setAutoUid(String uid){
@@ -106,37 +112,58 @@ public class OryConfFile {
 	 */
 	public void setAutoUid(int num) {
 		
-		if(OryConfFile.uid == 0)
-			OryConfFile.uid = num;
+		if(OryConfFile.globalUid == 0)
+			OryConfFile.globalUid = num;
 		else {
-			num = OryConfFile.uid;
+			num = OryConfFile.globalUid;
 		}
-		OryConfFile.uid++; //increase uid by 1 for every input file.
+		OryConfFile.globalUid++; //increase uid by 1 for every input file.
 		
 		
-		
-		setUID (num);
+		myUid = num;
+		setUID ();
 		
 	}
 
 	
-	private void setUID(int num) {
+	private void setUID() {
 		
-		if (num >= UID_MIN && num <= UID_MAX){
-			Odt2Ory.log ("warning: pussible violation of uid bounderies\n" +
-					"using uid: " + num);
+		if (myUid >= UID_MIN && myUid <= UID_MAX){
+			Main.ui.log ("warning: pussible violation of uid bounderies\n" +
+					"using uid: " + myUid);
 		}
 			
-		addEntry("UniqueId", num);
+		addEntry("UniqueId", myUid);
+		Main.ui.dbgLog("uid: " + myUid + " in use");
 		
+	}
+
+	public static int getGlobalUid() {
+		return globalUid;
+	}
+
+	public static void setGlobalUid(int globalUid) {
+		OryConfFile.globalUid = globalUid;
+	}
+
+	public int getMyUid() {
+		return myUid;
+	}
+
+	public void setMyUid(int myUid) {
+		this.myUid = myUid;
+	}
+
+	public void setText(StringBuffer text) {
+		this.text = text;
 	}
 
 	public Filename getFilename() {
-		return filename;
+		return myFilename;
 	}
 
 	public void setFilename(Filename filename) {
-		this.filename = filename;
+		this.myFilename = filename;
 	}
 
 	public String getText() {
@@ -145,13 +172,43 @@ public class OryConfFile {
 
 	public void save() throws IOException {
 		
-//		File file = new File(filename.getFilename());
-		String encoding = "utf-8";
-//		System.out.println("the text is:");
-//		System.out.println(text);
-		FileUtils.writeStringToFile(filename, text.toString(), encoding);
+		Main.ui.saveStringToFile(text.toString(), myFilename);
 		
+		if (link != null)
+			link.save(); //TODO: what happens if conf name was changed.
+	}
+
+	/**
+	 * create a link file for this book.
+	 * @param path - where to create the link.
+	 */
+	public void createLink(String path) {
+		link = new OryLinkFile(new Filename(path, myFilename.getBaseName(), myFilename.getExtension()));
+		link.setTarget(myUid);
+		
+		if (displayName != null)
+			link.setBookName(displayName);
 	}
 	
+	/**
+	 * set the directory for this book.
+	 */
+	public void setPath(String path) {
+		myFilename = new Filename(path, myFilename.getBaseName(), this.getExtension());
+	}
+	
+	/**
+	 * set the file base name for this book, without changing the directory or extension.
+	 * @param name
+	 */
+	public void setName(String name){
+		myFilename = new Filename(myFilename.getFullPath(), name , this.getExtension());
+		if (link != null)
+			link.setName(name); //make sure the conf has the same name as the book.
+	}
+
+	public static String getExtension() {
+		return EXTENSION;
+	}
 
 }

@@ -14,7 +14,7 @@ public class THlink extends Href {
 		super(text, Href.escapeToBase32(Href.Xlink.parseXlink(link).getName()));
 		Xlink xlink = Href.Xlink.parseXlink(link);
 		
-		Odt2Ory.dbgLog(xlink.getName());
+		Main.ui.dbgLog(xlink.getName());
 		level= xlink.getLevel();
 		setLocation();
 	}
@@ -31,7 +31,7 @@ public class THlink extends Href {
 			uid = "13653";
 		} else {
 			uid = "13650"; //this is just a guess. we shouldn't get here.
-			Odt2Ory.dbgLog("level out of range :" + level);
+			Main.ui.dbgLog("level out of range :" + level);
 		}
 		
 //		uid = "13650"; //TODO: remove this line if we split the book.

@@ -17,7 +17,10 @@ public class Parameters {
 	printXlinks, useUnoconv, debug, toratHaolah;
 	private String inputFilename, outputPath, uid, bookTitle;
 	private String source;
-	
+	private boolean outAsIn; //output path is the same as input.
+	private boolean daat; //option for daat.ac.il conversion.
+	private boolean force; //overwrite existing files.
+	private boolean skip;
 	
 	public Parameters (String[] args) {
 //		assignDefaults();
@@ -45,6 +48,10 @@ public class Parameters {
 		
 		inputFilename = line.getOptionValue("i");
 		outputPath = line.getOptionValue("o");
+		setOutAsIn(line.hasOption("oi"));
+		setIsDaat(line.hasOption("daat"));
+		setForce(line.hasOption("f")); 
+		setSkip(line.hasOption("q")); 
 		uid = line.getOptionValue("uid", "");
 		bookTitle = line.getOptionValue("B");
 		source = line.getOptionValue("S");
@@ -89,6 +96,10 @@ public class Parameters {
 		
 		runOptions.addOption("i", true, "input file name");
 		runOptions.addOption("o", "output-path", true, "where to save our file");
+		runOptions.addOption("oi", "output-as-input", false, "save files to the same directory as input");
+		runOptions.addOption("f", "force", false, "overwrite existing files without warninig");
+		runOptions.addOption("q", "quit", false, "skip existing files without warninig");
+		runOptions.addOption("daat", false, "special option for html file from daat.ac.il");
 		runOptions.addOption("uid", true, "uniqueId value for this file");
 		runOptions.addOption("B", true, "set book name in conf file");
 		runOptions.addOption("S", "source", true, "the source of this file");
@@ -215,10 +226,38 @@ public class Parameters {
 	}
 
 	/**
+	 * @param outAsIn the outAsIn to set
+	 */
+	public void setOutAsIn(boolean outAsIn) {
+		this.outAsIn = outAsIn;
+	}
+
+	/**
+	 * @return true if the user asked to set the output path to be the same as input.
+	 */
+	public boolean isOutAsIn() {
+		return outAsIn;
+	}
+
+	/**
 	 * @param path the output path to set
 	 */
 	public void setOutputPath(String path) {
 		this.outputPath = path;
+	}
+
+	/**
+	 * @param daat - set daat to use special 'daat' conversion.
+	 */
+	public void setIsDaat(boolean daat) {
+		this.daat = daat;
+	}
+
+	/**
+	 * @return true if this is a daat converter.
+	 */
+	public boolean isDaat() {
+		return daat;
 	}
 
 	/**
@@ -240,6 +279,28 @@ public class Parameters {
 	 */
 	public String getSource() {
 		return source;
+	}
+
+	/** overwrite existing files
+	 * @param true to overwrite existing files
+	 */
+	public void setForce(boolean force) {
+		this.force = force;
+	}
+
+	/** overwrite existing files
+	 * @return true if user wants to overwrite existing files.
+	 */
+	public boolean isForce() {
+		return force;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+	public boolean isSkip() {
+		return skip;
 	}
 
 }

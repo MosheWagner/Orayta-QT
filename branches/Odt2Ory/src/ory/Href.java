@@ -147,7 +147,7 @@ public class Href {
 		Matcher m = p.matcher(link);
 		
 		if (!m.matches()){
-			Odt2Ory.dbgLog("not found");
+			Main.ui.dbgLog("not found");
 			Xlink empty = new Xlink ("","", "", "");
 			return empty;
 		}
