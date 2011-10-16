@@ -33,6 +33,8 @@ import org.odftoolkit.odfdom.incubator.doc.text.OdfTextExtractor;
 import org.odftoolkit.odfdom.pkg.OdfElement;
 import org.w3c.dom.NodeList;
 
+import ory.fileTypes.OdtFile;
+
 /**
  * It's a sub class of OdfTextExtractor. It provides a method to return all the text 
  * that the user can typically edit in a document, including text in cotent.xml, 
@@ -53,8 +55,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private Filename inputFilename = new Filename("");
 	private OryFiles files = new OryFiles();
 	private static int fileNum = -1;
-//	/**@deprecated*/
-//	private int highestHeading;
+
 	
 	/**
 	 * holds our location in the outline tree.
@@ -141,24 +142,26 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @return An instance of OryFileExtractor
 	 * @throws Exception 
 	 */
-	public static OryFileExtractor newOryFileExtractor(File file) throws Exception {
+	public static OryFileExtractor newOryFileExtractor(OdtFile file) throws Exception {
 		OdfDocument doc = OdfDocument.loadDocument(file);
 		 OryFileExtractor extractor = new OryFileExtractor(doc.getContentRoot());
 		 extractor.setFilename(file);
 		 return extractor;
 	}
-	
+	/*
 	/**
 	 * An instance of OryFileExtractor will be created to 
 	 * extract the editable text content of an odt file.
 	 * @param file- the .odt file whose text will be extracted.
 	 * @return An instance of OryFileExtractor
-	 * @throws Exception 
-	 */
-	public static OryFileExtractor newOryFileExtractor(Filename filename) throws Exception {
+	 * @throws Exception
+	 * @deprecated 
+	 
+	
+	 * public static OryFileExtractor newOryFileExtractor(Filename filename) throws Exception {
 		File file = new File(filename.getFilename());
 		return newOryFileExtractor(file);
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see org.odftoolkit.odfdom.dom.DefaultElementVisitor#visit(org.odftoolkit.odfdom.dom.element.draw.DrawObjectElement)
@@ -234,7 +237,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		if (bookTitle == null)
          	findFirstLine(ele);
 		
-		appendElementText(ele); //TODO: make sure we dont get unwanted '$' character in begining of line.
+		appendElementText(ele); //TODO: make sure we dont get unwanted '$' character in beginning of line. - probably fixed.
 	}
 	
 	@Override
@@ -304,7 +307,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private void increaseOutlineLevel(int level) {
 		//make sure we have a valid level
 		if (level<1 || level > 10) {
-			Odt2Ory.dbgLog("invalid heading level: " + level);
+			Main.ui.dbgLog("invalid heading level: " + level);
 			return;
 		}
 		
@@ -326,13 +329,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @return
 	 */
 	private String getElementText(OdfElement ele) {
-//		Odt2Ory.dbgLog("went through geteletext");
+//		Main.ui.dbgLog("went through geteletext");
 		OdfTextExtractor extractor = super.newOdfTextExtractor(ele) ;
 		String str = extractor.getText();
 		String log = new String(str);
 		if (log.length() > 50)
 			log = str.substring(0, 50);
-//		Odt2Ory.dbgLog("geteletext:\t" + log);
+//		Main.ui.dbgLog("geteletext:\t" + log);
 		return str;
 		
 	}
@@ -449,12 +452,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 			buildFile();
 			assignDefaults();
 			bookTitle = line.substring(2); //book title is in this line, so we remove the "$ " from the begining.
-			Odt2Ory.dbgLog("strats with $");
+			Main.ui.dbgLog("strats with $");
 		}
 		super.appendElementText(ele);
 	}
 	
-	public static OryFiles walkThrough(File file) throws Exception {
+	public static OryFiles walkThrough(OdtFile file) throws Exception {
 		OryFileExtractor extractor = newOryFileExtractor(file);
 		extractor.getText();
 				
@@ -630,8 +633,8 @@ public class OryFileExtractor extends OdfTextExtractor {
 //		
 //		i++;//this is in order to translate from computer 1=0 to normal numbering system.
 //		
-//		Odt2Ory.dbgLog("Highet Heading: " + i);
-//		Odt2Ory.dbgLog(Arrays.toString(outlineLevel));
+//		Main.ui.dbgLog("Highet Heading: " + i);
+//		Main.ui.dbgLog(Arrays.toString(outlineLevel));
 //		
 //		return i;
 		int i = 0, level = headingsInUse[i];
@@ -639,13 +642,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 			i++;
 			level = headingsInUse[i];
 			
-			Odt2Ory.dbgLog("i=" + i + " level=" + level);
+			Main.ui.dbgLog("i=" + i + " level=" + level);
 			
 		}
-		Odt2Ory.dbgLog("i=" + i + " level=" + level);
+		Main.ui.dbgLog("i=" + i + " level=" + level);
 		int result = i+1;
-		Odt2Ory.dbgLog("highestHeading=" + result);
-		Odt2Ory.dbgLog(Arrays.toString(headingsInUse));
+		Main.ui.dbgLog("highestHeading=" + result);
+		Main.ui.dbgLog(Arrays.toString(headingsInUse));
 		return result;
 	}
 

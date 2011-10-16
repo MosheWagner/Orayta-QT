@@ -19,10 +19,22 @@ public class OryFiles {
 		
 		String[] fileNames = new String[fileList.size()];
 		for (int i=0; i<fileList.size(); i++){
-			fileNames[i] = fileList.get(i).save().getAbsolutePath();
+			Filename file = fileList.get(i).save();
+			if (file == null)
+				fileNames[i] = "<this file was skipped>";
+			else
+				fileNames[i] = file.getAbsolutePath();
 		}
 		
 		return fileNames;
+	}
+
+	public ArrayList<OryFile> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(ArrayList<OryFile> fileList) {
+		this.fileList = fileList;
 	}
 	
 	
