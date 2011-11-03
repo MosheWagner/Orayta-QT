@@ -23,6 +23,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#define VERSION "0.07"
+
 namespace Ui {
     class About;
 }
