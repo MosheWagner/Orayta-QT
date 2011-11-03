@@ -68,7 +68,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     waitView = new myWebView(this);
 
     QFileInfo f("Images/Wait.gif");
-    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif");
+    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif"); //TODO: why is this hard-coded?
 
     QString html = simpleHtmlPage("hello", "<br><br><br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
 
@@ -243,6 +243,10 @@ void bookDisplayer::setHtml(QString html)
 {
     myurl = "";
 
+   /* // WORNING! Ugly hack ahead! remove in all costs! TODO: fix!
+    html = "<HTML><HEAD><TITLE>My Web Page</TITLE></HEAD><BODY><P>This is where you will enter all the text and images<br> you want displayed in a browser window.</P></BODY></HTML>";
+*/
+
     htmlview->setHtml(html);
 
     //Set book to null or 0?
@@ -352,7 +356,28 @@ void bookDisplayer::load(QUrl url)
 
         myurl = url;
 
+        qDebug() << "trying to load file from url: " << url;
+
         htmlview->load(url);
+
+#ifdef Q_OS_ANDROID
+
+        //Ugly hack to get html files displayd on android. TODO: undo this hack.
+        QList <QString> htmlText;
+        ReadFileToList(url.toString(), htmlText, "utf-8", false);
+
+        QString extract;
+        for (int i =0; i< htmlText.length(); i++)
+        {
+            extract.append(htmlText[i]);
+        }
+        setHtml(extract);
+
+
+#endif
+
+
+        qDebug() << "loded url sucessfuly!";
 
         mSearchPos = -1;
     }
@@ -398,10 +423,12 @@ myWebView * bookDisplayer::webview()
     return htmlview;
 }
 
+#ifdef POPPLER
 PdfWidget * bookDisplayer::pdfview()
 {
     return pdfView;
 }
+#endif
 
 QString bookDisplayer::pageText()
 {

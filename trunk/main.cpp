@@ -20,9 +20,19 @@
 void initPaths()
 {
     QDir dir("Books/");
-    if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
-    else BOOKPATH = "/usr/share/Orayta/Books/";
+    QString defPath("");
 
+#ifdef Q_OS_ANDROID
+    defPath = "/sdcard/Orayta";
+#elif defined Q_OS_LINUX
+    defPath = "/usr/share/Orayta/Books/";
+#elif defined Q_OS_WIN
+    defPath = QDir::rootPath() + "\program files\orayta"; //TODO: ask yoch to currect this.
+
+#endif
+
+    if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
+    else BOOKPATH = defPath;
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
     else
@@ -30,6 +40,8 @@ void initPaths()
         dir.mkdir(QDir::homePath() + "/.Orayta/");
         USERPATH = QDir::homePath() + "/.Orayta/";
     }
+
+   // qDebug() << "temp path:\n" << QDir::tempPath();
 
     dir.setPath("Htmltmp/");
     if (dir.exists()) TMPPATH = dir.absolutePath() + "/";

@@ -32,7 +32,7 @@ myWebView::myWebView(QWidget * parent)
     */
     connect(this, SIGNAL(statusBarMessage(QString)), this, SLOT(rememberActiveLink(QString)));
 
-    copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this);
+    copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this); //TODO: is the ':' sign in ":/Icons/copy-clean.png" currect? or should it be '.' ?
     connect(copyNoSigns, SIGNAL(triggered()), this, SLOT(copyClean()));
 }
 

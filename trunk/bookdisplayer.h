@@ -77,7 +77,9 @@ public:
 
     QWidget * htmlQWidget();
     myWebView * webview();
+#ifdef POPPLER
     PdfWidget * pdfview();
+#endif
     
     QString pageText();
     QString htmlSource();

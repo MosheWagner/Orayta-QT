@@ -7,7 +7,8 @@ TARGET = orayta
 TEMPLATE = app
 
 
-unix:CONFIG += poppler
+linux:CONFIG += poppler
+
 
 poppler {
     DEFINES += POPPLER
@@ -43,17 +44,12 @@ SOURCES += main.cpp \
     search.cpp \
     settings.cpp \
     importbook.cpp \
-    pdfwidget.cpp \
     guematria.cpp \
-    quazip/zip.c \
-    quazip/unzip.c \
-    quazip/quazipnewinfo.cpp \
-    quazip/quazipfile.cpp \
-    quazip/quazip.cpp \
-    quazip/quacrc32.cpp \
-    quazip/quaadler32.cpp \
-    quazip/qioapi.cpp \
-    quazip/JlCompress.cpp
+
+poppler {
+    SOURCES += pdfwidget.cpp
+}
+
 HEADERS += htmlgen.h \
     functions.h \
     book.h \
@@ -70,21 +66,12 @@ HEADERS += htmlgen.h \
     bookdisplayer.h \
     settings.h \
     importbook.h \
-    pdfwidget.h \
     guematria.h \
-    quazip/zip.h \
-    quazip/unzip.h \
-    quazip/quazipnewinfo.h \
-    quazip/quazipfileinfo.h \
-    quazip/quazipfile.h \
-    quazip/quazip_global.h \
-    quazip/quazip.h \
-    quazip/quacrc32.h \
-    quazip/quachecksum32.h \
-    quazip/quaadler32.h \
-    quazip/JlCompress.h \
-    quazip/ioapi.h \
-    quazip/crypt.h
+
+poppler {
+    HEADERS += pdfwidget.h
+}
+
 FORMS += \
     mainwindow.ui \
     addcomment.ui \
@@ -134,5 +121,22 @@ INSTALLS += trans
 INSTALLS += menu
 
 OTHER_FILES += \
-    quazip/quazip.pro \
-    quazip/quazip.pri
+    android/AndroidManifest.xml \
+    android/src/eu/licentia/necessitas/mobile/QtLocation.java \
+    android/src/eu/licentia/necessitas/mobile/QtFeedback.java \
+    android/src/eu/licentia/necessitas/mobile/QtSystemInfo.java \
+    android/src/eu/licentia/necessitas/mobile/QtMediaPlayer.java \
+    android/src/eu/licentia/necessitas/mobile/QtSensors.java \
+    android/src/eu/licentia/necessitas/mobile/QtAndroidContacts.java \
+    android/src/eu/licentia/necessitas/mobile/QtCamera.java \
+    android/src/eu/licentia/necessitas/ministro/IMinistroCallback.aidl \
+    android/src/eu/licentia/necessitas/ministro/IMinistro.aidl \
+    android/src/eu/licentia/necessitas/industrius/QtSurface.java \
+    android/src/eu/licentia/necessitas/industrius/QtLayout.java \
+    android/src/eu/licentia/necessitas/industrius/QtApplication.java \
+    android/src/eu/licentia/necessitas/industrius/QtActivity.java \
+    android/res/drawable-ldpi/icon.png \
+    android/res/drawable-mdpi/icon.png \
+    android/res/drawable-hdpi/icon.png \
+    android/res/values/libs.xml \
+    android/res/values/strings.xml

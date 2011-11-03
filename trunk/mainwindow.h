@@ -47,6 +47,7 @@
 #include <QShortcut>
 #include <QWebSettings>
 #include <QFuture>
+#include <QFontDialog>
 #include "functions.h"
 #include "htmlgen.h"
 #include "ui_mainwindow.h"

@@ -82,7 +82,7 @@ int gFontSize = 16;
 
 
 
-#include <quazip/quazipfile.h>
+//#include <quazip/quazipfile.h>
 
 // This is just a very simple define. anywhere in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".

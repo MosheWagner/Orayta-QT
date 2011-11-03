@@ -44,17 +44,28 @@ bool ReadZipFile(QuaZipFile zipfile, QList <QString>& text, const char* encoding
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
-
+    qDebug() << "ReadFileToList()";
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
+    {
+        qDebug() << "wrong file: " << filename;
+
+        if (fi.isDir())
+            qDebug() << "is dir!";
+        if ( !fi.exists())
+            qDebug() << "file doesn't exist";
         return false;
+    }
 
     //Read the source file:
     QFile infile(filename);
     // Open the file
     if ( !infile.open(QIODevice::ReadOnly) )
+    {
+        qDebug() << "cant open file:"  << filename;
         return false;
+    }
 
     // Set the stream to read from the file
     QTextStream t( &infile );
@@ -62,6 +73,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
     while (!t.atEnd())
     {
         QString line = t.readLine();
+        // skip the first lines in a file if they start with & or //.
         if ( skipconflines && !conflinesended )
         {
             if ( !line.startsWith("&") && !line.startsWith("//") && !line.isEmpty() )
@@ -76,6 +88,8 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
         }
     }
     infile.close();
+    //WORNING: a lot of debug text-
+    qDebug() << "the text from file: " << filename << "\t is: \n" << text << "\n<fileEnd>\n\n\n";
     return true;
 }
 
@@ -115,16 +129,23 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
 
 QString readfile(QString filename, const char* encoding_name)
 {
+    qDebug() << "readfile()";
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
+    {
+        qDebug() << "wrong file: " << filename;
         return "";
+    }
 
     //Read the source file:
     QFile infile(filename);
     // Open the file
     if ( !infile.open(QIODevice::ReadOnly) )
-        return "";
+    {
+        qDebug() << "cant open file:"  << filename;
+        return false;
+    }
 
     // Set the stream to read from the file
     QTextStream t( &infile );
