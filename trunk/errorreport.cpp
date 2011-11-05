@@ -50,6 +50,7 @@ void errorReport::on_cancel_clicked()
 
 void errorReport::on_accept_clicked()
 {
-    QDesktopServices::openUrl(QUrl("mailto:moshe.wagner@gmail.com?subject=OraytaErrorReport&body=מיקום:\n" + m_ui->lineEdit->text() + "\n\nתיאור:\n" + m_ui->textEdit->toPlainText()));
+    QString recepiants = "moshe.wagner@gmail.com;izar00@gmail.com"; //TODO: make this soft-coded.
+    QDesktopServices::openUrl(QUrl("mailto:"+ recepiants +"?subject=OraytaErrorReport&body=מיקום:\n" + m_ui->lineEdit->text() + "\n\nתיאור:\n" + m_ui->textEdit->toPlainText()));
     close();
 }

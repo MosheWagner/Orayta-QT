@@ -19,20 +19,25 @@
 //Define location for program dirs
 void initPaths()
 {
-    QDir dir("Books/");
-    QString defPath("");
+
+    QString defPath;
 
 #ifdef Q_OS_ANDROID
-    defPath = "/sdcard/Orayta";
+    defPath = "/sdcard/Orayta/Books/";
+    MAINPATH = "/sdcard/Orayta/";
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
+    MAINPATH = "/usr/share/Orayta/";
 #elif defined Q_OS_WIN
-    defPath = QDir::rootPath() + "\program files\orayta"; //TODO: ask yoch to currect this.
-
+    defPath = QDir::rootPath() + "\\program files\\orayta\\books\\"; //TODO: ask yoch to currect this.
+    MAINPATH = QDir::rootPath() + "\\program files\\orayta\\";
 #endif
 
+    QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
+    qDebug() << "bookpath:\n" << BOOKPATH ;
+
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
     else
@@ -85,7 +90,8 @@ void initLang(QApplication *app)
     translator = new QTranslator();
 
     //Update path for translator installation
-    if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
+    QString transPath (MAINPATH);
+    if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", transPath);
     //Install as the app's translator
     app->installTranslator(translator);
 }

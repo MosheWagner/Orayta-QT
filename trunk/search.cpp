@@ -321,10 +321,12 @@ void MainWindow::on_searchForward_clicked()
         {
             CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
         }
+#ifdef POPPLER
         else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
         {
             CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
         }
+#endif
     }
     else
     {
@@ -362,10 +364,12 @@ void MainWindow::on_searchBackward_clicked()
         {
             CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
         }
+#ifdef POPPLER
         else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
         {
             CurrentBookdisplayer()->pdfview()->searchBackwards( ui->lineEdit->text() );
         }
+#endif
     }
     else
     {

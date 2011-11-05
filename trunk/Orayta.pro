@@ -7,7 +7,22 @@ TARGET = orayta
 TEMPLATE = app
 
 
-linux:CONFIG += poppler
+android {
+    INSTALL_PATH = "/sdcard/Orayta/"
+    INSTALL_BOOKS_PATH = "/sdcard/Orayta/Books/"
+
+} else: win32 {
+    INSTALL_PATH = quote(c:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
+    INSTALL_BOOKS_PATH = quote(c:\\progarm files\\orayta\\books)
+} else:unix {
+    CONFIG += poppler
+    INSTALL_PATH = /usr/share/Orayta/
+    INSTALL_BOOKS_PATH = /usr/share/Orayta/Books/
+}
+
+
+
+
 
 
 poppler {
@@ -46,9 +61,8 @@ SOURCES += main.cpp \
     importbook.cpp \
     guematria.cpp \
 
-poppler {
-    SOURCES += pdfwidget.cpp
-}
+poppler: SOURCES += pdfwidget.cpp
+
 
 HEADERS += htmlgen.h \
     functions.h \
@@ -68,9 +82,7 @@ HEADERS += htmlgen.h \
     importbook.h \
     guematria.h \
 
-poppler {
-    HEADERS += pdfwidget.h
-}
+poppler: HEADERS += pdfwidget.h
 
 FORMS += \
     mainwindow.ui \
@@ -91,12 +103,14 @@ TRANSLATIONS = Hebrew.ts \
 target.path = /usr/bin
 
 # Install books
-books.path = /usr/share/Orayta/
+books.path = $${INSTALL_BOOKS_PATH}
 books.files = Books/.
+android: books.files += android/res/raw/.
 
 
 # Install icon
-icon.path = /usr/share/Orayta/
+icon.path = $${INSTALL_PATH}
+
 icon.files = Icons/Orayta.png
 #Install wait image
 icon.files += Images/Wait.gif
@@ -110,16 +124,18 @@ menu.path = /usr/share/applications
 menu.files = Orayta.desktop
 
 # Install translation
-trans.path = /usr/share/Orayta/
+trans.path = $${INSTALL_PATH}
 trans.files = Hebrew.qm
 INSTALLS += target
 INSTALLS += books
+message("books target set to:" $${INSTALL_BOOKS_PATH})
 INSTALLS += icon
 INSTALLS += trans
 
 # INSTALLS += desktop
 INSTALLS += menu
 
+android {
 OTHER_FILES += \
     android/AndroidManifest.xml \
     android/src/eu/licentia/necessitas/mobile/QtLocation.java \
@@ -140,3 +156,4 @@ OTHER_FILES += \
     android/res/drawable-hdpi/icon.png \
     android/res/values/libs.xml \
     android/res/values/strings.xml
+}

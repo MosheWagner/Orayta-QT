@@ -68,7 +68,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     waitView = new myWebView(this);
 
     QFileInfo f("Images/Wait.gif");
-    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif"); //TODO: why is this hard-coded?
+    if (!f.exists()) f.setFile(MAINPATH + "Wait.gif");
 
     QString html = simpleHtmlPage("hello", "<br><br><br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
 

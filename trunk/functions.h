@@ -46,6 +46,7 @@ using namespace std;
 extern QString LANG;
 
 extern QString BOOKPATH;
+extern QString MAINPATH;
 extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;

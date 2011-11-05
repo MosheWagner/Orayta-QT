@@ -538,9 +538,12 @@ void MainWindow::updateBookTree()
 
     if (bookList.empty())
     {
+        qDebug() << "cant find books at: " << BOOKPATH;
+
         QMessageBox msgBox;
         msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
         msgBox.exec();
+
 
         //No books found
         exit(2);
@@ -1523,7 +1526,8 @@ void MainWindow::translate(QString newlang)
     //English needs no translator, it's the default
     if (LANG != "English")
     {
-        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
+        QString transPath (MAINPATH);
+        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", transPath);
         QApplication::installTranslator(translator);
     }
 

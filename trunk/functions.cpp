@@ -21,6 +21,7 @@
 //Global path holders. Set in mainwindow::initPaths, and used all over.
 // Should allways by absolute.
 QString BOOKPATH;
+QString MAINPATH;
 QString TMPPATH;
 QString HEBREWBOOKSPATH;
 QString USERPATH;
