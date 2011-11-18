@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindowClass</class>
- <widget class="QMainWindow" name="MainWindowClass">
+ <class>DesktopAppClass</class>
+ <widget class="QMainWindow" name="DesktopAppClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -2207,7 +2207,7 @@
   <connection>
    <sender>exitAction</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindowClass</receiver>
+   <receiver>DesktopAppClass</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">

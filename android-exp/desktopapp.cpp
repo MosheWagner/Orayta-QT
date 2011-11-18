@@ -14,8 +14,51 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
-#include "mainwindow.h"
+#include "desktopapp.h"
+#include <QTextStream>
+#include <QIcon>
+#include <QUrl>
 
+#include <QtWebKit>
+
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QWidget>
+#include <QtWebKit/QWebView>
+
+
+
+#include <QString>
+#include <QFile>
+#include <QMenu>
+#include <QPrinter>
+#include <QTextBrowser>
+#include <QPrintDialog>
+#include <qevent.h>
+#include <qprocess.h>
+#include <QMessageBox>
+#include <QDesktopServices>
+#include <QInputDialog>
+#include <QMouseEvent>
+
+#include <QShortcut>
+
+#include <QFuture>
+#include <QFontDialog>
+#include "functions.h"
+#include "htmlgen.h"
+
+
+#include "addcomment.h"
+#include "bookmarktitle.h"
+
+#include "mywebview.h"
+#include "about.h"
+#include "settings.h"
+#include "errorreport.h"
+#include "bookfind.h"
+#include "bookdisplayer.h"
+#include "mytreetab.h"
+#include "importbook.h"
 
 
 /*
@@ -88,7 +131,7 @@ int gFontSize = 16;
 //  It just made the code so much more readable, I couldn't resist
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindowClass)
+DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::DesktopAppClass)
 {
     //Code executed when the window is constructed:
 
@@ -224,7 +267,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 //Switch GUI direction to RTL
-void MainWindow::setDirection(bool rtl)
+void DesktopApp::setDirection(bool rtl)
 {
     Qt::LayoutDirection dir;
     Qt::DockWidgetArea dwa;
@@ -288,7 +331,7 @@ void MainWindow::setDirection(bool rtl)
     ui->menu_5->setLayoutDirection(dir);
 }
 
-void MainWindow::connectMenuActions()
+void DesktopApp::connectMenuActions()
 {
     connect(ui->aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
@@ -322,7 +365,7 @@ void MainWindow::connectMenuActions()
     connect(ui->actionSearchGuematria, SIGNAL(triggered()), this, SLOT(searchGuematria()));
 }
 
-MainWindow::~MainWindow()
+DesktopApp::~DesktopApp()
 {
     //TODO: Don't I need to free all the items?
     bookList.clear();
@@ -333,7 +376,7 @@ MainWindow::~MainWindow()
 }
 
 //Remove all temporary html files the program created
-void MainWindow::ClearTmp()
+void DesktopApp::ClearTmp()
 {
     QDir dir;
     QStringList list;
@@ -358,14 +401,14 @@ void MainWindow::ClearTmp()
 }
 
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
-void MainWindow::closeEvent(QCloseEvent *event)
+void DesktopApp::closeEvent(QCloseEvent *event)
 {
     //Cancel any running searches
     stopSearchFlag = true;
 
     QSettings settings("Orayta", "SingleUser");
 
-    settings.beginGroup("MainWindow");
+    settings.beginGroup("DesktopApp");
     settings.setValue("size", size());
     settings.setValue("pos", pos());
     settings.setValue("state", saveState());
@@ -397,11 +440,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 //Restores the window's state from the last run
-void MainWindow::restoreConfs()
+void DesktopApp::restoreConfs()
 {
     QSettings settings("Orayta", "SingleUser");
 
-    settings.beginGroup("MainWindow");
+    settings.beginGroup("DesktopApp");
     QDesktopWidget *widget = QApplication::desktop();
     int desktop_width = widget->width();
     int desktop_height = widget->height();
@@ -428,7 +471,7 @@ void MainWindow::restoreConfs()
     settings.endGroup();
 }
 
-void MainWindow::restoreBookConfs()
+void DesktopApp::restoreBookConfs()
 {
     QSettings settings("Orayta", "SingleUser");
 
@@ -452,59 +495,15 @@ void MainWindow::restoreBookConfs()
     }
 }
 
-void MainWindow::BuildBookTree()
+void DesktopApp::BuildBookTree()
 {
-    //Add treeItems for each book to the treeWidget
-    for(unsigned int i=0;i<bookList.size();i++)
-    {
-        if (bookList[i]->IsHidden() != true)
-        {
-            QTreeWidgetItem *twi;
-            if(bookList[i]->getParent() == NULL)
-                twi = new QTreeWidgetItem(ui->treeWidget);
-            else
-                twi = new QTreeWidgetItem(bookList[i]->getParent()->getTreeItemPtr());
-
-            bookList[i]->setTreeItemPtr(twi);
-
-            QString dn;
-            if(bookList[i]->getTreeDisplayName() != "")
-                dn = bookList[i]->getTreeDisplayName();
-            else if (bookList[i]->getNormallDisplayName() != "")
-                dn = bookList[i]->getNormallDisplayName();
-            else
-            {
-                vector<QString> name_parts;
-                splittotwo(bookList[i]->getName(), name_parts, "_");
-                dn = name_parts[1];
-            }
-            dn.replace("שס", "ש\"ס");
-            twi->setText(0, dn);
-
-            //set the icon:
-            QIcon *icon = bookIcon(bookList[i], bookList[i]->mIconState);
-            twi->setIcon(0, *icon);
-            delete icon;
-
-            twi->setToolTip(1, bookList[i]->getName());
-
-            if ( bookList[i]->fileType() == Book::Dir || bookList[i]->fileType() == Book::Normal || bookList[i]->fileType() == Book::Html )
-            {
-                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
-                twi->setCheckState(0,Qt::Unchecked);
-            }
-            else
-            {
-                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
-            }
-        }
-    }
+    bookList.displayInTree(ui->treeWidget, true);
 
     //Only after the tree is done, connect the itemChanged signal
     connect (ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(treeWidgetSelectionChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
 }
 
-void MainWindow::updateBookTree()
+void DesktopApp::updateBookTree()
 {
     ui->treeWidget->clear();
 
@@ -538,12 +537,9 @@ void MainWindow::updateBookTree()
 
     if (bookList.empty())
     {
-        qDebug() << "cant find books at: " << BOOKPATH;
-
         QMessageBox msgBox;
         msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
         msgBox.exec();
-
 
         //No books found
         exit(2);
@@ -563,7 +559,7 @@ void MainWindow::updateBookTree()
 
 
 //Load the generated Html file of the given book into the WebView widget
-void MainWindow::LoadHtmlBook(Book *book, QString markString)
+void DesktopApp::LoadHtmlBook(Book *book, QString markString)
 {
     bool shownikud = ui->showNikudAction->isChecked();
     bool showteamim = ui->showTeamimAction->isChecked();
@@ -622,7 +618,7 @@ void MainWindow::LoadHtmlBook(Book *book, QString markString)
 }
 
 //Open the given book (by it's id in the booklist)
-void MainWindow::openBook( Book* book )
+void DesktopApp::openBook( Book* book )
 {
     if ( book && book->IsDir() == false )
     {
@@ -698,20 +694,20 @@ void MainWindow::openBook( Book* book )
 }
 
 //Calls "openBook", but uses the currently selected book in the tree
-void MainWindow::openSelectedBook( )
+void DesktopApp::openSelectedBook( )
 {
     Book* book = bookList.findBookByTWI(ui->treeWidget->selectedItems()[0]);
     openBook( book );
 }
 
 //Opens a new tab and Calls "openBook" (using the currently selected book in the tree).
-void MainWindow::openSelectedBookInNewTab()
+void DesktopApp::openSelectedBookInNewTab()
 {
     addViewTab(false);
     openSelectedBook();
 }
 
-void MainWindow::changeFont()
+void DesktopApp::changeFont()
 {
     Book* book = bookList.findBookByTWI(ui->treeWidget->selectedItems()[0]);
     QFont currentFont = book->getFont();
@@ -724,7 +720,7 @@ void MainWindow::changeFont()
     }
 }
 
-void MainWindow::deleteSelectedBook()
+void DesktopApp::deleteSelectedBook()
 {
     QTreeWidgetItem * selectedItem = ui->treeWidget->selectedItems()[0];
 
@@ -767,13 +763,13 @@ void MainWindow::deleteSelectedBook()
     }
 }
 
-void MainWindow::on_newTabButton_clicked()
+void DesktopApp::on_newTabButton_clicked()
 {
     //Create the new tab and switch to it
     addViewTab(true);
 }
 
-void MainWindow::addViewTab(bool empty)
+void DesktopApp::addViewTab(bool empty)
 {
     //Create new tab:
     bookDisplayer * bd = new bookDisplayer(this, ui->viewTab);
@@ -789,12 +785,12 @@ void MainWindow::addViewTab(bool empty)
     connect(bd, SIGNAL(externalLink(QString)), this, SLOT(openExternalLink(QString)));
 }
 
-void MainWindow::on_lineEdit_returnPressed()
+void DesktopApp::on_lineEdit_returnPressed()
 {
     on_searchForward_clicked();
 }
 
-void MainWindow::addBookToSearch(Book* book)
+void DesktopApp::addBookToSearch(Book* book)
 {
     if ( book )
         book->select();
@@ -803,13 +799,13 @@ void MainWindow::addBookToSearch(Book* book)
     ui->removeFromSearchAction->setEnabled(true);
 }
 
-void MainWindow::addToSearch()
+void DesktopApp::addToSearch()
 {
     Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     addBookToSearch(book);
 }
 
-void MainWindow::on_addAllToSearchButton_clicked()
+void DesktopApp::on_addAllToSearchButton_clicked()
 {
     for(unsigned int i=0; i<bookList.size(); i++)
     {
@@ -821,7 +817,7 @@ void MainWindow::on_addAllToSearchButton_clicked()
     ui->removeFromSearchAction->setEnabled(true);
 }
 
-void MainWindow::removeBookFromSearch(Book* book)
+void DesktopApp::removeBookFromSearch(Book* book)
 {
     if ( book )
         book->unselect();
@@ -830,13 +826,13 @@ void MainWindow::removeBookFromSearch(Book* book)
     ui->removeFromSearchAction->setEnabled(false);
 }
 
-void MainWindow::removeFromSearch()
+void DesktopApp::removeFromSearch()
 {
     Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     removeBookFromSearch(book);
 }
 
-void MainWindow::on_removeAllFromSearchButton_clicked()
+void DesktopApp::on_removeAllFromSearchButton_clicked()
 {
     for(unsigned int i=0; i<bookList.size(); i++)
         bookList[i]->unselect();
@@ -845,22 +841,22 @@ void MainWindow::on_removeAllFromSearchButton_clicked()
     ui->removeFromSearchAction->setEnabled(false);
 }
 
-void MainWindow::on_zoominButton_clicked()
+void DesktopApp::on_zoominButton_clicked()
 {
     CurrentBookdisplayer()->ZoomIn();
 }
 
-void MainWindow::on_zoomoutButton_clicked()
+void DesktopApp::on_zoomoutButton_clicked()
 {
     CurrentBookdisplayer()->ZoomOut();
 }
 
-void MainWindow::on_topButton_clicked()
+void DesktopApp::on_topButton_clicked()
 {
     CurrentBookdisplayer()->jumpToTop();
 }
 
-void MainWindow::on_refreshButton_clicked()
+void DesktopApp::on_refreshButton_clicked()
 {
     if (CurrentBookdisplayer()->getPdfMode()) return;
 
@@ -881,7 +877,7 @@ void MainWindow::on_refreshButton_clicked()
 }
 
 
-void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
+void DesktopApp::on_treeWidget_customContextMenuRequested(QPoint pos)
 {
     QTreeWidgetItem * item = 0 ;
     item = ui->treeWidget->itemAt(pos);
@@ -946,19 +942,19 @@ void MainWindow::on_treeWidget_customContextMenuRequested(QPoint pos)
 }
 
 //Collapse the currently selected item in the treewidget
-void MainWindow::collapseItem()
+void DesktopApp::collapseItem()
 {
     ui->treeWidget->collapseItem(ui->treeWidget->selectedItems()[0]);
 }
 
 //Expand the currently selected item in the treewidget
-void MainWindow::expandItem()
+void DesktopApp::expandItem()
 {
     ui->treeWidget->expandItem(ui->treeWidget->selectedItems()[0]);
 }
 
 //Deals with keyboard events
-void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
+void DesktopApp::keyPressEvent( QKeyEvent *keyEvent )
 {
     //Enter pressed
     if ( (keyEvent->key() == Qt::Key_Return) || (keyEvent->key() == Qt::Key_Enter) )
@@ -1006,7 +1002,7 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
 
 /*
 //Print the current book (all pages I think...)
-void MainWindow::printBook()
+void DesktopApp::printBook()
 {
     QPrinter printer;
 
@@ -1022,7 +1018,7 @@ void MainWindow::printBook()
 */
 
 //Show the comment adding / editing dialog
-void MainWindow::openCommentDialog(QString link)
+void DesktopApp::openCommentDialog(QString link)
 {
     QString previosComment = "";
 
@@ -1049,7 +1045,7 @@ void MainWindow::openCommentDialog(QString link)
 
 
 //Add the given comment at the given book position (called from the "add comment" dialog's signal)
-void MainWindow::addCommentAtPosition(QString link, QString comment)
+void DesktopApp::addCommentAtPosition(QString link, QString comment)
 {
     //Escape the comment's text
     QString text  = comment.replace("|", "\\|").replace("\n", "|");
@@ -1094,13 +1090,13 @@ void MainWindow::addCommentAtPosition(QString link, QString comment)
 
 }
 
-void MainWindow::removeComment(QString link)
+void DesktopApp::removeComment(QString link)
 {
     //Adding an emtpy comment removes the existing one
     addCommentAtPosition(link, "");
 }
 
-void MainWindow::menuComment()
+void DesktopApp::menuComment()
 {
     QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
@@ -1111,31 +1107,31 @@ void MainWindow::menuComment()
     openCommentDialog( link );
 }
 
-void MainWindow::about()
+void DesktopApp::about()
 {
     About *aboutfrm = new About(this);
 
     aboutfrm->show();
 }
 
-void MainWindow::closeCurrentTab()
+void DesktopApp::closeCurrentTab()
 {
     on_viewTab_tabCloseRequested(CURRENT_TAB);
 }
 
-void MainWindow::toggleNikud(bool showNikud)
+void DesktopApp::toggleNikud(bool showNikud)
 {
     CurrentBookdisplayer()->showNikud(showNikud);
     LoadHtmlBook( CurrentBookdisplayer()->book() );
 }
 
-void MainWindow::toggleTeamim(bool showTeamim)
+void DesktopApp::toggleTeamim(bool showTeamim)
 {
     CurrentBookdisplayer()->showTeamim(showTeamim);
     LoadHtmlBook( CurrentBookdisplayer()->book() );
 }
 
-void MainWindow::on_viewTab_currentChanged(int index)
+void DesktopApp::on_viewTab_currentChanged(int index)
 {
     if ( index != -1 )
     {
@@ -1161,7 +1157,7 @@ void MainWindow::on_viewTab_currentChanged(int index)
 
 
 // Show/hide buttons and menus depending on the currently visible book
-void MainWindow::adjustMenus()
+void DesktopApp::adjustMenus()
 {
     bool isWebkitPdf = false;
     if (CurrentBookdisplayer()->book() != NULL)
@@ -1209,7 +1205,7 @@ void MainWindow::adjustMenus()
     }
 }
 
-void MainWindow::menuErrorReport()
+void DesktopApp::menuErrorReport()
 {
     QString link = CurrentBookdisplayer()->activeLink().replace("$","");
     int id = CurrentBookdisplayer()->book()->getUniqueId();
@@ -1219,7 +1215,7 @@ void MainWindow::menuErrorReport()
     err->show();
 }
 
-void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
+void DesktopApp::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 {
     Book* book = bookList.findBookByTWI(current);
 
@@ -1244,7 +1240,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem* current, int column)
 }
 
 //Called when a TreeItem is double clicked
-void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
+void DesktopApp::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column)
 {
     Book* book = bookList.findBookByTWI(item);
 
@@ -1261,7 +1257,7 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int colu
 
 QList <QCheckBox *> weavedList;
 
-void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* old)
+void DesktopApp::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* old)
 {
     Book* book = bookList.findBookByTWI(current);
 
@@ -1305,7 +1301,7 @@ void MainWindow::treeWidgetSelectionChanged(QTreeWidgetItem* current, QTreeWidge
     else ui->mixedGroup->hide();
 }
 
-void MainWindow::weavedCheckBoxClicked(int btnIndex)
+void DesktopApp::weavedCheckBoxClicked(int btnIndex)
 {
     //Still a bit ugly
 
@@ -1328,7 +1324,7 @@ void MainWindow::weavedCheckBoxClicked(int btnIndex)
 }
 
 
-void MainWindow::settingsForm()
+void DesktopApp::settingsForm()
 {
     //Open the settings form
     Settings *settingsform = new Settings();
@@ -1340,7 +1336,7 @@ void MainWindow::settingsForm()
     settingsform->show();
 }
 
-void MainWindow::importForm()
+void DesktopApp::importForm()
 {
     //Open the import form
     importBook *ib = new importBook();
@@ -1353,7 +1349,7 @@ void MainWindow::importForm()
 }
 
 
-void MainWindow::findBookForm()
+void DesktopApp::findBookForm()
 {
     bookfind * bf = new bookfind(this, bookList);
     bf->show();
@@ -1361,7 +1357,7 @@ void MainWindow::findBookForm()
     connect(bf, SIGNAL(openBook(int)), this, SLOT(menuOpenBook(int)));
 }
 
-void MainWindow::menuOpenBook(int uid)
+void DesktopApp::menuOpenBook(int uid)
 {
     Book* book = bookList.findBookById(uid);
 
@@ -1379,7 +1375,7 @@ void MainWindow::menuOpenBook(int uid)
     }
 }
 
-void MainWindow::on_viewTab_tabCloseRequested(int index)
+void DesktopApp::on_viewTab_tabCloseRequested(int index)
 {
     if (bookdisplayer(index)->book() != NULL)
         bookdisplayer(index)->book()->setTabWidget( 0 );
@@ -1403,7 +1399,7 @@ void MainWindow::on_viewTab_tabCloseRequested(int index)
     on_viewTab_currentChanged(index - 1);
 }
 
-void MainWindow::openExternalLink(QString lnk)
+void DesktopApp::openExternalLink(QString lnk)
 {
     QStringList parts = lnk.split(":");
 
@@ -1443,7 +1439,7 @@ void MainWindow::openExternalLink(QString lnk)
     }
 }
 
-void MainWindow::on_openMixed_clicked()
+void DesktopApp::on_openMixed_clicked()
 {
     Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     if ( book )
@@ -1467,7 +1463,7 @@ void MainWindow::on_openMixed_clicked()
     }
 }
 
-void MainWindow::on_showaloneCBX_clicked(bool checked)
+void DesktopApp::on_showaloneCBX_clicked(bool checked)
 {
     ui->mixedFrame->setEnabled(!checked);
 
@@ -1479,28 +1475,28 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
     }
 }
 
-void MainWindow::on_showSearchBarButton_clicked(bool checked)
+void DesktopApp::on_showSearchBarButton_clicked(bool checked)
 {
     ui->searchGroupBX->setVisible(checked);
     ui->lineEdit->setFocus(Qt::ActiveWindowFocusReason);
 }
 
-void MainWindow::on_hideSearchButton_clicked()
+void DesktopApp::on_hideSearchButton_clicked()
 {
     ui->showSearchBarButton->click();
 }
 
-void MainWindow::showSearchTab()
+void DesktopApp::showSearchTab()
 {
     ui->treeTab->setCurrentIndex(1);
 }
 
-void MainWindow::on_cancelSearchBTN_clicked()
+void DesktopApp::on_cancelSearchBTN_clicked()
 {
     stopSearchFlag = true;
 }
 
-void MainWindow::on_treeTab_currentChanged(int index)
+void DesktopApp::on_treeTab_currentChanged(int index)
 {
     if (index == 1)
     {
@@ -1508,13 +1504,13 @@ void MainWindow::on_treeTab_currentChanged(int index)
     }
 }
 
-void MainWindow::ToggleSearchBar()
+void DesktopApp::ToggleSearchBar()
 {
     ui->showSearchBarButton->click();
 }
 
 
-void MainWindow::translate(QString newlang)
+void DesktopApp::translate(QString newlang)
 {
     LANG = newlang;
 
@@ -1526,8 +1522,7 @@ void MainWindow::translate(QString newlang)
     //English needs no translator, it's the default
     if (LANG != "English")
     {
-        QString transPath (MAINPATH);
-        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", transPath);
+        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
         QApplication::installTranslator(translator);
     }
 
@@ -1551,7 +1546,7 @@ void buidSearchDBinBG(BookList * bl)
 
 #ifdef POPPLER
 
-void MainWindow::updatePdfPage(int current, int max)
+void DesktopApp::updatePdfPage(int current, int max)
 {
     ui->pdfDropBox->setStatusTip(stringify(max));
     ui->pdfDropBox->clear();
@@ -1566,7 +1561,7 @@ void MainWindow::updatePdfPage(int current, int max)
     //ui->pdfDropBox->setToolTip(tr("Page: ") + QString::number(current) + " / " + QString::number(max));
 }
 
-void MainWindow::on_pdfDropBox_currentIndexChanged(QString val)
+void DesktopApp::on_pdfDropBox_currentIndexChanged(QString val)
 {
     if (stringify(ui->pdfDropBox->count()) == ui->pdfDropBox->statusTip())
     {
@@ -1587,18 +1582,18 @@ void MainWindow::on_pdfDropBox_currentIndexChanged(QString val)
 
 #endif
 
-void MainWindow::searchGuematria()
+void DesktopApp::searchGuematria()
 {
     ui->treeTab->setCurrentIndex(1);
     ui->guematriaCheckBox->setChecked(true);
 }
 
-bookDisplayer* MainWindow::CurrentBookdisplayer()
+bookDisplayer* DesktopApp::CurrentBookdisplayer()
 {
     return bookdisplayer( CURRENT_TAB );
 }
 
-bookDisplayer* MainWindow::bookdisplayer( int index )
+bookDisplayer* DesktopApp::bookdisplayer( int index )
 {
     QWidget* w = ui->viewTab->widget(index);
     return qobject_cast<bookDisplayer*>(w);

@@ -14,55 +14,25 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef DesktopApp_H
+#define DesktopApp_H
 
 #include <QCoreApplication>
-#include <QTextStream>
-#include <QIcon>
-#include <QUrl>
-#include <QtGui/QTreeWidget>
-#include <QtWebKit>
-#include <QtGui/QApplication>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
-#include <QtWebKit/QWebView>
 #include <QtGui/QMainWindow>
+#include <QtGui/QTreeWidget>
+#include <QtGui/QApplication>
 #include <QtGui/QDirModel>
-#include <QtGui/QTreeWidgetItem>
-#include <QString>
-#include <QFile>
-#include <QMenu>
-#include <QPrinter>
-#include <QTextBrowser>
-#include <QPrintDialog>
-#include <qevent.h>
-#include <qprocess.h>
-#include <QMessageBox>
-#include <QDesktopServices>
-#include <QInputDialog>
-#include <QMouseEvent>
 #include <QSplashScreen>
 #include <QDesktopWidget>
-#include <QShortcut>
+#include <QtGui/QTreeWidgetItem>
+#include <QtGui/QListWidget>
+#include <QtGui/QListWidgetItem>
 #include <QWebSettings>
-#include <QFuture>
-#include <QFontDialog>
-#include "functions.h"
-#include "htmlgen.h"
-#include "ui_mainwindow.h"
-#include "book.h"
-#include "addcomment.h"
-#include "bookmarktitle.h"
+#include <QSettings>
+#include <QMenu>
+#include "ui_desktopapp.h"
 #include "booklist.h"
-#include "about.h"
-#include "settings.h"
-#include "errorreport.h"
-#include "bookfind.h"
-#include "bookdisplayer.h"
-#include "mytreetab.h"
-#include "importbook.h"
-
+#include "book.h"
 
 class bookDisplayer;
 
@@ -70,16 +40,16 @@ using namespace std;
 
 namespace Ui
 {
-    class MainWindowClass;
+    class DesktopAppClass;
 }
 
-class MainWindow : public QMainWindow
+class DesktopApp : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    DesktopApp(QWidget *parent = 0);
+    ~DesktopApp();
 
 protected:
     //Overrides the normal "closeEvent", so it can save the program's confs before quiting
@@ -89,7 +59,7 @@ protected:
     void restoreBookConfs();
 
 private:
-    Ui::MainWindowClass *ui;
+    Ui::DesktopAppClass *ui;
 
     //Remove all temporary html files the program created
     void ClearTmp();
@@ -274,4 +244,4 @@ private slots:
 //Build book search DB
 void buidSearchDBinBG(BookList * bl);
 
-#endif // MAINWINDOW_H
+#endif // DesktopApp_H
