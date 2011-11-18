@@ -21,7 +21,7 @@
 #include "bookiter.h"
 #include "functions.h"
 
-#include "mainwindow.h"
+#include "desktopapp.h"
 
 using namespace std;
 

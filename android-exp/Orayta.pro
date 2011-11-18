@@ -7,22 +7,7 @@ TARGET = orayta
 TEMPLATE = app
 
 
-android {
-    INSTALL_PATH = "/sdcard/Orayta/"
-    INSTALL_BOOKS_PATH = "/sdcard/Orayta/Books/"
-
-} else: win32 {
-    INSTALL_PATH = quote(c:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
-    INSTALL_BOOKS_PATH = quote(c:\\progarm files\\orayta\\books)
-} else:unix {
-    CONFIG += poppler
-    INSTALL_PATH = /usr/share/Orayta/
-    INSTALL_BOOKS_PATH = /usr/share/Orayta/Books/
-}
-
-
-
-
+linux:CONFIG += poppler
 
 
 poppler {
@@ -41,7 +26,8 @@ poppler {
 
 
 SOURCES += main.cpp \
-    mainwindow.cpp \
+    mobileapp.cpp \
+    desktopapp.cpp \
     htmlgen.cpp \
     functions.cpp \
     book.cpp \
@@ -61,15 +47,18 @@ SOURCES += main.cpp \
     importbook.cpp \
     guematria.cpp \
 
-poppler: SOURCES += pdfwidget.cpp
+poppler {
+    SOURCES +=
+}
 
-
-HEADERS += htmlgen.h \
+HEADERS += \
+    mobileapp.h \
+    htmlgen.h \
     functions.h \
     book.h \
     bookiter.h \
     booklist.h \
-    mainwindow.h \
+    desktopapp.h \
     addcomment.h \
     bookmarktitle.h \
     mywebview.h \
@@ -82,17 +71,18 @@ HEADERS += htmlgen.h \
     importbook.h \
     guematria.h \
 
-poppler: HEADERS += pdfwidget.h
 
 FORMS += \
-    mainwindow.ui \
+    mobileapp.ui \
     addcomment.ui \
     bookmarktitle.ui \
     about.ui \
     errorreport.ui \
     bookfind.ui \
     settings.ui \
-    importbook.ui
+    importbook.ui \
+    desktopapp.ui
+
 RESOURCES += Orayta.qrc
 win32:RC_FILE = orayta.rc
 
@@ -103,57 +93,56 @@ TRANSLATIONS = Hebrew.ts \
 target.path = /usr/bin
 
 # Install books
-books.path = $${INSTALL_BOOKS_PATH}
+books.path = /usr/share/Orayta/
 books.files = Books/.
-android: books.files += android/res/raw/.
 
 
-# Install icon
-icon.path = $${INSTALL_PATH}
-
-icon.files = Icons/Orayta.png
-#Install wait image
-icon.files += Images/Wait.gif
-
-# Desktop shortcut
-desktop.path = /home/*/Desktop/
-desktop.files = Orayta.desktop
-
-# Install shortcut
-menu.path = /usr/share/applications
-menu.files = Orayta.desktop
 
 # Install translation
-trans.path = $${INSTALL_PATH}
+trans.path = /usr/share/Orayta/
 trans.files = Hebrew.qm
 INSTALLS += target
 INSTALLS += books
-message("books target set to:" $${INSTALL_BOOKS_PATH})
 INSTALLS += icon
 INSTALLS += trans
 
 # INSTALLS += desktop
 INSTALLS += menu
 
-android {
-OTHER_FILES += \
-    android/AndroidManifest.xml \
-    android/src/eu/licentia/necessitas/mobile/QtLocation.java \
-    android/src/eu/licentia/necessitas/mobile/QtFeedback.java \
-    android/src/eu/licentia/necessitas/mobile/QtSystemInfo.java \
-    android/src/eu/licentia/necessitas/mobile/QtMediaPlayer.java \
-    android/src/eu/licentia/necessitas/mobile/QtSensors.java \
-    android/src/eu/licentia/necessitas/mobile/QtAndroidContacts.java \
-    android/src/eu/licentia/necessitas/mobile/QtCamera.java \
-    android/src/eu/licentia/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/eu/licentia/necessitas/ministro/IMinistro.aidl \
-    android/src/eu/licentia/necessitas/industrius/QtSurface.java \
-    android/src/eu/licentia/necessitas/industrius/QtLayout.java \
-    android/src/eu/licentia/necessitas/industrius/QtApplication.java \
-    android/src/eu/licentia/necessitas/industrius/QtActivity.java \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

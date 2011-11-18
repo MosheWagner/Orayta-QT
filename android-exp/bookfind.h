@@ -18,8 +18,8 @@
 #define BOOKFIND_H
 
 #include <QtGui/QDialog>
-#include "functions.h"
-#include "mainwindow.h"
+#include <booklist.h>
+#include <QListWidgetItem>
 
 namespace Ui {
     class bookfind;

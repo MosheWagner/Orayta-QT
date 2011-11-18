@@ -17,9 +17,9 @@
 #ifndef BOOKMARKTITLE_H
 #define BOOKMARKTITLE_H
 
-#include <QtGui/QDialog>
-#include "ui_bookmarktitle.h"
-#include "functions.h"
+#include <QObject>
+#include <QString>
+#include <QDialog>
 
 namespace Ui {
     class BookMarkTitle;

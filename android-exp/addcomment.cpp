@@ -15,6 +15,8 @@
 */
 
 #include "addcomment.h"
+#include "ui_addcomment.h"
+#include "functions.h"
 
 AddComment::AddComment(QWidget *parent, QString lnk, QString previosComment) : QDialog(parent), m_ui(new Ui::AddComment)
 {
@@ -47,7 +49,7 @@ AddComment::~AddComment()
 void AddComment::on_ok_clicked()
 {
     close();
-    //Update the mainwindow with the new comment
+    //Update the DesktopApp with the new comment
     emit commentWritten(mLnk, m_ui->textEdit->toPlainText());
 }
 

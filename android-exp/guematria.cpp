@@ -1,6 +1,6 @@
 #include "book.h"
 #include "guematria.h"
-
+#include <QDebug>
 
 void Book::BuildGuematriaDb()
 {

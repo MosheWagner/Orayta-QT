@@ -18,8 +18,11 @@
 #include "importbook.h"
 #include "functions.h"
 #include "ui_importbook.h"
-#include "mainwindow.h"
+#include "desktopapp.h"
 
+#include <QDesktopServices>
+#include <QDebug>
+#include <QUrl>
 #include <QFileDialog>
 
 

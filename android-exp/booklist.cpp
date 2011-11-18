@@ -20,10 +20,11 @@
 #include <QDir>
 #include <QFileInfoList>
 #include <QFileInfoListIterator>
+#include <QDebug>
 
-BookList::BookList() { }
+BookList::BookList() {}
 
-BookList::~BookList() {   clear();  }
+BookList::~BookList() {   }
 
 //Builds the booklist from all fles within the given folder
 // (Simply calls "addAllBooks")
@@ -390,3 +391,52 @@ void BookList::CheckUid()
     }
 }
 
+//Display the booklist in the given QTreeWidget
+void BookList::displayInTree(QTreeWidget *tree, bool showCheck)
+{
+    //Add treeItems for each book to the treeWidget
+    for(unsigned int i=0;i<size();i++)
+    {
+        if (this->at(i)->IsHidden() != true)
+        {
+            QTreeWidgetItem *twi;
+            if(this->at(i)->getParent() == NULL)
+                twi = new QTreeWidgetItem(tree);
+            else
+                twi = new QTreeWidgetItem(this->at(i)->getParent()->getTreeItemPtr());
+
+            this->at(i)->setTreeItemPtr(twi);
+
+            QString dn;
+            if(this->at(i)->getTreeDisplayName() != "")
+                dn = this->at(i)->getTreeDisplayName();
+            else if (this->at(i)->getNormallDisplayName() != "")
+                dn = this->at(i)->getNormallDisplayName();
+            else
+            {
+                vector<QString> name_parts;
+                splittotwo(this->at(i)->getName(), name_parts, "_");
+                dn = name_parts[1];
+            }
+            dn.replace("שס", "ש\"ס");
+            twi->setText(0, dn);
+
+            //set the icon:
+            QIcon *icon = bookIcon(this->at(i), this->at(i)->mIconState);
+            twi->setIcon(0, *icon);
+            delete icon;
+
+            twi->setToolTip(1, this->at(i)->getName());
+
+            if ( showCheck && ( this->at(i)->fileType() == Book::Dir || this->at(i)->fileType() == Book::Normal || this->at(i)->fileType() == Book::Html ) )
+            {
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+                twi->setCheckState(0,Qt::Unchecked);
+            }
+            else
+            {
+                twi->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+            }
+        }
+    }
+}

@@ -27,7 +27,7 @@ Not extremly important, but it isn't too complicated either.
 #include <QClipboard>
 
 #include "functions.h"
-#include "mainwindow.h"
+#include "desktopapp.h"
 #include "bookdisplayer.h"
 
 class bookDisplayer;

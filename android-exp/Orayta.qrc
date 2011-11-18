@@ -43,5 +43,9 @@
         <file>Icons/folder-user.png</file>
         <file>Icons/font.png</file>
         <file>Icons/refresh.png</file>
+        <file>Icons/bookcase-big.png</file>
+        <file>Icons/bookmarks-big.png</file>
+        <file>Icons/help-about-big.png</file>
+        <file>Icons/find-big.png</file>
     </qresource>
 </RCC>

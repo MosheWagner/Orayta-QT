@@ -15,8 +15,12 @@
 */
 
 
-#include "mainwindow.h"
-
+#include "desktopapp.h"
+#include "bookdisplayer.h"
+#include "mywebview.h"
+#include <QDebug>
+#include <QTime>
+#include "htmlgen.h"
 
 // This is just a very simple define. every place in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
@@ -66,7 +70,7 @@ QString createSearchPattern (QString userInput, bool allWords = true, bool fullW
     return pattern;
 }
 
-void MainWindow::on_SearchInBooksBTN_clicked()
+void DesktopApp::on_SearchInBooksBTN_clicked()
 {
     QString otxt = ui->searchInBooksLine->text();
     QString stxt = otxt;
@@ -96,7 +100,7 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     }
 }
 
-void MainWindow::on_groupBox_toggled(bool checked)
+void DesktopApp::on_groupBox_toggled(bool checked)
 {
     if (checked)
     {
@@ -104,7 +108,7 @@ void MainWindow::on_groupBox_toggled(bool checked)
     }
 }
 
-void MainWindow::on_guematriaCheckBox_toggled(bool checked)
+void DesktopApp::on_guematriaCheckBox_toggled(bool checked)
 {
     if (checked)
     {
@@ -112,7 +116,7 @@ void MainWindow::on_guematriaCheckBox_toggled(bool checked)
     }
 }
 
-void MainWindow::on_radioButton_2_toggled(bool checked)
+void DesktopApp::on_radioButton_2_toggled(bool checked)
 {
     if (checked)
         ui->spinBox->setEnabled (true);
@@ -120,7 +124,7 @@ void MainWindow::on_radioButton_2_toggled(bool checked)
         ui->spinBox->setEnabled (false);
 }
 
-void MainWindow::on_radioButton_3_toggled(bool checked)
+void DesktopApp::on_radioButton_3_toggled(bool checked)
 {
     if (checked)
         ui->fullCheckBox->setEnabled (false);
@@ -128,7 +132,7 @@ void MainWindow::on_radioButton_3_toggled(bool checked)
         ui->fullCheckBox->setEnabled (true);
 }
 
-void MainWindow::on_searchInBooksLine_returnPressed()
+void DesktopApp::on_searchInBooksLine_returnPressed()
 {
     on_SearchInBooksBTN_clicked();
 }
@@ -136,7 +140,7 @@ void MainWindow::on_searchInBooksLine_returnPressed()
 
 
 #define RESULTS_MAX 500
-void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
+void DesktopApp::SearchInBooks (const QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
 
@@ -291,7 +295,7 @@ void MainWindow::SearchInBooks (const QRegExp& regexp, QString disp)
 
 QString lastSearch = "";
 
-void MainWindow::on_searchForward_clicked()
+void DesktopApp::on_searchForward_clicked()
 {
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
@@ -326,7 +330,7 @@ void MainWindow::on_searchForward_clicked()
         {
             CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
         }
-#endif
+#endif //POPPLER
     }
     else
     {
@@ -334,7 +338,7 @@ void MainWindow::on_searchForward_clicked()
     }
 }
 
-void MainWindow::on_searchBackward_clicked()
+void DesktopApp::on_searchBackward_clicked()
 {
     if (ui->lineEdit->text().replace(" ","") == "")
         return;
@@ -377,7 +381,7 @@ void MainWindow::on_searchBackward_clicked()
     }
 }
 
-void MainWindow::SearchGuematria (QString txt)
+void DesktopApp::SearchGuematria (QString txt)
 {
     /*
     QTime t1;

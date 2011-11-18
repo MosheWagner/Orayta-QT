@@ -51,6 +51,9 @@ public:
 
     void CheckUid();
 
+    //Display the booklist in the given QTreeWidget
+    void displayInTree(QTreeWidget *tree, bool showCheck);
+
 private:
 };
 

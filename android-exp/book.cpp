@@ -18,9 +18,8 @@
 
 #include <QSettings>
 #include <QDir>
-
-//TODO: Make sure bookiters are intiallized
-
+#include "functions.h"
+#include <QDebug>
 
 //Constructor of the Books
 Book::Book(Book * parent, QString path, QString name, QString displayname, Filetype ft, bool isUserBook)

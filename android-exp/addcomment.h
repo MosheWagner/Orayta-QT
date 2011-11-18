@@ -18,8 +18,7 @@
 #define ADDCOMMENT_H
 
 #include <QtGui/QDialog>
-#include "ui_addcomment.h"
-#include "functions.h"
+#include <QString>
 
 namespace Ui {
     class AddComment;

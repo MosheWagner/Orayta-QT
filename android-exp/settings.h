@@ -18,7 +18,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include "mainwindow.h"
+#include "desktopapp.h"
+#include <QDialog>
 
 namespace Ui {
     class Settings;

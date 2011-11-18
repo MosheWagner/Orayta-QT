@@ -18,9 +18,7 @@
 #define ERRORREPORT_H
 
 #include <QtGui/QDialog>
-#include "functions.h"
-#include "mainwindow.h"
-#include "ui_errorreport.h"
+#include <QDesktopServices>
 
 namespace Ui {
     class errorReport;

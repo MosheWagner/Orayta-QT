@@ -17,10 +17,17 @@
 #ifndef BOOKDISP_H
 #define BOOKDISP_H
 
-#include "mainwindow.h"
-#include "mywebview.h"
-#include "pdfwidget.h"
 #include <QStackedWidget>
+#include <QWebView>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QAction>
+#include <QVBoxLayout>
+#include <QVariant>
+#include <QWebFrame>
+#include <QPointer>
+#include "book.h"
+#include "booklist.h"
 
 //TODO: This is all so stupid. It should be done with inheritance. Maybe some day.
 
@@ -33,7 +40,7 @@
 */
 
 class myWebView;
-class MainWindow;
+class DesktopApp;
 
 class bookDisplayer : public QWidget
 {
@@ -119,7 +126,7 @@ private:
         QPointer<PdfWidget> pdfView;
     #endif
 
-    MainWindow * MW;
+    DesktopApp * MW;
     QTabWidget * TW;
     
     //Layout holding the widgets

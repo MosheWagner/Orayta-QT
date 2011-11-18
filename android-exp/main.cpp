@@ -14,7 +14,14 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
-#include "mainwindow.h"
+#include <QApplication>
+#include "mobileapp.h"
+#include "desktopapp.h"
+#include "functions.h"
+#include "about.h"
+#include <QDebug>
+#include <QTranslator>
+#include <iostream>
 
 //Define location for program dirs
 void initPaths()
@@ -46,8 +53,6 @@ void initPaths()
         USERPATH = QDir::homePath() + "/.Orayta/";
     }
 
-   // qDebug() << "temp path:\n" << QDir::tempPath();
-
     dir.setPath("Htmltmp/");
     if (dir.exists()) TMPPATH = dir.absolutePath() + "/";
     else
@@ -66,7 +71,7 @@ void initPaths()
         #ifndef Q_WS_WIN    //Yoch's idea. Thank you very much :-)
             //Create symbolic link to the folder
 
-        //TODO: this should be solved in a different way. the html files should be corrected so the link is to the right place
+            //TODO: this should be solved in a different way. the html files should be corrected so the link is to the right place
 
             system("ln -s -T /tmp/Orayta/Pics /usr/share/Orayta/Books/Pics 2> /dev/null");
         #endif
@@ -115,6 +120,10 @@ int main(int argc, char *argv[])
     //Define location for program dirs
     initPaths();
 
+//For test only
+#define Q_OS_ANDROID
+
+#ifndef Q_OS_ANDROID
     //Define the program's language
     initLang(&app);
 
@@ -128,13 +137,19 @@ int main(int argc, char *argv[])
 
     QApplication::restoreOverrideCursor();
 
-    MainWindow w;
-    w.show();
+
+    DesktopApp d;
+    d.show();
     app.processEvents();
 
     //Hide slpash screen
-    splash->finish(&w);
+    splash->finish(&d);
+#endif
 
+#ifdef Q_OS_ANDROID
+    MobileApp m;
+    m.show();
+#endif
 
     return app.exec();
 }

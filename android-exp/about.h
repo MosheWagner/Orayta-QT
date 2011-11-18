@@ -17,11 +17,7 @@
 #ifndef ABOUT_H
 #define ABOUT_H
 
-#include "ui_about.h"
-#include "functions.h"
-#include <QtGui/QDialog>
-#include <QDesktopServices>
-#include <QUrl>
+#include <QDialog>
 
 #define VERSION "0.07"
 

@@ -16,6 +16,8 @@
 
 #include "bookfind.h"
 #include "ui_bookfind.h"
+#include "functions.h"
+#include "desktopapp.h"
 
 bookfind::bookfind(QWidget *parent, BookList& booklist) : QDialog(parent), m_ui(new Ui::bookfind), mBookList(booklist)
 {

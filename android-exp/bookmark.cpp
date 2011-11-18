@@ -14,14 +14,18 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
-#include "mainwindow.h"
+#include "desktopapp.h"
+#include "bookmarktitle.h"
+#include "bookdisplayer.h"
+#include "mywebview.h"
+
 
 // This is just a very simple define. every place in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".
 #define CURRENT_TAB ui->viewTab->currentIndex()
 
 
-void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
+void DesktopApp::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
 {
 //    int row = ui->bookmarkWidget->currentRow();
 
@@ -47,7 +51,7 @@ void MainWindow::on_bookmarkWidget_customContextMenuRequested(QPoint pos)
     menu.exec(point);
 }
 
-QString MainWindow::bookMarkTitle(QString lnk)
+QString DesktopApp::bookMarkTitle(QString lnk)
 {
     //Format position for human display
     int p = lnk.indexOf(":");
@@ -73,7 +77,7 @@ QString MainWindow::bookMarkTitle(QString lnk)
 }
 
 //Opens the bookmark dialog
-void MainWindow::bookMarkPosition(QString lnk)
+void DesktopApp::bookMarkPosition(QString lnk)
 {
     QString linkdisplay = bookMarkTitle(lnk);
 
@@ -84,7 +88,7 @@ void MainWindow::bookMarkPosition(QString lnk)
 }
 
 //Adds the given book position to the bookmark list and file
-void MainWindow::addBookMark(QString link, QString title)
+void DesktopApp::addBookMark(QString link, QString title)
 {
     QString linkdisplay = bookMarkTitle(link);
     if ( linkdisplay == title) title = "";
@@ -97,7 +101,7 @@ void MainWindow::addBookMark(QString link, QString title)
 
 
 //Adds a bookmark to the bookmark list, (giving it's encoded link)
-void MainWindow::addBookMarkToList(QString lnk, QString title)
+void DesktopApp::addBookMarkToList(QString lnk, QString title)
 {
     QListWidgetItem *item = new QListWidgetItem(ui->bookmarkWidget);
 
@@ -118,7 +122,7 @@ void MainWindow::addBookMarkToList(QString lnk, QString title)
 }
 
 //Build the bookmark list from the bookmark file
-void MainWindow::buildBookMarkList()
+void DesktopApp::buildBookMarkList()
 {
     QList <QString> text;
     ReadFileToList(USERPATH + "BookMarkList.txt", text, "UTF-8");
@@ -134,7 +138,7 @@ void MainWindow::buildBookMarkList()
 }
 
 //Open the clicked bookmark
-void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
+void DesktopApp::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
 {
     QString lnk = item->data(Qt::StatusTipRole).toString();
 
@@ -169,7 +173,7 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
 }
 
 //Opens a dialog allowing to edit the selected bookmark's title
-void MainWindow::on_bookmarkEdit_clicked()
+void DesktopApp::on_bookmarkEdit_clicked()
 {
     if (ui->bookmarkWidget->currentIndex().isValid())
     {
@@ -187,7 +191,7 @@ void MainWindow::on_bookmarkEdit_clicked()
 }
 
 //Changes the title of the given bookmark (by it's index) to the given one
-void MainWindow::editBookMarkTitle(int ind, QString newtitle)
+void DesktopApp::editBookMarkTitle(int ind, QString newtitle)
 {
     QString link = ui->bookmarkWidget->item(ind)->data(Qt::StatusTipRole).toString();
 
@@ -229,7 +233,7 @@ void MainWindow::editBookMarkTitle(int ind, QString newtitle)
 
 
 //Remove the selected bookmark from the list and file
-void MainWindow::on_removeBookmark_clicked()
+void DesktopApp::on_removeBookmark_clicked()
 {
     int ind = ui->bookmarkWidget->currentIndex().row();
 
@@ -249,7 +253,7 @@ void MainWindow::on_removeBookmark_clicked()
 
 
 //Move the selected bookmark up in the list by one position
-void MainWindow::on_bookmarkUp_clicked()
+void DesktopApp::on_bookmarkUp_clicked()
 {
     int ind = ui->bookmarkWidget->currentIndex().row();
 
@@ -274,7 +278,7 @@ void MainWindow::on_bookmarkUp_clicked()
 }
 
 //Move the selected bookmark down in the list by one position
-void MainWindow::on_bookmarkDown_clicked()
+void DesktopApp::on_bookmarkDown_clicked()
 {
     int ind = ui->bookmarkWidget->currentIndex().row();
 
@@ -298,7 +302,7 @@ void MainWindow::on_bookmarkDown_clicked()
     }
 }
 
-void MainWindow::menuBookMark()
+void DesktopApp::menuBookMark()
 {
     QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 
@@ -309,7 +313,7 @@ void MainWindow::menuBookMark()
     bookMarkPosition( link );
 }
 
-void MainWindow::on_addBookMark_clicked()
+void DesktopApp::on_addBookMark_clicked()
 {
     QString link = CurrentBookdisplayer()->activeLink().replace("$","");
 

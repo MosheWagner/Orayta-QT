@@ -17,15 +17,11 @@
 #ifndef BOOK_H
 #define BOOK_H
 
-#include "functions.h"
 #include "bookiter.h"
 #include "guematria.h"
 
-#include <QtGui/QTreeWidgetItem>
-#include <QDebug>
 #include <QPointer>
-#include <vector>
-
+#include <QtGui/QTreeWidgetItem>
 
 extern QString gFontFamily;
 extern int gFontSize;

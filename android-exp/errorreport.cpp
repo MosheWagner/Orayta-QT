@@ -15,6 +15,10 @@
 */
 
 #include "errorreport.h"
+#include "functions.h"
+#include "desktopapp.h"
+#include "ui_errorreport.h"
+#include <QUrl>
 
 errorReport::errorReport(QWidget *parent, QString location, QString bookdisp) : QDialog(parent), m_ui(new Ui::errorReport)
 {
@@ -50,7 +54,6 @@ void errorReport::on_cancel_clicked()
 
 void errorReport::on_accept_clicked()
 {
-    QString recepiants = "moshe.wagner@gmail.com;izar00@gmail.com"; //TODO: make this soft-coded.
-    QDesktopServices::openUrl(QUrl("mailto:"+ recepiants +"?subject=OraytaErrorReport&body=מיקום:\n" + m_ui->lineEdit->text() + "\n\nתיאור:\n" + m_ui->textEdit->toPlainText()));
+    QDesktopServices::openUrl(QUrl("mailto:moshe.wagner@gmail.com?subject=OraytaErrorReport&body=מיקום:\n" + m_ui->lineEdit->text() + "\n\nתיאור:\n" + m_ui->textEdit->toPlainText()));
     close();
 }

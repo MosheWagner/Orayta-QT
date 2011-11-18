@@ -15,6 +15,9 @@
 */
 
 #include "bookmarktitle.h"
+#include <QtGui/QDialog>
+#include "ui_bookmarktitle.h"
+#include "functions.h"
 
 //Called for creating a new bookmark
 BookMarkTitle::BookMarkTitle(QWidget *parent, QString lnk, QString disp) : QDialog(parent), m_ui(new Ui::BookMarkTitle)

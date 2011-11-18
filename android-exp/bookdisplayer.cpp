@@ -15,6 +15,13 @@
 */
 
 #include "bookdisplayer.h"
+#include "desktopapp.h"
+#include "mywebview.h"
+#include "pdfwidget.h"
+#include <QDebug>
+#include <QSignalMapper>
+#include <QMenu>
+#include <QDesktopServices>
 
 //PDF TODOs:
 //TODO: Make sure pdf mode is safe.
@@ -26,8 +33,8 @@
 
 bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 {
-    //Hold a pointer to the mainwindow, so we can tell it stuff to do
-    MW = (MainWindow *) parent;
+    //Hold a pointer to the DesktopApp, so we can tell it stuff to do
+    MW = (DesktopApp *) parent;
     TW = tabviewptr;
 
     shownikud = true;
@@ -68,7 +75,7 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     waitView = new myWebView(this);
 
     QFileInfo f("Images/Wait.gif");
-    if (!f.exists()) f.setFile(MAINPATH + "Wait.gif");
+    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif"); //TODO: why is this hard-coded?
 
     QString html = simpleHtmlPage("hello", "<br><br><br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
 
@@ -220,7 +227,7 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         QString lnk = link.mid(pos+1);
 
-        //Tell the MainWindow to open this link in a new tab
+        //Tell the DesktopApp to open this link in a new tab
         emit externalLink(lnk);
     }
     //Link to website

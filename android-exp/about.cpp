@@ -15,6 +15,10 @@
 */
 
 #include "about.h"
+#include "ui_about.h"
+#include "functions.h"
+#include <QDesktopServices>
+#include <QUrl>
 
 
 About::About(QWidget *parent) : QDialog(parent), m_ui(new Ui::About)
