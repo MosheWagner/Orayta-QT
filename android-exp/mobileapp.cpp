@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
+#include <QCloseEvent>
+#include <QWebFrame>
 
 #define MAIN_PAGE 0
 #define ABOUT_PAGE 1
@@ -20,6 +22,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
 
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+
 
 
     ui->treeWidget->setColumnWidth(0,800);
@@ -78,19 +81,26 @@ void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 void MobileApp::on_openMixed_clicked()
 {
     Book *b = bookList.findBookByTWI(ui->treeWidget->currentItem());
-    showBook(b);
+    if (!b->IsDir()) showBook(b);
 }
 
 
 void MobileApp::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Book *b = bookList.findBookByTWI(item);
-    showBook(b);
+
+    if (!b->IsDir()) showBook(b);
 }
 
 
 void MobileApp::showBook(Book *book)
 {
+    ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+    ui->titlelbl->setText("Loading...");
+
+    //ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+    //QApplication::processEvents();
+
     //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
     //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
     QString htmlfilename = book->HTMLFileName() + ".html";
@@ -103,12 +113,15 @@ void MobileApp::showBook(Book *book)
     {
         renderedOK = book->htmlrender(htmlfilename, true, true, "");
     }
+
     if (renderedOK == true)
     {
         QString p =  absPath(htmlfilename);
+        QUrl u = QUrl::fromLocalFile(p);
 
-        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-        ui->webView->load(QUrl(p));
+        ui->webView->load(u);
+
+        booktitle = book->getNormallDisplayName();
     }
 }
 
@@ -116,4 +129,47 @@ void MobileApp::on_toolButton_clicked()
 {
     if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE) ui->stackedWidget->setCurrentIndex(LIST_PAGE);
     else ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+}
+
+/*
+//Catch android "back" button
+void MobileApp::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "Oh no!!!";
+
+    if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
+    {
+        ui->stackedWidget->setCurrentIndex(LIST_PAGE);
+        event->ignore();
+    }
+    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
+    {
+        event->accept();
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+        event->ignore();
+    }
+}
+*/
+
+void MobileApp::on_webView_loadFinished(bool arg1)
+{
+    ui->titlelbl->setText(booktitle);
+}
+
+void MobileApp::on_toolButton_3_clicked()
+{
+    ui->webView->setZoomFactor(ui->webView->zoomFactor() + 0.1);
+}
+
+void MobileApp::on_toolButton_2_clicked()
+{
+    if (ui->webView->zoomFactor() > 0.3) ui->webView->setZoomFactor(ui->webView->zoomFactor() - 0.1);
+}
+
+void MobileApp::on_toolButton_6_clicked()
+{
+    ui->webView->page()->mainFrame()->scrollToAnchor("Top");
 }

@@ -47,5 +47,6 @@
         <file>Icons/bookmarks-big.png</file>
         <file>Icons/help-about-big.png</file>
         <file>Icons/find-big.png</file>
+        <file>Icons/back.png</file>
     </qresource>
 </RCC>

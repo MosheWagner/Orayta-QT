@@ -20,6 +20,7 @@ public:
     ~MobileApp();
 
 protected:
+    //void closeEvent(QCloseEvent *pEvent);
 
 private slots:
 
@@ -39,6 +40,16 @@ private slots:
 
     void on_toolButton_clicked();
 
+
+
+    void on_webView_loadFinished(bool arg1);
+
+    void on_toolButton_3_clicked();
+
+    void on_toolButton_2_clicked();
+
+    void on_toolButton_6_clicked();
+
 private:
     Ui::MobileApp *ui;
 
@@ -46,6 +57,7 @@ private:
 
     BookList bookList;
 
+    QString booktitle;
 
 };
 

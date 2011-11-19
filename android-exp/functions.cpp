@@ -89,8 +89,9 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
         }
     }
     infile.close();
-    //WORNING: a lot of debug text-
-    qDebug() << "the text from file: " << filename << "\t is: \n" << text << "\n<fileEnd>\n\n\n";
+
+    //WARNING: a lot of debug text-
+    //qDebug() << "the text from file: " << filename << "\t is: \n" << text << "\n<fileEnd>\n\n\n";
     return true;
 }
 
