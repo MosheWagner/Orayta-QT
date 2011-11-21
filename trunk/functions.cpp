@@ -45,7 +45,7 @@ bool ReadZipFile(QuaZipFile zipfile, QList <QString>& text, const char* encoding
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
-    qDebug() << "ReadFileToList()";
+
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
@@ -89,8 +89,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
         }
     }
     infile.close();
-    //WORNING: a lot of debug text-
-    qDebug() << "the text from file: " << filename << "\t is: \n" << text << "\n<fileEnd>\n\n\n";
+
     return true;
 }
 
@@ -130,7 +129,7 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
 
 QString readfile(QString filename, const char* encoding_name)
 {
-    qDebug() << "readfile()";
+
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )

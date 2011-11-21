@@ -1033,7 +1033,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="booksTab">
           <property name="layoutDirection">
@@ -1375,6 +1375,9 @@
                   </property>
                   <property name="toolTip">
                    <string>spacing (in words)</string>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
                   </property>
                  </widget>
                 </item>
@@ -1881,7 +1884,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>28</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="layoutDirection">

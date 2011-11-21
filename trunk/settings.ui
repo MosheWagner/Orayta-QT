@@ -46,7 +46,7 @@
           <string>font: 8pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="currentIndex">
-          <number>36</number>
+          <number>0</number>
          </property>
          <property name="sizeAdjustPolicy">
           <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -56,7 +56,7 @@
          </property>
          <property name="currentFont">
           <font>
-           <family>Nachlieli CLM</family>
+           <family>Arial</family>
           </font>
          </property>
         </widget>
@@ -78,7 +78,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="fonSizeSpinBox"/>
+        <widget class="QSpinBox" name="fonSizeSpinBox">
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="Line" name="line_2">

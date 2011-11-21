@@ -16,6 +16,7 @@ android {
     INSTALL_BOOKS_PATH = quote(c:\\progarm files\\orayta\\books)
 } else:unix {
     CONFIG += poppler
+    CONFIG += linux
     INSTALL_PATH = /usr/share/Orayta/
     INSTALL_BOOKS_PATH = /usr/share/Orayta/Books/
 }
