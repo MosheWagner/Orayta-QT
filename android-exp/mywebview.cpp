@@ -53,6 +53,13 @@ QVariant myWebView::execScript(QString script)
     return page()->mainFrame()->evaluateJavaScript(script);
 }
 
+void myWebView::mouseMoveEvent(QMouseEvent *event)
+{
+    #ifdef Q_OS_ANDROID
+        event->ignore();
+    #endif
+}
+
 void myWebView::mousePressEvent(QMouseEvent *event)
 {
     //Ignore right clicks and emulate a left one instead

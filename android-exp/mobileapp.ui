@@ -286,7 +286,7 @@
       </palette>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QGridLayout" name="gridLayout">
@@ -522,27 +522,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QWebView" name="webView">
-         <property name="focusPolicy">
-          <enum>Qt::WheelFocus</enum>
-         </property>
-         <property name="acceptDrops">
-          <bool>false</bool>
-         </property>
-         <property name="url">
-          <url>
-           <string>about:blank</string>
-          </url>
-         </property>
-         <property name="zoomFactor">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
-         </property>
-        </widget>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="topMargin">
           <number>0</number>
@@ -697,13 +676,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="Orayta.qrc"/>
  </resources>

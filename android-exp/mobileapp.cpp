@@ -35,8 +35,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->setupUi(this);
 
 
-    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    wview = new myWebView(this);
+    ui->displaypage->layout()->addWidget(wview);
+    wview->show();
 
+    wview->setHtml("fbgdgfdg");
+
+    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 
 
     ui->treeWidget->setColumnWidth(0,800);
@@ -57,8 +62,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     bookList.CheckUid();
 
     bookList.displayInTree(ui->treeWidget, false);
-
-    suppressor = new QWebViewSelectionSuppressor(ui->webView);
 
 }
 
@@ -135,11 +138,10 @@ void MobileApp::showBook(Book *book)
     if (renderedOK == true)
     {
         QString p =  absPath(htmlfilename);
-        //QUrl u = QUrl::fromLocalFile(p);
+        QUrl u = QUrl::fromLocalFile(p);
 
-        ui->textBrowser->setHtml(readfile(p, "UTF-8"));
-        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-        //ui->webView->load(u);
+        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+        wview->load(u);
 
         booktitle = book->getNormallDisplayName();
     }
@@ -181,17 +183,17 @@ void MobileApp::on_webView_loadFinished(bool arg1)
 
 void MobileApp::on_toolButton_3_clicked()
 {
-    ui->webView->setZoomFactor(ui->webView->zoomFactor() + 0.1);
+    wview->setZoomFactor(wview->zoomFactor() + 0.1);
 }
 
 void MobileApp::on_toolButton_2_clicked()
 {
-    if (ui->webView->zoomFactor() > 0.3) ui->webView->setZoomFactor(ui->webView->zoomFactor() - 0.1);
+    if (wview->zoomFactor() > 0.3) wview->setZoomFactor(wview->zoomFactor() - 0.1);
 }
 
 void MobileApp::on_toolButton_6_clicked()
 {
-    ui->webView->page()->mainFrame()->scrollToAnchor("Top");
+    wview->page()->mainFrame()->scrollToAnchor("Top");
 }
 
 void MobileApp::on_title_clicked()

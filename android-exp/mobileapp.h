@@ -6,7 +6,7 @@
 #include <QTreeWidgetItem>
 #include "booklist.h"
 
-#include "qwebviewselectionsuppressor.h"
+#include "mywebview.h"
 
 
 namespace Ui {
@@ -63,7 +63,7 @@ private:
 
     QString booktitle;
 
-    QWebViewSelectionSuppressor *suppressor;
+    myWebView * wview;
 
 };
 

@@ -91,8 +91,7 @@ HEADERS += \
     quazip/crypt.h \
     quazip/quacrc32.h \
     quazip/quachecksum32.h \
-    quazip/quaadler32.h \
-    qwebviewselectionsuppressor.h
+    quazip/quaadler32.h
 
 
 FORMS += \
