@@ -16,6 +16,20 @@
 #define SEARCH_PAGE 4
 #define BOOKMARK_PAGE 5
 
+
+
+//TODO: Get rid of horrible text over text bug
+//TODO: Test landscape - portrait switching
+//TODO: Improve look & feel
+//TODO: Make kinetic scrolling work (webview + booklist)
+//TODO: Search
+//TODO: Bookmarks
+//TODO: Improve book loading speed (gradual loading)
+//TODO: Fix 4 buttons alignment
+
+
+
+
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
     ui->setupUi(this);
@@ -43,6 +57,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     bookList.CheckUid();
 
     bookList.displayInTree(ui->treeWidget, false);
+
+    suppressor = new QWebViewSelectionSuppressor(ui->webView);
+
 }
 
 MobileApp::~MobileApp()
@@ -74,7 +91,8 @@ void MobileApp::on_aboutBTN_clicked()
 
 void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 {
-    ui->treeWidget->expand(index);
+    if (ui->treeWidget->isExpanded(index)) ui->treeWidget->collapse(index);
+    else ui->treeWidget->expand(index);
 }
 
 
@@ -117,9 +135,11 @@ void MobileApp::showBook(Book *book)
     if (renderedOK == true)
     {
         QString p =  absPath(htmlfilename);
-        QUrl u = QUrl::fromLocalFile(p);
+        //QUrl u = QUrl::fromLocalFile(p);
 
-        ui->webView->load(u);
+        ui->textBrowser->setHtml(readfile(p, "UTF-8"));
+        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+        //ui->webView->load(u);
 
         booktitle = book->getNormallDisplayName();
     }
@@ -172,4 +192,9 @@ void MobileApp::on_toolButton_2_clicked()
 void MobileApp::on_toolButton_6_clicked()
 {
     ui->webView->page()->mainFrame()->scrollToAnchor("Top");
+}
+
+void MobileApp::on_title_clicked()
+{
+    on_toolButton_clicked();
 }

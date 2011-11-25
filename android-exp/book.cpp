@@ -25,6 +25,8 @@
 Book::Book(Book * parent, QString path, QString name, QString displayname, Filetype ft, bool isUserBook)
 {
     mUniqueId = -1;
+    mTreeDisplayName = "";
+
     mNormallDisplayName = displayname;
     mpParent = parent;
     mPath = path;
@@ -659,7 +661,8 @@ void Book::BuildSearchTextDB()
 
         if (mFiletype == Book::Normal)
         {
-            if (!ReadFileToList(mPath, text, "UTF-8", true))
+            //if (!ReadFileToList(mPath, text, "UTF-8", true))
+            if (!ReadFileFromZip(mPath, "BookText", text, "UTF-8", true))
             {
                 qDebug() << "Error reading the book's text" << mPath;
                 return ;

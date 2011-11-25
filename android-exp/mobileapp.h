@@ -6,6 +6,8 @@
 #include <QTreeWidgetItem>
 #include "booklist.h"
 
+#include "qwebviewselectionsuppressor.h"
+
 
 namespace Ui {
     class MobileApp;
@@ -50,6 +52,8 @@ private slots:
 
     void on_toolButton_6_clicked();
 
+    void on_title_clicked();
+
 private:
     Ui::MobileApp *ui;
 
@@ -58,6 +62,8 @@ private:
     BookList bookList;
 
     QString booktitle;
+
+    QWebViewSelectionSuppressor *suppressor;
 
 };
 

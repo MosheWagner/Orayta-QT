@@ -43,7 +43,7 @@ void initPaths()
     QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
-    qDebug() << "bookpath:\n" << BOOKPATH ;
+    //qDebug() << "bookpath:" << BOOKPATH ;
 
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
     //Deal with command line options
     //TODO: add more if it's needed
     QStringList args = app.arguments();
-    if (args.indexOf("-v") != -1 || args.indexOf("--version") != -1)
+    if (args.contains("-v") || args.contains("--version"))
     {
         cout << "Orayta, Hebrew books program, ";
         cout << "Version " << VERSION << endl;
@@ -117,11 +117,17 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
+    if (args.contains("-i") || args.contains("--import"))
+    {
+
+    }
+
+
     //Define location for program dirs
     initPaths();
 
 //For test only
-#define Q_OS_ANDROID
+//#define Q_OS_ANDROID
 
 #ifndef Q_OS_ANDROID
     //Define the program's language

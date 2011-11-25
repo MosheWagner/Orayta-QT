@@ -60,6 +60,8 @@
 #include "mytreetab.h"
 #include "importbook.h"
 
+#include "quazip/quazip.h"
+#include "quazip/quazipfile.h"
 
 /*
   Roadmap for 0.05:
@@ -250,21 +252,9 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
 
     //Build the search DB while the program is running
     //QtConcurrent::run(buidSearchDBinBG, &bookList);
-
-    /*
-        QuaZip zip("/home/moshe/Desktop/b.zip");
-        zip.open(QuaZip::mdUnzip);
-        zip.setCurrentFile("textfile");
-        QuaZipFile file(&zip);
-        file.open(QIODevice::ReadOnly);
-        QTextStream t( &file );
-        t.setCodec(QTextCodec::codecForName("UTF-8"));
-        QString a = t.readAll();
-        //qDebug() << t.readAll();
-    */
-
 }
 
+#include <QTime>
 
 //Switch GUI direction to RTL
 void DesktopApp::setDirection(bool rtl)
@@ -442,6 +432,7 @@ void DesktopApp::closeEvent(QCloseEvent *event)
 //Restores the window's state from the last run
 void DesktopApp::restoreConfs()
 {
+
     QSettings settings("Orayta", "SingleUser");
 
     settings.beginGroup("DesktopApp");
@@ -473,6 +464,7 @@ void DesktopApp::restoreConfs()
 
 void DesktopApp::restoreBookConfs()
 {
+    /*
     QSettings settings("Orayta", "SingleUser");
 
     //Load books settings
@@ -493,6 +485,7 @@ void DesktopApp::restoreBookConfs()
             //else bookList[i]->unselect();
         settings.endGroup();
     }
+    */
 }
 
 void DesktopApp::BuildBookTree()
@@ -559,7 +552,7 @@ void DesktopApp::updateBookTree()
 
 
 //Load the generated Html file of the given book into the WebView widget
-void DesktopApp::LoadHtmlBook(Book *book, QString markString)
+void DesktopApp::RenderAndLoad(Book *book, QString markString)
 {
     bool shownikud = ui->showNikudAction->isChecked();
     bool showteamim = ui->showTeamimAction->isChecked();
@@ -585,7 +578,7 @@ void DesktopApp::LoadHtmlBook(Book *book, QString markString)
     {
         QString p =  absPath(htmlfilename);
 
-        CurrentBookdisplayer()->load(QUrl(p));
+        CurrentBookdisplayer()->load(QUrl::fromLocalFile(p));
     }
     else
     {
@@ -634,17 +627,17 @@ void DesktopApp::openBook( Book* book )
         switch ( book->fileType() )
         {
         case ( Book::Normal ):
-            LoadHtmlBook(book);
+            RenderAndLoad(book);
             break;
 
         case ( Book::Html ):
-            CurrentBookdisplayer()->load( QUrl(book->getPath()) );
+            CurrentBookdisplayer()->load( QUrl::fromLocalFile(book->getPath()) );
             break;
 
         case ( Book::Pdf ):
 #ifdef POPPLER
             CurrentBookdisplayer()->setPdfMode(true);
-            CurrentBookdisplayer()->load ( QUrl(book->getPath()) );
+            CurrentBookdisplayer()->load ( QUrl::fromLocalFile(book->getPath()) );
             ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
 #else
 
@@ -652,7 +645,7 @@ void DesktopApp::openBook( Book* book )
             CurrentBookdisplayer()->setHtml(pluginPage(book->getNormallDisplayName()));
             if ( CurrentBookdisplayer()->execScript("testPdfPlugin()").toString() == "yes" )
             {
-                CurrentBookdisplayer()->load( QUrl( "file:///" + book->getPath() ) );
+                CurrentBookdisplayer()->load( QUrl::fromLocalFile( "file:///" + book->getPath() ) );
                 ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
             }
 #endif
@@ -664,7 +657,7 @@ void DesktopApp::openBook( Book* book )
 
                 //Read link file
                 QList <QString> t;
-                ReadFileToList(book->getPath(), t, "UTF-8", false);
+                ReadFileToList(book->getPath(), t, "UTF-8");
 
                 //Find the id of the book the link points to
                 int lId = -1;
@@ -872,7 +865,7 @@ void DesktopApp::on_refreshButton_clicked()
 
         QFile::remove(htmlfilename);
 
-        LoadHtmlBook(book);
+        RenderAndLoad(book);
     }
 }
 
@@ -1122,13 +1115,13 @@ void DesktopApp::closeCurrentTab()
 void DesktopApp::toggleNikud(bool showNikud)
 {
     CurrentBookdisplayer()->showNikud(showNikud);
-    LoadHtmlBook( CurrentBookdisplayer()->book() );
+    RenderAndLoad(CurrentBookdisplayer()->book() );
 }
 
 void DesktopApp::toggleTeamim(bool showTeamim)
 {
     CurrentBookdisplayer()->showTeamim(showTeamim);
-    LoadHtmlBook( CurrentBookdisplayer()->book() );
+    RenderAndLoad( CurrentBookdisplayer()->book() );
 }
 
 void DesktopApp::on_viewTab_currentChanged(int index)

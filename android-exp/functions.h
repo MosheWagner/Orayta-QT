@@ -54,8 +54,11 @@ extern QString USERPATH;
 
 //Small functions used by a few files:
 
+bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines = false);
+bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name);
+
 //Reads the file with the given name and the given encoding, and inserts it's contents into the given vector
-bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines = false);
+bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name);
 
 //Reads the comment file into two vectors, one for the titles and one for the texts.
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.

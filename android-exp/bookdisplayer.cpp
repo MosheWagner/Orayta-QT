@@ -361,30 +361,11 @@ void bookDisplayer::load(QUrl url)
 
         url.setUrl(QString(url.toString() + InternalLocationInHtml));
 
-        myurl = url;
-
-        qDebug() << "trying to load file from url: " << url;
+        //qDebug() << "Trying to load file from url: " << url;
 
         htmlview->load(url);
 
-#ifdef Q_OS_ANDROID
-
-        //Ugly hack to get html files displayd on android. TODO: undo this hack.
-        QList <QString> htmlText;
-        ReadFileToList(url.toString(), htmlText, "utf-8", false);
-
-        QString extract;
-        for (int i =0; i< htmlText.length(); i++)
-        {
-            extract.append(htmlText[i]);
-        }
-        setHtml(extract);
-
-
-#endif
-
-
-        qDebug() << "loded url sucessfuly!";
+        //qDebug() << "loded url sucessfuly!";
 
         mSearchPos = -1;
     }

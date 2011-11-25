@@ -73,7 +73,7 @@ private:
     bookDisplayer* CurrentBookdisplayer();
 
     //Load the generated Html file of the given book into the WebView widget
-    void LoadHtmlBook(Book *, QString markString = "");
+    void RenderAndLoad(Book *, QString markString = "");
 
     //Searches for the given phrase in all books that have SearchMe as true,
     // creates a html file with the results, and loads it a new tab (unless current tab is empty)

@@ -45,8 +45,12 @@
         <file>Icons/refresh.png</file>
         <file>Icons/bookcase-big.png</file>
         <file>Icons/bookmarks-big.png</file>
-        <file>Icons/help-about-big.png</file>
-        <file>Icons/find-big.png</file>
         <file>Icons/back.png</file>
+        <file>Icons/help-contents.png</file>
+        <file>Icons/mail-forward.png</file>
+        <file>Icons/Orayta.ico</file>
+        <file>Icons/tab-new2.png</file>
+        <file>Icons/find-big.png</file>
+        <file>Icons/help-about-big.png</file>
     </qresource>
 </RCC>

@@ -36,10 +36,86 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 {
     QDir cdir(absPath(dirpath));
 
-    //Get all files in this dir
-    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
-                                            QDir::Name);
+    //Get all .folder or .obk files in the directory
+    QStringList filter; filter << "*.folder" << "*.obk" << "*.pdf" << "*.link" << "*.html" << "*.htm";
+    QFileInfoList list = cdir.entryInfoList(filter, QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot, QDir::Name);
 
+    //TODO: Add pdf, html, etc'
+
+    for (int i=0; i<list.size(); i++)
+    {
+        Book::Filetype ft;
+        if (list[i].fileName().endsWith(".folder", Qt::CaseInsensitive))
+            ft = Book::Dir;
+        else if (list[i].fileName().endsWith(".obk", Qt::CaseInsensitive))
+            ft = Book::Normal;
+        else if (list[i].fileName().endsWith(".html", Qt::CaseInsensitive) || list[i].fileName().endsWith(".htm", Qt::CaseInsensitive))
+            ft = Book::Html;
+        else if (list[i].fileName().endsWith(".pdf", Qt::CaseInsensitive))
+            ft = Book::Pdf;
+        else if (list[i].fileName().endsWith(".link", Qt::CaseInsensitive))
+            ft = Book::Link;
+        else
+            ft = Book::Unkown;
+
+        if ( ft != Book::Unkown )
+        {
+            if ( list[i].fileName().indexOf("Pics") != -1 )
+                continue;
+
+            QString Name = list[i].fileName();
+            if (!isUserBooks)
+                Name.replace(QRegExp("^[0-9 ]*"), "").replace("_", " ").replace(".obk", "");
+
+            //Create BookListItem
+            Book *b = new Book(parentindex != -1 ? (*this)[parentindex] : NULL,
+                                   list[i].absoluteFilePath(), list[i].absoluteFilePath(), Name, ft, isUserBooks);
+
+            //Tell the parent it has a new child
+            if (b->getParent() != NULL)
+                b->getParent()->add_child(b);
+
+            //Add this book to the list
+            push_back(b);
+
+            //Add folder entry, and all files in that folder
+            if (ft == Book::Dir)
+            {
+                //Do the whole thing again for any dir, sending it's index in the list as the
+                // Parents index of all it's children
+                addAllBooks(list[i].absoluteFilePath().replace(".folder", ""), isUserBooks, this->size() - 1);
+
+                //Add confs for this directory
+                QList <QString> t;
+                t.clear();
+                if (ReadFileToList(list[i].absoluteFilePath(), t , "UTF-8")) AddBookConfs(b, t);
+            }
+
+            //Add orayta-book
+            if ( ft == Book::Normal )
+            {
+                //Add confs for this book
+                QList <QString> t;
+                t.clear();
+                if (ReadZipComment(list[i].absoluteFilePath(), t, "UTF-8")) AddBookConfs(b, t);
+            }
+
+            if ( ft == Book::Link )
+            {
+                //Add confs for this book
+                AddBookConfs(b, readfile(b->getPath(), "UTF-8").split("\n"));
+            }
+
+            if ( ft == Book::Html )
+            {
+                //Add confs for this book
+                AddBookConfs(b, readfile(b->getPath().replace(QRegExp("\\.\\w{3,4}$"),".conf"), "UTF-8").split("\n"));
+            }
+
+        }
+    }
+
+    /*
     for (int i=0; i<list.size(); i++)
     {
         Book::Filetype ft;
@@ -108,8 +184,6 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
 
             if (ft == Book::Dir)
             {
-
-
                 //Do the whole thing again for any dir, sending it's index in the list as the
                 // Parents index of all it's children
                 addAllBooks(list[i].absoluteFilePath(), isUserBooks, this->size() - 1);
@@ -120,111 +194,102 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             }
         }
     }
+    */
 }
 
-
 //Add the book's confs, from it's conf file
-void BookList::AddBookConfs(Book *book, QString filename)
+void BookList::AddBookConfs(Book *book, QList<QString> text)
 {
-    QList <QString> text;
     vector<QString> linesplit;
 
-    //Read the book's conf file file:
-    if(ReadFileToList(filename, text, "UTF-8"))
+    for(int i=0; i<text.size() ; i++)
     {
-        for(int i=0; i<text.size() ; i++)
+        if (text[i].indexOf("Comments") != -1)
         {
-            if (text[i].indexOf("Comments") != -1)
+            book->Comments = text[i].mid(9);
+        }
+
+        else if (text[i].indexOf("GroupId") != -1)
+        {
+            book->GroupId = text[i].mid(8);
+        }
+
+        else if (text[i].indexOf("DisplayName") != -1)
+        {
+            book->setNormallDisplayName(text[i].mid(12).replace(QRegExp("^ *"), ""));
+        }
+
+        //field for the display name of the directory
+        else if (text[i].indexOf("BranchName") != -1)
+        {
+            linesplit.clear();
+            splittotwo(text[i],linesplit ,"=");
+            if (linesplit[1]!="")
             {
-                book->Comments = text[i].mid(9);
+                book->setTreeDisplayName(linesplit[1]);
+            }
+        }
+
+        else if (text[i].indexOf("LastLevelIndex") != -1)
+        {
+            int n;
+            if(ToNum(text[i].mid(15),&n))
+                book->LastLevelIndex = n;
+        }
+
+        else if (text[i].indexOf("PutNewLinesAsIs") != -1)
+        {
+            if(text[i].mid(16) != "1")
+                book->PutNewLinesAsIs=false;
+            else
+                book->PutNewLinesAsIs=true;
+        }
+
+        else if (text[i].indexOf("TextSource") != -1)
+        {
+            book->setCopyrightInfo(text[i].mid(11));
+        }
+
+        else if (text[i].indexOf("ForcedBookName") != -1)
+        {
+            linesplit.clear();
+            splittotwo(text[i],linesplit ,"=");
+            if (linesplit[1]!="")
+                book->setTreeDisplayName(linesplit[1]);
+        }
+
+        else if (text[i].indexOf("HiddenFromIndex") != -1)
+        {
+            int t;
+            GetIntValue(text[i], &t);
+            if (t==1)
+            {
+                book->setIsHidden(true);
+                book->setIsInSearch(false);
+            }
+        }
+
+        else if (text[i].indexOf("AddSource") != -1)
+        {
+            if ( book->mWeavedSources.size() == 0)
+            {
+                //Add the book it self as the first source
+                weavedSource base;
+
+                base.FileName = book->getPath();
+
+                base.Zoom = 0;
+
+                base.id = 0;
+
+                base.show = true;
+
+                book->mWeavedSources.append(base);
             }
 
-            else if (text[i].indexOf("GroupId") != -1)
+            QStringList p = text[i].mid(10).split(":");
+            if (p.size() > 1)
             {
-                book->GroupId = text[i].mid(8);
-            }
-
-            else if (text[i].indexOf("DisplayName") != -1)
-            {
-                book->setNormallDisplayName(text[i].mid(12).replace(QRegExp("^ *"), ""));
-            }
-
-            //field for the display name of the directory
-            else if (text[i].indexOf("BranchName") != -1)
-            {
-                linesplit.clear();
-                splittotwo(text[i],linesplit ,"=");
-                if (linesplit[1]!="") {
-                    book->setTreeDisplayName(linesplit[1]);
-                 }
-            }
-
-            else if (text[i].indexOf("LastLevelIndex") != -1)
-            {
-                int n;
-                if(ToNum(text[i].mid(15),&n))
-                    book->LastLevelIndex = n;
-            }
-
-            else if (text[i].indexOf("PutNewLinesAsIs") != -1)
-            {
-                if(text[i].mid(16) != "1")
-                    book->PutNewLinesAsIs=false;
-                else
-                    book->PutNewLinesAsIs=true;
-            }
-
-            else if (text[i].indexOf("TextSource") != -1)
-            {
-                book->setCopyrightInfo(text[i].mid(11));
-            }
-
-            else if (text[i].indexOf("ForcedBookName") != -1)
-            {
-                linesplit.clear();
-                splittotwo(text[i],linesplit ,"=");
-                if (linesplit[1]!="")
-                    book->setTreeDisplayName(linesplit[1]);
-            }
-
-            else if (text[i].indexOf("HiddenFromIndex") != -1)
-            {
-                int t;
-                GetIntValue(text[i], &t);
-                if (t==1)
-                {
-                    book->setIsHidden(true);
-                    book->setIsInSearch(false);
-                }
-            }
-/*
-            else if (text[i].indexOf("MixedDisplay") != -1)
-            {
-                GetIntValue(text[i], &(book->mWeavedSources));
-
-                //All mixed books can't be searched or selected from the tree
-                if (book->IsMixed()) book->setIsUnSelectable(true);
-            }
-*/
-            else if (text[i].indexOf("AddSource") != -1)
-            {
-                if ( book->mWeavedSources.size() == 0)
-                {
-                    //Add the book it self as the first source
-                    weavedSource base;
-
-                    base.FileName = book->getPath();
-
-                    base.Zoom = 0;
-
-                    base.id = 0;
-
-                    base.show = true;
-
-                    book->mWeavedSources.append(base);
-                }
-
-                QStringList p = text[i].mid(10).split(":");
                 weavedSource src;
                 src.FileName = BOOKPATH + "/" + p[0];
                 src.Title = p[1];
@@ -237,28 +302,33 @@ void BookList::AddBookConfs(Book *book, QString filename)
 
                 book->mWeavedSources.append(src);
             }
-
-            else if (text[i].indexOf("CosmeticsType") != -1)
+            else
             {
-                book->setCosmetics(text[i]);
+                qDebug() << "Invalid weaved source in:" << book->getPath();
+                qDebug() << "Bad path:" << text[i];
             }
+        }
 
-            else if (text[i].indexOf("UniqueId") != -1)
-            {
-                int id;
-                if(ToNum(text[i].mid(9), &id) == true)
-                    book->setUniqueId(id);
-            }
+        else if (text[i].indexOf("CosmeticsType") != -1)
+        {
+            book->setCosmetics(text[i]);
+        }
 
-            else if (text[i].indexOf("Nikud") != -1)
-            {
-                book->hasNikud=true;
-            }
+        else if (text[i].indexOf("UniqueId") != -1)
+        {
+            int id;
+            if(ToNum(text[i].mid(9), &id) == true)
+                book->setUniqueId(id);
+        }
 
-            else if (text[i].indexOf("Teamim") != -1)
-            {
-                book->hasTeamim=true;
-            }
+        else if (text[i].indexOf("Nikud") != -1)
+        {
+            book->hasNikud=true;
+        }
+
+        else if (text[i].indexOf("Teamim") != -1)
+        {
+            book->hasTeamim=true;
         }
     }
 }
@@ -408,10 +478,11 @@ void BookList::displayInTree(QTreeWidget *tree, bool showCheck)
             this->at(i)->setTreeItemPtr(twi);
 
             QString dn;
-            if(this->at(i)->getTreeDisplayName() != "")
-                dn = this->at(i)->getTreeDisplayName();
-            else if (this->at(i)->getNormallDisplayName() != "")
-                dn = this->at(i)->getNormallDisplayName();
+
+            if(!this->at(i)->getTreeDisplayName().simplified().isEmpty())
+                dn = this->at(i)->getTreeDisplayName().simplified();
+            else if (!this->at(i)->getNormallDisplayName().simplified().isEmpty())
+                dn = this->at(i)->getNormallDisplayName().simplified();
             else
             {
                 vector<QString> name_parts;
@@ -419,6 +490,7 @@ void BookList::displayInTree(QTreeWidget *tree, bool showCheck)
                 dn = name_parts[1];
             }
             dn.replace("שס", "ש\"ס");
+
             twi->setText(0, dn);
 
             //set the icon:

@@ -18,6 +18,8 @@
 #include <QDir>
 #include <QDebug>
 
+#include <quazip/quazipfile.h>
+
 //Global path holders. Set in mainwindow::initPaths, and used all over.
 // Should allways by absolute.
 QString BOOKPATH;
@@ -32,20 +34,64 @@ QTranslator *translator;
 //Default lang. After all, this is a Hebrew program...
 QString LANG = "Hebrew";
 
-/*
-#include <quazip/quazipfile.h>
 
-bool ReadZipFile(QuaZipFile zipfile, QList <QString>& text, const char* encoding_name)
+bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+    if (!zip.setCurrentFile(filepath)) return false;
 
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QTextStream t( &zfile );
+    t.setCodec(QTextCodec::codecForName(encoding_name));
+
+    bool conflinesended = false;
+    while (!t.atEnd())
+    {
+        QString line = t.readLine();
+        // skip the first lines in a file if they start with & or //.
+        if ( skipconflines && !conflinesended )
+        {
+            if ( !line.startsWith("&") && !line.startsWith("//") && !line.isEmpty() )
+            {
+                conflinesended = true;
+                text << line;
+            }
+        }
+        else
+        {
+            text << line;
+        }
+    }
+
+    zfile.close();
+    zip.close();
+
+    return true;
 }
-*/
+
+bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name)
+{
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+
+    zip.setCommentCodec(QTextCodec::codecForName(encoding_name));
+
+    text = zip.getComment().split("\n");
+    for (int i=0; i<text.size(); i++) text[i] = text[i].simplified();
+
+    zip.close();
+
+    return true;
+}
 
 //Reads the file with the given name, and inserts it's contents into the given vector
-bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
+bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name)
 {
-    bool conflinesended = false;
-    qDebug() << "ReadFileToList()";
+    //qDebug() << "ReadFileToList()";
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
@@ -73,20 +119,7 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
     t.setCodec(QTextCodec::codecForName(encoding_name));
     while (!t.atEnd())
     {
-        QString line = t.readLine();
-        // skip the first lines in a file if they start with & or //.
-        if ( skipconflines && !conflinesended )
-        {
-            if ( !line.startsWith("&") && !line.startsWith("//") && !line.isEmpty() )
-            {
-                conflinesended = true;
-                text << line;
-            }
-        }
-        else
-        {
-            text << line;
-        }
+        text << t.readLine();
     }
     infile.close();
 

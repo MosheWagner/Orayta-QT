@@ -43,8 +43,9 @@ public:
     void BuildFromFolder(QString dirpath, bool userBooks = false);
     // Recursivly add all book files to the list
     void addAllBooks (QString dirpath, bool userBooks = false, int parentindex = -1);
-    //Add the book's confs, from it's conf file
-    void AddBookConfs(Book *book, QString filename);
+    //Add the book's confs, from it's conf text
+    void AddBookConfs(Book *book, QList<QString> text);
+    //void AddBookConfs(Book *book, QString filename);
 
     vector<Book*> BooksInSearch (void);
     vector<Book*> Children ( Book* book );

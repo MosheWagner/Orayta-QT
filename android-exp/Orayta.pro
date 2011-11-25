@@ -46,6 +46,15 @@ SOURCES += main.cpp \
     settings.cpp \
     importbook.cpp \
     guematria.cpp \
+    quazip/quazip.cpp \
+    quazip/zip.c \
+    quazip/unzip.c \
+    quazip/quazipnewinfo.cpp \
+    quazip/quazipfile.cpp \
+    quazip/JlCompress.cpp \
+    quazip/quacrc32.cpp \
+    quazip/quaadler32.cpp \
+    quazip/qioapi.cpp
 
 poppler {
     SOURCES +=
@@ -70,6 +79,20 @@ HEADERS += \
     settings.h \
     importbook.h \
     guematria.h \
+    quazip/quazip.h \
+    quazip/zip.h \
+    quazip/unzip.h \
+    quazip/quazipnewinfo.h \
+    quazip/quazipfileinfo.h \
+    quazip/quazipfile.h \
+    quazip/quazip_global.h \
+    quazip/JlCompress.h \
+    quazip/ioapi.h \
+    quazip/crypt.h \
+    quazip/quacrc32.h \
+    quazip/quachecksum32.h \
+    quazip/quaadler32.h \
+    qwebviewselectionsuppressor.h
 
 
 FORMS += \
@@ -142,42 +165,3 @@ OTHER_FILES += \
     android/res/values-rs/strings.xml \
     android/res/values-ro/strings.xml \
     android/AndroidManifest.xml
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

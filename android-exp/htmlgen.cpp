@@ -69,6 +69,8 @@ weavedSourceData initWsdFrom (const weavedSource& src)
     return ret;
 }
 
+#include <QDebug>
+
 bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRegExp mark)
 {
     int linkid = 0;
@@ -120,9 +122,9 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     for (int i=0; i<Sources.size(); i++)
     {
         Sources[i].text.clear();
-        if(!ReadFileToList(Sources[i].FileName, Sources[i].text, "UTF-8", true))
+        if(!ReadFileFromZip(absPath(Sources[i].FileName), "BookText", Sources[i].text, "UTF-8", true))
         {
-            print( "ERROR: Unable to open file: " + Sources[i].FileName + " !");
+            print( "ERROR: Unable to open zipfile: " + Sources[i].FileName + " !");
         }
         Sources[i].str = "";
         Sources[i].line = 0;
@@ -370,10 +372,10 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     QString lastlabel = "";
 
     //Read the source file associated to this book:
-    QString filename = absPath(mPath);
-    if(!ReadFileToList(filename, text, "UTF-8", true))
+    QString zipfile = absPath(mPath);
+    if(!ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true))
     {
-        print( "ERROR: Unable to open file: " + filename + " !");
+        print( "ERROR: Unable to open zipfile: " + zipfile + " !");
         return false;
     }
 
@@ -381,7 +383,7 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     //Simple check to make sure we don't get stuck with a emtpy (or almost empty) file
     if ( text.size() < 2 )
     {
-        print( "ERROR: Invalid file: " + filename + " !");
+        print( "ERROR: Invalid file: " + zipfile + " !");
         return false;
     }
 
