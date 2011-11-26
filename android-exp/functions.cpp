@@ -73,6 +73,27 @@ bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, c
     return true;
 }
 
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name)
+{
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return "Error!";
+    if (!zip.setCurrentFile(filepath)) return "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QTextStream t( &zfile );
+    t.setCodec(QTextCodec::codecForName(encoding_name));
+
+    QString s = t.readAll();
+
+    zfile.close();
+    zip.close();
+
+    return s;
+}
+
 bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name)
 {
     QuaZip zip(zippath);

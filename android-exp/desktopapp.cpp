@@ -519,6 +519,8 @@ void DesktopApp::updateBookTree()
     //Add user-added books
     bookList.BuildFromFolder(USERPATH + "Books", true);
 
+    /*
+      TODO: Re-enable this eventually
     //Create SearchDB for user added books
     for (int i=0; i<bookList.size(); i++)
     {
@@ -527,6 +529,7 @@ void DesktopApp::updateBookTree()
             bookList[i]->BuildSearchTextDB();
         }
     }
+    */
 
     if (bookList.empty())
     {

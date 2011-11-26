@@ -28,7 +28,8 @@
 //TODO: Fix 4 buttons alignment
 
 
-
+#include <QKinetic/qtscroller.h>
+//#include <QScroller>
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -37,9 +38,18 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     wview = new myWebView(this);
     ui->displaypage->layout()->addWidget(wview);
+
+    QString noselect = "body {-webkit-user-select: none;}";
+    writetofile(TMPPATH + "/noselect.css", noselect, "UTF-8");
+    QUrl q = QUrl::fromLocalFile(TMPPATH + "/noselect.css");
+    wview->page()->settings()->setUserStyleSheetUrl(q);
+    wview->page()->setContentEditable(false);
+
+    QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
+
     wview->show();
 
-    wview->setHtml("fbgdgfdg");
+
 
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 

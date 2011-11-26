@@ -55,6 +55,8 @@ extern QString USERPATH;
 //Small functions used by a few files:
 
 bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines = false);
+//Returns the contents of the given file from the given zip file. Returns "Error!" on failure.
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name);
 bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name);
 
 //Reads the file with the given name and the given encoding, and inserts it's contents into the given vector

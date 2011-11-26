@@ -563,6 +563,7 @@ QString Book::HTMLFileName()
     return htmlfilename;
 }
 
+/*
 inline QString Book::DBFilePath()
 {
     QString p = mPath;
@@ -574,30 +575,46 @@ inline QString Book::LMFilePath()
     QString p = mPath;
     return p.replace(".txt", ".LMP");
 }
+*/
 
 QString Book::pureText()
 {
-    if (mPureText == "" || mPureText == "Locked!")
+    if (mPureText.simplified() == "" || mPureText == "Locked!")
     {        
-        mPureText = readfile(DBFilePath(), "UTF-8");
-
-        levelMap.clear();
-        setLevelMap(readfile(LMFilePath(), "UTF-8"));
+        mPureText = ReadFileFromZip(mPath, "SearchDB", "UTF-8");
+        if (mPureText == "Error!")
+        {
+            qDebug() << "Error! Couldn't read search DB for:" << mPath;
+            mPureText = "";
+        }
+        else
+        {
+            levelMap.clear();
+            setLevelMap(ReadFileFromZip(mPath, "LevelMap", "UTF-8"));
+        }
     }
 
     return mPureText;
 }
 
+/*
 void Book::setPureText(QString ptxt)
 {
     writetofile(DBFilePath(), ptxt, "UTF-8", true);
     writetofile(LMFilePath(), levelMapString(), "UTF-8", true);
 }
+*/
 
 
 //Build the levelMap from a string representing it
 void Book::setLevelMap(QString str)
 {
+    if (str == "Error!")
+    {
+        qDebug() << "Couldn't read LevelMap for:" << mPath;
+        return;
+    }
+
     QList <QString> l = str.split("\n");
 
     for (int i=0; i<l.size(); i++)
@@ -623,6 +640,7 @@ QString Book::levelMapString()
     return str;
 }
 
+/*
 bool Book::hasDBFile()
 {
     QFile f(DBFilePath());
@@ -637,7 +655,9 @@ bool Book::hasDBFile()
     f.close();
     return true;
 }
+*/
 
+/*
 void Book::BuildSearchTextDB()
 {
     //TODO: remove references to other books
@@ -755,7 +775,7 @@ void Book::BuildSearchTextDB()
         levelMap.clear();
     }
 }
-
+*/
 
 QList <SearchResult> Book::findInBook(const QString& phrase)
 {

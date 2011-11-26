@@ -8,7 +8,6 @@
 
 #include "mywebview.h"
 
-
 namespace Ui {
     class MobileApp;
 }

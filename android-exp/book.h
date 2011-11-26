@@ -169,11 +169,11 @@ public:
     // (Full blue - all selected, Half - some selected and some not, Full grey - all deselected)
     void repainticon();
 
-    inline QString DBFilePath();
-    inline QString LMFilePath();
+    //inline QString DBFilePath();
+    //inline QString LMFilePath();
 
     //Fills "pureText" and "levelMap" with their values
-    void BuildSearchTextDB();
+    //void BuildSearchTextDB();
 
     vector <GuematriaDb> guematriaDb;
     bool guematriaDbExists;
@@ -192,11 +192,12 @@ protected:
     // This should be used for searching in the book.
     // The results ahould later be mapped to BookIters using the "levelMap"
     QString pureText();
+
     //Sets the book's puretext
-    void setPureText(QString);
+    //void setPureText(QString);
 
     //Returns true if a DB file for this book already exists.
-    bool hasDBFile();
+    //bool hasDBFile();
 
     //Build the levelMap from a string representing it
     void setLevelMap(QString);

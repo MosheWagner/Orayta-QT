@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     initPaths();
 
 //For test only
-#define Q_OS_ANDROID
+//#define Q_OS_ANDROID
 
 #ifndef Q_OS_ANDROID
     //Define the program's language

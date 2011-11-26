@@ -54,7 +54,12 @@ SOURCES += main.cpp \
     quazip/JlCompress.cpp \
     quazip/quacrc32.cpp \
     quazip/quaadler32.cpp \
-    quazip/qioapi.cpp
+    quazip/qioapi.cpp \
+    QKinetic/qtscrollevent.cpp \
+    QKinetic/qtscrollerproperties.cpp \
+    QKinetic/qtscrollerfilter.cpp \
+    QKinetic/qtscroller.cpp \
+    QKinetic/qtflickgesture.cpp
 
 poppler {
     SOURCES +=
@@ -91,7 +96,15 @@ HEADERS += \
     quazip/crypt.h \
     quazip/quacrc32.h \
     quazip/quachecksum32.h \
-    quazip/quaadler32.h
+    quazip/quaadler32.h \
+    QKinetic/qtscrollevent_p.h \
+    QKinetic/qtscrollevent.h \
+    QKinetic/qtscrollerproperties_p.h \
+    QKinetic/qtscrollerproperties.h \
+    QKinetic/qtscrollerfilter_p.h \
+    QKinetic/qtscroller_p.h \
+    QKinetic/qtscroller.h \
+    QKinetic/qtflickgesture_p.h
 
 
 FORMS += \
