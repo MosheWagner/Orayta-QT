@@ -1,3 +1,9 @@
+orayta-books (0.11) oneiric; urgency=low
+
+  * now using compressed (ziped) files. to be used only with new orayta version.
+
+ -- avi izraeli <izar00@gmail.com>  Mon, 28 Nov 2011 14:36:19 +0200
+
 orayta-books (0.10ubuntu1) natty; urgency=low
 
   * new DB for serching. should be used with orayta >= 0.10
