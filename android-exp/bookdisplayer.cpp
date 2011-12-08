@@ -72,10 +72,12 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
     vbox = new QVBoxLayout(this);
     vbox->setMargin(0);
 
+    //IZAR: TODO: convert this to a public method that can also be used in 'mobileapp'.
     waitView = new myWebView(this);
 
     QFileInfo f("Images/Wait.gif");
-    if (!f.exists()) f.setFile("/usr/share/Orayta/Wait.gif"); //TODO: why is this hard-coded?
+    if (!f.exists()) f.setFile(MAINPATH + "Wait.gif"); 
+    if (!f.exists()) qDebug() << "can't find wait image in: " << f.absoluteFilePath();
 
     QString html = simpleHtmlPage("hello", "<br><br><br><br><img src=\"" + f.absoluteFilePath() + "\" ></img>");
 

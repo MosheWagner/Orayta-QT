@@ -112,17 +112,18 @@ bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding
 //Reads the file with the given name, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name)
 {
-    //qDebug() << "ReadFileToList()";
+ bool conflinesended = false;
+   
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
     {
-        qDebug() << "wrong file: " << filename;
+       // qDebug() << "wrong file: " << filename;
 
         if (fi.isDir())
-            qDebug() << "is dir!";
+            qDebug() <<"can't open file: "<< filename << " it is a dir!";
         if ( !fi.exists())
-            qDebug() << "file doesn't exist";
+            qDebug() <<"can't open file: "<< filename << " file doesn't exist.";
         return false;
     }
 
@@ -144,8 +145,6 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
     }
     infile.close();
 
-    //WARNING: a lot of debug text-
-    //qDebug() << "the text from file: " << filename << "\t is: \n" << text << "\n<fileEnd>\n\n\n";
     return true;
 }
 
@@ -185,7 +184,7 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
 
 QString readfile(QString filename, const char* encoding_name)
 {
-    qDebug() << "readfile()";
+  //  qDebug() << "readfile()";
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )

@@ -43,7 +43,7 @@ private slots:
 
 
 
-    void on_webView_loadFinished(bool arg1);
+    void on_wview_loadFinished(bool arg1);
 
     void on_toolButton_3_clicked();
 

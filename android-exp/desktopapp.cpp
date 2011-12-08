@@ -1518,7 +1518,7 @@ void DesktopApp::translate(QString newlang)
     //English needs no translator, it's the default
     if (LANG != "English")
     {
-        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", "/usr/share/Orayta/");
+        if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", MAINPATH);
         QApplication::installTranslator(translator);
     }
 

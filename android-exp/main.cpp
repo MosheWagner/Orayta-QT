@@ -23,6 +23,11 @@
 #include <QTranslator>
 #include <iostream>
 
+#include <QFontDatabase>
+
+
+
+
 //Define location for program dirs
 void initPaths()
 {
@@ -31,6 +36,8 @@ void initPaths()
 
 #ifdef Q_OS_ANDROID
     defPath = "/sdcard/Orayta/Books/";
+//    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
+
     MAINPATH = "/sdcard/Orayta/";
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
@@ -77,6 +84,36 @@ void initPaths()
         #endif
     }
 }
+
+/* removed because this still doesn't work on android. supposed to be fixed on alpha 4
+//IZAR: adds a font to the application
+void addFont(const QString &font)
+{
+    int fontId = QFontDatabase::addApplicationFont(font);
+    if (fontId > 0)
+        qDebug()<< "installed font successfuly. id: " << fontId;
+    else
+        qDebug()<< "cant add font "<< font;
+}
+
+//IZAR: define location for fonts
+void initFonts()
+{
+    QList<QString> fonts;
+#ifdef Q_OS_ANDROID
+    QString droidFallback(MAINPATH + "fonts/DroidSansFallback.ttf");
+    fonts.append(droidFallback);
+#endif
+
+    //add all fonts to the application
+    foreach(const QString &font, fonts){
+        addFont(font);
+    }
+//    qDebug() << "writing familis: " << QFontDatabase::families();
+    qApp->font()
+
+}
+*/
 
 void initLang(QApplication *app)
 {
@@ -125,6 +162,9 @@ int main(int argc, char *argv[])
 
     //Define location for program dirs
     initPaths();
+
+  /*  //IZAR: define a local font test.
+    initFonts(); */
 
 //For test only
 //#define Q_OS_ANDROID
