@@ -29,7 +29,6 @@
 
 
 #include <QKinetic/qtscroller.h>
-//#include <QScroller>
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -37,6 +36,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
 
     wview = new myWebView(this);
+
+    connect (wview, SIGNAL(loadFinished(bool)), this, SLOT(on_webView_loadFinished(bool)));
+
     ui->displaypage->layout()->addWidget(wview);
 
     QString noselect = "body {-webkit-user-select: none;}";
@@ -50,8 +52,10 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     wview->show();
 
 
+    QtScroller::grabGesture(ui->treeWidget);
 
-    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+
+    ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
 
     ui->treeWidget->setColumnWidth(0,800);
