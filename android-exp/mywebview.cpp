@@ -62,71 +62,71 @@ void myWebView::mouseMoveEvent(QMouseEvent *event)
 }
 */
 
-void myWebView::mousePressEvent(QMouseEvent *event)
-{
-    //Ignore right clicks and emulate a left one instead
-    if (event->button() == Qt::RightButton)
-    {
-        QWebHitTestResult r = page()->mainFrame()->hitTestContent(event->pos());
+//void myWebView::mousePressEvent(QMouseEvent *event)
+//{
+//    //Ignore right clicks and emulate a left one instead
+//    if (event->button() == Qt::RightButton)
+//    {
+//        QWebHitTestResult r = page()->mainFrame()->hitTestContent(event->pos());
 
-        //Click on link
-        if (!r.linkUrl().isEmpty())
-        {
-            //Emulate left click
-            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonPress, event->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-            QWebView::mousePressEvent(e);
-        }
-        else
-        {
-            //Display "copy" menu
-            QMenu menu(this);
+//        //Click on link
+//        if (!r.linkUrl().isEmpty())
+//        {
+//            //Emulate left click
+//            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonPress, event->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+//            QWebView::mousePressEvent(e);
+//        }
+//        else
+//        {
+//            //Display "copy" menu
+//            QMenu menu(this);
 
-            QAction *copy = pageAction(QWebPage::Copy);
-            copy->setText(tr("Copy text"));
-            copy->setIcon(QIcon(":/Icons/edit-copy.png"));
+//            QAction *copy = pageAction(QWebPage::Copy);
+//            copy->setText(tr("Copy text"));
+//            copy->setIcon(QIcon(":/Icons/edit-copy.png"));
 
-            menu.addAction(copy);
+//            menu.addAction(copy);
 
-            menu.addAction(copyNoSigns);
+//            menu.addAction(copyNoSigns);
 
-            menu.setLayoutDirection(Qt::RightToLeft);
-            menu.exec(mapToGlobal(event->pos()));
-        }
-    }
-    else QWebView::mousePressEvent(event);
-}
+//            menu.setLayoutDirection(Qt::RightToLeft);
+//            menu.exec(mapToGlobal(event->pos()));
+//        }
+//    }
+//    else QWebView::mousePressEvent(event);
+//}
 
-void myWebView::mouseReleaseEvent(QMouseEvent *event)
-{
-    QWebHitTestResult r = page()->mainFrame()->hitTestContent(event->pos());
+//void myWebView::mouseReleaseEvent(QMouseEvent *event)
+//{
+//    QWebHitTestResult r = page()->mainFrame()->hitTestContent(event->pos());
 
-    //Ignore right clicks and emulate a left one instead
-    if (event->button() == Qt::RightButton)
-    {
-        //Click on link
-        if (!r.linkUrl().isEmpty())
-        {
-            emit LinkClicked(r.linkUrl());
+//    //Ignore right clicks and emulate a left one instead
+//    if (event->button() == Qt::RightButton)
+//    {
+//        //Click on link
+//        if (!r.linkUrl().isEmpty())
+//        {
+//            emit LinkClicked(r.linkUrl());
 
-            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonRelease, event->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-            QWebView::mouseReleaseEvent(e);
-        }
-    }
+//            QMouseEvent *e=new QMouseEvent(QEvent::MouseButtonRelease, event->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+//            QWebView::mouseReleaseEvent(e);
+//        }
+//    }
 
-    else if (event->button() == Qt::LeftButton)
-    {
-        if (!r.linkUrl().isEmpty())
-        {
-            if ((r.linkUrl().toString().indexOf("!") != -1 ) || (r.linkUrl().toString().indexOf("^") != -1 ))
-            {
-                emit LinkClicked(r.linkUrl());
-            }
-        }
+//    else if (event->button() == Qt::LeftButton)
+//    {
+//        if (!r.linkUrl().isEmpty())
+//        {
+//            if ((r.linkUrl().toString().indexOf("!") != -1 ) || (r.linkUrl().toString().indexOf("^") != -1 ))
+//            {
+//                emit LinkClicked(r.linkUrl());
+//            }
+//        }
 
-        QWebView::mouseReleaseEvent(event);
-    }
+//        QWebView::mouseReleaseEvent(event);
+//    }
 
-}
+//}
 
 QString myWebView::activeLink() { return mActiveLink; }
 

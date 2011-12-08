@@ -21,7 +21,7 @@ public:
     ~MobileApp();
 
 protected:
-    //void closeEvent(QCloseEvent *pEvent);
+    void closeEvent(QCloseEvent *pEvent);
 
 private slots:
 

@@ -53,5 +53,6 @@
         <file>Icons/find-big.png</file>
         <file>Icons/help-about-big.png</file>
         <file>Icons/Orayta-Huge.png</file>
+        <file>Icons/search-big.png</file>
     </qresource>
 </RCC>

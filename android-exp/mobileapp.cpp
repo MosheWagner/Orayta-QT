@@ -47,14 +47,14 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     wview = new myWebView(this);
 
-    connect (wview, SIGNAL(loadFinished(bool)), this, SLOT(on_webView_loadFinished(bool)));
+    connect (wview, SIGNAL(loadFinished(bool)), this, SLOT(on_wview_loadFinished(bool)));
 
     ui->displaypage->layout()->addWidget(wview);
 
-    QString noselect = "body {-webkit-user-select: none;}";
-    writetofile(TMPPATH + "/noselect.css", noselect, "UTF-8");
+    //QString noselect = "body {-webkit-user-select: none;}";
+    //writetofile(TMPPATH + "/noselect.css", noselect, "UTF-8");
     QUrl q = QUrl::fromLocalFile(TMPPATH + "/noselect.css");
-    wview->page()->settings()->setUserStyleSheetUrl(q);
+    //wview->page()->settings()->setUserStyleSheetUrl(q);
     wview->page()->setContentEditable(false);
 
     QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
@@ -92,17 +92,14 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //IZAR
     //TODO - use QMessageBox::aboutQt ?
     QString htmlLabl;
-       htmlLabl = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\"> ";
-       htmlLabl += "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">";
-       htmlLabl += "p, li { white-space: pre-wrap; }";
-       htmlLabl += "</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">";
-       htmlLabl += "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; color:#00007f;\">orayta 4 android</span></p>";
-       htmlLabl += "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">built on orayta 1.1</p>";
-       htmlLabl += "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">copiled qt-version:"  ; htmlLabl +=QT_VERSION_STR  ; htmlLabl +="</p>";
-       htmlLabl += "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">runtime qt-version:"  ; htmlLabl +=qVersion()  ; htmlLabl +="</p>";
-       htmlLabl += "<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">copiled qt-webkit-version:"  ; htmlLabl +=QTWEBKIT_VERSION_STR  ; htmlLabl +="</p>";
-       htmlLabl += "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p></body></html>";
-       ui->label->setText(htmlLabl);
+
+    htmlLabl += "Orayta 4 android: Version 1.1\n";
+    htmlLabl += "Compiled with qt-version:"  ; htmlLabl +=QT_VERSION_STR  ; htmlLabl +="\n";
+    htmlLabl += "Runtime qt-version:"  ; htmlLabl +=qVersion()  ; htmlLabl +="\n";
+    htmlLabl += "Compiled qt-webkit-version:"  ; htmlLabl +=QTWEBKIT_VERSION_STR  ;
+
+
+     ui->label->setText(htmlLabl);
 
 
     QApplication::processEvents();
@@ -166,7 +163,7 @@ void MobileApp::showBook(Book *book)
     if (book == 0)
         return;
     ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-//    ui->titlelbl->setText("Loading...");
+    ui->titlelbl->setText("Loading...");
 
     //ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
     //QApplication::processEvents();
@@ -202,7 +199,7 @@ void MobileApp::on_toolButton_clicked()
     else ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
 
-/*
+
 //Catch android "back" button
 void MobileApp::closeEvent(QCloseEvent *event)
 {
@@ -223,11 +220,11 @@ void MobileApp::closeEvent(QCloseEvent *event)
         event->ignore();
     }
 }
-*/
+
 
 void MobileApp::on_wview_loadFinished(bool arg1)
 {
-//    ui->titlelbl->setText(booktitle);
+   ui->titlelbl->setText(booktitle);
 }
 
 void MobileApp::on_toolButton_3_clicked()

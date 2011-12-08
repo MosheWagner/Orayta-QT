@@ -50,8 +50,8 @@ public slots:
     void setTextSizeMultiplier(qreal factor);
 
 private slots:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    //void mousePressEvent(QMouseEvent *event);
+    //void mouseReleaseEvent(QMouseEvent *event);
     //void mouseMoveEvent(QMouseEvent *event);
 
     void keyPressEvent( QKeyEvent *keyEvent );
