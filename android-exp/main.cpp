@@ -25,7 +25,8 @@
 
 #include <QFontDatabase>
 
-
+//For test only
+#define Q_OS_ANDROID
 
 
 //Define location for program dirs
@@ -35,8 +36,8 @@ void initPaths()
     QString defPath;
 
 #ifdef Q_OS_ANDROID
-    defPath = "/sdcard/Orayta/Books/";
-//    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
+//    defPath = "/sdcard/Orayta/Books/";
+    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
 
     MAINPATH = "/sdcard/Orayta/";
 #elif defined Q_OS_LINUX
@@ -166,8 +167,6 @@ int main(int argc, char *argv[])
   /*  //IZAR: define a local font test.
     initFonts(); */
 
-//For test only
-//#define Q_OS_ANDROID
 
 #ifndef Q_OS_ANDROID
     //Define the program's language

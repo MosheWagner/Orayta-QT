@@ -46,6 +46,9 @@
 
 #ifdef  POPPLER
 
+#ifndef PDF_H
+#define PDF_H
+
 #include "functions.h"
 #include <QtGui>
 #include <QPainter>
@@ -152,5 +155,7 @@ private:
     int mSliderBottem;
     bool mSBO;
 };
+
+#endif // PDF_H
 
 #endif

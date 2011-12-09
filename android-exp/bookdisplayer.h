@@ -29,6 +29,10 @@
 #include "book.h"
 #include "booklist.h"
 
+#ifdef POPPLER
+    #include "pdfwidget.h"
+#endif
+
 //TODO: This is all so stupid. It should be done with inheritance. Maybe some day.
 
 /*
