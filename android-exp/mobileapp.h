@@ -53,6 +53,12 @@ private slots:
 
     void on_title_clicked();
 
+    void on_settings_BTN_clicked();
+
+    void on_saveConf_clicked();
+
+    void on_fontComboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::MobileApp *ui;
 

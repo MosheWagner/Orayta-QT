@@ -122,7 +122,9 @@
 
 
 // Global
-QString gFontFamily = "Nachlieli CLM";
+//IZAR- changed this to use dejavu sans free font in all versions (linux, windows and android)
+//QString gFontFamily = "Nachlieli CLM";
+QString gFontFamily = "Droid Sans Hebrew";
 int gFontSize = 16;
 
 
@@ -456,7 +458,8 @@ void DesktopApp::restoreConfs()
 
 
     settings.beginGroup("Confs");
-    gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
+//    gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
+    gFontFamily = settings.value("fontfamily", "Droid Sans Hebrew").toString();
     gFontSize = settings.value("fontsize",16).toInt();
 
     settings.endGroup();

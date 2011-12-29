@@ -36,8 +36,8 @@ void initPaths()
     QString defPath;
 
 #ifdef Q_OS_ANDROID
-//    defPath = "/sdcard/Orayta/Books/";
-    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
+    defPath = "/sdcard/Orayta/Books/";
+//    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
 
     MAINPATH = "/sdcard/Orayta/";
 #elif defined Q_OS_LINUX
@@ -86,12 +86,13 @@ void initPaths()
     }
 }
 
-/* removed because this still doesn't work on android. supposed to be fixed on alpha 4
+// removed because this still doesn't work on android. supposed to be fixed on alpha 4
+// edit: now this is supposed to work partialy.
 //IZAR: adds a font to the application
 void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
-    if (fontId > 0)
+    if (fontId >= 0)
         qDebug()<< "installed font successfuly. id: " << fontId;
     else
         qDebug()<< "cant add font "<< font;
@@ -101,20 +102,26 @@ void addFont(const QString &font)
 void initFonts()
 {
     QList<QString> fonts;
-#ifdef Q_OS_ANDROID
-    QString droidFallback(MAINPATH + "fonts/DroidSansFallback.ttf");
-    fonts.append(droidFallback);
-#endif
+//#ifdef Q_OS_ANDROID
+//    QString droidFallback(MAINPATH + "fonts/DroidSansFallback.ttf");
+//    fonts.append(droidFallback);
+//#endif
+    QString fontpath (":/fonts/");
+    fonts.append(fontpath + "DejaVuSans.ttf");
+    fonts.append(fontpath + "DejaVuSerif.ttf");
+    fonts.append(fontpath + "DroidSansHebrew.ttf");
+//    fonts.append(fontpath + "DavidCLM-Medium.ttf");
+    fonts.append(fontpath + "MiriamCLM-Book.ttf");
 
     //add all fonts to the application
     foreach(const QString &font, fonts){
         addFont(font);
     }
 //    qDebug() << "writing familis: " << QFontDatabase::families();
-    qApp->font()
+ //   qApp->font();
 
 }
-*/
+
 
 void initLang(QApplication *app)
 {
@@ -164,8 +171,8 @@ int main(int argc, char *argv[])
     //Define location for program dirs
     initPaths();
 
-  /*  //IZAR: define a local font test.
-    initFonts(); */
+    //IZAR: define a local font test.
+    initFonts();
 
 
 #ifndef Q_OS_ANDROID
