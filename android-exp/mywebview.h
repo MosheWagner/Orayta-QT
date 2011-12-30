@@ -59,9 +59,6 @@ private slots:
     void rememberActiveLink(QString);
     void copyClean();
 
-signals:
-    void LinkClicked(QUrl);
-
 private:
     QAction *copyNoSigns;
 

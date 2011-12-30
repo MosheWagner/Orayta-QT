@@ -35,6 +35,8 @@ myWebView::myWebView(QWidget * parent)
 
     copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this); //TODO: is the ':' sign in ":/Icons/copy-clean.png" currect? or should it be '.' ?
     connect(copyNoSigns, SIGNAL(triggered()), this, SLOT(copyClean()));
+
+    this->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 }
 
 void myWebView::copyClean()

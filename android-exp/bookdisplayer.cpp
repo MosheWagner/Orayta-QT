@@ -61,12 +61,12 @@ bookDisplayer::bookDisplayer(QWidget *parent, QTabWidget * tabviewptr)
 #endif
 
     //Connect the signalls sent from the new widgets to their slots
-    QObject::connect(htmlview, SIGNAL(LinkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
+    QObject::connect(htmlview, SIGNAL(linkClicked(QUrl)), this , SLOT(htmlView_linkClicked(QUrl)));
     QObject::connect(htmlview, SIGNAL(loadFinished(bool)), this , SLOT(htmlView_loadFinished(bool)));
     //Prevent context menus. If needed, they will be created manually
     htmlview->setContextMenuPolicy(Qt::PreventContextMenu);
-    //The myWebView class will handle all link, but will emit "LinkMenu" when one should be shown
-    htmlview->page()->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
+
+    htmlview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     //Create new hbox
     vbox = new QVBoxLayout(this);
@@ -134,6 +134,8 @@ void bookDisplayer::htmlView_loadFinished(bool ok)
 void bookDisplayer::htmlView_linkClicked(QUrl url)
 {
     QString link = QString(url.path());
+
+    qDebug() << "a";
 
     //Not actually a link. A menu should open here
     if(link.indexOf("$") != -1 )
