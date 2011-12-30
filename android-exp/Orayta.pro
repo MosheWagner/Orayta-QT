@@ -122,7 +122,8 @@ HEADERS += \
     QKinetic/qtscroller_p.h \
     QKinetic/qtscroller.h \
     QKinetic/qtflickgesture_p.h \
-    pdfwidget.h
+    pdfwidget.h \
+    search.h
 
 
 
@@ -290,6 +291,7 @@ OTHER_FILES += \
     android/res/values-rs/strings.xml \
     android/res/values-zh-rTW/strings.xml \
     android/src/org/kde/necessitas/origo/CopyResources.java
+
 
 
 

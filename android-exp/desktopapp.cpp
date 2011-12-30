@@ -59,6 +59,7 @@
 #include "bookdisplayer.h"
 #include "mytreetab.h"
 #include "importbook.h"
+#include "search.h"
 
 #include "quazip/quazip.h"
 #include "quazip/quazipfile.h"
@@ -1581,6 +1582,45 @@ void DesktopApp::on_pdfDropBox_currentIndexChanged(QString val)
 
 #endif
 
+
+void DesktopApp::on_groupBox_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->guematriaCheckBox->setChecked(false);
+    }
+}
+
+void DesktopApp::on_guematriaCheckBox_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->groupBox->setChecked (false);
+    }
+}
+
+void DesktopApp::on_radioButton_2_toggled(bool checked)
+{
+    if (checked)
+        ui->spinBox->setEnabled (true);
+    else
+        ui->spinBox->setEnabled (false);
+}
+
+void DesktopApp::on_radioButton_3_toggled(bool checked)
+{
+    if (checked)
+        ui->fullCheckBox->setEnabled (false);
+    else
+        ui->fullCheckBox->setEnabled (true);
+}
+
+void DesktopApp::on_searchInBooksLine_returnPressed()
+{
+    on_SearchInBooksBTN_clicked();
+}
+
+
 void DesktopApp::searchGuematria()
 {
     ui->treeTab->setCurrentIndex(1);
@@ -1597,3 +1637,303 @@ bookDisplayer* DesktopApp::bookdisplayer( int index )
     QWidget* w = ui->viewTab->widget(index);
     return qobject_cast<bookDisplayer*>(w);
 }
+
+void DesktopApp::on_progressBar_valueChanged(int value)
+{
+    if (value == 0 || value == 100) ui->pbarbox->hide();
+    else ui->pbarbox->show();
+}
+
+
+
+void DesktopApp::on_SearchInBooksBTN_clicked()
+{
+    QString otxt = ui->searchInBooksLine->text();
+    QString stxt = otxt;
+    QRegExp regexp;
+
+
+    if (ui->guematriaCheckBox->isChecked())
+    {
+        SearchGuematria (otxt);
+    }
+    else
+    {
+        if (ui->fuzzyCheckBox->isChecked())
+            stxt = AllowKtivHasser(stxt);
+
+        bool allwords = ui->radioButton_2->isChecked();
+        bool fullwords = ui->fullCheckBox->isChecked();
+        int spacing = ui->spinBox->value();
+
+        if (ui->radioButton_3->isChecked())
+            regexp = QRegExp(stxt);
+        else
+            regexp = QRegExp( createSearchPattern (stxt, allwords, fullwords, spacing) );
+        regexp.setMinimal(true);
+
+        //Make a new tab if the current tab has something in it
+        if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
+        {
+            addViewTab(false);
+            CurrentBookdisplayer()->normalZoom();
+            CurrentBookdisplayer()->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+            ui->viewTab->setTabText(CURRENT_TAB, (tr("Orayta")));
+        }
+
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer();
+        pCurrentBookdisplayer->ShowWaitPage();
+
+        //Set the title of the tab to show what it's searching for
+        QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
+        ui->viewTab->setTabText(CURRENT_TAB, title);
+
+        QUrl u = SearchInBooks (regexp, otxt, bookList.BooksInSearch(), ui->progressBar);
+        pCurrentBookdisplayer->load(QUrl(u));
+    }
+}
+
+QString lastSearch = "";
+
+void DesktopApp::on_searchForward_clicked()
+{
+    if (ui->lineEdit->text().replace(" ","") == "")
+        return;
+
+    if (CurrentBookdisplayer()->book())
+    {
+        if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
+        {
+            QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
+
+            QString text = CurrentBookdisplayer()->pageText();
+
+            int ppp = CurrentBookdisplayer()->searchPos();
+
+            //Find the closest occurence of the RegExp
+            QString next = "";
+
+            int pos = regexp.indexIn(text, ppp + 1);
+            if (pos > -1)
+            {
+                next = regexp.cap(0);
+                CurrentBookdisplayer()->setSearchPos(pos);
+                CurrentBookdisplayer()->searchText(next, false);
+            }
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+        {
+            CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
+        }
+#ifdef POPPLER
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
+        {
+            CurrentBookdisplayer()->pdfview()->searchForwards( ui->lineEdit->text() );
+        }
+#endif //POPPLER
+    }
+    else
+    {
+        CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text() );
+    }
+}
+
+void DesktopApp::on_searchBackward_clicked()
+{
+    if (ui->lineEdit->text().replace(" ","") == "")
+        return;
+
+    if (CurrentBookdisplayer()->book())
+    {
+        if ( CurrentBookdisplayer()->book()->fileType() == Book::Normal )
+        {
+            QString text = CurrentBookdisplayer()->pageText();
+
+            int ppp = CurrentBookdisplayer()->searchPos();
+
+            QRegExp regexp = withNikudAndTeamim(ui->lineEdit->text());
+
+            //Find the closest occurence of the RegExp, backwards
+            QString last = "";
+
+            int pos = regexp.lastIndexIn(text, -(text.length()-ppp+1));
+            if (pos > -1)
+            {
+                last = regexp.cap(0);
+                CurrentBookdisplayer()->setSearchPos(pos);
+                CurrentBookdisplayer()->searchText(last, true);
+            }
+        }
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Html )
+        {
+            CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
+        }
+#ifdef POPPLER
+        else if ( CurrentBookdisplayer()->book()->fileType() == Book::Pdf )
+        {
+            CurrentBookdisplayer()->pdfview()->searchBackwards( ui->lineEdit->text() );
+        }
+#endif
+    }
+    else
+    {
+        CurrentBookdisplayer()->webview()->findText ( ui->lineEdit->text(), QWebPage::FindBackward );
+    }
+}
+
+void DesktopApp::SearchGuematria (QString txt)
+{
+    QString title = "", Htmlhead = "", Html = "";
+
+    int guematria = GematriaValueOfString ( txt );
+
+    if ( guematria != 0 )
+    {
+
+        Book* tanachRoot = bookList.FindBookByName(" מקרא");
+        if (tanachRoot == NULL)
+        {
+            qDebug("tanach root not found !");
+            return;
+        }
+
+        vector<Book*> tanach = bookList.Children( tanachRoot );
+
+        //Make a new tab if the current tab has something in it
+        if (ui->viewTab->tabText(CURRENT_TAB).indexOf(tr("Orayta")) == -1)
+        {
+            addViewTab(false);
+            CurrentBookdisplayer()->normalZoom();
+            CurrentBookdisplayer()->setHtml(simpleHtmlPage(tr("Orayta"), ""));
+        }
+
+        ui->pbarbox->show();
+        ui->progressBar->setValue(0);
+        float percentPerBook = (100.0 / tanach.size());
+
+        bookDisplayer *pCurrentBookdisplayer = CurrentBookdisplayer();
+        pCurrentBookdisplayer->ShowWaitPage();
+
+        //Set the title of the tab to show what it's searching for
+        title = tr("Searching guematria for: ");
+        title += "\"" + txt + "\"" + " ...";
+
+        ui->viewTab->setTabText(CURRENT_TAB, title);
+
+        int results = 0, nbBooksInSearch = 0;
+        for (unsigned i=0; i < tanach.size() && stopSearchFlag == false; i++)
+        {
+            if (tanach[i]->IsInSearch() == false)
+                continue;
+
+            nbBooksInSearch++;
+            vector <GuematriaDb> bookGuematriaDb = tanach[i]->getGuematriaDb();
+
+            ui->progressBar->setValue( (i + 1) * percentPerBook ) ;
+
+            for (unsigned j=0; j < bookGuematriaDb.size(); j++)
+            {
+                //Let the animation move...
+                QApplication::processEvents();
+
+                // search the guematria
+                int calc = bookGuematriaDb[j].values[0];
+                unsigned first = 0, last = 0;
+                while ( last < bookGuematriaDb[j].values.size() )
+                {
+                    if (calc == guematria)
+                    {
+                        results ++;
+
+                        QString occ = "";
+                        for (unsigned cmpt = first; cmpt <= last; cmpt++)
+                        {
+                            occ += bookGuematriaDb[j].words[cmpt];
+                            if (cmpt < last) occ += " ";
+                        }
+
+                        //Get the text best to show for this reult's description
+                        QString linkdisplay /* = tanach[i]->getNormallDisplayName() + " "*/;  // title not needed in tanach...
+                        linkdisplay += bookGuematriaDb[j].itr.toHumanString();
+                        //Add the full result to the page
+                        Html += "<span style=\"font-size:20px\">";
+                        Html += "<a href=!" + stringify(tanach[i]->getUniqueId()) + ":";
+                        Html += bookGuematriaDb[j].itr.toStringForLinks();
+                        Html += ":" + escapeToBase32(occ) + ">";
+                        Html += stringify(results) + ") " + linkdisplay;
+                        Html += "</a><br></span>\n";
+                        Html += bookGuematriaDb[j].words.join(" ").replace( QRegExp("(" + occ + ")"), "<span style='background-color:Yellow'>\\1</span>" );
+                        Html += "<br><br>\n";
+
+                        last = ++first;
+                        if (last < bookGuematriaDb[j].values.size())
+                            calc = bookGuematriaDb[j].values[first];
+                    }
+
+                    while (calc < guematria)
+                    {
+                        last++;
+                        if (last < bookGuematriaDb[j].values.size())
+                            calc += bookGuematriaDb[j].values[last];
+                        else
+                            break;
+                    }
+                    while (calc > guematria)
+                    {
+                        calc -= bookGuematriaDb[j].values[first];
+                        first++;
+                    }
+                }
+            }
+        }
+
+        //Head and title of the Html
+        title = tr("Search results for guematria : ") + "\"" + txt + "\"";
+        title += " (" + stringify(guematria) + ")";
+
+        Htmlhead = html_head(title);
+        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
+        Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
+        Htmlhead += title + ":" + "</center></i></b></div><BR>";
+        Htmlhead += "\n<span style=\"font-size:17px\">";
+
+        if (stopSearchFlag == true)
+        {
+            Htmlhead += "<BR><BR>" + tr("(Search stopped by user)") + "<BR><BR>";
+            stopSearchFlag = false;
+        }
+
+        if (nbBooksInSearch == 0)
+        {
+            Htmlhead +="<br><br><center><b>";
+            Htmlhead += tr("No tanach books selected : please select books in tanach and search again.");
+            Htmlhead += "</b></center><br>";
+        }
+        else if(results == 0)
+        {
+            Htmlhead +="<br><b>";
+            Htmlhead += tr("No guematria results found:");
+            Htmlhead += "\"" + txt + "\"";
+            Htmlhead += "</b><br>";
+        }
+        else
+        {
+            Htmlhead += "<b>";
+            Htmlhead += tr("Result list: ");
+            Htmlhead += "</b> "+ QString::number(results) + tr(" results founds.") + "<br><br>";
+        }
+
+        Html = Htmlhead + Html;
+
+        Html += "</span></div>\n";
+        Html += "\n</body>\n</html>";
+
+        writetofile(TMPPATH + "Guematria.html", Html, "UTF-8");
+
+        pCurrentBookdisplayer->load(QUrl(TMPPATH + "Guematria.html"));
+
+        ui->pbarbox->hide();
+    }
+}
+
+

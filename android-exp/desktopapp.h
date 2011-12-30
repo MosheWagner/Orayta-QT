@@ -75,10 +75,6 @@ private:
     //Load the generated Html file of the given book into the WebView widget
     void RenderAndLoad(Book *, QString markString = "");
 
-    //Searches for the given phrase in all books that have SearchMe as true,
-    // creates a html file with the results, and loads it a new tab (unless current tab is empty)
-    void SearchInBooks (const QRegExp& regexp, QString disp);
-
     void SearchGuematria (QString txt);
 
     //Builds the tree of books and folders in the treeWidget, based on the global book list
@@ -92,9 +88,6 @@ private:
 
     void addBookToSearch(Book*);
     void removeBookFromSearch(Book*);
-
-    //Set to true if the current search in books should be stopped
-    bool stopSearchFlag ;
 
 private slots:
 
@@ -239,6 +232,7 @@ private slots:
 
     void searchGuematria();
 
+    void on_progressBar_valueChanged(int value);
 };
 
 //Build book search DB

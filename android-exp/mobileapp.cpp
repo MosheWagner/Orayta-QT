@@ -3,6 +3,7 @@
 
 #include "functions.h"
 #include "booklist.h"
+#include "search.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
@@ -21,6 +22,7 @@
 #define SETTINGS_PAGE 6
 
 
+//TODO: links in search results don't work
 
 //TODO: Get rid of horrible text over text bug
 //TODO: Test landscape - portrait switching
@@ -54,49 +56,32 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     gFontFamily = "Droid Sans Hebrew";
     gFontSize = 20;
 
-    wview = new myWebView(this);
+    InternalLocationInHtml = "";
 
-    connect (wview, SIGNAL(loadFinished(bool)), this, SLOT(on_wview_loadFinished(bool)));
+    wview = new QWebView(this);
+
+    QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
+    QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
 
     ui->displaypage->layout()->addWidget(wview);
 
-    //QString noselect = "body {-webkit-user-select: none;}";
-    //writetofile(TMPPATH + "/noselect.css", noselect, "UTF-8");
-    QUrl q = QUrl::fromLocalFile(TMPPATH + "/noselect.css");
-    //wview->page()->settings()->setUserStyleSheetUrl(q);
-    wview->page()->setContentEditable(false);
+
+    wview->setHtml("<center><big>Loading...</big></center>");
+
+    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
 
     QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
 
     wview->show();
 
-    wview->setHtml("loading page");
 
-    QtScroller::grabGesture(ui->treeWidget);
-
+    //QtScroller::grabGesture(ui->treeWidget);
+    ui->searchGBX->hide();
 
 
 
     ui->treeWidget->setColumnWidth(0,800);
 
-    bookList.BuildFromFolder(BOOKPATH);
-
-    if (bookList.empty())
-    {
-        qDebug()<< "bookpath: " << BOOKPATH;
-
-        QMessageBox msgBox;
-        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
-        msgBox.exec();
-
-        //No books found
-        exit(2);
-    }
-
-    // Check all uids
-    bookList.CheckUid();
-
-    bookList.displayInTree(ui->treeWidget, false);
 
     //IZAR
     //TODO - use QMessageBox::aboutQt ?
@@ -108,11 +93,27 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     htmlLabl += "Compiled qt-webkit-version:"  ; htmlLabl +=QTWEBKIT_VERSION_STR  ;
 
 
-     ui->label->setText(htmlLabl);
+    ui->label->setText(htmlLabl);
 
+    bookList.BuildFromFolder(BOOKPATH);
 
-    QApplication::processEvents();
-    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    // Check all uids
+    bookList.CheckUid();
+
+    bookList.displayInTree(ui->treeWidget, false);
+
+    if (bookList.empty())
+    {
+        qDebug()<< "bookpath: " << BOOKPATH;
+        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
+        ui->label->setWordWrap(true);
+    }
+    else
+    {
+        QApplication::processEvents();
+        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    }
+
 }
 
 MobileApp::~MobileApp()
@@ -228,7 +229,7 @@ void MobileApp::closeEvent(QCloseEvent *event)
         ui->stackedWidget->setCurrentIndex(LIST_PAGE);
         event->ignore();
     }
-    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
+    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE || ui->stackedWidget->currentIndex() == ABOUT_PAGE)
     {
         event->accept();
         exit(0);
@@ -241,9 +242,76 @@ void MobileApp::closeEvent(QCloseEvent *event)
 }
 
 
-void MobileApp::on_wview_loadFinished(bool arg1)
+void MobileApp::wvloadFinished(bool ok)
 {
+   wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
    ui->titlelbl->setText(booktitle);
+
+   if (InternalLocationInHtml != "")
+   {
+       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
+       wview->page()->mainFrame()->evaluateJavaScript(script);
+
+       qDebug() << script;
+       InternalLocationInHtml="";
+   }
+}
+
+void MobileApp::wvlinkClicked(const QUrl & url)
+{
+    QString link = QString(url.toString());
+
+    qDebug() << link;
+
+    if(link.indexOf("#") != -1 )
+    {
+        int pos = link.indexOf("#");
+        QString lnk = link.mid(pos+1);
+
+        QString script = "paintByHref(\"$" + lnk + "\");";
+
+        qDebug() << script;
+
+        qDebug() << wview->page()->mainFrame()->evaluateJavaScript(script);
+    }
+    //External book link
+    else if(link.indexOf("!") != -1 )
+    {
+        int pos = link.indexOf("!");
+
+        QString lnk = link.mid(pos+1);
+
+        //Open the link
+        QStringList parts = lnk.split(":");
+
+        int id;
+        if(ToNum(parts[0], &id))
+        {
+            Book* book = bookList.findBookById(id);
+            if( book )
+            {
+                InternalLocationInHtml = "#" + parts[1];
+
+                /*
+                if (parts.size() == 3)
+                    CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );
+                */
+
+                showBook(book);
+            }
+        }
+    }
+    //Link to website
+    else if(link.indexOf("^") != -1 )
+    {
+        int pos = link.indexOf("^");
+
+        QString lnk = link.mid(pos+1);
+
+        //Open using browser
+        QDesktopServices::openUrl( QUrl("http://" + lnk) );
+    }
 }
 
 void MobileApp::on_toolButton_3_clicked()
@@ -328,4 +396,54 @@ void MobileApp::on_fonSizeSpinBox_valueChanged(int size)
 void MobileApp::on_cancelBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+}
+
+bool inSearch = false;
+void MobileApp::on_SearchInBooksBTN_clicked()
+{
+    if (!inSearch)
+    {
+        //Do search
+        QString otxt = ui->searchInBooksLine->text();
+        QString stxt = otxt;
+        QRegExp regexp;
+
+        /*
+        if (ui->fuzzyCheckBox->isChecked())
+            stxt = AllowKtivHasser(stxt);
+        */
+
+        regexp = QRegExp( createSearchPattern (stxt) );
+        regexp.setMinimal(true);
+
+        /*
+        pCurrentBookdisplayer->ShowWaitPage();
+        */
+
+        //Set the title of the tab to show what it's searching for
+        //QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
+        //ui->viewTab->setTabText(CURRENT_TAB, title);
+        ui->searchGBX->show();
+        inSearch = true;
+        ui->SearchInBooksBTN->setText(tr("Cancel search"));
+
+        QApplication::processEvents();
+
+        QUrl u = SearchInBooks (regexp, otxt, bookList /*.BooksInSearch()*/, ui->progressBar);
+        wview->load(QUrl(u));
+        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+
+        ui->searchGBX->hide();
+        inSearch = false;
+        ui->searchBTN->setText(tr("Search"));
+    }
+    else
+    {
+        //Cancel search
+        stopSearchFlag = true;
+
+        ui->searchGBX->hide();
+        inSearch = false;
+        ui->SearchInBooksBTN->setText(tr("Search"));
+    }
 }

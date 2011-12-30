@@ -126,7 +126,7 @@ public class CopyResources {
 //				return;
                         }
                         else {
-                                copyFile(path, output.toString());
+                                moveFile(path, output.toString());
                                 buffer.append(output.toString() + "\n");
                         }
                 }
@@ -144,7 +144,7 @@ public class CopyResources {
                 }
         }
 
-        public void copyFile(String inPath, String outPath) throws IOException {
+        public void moveFile(String inPath, String outPath) throws IOException {
                 InputStream inStream;
                 OutputStream outStream;
                 try {
@@ -170,6 +170,9 @@ public class CopyResources {
                         outStream.flush();
                         outStream.close();
                         outStream= null;
+
+                        File file = new File(inPath);
+                        file.delete();
                 } catch (Exception e ){
                         log("error saving file to: " + outPath +" is it larger then 1MB?\n" + e +"\n"+ e.getMessage());
                         return;

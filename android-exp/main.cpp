@@ -26,7 +26,7 @@
 #include <QFontDatabase>
 
 //For test only
-#define Q_OS_ANDROID
+//#define Q_OS_ANDROID
 
 
 //Define location for program dirs
@@ -171,9 +171,10 @@ int main(int argc, char *argv[])
     //Define location for program dirs
     initPaths();
 
+    /*
     //IZAR: define a local font test.
     initFonts();
-
+*/
 
 #ifndef Q_OS_ANDROID
     //Define the program's language

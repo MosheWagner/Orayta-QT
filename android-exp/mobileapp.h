@@ -41,9 +41,8 @@ private slots:
 
     void on_toolButton_clicked();
 
-
-
-    void on_wview_loadFinished(bool arg1);
+    void wvloadFinished(bool);
+    void wvlinkClicked(const QUrl &);
 
     void on_toolButton_3_clicked();
 
@@ -59,6 +58,12 @@ private slots:
 
     void on_fontComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_fonSizeSpinBox_valueChanged(int arg1);
+
+    void on_cancelBTN_clicked();
+
+    void on_SearchInBooksBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 
@@ -68,7 +73,9 @@ private:
 
     QString booktitle;
 
-    myWebView * wview;
+    QString InternalLocationInHtml;
+
+    QWebView * wview;
 
 };
 

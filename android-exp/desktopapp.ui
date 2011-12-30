@@ -1033,7 +1033,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="booksTab">
           <property name="layoutDirection">
