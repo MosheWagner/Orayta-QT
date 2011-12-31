@@ -2,7 +2,7 @@
 # Project created by QtCreator 2009-03-15T13:50:06
 # Author: Moshe Wagner. <moshe.wagner@gmail.com>
 # -------------------------------------------------
-QT += webkit
+QT += webkit network
 TARGET = orayta
 TEMPLATE = app
 INCLUDEPATH += $$PWD
@@ -79,7 +79,8 @@ SOURCES += main.cpp \
     QKinetic/qtscrollerfilter.cpp \
     QKinetic/qtscroller.cpp \
     QKinetic/qtflickgesture.cpp \
-    pdfwidget.cpp
+    pdfwidget.cpp \
+    filedownloader.cpp
 
 
 poppler {
@@ -127,7 +128,8 @@ HEADERS += \
     QKinetic/qtscroller.h \
     QKinetic/qtflickgesture_p.h \
     pdfwidget.h \
-    search.h
+    search.h \
+    filedownloader.h
 
 
 
@@ -294,6 +296,8 @@ OTHER_FILES += \
     android/res/values-rs/strings.xml \
     android/res/values-zh-rTW/strings.xml \
     android/src/org/kde/necessitas/origo/CopyResources.java
+
+
 
 
 

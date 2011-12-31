@@ -59,6 +59,8 @@ bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, c
 QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name);
 bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name);
 
+bool zipExtract(const QString & filePath, const QString & extDirPath);
+
 //Reads the file with the given name and the given encoding, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name);
 

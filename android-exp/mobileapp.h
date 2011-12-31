@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QTreeWidgetItem>
+#include "filedownloader.h"
 #include "booklist.h"
 
 #include "mywebview.h"
@@ -29,7 +30,7 @@ private slots:
 
     void on_searchBTN_clicked();
 
-    void on_bookmarksBTN_clicked();
+    void on_getbooksBTN_clicked();
 
     void on_aboutBTN_clicked();
 
@@ -64,6 +65,13 @@ private slots:
 
     void on_SearchInBooksBTN_clicked();
 
+    void on_downloadBTN_clicked();
+
+    void downloadProgress(int val);
+    void downloadError();
+    void downloadDone();
+    void listDownloadDone();
+
 private:
     Ui::MobileApp *ui;
 
@@ -76,6 +84,9 @@ private:
     QString InternalLocationInHtml;
 
     QWebView * wview;
+
+    FileDownloader *listdownload;
+    FileDownloader *downloader;
 
 };
 

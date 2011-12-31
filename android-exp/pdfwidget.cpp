@@ -1,6 +1,6 @@
 /*
 * This file is  based on the "poppler" exapmle from Qt's documantation,
-* ( Copyright info here below), but has many changes done me.
+* ( Copyright info here below), but has many changes done by me.
 *
 * Moshe Wagner. <moshe.wagner@gmail.com>
 */
@@ -378,7 +378,7 @@ void PdfWidget::showPage(int page)
     }
     if (count < (doc->page(current_page)->textList().size()) / 2) useRTL = true;
 
-    qDebug() << doc->metadata();
+    //qDebug() << doc->metadata();
 
 }
 
@@ -507,13 +507,19 @@ bool PdfWidget::setDocument(const QString &filePath)
     Poppler::Document *oldDocument = doc;
 
     /*
-    //Don't work on some MS-Windows systems
+    //Dosn't work on some MS-Windows systems
     doc = Poppler::Document::load(filePath);
     */
-    QFile file(filePath);
+    QString fp = filePath;
+    //Hack to force "file:///" pathnames to normal ones
+    fp   = fp.replace("file:///", "/");
+
+    QFile file(fp);
+
+
     if (!file.open(QIODevice::ReadOnly))
     {
-        qDebug() << "couldn't open " << filePath;
+        qDebug() << "couldn't open " << fp;
         return false;
     }
 
@@ -531,7 +537,7 @@ bool PdfWidget::setDocument(const QString &filePath)
     }
     else
     {
-        qDebug() << "Couldn't open " << filePath;
+        qDebug() << "Couldn't open " << fp;
     }
 
     return doc != 0;

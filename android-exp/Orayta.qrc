@@ -43,7 +43,6 @@
         <file>Icons/folder-user.png</file>
         <file>Icons/font.png</file>
         <file>Icons/refresh.png</file>
-        <file>Icons/bookcase-big.png</file>
         <file>Icons/bookmarks-big.png</file>
         <file>Icons/back.png</file>
         <file>Icons/help-contents.png</file>
@@ -60,5 +59,6 @@
         <file>fonts/DroidSansHebrew.ttf</file>
         <file>fonts/DavidCLM-Medium.ttf</file>
         <file>fonts/MiriamCLM-Book.ttf</file>
+        <file>Icons/bookcase-big.png</file>
     </qresource>
 </RCC>

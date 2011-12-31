@@ -26,7 +26,7 @@
 #include <QFontDatabase>
 
 //For test only
-//#define Q_OS_ANDROID
+#define Q_OS_ANDROID
 
 
 //Define location for program dirs

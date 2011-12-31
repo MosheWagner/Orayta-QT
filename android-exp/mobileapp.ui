@@ -292,7 +292,7 @@
       </palette>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QGridLayout" name="gridLayout">
@@ -465,7 +465,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QToolButton" name="bookmarksBTN">
+        <widget class="QToolButton" name="getbooksBTN">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
            <horstretch>0</horstretch>
@@ -497,11 +497,11 @@
           <bool>false</bool>
          </property>
          <property name="text">
-          <string>Bookmarks</string>
+          <string>Get books</string>
          </property>
          <property name="icon">
           <iconset resource="Orayta.qrc">
-           <normaloff>:/Icons/bookmarks-big.png</normaloff>:/Icons/bookmarks-big.png</iconset>
+           <normaloff>:/Icons/bookcase-big.png</normaloff>:/Icons/bookcase-big.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1340,29 +1340,21 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="bookmarkpage">
+     <widget class="QWidget" name="getbookspage">
       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <property name="margin">
+        <number>1</number>
+       </property>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="listdownloadlbl">
          <property name="font">
           <font>
            <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
          <property name="text">
-          <string>this is alpha version only. 
-this feature isn't supported yet.</string>
+          <string>Downloading books list. If this message stays, plaese check your internet connection.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -1370,34 +1362,71 @@ this feature isn't supported yet.</string>
         </widget>
        </item>
        <item>
-        <widget class="QTextEdit" name="textEdit">
-         <property name="autoFillBackground">
+        <widget class="QGroupBox" name="downloadGRP">
+         <property name="title">
+          <string/>
+         </property>
+         <property name="flat">
           <bool>true</bool>
          </property>
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;this is alpha version. this option isn't supported yet.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Select book packages to download:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="downloadList">
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="downloadBTN">
+            <property name="text">
+             <string>Download books</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="downloadPrgBar">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>14</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>24</number>
+            </property>
+            <property name="textVisible">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>

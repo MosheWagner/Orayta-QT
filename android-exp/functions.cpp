@@ -112,7 +112,7 @@ bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding
 //Reads the file with the given name, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name)
 {
- bool conflinesended = false;
+    bool conflinesended = false;
    
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
@@ -144,6 +144,90 @@ bool ReadFileToList(QString filename, QList <QString>& text, const char* encodin
         text << t.readLine();
     }
     infile.close();
+
+    return true;
+}
+
+//Quazip extract function. Taken from mosg's answer at stackoverflow.com . Thanks.
+bool zipExtract(const QString & filePath, const QString & extDirPath)
+{
+    QuaZip zip(filePath);
+
+    if (!zip.open(QuaZip::mdUnzip)) {
+        qWarning("testRead(): zip.open(): %d", zip.getZipError());
+        return false;
+    }
+
+    zip.setFileNameCodec("UTF-8");
+
+    //qWarning("%d entries\n", zip.getEntriesCount());
+    //qWarning("Global comment: %s\n", zip.getComment().toLocal8Bit().constData());
+
+    QuaZipFileInfo info;
+
+    QuaZipFile file(&zip);
+
+    QFile out;
+    QString name;
+    for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile())
+    {
+        if (!zip.getCurrentFileInfo(&info)) {
+            qWarning("testRead(): getCurrentFileInfo(): %d\n", zip.getZipError());
+            return false;
+        }
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning("testRead(): file.open(): %d", file.getZipError());
+            return false;
+        }
+
+        name = QString("%1/%2").arg(extDirPath).arg(file.getActualFileName());
+
+        if (file.getZipError() != UNZ_OK) {
+            qWarning("testRead(): file.getFileName(): %d", file.getZipError());
+            return false;
+        }
+
+        //out.setFileName("out/" + name);
+        out.setFileName(name);
+
+        //Folder
+        if (name.endsWith("/"))
+        {
+            QDir d;
+            d.mkpath(name);
+        }
+
+        // this will fail if "name" contains subdirectories, but we don't mind that
+        out.open(QIODevice::WriteOnly);
+
+        out.write(file.readAll());
+        out.close();
+
+        if (file.getZipError() != UNZ_OK) {
+            qWarning("testRead(): file.getFileName(): %d", file.getZipError());
+            return false;
+        }
+
+        if (!file.atEnd()) {
+            qWarning("testRead(): read all but not EOF");
+            return false;
+        }
+
+        file.close();
+
+        if (file.getZipError() != UNZ_OK) {
+            qWarning("testRead(): file.close(): %d", file.getZipError());
+            return false;
+        }
+    }
+
+    zip.close();
+
+    if (zip.getZipError() != UNZ_OK) {
+        qWarning("testRead(): zip.close(): %d", zip.getZipError());
+        return false;
+    }
 
     return true;
 }

@@ -9,7 +9,7 @@
 #include <QFile>
 #include <QCloseEvent>
 #include <QWebFrame>
- #include <QWebPage>
+#include <QWebPage>
 
 //#include <QScroller>
 
@@ -18,11 +18,15 @@
 #define DISPLAY_PAGE 2
 #define LIST_PAGE 3
 #define SEARCH_PAGE 4
-#define BOOKMARK_PAGE 5
+#define GET_BOOKS_PAGE 5
 #define SETTINGS_PAGE 6
 
 
-//TODO: links in search results don't work
+//TODO: Save downloaded books, and don't download them again.
+//TODO: Allow downloading more than one book at a time
+
+//TODO: Select books for search
+
 
 //TODO: Get rid of horrible text over text bug
 //TODO: Test landscape - portrait switching
@@ -79,7 +83,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->searchGBX->hide();
 
 
-
+    QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
     ui->treeWidget->setColumnWidth(0,800);
 
 
@@ -114,10 +118,30 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
     }
 
+    //Initialize a new FileDownloader object for books downloading
+    downloader = new FileDownloader();
+
+    //Connect slots to the signalls of the book downloader
+    connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
+    connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
+    connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
+
+    ui->downloadGRP->hide();
+    ui->downloadPrgBar->hide();
+
+    //Initialize a new FileDownloader to download the list
+    listdownload = new FileDownloader();
+    connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
+
+    listdownload->Download("http://orayta.googlecode.com/files/Android Books", TMPPATH + "Android Books");
+
 }
 
 MobileApp::~MobileApp()
 {
+    delete downloader;
+    delete listdownload;
+
     delete ui;
 }
 
@@ -133,9 +157,9 @@ void MobileApp::on_searchBTN_clicked()
 
 
 
-void MobileApp::on_bookmarksBTN_clicked()
+void MobileApp::on_getbooksBTN_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(BOOKMARK_PAGE);
+    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE);
 }
 
 void MobileApp::on_aboutBTN_clicked()
@@ -441,5 +465,101 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         ui->searchGBX->hide();
         inSearch = false;
         ui->SearchInBooksBTN->setText(tr("Search"));
+    }
+}
+
+void MobileApp::on_downloadBTN_clicked()
+{
+    downloader->abort();
+
+    //Reset small progress bar
+    ui->downloadPrgBar->setValue(0);
+    ui->downloadPrgBar->show();
+
+
+    for (int i=0; i<ui->downloadList->count(); i++)
+    {
+        if (ui->downloadList->itemAt(i, 0)->checkState() == Qt::Checked)
+        {
+            //Generate download url
+            QString url = ui->downloadList->itemAt(i, 0)->toolTip();
+
+            QString name = url.mid(url.lastIndexOf("/") + 1);
+            //Generate download target
+            QString target = BOOKPATH + name;
+
+            qDebug() << target;
+
+            downloader->Download(url, target);
+        }
+    }
+}
+
+void MobileApp::downloadProgress(int val)
+{
+    ui->downloadPrgBar->setValue(val);
+}
+
+void MobileApp::downloadError()
+{
+    qDebug() << "Error downloading:" + downloader->getFileName();
+}
+
+
+void MobileApp::listDownloadDone()
+{
+    //List was downloaded
+    if (listdownload)
+    {
+        if (listdownload->getFileName().contains("Android"))
+        {
+            ui->downloadGRP->show();
+
+            ui->listdownloadlbl->hide();
+
+            QStringList t;
+            ReadFileToList(listdownload->getFileName(), t, "UTF-8");
+
+            qDebug() << t;
+
+            for (int i=0; i<t.size(); i++)
+            {
+                QStringList tt = t[i].split(",");
+
+                QListWidgetItem *lwi;
+                if (tt.size() > 2)
+                {
+                    lwi= new QListWidgetItem(tt[1] + " (" + tt[2] + " MB)");
+                    lwi->setCheckState(Qt::Unchecked);
+                    lwi->setToolTip(tt[0]);
+
+                    ui->downloadList->addItem(lwi);
+                    ui->downloadList->setEnabled(true);
+                }
+            }
+
+            QFile f(listdownload->getFileName());
+            f.remove();
+
+            return;
+        }
+    }
+}
+
+void MobileApp::downloadDone()
+{
+    //Book downloaded
+    if (downloader)
+    {
+        //Unpack the file:
+        if (!zipExtract(downloader->getFileName(), BOOKPATH))
+        {
+            qDebug() << "Couldn't extract:" << downloader->getFileName();
+        }
+
+        QFile f(downloader->getFileName());
+        f.remove();
+
+        ui->downloadPrgBar->hide();
     }
 }
