@@ -262,8 +262,6 @@ void MobileApp::wvlinkClicked(const QUrl & url)
 {
     QString link = QString(url.toString());
 
-    qDebug() << link;
-
     if(link.indexOf("#") != -1 )
     {
         int pos = link.indexOf("#");
@@ -271,9 +269,7 @@ void MobileApp::wvlinkClicked(const QUrl & url)
 
         QString script = "paintByHref(\"$" + lnk + "\");";
 
-        qDebug() << script;
-
-        qDebug() << wview->page()->mainFrame()->evaluateJavaScript(script);
+        wview->page()->mainFrame()->evaluateJavaScript(script);
     }
     //External book link
     else if(link.indexOf("!") != -1 )

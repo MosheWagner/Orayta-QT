@@ -145,6 +145,8 @@ win32:RC_FILE = orayta.rc
 TRANSLATIONS = Hebrew.ts \
     French.ts
 
+#Zlib
+LIBS += -lz
 
 # Install binary
 target.path = /usr/bin
@@ -184,7 +186,7 @@ fonts.files = fonts/.
 
 INSTALLS += target
 INSTALLS += books
-message("books target set to:" $${INSTALL_BOOKS_PATH})
+message("Books target set to:" $${INSTALL_BOOKS_PATH})
 INSTALLS += icon
 INSTALLS += trans
 INSTALLS += fonts

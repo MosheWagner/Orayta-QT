@@ -242,7 +242,7 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
         //Open using browser
         QDesktopServices::openUrl( QUrl("http://" + lnk) );
     }
-    //Link to website
+    //Internal link
     else if(link.indexOf("#") != -1 )
     {
         int pos = link.indexOf("#");
@@ -250,9 +250,7 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         QString script = "paintByHref(\"$" + lnk + "\");";
 
-        qDebug() << script;
-
-        qDebug() << execScript(script);
+        execScript(script);
     }
 }
 

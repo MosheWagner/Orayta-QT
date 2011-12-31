@@ -523,6 +523,8 @@ void DesktopApp::updateBookTree()
     //Add user-added books
     bookList.BuildFromFolder(USERPATH + "Books", true);
 
+    qDebug() << USERPATH + "Books";
+
     /*
       TODO: Re-enable this eventually
     //Create SearchDB for user added books
