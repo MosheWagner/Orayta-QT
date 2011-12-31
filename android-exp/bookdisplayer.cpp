@@ -133,9 +133,7 @@ void bookDisplayer::htmlView_loadFinished(bool ok)
 //Omitted when a link was clicked in the webView
 void bookDisplayer::htmlView_linkClicked(QUrl url)
 {
-    QString link = QString(url.path());
-
-    qDebug() << "a";
+    QString link = QString(url.toString());
 
     //Not actually a link. A menu should open here
     if(link.indexOf("$") != -1 )
@@ -243,6 +241,18 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         //Open using browser
         QDesktopServices::openUrl( QUrl("http://" + lnk) );
+    }
+    //Link to website
+    else if(link.indexOf("#") != -1 )
+    {
+        int pos = link.indexOf("#");
+        QString lnk = link.mid(pos+1);
+
+        QString script = "paintByHref(\"$" + lnk + "\");";
+
+        qDebug() << script;
+
+        qDebug() << execScript(script);
     }
 }
 

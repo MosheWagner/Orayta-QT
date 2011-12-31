@@ -92,9 +92,9 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
         title = QObject::tr("Search results: ") + "\"" + disp + "\"";
 
         Htmlhead = html_head(title);
-        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
-        Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
-        Htmlhead += title + ":" + "</center></i></b></div><BR>";
+        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\" >";
+        Htmlhead += "<div style=\"font-size:30px; text-align:center\"><b><i>";
+        Htmlhead += title + ":" + "</i></b></div><BR>";
         Htmlhead += "\n<span style=\"font-size:17px\">";
 
         int results = 0, allresults = 0;
@@ -141,15 +141,15 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
 
 
                     //Add a small link (at the index) to the full result
-                    HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>";
+                    HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>\n";
 
                     //Add the full result to the page
                     Html += "<span style=\"font-size:23px\">";
-                    Html += "<a name=\"$" + stringify(results) + "\"></a>";
+                    Html += "<a href=\"$" + stringify(results) + "\">&nbsp;</a>";
 
-                    Html += "<a href=!" + stringify(searchList[i]->getUniqueId()) + ":";
+                    Html += "<a href=\"!" + stringify(searchList[i]->getUniqueId()) + ":";
                     Html += searchResults[j].itr.toStringForLinks();
-                    Html += ":" + escapeToBase32(regexp.pattern()) + ">";
+                    Html += ":" + escapeToBase32(regexp.pattern()) + "\">";
 
                     Html += linkdisplay;
                     Html += "</a><BR></span>\n";
