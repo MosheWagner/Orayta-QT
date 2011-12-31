@@ -13,15 +13,19 @@ android {
     INSTALL_PATH = "/assets/Orayta/"
 #    INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
-
-} else: win32 {
+}
+else: win32{
     INSTALL_PATH = quote(c:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
     INSTALL_BOOKS_PATH = quote(c:\\progarm files\\orayta\\books)
-} else:unix {
+}
+else:unix{
     CONFIG += poppler \
         linux
     INSTALL_PATH = /usr/share/Orayta/
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
+
+    #Zlib
+    LIBS += -lz
 }
 
 
@@ -144,9 +148,6 @@ win32:RC_FILE = orayta.rc
 
 TRANSLATIONS = Hebrew.ts \
     French.ts
-
-#Zlib
-LIBS += -lz
 
 # Install binary
 target.path = /usr/bin

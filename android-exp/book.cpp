@@ -75,8 +75,9 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     hasRandomId = false;
 
     mFont = QFont( gFontFamily, gFontSize );
+
     //IZAR: fonts test
-    qDebug() << "mfont gen; gfont: " << gFontFamily << " mfont: " << mFont.family() ;
+    //qDebug() << "mfont gen; gfont: " << gFontFamily << " mfont: " << mFont.family() ;
 
     mPureText = "";
 }
