@@ -23,9 +23,12 @@ use File::Find;
 
 binmode STDOUT, "utf8" ;
 
+# replace hebrew chars with english chars.
 sub replace {
 	my $string = decode_utf8(shift) ;
-	$string =~ tr/אבגדהוזחטיכךלמםנןסעפףצץקרשת/abgdhozhticclmmnnsuppzzkrst/;
+	$string =~ tr/אבגדהוזחטיכךלמםנןסעפףצץקרשת /abgdhozhticclmmnnsuppzzkrst_/;
+#	$string =~ tr/[A-Z]/[a-z]/; #convert all to lowercase.
+ 	$string =~ s/\.TXT$/\.txt/;
 	return decode_utf8($string);
 }
 
@@ -41,6 +44,7 @@ sub mkconf ($$) {
 	
 }
 
+# fix conf lines that have filenames, to match the new english version.
 sub fixConf {
 	my $file = decode_utf8(shift);
 #	my $newname = decode_utf8(shift);
@@ -103,7 +107,9 @@ sub test {
 #	}
 #}
 
-my @path = glob (shift || "."); #if no path given as argument search current dir.
+my @path;
+push @path, glob decode_utf8 ($_) foreach @ARGV; 
+
 print "processing: @path\n";
 
 
