@@ -93,7 +93,7 @@ void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
     if (fontId >= 0)
-        qDebug()<< "installed font successfuly. id: " << fontId;
+        qDebug()<< "installed font successfuly: " << font;
     else
         qDebug()<< "cant add font "<< font;
 }
@@ -112,6 +112,7 @@ void initFonts()
     fonts.append(fontpath + "DroidSansHebrew.ttf");
 //    fonts.append(fontpath + "DavidCLM-Medium.ttf");
     fonts.append(fontpath + "MiriamCLM-Book.ttf");
+    fonts.append(fontpath + "SILEOTSR.ttf");
 
     //add all fonts to the application
     foreach(const QString &font, fonts){
@@ -171,10 +172,10 @@ int main(int argc, char *argv[])
     //Define location for program dirs
     initPaths();
 
-    /*
-    //IZAR: define a local font test.
+
+    //IZAR: add fonts to our app.
     initFonts();
-*/
+
 
 #ifndef Q_OS_ANDROID
     //Define the program's language

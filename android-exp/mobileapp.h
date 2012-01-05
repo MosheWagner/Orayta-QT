@@ -19,6 +19,8 @@ class MobileApp : public QDialog
 
 public:
     explicit MobileApp(QWidget *parent = 0);
+     QStringList downloadsList;
+      void downloadNext();
     ~MobileApp();
 
 protected:
@@ -67,14 +69,28 @@ private slots:
 
     void on_downloadBTN_clicked();
 
+
     void downloadProgress(int val);
     void downloadError();
     void downloadDone();
     void listDownloadDone();
 
-    void markDownloadedBooks();
+
+    //IZAR
+    //hack- remove at will
+    void listDownloadDoneOverride();
+
+    //IZAR
+    void reloadBooklist();
+
     //Downloads the next book in the booksToDownload list.
-    void downloadNextBook();
+    void downloadDWList();
+
+    void on_horizontalSlider_sliderMoved(int position);
+
+    void on_downloadListWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void markDownloadedBooks();
 
 private:
     Ui::MobileApp *ui;

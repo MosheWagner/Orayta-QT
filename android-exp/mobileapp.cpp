@@ -10,6 +10,7 @@
 #include <QCloseEvent>
 #include <QWebFrame>
 #include <QWebPage>
+#include <QDesktopServices>
 
 //#include <QScroller>
 
@@ -58,6 +59,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //QString gFontFamily = "Nachlieli CLM";
     gFontFamily = "Droid Sans Hebrew";
     gFontSize = 20;
+    ui->fontComboBox->setFont(QFont(gFontFamily));
+    ui->fonSizeSpinBox->setValue(gFontSize);
+    ui->horizontalSlider->setValue(gFontSize);
 
     InternalLocationInHtml = "";
 
@@ -81,6 +85,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //QtScroller::grabGesture(ui->treeWidget);
     ui->searchGBX->hide();
 
+    ui->downloadListWidget->setIconSize(QSize::QSize(20,20));
+
 
     QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
     ui->treeWidget->setColumnWidth(0,800);
@@ -88,7 +94,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     //IZAR
     //TODO - use QMessageBox::aboutQt ?
-    QString htmlLabl;
+   /* QString htmlLabl;
 
     htmlLabl += "Orayta 4 android: Version 1.1\n";
     htmlLabl += "Compiled with qt-version:"  ; htmlLabl +=QT_VERSION_STR  ; htmlLabl +="\n";
@@ -96,14 +102,15 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     htmlLabl += "Compiled qt-webkit-version:"  ; htmlLabl +=QTWEBKIT_VERSION_STR  ;
 
 
-    ui->label->setText(htmlLabl);
+    ui->label->setText(htmlLabl); */
 
-    bookList.BuildFromFolder(BOOKPATH);
+//    bookList.BuildFromFolder(BOOKPATH);
 
-    // Check all uids
-    bookList.CheckUid();
+//    // Check all uids
+//    bookList.CheckUid();
 
-    bookList.displayInTree(ui->treeWidget, false);
+//    bookList.displayInTree(ui->treeWidget, false);
+    reloadBooklist();
 
     if (bookList.empty())
     {
@@ -123,11 +130,30 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->downloadGRP->hide();
     ui->downloadPrgBar->hide();
 
+
+    //IZAR
+    // hack to enable me to test downloads without internet
+//    listDownloadDoneOverride();
+
+    //try to increase the size of the font size slider
+//    ui->horizontalSlider->setBaseSize(100,30);
+
+
+    //IZAR
+    //another atempt for a wait page
+//    QString waitimage(":/Images/Wait.gif");
+//    QGraphicsScene *wait;
+//    wait = new QGraphicsScene();
+//    wait->addPixmap(QPixmap::QPixmap(waitimage));
+//    ui->graphicsView->setScene(wait);
+
     //Initialize a new FileDownloader to download the list
     listdownload = new FileDownloader();
     connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
 
-    listdownload->Download(BOOKLISTURL, TMPPATH + "Android-Books", true);
+
+//    listdownload->Download("http://orayta.googlecode.com/files/Android Books", TMPPATH + "Android-Books");
+//    downloadDWList();
 
     if (!bookList.empty())
     {
@@ -143,6 +169,32 @@ MobileApp::~MobileApp()
 
     delete ui;
 }
+
+//IZAR
+// reload the whole book list and tree
+void MobileApp::reloadBooklist(){
+
+    //create a new empty booklist
+    bookList = BookList::BookList();
+
+    //Refresh book list
+    ui->treeWidget->clear();
+
+
+    bookList.BuildFromFolder(BOOKPATH);
+
+    // Check all uids
+    bookList.CheckUid();
+
+    bookList.displayInTree(ui->treeWidget, false);
+
+    //Refresh the download list window
+    ui->downloadListWidget->clear();
+    downloadDWList();
+
+
+}
+
 
 void MobileApp::on_openBTN_clicked()
 {
@@ -194,6 +246,14 @@ void MobileApp::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colum
 void MobileApp::showBook(Book *book)
 {
     if (!book) return;
+     ui->waitLBL->show();
+//     ui->graphicsView->show();
+
+
+    //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
+    //TODO: fix this.
+    QFont font( gFontFamily, gFontSize );
+    book->setFont(font);
 
     switch ( book->fileType() )
     {
@@ -201,6 +261,7 @@ void MobileApp::showBook(Book *book)
         {
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             ui->titlelbl->setText("Loading...");
+
 
             //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
             //TODO: fix this.
@@ -211,9 +272,11 @@ void MobileApp::showBook(Book *book)
             //ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             //QApplication::processEvents();
 
+
             //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
             //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
             QString htmlfilename = book->HTMLFileName() + ".html";
+
 
             qDebug() << "rendering book; font: " << gFontFamily;
 
@@ -318,7 +381,15 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
 void MobileApp::wvloadFinished(bool ok)
 {
+
+    ui->waitLBL->hide();
+//    ui->graphicsView->hide();
+
+
+    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
    ui->titlelbl->setText(booktitle);
+
 
    if (InternalLocationInHtml != "")
    {
@@ -413,10 +484,7 @@ void MobileApp::on_saveConf_clicked()
     gFontFamily = ui->fontComboBox->currentFont().family();
     gFontSize = ui->fonSizeSpinBox->value();
 
-    //IZAR: testing font problem
-    qDebug() << "font set to: " << gFontFamily;
-
-    ui->saveConf->setEnabled(false);
+      ui->saveConf->setEnabled(false);
 
     //Change language if needed
     QSettings settings("Orayta", "SingleUser");
@@ -457,9 +525,20 @@ void MobileApp::on_fonSizeSpinBox_valueChanged(int size)
     //Settings have changed, so the save button should be enabled
     ui->saveConf->setEnabled(true);
 
+    //set the slider to the same value
+    ui->horizontalSlider->setValue(size);
+
     //Show the new font in the preview box
     ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), size));
 }
+
+void MobileApp::on_horizontalSlider_sliderMoved(int position)
+{
+    //set this value to the SpinBox
+    ui->fonSizeSpinBox->setValue(position);
+    MobileApp::on_fonSizeSpinBox_valueChanged(position);
+}
+
 
 void MobileApp::on_cancelBTN_clicked()
 {
@@ -520,68 +599,70 @@ void MobileApp::on_SearchInBooksBTN_clicked()
 void MobileApp::on_downloadBTN_clicked()
 {
     downloader->abort();
+    downloadsList = QStringList();
 
-    for (int i=0; i<ui->downloadList->count(); i++)
+    for (int i=0; i<ui->downloadListWidget->count(); i++)
     {
-        if (ui->downloadList->item(i)->checkState() == Qt::Checked)
+
+        QListWidgetItem *item = ui->downloadListWidget->item(i);
+        if (item-> checkState() == Qt::Checked)
         {
             //Generate download url
-            QString url = ui->downloadList->item(i)->whatsThis();
 
-            booksToDownload << url;
+//            QString url = ui->downloadListWidget->itemAt(i, 0)->toolTip();
+            QString url =item->whatsThis();
+
+//            booksToDownload << url;
+            downloadsList << url;
             //downloader->Download(url, target);
         }
     }
-    ui->downloadList->setEnabled(false);
+    ui->downloadListWidget->setEnabled(false);
     ui->downloadBTN->setEnabled(false);
 
-    downloadNextBook();
+    // download the next file in downloadsList.
+    downloadNext();
+
 }
 
-void MobileApp::downloadNextBook()
-{
-    qDebug() << booksToDownload;
-    if (!booksToDownload.isEmpty())
-    {
+// download the next file in downloadsList.
+void MobileApp::downloadNext(){
+    if (!downloadsList.isEmpty()){
+
         //Reset small progress bar
         ui->downloadPrgBar->setValue(0);
         ui->downloadPrgBar->show();
 
-        QString url = booksToDownload[0];
 
+        QString url = downloadsList.first();
         QString name = url.mid(url.lastIndexOf("/") + 1);
         //Generate download target
         QString target = BOOKPATH + name;
 
-        downloader->Download(url, target, false);
+        qDebug() <<"download file to: "<< target;
+         downloader->Download(url, target, false);
 
-        qDebug() << booksToDownload[0];
-
-        downloadedBooks << booksToDownload[0];
-
-        booksToDownload.removeFirst();
+         downloadsList.removeFirst();
     }
     //No more books to download
     else
     {
-        ui->downloadList->setEnabled(true);
+        qDebug() << "done downloading";
+
+        //reload the book tree
+        reloadBooklist();
+
+        //reset the download page
+        ui->downloadPrgBar->hide();
+        ui->downloadListWidget->setEnabled(true);
         ui->downloadBTN->setEnabled(true);
 
-        markDownloadedBooks();
+         markDownloadedBooks();
 
-        //Refresh the list
-        ui->downloadList->clear();
-        listdownload->Download(BOOKLISTURL, TMPPATH + "Android-Books", true);
+        //switch view to book tree to see the new books
+        if (ui->stackedWidget->currentIndex() == GET_BOOKS_PAGE)
+            ui->stackedWidget->setCurrentIndex(LIST_PAGE);
 
-        //Refresh book list
-        ui->treeWidget->clear();
-
-        bookList.BuildFromFolder(BOOKPATH);
-
-        // Check all uids
-        bookList.CheckUid();
-
-        bookList.displayInTree(ui->treeWidget, false);
     }
 }
 
@@ -594,6 +675,7 @@ void MobileApp::downloadProgress(int val)
 void MobileApp::downloadError()
 {
     qDebug() << "Error downloading:" + downloader->getFileName();
+    downloadNext();
 }
 
 
@@ -609,6 +691,9 @@ void MobileApp::listDownloadDone()
 
         if (listdownload->getFileName().contains("Android"))
         {
+//            qDebug() << "listDownload: "<< listdownload->getFileName() ;
+
+            ui->downloadListWidget->clear();
             ui->downloadGRP->show();
 
             ui->listdownloadlbl->hide();
@@ -629,8 +714,9 @@ void MobileApp::listDownloadDone()
                         lwi->setCheckState(Qt::Unchecked);
                         lwi->setWhatsThis(tt[0]);
 
-                        ui->downloadList->addItem(lwi);
-                        ui->downloadList->setEnabled(true);
+                        ui->downloadListWidget->addItem(lwi);
+                        ui->downloadListWidget->setEnabled(true);
+
                     }
                 }
             }
@@ -639,6 +725,38 @@ void MobileApp::listDownloadDone()
             f.remove();
 
             return;
+        }
+    }
+}
+
+//IZAR
+// hack to enable me to test downloads without internet
+void MobileApp::listDownloadDoneOverride(){
+    qDebug() << "<<<<<<<listDownloadDoneOverride, dont forget to remove before release>>>>>>>";
+
+    ui->downloadGRP->show();
+
+    ui->listdownloadlbl->hide();
+
+    QStringList t;
+    ReadFileToList(MAINPATH + "Android-Books", t, "UTF-8");
+
+    qDebug() << "download list is: " << t;
+
+    for (int i=0; i<t.size(); i++)
+    {
+        QStringList tt = t[i].split(",");
+
+        QListWidgetItem *lwi;
+        if (tt.size() > 2)
+        {
+            lwi= new QListWidgetItem(tt[1] + " (" + tt[2] + " MB)");
+            lwi->setCheckState(Qt::Unchecked);
+//            lwi->setToolTip(tt[0]);
+            lwi->setWhatsThis(tt[0]);
+
+            ui->downloadListWidget->addItem(lwi);
+            ui->downloadListWidget->setEnabled(true);
         }
     }
 }
@@ -652,6 +770,8 @@ void MobileApp::downloadDone()
         if (!zipExtract(downloader->getFileName(), BOOKPATH))
         {
             qDebug() << "Couldn't extract:" << downloader->getFileName();
+        } else {
+             downloadedBooks << downloader->getFileName();
         }
 
         QFile f(downloader->getFileName());
@@ -659,9 +779,35 @@ void MobileApp::downloadDone()
 
         ui->downloadPrgBar->hide();
 
-        downloadNextBook();
+
+
+        //this file has finished downloading, get the next file.
+        downloadNext();
     }
+
+
 }
+
+//void MobileApp::on_ReloadListBTN_clicked()
+//{
+//    downloadDWList();
+//}
+
+//IZAR initiate download of download list
+void MobileApp::downloadDWList()
+{
+//  listdownload->Download("http://orayta.googlecode.com/files/Android-Books", TMPPATH + "Android-Books");   ;
+    listdownload->Download(BOOKLISTURL, TMPPATH + "Android-Books", true);
+}
+
+void MobileApp::on_downloadListWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    if (item->checkState() == Qt::Checked)
+        item->setCheckState(Qt::Unchecked);
+    else
+        item->setCheckState(Qt::Checked);
+}
+
 
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MobileApp::markDownloadedBooks()
@@ -679,3 +825,4 @@ void MobileApp::markDownloadedBooks()
     }
     settings.endGroup();
 }
+

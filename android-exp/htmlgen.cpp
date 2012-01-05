@@ -49,8 +49,6 @@ const int LevelFontSizeAdd[] = {2,12,18,18,18};
 //bool Book::htmlrender(QString filename, QString outfilename)
 bool Book::htmlrender(QString outfilename, bool shownikud, bool showteamim, QString mark)
 {
-    //IZAR: testing font problem.
-    qDebug() << "htmlgen; font: " << gFontFamily;
 
     if (ShowAlone())
     {
@@ -339,9 +337,6 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     html += html_main_div( mFont.family(), mFont.pointSize() );
 
-    //IZAR: fonts test
-    qDebug() << "mixed html render; font: " << mFont << " family: " << mFont.family() ;
-
 
 
     html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
@@ -595,8 +590,6 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
 
     
     html += html_main_div( mFont.family(), mFont.pointSize() );
-    //IZAR: fonts test
-    qDebug() << "normal html render; font: " << mFont << " family: " << mFont.family() ;
 
     html += html_book_title(mNameForTitle, mCopyrightInfo, low_comments);
 
@@ -706,8 +699,6 @@ inline QString html_main_div( QString fontFamily, int fontSize )
     str += "font-size:";
     str +=  stringify(fontSize) + "px\">";
 
-    //IZAR: fonts test
-    qDebug() << "htmlmaindiv; font: " << fontFamily;
 
     return str;
 }
