@@ -60,6 +60,5 @@
         <file>fonts/DavidCLM-Medium.ttf</file>
         <file>fonts/MiriamCLM-Book.ttf</file>
         <file>Icons/bookcase-big.png</file>
-        <file>fonts/SILEOTSR.ttf</file>
     </qresource>
 </RCC>

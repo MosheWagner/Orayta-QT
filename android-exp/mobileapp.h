@@ -24,7 +24,7 @@ public:
     ~MobileApp();
 
 protected:
-    void closeEvent(QCloseEvent *pEvent);
+    //void closeEvent(QCloseEvent *pEvent);
 
 private slots:
 
@@ -77,10 +77,6 @@ private slots:
 
 
     //IZAR
-    //hack- remove at will
-    void listDownloadDoneOverride();
-
-    //IZAR
     void reloadBooklist();
 
     //Downloads the next book in the booksToDownload list.
@@ -105,9 +101,8 @@ private:
 
     QWebView * wview;
 
-
     #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
-
+    #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
     FileDownloader *listdownload;
     FileDownloader *downloader;
 
@@ -117,6 +112,7 @@ private:
     // These will be processed by the FileDownloader object.
     QStringList booksToDownload;
 
+    void updateDownloadableList();
 
 };
 

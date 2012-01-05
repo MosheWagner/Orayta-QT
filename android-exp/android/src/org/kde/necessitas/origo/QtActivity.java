@@ -723,14 +723,16 @@ public class QtActivity extends Activity
     {
     //IZAR - overrided this method to disable back key from crashing our app
     // the better way should be to use "KeyEvent.KEYCODE_<key> " or somethind like it.
-//        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyDown != null)
-//            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
+            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
 //        else
 //            return super.onKeyUp(keyCode, event);
-        return true;
+        //return true;
     }
     public boolean super_onKeyUp(int keyCode, KeyEvent event)
     {
+        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
+            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
 //        return super.onKeyUp(keyCode, event);
         return true;
     }
