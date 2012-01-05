@@ -22,11 +22,9 @@
 #define SETTINGS_PAGE 6
 
 
-//TODO: Save downloaded books, and don't download them again.
-//TODO: Allow downloading more than one book at a time
+//TODO: Test book downloading thoroughly
 
 //TODO: Select books for search
-
 
 //TODO: Get rid of horrible text over text bug
 //TODO: Test landscape - portrait switching
@@ -35,8 +33,7 @@
 //TODO: Search
 //TODO: Bookmarks
 //TODO: Improve book loading speed (gradual loading)
-//TODO: Fix 4 buttons alignment
-//TODO: imply weaved view.
+//TODO: implement weaved view.
 
 //IZAR-
 //TODO: load page preview
@@ -55,6 +52,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
+    QApplication::processEvents();
+
     //IZAR- changed this to use dejavu sans free font in all versions (linux, windows and android)
     //QString gFontFamily = "Nachlieli CLM";
     gFontFamily = "Droid Sans Hebrew";
@@ -72,7 +71,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     wview->setHtml("<center><big>Loading...</big></center>");
 
-    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
 
@@ -112,11 +111,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
         ui->label->setWordWrap(true);
     }
-    else
-    {
-        QApplication::processEvents();
-        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
-    }
 
     //Initialize a new FileDownloader object for books downloading
     downloader = new FileDownloader();
@@ -133,8 +127,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     listdownload = new FileDownloader();
     connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
 
-    listdownload->Download("http://orayta.googlecode.com/files/Android Books", TMPPATH + "Android Books");
+    listdownload->Download(BOOKLISTURL, TMPPATH + "Android-Books", true);
 
+    if (!bookList.empty())
+    {
+        QApplication::processEvents();
+        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    }
 }
 
 MobileApp::~MobileApp()
@@ -194,44 +193,95 @@ void MobileApp::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colum
 
 void MobileApp::showBook(Book *book)
 {
-    if (book == 0)
-        return;
-    ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-    ui->titlelbl->setText("Loading...");
+    if (!book) return;
 
-    //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
-    //TODO: fix this.
-    QFont font( gFontFamily, gFontSize );
-    book->setFont(font);
-
-
-    //ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-    //QApplication::processEvents();
-
-    //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
-    //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
-    QString htmlfilename = book->HTMLFileName() + ".html";
-
-    qDebug() << "rendering book; font: " << gFontFamily;
-
-    //Check if file already exists. If not, make sure it renders ok.
-    QFile f(htmlfilename);
-    bool renderedOK = true;
-
-    if (!f.exists())
+    switch ( book->fileType() )
     {
-        renderedOK = book->htmlrender(htmlfilename, true, true, "");
-    }
+        case ( Book::Normal ):
+        {
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            ui->titlelbl->setText("Loading...");
 
-    if (renderedOK == true)
-    {
-        QString p =  absPath(htmlfilename);
-        QUrl u = QUrl::fromLocalFile(p);
+            //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
+            //TODO: fix this.
+            QFont font( gFontFamily, gFontSize );
+            book->setFont(font);
 
-        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-        wview->load(u);
 
-        booktitle = book->getNormallDisplayName();
+            //ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            //QApplication::processEvents();
+
+            //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
+            //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
+            QString htmlfilename = book->HTMLFileName() + ".html";
+
+            qDebug() << "rendering book; font: " << gFontFamily;
+
+            //Check if file already exists. If not, make sure it renders ok.
+            QFile f(htmlfilename);
+            bool renderedOK = true;
+
+            if (!f.exists())
+            {
+                renderedOK = book->htmlrender(htmlfilename, true, true, "");
+            }
+
+            if (renderedOK == true)
+            {
+                QString p =  absPath(htmlfilename);
+                QUrl u = QUrl::fromLocalFile(p);
+
+                ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+                wview->load(u);
+                wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
+                booktitle = book->getNormallDisplayName();
+            }
+            break;
+        }
+        case ( Book::Html ):
+        {
+            wview->load( QUrl::fromLocalFile(book->getPath()) );
+            wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+            //TODO: title
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            break;
+        }
+        case ( Book::Pdf ):
+        {
+            //TODO: Add poppler support?
+            wview->page()->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+            wview->setHtml(pluginPage(book->getNormallDisplayName()));
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            if ( wview->page()->mainFrame()->evaluateJavaScript("testPdfPlugin()").toString() == "yes" )
+            {
+                wview->load( QUrl::fromLocalFile( "file:///" + book->getPath() ) );
+                //TODO: title
+                //ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
+            }
+            break;
+        }
+        case ( Book::Link ):
+        {
+            //Process link:
+
+            //Read link file
+            QList <QString> t;
+            ReadFileToList(book->getPath(), t, "UTF-8");
+
+            //Find the id of the book the link points to
+            int lId = -1;
+            for (int i=0; i<t.size(); i++)
+            {
+                int p = t[i].indexOf("Link=");
+                if (p != -1) ToNum(t[i].mid(p + 5), &lId);
+            }
+
+            if (lId != -1) showBook( bookList.findBookById(lId) );
+            else qDebug("Invalid link!");
+
+            break;
+        }
     }
 }
 
@@ -268,8 +318,6 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
 void MobileApp::wvloadFinished(bool ok)
 {
-   wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
    ui->titlelbl->setText(booktitle);
 
    if (InternalLocationInHtml != "")
@@ -451,6 +499,7 @@ void MobileApp::on_SearchInBooksBTN_clicked()
 
         QUrl u = SearchInBooks (regexp, otxt, bookList /*.BooksInSearch()*/, ui->progressBar);
         wview->load(QUrl(u));
+        wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
         ui->searchGBX->hide();
@@ -472,28 +521,70 @@ void MobileApp::on_downloadBTN_clicked()
 {
     downloader->abort();
 
-    //Reset small progress bar
-    ui->downloadPrgBar->setValue(0);
-    ui->downloadPrgBar->show();
-
-
     for (int i=0; i<ui->downloadList->count(); i++)
     {
-        if (ui->downloadList->itemAt(i, 0)->checkState() == Qt::Checked)
+        if (ui->downloadList->item(i)->checkState() == Qt::Checked)
         {
             //Generate download url
-            QString url = ui->downloadList->itemAt(i, 0)->toolTip();
+            QString url = ui->downloadList->item(i)->whatsThis();
 
-            QString name = url.mid(url.lastIndexOf("/") + 1);
-            //Generate download target
-            QString target = BOOKPATH + name;
-
-            qDebug() << target;
-
-            downloader->Download(url, target);
+            booksToDownload << url;
+            //downloader->Download(url, target);
         }
     }
+    ui->downloadList->setEnabled(false);
+    ui->downloadBTN->setEnabled(false);
+
+    downloadNextBook();
 }
+
+void MobileApp::downloadNextBook()
+{
+    qDebug() << booksToDownload;
+    if (!booksToDownload.isEmpty())
+    {
+        //Reset small progress bar
+        ui->downloadPrgBar->setValue(0);
+        ui->downloadPrgBar->show();
+
+        QString url = booksToDownload[0];
+
+        QString name = url.mid(url.lastIndexOf("/") + 1);
+        //Generate download target
+        QString target = BOOKPATH + name;
+
+        downloader->Download(url, target, false);
+
+        qDebug() << booksToDownload[0];
+
+        downloadedBooks << booksToDownload[0];
+
+        booksToDownload.removeFirst();
+    }
+    //No more books to download
+    else
+    {
+        ui->downloadList->setEnabled(true);
+        ui->downloadBTN->setEnabled(true);
+
+        markDownloadedBooks();
+
+        //Refresh the list
+        ui->downloadList->clear();
+        listdownload->Download(BOOKLISTURL, TMPPATH + "Android-Books", true);
+
+        //Refresh book list
+        ui->treeWidget->clear();
+
+        bookList.BuildFromFolder(BOOKPATH);
+
+        // Check all uids
+        bookList.CheckUid();
+
+        bookList.displayInTree(ui->treeWidget, false);
+    }
+}
+
 
 void MobileApp::downloadProgress(int val)
 {
@@ -511,6 +602,11 @@ void MobileApp::listDownloadDone()
     //List was downloaded
     if (listdownload)
     {
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("DownloadedBooks");
+        downloadedBooks = settings.allKeys().replaceInStrings("http:/", "http://");
+        settings.endGroup();
+
         if (listdownload->getFileName().contains("Android"))
         {
             ui->downloadGRP->show();
@@ -520,8 +616,6 @@ void MobileApp::listDownloadDone()
             QStringList t;
             ReadFileToList(listdownload->getFileName(), t, "UTF-8");
 
-            qDebug() << t;
-
             for (int i=0; i<t.size(); i++)
             {
                 QStringList tt = t[i].split(",");
@@ -529,12 +623,15 @@ void MobileApp::listDownloadDone()
                 QListWidgetItem *lwi;
                 if (tt.size() > 2)
                 {
-                    lwi= new QListWidgetItem(tt[1] + " (" + tt[2] + " MB)");
-                    lwi->setCheckState(Qt::Unchecked);
-                    lwi->setToolTip(tt[0]);
+                    if (!downloadedBooks.contains(tt[0]))
+                    {
+                        lwi= new QListWidgetItem(tt[1] + " (" + tt[2] + " MB)");
+                        lwi->setCheckState(Qt::Unchecked);
+                        lwi->setWhatsThis(tt[0]);
 
-                    ui->downloadList->addItem(lwi);
-                    ui->downloadList->setEnabled(true);
+                        ui->downloadList->addItem(lwi);
+                        ui->downloadList->setEnabled(true);
+                    }
                 }
             }
 
@@ -561,5 +658,24 @@ void MobileApp::downloadDone()
         f.remove();
 
         ui->downloadPrgBar->hide();
+
+        downloadNextBook();
     }
+}
+
+//Overrides the normal "closeEvent", so it can save tha window's state before quiting
+void MobileApp::markDownloadedBooks()
+{
+
+    qDebug() << downloadedBooks;
+
+    QSettings settings("Orayta", "SingleUser");
+
+    settings.beginGroup("DownloadedBooks");
+
+    for(unsigned int i=0; i<downloadedBooks.size(); i++)
+    {
+        settings.setValue(downloadedBooks[i], "Downloaded");
+    }
+    settings.endGroup();
 }

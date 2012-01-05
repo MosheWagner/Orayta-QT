@@ -292,7 +292,7 @@
       </palette>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QGridLayout" name="gridLayout">

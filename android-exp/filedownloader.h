@@ -47,7 +47,7 @@ public:
 
     //Downloads the file at the given url to the given target.
     // Returns nothing, but emits signalls representing what happened
-    void Download(QString url, QString target);
+    void Download(QString url, QString target, bool overwrite);
 
     //Returns the filename of the last download (NOTE: also if it was unsuccessful)
     QString getFileName();

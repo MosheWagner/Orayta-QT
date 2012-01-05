@@ -27,7 +27,7 @@ FileDownloader::FileDownloader()
 
 //Downloads the file at the given url to the given target.
 // Returns nothing, but emits signalls representing what happened
-void FileDownloader::Download(QString rUrl, QString rTarget)
+void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite = false)
 {
     mFileName = rTarget;
 
@@ -41,7 +41,7 @@ void FileDownloader::Download(QString rUrl, QString rTarget)
     mTargetFile.setFileName(rTarget);
 
     //Check if a file exists in the given target:
-    if (mTargetFile.exists())
+    if (mTargetFile.exists() && overwrite == false)
     {
         //Use the existing file, so the download is done
         emit done();

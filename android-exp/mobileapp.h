@@ -72,6 +72,10 @@ private slots:
     void downloadDone();
     void listDownloadDone();
 
+    void markDownloadedBooks();
+    //Downloads the next book in the booksToDownload list.
+    void downloadNextBook();
+
 private:
     Ui::MobileApp *ui;
 
@@ -85,8 +89,18 @@ private:
 
     QWebView * wview;
 
+
+    #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
+
     FileDownloader *listdownload;
     FileDownloader *downloader;
+
+    //Holds a list of books that the user already downloaded, so they won't be downloaded again.
+    QStringList downloadedBooks;
+    //Holds a list of books that the user requested to download.
+    // These will be processed by the FileDownloader object.
+    QStringList booksToDownload;
+
 
 };
 
