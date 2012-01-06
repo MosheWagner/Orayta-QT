@@ -201,8 +201,12 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef Q_OS_ANDROID
+
     MobileApp m;
+
     m.show();
+
+    app.processEvents();
 #endif
 
     return app.exec();

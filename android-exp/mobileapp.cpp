@@ -103,6 +103,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->label->setText(htmlLabl); */
 
     //Build the book list
+
     reloadBooklist();
 
     if (bookList.empty())
@@ -163,14 +164,15 @@ MobileApp::~MobileApp()
     delete ui;
 }
 
-void MobileApp::reloadBooklist()
-{
+//IZAR
+// reload the whole book list and tree
+void MobileApp::reloadBooklist(){
+
     //create a new empty booklist
     bookList = BookList();
 
     //Refresh book list
     ui->treeWidget->clear();
-
 
     bookList.BuildFromFolder(BOOKPATH);
 
@@ -179,9 +181,7 @@ void MobileApp::reloadBooklist()
 
     bookList.displayInTree(ui->treeWidget, false);
 
-    //Refresh the download list window
-    ui->downloadListWidget->clear();
-    downloadDWList();
+
 }
 
 
@@ -704,6 +704,10 @@ void MobileApp::downloadNext()
 
         //reload the book tree
         reloadBooklist();
+
+        //Refresh the download list window
+        ui->downloadListWidget->clear();
+        downloadDWList();
 
         //reset the download page
         ui->downloadPrgBar->hide();

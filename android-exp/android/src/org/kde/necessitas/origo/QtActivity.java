@@ -680,24 +680,25 @@ public class QtActivity extends Activity
         return super.onKeyMultiple(keyCode, repeatCount, event);
     }
     
-    private void flag(){};
+    @SuppressWarnings("unused")
+	private void flag(){};
     //---------------------------------------------------------------------------
-/*
+
         @Override
 
     public boolean onKeyUp(int keyCode, KeyEvent event)
 
     {
 
-        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
-
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+//        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
+//
+//            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
 
 //        else
 
-//            return super.onKeyUp(keyCode, event);
+            return super.onKeyUp(keyCode, event);
 
-        //return true;
+//        return true;
 
     }
 
@@ -705,20 +706,22 @@ public class QtActivity extends Activity
 
     {
 
-        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
-
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-
-//        return super.onKeyUp(keyCode, event);
-
-        return true;
+//        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
+//
+//            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+//
+        return super.onKeyUp(keyCode, event);
+//
+//        return true;
 
     }
 
     //---------------------------------------------------------------------------
     
-  */  
-    @Override
+	@SuppressWarnings("unused")
+	private void flag2(){};
+  
+ /*   @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
     //IZAR - overrided this method to disable back key from crashing our app
@@ -735,7 +738,7 @@ public class QtActivity extends Activity
             return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
 //        return super.onKeyUp(keyCode, event);
         return true;
-    }
+    }*/
     //---------------------------------------------------------------------------
 
     @Override
