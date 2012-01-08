@@ -67,6 +67,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
     QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
 
+    viewHistory = new QWidgetList();
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
+
     ui->displaypage->layout()->addWidget(wview);
 
 
@@ -339,17 +342,19 @@ void MobileApp::showBook(Book *book)
 
 void MobileApp::on_toolButton_clicked()
 {
-    if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE) ui->stackedWidget->setCurrentIndex(LIST_PAGE);
-    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE) exit(0);
-    else ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+//    if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE) ui->stackedWidget->setCurrentIndex(LIST_PAGE);
+//    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE) exit(0);
+//    else ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    goBack();
 }
 
 
-/*
+
 //Catch android "back" button
 void MobileApp::closeEvent(QCloseEvent *event)
 {
     qDebug() << "Oh no!!!";
+
 
     if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
     {
@@ -367,7 +372,72 @@ void MobileApp::closeEvent(QCloseEvent *event)
         event->ignore();
     }
 }
-*/
+
+void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
+    if (keyEvent->key() == Qt::Key_MediaPrevious)
+        goBack();
+        //        qDebug()<<"caught media back";
+    else if(keyEvent->key() == Qt::Key_Back)
+        qDebug()<<"caught back";
+    else if (keyEvent->key() == Qt::Key_Close)
+        qDebug()<<"caught close";
+    else if (keyEvent->key() == Qt::Key_TopMenu)
+        qDebug()<<"caught manu";
+    else if (keyEvent->key() == Qt::Key_Explorer)
+        qDebug()<<"caught explorer";
+
+    else
+        QDialog::keyReleaseEvent(keyEvent);
+
+    keyEvent->accept();
+}
+
+// stacked widget currnet view canged.
+void MobileApp::viewChanged(int index)
+{
+//    if (currentView){
+//        previousView = currentView;
+//    }
+//        currentView = ui->stackedWidget->currentWidget();
+    if(!viewHistory)
+    {
+        qDebug()<< "cant stat view history";
+        return;
+    }
+
+    if (ui->stackedWidget->currentWidget())
+        viewHistory->append(ui->stackedWidget->currentWidget());
+}
+
+//go to previos view of stacked widget.
+void MobileApp::goBack()
+{
+    qDebug()<< "going back";
+
+    // if we have only one object it probably is the current view and we cant go back
+    if(viewHistory->length() < 2)
+    {
+        qDebug()<< "noware to go. exiting.";
+        exit(0);
+    }
+    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
+    {
+        qDebug()<< "exiting";
+        exit(0);
+    }
+    else
+    //go to the one-before-last view, which is the previous view.
+    {
+        QWidget *previousView = viewHistory->at(viewHistory->length()-2);
+
+        //remove the last two objects. these are the current and previous view. the previous view will be re insereted later via viewChanged.
+        viewHistory->removeLast(); viewHistory->removeLast();
+
+        ui->stackedWidget->setCurrentWidget(previousView);
+
+    }
+}
+
 
 void MobileApp::wvloadFinished(bool ok)
 {

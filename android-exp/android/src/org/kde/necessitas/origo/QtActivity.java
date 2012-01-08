@@ -680,6 +680,9 @@ public class QtActivity extends Activity
         return super.onKeyMultiple(keyCode, repeatCount, event);
     }
     
+    /** IZAR
+     * just so that i can find this place quickly
+     */
     @SuppressWarnings("unused")
 	private void flag(){};
     //---------------------------------------------------------------------------
@@ -690,13 +693,30 @@ public class QtActivity extends Activity
 
     {
 
-//        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
-//
-//            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-
-//        else
-
+        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
+        	if (keyCode == KeyEvent.KEYCODE_BACK ){
+        		Log.d("IZAR", "caught a keyback event");
+//        		if (QtApplication.closeEvent != null){
+//        			Log.d("IZAR", "invoking close event");
+//        			return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.closeEvent, keyCode, event);
+//        		}
+//        		else 
+        		{
+        			Log.d("IZAR", "invoking media back key");
+                    return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
+        		}
+        	}
+        	else if (keyCode == KeyEvent.KEYCODE_MENU){
+        		Log.d("IZAR", "invoking  menu key");
+        		return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_EXPLORER, event);
+        	}
+        	Log.d("IZAR", "on key up delegate");
+            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+        }
+        else {
+        	Log.d("IZAR", "on key up call super");
             return super.onKeyUp(keyCode, event);
+        }
 
 //        return true;
 
@@ -706,11 +726,14 @@ public class QtActivity extends Activity
 
     {
 
-//        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
-//
-//            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-//
-        return super.onKeyUp(keyCode, event);
+        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
+        	Log.d("IZAR", "on super key up delegate");
+            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+        }
+        else {
+        	Log.d("IZAR", "on super key up call super");
+        	return super.onKeyUp(keyCode, event);
+        }
 //
 //        return true;
 
@@ -718,26 +741,30 @@ public class QtActivity extends Activity
 
     //---------------------------------------------------------------------------
     
+    /** IZAR
+     * just so that i can find this place quickly
+     */
 	@SuppressWarnings("unused")
 	private void flag2(){};
   
- /*   @Override
+   /* @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
     //IZAR - overrided this method to disable back key from crashing our app
     // the better way should be to use "KeyEvent.KEYCODE_<key> " or somethind like it.
         if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
             return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-//        else
-//            return super.onKeyUp(keyCode, event);
+        else
+            return super.onKeyUp(keyCode, event);
         //return true;
     }
     public boolean super_onKeyUp(int keyCode, KeyEvent event)
     {
         if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null)
             return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-//        return super.onKeyUp(keyCode, event);
-        return true;
+        else
+        return super.onKeyUp(keyCode, event);
+//        return true;
     }*/
     //---------------------------------------------------------------------------
 
@@ -1085,15 +1112,43 @@ public class QtActivity extends Activity
     }
     //---------------------------------------------------------------------------
 
+    /** IZAR
+     * just so that i can find this place quickly
+     */
+    @SuppressWarnings("unused")
+	private void flag3(){};
+	
     @Override
     public void onBackPressed()
     {
+    	
         if (!QtApplication.invokeDelegate(null))
             super.onBackPressed();
+    	
+//    	if (QtApplication.m_delegateObject != null  && QtApplication.onBackPressed != null){
+//        	Log.d("IZAR", "on back pressed delegate");
+//            QtApplication.invokeDelegateMethod(QtApplication.onBackPressed, KeyEvent.KEYCODE_BACK, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
+//        }
+//        else {
+//        	Log.d("IZAR", "on back pressed call super");
+////            return super.onKeyUp(keyCode, event);
+//        	super.onBackPressed();
+//        }
     }
     public void super_onBackPressed()
     {
-        super.onBackPressed();
+//    	if (QtApplication.m_delegateObject != null  && QtApplication.onBackPressed != null){
+//        	Log.d("IZAR", "on super back pressed delegate");
+//            QtApplication.invokeDelegateMethod(QtApplication.onBackPressed, KeyEvent.KEYCODE_BACK, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK));
+//        }
+//        else {
+//        	Log.d("IZAR", "on super back pressed call super");
+//        	super.onBackPressed();
+//        }
+
+    	if (!QtApplication.invokeDelegate(null))
+            super.onBackPressed();
+    	
     }
     //---------------------------------------------------------------------------
 

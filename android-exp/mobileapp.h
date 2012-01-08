@@ -24,7 +24,10 @@ public:
     ~MobileApp();
 
 protected:
-    //void closeEvent(QCloseEvent *pEvent);
+    void closeEvent(QCloseEvent *pEvent);
+
+    //IZAR
+    void keyReleaseEvent(QKeyEvent *keyEvent);
 
 private slots:
 
@@ -78,6 +81,11 @@ private slots:
 
     //IZAR
     void reloadBooklist();
+    // stacked widget currnet view canged.
+    void viewChanged(int index);
+    //go to previos view of stacked widget.
+    void goBack();
+
 
     //Downloads the next book in the booksToDownload list.
     void downloadDWList();
@@ -113,6 +121,11 @@ private:
     QStringList booksToDownload;
 
     void updateDownloadableList();
+
+    //views from stacked widget:
+//    QWidget *previousView;
+//    QWidget *currentView;
+    QWidgetList *viewHistory;
 
 };
 
