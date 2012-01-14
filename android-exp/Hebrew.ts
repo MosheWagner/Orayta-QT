@@ -102,12 +102,12 @@
     <message>
         <location filename="bookmark.cpp" line="34"/>
         <source>Edit bookmark title...</source>
-        <translation type="unfinished">ערוך כותרת סימנייה...</translation>
+        <translation>ערוך כותרת סימנייה...</translation>
     </message>
     <message>
         <location filename="bookmark.cpp" line="37"/>
         <source>Delete bookmark</source>
-        <translation type="unfinished">מחק סימנייה</translation>
+        <translation>מחק סימנייה</translation>
     </message>
     <message>
         <location filename="bookmark.cpp" line="166"/>
@@ -124,116 +124,116 @@
         <location filename="desktopapp.cpp" line="1805"/>
         <location filename="desktopapp.cpp" line="1809"/>
         <source>Orayta</source>
-        <translation type="unfinished">אורייתא</translation>
+        <translation>אורייתא</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="192"/>
         <source>Jewish books</source>
-        <translation type="unfinished">ספרי קודש</translation>
+        <translation>ספרי קודש</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="543"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
-        <translation type="unfinished">לא נמצאו ספרים מותקנים! 
+        <translation>לא נמצאו ספרים מותקנים! 
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="572"/>
         <source>Loading...</source>
-        <translation type="unfinished">טוען...</translation>
+        <translation>טוען...</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="596"/>
         <source>&lt;h2&gt;An error occured...&lt;/h2&gt;&lt;br /&gt;Please report this bug : &apos;http://code.google.com/p/orayta/issues/entry&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;אירעה שגיאה...&lt;/h2&gt;&lt;br /&gt;אנא דווח על באג זה בדף: &apos;http://code.google.com/p/orayta/issues/entry&apos;</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="732"/>
         <source>Are you sure you want to remove this </source>
-        <translation type="unfinished">אתה בטוח שברצונך למחוק </translation>
+        <translation>אתה בטוח שברצונך למחוק </translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="733"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
-        <translation type="unfinished">תיקיה זו ?
+        <translation>תיקיה זו ?
 כל הספרים הקיימים בתקיה יימחקו.</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="734"/>
         <source>book ?</source>
-        <translation type="unfinished">ספר זה?</translation>
+        <translation>ספר זה?</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="736"/>
         <source>Deleting book</source>
-        <translation type="unfinished">מחיקת ספר</translation>
+        <translation>מחיקת ספר</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="900"/>
         <source>Open book</source>
-        <translation type="unfinished">פתח ספר</translation>
+        <translation>פתח ספר</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="902"/>
         <source>Open in new tab</source>
-        <translation type="unfinished">פתח בלשונית חדשה</translation>
+        <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="915"/>
         <source>Delete book</source>
-        <translation type="unfinished">מחק ספר זה</translation>
+        <translation>מחק ספר זה</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="926"/>
         <source>Change font</source>
-        <translation type="unfinished">שנה גופן</translation>
+        <translation>שנה גופן</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1397"/>
         <source>Orayta - Jewish books</source>
-        <translation type="unfinished">אורייתא - ספרי קודש</translation>
+        <translation>אורייתא - ספרי קודש</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1690"/>
         <source>Searching: </source>
-        <translation type="unfinished">מחפש:</translation>
+        <translation>מחפש:</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1820"/>
         <source>Searching guematria for: </source>
-        <translation type="unfinished">חיפוש גימטריא עבור: </translation>
+        <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1893"/>
         <source>Search results for guematria : </source>
-        <translation type="unfinished">תוצאות חיפוש גימטריא עבור :</translation>
+        <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1904"/>
         <source>(Search stopped by user)</source>
-        <translation type="unfinished">(החיפוש נעצר ע&quot;י המשתמש)</translation>
+        <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1911"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
-        <translation type="unfinished">ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
+        <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1917"/>
         <source>No guematria results found:</source>
-        <translation type="unfinished">לא נמצאו תוצאות:</translation>
+        <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1924"/>
         <source>Result list: </source>
-        <translation type="unfinished">רשימת תוצאות: </translation>
+        <translation>רשימת תוצאות: </translation>
     </message>
     <message>
         <location filename="desktopapp.cpp" line="1925"/>
         <source> results founds.</source>
-        <translation type="unfinished"> תוצאות נמצאו.</translation>
+        <translation> תוצאות נמצאו.</translation>
     </message>
 </context>
 <context>
@@ -241,364 +241,364 @@ This will remove all the books in this directory.</source>
     <message>
         <location filename="desktopapp.ui" line="26"/>
         <source>Orayta - Hebrew books</source>
-        <translation type="unfinished">אורייתא - ספרי קודש</translation>
+        <translation>אורייתא - ספרי קודש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="502"/>
         <source>Orayta</source>
-        <translation type="unfinished">אורייתא</translation>
+        <translation>אורייתא</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="649"/>
         <location filename="desktopapp.ui" line="707"/>
         <source>Open new tab</source>
-        <translation type="unfinished">פתח לשונית חדשה</translation>
+        <translation>פתח לשונית חדשה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="652"/>
         <source>Pdf page:</source>
-        <translation type="unfinished">עמוד:</translation>
+        <translation>עמוד:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="690"/>
         <source>refresh this book</source>
-        <translation type="unfinished">רענן ספר זה</translation>
+        <translation>רענן ספר זה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="730"/>
         <source>Jump to top</source>
-        <translation type="unfinished">קפוץ לראש הספר</translation>
+        <translation>קפוץ לראש הספר</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="759"/>
         <source>Zoom out</source>
-        <translation type="unfinished">הקטן כתב</translation>
+        <translation>הקטן כתב</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="788"/>
         <source>Zoom in</source>
-        <translation type="unfinished">הגדל כתב</translation>
+        <translation>הגדל כתב</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="817"/>
         <source>Search in current books</source>
-        <translation type="unfinished">חפש בתוך ספר זה</translation>
+        <translation>חפש בתוך ספר זה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="880"/>
         <location filename="desktopapp.ui" line="1078"/>
         <location filename="desktopapp.ui" line="1092"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="910"/>
         <source>Search in book:</source>
-        <translation type="unfinished">חיפוש בספר:</translation>
+        <translation>חיפוש בספר:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="924"/>
         <source>Search backwards in book</source>
-        <translation type="unfinished">חפש אחורה בספר זה</translation>
+        <translation>חפש אחורה בספר זה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="953"/>
         <source>Search forward in book</source>
-        <translation type="unfinished">חפש קדימה בספר זה</translation>
+        <translation>חפש קדימה בספר זה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1047"/>
         <source>Books</source>
-        <translation type="unfinished">ספרים</translation>
+        <translation>ספרים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1075"/>
         <source>Add all books to search</source>
-        <translation type="unfinished">הוסף את כל הספרים לחיפוש</translation>
+        <translation>הוסף את כל הספרים לחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1089"/>
         <source>Remove all books from search</source>
-        <translation type="unfinished">הוצא את כל הספרים מהחיפוש</translation>
+        <translation>הוצא את כל הספרים מהחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1201"/>
         <source>Display with:</source>
-        <translation type="unfinished">הצג בשילוב עם:</translation>
+        <translation>הצג בשילוב עם:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1220"/>
         <source>Hide commentaries</source>
-        <translation type="unfinished">הסתר פרושים</translation>
+        <translation>הסתר פרושים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1242"/>
         <source>Open</source>
-        <translation type="unfinished">הצג</translation>
+        <translation>הצג</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1277"/>
         <location filename="desktopapp.ui" line="1488"/>
         <source>Search</source>
-        <translation type="unfinished">חפש</translation>
+        <translation>חפש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1288"/>
         <source>Search for:</source>
-        <translation type="unfinished">חפש:</translation>
+        <translation>חפש:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1303"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
-        <translation type="unfinished">(החיפוש מתעלם מפיסוק, ניקוד וטעמים)</translation>
+        <translation>(החיפוש מתעלם מפיסוק, ניקוד וטעמים)</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1320"/>
         <source>String search</source>
-        <translation type="unfinished">חיפוש מחרוזות</translation>
+        <translation>חיפוש מחרוזות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1337"/>
         <source>Find exact string (or regexp)</source>
-        <translation type="unfinished">חפש משפט מדיוק
+        <translation>חפש משפט מדיוק
 - או ביטוי רגולרי</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1358"/>
         <source>Find all words</source>
-        <translation type="unfinished">חפש את כל המילים</translation>
+        <translation>חפש את כל המילים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1377"/>
         <source>spacing (in words)</source>
-        <translation type="unfinished">רווח בין המילים</translation>
+        <translation>רווח בין המילים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1389"/>
         <source>Find any of the words</source>
-        <translation type="unfinished">חפש חלק מהמילים</translation>
+        <translation>חפש חלק מהמילים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1406"/>
         <source>Find full words only</source>
-        <translation type="unfinished">חפש מילים שלמות</translation>
+        <translation>חפש מילים שלמות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1418"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
-        <translation type="unfinished">חפש גם בכתיב חסר</translation>
+        <translation>חפש גם בכתיב חסר</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1436"/>
         <source>Guematria search (tanach only)</source>
-        <translation type="unfinished">חיפוש גימטריא - תנ&quot;ך בלבד</translation>
+        <translation>חיפוש גימטריא - תנ&quot;ך בלבד</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1529"/>
         <source>Searching ...</source>
-        <translation type="unfinished">מחפש ...</translation>
+        <translation>מחפש ...</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1576"/>
         <source>Cancel search</source>
-        <translation type="unfinished">בטל חיפוש</translation>
+        <translation>בטל חיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1622"/>
         <source>Bookmarks</source>
-        <translation type="unfinished">סימניות</translation>
+        <translation>סימניות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1633"/>
         <source>Remove bookmark</source>
-        <translation type="unfinished">מחק סימנייה</translation>
+        <translation>מחק סימנייה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1636"/>
         <source>Erase bookmark</source>
-        <translation type="unfinished">מחק סימנייה</translation>
+        <translation>מחק סימנייה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1662"/>
         <source>Move bookmark up</source>
-        <translation type="unfinished">העלה סימנייה למעלה</translation>
+        <translation>העלה סימנייה למעלה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1691"/>
         <source>Move bookmark down</source>
-        <translation type="unfinished">הורד סימנייה למטה</translation>
+        <translation>הורד סימנייה למטה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1720"/>
         <source>Edit bookmark&apos;s title</source>
-        <translation type="unfinished">ערוך כותרת סימנייה</translation>
+        <translation>ערוך כותרת סימנייה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1814"/>
         <source>Add a bookmark here:</source>
-        <translation type="unfinished">הוסף סימניה כאן:</translation>
+        <translation>הוסף סימניה כאן:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1831"/>
         <source>Title:</source>
-        <translation type="unfinished">כותרת:</translation>
+        <translation>כותרת:</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1860"/>
         <source>Add bookmark</source>
-        <translation type="unfinished">הוסף סימנייה</translation>
+        <translation>הוסף סימנייה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1895"/>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;קובץ</translation>
+        <translation>&amp;קובץ</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1910"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;עזרה</translation>
+        <translation>&amp;עזרה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1919"/>
         <source>&amp;Display</source>
-        <translation type="unfinished">&amp;תצוגה</translation>
+        <translation>&amp;תצוגה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1932"/>
         <source>&amp;Search</source>
-        <translation type="unfinished">&amp;חיפוש</translation>
+        <translation>&amp;חיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1952"/>
         <source>&amp;Location</source>
-        <translation type="unfinished">&amp;מיקום נוכחי</translation>
+        <translation>&amp;מיקום נוכחי</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1970"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished">י&amp;ציאה</translation>
+        <translation>י&amp;ציאה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1979"/>
         <source>&amp;About</source>
-        <translation type="unfinished">&amp;אודות</translation>
+        <translation>&amp;אודות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1988"/>
         <source>Zoom &amp;in</source>
-        <translation type="unfinished">ה&amp;גדל כתב</translation>
+        <translation>ה&amp;גדל כתב</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="1997"/>
         <source>Zoom &amp;out</source>
-        <translation type="unfinished">ה&amp;קטן כתב</translation>
+        <translation>ה&amp;קטן כתב</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2006"/>
         <source>&amp;Jump to top</source>
-        <translation type="unfinished">קפוץ ל&amp;ראש הספר</translation>
+        <translation>קפוץ ל&amp;ראש הספר</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2015"/>
         <source>&amp;Print book</source>
-        <translation type="unfinished">הד&amp;פס ספר</translation>
+        <translation>הד&amp;פס ספר</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2024"/>
         <source>&amp;Close tab</source>
-        <translation type="unfinished">&amp;סגור לשונית</translation>
+        <translation>&amp;סגור לשונית</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2033"/>
         <source>&amp;Open new tab</source>
-        <translation type="unfinished">פתח ב&amp;כרטסיה חדשה</translation>
+        <translation>פתח ב&amp;כרטסיה חדשה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2044"/>
         <source>Show nikud</source>
-        <translation type="unfinished">הצג ניקוד</translation>
+        <translation>הצג ניקוד</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2055"/>
         <source>Show teamim</source>
-        <translation type="unfinished">הצג טעמים</translation>
+        <translation>הצג טעמים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2064"/>
         <source>Add &amp;bookmark</source>
-        <translation type="unfinished">הוסף &amp;סימניה</translation>
+        <translation>הוסף &amp;סימניה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2073"/>
         <source>Add/edit &amp;comment</source>
-        <translation type="unfinished">הוסף/ערוך ה&amp;ערה</translation>
+        <translation>הוסף/ערוך ה&amp;ערה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2082"/>
         <source>&amp;Report typo</source>
-        <translation type="unfinished">&amp;דווח על טעות</translation>
+        <translation>&amp;דווח על טעות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2091"/>
         <source>&amp;Search in books</source>
-        <translation type="unfinished">&amp;חיפוש בספרים</translation>
+        <translation>&amp;חיפוש בספרים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2100"/>
         <source>Search in book</source>
-        <translation type="unfinished">חפש בספר</translation>
+        <translation>חפש בספר</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2109"/>
         <source>Search forward</source>
-        <translation type="unfinished">חפש קדימה</translation>
+        <translation>חפש קדימה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2118"/>
         <source>Search backwards</source>
-        <translation type="unfinished">חפש אחורה</translation>
+        <translation>חפש אחורה</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2127"/>
         <source>Remove book from search</source>
-        <translation type="unfinished">הוצא מהחיפוש</translation>
+        <translation>הוצא מהחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2136"/>
         <source>Add book to search</source>
-        <translation type="unfinished">הוסף לחיפוש</translation>
+        <translation>הוסף לחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2145"/>
         <source>Add all to search</source>
-        <translation type="unfinished">הוסף הכל לחיפוש</translation>
+        <translation>הוסף הכל לחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2154"/>
         <source>Remove all from search</source>
-        <translation type="unfinished">הוצא הכל מהחיפוש</translation>
+        <translation>הוצא הכל מהחיפוש</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2163"/>
         <source>&amp;Find book by name</source>
-        <translation type="unfinished">חפש ספר לפי &amp;שם</translation>
+        <translation>חפש ספר לפי &amp;שם</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2172"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished">ה&amp;גדרות</translation>
+        <translation>ה&amp;גדרות</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2181"/>
         <source>&amp;Import</source>
-        <translation type="unfinished">&amp;יבוא ספרים</translation>
+        <translation>&amp;יבוא ספרים</translation>
     </message>
     <message>
         <location filename="desktopapp.ui" line="2190"/>
         <source>Search &amp;guematria</source>
-        <translation type="unfinished">חיפוש &amp;גימטריא</translation>
+        <translation>חיפוש &amp;גימטריא</translation>
     </message>
 </context>
 <context>
@@ -1158,181 +1158,298 @@ This will remove all the books in this directory.</source>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
-    <message>
-        <location filename="mobileapp.ui" line="117"/>
-        <location filename="mobileapp.ui" line="651"/>
-        <location filename="mobileapp.ui" line="674"/>
-        <location filename="mobileapp.ui" line="697"/>
-        <source>...</source>
-        <translation>...</translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="166"/>
-        <source>Orayta - Jewish Books</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="337"/>
-        <source>Browse</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="390"/>
-        <location filename="mobileapp.ui" line="1329"/>
-        <location filename="mobileapp.cpp" line="518"/>
-        <location filename="mobileapp.cpp" line="527"/>
-        <source>Search</source>
-        <translation>חפש</translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="443"/>
-        <source>About</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="496"/>
-        <source>Get books</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="551"/>
-        <source>Settings</source>
-        <translation></translation>
-    </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="600"/>
+        <location filename="mobileapp.ui" line="518"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;אורייתא עבור אנדרואיד היא תוכנה חופשית לשם שמיים&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;הטקסטים לקוחים מהתוכנה תורת אמת&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;לתמיכה ולשאלות ניתן לפנות אל המפתחים:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;izar00@gmail.com&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;moshe.wagner@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;אורייתא היא אפליקציה חופשית שמציגה ספרי קודש&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;הטקסטים לקוחים ברובם מהתכנה הנפלאה תורת אמת&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;שאלות ובעיות ניתן להפנות אל המפתחים&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;izar00@gmail.com&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;moshe.wagner@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1242"/>
+        <location filename="mobileapp.ui" line="552"/>
+        <location filename="mobileapp.cpp" line="324"/>
+        <source>Loading...</source>
+        <translation>טוען...</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="591"/>
+        <source>loading...</source>
+        <translation>טוען...</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="obsolete">...</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="220"/>
+        <source>Browse</source>
+        <translation>עיון</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="277"/>
+        <location filename="mobileapp.ui" line="1409"/>
+        <location filename="mobileapp.cpp" line="787"/>
+        <location filename="mobileapp.cpp" line="796"/>
+        <source>Search</source>
+        <translation>חפש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="334"/>
+        <source>About</source>
+        <translation>אודות</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="391"/>
+        <source>Get books</source>
+        <translation>הורד ספרים</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="450"/>
+        <source>Settings</source>
+        <translation>הגדרות</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="633"/>
+        <source>settings</source>
+        <translation>הגדרות</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="664"/>
+        <source>to top</source>
+        <translation>לתוכן</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="692"/>
+        <source>commentaries</source>
+        <translation>מפרשים</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="723"/>
+        <source>zoom -</source>
+        <translation>התרחק</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="755"/>
+        <source>zoom +</source>
+        <translation>התקרב</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1268"/>
         <source>Open</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1264"/>
+        <location filename="mobileapp.ui" line="1290"/>
         <source>Search:</source>
         <translation>חפש:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1283"/>
+        <location filename="mobileapp.ui" line="1305"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
         <translation>(החיפוש מתעלם מפיסוק, ניקוד וטעמים)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1295"/>
+        <location filename="mobileapp.ui" line="1364"/>
+        <source>Select books for search</source>
+        <translation>בחר ספרים לחיפוש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1375"/>
         <source>Searching...</source>
-        <translation></translation>
+        <translation>מחפש...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1362"/>
+        <location filename="mobileapp.ui" line="1436"/>
+        <source>Select Books For Search</source>
+        <translation>בחר ספרים לחיפוש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1466"/>
+        <source>this function doesn&apos;t work yet.
+don&apos;t worry, it will be fixed.</source>
+        <translation>פונקציה זו אינה עובדת כעת.
+אל דאגה היא תתוקן.</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1969"/>
+        <source>Done</source>
+        <translation>סיימתי</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1991"/>
         <source>Downloading books list. If this message stays, plaese check your internet connection.</source>
-        <translation></translation>
+        <translation>מוריד את רשימת הספרים. אם הודעה זו נשארת אנא בדוק את חיבור האינטרנט שלך.</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1393"/>
+        <location filename="mobileapp.ui" line="2022"/>
         <source>Select book packages to download:</source>
-        <translation></translation>
+        <translation>בחר חבילות ספרים להורדה:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1413"/>
+        <location filename="mobileapp.ui" line="2042"/>
         <source>Download books</source>
-        <translation></translation>
+        <translation>הורד ספרים</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1477"/>
+        <location filename="mobileapp.ui" line="2125"/>
         <source>Font</source>
         <translation>גופן</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1489"/>
+        <location filename="mobileapp.ui" line="2137"/>
         <source>Default font:</source>
         <translation>פונט ברירת מחדל:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1507"/>
+        <location filename="mobileapp.ui" line="2162"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translation>font: 8pt &quot;Sans Serif&quot;;</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1537"/>
+        <location filename="mobileapp.ui" line="2192"/>
         <source>Base font size:</source>
-        <translation></translation>
+        <translation>גודל פונט בסיסי:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1584"/>
+        <location filename="mobileapp.ui" line="2236"/>
         <source>Font preview:</source>
         <translation>תצוגה מקדימה:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1599"/>
+        <location filename="mobileapp.ui" line="2251"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
     </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="1739"/>
+        <location filename="mobileapp.ui" line="2391"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1770"/>
+        <location filename="mobileapp.ui" line="2422"/>
         <source>(Font confs will apply as of next book)</source>
         <translation>(ההגדרות יחולו החל מהספרים הבאים)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1781"/>
+        <location filename="mobileapp.ui" line="2433"/>
         <source>Language</source>
         <translation>שפה</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1801"/>
+        <location filename="mobileapp.ui" line="2453"/>
         <source>Custom language</source>
         <translation>שפה מותאמת אישית</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1810"/>
+        <location filename="mobileapp.ui" line="2462"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;Note: Even when using a custom language, some dialogs may still appear in the system&apos;s language.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1830"/>
+        <location filename="mobileapp.ui" line="2482"/>
         <source>Use system language</source>
-        <translation type="unfinished">השתמש בשפת המערכת</translation>
+        <translation>השתמש בשפת המערכת</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1868"/>
+        <location filename="mobileapp.ui" line="2520"/>
         <source>Cancel</source>
-        <translation type="unfinished">ביטול</translation>
+        <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1888"/>
+        <location filename="mobileapp.ui" line="2540"/>
         <source>Save settings</source>
-        <translation type="unfinished">שמור הגדרות</translation>
+        <translation>שמור הגדרות</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="119"/>
+        <location filename="mobileapp.ui" line="2569"/>
+        <source>sorry, no commentaries available for current book.</source>
+        <translation>אנו מצטערים, אין פרשנים זמינים לספר זה.</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2590"/>
+        <source>Remove all books from search</source>
+        <translation>הוצא את כל הספרים מהחיפוש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2593"/>
+        <source>unmark all</source>
+        <translation>נקה סימונים</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2607"/>
+        <source>Add all books to search</source>
+        <translation>הוסף את כל הספרים לחיפוש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2613"/>
+        <source>mark all</source>
+        <translation>סמן הכל</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2638"/>
+        <source>Display with:</source>
+        <translation>הצג בשילוב עם:</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2670"/>
+        <source>OK</source>
+        <translation>אישור</translation>
+    </message>
+    <message>
+        <source>key emulate</source>
+        <translation type="obsolete">לוח מקשים וירטואלי</translation>
+    </message>
+    <message>
+        <source>back</source>
+        <translation type="obsolete">חזור</translation>
+    </message>
+    <message>
+        <source>menu</source>
+        <translation type="obsolete">תפריט</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="104"/>
+        <source>&lt;center&gt;&lt;big&gt;Loading...&lt;/big&gt;&lt;/center&gt;</source>
+        <translation>&lt;center&gt;&lt;big&gt;טוען...&lt;/big&gt;&lt;/center&gt;</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="152"/>
         <source>&lt;center&gt;&lt;b&gt; No books found! 
 Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;&lt;b&gt;לא נמצאו ספרים!
+&lt;/b&gt;&lt;/center&gt; בדוק שההתקנה שביצעת תקינה או פנה אל מפתח התכנה</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="508"/>
+        <location filename="mobileapp.cpp" line="776"/>
         <source>Cancel search</source>
-        <translation type="unfinished">בטל חיפוש</translation>
+        <translation>בטל חיפוש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="925"/>
+        <source>download complete!</source>
+        <translation>הורדה הושלמה!</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1071"/>
+        <source>×¢××¨××ª</source>
+        <translation>עברית</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1071"/>
+        <source>FranÃ§ais</source>
+        <translation>צרפתית</translation>
     </message>
 </context>
 <context>
@@ -1348,32 +1465,32 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
     <message>
         <location filename="search.cpp" line="92"/>
         <source>Search results: </source>
-        <translation type="unfinished">תוצאות חיפוש :</translation>
+        <translation>תוצאות חיפוש :</translation>
     </message>
     <message>
         <location filename="search.cpp" line="167"/>
         <source>(Search stopped by user)</source>
-        <translation type="unfinished">(החיפוש נעצר ע&quot;י המשתמש)</translation>
+        <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
         <location filename="search.cpp" line="174"/>
         <source>No search results found:</source>
-        <translation type="unfinished">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
+        <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
         <location filename="search.cpp" line="179"/>
         <source>Short result list: </source>
-        <translation type="unfinished">רשימת תוצאות מקוצרת:</translation>
+        <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
         <location filename="search.cpp" line="182"/>
         <source>first results only</source>
-        <translation type="unfinished"></translation>
+        <translation>תוצאות ראשונות בלבד</translation>
     </message>
     <message>
         <location filename="search.cpp" line="190"/>
         <source>Full result list:</source>
-        <translation type="unfinished">רשימת תוצאות מלאה:</translation>
+        <translation>רשימת תוצאות מלאה:</translation>
     </message>
 </context>
 <context>
@@ -1381,7 +1498,7 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
     <message>
         <location filename="quazip/quazipfile.cpp" line="172"/>
         <source>ZIP/UNZIP API error %1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1487,7 +1604,11 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;Note: Even when using a custom language, some dialogs may still appear in the system&apos;s language.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;שים לב: אפילו בעת שימוש בשפה שונה, ייתכן שחלק מהתפריטים יופיעו בעברית&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="settings.ui" line="354"/>
@@ -1617,7 +1738,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Imoported books will be copied to the user&apos;s book folder. In order to import the books for all users, see &amp;quot;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/orayta/wiki/AddingNewBooks&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Installing new books&amp;quot;&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; In Orayt&apos;a wiki.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;ספרים מיובאים יועתקו לתיקיית המשתמש. כדי להוסיף ספרים לכל המשתמשים ראה את ההוראות בדף זה:&amp;quot;&lt;/span&gt;&lt;a href=&quot;http://code.google.com/p/orayta/wiki/AddingNewBooks&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0057ae;&quot;&gt;Installing new books&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="importbook.ui" line="79"/>
@@ -1653,7 +1778,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="36"/>
+        <location filename="mywebview.cpp" line="40"/>
         <source>Copy text only</source>
         <translation>העתק טקסט בלבד</translation>
     </message>

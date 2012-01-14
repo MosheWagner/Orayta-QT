@@ -18,6 +18,7 @@
 
 #include <QClipboard>
 #include <QMenu>
+#include <QDebug>
 
 myWebView::myWebView(QWidget * parent)
 {
@@ -26,7 +27,10 @@ myWebView::myWebView(QWidget * parent)
     //Holds currently selected link
     mActiveLink = "";
 
+    //if this is mobile app we don't use bookDisplayer class.
+#ifndef MOBILE
     mBookdisp = qobject_cast<bookDisplayer*>(parent);
+#endif
 
     /* // don't work
     pageAction(QWebPage::Copy)->setShortcut(QKeySequence::Copy);
@@ -55,14 +59,14 @@ QVariant myWebView::execScript(QString script)
     return page()->mainFrame()->evaluateJavaScript(script);
 }
 
-/*
+ #ifdef MOBILE
 void myWebView::mouseMoveEvent(QMouseEvent *event)
 {
-    #ifdef Q_OS_ANDROID
+
         event->ignore();
-    #endif
+
 }
-*/
+#endif
 
 //void myWebView::mousePressEvent(QMouseEvent *event)
 //{
@@ -135,8 +139,11 @@ QString myWebView::activeLink() { return mActiveLink; }
 
 void myWebView::keyPressEvent( QKeyEvent *keyEvent )
 {
+    //if this is mobile app we don't use bookDisplayer class.
+#ifndef MOBILE
+
     //if this is normal book
-    if ( mBookdisp->book() != NULL )
+    if ( mBookdisp && (mBookdisp->book() != NULL) )
     {
         if ( keyEvent->modifiers() == Qt::NoModifier )
         {
@@ -185,10 +192,32 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
             }
         }
     }
+#endif
+
     // default
     QWebView::keyPressEvent(keyEvent);
 }
 
+#ifdef MOBILE
+void myWebView::keyReleaseEvent(QKeyEvent *keyEvent ){
+
+    switch ( keyEvent->key() )
+    {
+    case Qt::Key_MediaPrevious:
+    case Qt::Key_Explorer:
+    case Qt::Key_Meta:
+    case Qt::Key_Backspace:
+        qDebug()<<"caught back or media";
+        keyEvent->ignore();
+        return;
+
+   default:
+    QWebView::keyReleaseEvent(keyEvent);
+    return;
+
+    }
+}
+#endif
 
 //Set a busy cursor before actually resizing the text, and restores it by the end
 void myWebView::setTextSizeMultiplier(qreal factor)

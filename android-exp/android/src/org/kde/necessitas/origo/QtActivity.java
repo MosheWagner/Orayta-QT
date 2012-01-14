@@ -695,16 +695,10 @@ public class QtActivity extends Activity
 
         if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
         	if (keyCode == KeyEvent.KEYCODE_BACK ){
-        		Log.d("IZAR", "caught a keyback event");
-//        		if (QtApplication.closeEvent != null){
-//        			Log.d("IZAR", "invoking close event");
-//        			return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.closeEvent, keyCode, event);
+//        		Log.d("IZAR", "caught a keyback event");
+                        Log.d("IZAR", "invoking media back key");
+                        return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
 //        		}
-//        		else 
-        		{
-        			Log.d("IZAR", "invoking media back key");
-                    return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
-        		}
         	}
         	else if (keyCode == KeyEvent.KEYCODE_MENU){
         		Log.d("IZAR", "invoking  menu key");

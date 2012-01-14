@@ -52,9 +52,13 @@ public slots:
 private slots:
     //void mousePressEvent(QMouseEvent *event);
     //void mouseReleaseEvent(QMouseEvent *event);
-    //void mouseMoveEvent(QMouseEvent *event);
+#ifdef MOBILE
+    void mouseMoveEvent(QMouseEvent *event);
+    void keyReleaseEvent(QKeyEvent *keyEvent );
+#endif
 
     void keyPressEvent( QKeyEvent *keyEvent );
+
 
     void rememberActiveLink(QString);
     void copyClean();
@@ -63,7 +67,10 @@ private:
     QAction *copyNoSigns;
 
     QString mActiveLink;
+
+#ifndef MOBILE
     bookDisplayer* mBookdisp;
+#endif
 
 };
 

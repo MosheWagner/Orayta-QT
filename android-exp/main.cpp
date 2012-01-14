@@ -26,7 +26,7 @@
 #include <QFontDatabase>
 
 //For test only
-#define Q_OS_ANDROID
+#define MOBILE
 
 
 //Define location for program dirs
@@ -176,10 +176,11 @@ int main(int argc, char *argv[])
     //IZAR: add fonts to our app.
     initFonts();
 
-
-#ifndef Q_OS_ANDROID
     //Define the program's language
     initLang(&app);
+
+#ifndef MOBILE
+
 
     //Show splash screen:
     QPixmap pixmap(":/Images/Orayta.png");
@@ -200,8 +201,7 @@ int main(int argc, char *argv[])
     splash->finish(&d);
 #endif
 
-#ifdef Q_OS_ANDROID
-
+#ifdef MOBILE
     MobileApp m;
 
     m.show();

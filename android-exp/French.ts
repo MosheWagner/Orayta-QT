@@ -1095,72 +1095,99 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="mobileapp.ui" line="117"/>
-        <location filename="mobileapp.ui" line="651"/>
-        <location filename="mobileapp.ui" line="674"/>
-        <location filename="mobileapp.ui" line="697"/>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="166"/>
-        <source>Orayta - Jewish Books</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="337"/>
-        <source>Browse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="390"/>
-        <location filename="mobileapp.ui" line="1329"/>
-        <location filename="mobileapp.cpp" line="518"/>
-        <location filename="mobileapp.cpp" line="527"/>
-        <source>Search</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="443"/>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="496"/>
-        <source>Get books</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="551"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="600"/>
+        <location filename="mobileapp.ui" line="518"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;אורייתא עבור אנדרואיד היא תוכנה חופשית לשם שמיים&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;הטקסטים לקוחים מהתוכנה תורת אמת&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;לתמיכה ולשאלות ניתן לפנות אל המפתחים:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;izar00@gmail.com&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;moshe.wagner@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;אורייתא היא אפליקציה חופשית שמציגה ספרי קודש&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;הטקסטים לקוחים ברובם מהתכנה הנפלאה תורת אמת&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;שאלות ובעיות ניתן להפנות אל המפתחים&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;izar00@gmail.com&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;moshe.wagner@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1242"/>
+        <location filename="mobileapp.ui" line="552"/>
+        <location filename="mobileapp.cpp" line="324"/>
+        <source>Loading...</source>
+        <translation type="unfinished">Chargement...</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="591"/>
+        <source>loading...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="obsolete">...</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="220"/>
+        <source>Browse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="277"/>
+        <location filename="mobileapp.ui" line="1409"/>
+        <location filename="mobileapp.cpp" line="787"/>
+        <location filename="mobileapp.cpp" line="796"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="334"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="391"/>
+        <source>Get books</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="450"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="633"/>
+        <source>settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="664"/>
+        <source>to top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="692"/>
+        <source>commentaries</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="723"/>
+        <source>zoom -</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="755"/>
+        <source>zoom +</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1268"/>
         <source>Open</source>
         <translation type="unfinished">Ouvrir</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1264"/>
+        <location filename="mobileapp.ui" line="1290"/>
         <source>Search:</source>
         <translation type="unfinished">Recherche:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1283"/>
+        <location filename="mobileapp.ui" line="1305"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
@@ -1168,77 +1195,98 @@ p, li { white-space: pre-wrap; }
 </translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1295"/>
+        <location filename="mobileapp.ui" line="1364"/>
+        <source>Select books for search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1375"/>
         <source>Searching...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1362"/>
+        <location filename="mobileapp.ui" line="1436"/>
+        <source>Select Books For Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1466"/>
+        <source>this function doesn&apos;t work yet.
+don&apos;t worry, it will be fixed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1969"/>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1991"/>
         <source>Downloading books list. If this message stays, plaese check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1393"/>
+        <location filename="mobileapp.ui" line="2022"/>
         <source>Select book packages to download:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1413"/>
+        <location filename="mobileapp.ui" line="2042"/>
         <source>Download books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1477"/>
+        <location filename="mobileapp.ui" line="2125"/>
         <source>Font</source>
         <translation type="unfinished">Police</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1489"/>
+        <location filename="mobileapp.ui" line="2137"/>
         <source>Default font:</source>
         <translation type="unfinished">Police par défaut:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1507"/>
+        <location filename="mobileapp.ui" line="2162"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1537"/>
+        <location filename="mobileapp.ui" line="2192"/>
         <source>Base font size:</source>
         <translation type="unfinished">Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1584"/>
+        <location filename="mobileapp.ui" line="2236"/>
         <source>Font preview:</source>
         <translation type="unfinished">Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1599"/>
+        <location filename="mobileapp.ui" line="2251"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="1739"/>
+        <location filename="mobileapp.ui" line="2391"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1770"/>
+        <location filename="mobileapp.ui" line="2422"/>
         <source>(Font confs will apply as of next book)</source>
         <translation type="unfinished">(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1781"/>
+        <location filename="mobileapp.ui" line="2433"/>
         <source>Language</source>
         <translation type="unfinished">Langue</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1801"/>
+        <location filename="mobileapp.ui" line="2453"/>
         <source>Custom language</source>
         <translation type="unfinished">Langage</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1810"/>
+        <location filename="mobileapp.ui" line="2462"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1247,30 +1295,85 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1830"/>
+        <location filename="mobileapp.ui" line="2482"/>
         <source>Use system language</source>
         <translation type="unfinished">Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1868"/>
+        <location filename="mobileapp.ui" line="2520"/>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1888"/>
+        <location filename="mobileapp.ui" line="2540"/>
         <source>Save settings</source>
         <translation type="unfinished">Sauvegarder</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="119"/>
+        <location filename="mobileapp.ui" line="2569"/>
+        <source>sorry, no commentaries available for current book.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2590"/>
+        <source>Remove all books from search</source>
+        <translation type="unfinished">Supprimer tous les livres de la recherche</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2593"/>
+        <source>unmark all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2607"/>
+        <source>Add all books to search</source>
+        <translation type="unfinished">Ajouter tous les livres à la recherche</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2613"/>
+        <source>mark all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2638"/>
+        <source>Display with:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="2670"/>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="104"/>
+        <source>&lt;center&gt;&lt;big&gt;Loading...&lt;/big&gt;&lt;/center&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="152"/>
         <source>&lt;center&gt;&lt;b&gt; No books found! 
 Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="508"/>
+        <location filename="mobileapp.cpp" line="776"/>
         <source>Cancel search</source>
         <translation type="unfinished">Annuler</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="925"/>
+        <source>download complete!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1071"/>
+        <source>×¢××¨××ª</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1071"/>
+        <source>FranÃ§ais</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1587,7 +1690,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="36"/>
+        <location filename="mywebview.cpp" line="40"/>
         <source>Copy text only</source>
         <translation>Coiper le texte uniquement</translation>
     </message>

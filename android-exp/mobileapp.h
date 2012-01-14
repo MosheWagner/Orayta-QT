@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include "filedownloader.h"
 #include "booklist.h"
+#include "book.h"
 
 #include "mywebview.h"
 
@@ -45,8 +46,6 @@ private slots:
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
-    void on_toolButton_clicked();
-
     void wvloadFinished(bool);
     void wvlinkClicked(const QUrl &);
 
@@ -55,8 +54,6 @@ private slots:
     void on_toolButton_2_clicked();
 
     void on_toolButton_6_clicked();
-
-    void on_title_clicked();
 
     void on_settings_BTN_clicked();
 
@@ -81,10 +78,14 @@ private slots:
 
     //IZAR
     void reloadBooklist();
+    void resetSearchBookTree();
+
     // stacked widget currnet view canged.
     void viewChanged(int index);
     //go to previos view of stacked widget.
     void goBack();
+
+    void showMenu();
 
 
     //Downloads the next book in the booksToDownload list.
@@ -96,6 +97,44 @@ private slots:
 
     void markDownloadedBooks();
 
+    void on_settingsMenuBTN_clicked();
+
+    void on_doneBTN_clicked();
+
+    void on_selectBooksForSearchLink_clicked();
+
+    void on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
+    void on_SearchTreeWidget_clicked(const QModelIndex &index);
+
+
+    void on_systemLangCbox_clicked(bool checked);
+    void setupSettings();
+
+    void resetSettingsPage();
+
+    //copied from desktopapp
+    void translate(QString newlang);
+
+
+    void on_langComboBox_currentIndexChanged(const QString &arg1);
+
+    // *copied from desktop app*
+    //Remove all temporary html files the program created
+    void ClearTmp();
+
+    void on_mixedSelectBTN_clicked();
+
+    void setupMixedSelection();
+
+    void on_openMixed_2_clicked();
+
+    void on_markAllBTN_clicked();
+
+    void on_unmarkAllBTN_clicked();
+
+    void on_selectionArea_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::MobileApp *ui;
 
@@ -103,11 +142,14 @@ private:
 
     BookList bookList;
 
+    Book *currentBook;
+
     QString booktitle;
 
     QString InternalLocationInHtml;
 
-    QWebView * wview;
+//    QWebView * wview;
+    myWebView * wview;
 
     #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
@@ -126,6 +168,16 @@ private:
 //    QWidget *previousView;
 //    QWidget *currentView;
     QWidgetList *viewHistory;
+
+    //shows a moving wait image
+    QMovie *waitMovie;
+
+    //----------------------------------------------------
+    //copied from settings.h
+
+    //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
+    QStringList langs, langsDisplay;
+
 
 };
 
