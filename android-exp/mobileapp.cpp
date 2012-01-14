@@ -120,7 +120,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 //    ui->wview->show();
 
 
-    ui->searchGBX->hide();
+    // setup the search page
+    showHideSearch(false);
 
     ui->downloadListWidget->setIconSize(QSize(40,40));
 
@@ -191,6 +192,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
 MobileApp::~MobileApp()
 {
+
+    qDebug() << "in destructer";
+
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();
@@ -403,7 +407,7 @@ void MobileApp::showBook(Book *book)
 }
 
 
-
+/*
 //Catch android "back" button
 void MobileApp::closeEvent(QCloseEvent *event)
 {
@@ -418,14 +422,15 @@ void MobileApp::closeEvent(QCloseEvent *event)
     else if (ui->stackedWidget->currentIndex() == MAIN_PAGE || ui->stackedWidget->currentIndex() == ABOUT_PAGE)
     {
         event->accept();
-        exit(0);
+//        exit(0);
+         QDialog::close();
     }
     else
     {
         ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
         event->ignore();
     }
-}
+}*/
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
@@ -434,8 +439,12 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
     //back button was clicked
     case Qt::Key_MediaPrevious:
-    case Qt::Key_Backspace:
         goBack();
+        break;
+
+    //ctrl + backspace clicked , go back.
+    case Qt::Key_Backspace:
+        if (keyEvent->modifiers() == Qt::CTRL) goBack();
         break;
 
   /*  case Qt::Key_Back:
@@ -548,12 +557,14 @@ void MobileApp::goBack()
     if(viewHistory->length() < 2)
     {
         qDebug()<< "noware to go. exiting.";
-        exit(0);
+
+        close();
     }
     else if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
     {
         qDebug()<< "exiting";
-        exit(0);
+//        exit(0);
+        close();
     }
     else
     //go to the one-before-last view, which is the previous view.
@@ -754,11 +765,11 @@ void MobileApp::on_cancelBTN_clicked()
     resetSettingsPage();
 }
 
-bool inSearch = false;
+//bool inSearch = false;
 void MobileApp::on_SearchInBooksBTN_clicked()
 {
-    if (!inSearch)
-    {
+//    if (!inSearch)
+//    {
         //Do search
         QString otxt = ui->searchInBooksLine->text();
         QString stxt = otxt;
@@ -776,9 +787,14 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         //Set the title of the tab to show what it's searching for
         //QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
         //ui->viewTab->setTabText(CURRENT_TAB, title);
-        ui->searchGBX->show();
-        inSearch = true;
-        ui->SearchInBooksBTN->setText(tr("Cancel search"));
+//        ui->searchGBX->show();
+//        inSearch = true;
+//        ui->SearchInBooksBTN->setText(tr("Cancel search"));
+//        ui->stopSearchBTN->show();
+//        ui->SearchInBooksBTN->hide();
+
+        //show the stop button and search bar
+        showHideSearch(true);
 
         QApplication::processEvents();
 
@@ -787,18 +803,54 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
-        ui->searchGBX->hide();
-        inSearch = false;
-        ui->searchBTN->setText(tr("Search"));
+        //done search, reset the ui
+        showHideSearch(false);
+
+//        ui->searchGBX->hide();
+//        inSearch = false;
+//        ui->searchBTN->setText(tr("Search"));
+//        ui->SearchInBooksBTN->show();
+//        ui->stopSearchBTN->hide();
+//    }
+//    else
+//    {
+//        //Cancel search
+//        stopSearchFlag = true;
+
+//        ui->searchGBX->hide();
+//        inSearch = false;
+//        ui->SearchInBooksBTN->setText(tr("Search"));
+//    }
+}
+
+//Cancel search
+void MobileApp::on_stopSearchBTN_clicked()
+{
+
+    stopSearchFlag = true;
+    showHideSearch(false);
+//    ui->searchGBX->hide();
+//    inSearch = false;
+//    ui->SearchInBooksBTN->setText(tr("Search"));
+//    ui->SearchInBooksBTN->show();
+//    ui->stopSearchBTN->hide();
+}
+
+// switch the view from normal to in search mode
+void MobileApp::showHideSearch(bool inSearch){
+    if (inSearch)
+    {
+        ui->searchGBX->show();
+         //hide the search butten and show stop search
+        ui->SearchInBooksBTN->hide();
+        ui->stopSearchBTN->show();
     }
     else
     {
-        //Cancel search
-        stopSearchFlag = true;
-
         ui->searchGBX->hide();
-        inSearch = false;
-        ui->SearchInBooksBTN->setText(tr("Search"));
+        //show the search butten and hide stop search
+        ui->SearchInBooksBTN->show();
+        ui->stopSearchBTN->hide();
     }
 }
 
@@ -808,16 +860,22 @@ void MobileApp::downloadDWList()
 {
     QFile *downloadedList = new QFile(SAVEDBOOKLIST);
 
-    //first check if the list already exists. also if listdownload dosn't exist we should reload.
-    if ( downloadedList->exists() && listdownload != 0)
+    //if listdownload dosn't exist we should reload.
+    if (listdownload == NULL || listdownload == 0)
+    {
+        listdownload = new FileDownloader();
+        connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
+        listdownload->Download(BOOKLISTURL, SAVEDBOOKLIST, true);
+    }
+    //if the list already exists
+    else if ( downloadedList->exists())
     {
         // continue as though the file was downloaded.
-        listDownloadDone();
+//        listDownloadDone();
+        updateDownloadableList();
     }
     else
     {
-
-        qDebug() << "SAVEDBOOKLIST" <<SAVEDBOOKLIST ;
 
 //        if (listdownload ) delete listdownload;
         listdownload = new FileDownloader();
@@ -861,8 +919,8 @@ void MobileApp::updateDownloadableList()
 
     //Refresh the list
     ui->downloadListWidget->clear();
+    //show aprorpriate widgets
     ui->downloadGRP->show();
-
     ui->listdownloadlbl->hide();
 
 
@@ -1308,3 +1366,4 @@ void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
     //toggle the current check state of the item
     item->checkState() == Qt::Checked? item->setCheckState(Qt::Unchecked) : item->setCheckState(Qt::Checked);
 }
+

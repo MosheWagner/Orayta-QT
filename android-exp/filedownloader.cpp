@@ -22,6 +22,9 @@ FileDownloader::FileDownloader()
     //Connect slots and signals:
     connect(&mHttpObject, SIGNAL(done(bool)), this, SLOT(downloadDone(bool)));
     connect(&mHttpObject, SIGNAL(dataReadProgress(int,int)), this, SLOT(downloadProgress(int,int)));
+
+    mFileName = "";
+    mTargetFile.setFileName(mFileName);
 }
 
 

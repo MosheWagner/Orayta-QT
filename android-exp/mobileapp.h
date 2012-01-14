@@ -25,7 +25,7 @@ public:
     ~MobileApp();
 
 protected:
-    void closeEvent(QCloseEvent *pEvent);
+//    void closeEvent(QCloseEvent *pEvent);
 
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);
@@ -79,6 +79,9 @@ private slots:
     //IZAR
     void reloadBooklist();
     void resetSearchBookTree();
+
+    // switch the view from normal to in search mode
+    void showHideSearch(bool inSearch);
 
     // stacked widget currnet view canged.
     void viewChanged(int index);
@@ -134,6 +137,8 @@ private slots:
     void on_unmarkAllBTN_clicked();
 
     void on_selectionArea_itemClicked(QListWidgetItem *item);
+
+    void on_stopSearchBTN_clicked();
 
 private:
     Ui::MobileApp *ui;

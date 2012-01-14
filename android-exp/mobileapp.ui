@@ -10,6 +10,18 @@
     <height>320</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>240</width>
+    <height>320</height>
+   </size>
+  </property>
   <property name="palette">
    <palette>
     <active>
@@ -155,7 +167,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -474,10 +486,16 @@
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
           <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="maximumSize">
             <size>
-             <width>300</width>
-             <height>300</height>
+             <width>200</width>
+             <height>200</height>
             </size>
            </property>
            <property name="text">
@@ -1416,6 +1434,16 @@ p, li { white-space: pre-wrap; }
         <widget class="QPushButton" name="SearchInBooksBTN">
          <property name="text">
           <string>Search</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="stopSearchBTN">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Stop Search</string>
          </property>
         </widget>
        </item>
