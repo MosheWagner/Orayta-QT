@@ -86,8 +86,7 @@ void initPaths()
     }
 }
 
-// removed because this still doesn't work on android. supposed to be fixed on alpha 4
-// edit: now this is supposed to work partialy.
+
 //IZAR: adds a font to the application
 void addFont(const QString &font)
 {
@@ -102,10 +101,6 @@ void addFont(const QString &font)
 void initFonts()
 {
     QList<QString> fonts;
-//#ifdef Q_OS_ANDROID
-//    QString droidFallback(MAINPATH + "fonts/DroidSansFallback.ttf");
-//    fonts.append(droidFallback);
-//#endif
     QString fontpath (":/fonts/");
     fonts.append(fontpath + "DejaVuSans.ttf");
     fonts.append(fontpath + "DejaVuSerif.ttf");
@@ -118,9 +113,6 @@ void initFonts()
     foreach(const QString &font, fonts){
         addFont(font);
     }
-//    qDebug() << "writing familis: " << QFontDatabase::families();
- //   qApp->font();
-
 }
 
 

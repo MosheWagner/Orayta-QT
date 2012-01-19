@@ -62,29 +62,23 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
-    //IZAR- changed this to use dejavu sans free font in all versions (linux, windows and android)
-    //QString gFontFamily = "Nachlieli CLM";
-    gFontFamily = "Droid Sans Hebrew";
-    gFontSize = 20;
-//    ui->fontComboBox->setFont(QFont(gFontFamily));
-//    ui->fonSizeSpinBox->setValue(gFontSize);
-//    ui->horizontalSlider->setValue(gFontSize);
+
+    //check whare is the bset location for settings.
+   // if (!settings.isWritable()) {
+      //  qDebug() << "cant write to default settings location: " << settings.fileName();
+    //}
+   // settings.beginGroup("Confs");
+   // gFontFamily = settings.value("fontfamily", "Droid Sans Hebrew").toString();
+   // gFontSize = settings.value("fontsize",20).toInt();
+   // settings.endGroup();
+
+    //setup the settings page
     setupSettings();
 
     InternalLocationInHtml = "";
 
-//    //set this workaround for testing on desktop
-//#ifdef MOBILE_TEST
-//    ui->emulateBox->show();
-//#else
-//    ui->emulateBox->hide();
-//#endif
-////    ui->emulateBox->hide();
-
-
-
     wview = new myWebView(this);
-//     wview = wview;
+
 
     QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
     QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
@@ -407,30 +401,32 @@ void MobileApp::showBook(Book *book)
 }
 
 
-/*
-//Catch android "back" button
+
+//Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MobileApp::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "Oh no!!!";
+
+    //Cancel any running searches
+    stopSearchFlag = true;
+
+//    QSettings settings("Orayta", "SingleUser");
+
+//    settings.beginGroup("DesktopApp");
+//    settings.setValue("size", size());
+//    settings.setValue("pos", pos());
+//    settings.setValue("state", saveState());
+//    settings.endGroup();
 
 
-    if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
-    {
-        ui->stackedWidget->setCurrentIndex(LIST_PAGE);
-        event->ignore();
-    }
-    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE || ui->stackedWidget->currentIndex() == ABOUT_PAGE)
-    {
-        event->accept();
-//        exit(0);
-         QDialog::close();
-    }
-    else
-    {
-        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
-        event->ignore();
-    }
-}*/
+//    settings.beginGroup("Confs");
+  //  settings.setValue("fontfamily", gFontFamily);
+  //  settings.setValue("fontsize", gFontSize);
+   // settings.endGroup();
+
+  //  qDebug() << "on colse event\n" << "settings: "<<settings.fileName();
+
+    QDialog::close();
+}
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
@@ -478,6 +474,7 @@ void MobileApp::showMenu()
     switch (ui->stackedWidget->currentIndex())
     {
     case DISPLAY_PAGE:
+        //show/hide the toolbar menu
         if (ui->dispalyMenu->isVisible())
             ui->dispalyMenu->hide();
         else
@@ -485,6 +482,7 @@ void MobileApp::showMenu()
         return;
 
     case MAIN_PAGE:
+        //go to the main setting page
         ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
         return;
 
@@ -502,10 +500,7 @@ void MobileApp::showMenu()
 // stacked widget currnet view canged.
 void MobileApp::viewChanged(int index)
 {
-//    if (currentView){
-//        previousView = currentView;
-//    }
-//        currentView = ui->stackedWidget->currentWidget();
+
     if(!viewHistory)
     {
         qDebug()<< "cant stat view history";
@@ -516,6 +511,7 @@ void MobileApp::viewChanged(int index)
         viewHistory->append(ui->stackedWidget->currentWidget());
 
     //IZAR
+    // this is a list of things to do when we go to a certain page
     switch (index){
     //when going to books in search page, reset the page
     case (BOOK_SELECTION_PAGE):
@@ -540,7 +536,7 @@ void MobileApp::viewChanged(int index)
 }
 
 //IZAR
-//when going to books in search page, reset the page
+//when going to 'books in search' page, reset the page
 void MobileApp::resetSearchBookTree(){
 
     ui->SearchTreeWidget->clear();
@@ -548,13 +544,13 @@ void MobileApp::resetSearchBookTree(){
 
 }
 
-//go to previos view of stacked widget.
+//go to previous view of stacked widget.
 void MobileApp::goBack()
 {
     qDebug()<< "going back";
 
     // if we have only one object it probably is the current view and we cant go back
-    if(viewHistory->length() < 2)
+    if((!viewHistory) || (viewHistory->length() < 2))
     {
         qDebug()<< "noware to go. exiting.";
 
@@ -567,14 +563,19 @@ void MobileApp::goBack()
         close();
     }
     else
-    //go to the one-before-last view, which is the previous view.
     {
+        //when going back from diplay page, stop loading the page.
+        if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
+            wview->stop();
+
+        //go to the one-before-last view, which is the previous view.
         QWidget *previousView = viewHistory->at(viewHistory->length()-2);
 
         //remove the last two objects. these are the current and previous view. the previous view will be re insereted later via viewChanged.
         viewHistory->removeLast(); viewHistory->removeLast();
 
         ui->stackedWidget->setCurrentWidget(previousView);
+
 
     }
 }
@@ -686,6 +687,11 @@ void MobileApp::on_saveConf_clicked()
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
 
+    //save current font settings
+    settings.setValue("fontfamily", gFontFamily);
+    settings.setValue("fontsize", gFontSize);
+
+    //Change language if needed
     settings.setValue("systemLang",ui->systemLangCbox->isChecked());
     if (ui->systemLangCbox->isChecked())
     {
@@ -698,10 +704,12 @@ void MobileApp::on_saveConf_clicked()
         if (i != -1)
         {
             settings.setValue("lang", langs[i]);
-            settings.endGroup();
+//            settings.endGroup();
             LANG = langs[i];
         }
     }
+ settings.endGroup();
+   qDebug() << "settings: "<<settings.fileName();
 
 //    emit ChangeLang(LANG);
     translate(LANG);
@@ -1175,6 +1183,12 @@ void MobileApp::setupSettings(){
     for (int i=0; i<langs.size(); i++) if (LANG == langs[i]) is = i;
     ui->langComboBox->setCurrentIndex(is);
 
+    //get stored settings for display font
+    settings.beginGroup("Confs");
+    gFontFamily = settings.value("fontfamily", "Droid Sans Hebrew").toString();
+    gFontSize = settings.value("fontsize",20).toInt();
+    settings.endGroup();
+
     resetSettingsPage();
 
 
@@ -1182,7 +1196,7 @@ void MobileApp::setupSettings(){
 
 void MobileApp::resetSettingsPage()
 {
-    //Show current font values
+    //Show current font values in the
     QFont f (gFontFamily, gFontSize);
     ui->fontPreview->setFont(f);
     ui->fontComboBox->setCurrentFont(f);
@@ -1367,3 +1381,16 @@ void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
     item->checkState() == Qt::Checked? item->setCheckState(Qt::Unchecked) : item->setCheckState(Qt::Checked);
 }
 
+
+void MobileApp::on_moreInfoBTN_clicked()
+{
+    //show wellcome page
+    Book *wellcome = bookList.findBookById(1);
+    if (!wellcome)
+    {
+        qDebug()<< "cant find wellcome page";
+        return;
+    }
+
+    showBook(wellcome);
+}

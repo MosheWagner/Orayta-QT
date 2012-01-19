@@ -8,9 +8,9 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD
 
 android {
-#    INSTALL_PATH = "/sdcard/Orayta/"
+    INSTALL_PATH = "/sdcard/Orayta/"
 #    INSTALL_BOOKS_PATH = "/sdcard/Orayta/Books/"
-    INSTALL_PATH = "/assets/Orayta/"
+#    INSTALL_PATH = "/assets/Orayta/"
 #    INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
@@ -18,8 +18,8 @@ android {
     DEFINES += MOBILE
 }
 else: win32{
-    INSTALL_PATH = quote(c:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
-    INSTALL_BOOKS_PATH = quote(c:\\progarm files\\orayta\\books)
+    INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
+    INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
 }
 else:unix{
     CONFIG += poppler \
@@ -193,12 +193,17 @@ trans.files = Hebrew.qm
 fonts.path = $${INSTALL_PATH}
 fonts.files = fonts/.
 
+# copy licence info
+licence.path = $${INSTALL_PATH}
+licence.file = licence/.
+
 INSTALLS += target
 INSTALLS += books
 message("Books target set to:" $${INSTALL_BOOKS_PATH})
 INSTALLS += icon
 INSTALLS += trans
 INSTALLS += fonts
+INSTALLS += licence
 
 # INSTALLS += desktop
 linux: INSTALLS += menu
@@ -301,7 +306,40 @@ OTHER_FILES += \
     android/res/values-et/strings.xml \
     android/res/values-rs/strings.xml \
     android/res/values-zh-rTW/strings.xml \
-    android/src/org/kde/necessitas/origo/CopyResources.java
+    android/src/org/kde/necessitas/origo/CopyResources.java \
+    android/AndroidManifest.xml \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/origo/QtApplication.java \
+    android/src/org/kde/necessitas/origo/QtActivity.java \
+    android/res/values-ja/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/drawable-ldpi/icon.png \
+    android/res/drawable/logo.png \
+    android/res/drawable/icon.png \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-it/strings.xml \
+    android/res/drawable-mdpi/icon.png \
+    android/res/drawable-hdpi/icon.png \
+    android/res/values-ms/strings.xml \
+    android/res/layout/splash.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values/libs.xml \
+    android/res/values/strings.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-zh-rTW/strings.xml
+
 
 
 

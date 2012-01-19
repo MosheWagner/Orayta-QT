@@ -61,5 +61,8 @@
         <file>fonts/MiriamCLM-Book.ttf</file>
         <file>Icons/bookcase-big.png</file>
         <file>fonts/SILEOTSR.ttf</file>
+        <file>Icons/help-contents-big.png</file>
+        <file>Icons/booksearch.png</file>
+        <file>Icons/dl-book2.png</file>
     </qresource>
 </RCC>

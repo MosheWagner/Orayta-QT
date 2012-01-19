@@ -25,7 +25,7 @@ public:
     ~MobileApp();
 
 protected:
-//    void closeEvent(QCloseEvent *pEvent);
+    void closeEvent(QCloseEvent *pEvent);
 
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);
@@ -140,6 +140,8 @@ private slots:
 
     void on_stopSearchBTN_clicked();
 
+    void on_moreInfoBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 
@@ -152,6 +154,9 @@ private:
     QString booktitle;
 
     QString InternalLocationInHtml;
+
+    //TODO - create a global settings object
+//    QSettings settings;
 
 //    QWebView * wview;
     myWebView * wview;
