@@ -7,10 +7,13 @@ TARGET = orayta
 TEMPLATE = app
 INCLUDEPATH += $$PWD
 
+    #for test only
+    DEFINES += MOBILE
+
 android {
-    INSTALL_PATH = "/sdcard/Orayta/"
+#    INSTALL_PATH = "/sdcard/Orayta/"
 #    INSTALL_BOOKS_PATH = "/sdcard/Orayta/Books/"
-#    INSTALL_PATH = "/assets/Orayta/"
+    INSTALL_PATH = "/assets/Orayta/"
 #    INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
@@ -195,13 +198,14 @@ fonts.files = fonts/.
 
 # copy licence info
 licence.path = $${INSTALL_PATH}
-licence.file = licence/.
+licence.files = licence/.
 
 INSTALLS += target
 INSTALLS += books
 message("Books target set to:" $${INSTALL_BOOKS_PATH})
 INSTALLS += icon
 INSTALLS += trans
+#fonts are now in the qrc file, no need for them in assets.
 INSTALLS += fonts
 INSTALLS += licence
 

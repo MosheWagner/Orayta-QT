@@ -53,16 +53,12 @@
         <file>Icons/help-about-big.png</file>
         <file>Icons/Orayta-Huge.png</file>
         <file>Icons/search-big.png</file>
-        <file>fonts/DejaVuSans.ttf</file>
-        <file>fonts/DejaVuSerif.ttf</file>
-        <file>fonts/DroidSans.ttf</file>
-        <file>fonts/DroidSansHebrew.ttf</file>
-        <file>fonts/DavidCLM-Medium.ttf</file>
-        <file>fonts/MiriamCLM-Book.ttf</file>
         <file>Icons/bookcase-big.png</file>
-        <file>fonts/SILEOTSR.ttf</file>
         <file>Icons/help-contents-big.png</file>
         <file>Icons/booksearch.png</file>
         <file>Icons/dl-book2.png</file>
+        <file>Icons/go-next.png</file>
+        <file>Icons/go-previous.png</file>
+        <file>Images/ajax-loader.gif</file>
     </qresource>
 </RCC>

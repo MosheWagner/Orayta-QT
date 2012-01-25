@@ -333,13 +333,24 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
 
     html += "<body>";
 
-    html += namepoint("Top");
+
 
     html += html_main_div( mFont.family(), mFont.pointSize() );
 
 
 
     html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
+
+    //IZAR: moved here to create quicker access to index
+    html += namepoint("Top");
+
+    //IZAR
+    // try to geuss the short index level
+    if (mShortIndexLevel < 1 && indexitemlist.size() > 0)
+    {
+        mShortIndexLevel = indexitemlist[0].level;
+        qDebug()<< "short index level geuss: " << mShortIndexLevel;
+    }
 
     html += index_to_index(indexitemlist,mShortIndexLevel);
     html += html_link_table(indexitemlist, mShortIndexLevel , true, mRemoveSuffix[1]!="");
@@ -586,12 +597,23 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     html += "</div>";
     */
 
-    html += namepoint("Top");
+
 
     
     html += html_main_div( mFont.family(), mFont.pointSize() );
 
     html += html_book_title(mNameForTitle, mCopyrightInfo, low_comments);
+
+    //IZAR: moved here to create quicker access to index
+    html += namepoint("Top");
+
+    //IZAR
+    // try to geuss the short index level
+    if (mShortIndexLevel < 1 && indexitemlist.size() > 0)
+    {
+        mShortIndexLevel = indexitemlist[0].level;
+        qDebug()<< "short index level geuss: " << mShortIndexLevel;
+    }
 
     html += index_to_index(indexitemlist,mShortIndexLevel);
 
@@ -738,6 +760,7 @@ QString index_to_index(vector<IndexItem> indexitemlist,int level)
 {
     QString str="";
 
+
     int indexcount = 0;
 
     str += "<center> &nbsp; <span style=\"font-size:16px;\">";
@@ -831,7 +854,8 @@ QString html_link_table(vector<IndexItem> indexitemlist, int short_index_level, 
         {
             if(short_index_level == indexitemlist[j].level)
             {
-                link_table += "<a name=\"Index" + stringify(iln) + "\"></a>\n";
+                QString name = "Index"+ stringify(iln);
+                link_table += "<a name=\"" + name + "\" " + "href=\"$" + name + "\">&nbsp;</a>\n";
                 iln ++;
             }
 

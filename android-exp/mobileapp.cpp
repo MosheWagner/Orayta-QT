@@ -55,71 +55,72 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
+
+//    setStyleSheet(" QListWidget::index { hight: 40 px; width: 20 px;} ");
+
     ui->setupUi(this);
 
+
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+//    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+
 
 
     QApplication::processEvents();
 
-
-    //check whare is the bset location for settings.
-   // if (!settings.isWritable()) {
-      //  qDebug() << "cant write to default settings location: " << settings.fileName();
-    //}
-   // settings.beginGroup("Confs");
-   // gFontFamily = settings.value("fontfamily", "Droid Sans Hebrew").toString();
-   // gFontSize = settings.value("fontsize",20).toInt();
-   // settings.endGroup();
-
-    //setup the settings page
     setupSettings();
 
     InternalLocationInHtml = "";
+
+    //IZAR
+    //setup the wait image
+    waitMovie = new QMovie(":/Images/ajax-loader.gif");
+//    ui->waitLBL->setMovie(waitMovie);
+//    if (waitMovie) waitMovie->start();
 
     wview = new myWebView(this);
 
 
     QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
     QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
+    QObject::connect(wview, SIGNAL(loadStarted()), this , SLOT(wvloadStarted()));
+
+
+    //setup the back and forword keys in the book display page
+    {
+    QAction *back = wview->pageAction(QWebPage::Back);
+    QAction *forward = wview->pageAction(QWebPage::Forward);
+    back->setIcon(QIcon(":/Icons/go-previous.png"));
+    forward->setIcon(QIcon(":/Icons/go-next.png"));
+    back->setText(tr("back"));
+    forward->setText(tr("forward"));
+
+    ui->backBTN->setDefaultAction(back);
+    ui->forwardBTN->setDefaultAction(forward);
+    }
 
 
     viewHistory = new QWidgetList();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
 
-//    ui->wview_layout->addWidget(wview);
 
     ui->displayArea->layout()->addWidget(wview);
-//    ui->wview = wview;
-
-
-
 
     wview->setHtml(tr("<center><big>Loading...</big></center>"));
 
-
     wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
 
     QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
 
-
-    //IZAR
-    //prevent wview from reciving back key.
-//    MobileApp::grabKeyboard();
-//    wview->keyPressEvent();
-
     wview->show();
-
-//    ui->wview->show();
-
 
     // setup the search page
     showHideSearch(false);
 
-    ui->downloadListWidget->setIconSize(QSize(40,40));
+    QPalette palette;
+    palette.setBrush(QPalette::Background, QBrush(QImage(":/Icons/Orayta-Huge.png")));
 
-
+    ui->background->setPalette(palette);
 
     QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
     ui->treeWidget->setColumnWidth(0,800);
@@ -127,26 +128,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
      ui->SearchTreeWidget->setColumnWidth(0,800);
 
 
-    //IZAR
-    //TODO - use QMessageBox::aboutQt ?
-
-    //IZAR
-    //setup the wait image
-    waitMovie = new QMovie(":/Images/Wait.gif");
-    ui->waitLBL->setMovie(waitMovie);
-    if (waitMovie) waitMovie->start();
-
 
     //Build the book list
-
     reloadBooklist();
 
-    if (bookList.empty())
-    {
-        qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
-        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
-        ui->label->setWordWrap(true);
-    }
+    currentBook = NULL;
+
+
 
     //Initialize a new FileDownloader to download the list
 //    listdownload = NULL;
@@ -176,6 +164,15 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     // the default for the menu in display page is hidden.
 //    ui->dispalyMenu->hide();
+    if (bookList.empty())
+    {
+        qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
+        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
+        ui->label->setWordWrap(true);
+        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+        QApplication::processEvents();
+
+    }
 
     if (!bookList.empty())
     {
@@ -198,6 +195,7 @@ MobileApp::~MobileApp()
 
     delete downloader;
     delete listdownload;
+    delete waitMovie;
 
     delete ui;
 }
@@ -243,8 +241,42 @@ void MobileApp::reloadBooklist(){
     // Check all uids
     bookList.CheckUid();
 
+    QSettings settings("Orayta", "SingleUser");
+
+    //Load books settings
+//    for(unsigned int i=0; i<bookList.size(); i++)
+    foreach (Book *book, bookList)
+    {
+        if (!book || book->getUniqueId() == -1)
+            continue;
+
+        settings.beginGroup("Book" + stringify(book->getUniqueId()));
+        //default is to show no commentaries
+            book->showAlone = settings.value("ShowAlone", true).toBool();
+//            int n = settings.value("MixedDisplayes", 0).toInt();
+            int n = book->mWeavedSources.size();
+            for (int j=0; j<n; j++)
+            {
+                book->mWeavedSources[j].show = settings.value("Shown" + stringify(j), false).toBool();
+            }
+
+        settings.endGroup();
+    }
+
     bookList.displayInTree(ui->treeWidget, false);
 
+    //if booklist has changed, reset also the books in search tree
+    resetSearchBookTree();
+
+}
+
+//IZAR
+//when going to 'books in search' page, reset the page
+void MobileApp::resetSearchBookTree(){
+
+    ui->SearchTreeWidget->clear();
+    booksInSearch.BuildFromFolder(BOOKPATH);
+    booksInSearch.displayInTree(ui->SearchTreeWidget, true);
 
 }
 
@@ -268,7 +300,19 @@ void MobileApp::on_getbooksBTN_clicked()
 
 void MobileApp::on_aboutBTN_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+    //try to show the help page
+    Book *helpBook = NULL;
+    if (LANG.contains( "Hebrew"))
+        //show hebrew help
+        helpBook = bookList.findBookById(2);
+    else
+        helpBook = bookList.findBookById(3);
+
+    if (helpBook)
+        showBook(helpBook);
+    // if we cant find help book go to about page instead
+    else
+        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
 }
 
@@ -279,7 +323,7 @@ void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 }
 
 
-void MobileApp::on_openMixed_clicked()
+void MobileApp::on_openBook_clicked()
 {
     if ( ui->treeWidget->currentItem() == 0)
         return;
@@ -292,23 +336,30 @@ void MobileApp::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colum
 {
     Book *b = bookList.findBookByTWI(item);
 
+    if (!b) return;
+
     if (!b->IsDir()) showBook(b);
+}
+
+void MobileApp::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    //do the same thing as when item double clicked
+    on_treeWidget_itemDoubleClicked(item, column);
 }
 
 
 void MobileApp::showBook(Book *book)
 {
-    if (!book) return;
+    if (!book)
+    {
+        qDebug()<< "cant open book";
+        return;
+    }
 
     //remember curently displayed book
     currentBook = book;
 
-    ui->waitLBL->show();
-    if (waitMovie)
-    {
-    ui->waitLBL->setMovie(waitMovie);
-    ui->waitLBL->movie()->start();
-    }
+
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
@@ -324,7 +375,22 @@ void MobileApp::showBook(Book *book)
         case ( Book::Normal ):
         {
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-            ui->displayArea->setTitle(tr("Loading..."));
+
+//            if (!waitMovie)
+//            {
+//                qDebug() << "waitMovie ceased to exist!";
+//                waitMovie = new QMovie(":/Images/ajax-loader.gif");
+//            }
+
+//        //    ui->displayArea->setTitle(tr("Loading..."));
+//            ui->bookNameLBL->setText(tr("Loading..."));
+
+//            ui->waitLBL->show();
+//            ui->waitLBL->setMovie(waitMovie);
+////            ui->waitLBL->movie()->start();
+//            waitMovie->start();
+//            QApplication::processEvents();
+
 
             //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
             //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
@@ -349,6 +415,7 @@ void MobileApp::showBook(Book *book)
                 wview->load(u);
 
                 wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+//                wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
 
                 booktitle = book->getNormallDisplayName();
             }
@@ -400,6 +467,112 @@ void MobileApp::showBook(Book *book)
     }
 }
 
+void MobileApp::wvloadFinished(bool ok)
+{
+    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
+    ui->waitLBL->hide();
+
+
+//    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
+//    ui->displayArea->setTitle(booktitle);
+    ui->bookNameLBL->setText(booktitle);
+
+
+   if (InternalLocationInHtml != "")
+   {
+       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
+//       wview->page()->mainFrame()->evaluateJavaScript(script);
+
+       qDebug() << script;
+       InternalLocationInHtml="";
+   }
+}
+
+void MobileApp::wvloadStarted()
+{
+//    QApplication::processEvents();
+    qDebug()<< "load started";
+
+    if (!waitMovie)
+    {
+        qDebug() << "waitMovie ceased to exist!";
+        waitMovie = new QMovie(":/Images/ajax-loader.gif");
+    }
+
+//    ui->displayArea->setTitle(tr("Loading..."));
+    ui->bookNameLBL->setText(tr("Loading..."));
+
+    ui->waitLBL->show();
+    ui->waitLBL->setMovie(waitMovie);
+    ui->waitLBL->movie()->start();
+//    waitMovie->start();
+
+    QApplication::processEvents();
+
+}
+
+void MobileApp::wvlinkClicked(const QUrl & url)
+{
+    QString link = QString(url.toString());
+
+//    qDebug() << "url clicked: " << url;
+
+    if(link.indexOf("#") != -1 )
+    {
+        int pos = link.indexOf("#");
+        QString lnk = link.mid(pos+1);
+
+        QString script = "paintByHref(\"$" + lnk + "\");";
+//        QString script = "var obj = document.getElementsByName(\"" + lnk + "\")[0];\n";
+//        script += "paintMe(obj);";
+//                "paintMe(\"" + lnk + "\");";
+//        QString
+//        script = "paintWhoILinkTo(\""+link+"\")";
+//        script = "paintByName(\"" + lnk +"\");";
+
+        wview->page()->currentFrame()->evaluateJavaScript(script);
+//        wview->page()->currentFrame()->scrollToAnchor(lnk);
+    }
+    //External book link
+    else if(link.indexOf("!") != -1 )
+    {
+        int pos = link.indexOf("!");
+
+        QString lnk = link.mid(pos+1);
+
+        //Open the link
+        QStringList parts = lnk.split(":");
+
+        int id;
+        if(ToNum(parts[0], &id))
+        {
+            Book* book = bookList.findBookById(id);
+            if( book )
+            {
+                InternalLocationInHtml = "#" + parts[1];
+
+                /*
+                if (parts.size() == 3)
+                    CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );
+                */
+
+                showBook(book);
+            }
+        }
+    }
+    //Link to website
+    else if(link.indexOf("^") != -1 )
+    {
+        int pos = link.indexOf("^");
+
+        QString lnk = link.mid(pos+1);
+
+        //Open using browser
+        QDesktopServices::openUrl( QUrl("http://" + lnk) );
+    }
+}
+
 
 
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
@@ -409,7 +582,17 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //Cancel any running searches
     stopSearchFlag = true;
 
-//    QSettings settings("Orayta", "SingleUser");
+    QSettings settings("Orayta", "SingleUser");
+
+    //remmeber last open book
+    settings.beginGroup("History");
+     if (currentBook)
+         settings.setValue("lastBook", currentBook->getUniqueId());
+
+     //store current possision in book. not 100% acurate, but is good enough for me. (IZAR)
+     currentPossision = wview->page()->currentFrame()->scrollPosition();
+     settings.setValue("possision", currentPossision);
+     settings.endGroup();
 
 //    settings.beginGroup("DesktopApp");
 //    settings.setValue("size", size());
@@ -424,6 +607,24 @@ void MobileApp::closeEvent(QCloseEvent *event)
    // settings.endGroup();
 
   //  qDebug() << "on colse event\n" << "settings: "<<settings.fileName();
+
+     //Save books' settings
+//     for(unsigned int i=0; i<bookList.size(); i++)
+     foreach (Book *book, bookList)
+     {
+         if (book->getUniqueId() == -1 || book->hasRandomId)
+             continue;
+
+         settings.beginGroup("Book" + stringify(book->getUniqueId()));
+//             settings.setValue("MixedDisplayes", book->mWeavedSources.size());
+             settings.setValue("ShowAlone", book->showAlone);
+             for (int j=0; j<book->mWeavedSources.size(); j++)
+             {
+                 settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
+             }
+             settings.setValue("InSearch", book->IsInSearch());
+         settings.endGroup();
+     }
 
     QDialog::close();
 }
@@ -515,7 +716,8 @@ void MobileApp::viewChanged(int index)
     switch (index){
     //when going to books in search page, reset the page
     case (BOOK_SELECTION_PAGE):
-        resetSearchBookTree();
+        //canceled. not needed and does trouble.
+//        resetSearchBookTree();
         break;
 
     //when going to get books page get the list from server.
@@ -535,38 +737,31 @@ void MobileApp::viewChanged(int index)
 
 }
 
-//IZAR
-//when going to 'books in search' page, reset the page
-void MobileApp::resetSearchBookTree(){
-
-    ui->SearchTreeWidget->clear();
-    bookList.displayInTree(ui->SearchTreeWidget, true);
-
-}
-
 //go to previous view of stacked widget.
 void MobileApp::goBack()
 {
     qDebug()<< "going back";
 
+    if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
+        {
+            qDebug()<< "exiting";
+            close();
+        }
     // if we have only one object it probably is the current view and we cant go back
-    if((!viewHistory) || (viewHistory->length() < 2))
+    else if((!viewHistory) || (viewHistory->length() < 2))
     {
         qDebug()<< "noware to go. exiting.";
+        close();
+    }
 
-        close();
-    }
-    else if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
-    {
-        qDebug()<< "exiting";
-//        exit(0);
-        close();
-    }
     else
     {
         //when going back from diplay page, stop loading the page.
         if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
+        {
             wview->stop();
+            currentPossision = wview->page()->currentFrame()->scrollPosition();
+        }
 
         //go to the one-before-last view, which is the previous view.
         QWidget *previousView = viewHistory->at(viewHistory->length()-2);
@@ -576,83 +771,11 @@ void MobileApp::goBack()
 
         ui->stackedWidget->setCurrentWidget(previousView);
 
-
     }
 }
 
 
-void MobileApp::wvloadFinished(bool ok)
-{
-    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
-    ui->waitLBL->hide();
 
-
-    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
-    ui->displayArea->setTitle(booktitle);
-
-
-   if (InternalLocationInHtml != "")
-   {
-       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
-       wview->page()->mainFrame()->evaluateJavaScript(script);
-
-       qDebug() << script;
-       InternalLocationInHtml="";
-   }
-}
-
-void MobileApp::wvlinkClicked(const QUrl & url)
-{
-    QString link = QString(url.toString());
-
-    if(link.indexOf("#") != -1 )
-    {
-        int pos = link.indexOf("#");
-        QString lnk = link.mid(pos+1);
-
-        QString script = "paintByHref(\"$" + lnk + "\");";
-
-        wview->page()->mainFrame()->evaluateJavaScript(script);
-    }
-    //External book link
-    else if(link.indexOf("!") != -1 )
-    {
-        int pos = link.indexOf("!");
-
-        QString lnk = link.mid(pos+1);
-
-        //Open the link
-        QStringList parts = lnk.split(":");
-
-        int id;
-        if(ToNum(parts[0], &id))
-        {
-            Book* book = bookList.findBookById(id);
-            if( book )
-            {
-                InternalLocationInHtml = "#" + parts[1];
-
-                /*
-                if (parts.size() == 3)
-                    CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );
-                */
-
-                showBook(book);
-            }
-        }
-    }
-    //Link to website
-    else if(link.indexOf("^") != -1 )
-    {
-        int pos = link.indexOf("^");
-
-        QString lnk = link.mid(pos+1);
-
-        //Open using browser
-        QDesktopServices::openUrl( QUrl("http://" + lnk) );
-    }
-}
 
 void MobileApp::on_toolButton_3_clicked()
 {
@@ -691,6 +814,7 @@ void MobileApp::on_saveConf_clicked()
     settings.setValue("fontfamily", gFontFamily);
     settings.setValue("fontsize", gFontSize);
 
+    /* disabled
     //Change language if needed
     settings.setValue("systemLang",ui->systemLangCbox->isChecked());
     if (ui->systemLangCbox->isChecked())
@@ -699,6 +823,8 @@ void MobileApp::on_saveConf_clicked()
     }
     //Use custom language only if "useSystemLang" is not checked
     else
+    */
+
     {
         int i = langsDisplay.indexOf(ui->langComboBox->currentText());
         if (i != -1)
@@ -717,8 +843,6 @@ void MobileApp::on_saveConf_clicked()
     //Remove all temporary html files, so that books will be displayed with new settings.
     ClearTmp();
     //also, clear currently displayed book.
-//    //TODO: make this reload the book automatically.
-//    wview->setHtml(tr("<center><big>please go back and reload book.</big></center>"));
 
     // test if the previous view was the book itself. if so we want to reload the book.
     if (viewHistory->length() > 2 &&
@@ -773,13 +897,16 @@ void MobileApp::on_cancelBTN_clicked()
     resetSettingsPage();
 }
 
-//bool inSearch = false;
+//perform search in books
 void MobileApp::on_SearchInBooksBTN_clicked()
 {
-//    if (!inSearch)
-//    {
+
         //Do search
         QString otxt = ui->searchInBooksLine->text();
+
+        //do nothing if no search text.
+        if (otxt.isEmpty()) return;
+
         QString stxt = otxt;
         QRegExp regexp;
 
@@ -791,22 +918,12 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         regexp = QRegExp( createSearchPattern (stxt) );
         regexp.setMinimal(true);
 
-
-        //Set the title of the tab to show what it's searching for
-        //QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
-        //ui->viewTab->setTabText(CURRENT_TAB, title);
-//        ui->searchGBX->show();
-//        inSearch = true;
-//        ui->SearchInBooksBTN->setText(tr("Cancel search"));
-//        ui->stopSearchBTN->show();
-//        ui->SearchInBooksBTN->hide();
-
         //show the stop button and search bar
         showHideSearch(true);
 
         QApplication::processEvents();
 
-        QUrl u = SearchInBooks (regexp, otxt, bookList /*.BooksInSearch()*/, ui->progressBar);
+        QUrl u = SearchInBooks (regexp, otxt, booksInSearch.BooksInSearch(), ui->progressBar);
         wview->load(QUrl(u));
         wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
@@ -814,44 +931,32 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         //done search, reset the ui
         showHideSearch(false);
 
-//        ui->searchGBX->hide();
-//        inSearch = false;
-//        ui->searchBTN->setText(tr("Search"));
-//        ui->SearchInBooksBTN->show();
-//        ui->stopSearchBTN->hide();
-//    }
-//    else
-//    {
-//        //Cancel search
-//        stopSearchFlag = true;
-
-//        ui->searchGBX->hide();
-//        inSearch = false;
-//        ui->SearchInBooksBTN->setText(tr("Search"));
-//    }
 }
+
+void MobileApp::on_searchInBooksLine_returnPressed() { on_SearchInBooksBTN_clicked(); }
+
+
 
 //Cancel search
 void MobileApp::on_stopSearchBTN_clicked()
 {
-
     stopSearchFlag = true;
     showHideSearch(false);
-//    ui->searchGBX->hide();
-//    inSearch = false;
-//    ui->SearchInBooksBTN->setText(tr("Search"));
-//    ui->SearchInBooksBTN->show();
-//    ui->stopSearchBTN->hide();
 }
 
 // switch the view from normal to in search mode
 void MobileApp::showHideSearch(bool inSearch){
+    ui->inSearchGroup->setVisible(inSearch);
+    ui->searchStartGroup->setVisible(!inSearch);
+   /*
     if (inSearch)
     {
         ui->searchGBX->show();
          //hide the search butten and show stop search
         ui->SearchInBooksBTN->hide();
         ui->stopSearchBTN->show();
+        ui->selectBooksForSearchLink->hide();
+
     }
     else
     {
@@ -859,7 +964,8 @@ void MobileApp::showHideSearch(bool inSearch){
         //show the search butten and hide stop search
         ui->SearchInBooksBTN->show();
         ui->stopSearchBTN->hide();
-    }
+        ui->selectBooksForSearchLink->show();
+    } */
 }
 
 
@@ -1110,37 +1216,14 @@ void MobileApp::on_selectBooksForSearchLink_clicked()
 
 void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
-    //TODO :
-    // * make this recursivly set the state of childrean
-    // * make sure the search function reads this.
-    if (item->checkState(column) == Qt::Checked)
-    {
-        item->setCheckState(column, Qt::Unchecked);
+    Book* book = booksInSearch.findBookByTWI(item);
 
-        QList<QTreeWidgetItem *> children = item->takeChildren();
-//        foreach (QTreeWidgetItem *child, children)
-//        {
-//           item->setCheckState(column, Qt::Unchecked);
-//        }
-//        item->addChildren(children);
-//        ui->SearchTreeWidget->reset();
-    }
-    else
-    {
-        item->setCheckState(column, Qt::Checked);
-//        QList<QTreeWidgetItem *> children = item->takeChildren();
-//        foreach (QTreeWidgetItem *child, children)
-//        {
-//           item->setCheckState(column, Qt::Checked);
-//        }
-//        item->addChildren(children);
-//         ui->SearchTreeWidget->reset();
-    }
-}
+    if (!book) {return;}
 
-void MobileApp::on_SearchTreeWidget_clicked(const QModelIndex &index)
-{
-    // TODO - create a method for checking the box without expanding the tree.
+    // select/unselect childrean
+    if (item->checkState(column) == Qt::Checked) book->select();
+    else book->unselect();
+
 }
 
 
@@ -1148,6 +1231,8 @@ void MobileApp::on_SearchTreeWidget_clicked(const QModelIndex &index)
 //the folowing methods where copied from Settings.cpp, but modified.
 //TODO: they shold be implemented in a separate class.
 
+/* disabled because system lang doesnt work on android.
+  //maybe we should report a bug and fix this when it is fixed.
 void MobileApp::on_systemLangCbox_clicked(bool checked)
 {
     // Disable language choosing if the "use system language" is selected
@@ -1156,12 +1241,15 @@ void MobileApp::on_systemLangCbox_clicked(bool checked)
     //Settings have changed, so the save button should be enabled
     ui->saveConf->setEnabled(true);
 }
+*/
 
 void MobileApp::setupSettings(){
 
     //Set available languages
-    langs << "Hebrew" << "English" << "French";
-    langsDisplay << tr("עברית") << "English" << tr("Français");
+    //TODO - NOTICE :
+    // french disabled because we have no french translation available
+    langs << "Hebrew" << "English" /* << "French"*/;
+    langsDisplay << tr("עברית") << "English" /*<< tr("Français")*/;
 
     //Show available languages in the language combobox
     for (int i=0; i<langs.size(); i++)
@@ -1169,14 +1257,18 @@ void MobileApp::setupSettings(){
         ui->langComboBox->addItem(langsDisplay[i]);
     }
 
-    //Check if "use system lang" is set
     QSettings settings("Orayta", "SingleUser");
+
+    /* this feature is disabled
+    //Check if "use system lang" is set
     settings.beginGroup("Confs");
     bool useSystemLang = settings.value("systemLang",true).toBool();
     settings.endGroup();
 
+
     ui->systemLangCbox->setChecked(useSystemLang);
     ui->groupBox->setEnabled(!useSystemLang);
+    */
 
     //Show current language
     int is = -1;
@@ -1185,7 +1277,10 @@ void MobileApp::setupSettings(){
 
     //get stored settings for display font
     settings.beginGroup("Confs");
-    gFontFamily = settings.value("fontfamily", "Droid Sans Hebrew").toString();
+    //TODO fix droid font and make it the default
+//    QString defaultFont = "Droid Sans Hebrew";
+    QString defaultFont = "Ezra SIL SR";
+    gFontFamily = settings.value("fontfamily", defaultFont).toString();
     gFontSize = settings.value("fontsize",20).toInt();
     settings.endGroup();
 
@@ -1323,7 +1418,7 @@ void MobileApp::setupMixedSelection(){
     }
 }
 
-void MobileApp::on_openMixed_2_clicked()
+void MobileApp::on_openMixed_clicked()
 {
     if (!currentBook) return;
 
@@ -1375,6 +1470,37 @@ void MobileApp::on_unmarkAllBTN_clicked()
         ui->selectionArea->item(i)->setCheckState(Qt::Unchecked);
 }
 
+void MobileApp::on_markAllBTN_2_clicked()
+{
+    //mark all items as checked
+    for (int i =0; i< ui->downloadListWidget->count(); i++)
+        ui->downloadListWidget->item(i)->setCheckState(Qt::Checked);
+}
+
+void MobileApp::on_unmarkAllBTN_2_clicked()
+{
+    //uncheck all items
+    for (int i =0; i< ui->downloadListWidget->count(); i++)
+        ui->downloadListWidget->item(i)->setCheckState(Qt::Unchecked);
+}
+
+void MobileApp::on_markAllBTN_3_clicked()
+{
+    foreach (Book * book, booksInSearch)
+    {
+        book->select();
+    }
+}
+
+void MobileApp::on_unmarkAllBTN_3_clicked()
+{
+    foreach (Book * book, booksInSearch)
+    {
+        book->unselect();
+    }
+}
+
+
 void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 {
     //toggle the current check state of the item
@@ -1382,15 +1508,70 @@ void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 }
 
 
+/* derecated
 void MobileApp::on_moreInfoBTN_clicked()
 {
     //show wellcome page
     Book *wellcome = bookList.findBookById(1);
-    if (!wellcome)
-    {
-        qDebug()<< "cant find wellcome page";
-        return;
-    }
 
     showBook(wellcome);
 }
+
+void MobileApp::on_helpBTN_clicked()
+{
+    if (LANG.contains( "Hebrew"))
+        //show hebrew help
+        showBook(bookList.findBookById(2));
+    else
+       showBook( bookList.findBookById(3));
+}
+*/
+
+void MobileApp::on_resetBookListBTN_clicked()
+{
+    ui->treeWidget->collapseAll();
+}
+
+void MobileApp::on_lastBookBTN_clicked()
+{
+    QPoint currentPossision;
+
+    //probably we just loaded the app
+    if (!currentBook)
+    {
+        //get last open book
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("History");
+        int lastBookId = settings.value("lastBook").toInt();
+        currentBook = bookList.findBookById(lastBookId);
+        currentPossision = settings.value("possision", QPoint()).toPoint();
+        settings.endGroup();
+    }
+    if (!currentBook) return;
+
+    // guess if the book is already loaded on wview
+    if (currentBookDisplayed())
+        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+    else
+    {
+        showBook(currentBook);
+        QApplication::processEvents();
+        wview->page()->currentFrame()->setScrollPosition(currentPossision);
+    }
+
+
+}
+
+// test if 'currnetBook' is displayed now
+bool MobileApp::currentBookDisplayed()
+{
+    if (!currentBook || !wview) return false;
+
+   QString filename = currentBook->HTMLFileName();
+   if (wview->url().toString().contains(filename)) return true;
+   else return false;
+}
+
+
+void MobileApp::on_toGetBooksBTN_clicked()
+{    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE); }

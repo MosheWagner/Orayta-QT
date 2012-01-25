@@ -391,6 +391,7 @@ Book* BookList::findBookByTWI(QTreeWidgetItem *TWI)
         if((*this)[i]->getTreeItemPtr() == TWI)
             return (*this)[i];
     }
+    qDebug()<< "can't find book from TWI : " << TWI->text(0);
     return NULL;
 }
 

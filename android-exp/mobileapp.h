@@ -42,12 +42,15 @@ private slots:
 
     void on_treeWidget_clicked(const QModelIndex &index);
 
-    void on_openMixed_clicked();
+    void on_openBook_clicked();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
     void wvloadFinished(bool);
+    void wvloadStarted();
     void wvlinkClicked(const QUrl &);
+
 
     void on_toolButton_3_clicked();
 
@@ -108,10 +111,7 @@ private slots:
 
     void on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
-    void on_SearchTreeWidget_clicked(const QModelIndex &index);
-
-
-    void on_systemLangCbox_clicked(bool checked);
+    /* void on_systemLangCbox_clicked(bool checked); */
     void setupSettings();
 
     void resetSettingsPage();
@@ -130,7 +130,7 @@ private slots:
 
     void setupMixedSelection();
 
-    void on_openMixed_2_clicked();
+    void on_openMixed_clicked();
 
     void on_markAllBTN_clicked();
 
@@ -140,16 +140,43 @@ private slots:
 
     void on_stopSearchBTN_clicked();
 
-    void on_moreInfoBTN_clicked();
+    /* void on_moreInfoBTN_clicked();
+    void on_helpBTN_clicked(); */
+
+    void on_resetBookListBTN_clicked();
+
+    void on_lastBookBTN_clicked();
+
+//    void on_backBTN_clicked();
+
+//    void on_forwardBTN_clicked();
+
+
+
+    void on_markAllBTN_2_clicked();
+
+    void on_unmarkAllBTN_2_clicked();
+
+    void on_searchInBooksLine_returnPressed();
+
+    void on_markAllBTN_3_clicked();
+
+    void on_unmarkAllBTN_3_clicked();
+
+    void on_toGetBooksBTN_clicked();
 
 private:
     Ui::MobileApp *ui;
 
     void showBook(Book *);
 
-    BookList bookList;
+    // test if 'currnetBook' is displayed now
+    bool currentBookDisplayed();
+
+    BookList bookList, booksInSearch;
 
     Book *currentBook;
+    QPoint currentPossision;
 
     QString booktitle;
 

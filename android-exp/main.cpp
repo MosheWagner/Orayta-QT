@@ -26,7 +26,7 @@
 #include <QFontDatabase>
 
 //For test only
-#define MOBILE
+//#define MOBILE
 
 
 //Define location for program dirs
@@ -39,7 +39,9 @@ void initPaths()
     defPath = "/sdcard/Orayta/Books/";
 //    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
 
-    MAINPATH = "/sdcard/Orayta/";
+//    MAINPATH = "/sdcard/Orayta/";
+    //set terget to assets folder
+    MAINPATH = "/Orayta/";
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
     MAINPATH = "/usr/share/Orayta/";
@@ -101,10 +103,14 @@ void addFont(const QString &font)
 void initFonts()
 {
     QList<QString> fonts;
-    QString fontpath (":/fonts/");
+//    QString fontpath (":/fonts/");
+    QString fontpath (MAINPATH + "fonts/");
     fonts.append(fontpath + "DejaVuSans.ttf");
     fonts.append(fontpath + "DejaVuSerif.ttf");
-    fonts.append(fontpath + "DroidSansHebrew.ttf");
+//    fonts.append(fontpath + "DroidSansHebrew.ttf");
+//     fonts.append(fontpath + "DroidSansFallbackFull.ttf");
+     fonts.append(fontpath + "DroidSansHebrew-Regular.ttf");
+     fonts.append(fontpath + "DroidSansHebrew-Bold.ttf");
 //    fonts.append(fontpath + "DavidCLM-Medium.ttf");
     fonts.append(fontpath + "MiriamCLM-Book.ttf");
     fonts.append(fontpath + "SILEOTSR.ttf");
@@ -121,7 +127,12 @@ void initLang(QApplication *app)
     //Read lang conf
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-    bool systemlang = settings.value("systemLang",true).toBool();
+
+    bool systemlang = false;
+#ifndef MOBILE
+    //system language disabled in mobile because it doesn't work.
+    systemlang = settings.value("systemLang",true).toBool();
+#endif
 
     if (systemlang) LANG = QLocale::languageToString(QLocale::system().language());
     else (LANG = settings.value("lang","Hebrew").toString());

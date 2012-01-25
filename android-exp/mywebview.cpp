@@ -140,7 +140,35 @@ QString myWebView::activeLink() { return mActiveLink; }
 void myWebView::keyPressEvent( QKeyEvent *keyEvent )
 {
     //if this is mobile app we don't use bookDisplayer class.
-#ifndef MOBILE
+#ifdef MOBILE
+
+//    qDebug() << "cauget key event: " << keyEvent->key();
+    switch ( keyEvent->key() )
+    {
+    case Qt::Key_MediaPrevious:
+    case Qt::Key_Explorer:
+    case Qt::Key_Meta:
+    case Qt::Key_Backspace:
+        qDebug()<<"caught back or media";
+        keyEvent->ignore();
+        return;
+
+    case Qt::Key_Down:
+            //scroll down
+        this->page()->currentFrame()->scroll(0, 40);
+        return;
+    case Qt::Key_Up:
+        this->page()->currentFrame()->scroll(0, -40);
+        return;
+
+   default:
+    QWebView::keyPressEvent(keyEvent);
+    return;
+
+    }
+
+#else
+qDebug() << "mobile not defined! ";
 
     //if this is normal book
     if ( mBookdisp && (mBookdisp->book() != NULL) )
@@ -192,15 +220,17 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
             }
         }
     }
-#endif
+
 
     // default
     QWebView::keyPressEvent(keyEvent);
+#endif //#ifdef MOBILE
 }
 
 #ifdef MOBILE
 void myWebView::keyReleaseEvent(QKeyEvent *keyEvent ){
 
+//    qDebug() << "cauget key event: " << keyEvent->key();
     switch ( keyEvent->key() )
     {
     case Qt::Key_MediaPrevious:
