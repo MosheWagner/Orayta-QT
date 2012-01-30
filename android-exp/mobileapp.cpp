@@ -14,6 +14,7 @@
 #include <QMovie>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QTimer>
 
 //#include <QScroller>
 
@@ -64,8 +65,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 //    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 
-
-
     QApplication::processEvents();
 
     setupSettings();
@@ -100,9 +99,19 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     }
 
 
+    currentBook = NULL;
+
     viewHistory = new QWidgetList();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
 
+
+    ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+    ui->toGetBooksBTN->hide();
+    qApp->processEvents();
+
+     QTimer::singleShot(20, this, SLOT(continueConstructor()));
+
+    /* FOLOWOING CODE TRANSFERED TO AFTER UI IS FULLY SET
 
     ui->displayArea->layout()->addWidget(wview);
 
@@ -117,22 +126,18 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     // setup the search page
     showHideSearch(false);
 
-    QPalette palette;
-    palette.setBrush(QPalette::Background, QBrush(QImage(":/Icons/Orayta-Huge.png")));
-
-    ui->background->setPalette(palette);
 
     QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
     ui->treeWidget->setColumnWidth(0,800);
     QtScroller::grabGesture(ui->SearchTreeWidget, QtScroller::LeftMouseButtonGesture);
-     ui->SearchTreeWidget->setColumnWidth(0,800);
+    ui->SearchTreeWidget->setColumnWidth(0,800);
 
 
 
     //Build the book list
     reloadBooklist();
 
-    currentBook = NULL;
+
 
 
 
@@ -170,6 +175,82 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
         ui->label->setWordWrap(true);
         ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+        QApplication::processEvents();
+
+    }
+
+    if (!bookList.empty())
+    {
+        QApplication::processEvents();
+        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    }
+    */
+}
+
+// constructor continuation
+void MobileApp::continueConstructor()
+{
+
+    ui->displayArea->layout()->addWidget(wview);
+
+    wview->setHtml(tr("<center><big>Loading...</big></center>"));
+
+    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+
+    QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
+
+    wview->show();
+
+    // setup the search page
+    showHideSearch(false);
+
+
+    QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
+    ui->treeWidget->setColumnWidth(0,800);
+    QtScroller::grabGesture(ui->SearchTreeWidget, QtScroller::LeftMouseButtonGesture);
+    ui->SearchTreeWidget->setColumnWidth(0,800);
+
+
+
+    //Build the book list
+    reloadBooklist();
+
+
+    //Initialize a new FileDownloader to download the list
+//    listdownload = NULL;
+    listdownload = new FileDownloader();
+    connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
+
+
+    //Initialize a new FileDownloader object for books downloading
+    downloader = new FileDownloader();
+
+    //Connect slots to the signalls of the book downloader
+    connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
+    connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
+    connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
+
+    //Download the list of books that could be downloaded
+//    downloadDWList();
+
+    ui->downloadGRP->hide();
+    ui->downloadPrgBar->hide();
+
+
+    //IZAR
+    // hack to enable me to test downloads without internet
+//    listDownloadDoneOverride();
+
+
+    // the default for the menu in display page is hidden.
+//    ui->dispalyMenu->hide();
+    if (bookList.empty())
+    {
+        qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
+        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
+        ui->label->setWordWrap(true);
+        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
+        ui->toGetBooksBTN->show();
         QApplication::processEvents();
 
     }
@@ -255,7 +336,8 @@ void MobileApp::reloadBooklist(){
             book->showAlone = settings.value("ShowAlone", true).toBool();
 //            int n = settings.value("MixedDisplayes", 0).toInt();
             int n = book->mWeavedSources.size();
-            for (int j=0; j<n; j++)
+            //start from 1, ignore first source which shold always be shown.
+            for (int j=1; j<n; j++)
             {
                 book->mWeavedSources[j].show = settings.value("Shown" + stringify(j), false).toBool();
             }
@@ -618,7 +700,7 @@ void MobileApp::closeEvent(QCloseEvent *event)
          settings.beginGroup("Book" + stringify(book->getUniqueId()));
 //             settings.setValue("MixedDisplayes", book->mWeavedSources.size());
              settings.setValue("ShowAlone", book->showAlone);
-             for (int j=0; j<book->mWeavedSources.size(); j++)
+             for (int j=1; j<book->mWeavedSources.size(); j++)
              {
                  settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
              }

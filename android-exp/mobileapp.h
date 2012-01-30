@@ -165,6 +165,9 @@ private slots:
 
     void on_toGetBooksBTN_clicked();
 
+    // constructor continuation
+    void continueConstructor();
+
 private:
     Ui::MobileApp *ui;
 
