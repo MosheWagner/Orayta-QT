@@ -30,6 +30,9 @@ myWebView::myWebView(QWidget * parent)
     //if this is mobile app we don't use bookDisplayer class.
 #ifndef MOBILE
     mBookdisp = qobject_cast<bookDisplayer*>(parent);
+#else
+    // in mobile version ignore mouse moves
+    setMouseTracking(false);
 #endif
 
     /* // don't work
@@ -68,7 +71,10 @@ void myWebView::mouseMoveEvent(QMouseEvent *event)
 }
 #endif
 
-//void myWebView::mousePressEvent(QMouseEvent *event)
+//void myWebView::mousePressEvent(QMouseEvent *event) {
+////    qDebug() << "mouse press: " << event->button() << "type: " << event->type();
+//}
+
 //{
 //    //Ignore right clicks and emulate a left one instead
 //    if (event->button() == Qt::RightButton)
@@ -162,6 +168,7 @@ void myWebView::keyPressEvent( QKeyEvent *keyEvent )
         return;
 
    default:
+//        qDebug() << "key pressed: " << keyEvent->key();
     QWebView::keyPressEvent(keyEvent);
     return;
 

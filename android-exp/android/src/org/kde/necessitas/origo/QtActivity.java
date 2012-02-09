@@ -27,7 +27,7 @@
 
 package org.kde.necessitas.origo;
 
-import java.io.File;
+//import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +52,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.AttributeSet;
@@ -123,6 +124,7 @@ public class QtActivity extends Activity
                 return;
             }
 
+//            Log.d("izar", "1");
             // add all bundled libs to loader params
             ArrayList<String> libs = new ArrayList<String>();
             if ( m_activityInfo.metaData.containsKey("android.app.bundled_libs_resource_id") )
@@ -132,24 +134,31 @@ public class QtActivity extends Activity
                 libs.add(m_activityInfo.metaData.getString("android.app.lib_name"));
             loaderParams.putStringArrayList(BUNDLED_LIBRARIES_KEY, libs);
 
+//            Log.d("izar", "dex loader");
+            
             // load and start QtLoader class
             m_classLoader = new DexClassLoader(loaderParams.getString(DEX_PATH_KEY) // .jar/.apk files
                                             , getDir("outdex", Context.MODE_PRIVATE).getAbsolutePath() // directory where optimized DEX files should be written.
                                             , loaderParams.containsKey(LIB_PATH_KEY)?loaderParams.getString(LIB_PATH_KEY):null // libs folder (if exists)
                                             , getClassLoader()); // parent loader
+//            Log.d("izar", "class loader");
 
             @SuppressWarnings("rawtypes")
             Class loaderClass = m_classLoader.loadClass(loaderParams.getString(LOADER_CLASS_NAME_KEY)); // load QtLoader class
+//            Log.d("izar", "3");
             Object qtLoader = loaderClass.newInstance(); // create an instance
             Method perpareAppMethod=qtLoader.getClass().getMethod("loadApplication", Activity.class, ClassLoader.class, Bundle.class);
             if (!(Boolean)perpareAppMethod.invoke(qtLoader, this, m_classLoader, loaderParams))
                 throw new Exception("");
+//            Log.d("izar", "4");
 
             QtApplication.setQtActivityDelegate(qtLoader);
 
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
             if (!(Boolean)startAppMethod.invoke(qtLoader))
                 throw new Exception("");
+            
+//            Log.d("izar", "5");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,7 +239,8 @@ public class QtActivity extends Activity
         errorDialog.show();
     }
 
-    private void startApp(final boolean firstStart)
+    @SuppressWarnings("unused")
+	private void startApp(final boolean firstStart)
     {
         try
         {
@@ -245,14 +255,19 @@ public class QtActivity extends Activity
                 int resourceId = ai.metaData.getInt("android.app.qt_libs_resource_id");
                 m_qtLibs=getResources().getStringArray(resourceId);
             }
+            
+            // use local libs
             if (getIntent().getExtras()!= null && getIntent().getExtras().containsKey("use_local_qt_libs")
                     && getIntent().getExtras().getString("use_local_qt_libs").equals("true"))
+//            if (true)
             {
                 ArrayList<String> libraryList= new ArrayList<String>();
 
                 String localPrefix="/data/local/qt/";
-                if (getIntent().getExtras().containsKey("libs_prefix"))
+                if (getIntent().getExtras().containsKey("libs_prefix")) {
                     localPrefix=getIntent().getExtras().getString("libs_prefix");
+//                    Log.d("izar", "local prefix = " +localPrefix);
+                }
 
                 if (m_qtLibs != null)
                     for(int i=0;i<m_qtLibs.length;i++)
@@ -263,9 +278,11 @@ public class QtActivity extends Activity
                 if (getIntent().getExtras().containsKey("load_local_libs"))
                 {
                     String []extraLibs=getIntent().getExtras().getString("load_local_libs").split(":");
-                    for (String lib:extraLibs)
+                    for (String lib:extraLibs) {
+//                    	Log.d("izar", "lib: " + lib);
                         if (lib.length()>0)
                             libraryList.add(localPrefix+lib);
+                    }
                 }
 
                 String dexPaths = new String();
@@ -276,25 +293,79 @@ public class QtActivity extends Activity
                     for (String jar:jarFiles)
                         if (jar.length()>0)
                         {
+//                        	Log.d("izar", "jar: " + jar);
                             if (dexPaths.length()>0)
                                 dexPaths+=pathSeparator;
                             dexPaths+=localPrefix+jar;
                         }
                 }
-
+//                Log.d("izar", "dex paths: " +dexPaths);
+                
                 Bundle loaderParams = new Bundle();
                 loaderParams.putInt(ERROR_CODE_KEY, 0);
                 loaderParams.putString(DEX_PATH_KEY, dexPaths);
                 loaderParams.putString(LOADER_CLASS_NAME_KEY, getIntent().getExtras().containsKey("loader_class_name")
                                                             ?getIntent().getExtras().getString("loader_class_name")
                                                             :"org.kde.necessitas.industrius.QtActivityDelegate");
+//                Log.d("izar", "LOADER_CLASS_NAME_KEY: " + (getIntent().getExtras().containsKey("loader_class_name")? getIntent().getExtras().getString("loader_class_name") :"org.kde.necessitas.industrius.QtActivityDelegate"));
                 loaderParams.putStringArrayList(NATIVE_LIBRARIES_KEY, libraryList);
                 loaderParams.putString(ENVIRONMENT_VARIABLES_KEY,"QML_IMPORT_PATH=/data/local/qt/imports\tQT_PLUGIN_PATH=/data/local/qt/plugins");
                 loaderParams.putString(APPLICATION_PARAMETERS_KEY,"-platform\tandroid");
+                
+                Log.d("izar", "loader params:\n" + loaderParams +"\n<<end>>\n");
                 loadApplication(loaderParams);
                 return;
             }
 
+//            /*
+            //IZAR
+            // if no qt libs in libs.xml
+            // override ministro and use bundeled libs instead
+            if (m_qtLibs == null || m_qtLibs.length == 0)
+            {
+            	
+            	ArrayList<String> libraryList= new ArrayList<String>();
+
+
+                final String HOME = getFilesDir().toString();
+            	String localPrefix= HOME + "/qt/";
+                Log.d("izar", "local prefix = " +localPrefix);
+
+                // add needed java libraries to our app
+                // qtActivity will look for them in 'localPrefix' so you must make sure thay get there.
+                String dexPaths = new String();
+                // TODO: automatically switch to the currect api
+                String jar;
+                int apiLVL = android.os.Build.VERSION.SDK_INT;
+
+                Log.d("izar", "apiLVL = " + apiLVL);
+
+                if (apiLVL < 7 ) {
+                	jar = "jar/QtIndustrius-4.jar";
+                } else if (apiLVL < 8 ) {
+                	jar = "jar/QtIndustrius-7.jar";
+                } else if (apiLVL < 14) {
+                	jar = "jar/QtIndustrius-8.jar";
+                } else {
+                	jar = "jar/QtIndustrius-14.jar";
+                }
+                dexPaths+=localPrefix+jar;
+            	
+            	Bundle loaderParams = new Bundle();
+                loaderParams.putInt(ERROR_CODE_KEY, 0);
+                loaderParams.putString(DEX_PATH_KEY, dexPaths);
+                loaderParams.putString(LOADER_CLASS_NAME_KEY, "org.kde.necessitas.industrius.QtActivityDelegate");
+                loaderParams.putStringArrayList(NATIVE_LIBRARIES_KEY, libraryList);
+                // no plugins or imports used by us (?)
+                loaderParams.putString(ENVIRONMENT_VARIABLES_KEY,"QML_IMPORT_PATH="+localPrefix  +"/imports\tQT_PLUGIN_PATH="+localPrefix+"/plugins");
+                loaderParams.putString(APPLICATION_PARAMETERS_KEY,"-platform\tandroid");
+//                Log.d("izar", "loading app...");
+                loadApplication(loaderParams);
+//                Log.d("izar", "done.");
+            	return;
+            }
+//            */
+            
             try {
                 if (!bindService(new Intent(org.kde.necessitas.ministro.IMinistro.class.getCanonicalName()), m_ministroConnection, Context.BIND_AUTO_CREATE))
                     throw new SecurityException("");
@@ -695,7 +766,6 @@ public class QtActivity extends Activity
 
         if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
         	if (keyCode == KeyEvent.KEYCODE_BACK ){
-//        		Log.d("IZAR", "caught a keyback event");
                         Log.d("IZAR", "invoking media back key");
                         return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
 //        		}
@@ -1175,32 +1245,32 @@ public class QtActivity extends Activity
 
 //////////////// Activity API 8 /////////////
 //@ANDROID-8
-@Override
-    protected Dialog onCreateDialog(int id, Bundle args)
-    {
-        Dialog ret = null;
-        if (QtApplication.invokeDelegate(ret, id, args))
-            return ret;
-        else
-            return super.onCreateDialog(id, args);
-    }
-    public Dialog super_onCreateDialog(int id, Bundle args)
-    {
-        return super.onCreateDialog(id, args);
-    }
-    //---------------------------------------------------------------------------
-
-    @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args)
-    {
-        if (!QtApplication.invokeDelegate(null, id, dialog, args))
-            super.onPrepareDialog(id, dialog, args);
-    }
-    public void super_onPrepareDialog(int id, Dialog dialog, Bundle args)
-    {
-        super.onPrepareDialog(id, dialog, args);
-    }
-    //---------------------------------------------------------------------------
+//QtCreator @Override
+//QtCreator     protected Dialog onCreateDialog(int id, Bundle args)
+//QtCreator     {
+//QtCreator         Dialog ret = null;
+//QtCreator         if (QtApplication.invokeDelegate(ret, id, args))
+//QtCreator             return ret;
+//QtCreator         else
+//QtCreator             return super.onCreateDialog(id, args);
+//QtCreator     }
+//QtCreator     public Dialog super_onCreateDialog(int id, Bundle args)
+//QtCreator     {
+//QtCreator         return super.onCreateDialog(id, args);
+//QtCreator     }
+//QtCreator     //---------------------------------------------------------------------------
+//QtCreator 
+//QtCreator     @Override
+//QtCreator     protected void onPrepareDialog(int id, Dialog dialog, Bundle args)
+//QtCreator     {
+//QtCreator         if (!QtApplication.invokeDelegate(null, id, dialog, args))
+//QtCreator             super.onPrepareDialog(id, dialog, args);
+//QtCreator     }
+//QtCreator     public void super_onPrepareDialog(int id, Dialog dialog, Bundle args)
+//QtCreator     {
+//QtCreator         super.onPrepareDialog(id, dialog, args);
+//QtCreator     }
+//QtCreator     //---------------------------------------------------------------------------
 //@ANDROID-8
     //////////////// Activity API 11 /////////////
 

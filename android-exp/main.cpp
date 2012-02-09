@@ -105,12 +105,16 @@ void initFonts()
     QList<QString> fonts;
 //    QString fontpath (":/fonts/");
     QString fontpath (MAINPATH + "fonts/");
+#ifdef MOBILE_TEST
+    fontpath = "fonts/";
+#endif
     fonts.append(fontpath + "DejaVuSans.ttf");
     fonts.append(fontpath + "DejaVuSerif.ttf");
 //    fonts.append(fontpath + "DroidSansHebrew.ttf");
 //     fonts.append(fontpath + "DroidSansFallbackFull.ttf");
-     fonts.append(fontpath + "DroidSansHebrew-Regular.ttf");
-     fonts.append(fontpath + "DroidSansHebrew-Bold.ttf");
+//     fonts.append(fontpath + "DroidSansHebrew-Regular.ttf");
+//     fonts.append(fontpath + "DroidSansHebrew-Bold.ttf");
+    fonts.append(fontpath + "DroidSansHebrewOrayta.ttf");
 //    fonts.append(fontpath + "DavidCLM-Medium.ttf");
     fonts.append(fontpath + "MiriamCLM-Book.ttf");
     fonts.append(fontpath + "SILEOTSR.ttf");

@@ -33,6 +33,7 @@
 
 #include "htmlgen.h"
 #include <QDebug>
+#include <QTime>
 
 #define QT_USE_FAST_CONCATENATION
 #define QT_USE_FAST_OPERATOR_PLUS
@@ -348,8 +349,18 @@ bool Book::mixedHtmlRender(QString outfile, bool shownikud, bool showteamim, QRe
     // try to geuss the short index level
     if (mShortIndexLevel < 1 && indexitemlist.size() > 0)
     {
-        mShortIndexLevel = indexitemlist[0].level;
-        qDebug()<< "short index level geuss: " << mShortIndexLevel;
+//        mShortIndexLevel = indexitemlist[0].level;
+
+        //get the higest and lowest level in use
+        int highetLVL = 0 , lowestLVL = 100;
+        foreach(IndexItem item, indexitemlist)
+        {
+            if (item.level > highetLVL) highetLVL = item.level;
+            if (item.level < lowestLVL) lowestLVL = item.level;
+        }
+        if (highetLVL > lowestLVL) mShortIndexLevel = highetLVL;
+
+        qDebug()<< "short index level geuss: " << mShortIndexLevel ;
     }
 
     html += index_to_index(indexitemlist,mShortIndexLevel);
@@ -611,8 +622,19 @@ bool Book::normalHtmlRender(QString outfilename, bool shownikud, bool showteamim
     // try to geuss the short index level
     if (mShortIndexLevel < 1 && indexitemlist.size() > 0)
     {
-        mShortIndexLevel = indexitemlist[0].level;
-        qDebug()<< "short index level geuss: " << mShortIndexLevel;
+
+//        mShortIndexLevel = indexitemlist[0].level;
+
+        //get the higest and lowest level in use
+        int highetLVL = 0 , lowestLVL = 100;
+        foreach(IndexItem item, indexitemlist)
+        {
+            if (item.level > highetLVL) highetLVL = item.level;
+            if (item.level < lowestLVL) lowestLVL = item.level;
+        }
+        if (highetLVL > lowestLVL) mShortIndexLevel = highetLVL;
+
+        qDebug()<< "short index level geuss: " << mShortIndexLevel ;
     }
 
     html += index_to_index(indexitemlist,mShortIndexLevel);

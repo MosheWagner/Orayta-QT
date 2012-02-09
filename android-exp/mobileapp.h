@@ -97,8 +97,6 @@ private slots:
     //Downloads the next book in the booksToDownload list.
     void downloadDWList();
 
-    void on_horizontalSlider_sliderMoved(int position);
-
     void on_downloadListWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void markDownloadedBooks();
@@ -168,6 +166,10 @@ private slots:
     // constructor continuation
     void continueConstructor();
 
+    void on_menuHelpBTN_clicked();
+
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     Ui::MobileApp *ui;
 
@@ -207,7 +209,8 @@ private:
     //views from stacked widget:
 //    QWidget *previousView;
 //    QWidget *currentView;
-    QWidgetList *viewHistory;
+//    QWidgetList *viewHistory;
+    QList<int> *viewHistory;
 
     //shows a moving wait image
     QMovie *waitMovie;

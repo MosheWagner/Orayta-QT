@@ -1,19 +1,19 @@
 /** This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License version 3
-* as published by the Free Software Foundation.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-*
-* Author: abe.izar  <izar00@gmail.com>
-* @author abe.izar <izar00@gmail.com>
-*/
+ * it under the terms of the GNU General Public License version 3
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ * Author: abe.izar  <izar00@gmail.com>
+ * @author abe.izar <izar00@gmail.com>
+ */
 
 package org.kde.necessitas.origo;
 
@@ -23,217 +23,369 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Environment;
 
 public class CopyResources {
 
-        private AssetManager assetManager;
-        private StringBuffer buffer;
+	private AssetManager assetManager;
+	private Activity mActivity;
+	private StringBuffer buffer;
+	private final String UNKNOWN = "UNKNOWN";
+	private final String VERSION_PATH = ".version";
+	public static final File SDCARD = Environment.getExternalStorageDirectory();
+	private File HOME;
 
-        public CopyResources(Activity activity){
-                assetManager = activity.getAssets();
-                buffer = new StringBuffer();
-        }
+	public CopyResources(Activity activity) {
+		mActivity = activity;
+		assetManager = activity.getAssets();
+		buffer = new StringBuffer();
+		
+		HOME = mActivity.getFilesDir();		
+	}
 
+	/**
+	 * @param location - where to put the files i.e. "/sdcard".
+	 * 
+	 * @param path - a dir name to put the files in, and the dir name inside assets i.e. "Orayta".
+	 */
+	public void copyAssetsGroup(String location, String path) {
+		
+		// the full path to target files.
+		String fullPath = extendPath(location, path);
 
-        /**
-         * @param path- the path in the assets folder where the files are located,
-         * which will also be the path on the sdcard where files will be put. e.g. "Orayta/Books"
-         */
-        public void copyAssetsToSDCard(String path){
+		
+		
+		File versionFile = checkVersion(fullPath);
+		if (versionFile == null) {
+			log("installed version is the same as current version. nothing to do.");
+			
+			return;
+		}
+		
+		// remove old version files :
+		File versionDir = new File(extendPath(location, path,VERSION_PATH));
+		if (versionDir.exists())
+			removeChildrean(versionDir);
+		log("making dir: " + versionDir.toString());
+		versionDir.mkdir();
 
+		// get the sdcard path:
+		String target = fullPath;
+		log("copying resources to: " + target);
+		
+		try {
+			
+			copyDirOrFile(path, location);
 
-                //get the sdcard path:
-                File sdcard = Environment.getExternalStorageDirectory();
-                String target = extendPath(sdcard.toString(), path);
-                log("copying resources to: " + target);
-//		buffer.append("copied the files:\n");
-                try {
-//			String[] assets = assetManager.list(path);
-//			//copy every file in the given path:
-//			for (String file: assets){
-//				String from = extendPath(path, file);
-//				copyDir(from, target); //will copy both files and directories.
-//			}
-//			copyDir(path, target);
-                        copyDirOrFile(path, sdcard.toString());
-                }
-                catch (FileAlreadyExistsException e){ //TODO: decide what is the best behaver in this situation.
-                        log("we have detected that at least one file already exists and will now stop " +
-                                        "copying more files to sdcard.");
-                }
-                catch (Exception e){
-                        log("error copying files\n" + e +"\n"+ e.getMessage());
-                }
+			// if everything went well, create a new version file so that we can
+			// remember the process was done.
+			log("making file: " + versionFile.toString());
+			try {
+				versionFile.createNewFile();
+			} catch (IOException e) {
+				log("can't create version file");
+				e.printStackTrace();
+			}
 
-//		buffer.append("<end file list>");
-                log("successfully copied the follwing files:\n" +
-                                buffer + "<end file list>\n");
+		}
+		catch (IOException e){
+			log("error copying file:"+"\n" + e + "\n" + e.getMessage());
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			log("error copying files\n" + e + "\n" + e.getMessage());
+		}
 
+		// buffer.append("<end file list>");
+		log("successfully copied the follwing files:\n" + buffer
+				+ "<end file list>\n");
+		buffer.setLength(0);
+		
+		
 
-        }
-//
-//	/**
-//	 *
-//	 * @param inPath - path to copy from, i.e.: "Books/040_msnh_..."
-//	 * @param outPath - path to copy to, i.e.: "/mnt/sdcard/Orayta/Books"
-//	 * @throws IOException
-//	 */
-//	public void copyDir(String inPath,  String outPath) throws IOException {
-//
-//		String[] list = assetManager.list(inPath);
-//		File inDemmyFile = new File(inPath);
-//
-//		if (list.length == 0) { //no subfolders, this is a file.
-//			if (inDemmyFile.exists())
-//				log("the file: \"" + inPath+ "\" already exists. skipping...");
-//			else
-//			copyFile(inPath, outPath);
-//		}
-//		else {
-//			String target = extendPath(outPath, inDemmyFile.getName()); /* i.e.: "/mnt/sdcard/Orayta/Books" + "/" + "040_msnh...*/
-//			File directory = new File(target);
-//			if (!directory.exists()){
-//				log("trying to make dir: " + directory);
-//				directory.mkdir();
-//			}
-//
-//			log("in directory: \"" + inDemmyFile.getAbsolutePath() + "\" will now copy childrean");
-//			for (String file: list){
-//				String inFile = extendPath(inPath, file);
-//				String outFile = extendPath(target, file);
-//				copyDir(inFile, outFile);
-//			}
-//		}
-//
-//	}
-        /**
-         *
-         * @param path - path in assets folder to copy. i.e. "Orayta". the files will be copied to a directory with the same name.
-         * @param outputHead - the location where files should be copied to. i.e. "/mnt/sdcard".
-         * @throws IOException
-         * @throws Exception
-         */
-        public void copyDirOrFile(String path, String outputHead) throws IOException, Exception{
-                String[] list = assetManager.list(path);
-                File output = new File(extendPath(outputHead, path));
-                if (list.length == 0) { //no subfolders, this is a file.
-                        if (output.exists()){
-                                log("the file: \"" + output.toString() + "\" already exists. skipping...");
-                                throw new FileAlreadyExistsException("file already exists.");
-//				return;
-                        }
-                        else {
-                                moveFile(path, output.toString());
-                                buffer.append(output.toString() + "\n");
-                        }
-                }
-                else { //if this is a directory
-                        if(!output.exists()){
-//				log("trying to make dir: " + output);
-                                output.mkdir();
-                        }
-//			log("in directory: \"" + path + "\" will now copy childrean");
-                        for (String file: list){
-                                String in = extendPath(path, file);
-                                copyDirOrFile(in, outputHead);
-                        }
+	}
 
-                }
-        }
+	/**
+	 * deletes all files in a dir (but not the dir itself).
+	 * @param dir
+	 */
+	private void removeChildrean(File dir) {
+		File[] childran = dir.listFiles();
+		for (File child: childran){
+			if (child.isDirectory())
+				removeChildrean(child);
+			child.delete();
+		}
+	}
 
-        public void moveFile(String inPath, String outPath) throws IOException {
-                InputStream inStream;
-                OutputStream outStream;
-                try {
-//			log("trying to open file: " + inPath);
-                        inStream = assetManager.open(inPath);
-                } catch (Exception e ){
-                        log("error copying file:" + inPath +"\nis it larger then 1MB?\n" + e +"\n"+ e.getMessage());
-                        return;
-                }
-//		log("file opened. OPStream... " + outPath);
+	/**
+	 * check if the installed files are from the same version as current.
+	 * 
+	 * @param path
+	 *            - path to check for installed version.
+	 * @return null if nothing to be done, or a filename
+	 */
+	private File checkVersion(String path) {
 
-                try{
-                        outStream = new FileOutputStream(outPath);
+		String version = getVersion();
+		if (version.equals(UNKNOWN)) // cant get version, we need to act as
+										// though it isn't same as currnet.
+			return null;
 
-//			log("trying to write to: " + outPath);
-                        byte[] buffer = new byte[1024];
-                        int count;
-                        while((count = inStream.read(buffer)) != -1){
-                                outStream.write(buffer, 0, count);
-                        }
-                        inStream.close();
-                        inStream = null;
-                        outStream.flush();
-                        outStream.close();
-                        outStream= null;
+		
+		String versionFileName = extendPath(path,
+				VERSION_PATH, version);
+		File versionFile = new File(versionFileName);
+		if (versionFile.exists())
+			return null;
+		else
+			return versionFile;
 
-                        File file = new File(inPath);
-                        file.delete();
-                } catch (Exception e ){
-                        log("error saving file to: " + outPath +" is it larger then 1MB?\n" + e +"\n"+ e.getMessage());
-                        return;
-                }
-        }
+	}
 
-        private String extendPath(String str1, String str2) {
-                String head = new String (str1);
-                String tail = new String (str2);
+	
+	/**
+	 * 
+	 * @param path
+	 *            - path in assets folder to copy. i.e. "Orayta". the files will
+	 *            be copied to a directory with the same name.
+	 * @param outputHead
+	 *            - the location where files should be copied to. i.e.
+	 *            "/mnt/sdcard".
+	 * @throws IOException
+	 * @throws Exception
+	 */
+	public void copyDirOrFile(String path, String outputHead)
+			throws IOException, Exception {
+		String[] list = assetManager.list(path);
+		File output = new File(extendPath(outputHead, path));
+		if (list.length == 0) { // no subfolders, this is a file.
+			// we don't care if file already exists, we will overwrite it.
+			moveFile(path, output.toString());
+			buffer.append(output.toString() + "\n");
+		} else { // if this is a directory
+			if (!output.exists()) {
+				output.mkdir();
+			}
+			for (String file : list) {
+				String in = extendPath(path, file);
+				copyDirOrFile(in, outputHead);
+			}
 
-                head = trim (head);
-                String res = head + File.separator + tail;
-//		log("conected: " +res);
-                return res;
-        }
+		}
+	}
 
-        /**
-         * automatic method which will copy all resources from "assets/Orayta/" to
-         * the path "Orayta" on the sdcard.
-         * @param activity the activity that calls this method. usually simply "this".
-         */
-        public static void CopyOraytaResources(Activity activity){
+	/**
+	 * copy a file
+	 * 
+	 * @param inPath
+	 *            - where file is now
+	 * @param outPath
+	 *            - we want it to be
+	 * @throws IOException
+	 */
+	public void moveFile(String inPath, String outPath) throws IOException {
+		InputStream inStream;
+		OutputStream outStream;
+		try {
+			inStream = assetManager.open(inPath);
+		} catch (Exception e) {
+			log("error copying file:" + inPath + "\nis it larger then 1MB?\n"
+					+ e + "\n" + e.getMessage());
+			return;
+		}
 
-                CopyResources copyer = new CopyResources(activity);
-                        String out = "Orayta";
-                        copyer.copyAssetsToSDCard(out);
-                        //System.err.println("successfuly copied!");
+		try {
+			outStream = new FileOutputStream(outPath);
 
+			byte[] buffer = new byte[1024];
+			int count;
+			while ((count = inStream.read(buffer)) != -1) {
+				outStream.write(buffer, 0, count);
+			}
+			inStream.close();
+			inStream = null;
+			outStream.flush();
+			outStream.close();
+			outStream = null;
 
-        }
+			File file = new File(inPath);
+			file.delete();
+		} catch (Exception e) {
+			log("error saving file to: " + outPath
+					+ " is it larger then 1MB?\n" + e + "\n" + e.getMessage());
+			return;
+		}
+	}
 
-        /**
-         * removes a trailing path separator from a path.
-         * @param str - string to trim e.g. "/mnt/sdcard/Orayta/"
-         * @return the trimed string e.g. "/mnt/sdcard/Orayta"
-         */
-        private String trim(String str) {
-                String path = new String(str);
-                if(path.endsWith(File.separator)) { // make sure we don't have double separators.
-                        log ("trimming: " + path);
-                        path = path.substring(0, path.length()-1);
-                        log ("to: " + path);
-                }
-                return path;
+	
+	private String extendPath(String... strings) {
+		String res = strings[0];
+		for (int i= 1; i<strings.length; i++) {
+			res = res + File.separator + trim(strings[i]);
+		}
+		return res;
+	}
 
-        }
+	/**
+	 * automatic method which will copy all resources from "assets/Orayta/" to
+	 * the path "Orayta" on the sdcard.
+	 * 
+	 * @param activity
+	 *            the activity that calls this method. usually simply "this".
+	 */
+	public static void CopyOraytaResources(Activity activity) {
 
-        private static void log(String string) {
-                // TODO Auto-generated method stub
-                System.err.println(string);
-        }
+		CopyResources copyer = new CopyResources(activity);
+//		String out = "Orayta";
+//		copyer.copyAssetsToSDCard(out);
+		copyer.autoCopyOraytaResources();
+		
+	}
 
-        private class FileAlreadyExistsException extends Exception {
+	public void autoCopyOraytaResources() {
+		
+		ActivityInfo m_activityInfo = null;
+		
+		try {
+		m_activityInfo = mActivity.getPackageManager().getActivityInfo(mActivity.getComponentName(), PackageManager.GET_META_DATA);
+		} catch (Exception e) {}
+		
+		if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			log("sdcard unavilable!");
+			
+			String noSdcardMsg = "You must have an sdcard to run this app!";
+			
+			try {
+				if (m_activityInfo != null)
+					noSdcardMsg = m_activityInfo.metaData.getString("no_sdcard_msg");
+			} catch (Exception e) {}
+			
+			 AlertDialog errorDialog = new AlertDialog.Builder(mActivity).create();
+			 errorDialog.setMessage(noSdcardMsg);
 
-                /**
-                 *
-                 */
-                private static final long serialVersionUID = -6271028177511149852L;
+		        
+		        errorDialog.setButton(mActivity.getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+		            @Override
+		            public void onClick(DialogInterface dialog, int which) {
+		            	mActivity.finish();
+		            }
+		        });
+		        errorDialog.show();
+			
+			return;	
+		}
+		
+		String loadingMsg = "Loading. Please wait...";
+		try {
+			if (m_activityInfo != null)
+				loadingMsg = m_activityInfo.metaData.getString("loading_msg");
+		} catch (Exception e) {}
+		
+		ProgressDialog dialog = new ProgressDialog(mActivity);
+		dialog.setMessage(loadingMsg);
+		dialog.setCancelable(false);
+		dialog.show();
+		
+		// copy qt libs and other stuff to app directory
+		copyAssetsGroup(HOME.toString(), "qt");
+		
+		// copy books etc.
+		copyAssetsGroup(SDCARD.toString(), "Orayta");
+		
+		dialog.hide();
+		
+	}
 
-                FileAlreadyExistsException(String str){
-                        super(str);
-                }
-        }
+/*	private void copyQtLibs(String path) {
+		
+		File versionFile = checkVersion(path);
+		if (versionFile == null) {
+			log("installed version is the same as current version. nothing to do.");
+			
+			return;
+		}
+		
+		// remove old version files :
+		File versionDir = new File(extendPath(HOME.toString(), path,VERSION_PATH));
+		if (versionDir.exists())
+			removeChildrean(versionDir);
+		log("making dir: " + versionDir.toString());
+		versionDir.mkdir();
+
+		String target = extendPath(HOME.toString(), path);
+		log("copying resources to: " + target);
+		
+		try {
+			copyDirOrFile(path, HOME.toString());
+			
+			// if everything went well, create a new version file so that we can
+			// remember the process was done.
+			log("making file: " + versionFile.toString());
+			try {
+				versionFile.createNewFile();
+			} catch (IOException e) {
+				log("can't create version file");
+				e.printStackTrace();
+			}
+		}
+		catch (IOException e){
+			log("error copying file:"+"\n" + e + "\n" + e.getMessage());
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			log("error copying files\n" + e + "\n" + e.getMessage());
+		}
+
+		// buffer.append("<end file list>");
+		log("successfully copied the follwing files:\n" + buffer
+				+ "<end file list>\n");
+		// clear buffer
+		buffer.setLength(0);
+	}
+*/
+	private String getVersion() {
+
+		String version = UNKNOWN;
+		try {
+			version = mActivity.getPackageManager().getPackageInfo(
+					mActivity.getPackageName(), 0).versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			log("can't find version");
+		}
+		return version;
+	}
+
+	/**
+	 * removes a trailing path separator from a path.
+	 * 
+	 * @param str
+	 *            - string to trim e.g. "/mnt/sdcard/Orayta/"
+	 * @return the trimed string e.g. "/mnt/sdcard/Orayta"
+	 */
+	private String trim(String str) {
+		String path = new String(str);
+		if (path.endsWith(File.separator)) { // make sure we don't have double
+												// separators.
+			log("trimming: " + path);
+			path = path.substring(0, path.length() - 1);
+			log("to: " + path);
+		}
+		return path;
+
+	}
+
+	private static void log(String string) {
+		System.err.println(string);
+	}
+
+	
 }

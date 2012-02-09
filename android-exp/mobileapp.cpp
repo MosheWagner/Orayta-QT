@@ -1,3 +1,20 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Authors:
+* Izar <izar00@gmail.com>
+* Moshe Wagner. <moshe.wagner@gmail.com>
+*/
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
 
@@ -27,6 +44,7 @@
 #define GET_BOOKS_PAGE 6
 #define SETTINGS_PAGE 7
 #define MIXED_SELECTION_PAGE 8
+#define WAIT_PAGE 9
 
 
 //TODO: Catch android phisical button events (back & menu)
@@ -56,16 +74,29 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
+    //set stuff as null only for pertection
+    currentBook = NULL;
+    waitMovie = NULL;
+    viewHistory = NULL;
+    listdownload = NULL;
+    downloader = NULL;
+    wview = NULL;
 
-//    setStyleSheet(" QListWidget::index { hight: 40 px; width: 20 px;} ");
 
     ui->setupUi(this);
 
+    //hide the 'go to get books' button
+    ui->toGetBooksBTN->hide();
 
+    //show the about page while app loads
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-//    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 
     QApplication::processEvents();
+
+    QTimer::singleShot(20, this, SLOT(continueConstructor()));
+
+    /* FOLOWOING CODE TRANSFERED TO AFTER UI IS FULLY SET
+
 
     setupSettings();
 
@@ -99,7 +130,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     }
 
 
-    currentBook = NULL;
+
 
     viewHistory = new QWidgetList();
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
@@ -109,9 +140,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->toGetBooksBTN->hide();
     qApp->processEvents();
 
-     QTimer::singleShot(20, this, SLOT(continueConstructor()));
-
-    /* FOLOWOING CODE TRANSFERED TO AFTER UI IS FULLY SET
 
     ui->displayArea->layout()->addWidget(wview);
 
@@ -190,10 +218,52 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 // constructor continuation
 void MobileApp::continueConstructor()
 {
+    setupSettings();
+
+
+    InternalLocationInHtml = "";
+
+    //IZAR
+    //setup the wait image
+     waitMovie = new QMovie(":/Images/Wait.gif");
+//    waitMovie = new QMovie(":/Images/ajax-loader.gif");
+//    ui->waitLBL->setMovie(waitMovie);
+//    if (waitMovie) waitMovie->start();
+
+    wview = new myWebView(this);
+
+
+    QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
+    QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
+    QObject::connect(wview, SIGNAL(loadStarted()), this , SLOT(wvloadStarted()));
+
+//    wview->setZoomFactor(1.0);
+
+
+    //setup the back and forword keys in the book display page
+    {
+    QAction *back = wview->pageAction(QWebPage::Back);
+    QAction *forward = wview->pageAction(QWebPage::Forward);
+    back->setIcon(QIcon(":/Icons/go-previous.png"));
+    forward->setIcon(QIcon(":/Icons/go-next.png"));
+    back->setText(tr("back"));
+    forward->setText(tr("forward"));
+
+    ui->backBTN->setDefaultAction(back);
+    ui->forwardBTN->setDefaultAction(forward);
+    }
+
+
+//    viewHistory = new QWidgetList();
+    viewHistory = new QList<int>;
+    //the base of history should always point to the main page
+    viewHistory->append( MAIN_PAGE);
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
+
 
     ui->displayArea->layout()->addWidget(wview);
 
-    wview->setHtml(tr("<center><big>Loading...</big></center>"));
+//    wview->setHtml(tr("<center><big>Loading...</big></center>"));
 
     wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
@@ -217,7 +287,6 @@ void MobileApp::continueConstructor()
 
 
     //Initialize a new FileDownloader to download the list
-//    listdownload = NULL;
     listdownload = new FileDownloader();
     connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
 
@@ -230,8 +299,6 @@ void MobileApp::continueConstructor()
     connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
     connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
 
-    //Download the list of books that could be downloaded
-//    downloadDWList();
 
     ui->downloadGRP->hide();
     ui->downloadPrgBar->hide();
@@ -243,7 +310,9 @@ void MobileApp::continueConstructor()
 
 
     // the default for the menu in display page is hidden.
-//    ui->dispalyMenu->hide();
+    ui->dispalyMenu->hide();
+
+
     if (bookList.empty())
     {
         qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
@@ -254,8 +323,7 @@ void MobileApp::continueConstructor()
         QApplication::processEvents();
 
     }
-
-    if (!bookList.empty())
+    else
     {
         QApplication::processEvents();
         ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
@@ -398,6 +466,8 @@ void MobileApp::on_aboutBTN_clicked()
 
 }
 
+void MobileApp::on_menuHelpBTN_clicked() { on_aboutBTN_clicked() ;}
+
 void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 {
     if (ui->treeWidget->isExpanded(index)) ui->treeWidget->collapse(index);
@@ -449,30 +519,17 @@ void MobileApp::showBook(Book *book)
     book->setFont(font);
 
     // display mixed selection button only if the book has commentaries
-    if (book->IsMixed()) ui->mixedSelectBTN->show();
-    else ui->mixedSelectBTN->hide();
+    ui->mixedSelectBTN->setEnabled(book->IsMixed());
 
     switch ( book->fileType() )
     {
         case ( Book::Normal ):
         {
-            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+//            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
-//            if (!waitMovie)
-//            {
-//                qDebug() << "waitMovie ceased to exist!";
-//                waitMovie = new QMovie(":/Images/ajax-loader.gif");
-//            }
-
-//        //    ui->displayArea->setTitle(tr("Loading..."));
-//            ui->bookNameLBL->setText(tr("Loading..."));
-
-//            ui->waitLBL->show();
-//            ui->waitLBL->setMovie(waitMovie);
-////            ui->waitLBL->movie()->start();
-//            waitMovie->start();
-//            QApplication::processEvents();
-
+            //force view to show loading...
+            wvloadStarted();
+            qApp->processEvents();
 
             //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
             //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
@@ -492,14 +549,13 @@ void MobileApp::showBook(Book *book)
                 QString p =  absPath(htmlfilename);
                 QUrl u = QUrl::fromLocalFile(p);
 
-                ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+//                ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
                 wview->load(u);
 
                 wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-//                wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
 
-                booktitle = book->getNormallDisplayName();
+//                booktitle = book->getNormallDisplayName();
             }
             break;
         }
@@ -508,7 +564,7 @@ void MobileApp::showBook(Book *book)
             wview->load( QUrl::fromLocalFile(book->getPath()) );
             wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
             //TODO: title
-            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+//            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             break;
         }
         case ( Book::Pdf ):
@@ -551,41 +607,44 @@ void MobileApp::showBook(Book *book)
 
 void MobileApp::wvloadFinished(bool ok)
 {
-    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
-    ui->waitLBL->hide();
+//    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
+//    ui->waitLBL->hide();
 
 
-//    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
-//    ui->displayArea->setTitle(booktitle);
-    ui->bookNameLBL->setText(booktitle);
+    //display the webpage title
+     ui->bookNameLBL->setText(wview->title());
 
 
    if (InternalLocationInHtml != "")
    {
        QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
-//       wview->page()->mainFrame()->evaluateJavaScript(script);
+       wview->page()->mainFrame()->evaluateJavaScript(script);
 
        qDebug() << script;
        InternalLocationInHtml="";
    }
+
+   ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+   QApplication::processEvents();
 }
 
 void MobileApp::wvloadStarted()
 {
 //    QApplication::processEvents();
     qDebug()<< "load started";
+    ui->stackedWidget->setCurrentIndex(WAIT_PAGE);
 
     if (!waitMovie)
     {
         qDebug() << "waitMovie ceased to exist!";
-        waitMovie = new QMovie(":/Images/ajax-loader.gif");
+//        waitMovie = new QMovie(":/Images/ajax-loader.gif");
+        waitMovie = new QMovie(":/Images/Wait.gif");
     }
 
 //    ui->displayArea->setTitle(tr("Loading..."));
-    ui->bookNameLBL->setText(tr("Loading..."));
+//    ui->bookNameLBL->setText(tr("Loading..."));
 
-    ui->waitLBL->show();
+//    ui->waitLBL->show();
     ui->waitLBL->setMovie(waitMovie);
     ui->waitLBL->movie()->start();
 //    waitMovie->start();
@@ -606,12 +665,6 @@ void MobileApp::wvlinkClicked(const QUrl & url)
         QString lnk = link.mid(pos+1);
 
         QString script = "paintByHref(\"$" + lnk + "\");";
-//        QString script = "var obj = document.getElementsByName(\"" + lnk + "\")[0];\n";
-//        script += "paintMe(obj);";
-//                "paintMe(\"" + lnk + "\");";
-//        QString
-//        script = "paintWhoILinkTo(\""+link+"\")";
-//        script = "paintByName(\"" + lnk +"\");";
 
         wview->page()->currentFrame()->evaluateJavaScript(script);
 //        wview->page()->currentFrame()->scrollToAnchor(lnk);
@@ -790,8 +843,10 @@ void MobileApp::viewChanged(int index)
         return;
     }
 
-    if (ui->stackedWidget->currentWidget())
-        viewHistory->append(ui->stackedWidget->currentWidget());
+//    if (ui->stackedWidget->currentWidget())
+//        viewHistory->append(ui->stackedWidget->currentWidget());
+    //add this page to history
+    viewHistory->append(index);
 
     //IZAR
     // this is a list of things to do when we go to a certain page
@@ -830,30 +885,66 @@ void MobileApp::goBack()
             close();
         }
     // if we have only one object it probably is the current view and we cant go back
-    else if((!viewHistory) || (viewHistory->length() < 2))
+    else if(!viewHistory)
     {
-        qDebug()<< "noware to go. exiting.";
+        qDebug()<< "no history found! exiting.";
         close();
     }
 
-    else
+    //go back through history and find apropriate location to go to
+    for (int i = viewHistory->length(); i> 0; i--)
     {
-        //when going back from diplay page, stop loading the page.
-        if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
+        int id = viewHistory->at(i-1);
+        //id of currently displayed page
+        int currentId = ui->stackedWidget->currentIndex();
+        if (id != currentId)
         {
-            wview->stop();
-            currentPossision = wview->page()->currentFrame()->scrollPosition();
+            switch (id)
+            {
+            //some pages should be ignored from history:
+            case WAIT_PAGE:
+                // we are in progress of loading a book. stop it.
+                wview->stop();
+            case SETTINGS_PAGE:
+            case MIXED_SELECTION_PAGE :
+
+                break;
+
+            default:
+                ui->stackedWidget->setCurrentIndex(id);
+                viewHistory->removeAt(i-1);
+                return;
+
+            }
         }
 
-        //go to the one-before-last view, which is the previous view.
-        QWidget *previousView = viewHistory->at(viewHistory->length()-2);
-
-        //remove the last two objects. these are the current and previous view. the previous view will be re insereted later via viewChanged.
-        viewHistory->removeLast(); viewHistory->removeLast();
-
-        ui->stackedWidget->setCurrentWidget(previousView);
-
+        //remove this item from history
+        viewHistory->removeAt(i-1);
     }
+
+    // if we got 'till here then:
+    qDebug()<< "no ware to go. exiting.";
+    close();
+
+
+//    else
+//    {
+//        //when going back from diplay page, stop loading the page.
+//        if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
+//        {
+//            wview->stop();
+//            currentPossision = wview->page()->currentFrame()->scrollPosition();
+//        }
+
+//        //go to the one-before-last view, which is the previous view.
+//        QWidget *previousView = viewHistory->at(viewHistory->length()-2);
+
+//        //remove the last two objects. these are the current and previous view. the previous view will be re insereted later via viewChanged.
+//        viewHistory->removeLast(); viewHistory->removeLast();
+
+//        ui->stackedWidget->setCurrentWidget(previousView);
+
+//    }
 }
 
 
@@ -928,12 +1019,13 @@ void MobileApp::on_saveConf_clicked()
 
     // test if the previous view was the book itself. if so we want to reload the book.
     if (viewHistory->length() > 2 &&
-            viewHistory->at(viewHistory->length()-2)->objectName() ==
-            ui->stackedWidget->widget(DISPLAY_PAGE)->objectName())
+          /* viewHistory->at(viewHistory->length()-2)->objectName() ==
+           ui->stackedWidget->widget(DISPLAY_PAGE)->objectName()) */
+            viewHistory->at(viewHistory->length()-2) == DISPLAY_PAGE)
     {
         if (currentBook) {
             // remove two last itmes from history. (settings page and dispaly page).
-            viewHistory->removeLast(); viewHistory->removeLast();
+//            viewHistory->removeLast(); viewHistory->removeLast();
 
             //reload previously shown book
             showBook(currentBook);
@@ -964,12 +1056,13 @@ void MobileApp::on_fonSizeSpinBox_valueChanged(int size)
     ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), size));
 }
 
-void MobileApp::on_horizontalSlider_sliderMoved(int position)
+void MobileApp::on_horizontalSlider_valueChanged(int value)
 {
     //set this value to the SpinBox
-    ui->fonSizeSpinBox->setValue(position);
-    MobileApp::on_fonSizeSpinBox_valueChanged(position);
+    ui->fonSizeSpinBox->setValue(value);
+    MobileApp::on_fonSizeSpinBox_valueChanged(value);
 }
+
 
 
 void MobileApp::on_cancelBTN_clicked()
@@ -1360,13 +1453,15 @@ void MobileApp::setupSettings(){
     //get stored settings for display font
     settings.beginGroup("Confs");
     //TODO fix droid font and make it the default
-//    QString defaultFont = "Droid Sans Hebrew";
-    QString defaultFont = "Ezra SIL SR";
+    QString defaultFont = "Droid Sans Hebrew Orayta";
+//    QString defaultFont = "Ezra SIL SR";
     gFontFamily = settings.value("fontfamily", defaultFont).toString();
     gFontSize = settings.value("fontsize",20).toInt();
     settings.endGroup();
 
     resetSettingsPage();
+    //as default display the font selection page int the settings page
+    ui->tabWidget->setCurrentIndex(0);
 
 
 }
@@ -1534,7 +1629,7 @@ void MobileApp::on_openMixed_clicked()
     showBook(currentBook);
 
     //clear the history. we don't want the back butten to take us here.
-    viewHistory->removeLast(); viewHistory->removeLast();
+//    viewHistory->removeLast(); viewHistory->removeLast();
 
 }
 
@@ -1657,3 +1752,6 @@ bool MobileApp::currentBookDisplayed()
 
 void MobileApp::on_toGetBooksBTN_clicked()
 {    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE); }
+
+
+

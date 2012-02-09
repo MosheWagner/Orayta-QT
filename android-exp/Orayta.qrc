@@ -59,6 +59,6 @@
         <file>Icons/dl-book2.png</file>
         <file>Icons/go-next.png</file>
         <file>Icons/go-previous.png</file>
-        <file>Images/ajax-loader.gif</file>
+        <file>Images/Wait.png</file>
     </qresource>
 </RCC>
