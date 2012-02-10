@@ -183,6 +183,7 @@ int main(int argc, char *argv[])
     //IZAR: add fonts to our app.
     initFonts();
 
+
     //Define the program's language
     initLang(&app);
 
@@ -209,6 +210,9 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MOBILE
+    // fix for certain devices which don't support hebrew chars well.
+    app.setFont(QFont("DejaVu Sans"));
+
     MobileApp m;
 
     m.show();

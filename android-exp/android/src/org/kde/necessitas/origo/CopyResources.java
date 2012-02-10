@@ -41,14 +41,14 @@ public class CopyResources {
 	private final String UNKNOWN = "UNKNOWN";
 	private final String VERSION_PATH = ".version";
 	public static final File SDCARD = Environment.getExternalStorageDirectory();
-	private File HOME;
+//	private File HOME;
 
 	public CopyResources(Activity activity) {
 		mActivity = activity;
 		assetManager = activity.getAssets();
 		buffer = new StringBuffer();
 		
-		HOME = mActivity.getFilesDir();		
+//		HOME = mActivity.getFilesDir();		
 	}
 
 	/**
@@ -235,13 +235,14 @@ public class CopyResources {
 		return res;
 	}
 
-	/**
-	 * automatic method which will copy all resources from "assets/Orayta/" to
-	 * the path "Orayta" on the sdcard.
-	 * 
-	 * @param activity
-	 *            the activity that calls this method. usually simply "this".
-	 */
+//	/**
+//	 * automatic method which will copy all resources from "assets/Orayta/" to
+//	 * the path "Orayta" on the sdcard.
+//	 * 
+//	 * @param activity
+//	 *            the activity that calls this method. usually simply "this".
+//	 */
+	/*
 	public static void CopyOraytaResources(Activity activity) {
 
 		CopyResources copyer = new CopyResources(activity);
@@ -250,8 +251,8 @@ public class CopyResources {
 		copyer.autoCopyOraytaResources();
 		
 	}
-
-	public void autoCopyOraytaResources() {
+*/
+/*	public void autoCopyOraytaResources() {
 		
 		ActivityInfo m_activityInfo = null;
 		
@@ -304,7 +305,7 @@ public class CopyResources {
 		dialog.hide();
 		
 	}
-
+*/
 /*	private void copyQtLibs(String path) {
 		
 		File versionFile = checkVersion(path);

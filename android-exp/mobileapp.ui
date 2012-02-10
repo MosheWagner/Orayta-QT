@@ -174,7 +174,7 @@ margin: 1 px;
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -186,6 +186,9 @@ margin: 1 px;
        </property>
        <item>
         <layout class="QGridLayout" name="gridLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetMinimumSize</enum>
+         </property>
          <property name="verticalSpacing">
           <number>2</number>
          </property>
@@ -194,6 +197,9 @@ margin: 1 px;
          </property>
          <item row="0" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QToolButton" name="openBTN">
              <property name="sizePolicy">
@@ -216,7 +222,6 @@ margin: 1 px;
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>11</pointsize>
                <weight>75</weight>
                <italic>true</italic>
@@ -252,8 +257,11 @@ margin: 1 px;
            </item>
           </layout>
          </item>
-         <item row="0" column="2">
+         <item row="0" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QToolButton" name="searchBTN">
              <property name="sizePolicy">
@@ -276,7 +284,6 @@ margin: 1 px;
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>11</pointsize>
                <weight>75</weight>
                <italic>true</italic>
@@ -309,8 +316,11 @@ margin: 1 px;
            </item>
           </layout>
          </item>
-         <item row="2" column="2">
+         <item row="1" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QToolButton" name="aboutBTN">
              <property name="sizePolicy">
@@ -333,7 +343,6 @@ margin: 1 px;
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>11</pointsize>
                <weight>75</weight>
                <italic>true</italic>
@@ -366,8 +375,11 @@ margin: 1 px;
            </item>
           </layout>
          </item>
-         <item row="2" column="0">
+         <item row="1" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QToolButton" name="getbooksBTN">
              <property name="sizePolicy">
@@ -390,7 +402,6 @@ margin: 1 px;
              </property>
              <property name="font">
               <font>
-               <family>Arial</family>
                <pointsize>11</pointsize>
                <weight>75</weight>
                <italic>true</italic>
@@ -423,32 +434,6 @@ margin: 1 px;
            </item>
           </layout>
          </item>
-         <item row="1" column="0">
-          <spacer name="verticalSpacer_9">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </item>
        <item>
@@ -478,7 +463,6 @@ margin: 1 px;
            </property>
            <property name="font">
             <font>
-             <family>Arial</family>
              <pointsize>11</pointsize>
              <weight>75</weight>
              <italic>true</italic>
@@ -682,7 +666,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -727,7 +711,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -772,7 +756,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -818,7 +802,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -863,7 +847,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -905,7 +889,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -947,7 +931,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -989,7 +973,7 @@ p, li { white-space: pre-wrap; }
             <property name="iconSize">
              <size>
               <width>50</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
             <property name="toolButtonStyle">
@@ -2423,7 +2407,14 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="searchInBooksLine"/>
+        <widget class="QLineEdit" name="searchInBooksLine">
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_3">
@@ -3440,6 +3431,21 @@ p, li { white-space: pre-wrap; }
            <string>Font</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>2</number>
+           </property>
+           <property name="rightMargin">
+            <number>2</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
            <item>
             <widget class="QLabel" name="label_9">
              <property name="font">
@@ -3463,7 +3469,6 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
                <pointsize>8</pointsize>
                <weight>50</weight>
                <italic>false</italic>
@@ -3478,7 +3483,7 @@ p, li { white-space: pre-wrap; }
 </string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -3488,7 +3493,7 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="currentFont">
               <font>
-               <family>Arial</family>
+               <family>Droid Sans Hebrew Orayta</family>
               </font>
              </property>
             </widget>
@@ -3572,7 +3577,7 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="font">
               <font>
-               <pointsize>8</pointsize>
+               <pointsize>7</pointsize>
               </font>
              </property>
              <property name="text">
@@ -3708,8 +3713,8 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="font">
               <font>
-               <family>Khmer OS System</family>
-               <pointsize>16</pointsize>
+               <family>Droid Sans Hebrew Orayta</family>
+               <pointsize>20</pointsize>
               </font>
              </property>
              <property name="layoutDirection">
@@ -4061,12 +4066,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>119</x>
-     <y>261</y>
+     <x>76</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4077,12 +4082,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>166</x>
-     <y>261</y>
+     <x>100</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4093,12 +4098,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>213</x>
-     <y>261</y>
+     <x>123</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4109,12 +4114,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>25</x>
-     <y>261</y>
+     <x>76</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4125,12 +4130,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>261</y>
+     <x>123</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4141,12 +4146,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>56</x>
-     <y>301</y>
+     <x>53</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
@@ -4157,12 +4162,12 @@ image: url(:/Images/Wait.png);}
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>173</x>
-     <y>301</y>
+     <x>53</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>119</x>
-     <y>275</y>
+     <x>99</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>

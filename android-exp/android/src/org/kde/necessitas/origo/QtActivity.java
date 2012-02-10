@@ -28,6 +28,7 @@
 package org.kde.necessitas.origo;
 
 //import java.io.File;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,9 +36,11 @@ import java.util.Arrays;
 import org.kde.necessitas.ministro.IMinistro;
 import org.kde.necessitas.ministro.IMinistroCallback;
 
+import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -239,14 +242,13 @@ public class QtActivity extends Activity
         errorDialog.show();
     }
 
-    @SuppressWarnings("unused")
-	private void startApp(final boolean firstStart)
+    private void startApp(final boolean firstStart)
     {
         try
         {
 
-	//IZAR: my script runs from here: -----------
-       CopyResources.CopyOraytaResources(this);
+	//IZAR copy resources to sdcard and to home dir: 
+        	autoCopyMyResources();
         //end----------------------------------------
 
             ActivityInfo ai=getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
@@ -319,22 +321,55 @@ public class QtActivity extends Activity
 
 //            /*
             //IZAR
-            // if no qt libs in libs.xml
+            // if qt libs already exist
             // override ministro and use bundeled libs instead
-            if (m_qtLibs == null || m_qtLibs.length == 0)
+            File filesDir = getFilesDir();
+            String home = filesDir.getParent() + "/";
+            File qtCoreLib = new File (home+"lib/lib"+"QtCore"+".so");
+            Log.d("izar", "qtCoreLib file: " + qtCoreLib);
+            
+            if (qtCoreLib.exists())
             {
             	
             	ArrayList<String> libraryList= new ArrayList<String>();
-
-
-                final String HOME = getFilesDir().toString();
-            	String localPrefix= HOME + "/qt/";
+                
+            	String localPrefix= filesDir + "/qt/";
                 Log.d("izar", "local prefix = " +localPrefix);
+                
+                
+                
+                if (m_qtLibs != null) {
+                    for(int i=0;i<m_qtLibs.length;i++)
+                    {
+                        libraryList.add(home+"lib/lib"+m_qtLibs[i]+".so");
+                    }
+                }
+                
+             // add android lib to libs list:
+                String androidLib = "android-5";
+                //look fot the best android lib to fit current api level
+                for (int i = 1; i <= android.os.Build.VERSION.SDK_INT; i++ ){
+                	File androidLibFile = new File (home+"lib/lib"+"android-"+i+".so");
+                	if (androidLibFile.exists()){
+                		androidLib = "android-"+i;
+                		Log.d("izar", "androidLib: " + androidLib);
+                	}
+                }
+                libraryList.add(home+"lib/lib"+androidLib+".so");
+                
+//                ArrayList<String> libs = new ArrayList<String>();
+//                if ( m_activityInfo.metaData.containsKey("android.app.bundled_libs_resource_id") )
+//                    libs.addAll(Arrays.asList(getResources().getStringArray(m_activityInfo.metaData.getInt("android.app.bundled_libs_resource_id"))));
+//
+//                if ( m_activityInfo.metaData.containsKey("android.app.lib_name") )
+//                    libs.add(m_activityInfo.metaData.getString("android.app.lib_name"));
+//                loaderParams.putStringArrayList(BUNDLED_LIBRARIES_KEY, libs);
 
                 // add needed java libraries to our app
                 // qtActivity will look for them in 'localPrefix' so you must make sure thay get there.
                 String dexPaths = new String();
-                // TODO: automatically switch to the currect api
+                
+                // automatically switch to the currect api
                 String jar;
                 int apiLVL = android.os.Build.VERSION.SDK_INT;
 
@@ -407,8 +442,77 @@ public class QtActivity extends Activity
         }
         catch (Exception e)
         {
-            Log.e(QtApplication.QtTAG, "Can't create main activity", e);
+        	 Log.e(QtApplication.QtTAG, "Can't create main activity", e);
+        	AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
+            errorDialog.setMessage("an error ocurred\n"+e.getMessage());
+            errorDialog.setButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            errorDialog.show();
+            return;
+           
         }
+    }
+    
+    /**
+     * copys all the resources i need to where they need to go.
+     */
+    private void autoCopyMyResources() {
+
+    	if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+    		Log.d("IZAR", "sdcard unavilable!");
+
+    		String noSdcardMsg = "You must have an sdcard to run this app!";
+
+    		try {
+    			if (m_activityInfo != null)
+    				noSdcardMsg = m_activityInfo.metaData.getString("android.app.no_sdcard_msg");
+    		} catch (Exception e) {}
+
+    		AlertDialog errorDialog = new AlertDialog.Builder(this).create();
+    		errorDialog.setMessage(noSdcardMsg);
+
+
+    		errorDialog.setButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				finish();
+    			}
+    		});
+    		errorDialog.show();
+    				
+    		
+    		
+    	} else {
+    		
+    		String loadingMsg = ""; 
+    		try {
+    			if (m_activityInfo != null)
+    				loadingMsg = m_activityInfo.metaData.getString("android.app.loading_msg");
+    		} catch (Exception e) {}
+    		if (loadingMsg == null || loadingMsg.equals(""))
+    			loadingMsg = "Loading. Please wait...";
+
+    		ProgressDialog dialog = new ProgressDialog(this);
+    		dialog.setMessage(loadingMsg);
+    		dialog.setCancelable(false);
+    		dialog.show();
+
+    		CopyResources copyer = new CopyResources(this);
+
+    		// copy qt libs and other stuff to app directory
+    		String filesDir = getFilesDir().toString();
+    		copyer.copyAssetsGroup(filesDir, "qt");
+
+    		// copy books etc.
+    		copyer.copyAssetsGroup(Environment.getExternalStorageDirectory().toString(), "Orayta");
+
+    		dialog.hide();
+    	}
+
     }
 
 
@@ -418,7 +522,11 @@ public class QtActivity extends Activity
     /////////////// PLEASE DO NOT CHANGE THE FOLLOWING CODE //////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
 
-    @Override
+    
+		
+		
+
+	@Override
     public boolean dispatchKeyEvent(KeyEvent event)
     {
         if (QtApplication.m_delegateObject != null && QtApplication.dispatchKeyEvent != null)
