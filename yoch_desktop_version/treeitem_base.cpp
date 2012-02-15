@@ -1,6 +1,6 @@
-#include "treeitem_base.h"
+﻿#include "treeitem_base.h"
 #include "treeitem_directory.h"
-
+#include "booktree.h"
 
 BaseNodeItem::BaseNodeItem ( BaseNodeItem* parent, QString name, QString path, bool isUserBook ) :
     mpParent(parent),
@@ -165,3 +165,11 @@ void BaseNodeItem::setSelected(bool selected)
     if(mpParent != NULL)
         mpParent->repaintIcon();
 }
+
+
+NodeBook* BaseNodeItem::getBookPtrFromId(int uid) const
+{
+    BookTree* tree = dynamic_cast<BookTree*>(treeWidget());
+    return ( tree ? tree->findBookById(uid) : NULL );
+}
+

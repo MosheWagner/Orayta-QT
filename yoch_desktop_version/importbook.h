@@ -32,6 +32,8 @@ public:
     ~importBook();
 
 private:
+    void importRoutine();
+
     Ui::importBook *ui;
 
 private slots:
@@ -43,6 +45,8 @@ private slots:
     void on_label_linkActivated(QString link);
 
 signals:
+    void fileCopied(const QString&);
+    void importProgress(int);
     void updateTreeSignal();
 };
 

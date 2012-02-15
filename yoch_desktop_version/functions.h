@@ -52,6 +52,12 @@ bool ReadCommentFile(QString path, std::vector<QString>& titles, std::vector<QSt
 void writetofile(QString filename, const QString& data, const char* encoding_name, bool overwrite = true);
 QString readfile(QString filename, const char* encoding_name);
 
+// quazip functions
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name);
+bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines);
+bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name);
+
+
 //Splits the given QString to two parts, (ONLY) on the FIRST occurrence of the splitter
 QStringList splittotwo(const QString& str, const QString& sep);
 
@@ -110,6 +116,7 @@ QRegExp withNikudAndTeamim( const QString& str );
 
 QString AllowKtivHasser(const QString& str);
 
+QString rangeToString(int a, int b);
 
 QString simpleHtmlPage(QString title, QString contents);
 
@@ -120,6 +127,8 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
 
 //delete the given folder (recursively) to the given path
 void deleteBooksFolder(QString sourceFolder);
+
+void deleteOraytaBook(QString bookPath);
 
 
 #endif // FUNCTIONS_H

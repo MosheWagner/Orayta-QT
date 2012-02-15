@@ -6,6 +6,9 @@
 #include <QWebFrame>
 #include <QApplication>
 #include <QDebug>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QtCore>
 
 BaseHtmlView::BaseHtmlView( BookDisplayer * parent ) :
     QWebView(parent),
@@ -41,6 +44,9 @@ BaseHtmlView::~BaseHtmlView()
 //    mBookDisp->progressBar()->disconnect(this);
 }
 
+QWidget* BaseHtmlView::widget()
+{  return this;  }
+
 void BaseHtmlView::loadUrl(const QUrl& url)
 {
 /*
@@ -53,10 +59,10 @@ void BaseHtmlView::loadUrl(const QUrl& url)
     //qDebug() << "load started";
 
     loading = true;
+
     //  // marche pas, automatiquement remplacé par "", probablement du à load()
 
     load(url);
-    setFocus();
 }
 
 void BaseHtmlView::ZoomIn()
@@ -168,6 +174,7 @@ void BaseHtmlView::on_loadFinished(bool ok)
     if (ok)
     {
         //qDebug() << "load finished !";
+        setFocus();
 
         while (!delayedActions.empty())
         {
@@ -185,4 +192,17 @@ void BaseHtmlView::on_loadFinished(bool ok)
 void BaseHtmlView::addDelayedAction(fn_obj func)
 {
     delayedActions.push_back(func);
+}
+
+void BaseHtmlView::print()
+{
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("print this book"));
+
+    if (dialog->exec() == QDialog::Accepted)
+    {
+        QWebView::print(&printer);
+    }
 }

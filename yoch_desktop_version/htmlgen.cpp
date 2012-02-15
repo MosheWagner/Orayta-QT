@@ -144,7 +144,7 @@ bool OraytaBookItem::mixedHtmlRender() const
     for (int i=0; i<Sources.size(); i++)
     {
         Sources[i].text.clear();
-        if(!ReadFileToList(Sources[i].FileName, Sources[i].text, "UTF-8", true))
+        if(!ReadFileFromZip(Sources[i].FileName, "BookText", Sources[i].text, "UTF-8", true))
         {
             qDebug() << "ERROR: Unable to open file: " << Sources[i].FileName << " !";
         }
@@ -332,7 +332,7 @@ bool OraytaBookItem::mixedHtmlRender() const
 
 
     //Stick together all parts of HTML:
-    html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
+    html += html_head(mNormallDisplayName, getFont().family(), getFont().pointSize());
 
     html += "<body>";
 
@@ -380,10 +380,10 @@ bool OraytaBookItem::normalHtmlRender() const
     QString mNameForTitle = "";
 
     //Read the source file associated to this book:
-    QString filename = absPath(mPath);
-    if(!ReadFileToList(filename, text, "UTF-8", true))
+    QString zipfile = absPath(mPath);
+    if(!ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true))
     {
-        qDebug() << "ERROR: Unable to open file: " << filename << " !";
+        qDebug() << "ERROR: Unable to open file: " << zipfile << " !";
         return false;
     }
 
@@ -391,7 +391,7 @@ bool OraytaBookItem::normalHtmlRender() const
     //Simple check to make sure we don't get stuck with a emtpy (or almost empty) file
     if ( text.size() < 2 )
     {
-        qDebug() << "ERROR: Invalid file: " << filename << " !";
+        qDebug() << "ERROR: Invalid file: " << zipfile << " !";
         return false;
     }
 
@@ -527,7 +527,7 @@ bool OraytaBookItem::normalHtmlRender() const
     }
 
     //Stick together all parts of HTML:
-    html += html_head(mNameForTitle, mFont.family(), mFont.pointSize());
+    html += html_head(mNameForTitle, getFont().family(), getFont().pointSize());
 
     html += "<body>";
 
@@ -599,18 +599,18 @@ QString html_head(QString title, QString fontFamily, int basesize)
 QString CSS(QString fontFamily, int basesize)
 {
     QString ret = "<style type=\"text/css\">\n"
-            "  body { dir='RTL'; text-align: justify; font-family: '" + gFontFamily + "'; font-size: " + QString::number(basesize) + " px; }\n"
+            "  body { dir='RTL'; text-align: justify; font-family: '" + gFont.family() + "'; font-size: " + QString::number(gFont.pointSize()) + " px; }\n"
             "   A { text-decoration: none; }\n"
             "   A:hover { color: red; }\n"
             "   div { line-height: 1.5; }\n"
-            "   h1 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[5]) + "px; }\n"
-            "   h2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
-            "   h3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
-            "   h4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
-            "   h5 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
-            "   h6 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
+            "   h1 { text-align: center; font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[5]) + "px; }\n"
+            "   h2 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
+            "   h3 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
+            "   h4 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
+            "   h5 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
+            "   h6 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
             "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "}"
-            "   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
+            "   div.Content A { font-family: '" + gFont.family() + "'; color:indigo; }\n"
             "   div.Content A:hover { color:red; }\n"
             "</style>\n";
 
@@ -650,7 +650,7 @@ inline QString link (QString linkto, QString text, int id)
     if (linkto.startsWith("$"))
     {
         return "<a id=id_" + QString::number(id) + " name=\"" + linkto.mid(1) +
-                "\" onclick='paintMe(this)'>" + text + "</a>";
+                "\" href=\"" + linkto + "\" onclick='paintMe(this)'>" + text + "</a>";
     }
     else if (linkto.startsWith("#"))
     {
@@ -665,10 +665,10 @@ inline QString link (QString linkto, QString text, int id)
 
 //Return html code of dots:
 QString bluedot()
-{	return "<span style=\"color:blue\"><B>&bull;</B></span>"; }
+{  return "<span style=\"color:blue\"><B>&bull;</B></span>"; }
 
 QString reddot()
-{	return "<span style=\"color:red\"><B>&bull;</B></span>";  }
+{   return "<span style=\"color:red\"><B>&bull;</B></span>";  }
 
 
 QString index_to_index(const vector<IndexItem>& indexitemlist, int level)
@@ -800,39 +800,23 @@ QString html_link_table(const vector<IndexItem>& indexitemlist, int short_index_
 
 QString Script()
 {
-
     QString str = "<script type=\"text/javascript\">\n";
 
     //Script showing active part and putting it's link in the status bar
     str += "currentlyPainted=null;\n";
     str += "var currentlyPaintedColor;\n";
 
+    // ######### windows.status set the status bar (currently obsolete)
     str +="function paintMe(obj) {\n"
           "   if(currentlyPainted){\n"
           "        currentlyPainted.style.color = currentlyPaintedColor;\n"
           "   }\n"
           "   currentlyPainted=obj;\n"
           "   currentlyPaintedColor = currentlyPainted.style.color;\n"
-          "   obj.focus();\n"
-          "   obj.blur();\n"
           "   obj.style.color='red';\n"
-          "   window.status = obj.getAttributeNode(\"href\").value\n"
+          "   obj.scrollIntoView();"
+          "   window.status = obj.getAttributeNode(\"name\").value\n"
           "}\n";
-
-/*  // obsolete function
-    str += "function ScrollToElement(theElement) {\n"
-           "    var selectedPosX = 0;\n"
-           "    var selectedPosY = 0;\n"
-           "\n"
-           "    while(theElement != null) {\n"
-           "        selectedPosX += theElement.offsetLeft;\n"
-           "        selectedPosY += theElement.offsetTop;\n"
-           "        theElement = theElement.offsetParent;\n"
-           "    }\n"
-           "    if (selectedPosY < window.pageYOffset || selectedPosY > ((window.innerHeight + window.pageYOffset) * 0.992 ))\n"
-           "    window.scrollTo(selectedPosX , selectedPosY);\n"
-           "}\n";
-*/
 
     str += "function ReturnValue(varname){\n"
            "    return varname;\n"
@@ -919,7 +903,7 @@ QString Script()
             "  var node;\n"
             "  while(node = walker.nextNode()) {\n"
             "    var text = node.nodeValue;\n"
-            "    node.nodeValue = node.nodeValue.replace(/[֑-֯׀׆ֽ׳״]+/g, '');\n"
+            "    node.nodeValue = node.nodeValue.replace(/[֑-֯׀׆ֽ׳״]+/g, '').replace(/־/g, ' ');\n"
             "  }\n"
             "}\n";
 

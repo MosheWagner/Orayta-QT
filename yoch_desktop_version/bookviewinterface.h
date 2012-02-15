@@ -15,6 +15,8 @@ public:
     // virtual pure
     virtual NodeBook::Booktype booktype() const = 0;
 
+    virtual QWidget* widget() = 0;
+
     virtual void loadBook(const NodeBook*) = 0;
     // default implementation : nothing
     virtual void searchText(const QString& text, bool backwards);
@@ -24,6 +26,7 @@ public:
     virtual void jumpToTop();
     virtual void reload();
     virtual void setInternalLocation(const QString& location);
+    virtual void print();
 
     virtual QWidget* additionalButtons();
 

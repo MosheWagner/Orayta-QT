@@ -1,7 +1,9 @@
 #include "treeitem_orayta.h"
 #include "guematria.h"
 #include "functions.h"
-#include "qtiocompressor.h"
+
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 
 #include <QFile>
 
@@ -9,7 +11,7 @@
 
 inline QString OraytaBookItem::GDBFilePath() const
 {
-    return QString(mPath).replace(".txt", ".gdb", Qt::CaseInsensitive);
+    return "GuematriaDB";
 }
 
 //Get the book's puretext
@@ -18,10 +20,15 @@ void OraytaBookItem::getGuematriaDB(QVector<GuematriaDb>& guematriaDbase) const
     if (!hasGDBFile())
         BuildGuematriaDb();
 
-    QFile file(GDBFilePath());
-    QtIOCompressor compressor(&file);
-    compressor.open(QIODevice::ReadOnly);
-    QDataStream in(&compressor);
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdUnzip)) qDebug() << "Error!";
+    if (!zip.setCurrentFile(GDBFilePath())) qDebug() <<  "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QDataStream in(&zfile);
 
     in >> guematriaDbase;
 }
@@ -29,36 +36,34 @@ void OraytaBookItem::getGuematriaDB(QVector<GuematriaDb>& guematriaDbase) const
 //serialize Search database
 void OraytaBookItem::writeGuematriaDB(const QVector<GuematriaDb>& guematriaDbase) const
 {
-    QFile file(GDBFilePath());
-    QtIOCompressor compressor(&file);
-    compressor.open(QIODevice::WriteOnly);
-    QDataStream out(&compressor);
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdAdd)) qDebug() << "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::WriteOnly, QuaZipNewInfo(GDBFilePath()));
+    QDataStream out(&zfile);
 
     out << guematriaDbase;
 }
 
 bool OraytaBookItem::hasGDBFile() const
 {
-    QFile f(GDBFilePath());
-
-    if (!f.exists() || !f.open(QIODevice::ReadOnly))
-        return false;
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+    if (!zip.setCurrentFile(GDBFilePath())) return false;
 
     return true;
 }
 
 void OraytaBookItem::BuildGuematriaDb() const
 {
-    if (hasGDBFile())
-        return;
-
     QVector <GuematriaDb> guematriaDb;
 
     GuematriaDb current;
 
     //Read book's contents
     QStringList text;
-    if (!ReadFileToList( mPath, text, "UTF-8", true))
+    if (!ReadFileFromZip( mPath, "BookText", text, "UTF-8", true))
     {
         qDebug() << "Error reading the book's text" << mPath;
         return;

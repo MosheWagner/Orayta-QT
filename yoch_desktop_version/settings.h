@@ -29,13 +29,14 @@
 extern QString LANG;
 extern QString BOOKPATH;
 extern QString TMPPATH;
-extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
 extern QTranslator *translator;
 
-extern QString gFontFamily;
-extern int gFontSize;
+extern QFont gFont;
+
+extern int MAX_RESULTS_PER_BOOK;
+extern int MAX_RESULTS;
 
 
 
@@ -63,8 +64,8 @@ signals:
 private slots:
     void on_systemLangCbox_clicked(bool checked);
     void on_saveConf_clicked();
-    void on_fonSizeSpinBox_valueChanged(int );
-    void on_fontComboBox_currentIndexChanged(QString );
+    void on_fonSizeSpinBox_valueChanged(int);
+    void on_fontComboBox_currentIndexChanged(const QString &);
     void on_cancelBTN_clicked();
 };
 

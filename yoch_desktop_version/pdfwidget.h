@@ -70,8 +70,6 @@ public:
     qreal scale() const;
 
     int numPages() const;
-    int currentPage() const;
-
 
     void DrawRects(QList <QRect> sel, QColor color);
 
@@ -90,20 +88,12 @@ public slots:
     QRectF searchBackwards(const QString &text);
     QRectF searchForwards(const QString &text);
     bool setDocument(const QString &filePath);
-    void setPage(int page = -1);
+    void setPage(int page = 0);
     void setScale(qreal scale);
 
 
     //Copy the text in the selected rectangle to the clipboard
     void copyText();
-
-    void sliderValueChanged(int);
-    void sliderRangeChanged(int, int);
-
-    //Goes to the next page of the book (if it exists);
-    void nextPage();
-    //Goes to the previous page of the book (if it exists);
-    void previousPage();
 
     //Prints the given page to the given Qprinter
     //void printPage(QPrinter, int);
@@ -149,10 +139,6 @@ private:
 
     bool useRTL;
 
-    int mSliderTop;
-    bool mSTO;
-    int mSliderBottem;
-    bool mSBO;
 };
 
 #endif  //#define PDF_WIDGET_H

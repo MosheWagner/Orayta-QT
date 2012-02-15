@@ -1,4 +1,4 @@
-#ifndef TREEITEM_BASE_BOOK_H
+﻿#ifndef TREEITEM_BASE_BOOK_H
 #define TREEITEM_BASE_BOOK_H
 
 
@@ -17,6 +17,7 @@ public:
         Orayta,
         Html,
         Pdf,
+        Link,
         Unkown
     };
 
@@ -34,13 +35,13 @@ public:
 
     // setters
     void setTabWidget(BookDisplayer*);
-    void setUniqueId(int id);
     void setRandomUniqueId(int id);
 
     static NodeBook* BookFactory(BaseNodeItem* parent, QString path, QString name, NodeBook::Booktype ft, bool isUserBook);
 
 
 protected:
+    virtual void AddConfs();
 
     //QWidget* of current viewTab (0 if not exists)
     QPointer<BookDisplayer> mTabWidget;

@@ -10,6 +10,7 @@ class PdfBookView : public PdfWidget, public BookViewInterface
 public:
     PdfBookView(BookDisplayer * parent);
 
+    virtual QWidget* widget();
     virtual NodeBook::Booktype booktype() const;
     virtual void loadBook(const NodeBook*);
     virtual void searchText(const QString& text, bool backwards);

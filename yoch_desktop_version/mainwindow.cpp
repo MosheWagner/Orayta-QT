@@ -22,7 +22,6 @@
 #include "settings.h"
 
 
-
 /*
   Roadmap for 0.05:
 
@@ -170,6 +169,10 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         openBook(ui->treeWidget->booklist()[0]);
     }
+    else
+    {
+        // ##########
+    }
 }
 
 
@@ -249,12 +252,13 @@ void MainWindow::connectMenuActions()
     ui->searchInBookAction->setShortcut(QKeySequence::Find);
     ui->searchForwardAction->setShortcut(QKeySequence::FindNext);
     ui->searchBackwardAction->setShortcut(QKeySequence::FindPrevious);
+    ui->actionSettings->setShortcut(QKeySequence::Preferences);
 
     connect(ui->aboutAction, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
     connect(ui->zoomoutAction, SIGNAL(triggered()), this, SLOT(on_zoomoutButton_clicked()));
     connect(ui->jumptotopAction, SIGNAL(triggered()), this, SLOT(on_topButton_clicked()));
-    //connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
+    connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
 
     connect(ui->findBookAction, SIGNAL(triggered()), this, SLOT(findBookForm()));
     connect(ui->opentabAction, SIGNAL(triggered()), this, SLOT(on_newTabButton_clicked()));
@@ -315,11 +319,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     settings.setValue("state", saveState());
     settings.endGroup();
 
-    settings.beginGroup("Confs");
-    settings.setValue("fontfamily", gFontFamily);
-    settings.setValue("fontsize", gFontSize);
-    settings.endGroup();
-
     ui->treeWidget->saveBooksConfs();
 }
 
@@ -348,9 +347,12 @@ void MainWindow::restoreConfs()
     settings.endGroup();
 
     settings.beginGroup("Confs");
-    gFontFamily = settings.value("fontfamily", "Nachlieli CLM").toString();
-    gFontSize = settings.value("fontsize", 16).toInt();
+    gFont = settings.value("font", gFont).value<QFont>();
+    settings.endGroup();
 
+    settings.beginGroup("Search_confs");
+    MAX_RESULTS = settings.value("maxResults", MAX_RESULTS).toInt();
+    MAX_RESULTS_PER_BOOK = settings.value("maxPerBook", MAX_RESULTS_PER_BOOK).toInt();
     settings.endGroup();
 }
 
@@ -459,23 +461,12 @@ void MainWindow::keyPressEvent( QKeyEvent *keyEvent )
     QWidget::keyPressEvent(keyEvent);
 }
 
-/*
+/* */
 //Print the current book (all pages I think...)
 void MainWindow::printBook()
 {
-    QPrinter printer;
-
-    QPrintDialog *dialog = new QPrintDialog(&printer, this);
-    dialog->setWindowTitle(tr("print this book"));
-    if (dialog->exec() != QDialog::Accepted)
-        return;
-    else
-    {
-        CurrentBookdisplayer()->print(&printer);
-    }
+    CurrentBookdisplayer()->print();
 }
-*/
-
 
 void MainWindow::menuComment()
 {
@@ -762,8 +753,6 @@ void MainWindow::openExternalLink(QString lnk)
                 obook->setShowAlone(memShowAloneOpt);
             }
             else openBook(book, true);
-
-
 
             CurrentBookdisplayer()->setInternalLocation(parts[1]);
 

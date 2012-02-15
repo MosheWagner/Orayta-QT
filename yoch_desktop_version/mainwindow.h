@@ -60,6 +60,7 @@
 #include "errorreport.h"
 #include "bookfind.h"
 #include "importbook.h"
+#include "searchresults.h"
 
 
 class BookDisplayer;
@@ -199,7 +200,7 @@ private slots:
 
     void openExternalLink(QString link);
 
-    //void printBook();
+    void printBook();
 
     //Called when an item at the treeView is double clicked, and if it's a book, loads it the current tab
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem* item, int column);

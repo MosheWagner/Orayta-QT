@@ -5,6 +5,7 @@
 #include "treeitem_base_book.h"
 #include "bookiter.h"
 #include "guematria.h"
+#include "searchresults.h"
 
 #include <QVector>
 #include <QMap>
@@ -18,21 +19,11 @@ struct weavedSource
     bool show;
 };
 
-//Simplest struct holding results for a search in book.
-// Includes an iter of the result's position, and a preview of results
-//  (some puretext before and after it).
-struct SearchResult
-{
-    //BookIter itr;
-    QString linkdisplay;
-    QString link;
-    QString preview;
-};
-
 struct OraytaConfs
 {
     int bookid;
     QFont font;
+    bool hasDefaultFont;
     QList<bool> weavedSrcShown;
     bool checked;
     bool showAlone;
@@ -149,6 +140,7 @@ private:
 
     //font to display (if it's directory, applied on all children)
     QFont mFont;
+    bool defaultFont;
 
     QList <weavedSource> mWeavedSources;
 

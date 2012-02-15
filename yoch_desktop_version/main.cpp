@@ -107,6 +107,8 @@ int main(int argc, char *argv[])
     //Start the App
     QApplication app(argc, argv);
 
+    //qDebug() << app.inputContext();
+
     //Define location for program dirs
     initPaths();
 

@@ -38,32 +38,23 @@ static QString createSearchPattern (QString userInput, bool allWords = true, boo
         for (int i=0; i < words.size(); i++)
             words[i] = "[^ ]*" + words[i] + "[^ ]*";
     }
-    else if (!allWords) // && fullWords
+    else if (fullWords && !allWords)
     {
         for (int i=0; i < words.size(); i++)
             words[i] = " " + words[i] + " ";
     }
 
-    int i;
     if (allWords)
     {
         QString sep = (spacing == 0 ? " " : " ([א-ת]+ ){0," + QString::number(spacing) + "}");
-        for ( i=0; i < words.size()-1; i++ )
-        {
-            pattern += words[i] + sep;
-        }
-        pattern += words[i];
+        pattern = words.join(sep);
 
         if (fullWords)
             pattern = " " + pattern + " ";
     }
     else
     {
-        for ( i=0; i < words.size()-1; i++ )
-        {
-            pattern += "(" + words[i] + ")|";
-        }
-        pattern += "(" + words[i] + ")";
+        pattern = "(" + words.join(")|(") + ")";
     }
 
     return pattern;
@@ -80,6 +71,8 @@ void MainWindow::on_SearchInBooksBTN_clicked()
     QString stxt = otxt;
     QRegExp regexp;
 
+    if (otxt == "" || otxt == " ")
+        return;
 
     if (ui->guematriaCheckBox->isChecked())
     {
@@ -137,12 +130,13 @@ void MainWindow::on_radioButton_3_toggled(bool checked)
 }
 
 
-#define RESULTS_MAX 800
 void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
 {
     //TODO: make preview look nice
     QTime tm;
     tm.start();
+
+    //qDebug() << "search for " << regexp.pattern();
 
     QString title, Html="", Htmlhead="", HtmlTopLinks="";
 
@@ -164,14 +158,14 @@ void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
         //Head and title of the Html
         title = tr("Search results: ") + "\"" + disp + "\"";
 
-        Htmlhead = html_head(title, gFontFamily ,gFontSize);
+        Htmlhead = html_head(title, gFont.family() ,gFont.pointSize());
         Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
         Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
         Htmlhead += "\n<span style=\"font-size:17px\">\n";
 
-        int results = 0, nBooksInResults = 0;
-        for (int i=0; i < searchList.size() && results < RESULTS_MAX && stopSearchFlag == false; i++)
+        int results = 0, totalResults = 0, nBooksInResults = 0;
+        for (int i=0; i < searchList.size() && results < MAX_RESULTS && stopSearchFlag == false; i++)
         {
             ui->progressBar->setValue( 5 + (i + 1) * percentPerBook ) ;
 
@@ -186,23 +180,28 @@ void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
 
             //Add a small link (at the index) to the full result
             HtmlTopLinks += reddot() + "&nbsp;&nbsp;<a onclick=\"paintWhoILinkTo(this)\" href=\"#" + QString::number(results + 1) + "\">";
-            HtmlTopLinks += searchList[i]->getTreeDisplayName() + "</a><BR>\n";
 
-
-            for (int j=0; j < searchResults.size() && results < RESULTS_MAX ; j++)
+            int resultsInThisBook = 0;
+            for (int j=0; j < searchResults.size() && results < MAX_RESULTS; j++)
             {
-                results ++;
+                results++;
+                resultsInThisBook += searchResults[j].nbResults;
 
                 //Add the full result to the page
-                Html += "<span style=\"font-size:23px\"><a name=\"" + QString::number(results) + "\"";
+                Html += "<span style=\"font-size:23px\"><a id=\"id_" + QString::number(results)+ "\" name=\"" + QString::number(results) + "\"";
                 Html += " href=\"" + searchResults[j].link + "\">";
                 Html += QString::number(results) + ")&nbsp;" + searchResults[j].linkdisplay;
-                Html += "</a><BR></span>\n";
+                if (searchResults[j].nbResults > 1)
+                    Html += "&nbsp;<small><i>[" + QString::number(searchResults[j].nbResults) + tr(" occurences") +"]</i></small>";
+                Html += "</a></span><BR>\n";
 
                 //Show result
                 Html += searchResults[j].preview;
                 Html += "<br><br><br>\n";
             }
+            totalResults += resultsInThisBook;
+
+            HtmlTopLinks += searchList[i]->getTreeDisplayName() + "&nbsp;&nbsp;<small>(" + QString::number(resultsInThisBook) + tr(" results") + ")</small></a><BR>\n";
         }
 
         if (stopSearchFlag == true)
@@ -211,22 +210,22 @@ void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
             stopSearchFlag = false;
         }
 
-        if(results == 0)
+        if (results == 0)
         {
             //TODO: write better explenation
-            Htmlhead +="<BR><BR>"; Htmlhead += tr("No search results found:"); Htmlhead += "\"" + disp + "\"";
-            Htmlhead += "</B><BR>";
+            Htmlhead +="<BR><BR>" + tr("No search results found:");
+            Htmlhead += "\"" + disp + "\"</B><BR>";
         }
         else
         {
-            Htmlhead += "<B>"; Htmlhead += tr("Short result list: "); Htmlhead += "</B><BR>";
-            if (results >= RESULTS_MAX)
+            Htmlhead += "<B>" + tr("Short result list: ") + "</B><BR>";
+            if (results >= MAX_RESULTS)
             {
-                Htmlhead += "(" + tr("firsts results only") +  QString::number(results) + ")<BR><BR>";
+                Htmlhead += "(" + QString::number(totalResults) + tr(" firsts results only") + ")<BR><BR>";
             }
             else
             {
-                Htmlhead += "(" + QString::number(results) + tr(" entries founds") + ") <BR><BR>";
+                Htmlhead += "(" + QString::number(totalResults) + tr(" entries founds") + ") <BR><BR>";
             }
             Htmlhead += HtmlTopLinks;
 
@@ -259,7 +258,7 @@ static QList<OraytaBookItem*> getBooksChildren( BaseNodeItem* parent )
         if ( (*it)->nodetype() == BaseNodeItem::Leaf )
         {
             OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(*it);
-            if (obook) ret << obook;
+            if (obook && obook->IsInSearch()) ret << obook;
         }
         else
             ret << getBooksChildren( *it );
@@ -330,7 +329,7 @@ void MainWindow::SearchGuematriaInTanach( const QString& txt )
     title = tr("Search results for guematria : ") + "\"" + txt + "\"";
     title += " (" + QString::number(guematria) + ")";
 
-    Htmlhead = html_head(title, gFontFamily, gFontSize);
+    Htmlhead = html_head(title, gFont.family(), gFont.pointSize());
     Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
     Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
     Htmlhead += title + ":" + "</center></i></b></div><BR>";
@@ -348,7 +347,7 @@ void MainWindow::SearchGuematriaInTanach( const QString& txt )
         Htmlhead += tr("No tanach books selected : please select books in tanach and search again.");
         Htmlhead += "</b></center><br>";
     }
-    else if(nb_results == 0)
+    else if (nb_results == 0)
     {
         Htmlhead +="<br><b>";
         Htmlhead += tr("No guematria results found:");

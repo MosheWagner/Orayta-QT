@@ -1,11 +1,16 @@
-#include "treeitem_orayta.h"
+﻿#include "treeitem_orayta.h"
 #include "bookdisplayer.h"
 #include "functions.h"
 #include "settings.h"
-#include "qtiocompressor.h"
+
+#include "bookview_orayta.h"
+
 
 #include <QFile>
 #include <QtCore>
+
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 
 
 /////////////////////////////////////////////////////
@@ -14,42 +19,31 @@
 
 OraytaBookItem::OraytaBookItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook ) :
     NodeBook(parent, path, name, isUserBook),
-    mNormallDisplayName("")
+    mNormallDisplayName(""),
+    mShortIndexLevel(0),
+    mCopyrightInfo(""),
+    Cosmetics(""),
+    hasNikud(false),
+    hasTeamim(false),
+    showAlone(true),
+    shownikud(true),
+    showteamim(true),
+    PutNewLinesAsIs(true),
+    mFont(QFont()),
+    defaultFont(true)
 {
     if (isUserBook)  // set default QIcon for user book
         QTreeWidgetItem::setIcon(0, QIcon(":/Icons/book-user.png"));
 
 //qDebug() << "entry OraytaBook constructor: " << mPath;
-    for(int i=0;i<5;i++)
+
+    for(int i=0; i<5; i++)
     {
         mRemoveSuffix[i]="";
         mTitleEmptyLines[i] = 0;
         mIndexSuffix[i] = "";
         mIndexPrefix[i] = "";
     }
-
-    mShortIndexLevel = 0;
-
-    mCopyrightInfo="";
-
-    Cosmetics="";
-
-    hasNikud = false;
-    hasTeamim = false;
-    showAlone = true;
-
-    shownikud = true;
-    showteamim = true;
-
-    PutNewLinesAsIs = true;
-
-    /*
-    GroupId = "";
-    Comments = "";
-    LastLevelIndex = 0;
-    */
-
-    mFont = QFont( gFontFamily, gFontSize );
 
     // load confs file
     AddBookConfs();
@@ -66,25 +60,18 @@ QString OraytaBookItem::getTreeDisplayName() const
 
 QString OraytaBookItem::getLoadableFile() const
 {
+    bool renderedOK = true;
+
     QString htmlfilename = HTMLFileName();
 
     //Check if file already exists. If not, make sure it renders ok.
     QFile f(htmlfilename);
-    bool renderedOK = true;
-
     if ( !f.exists() )
     {
         renderedOK = htmlrender();
     }
 
-    if (renderedOK == true)
-    {
-        return absPath(htmlfilename);
-    }
-    else
-    {
-        return QString();
-    }
+    return renderedOK ? absPath(htmlfilename) : QString();
 }
 
 bool OraytaBookItem::IsMixed() const
@@ -124,7 +111,7 @@ void OraytaBookItem::showTeamim(bool show)
 {  showteamim = show;  }
 
 QFont OraytaBookItem::getFont() const
-{  return mFont;  }
+{  return defaultFont ? gFont : mFont;  }
 
 void OraytaBookItem::setWeavedSourceState (int index, bool state)
 {
@@ -142,33 +129,33 @@ void OraytaBookItem::setShowAlone( bool show )
 void OraytaBookItem::setFont( const QFont& font )
 {
     mFont = font;
+    defaultFont = false;
 }
 
 void OraytaBookItem::changeFont( const QFont& font )
 {
     setFont(font);
 
-
-
     BookDisplayer* w = mTabWidget;
     if (w)
     {
-        // peut etre vaut il mieux autrement...
-        w->reload();
+        OraytaBookView* oview = dynamic_cast<OraytaBookView*>(w->bookView());
+        if (oview) oview->reload();
     }
+/*  // ####### no, regenerate only if already generated...
     else
     {
         QtConcurrent::run( *this, &OraytaBookItem::htmlrender );
     }
+*/
 }
-
 
 //Add the book's confs, from it's conf file
 void OraytaBookItem::AddBookConfs()
 {
-    QString filename = QString(mPath).replace(".txt", ".conf", Qt::CaseInsensitive);
+    QString filename = QString(mPath).replace(".obk", ".conf", Qt::CaseInsensitive);
 
-    QList <QString> text;
+    QStringList text;
 
     //Read the book's conf file file:
     if(!ReadFileToList(filename, text, "UTF-8"))
@@ -240,16 +227,16 @@ void OraytaBookItem::AddBookConfs()
                 weavedSource base;
                 base.FileName = getPath();
                 base.show = true;
-                mWeavedSources.append(base);
+                mWeavedSources.push_back(base);
             }
 
             QStringList p = text[i].mid(10).split(":");
 
             weavedSource src;
-            src.FileName = BOOKPATH + "/" + p[0];
+            src.FileName = BOOKPATH + p[0];
             src.Title = p[1];
             src.show = false;
-            mWeavedSources.append(src);
+            mWeavedSources.push_back(src);
         }
         else if (text[i].indexOf("CosmeticsType") != -1)
         {
@@ -259,7 +246,7 @@ void OraytaBookItem::AddBookConfs()
         {
             int id;
             if(ToNum(text[i].mid(9), &id))
-                setUniqueId(id);
+                mUniqueId = id;
         }
         else if (text[i].indexOf("Nikud") != -1)
         {
@@ -379,6 +366,8 @@ const QList <weavedSource>& OraytaBookItem::weavedSources() const
 //Returns the filename that should be used for the book, depending on the shown commentaries
 QString OraytaBookItem::HTMLFileName() const
 {
+    QString name = ( getUniqueId() == -1 ? mNormallDisplayName : QString::number(getUniqueId()) );
+
     QString CommenteriesMagicString = "";
 
     if ( !ShowAlone() )
@@ -388,23 +377,29 @@ QString OraytaBookItem::HTMLFileName() const
             CommenteriesMagicString += QString::number(mWeavedSources[i].show);
     }
 
-    QString name = ( mUniqueId == -1 ? mNormallDisplayName : QString::number(mUniqueId) );
-
     return TMPPATH + name + CommenteriesMagicString + ".html";
 }
 
 inline QString OraytaBookItem::DBFilePath() const
 {
-    return QString(mPath).replace(".txt", ".dbf", Qt::CaseInsensitive);
+    return "SearchDB";
 }
 
 //Get the book's puretext
 void OraytaBookItem::getSearchDB(QString& pureText, QMap<int, BookIter>& levelMap) const
 {
-    QFile file(DBFilePath());
-    QtIOCompressor compressor(&file);
-    compressor.open(QIODevice::ReadOnly);
-    QDataStream in(&compressor);
+    if (!hasDBFile())
+        BuildSearchTextDB();
+
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdUnzip)) qDebug() << "Error!";
+    if (!zip.setCurrentFile(DBFilePath())) qDebug() <<  "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QDataStream in(&zfile);
 
     in >> pureText >> levelMap;
 }
@@ -412,20 +407,21 @@ void OraytaBookItem::getSearchDB(QString& pureText, QMap<int, BookIter>& levelMa
 //serialize Search database
 void OraytaBookItem::writeSearchDB(const QString& pureText, const QMap<int, BookIter>& levelMap) const
 {
-    QFile file(DBFilePath());
-    QtIOCompressor compressor(&file);
-    compressor.open(QIODevice::WriteOnly);
-    QDataStream out(&compressor);
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdAdd)) qDebug() << "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::WriteOnly, QuaZipNewInfo(DBFilePath()));
+    QDataStream out(&zfile);
 
     out << pureText << levelMap;
 }
 
 bool OraytaBookItem::hasDBFile() const
 {
-    QFile f(DBFilePath());
-
-    if (!f.exists() || !f.open(QIODevice::ReadOnly))
-        return false;
+    QuaZip zip(mPath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+    if (!zip.setCurrentFile(DBFilePath())) return false;
 
     return true;
 }
@@ -433,12 +429,9 @@ bool OraytaBookItem::hasDBFile() const
 // ############ A voir si l'on peut adapter ca à d'autres livres
 void OraytaBookItem::BuildSearchTextDB() const
 {
-    //No need to build the DB twice...
-    if (hasDBFile()) return;
-
     //Read book's contents
     QStringList text;
-    if (!ReadFileToList(mPath, text, "UTF-8", true))
+    if (!ReadFileFromZip(mPath, "BookText", text, "UTF-8", true))
     {
         qDebug() << "Error reading the book's text" << mPath;
         return ;
@@ -447,6 +440,7 @@ void OraytaBookItem::BuildSearchTextDB() const
     //TODO: remove references to other books
 
     QString pureText = "";
+
     QMap<int, BookIter> levelMap;
 
     BookIter itr;
@@ -454,7 +448,7 @@ void OraytaBookItem::BuildSearchTextDB() const
     //If a line starts with one of these, it's a level sign
     QString levelSigns = "!@#$^~";
     //Any char not matchong this pattern, is no *pure* text.
-    QRegExp notText("[^א-תa-zA-Z0-9 ()'\"]");
+    QRegExp notText("[^×-×ªa-zA-Z0-9 ()'\"]");
     //These are turned into spaces, and not just ignored.
     QString spaceSigns = "[-_:.,?]";
 
@@ -471,13 +465,8 @@ void OraytaBookItem::BuildSearchTextDB() const
             itr.SetLevelFromLine(text[i]);
 
             //Map with it's position in the pureText
-            levelMap.insert(pureText.length(), itr);
-
-            if (text[i][0] == '!')
-            {
-                pureText += " " +  text[i].mid(2) + " ";
-            }
-            //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
+            //levelMap.insertMulti(pureText.length(), itr);
+            levelMap[pureText.length()] = itr;
         }
         //Link
         else if (text.startsWith("<!--ex"))
@@ -487,9 +476,9 @@ void OraytaBookItem::BuildSearchTextDB() const
         else
         {
             //Test if book is from the bible. Hope this is ok...
-            if ( mPath.contains("מקרא") )
+            if ( mPath.contains("×ž×§×¨×") )
             {
-                //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+                //Turn ×§×¨×™ ×•×›×ª×™×‘ into only ×§×¨×™. Maybe this should be an option?
                 text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
             }
 
@@ -541,25 +530,26 @@ QList<SearchResult> OraytaBookItem::findInBook(const QString& phrase) const
 }
 
 #define CHAR_LIMIT 300
-inline QString resultPreview(const QString& pureText, const QRegExp& exp, int offset)
+inline QString resultPreview(const QString& pureText, const QRegExp& exp, int startOffset, int endOffset, int offset, int len)
 {
-//    qDebug() << pureText;
-    QString s = pureText.mid(offset - (CHAR_LIMIT/2), CHAR_LIMIT);
-    if (s.size() != pureText.size())
+    QString s = pureText.mid(offset, len);
+
+    //Force full words
+    if (offset > startOffset)
     {
-        //Force full words
-        s = s.mid(s.indexOf(" "));
-        s = s.mid(0, s.lastIndexOf(" "));
-        s = "... " + s + " ..." ;
+        s = "..." + s.mid(s.indexOf(" "));
     }
+    if (offset + len < endOffset)
+    {
+        s = s.mid(0, s.lastIndexOf(" ")) + "...";
+    }
+
     return s.replace(exp, "<span style='background-color:Yellow'>\\1</span>");
 }
 
 QList<SearchResult> OraytaBookItem::findInBook(const QRegExp& exp) const
 {
     //qDebug() << "searching" << exp.pattern() << " in: " << getTreeDisplayName();
-
-    BuildSearchTextDB();
 
     QString pureText = "";
     QMap<int, BookIter> levelMap;
@@ -572,29 +562,39 @@ QList<SearchResult> OraytaBookItem::findInBook(const QRegExp& exp) const
     if (pureText == "")
         qWarning() << getTreeDisplayName() << " has no Search DB, so it couldn't be searched!";
 
-    int curr = 0, last = -1;
-    while ((curr = pureText.indexOf(exp, last + 1)) != -1)
+    int curr, next = 0, startOffset = -1, stopOffset = -1;
+    while ( (curr = exp.indexIn(pureText, next)) != -1 && results.size() < MAX_RESULTS_PER_BOOK )
     {
-        //qDebug() << "offset" << curr << "; " << pureText.mid(curr, 100);
-
         QMap<int, BookIter>::const_iterator mapitr = levelMap.upperBound(curr);
-        if (mapitr == levelMap.end() || (mapitr != levelMap.begin() && mapitr.key() > curr))
+        if (mapitr != levelMap.begin())
             --mapitr;
 
         BookIter itr = ( !levelMap.empty() ? mapitr.value() : BookIter() );
 
-        int startOffset = mapitr.key(), endOffset = (mapitr+1).key();
+        if (curr > stopOffset)
+        {
+            const QMap<int, BookIter>::const_iterator nextitr = levelMap.lowerBound(curr + exp.matchedLength());
 
-        SearchResult s;
-        s.link = "!" + QString::number(getUniqueId()) + ":" + itr.toStringForLinks() + ":" + escapeToBase64(exp.pattern());
-        s.linkdisplay = getTreeDisplayName() + " " + ( mPath.contains("תלמוד") ? itr.toGmaraString() : itr.toHumanString() );
-        s.preview = resultPreview(pureText.mid(startOffset, endOffset-startOffset), regexp, curr-startOffset);
+            int itrOffset = mapitr.key();
+            int nextitrOffset = (nextitr != levelMap.end() ? nextitr.key() : pureText.length());
 
-        //Prevent double results  ############  a revoir...
-        if ( results.empty() || (last < mapitr.key() || curr - last > CHAR_LIMIT/2)  )
+            startOffset = std::max(itrOffset, curr - (CHAR_LIMIT/2));
+            stopOffset = std::min(nextitrOffset, curr + (CHAR_LIMIT/2));
+
+            SearchResult s;
+            s.link = "!" + QString::number(getUniqueId()) + ":" + itr.toStringForLinks() + ":" + escapeToBase64(pureText.mid(curr, exp.matchedLength()));
+            s.linkdisplay = getTreeDisplayName() + " " + ( mPath.contains("×ª×œ×ž×•×“") ? itr.toGmaraString() : itr.toHumanString() );
+            s.preview = resultPreview(pureText, regexp, itrOffset, nextitrOffset, startOffset, stopOffset-startOffset);
+            s.nbResults = 1;
+
             results.push_back(s);
+        }
+        else
+        {
+            results.back().nbResults++;
+        }
 
-        last = curr;
+        next = curr + 1;
     }
 
     return results;
@@ -607,12 +607,12 @@ QList<SearchResult> OraytaBookItem::findGuematria(const int value) const
     QVector<GuematriaDb> bookGuematriaDb;
     getGuematriaDB(bookGuematriaDb);
 
-    for (int j=0; j < bookGuematriaDb.size(); j++)
+    for (int i=0; i < bookGuematriaDb.size(); ++i)
     {
         // search the guematria
-        int calc = bookGuematriaDb[j].values[0];
+        int calc = bookGuematriaDb[i].values[0];
         int first = 0, last = 0;
-        while ( last < bookGuematriaDb[j].values.size() )
+        while ( last < bookGuematriaDb[i].values.size() )
         {
             if (calc == value)
             {
@@ -621,36 +621,36 @@ QList<SearchResult> OraytaBookItem::findGuematria(const int value) const
                 QString occ = "";
                 for (int cmpt = first; cmpt <= last; ++cmpt)
                 {
-                    occ += bookGuematriaDb[j].words[cmpt];
+                    occ += bookGuematriaDb[i].words[cmpt];
                     if (cmpt < last) occ += " ";
                 }
 
                 //Get the text best to show for this reult's description
-                result.linkdisplay = getTreeDisplayName() + " " + bookGuematriaDb[j].itr.toHumanString();
+                result.linkdisplay = getTreeDisplayName() + " " + bookGuematriaDb[i].itr.toHumanString();
                 //Add the full result to the page
-                result.link = "!" + QString::number(getUniqueId()) + ":" + bookGuematriaDb[j].itr.toStringForLinks() +
+                result.link = "!" + QString::number(getUniqueId()) + ":" + bookGuematriaDb[i].itr.toStringForLinks() +
                                 ":" + escapeToBase64(occ);
-                result.preview = bookGuematriaDb[j].words.join(" ").
+                result.preview = bookGuematriaDb[i].words.join(" ").
                                     replace( QRegExp("(" + occ + ")"), "<span style='background-color:Yellow'>\\1</span>" );
 
                 ret.push_back( result );
 
                 last = ++first;
-                if (last < bookGuematriaDb[j].values.size())
-                    calc = bookGuematriaDb[j].values[first];
+                if (last < bookGuematriaDb[i].values.size())
+                    calc = bookGuematriaDb[i].values[first];
             }
 
             while (calc < value)
             {
                 last++;
-                if (last < bookGuematriaDb[j].values.size())
-                    calc += bookGuematriaDb[j].values[last];
+                if (last < bookGuematriaDb[i].values.size())
+                    calc += bookGuematriaDb[i].values[last];
                 else
                     break;
             }
             while (calc > value)
             {
-                calc -= bookGuematriaDb[j].values[first];
+                calc -= bookGuematriaDb[i].values[first];
                 first++;
             }
         }
@@ -686,6 +686,7 @@ OraytaConfs OraytaBookItem::publicConfs() const
     OraytaConfs ret;
     ret.bookid = mUniqueId;
     ret.font = mFont;
+    ret.hasDefaultFont = defaultFont;
     ret.checked = mInSearch;
     ret.isNikudShown = shownikud;
     ret.isTeamimShown = showteamim;
@@ -701,12 +702,12 @@ OraytaConfs OraytaBookItem::publicConfs() const
 //////////////////////////////////////////////////////////////////////
 QDataStream & operator<< (QDataStream& out, const OraytaConfs& Value)
 {
-    out << Value.bookid << Value.checked << Value.font << Value.isNikudShown << Value.isTeamimShown << Value.showAlone << Value.weavedSrcShown;
+    out << Value.bookid << Value.checked << Value.font << Value.hasDefaultFont << Value.isNikudShown << Value.isTeamimShown << Value.showAlone << Value.weavedSrcShown;
     return out;
 }
 
 QDataStream & operator>> (QDataStream& in, OraytaConfs& Value)
 {
-    in >> Value.bookid >> Value.checked >> Value.font >> Value.isNikudShown >> Value.isTeamimShown >> Value.showAlone >> Value.weavedSrcShown;
+    in >> Value.bookid >> Value.checked >> Value.font >> Value.hasDefaultFont >> Value.isNikudShown >> Value.isTeamimShown >> Value.showAlone >> Value.weavedSrcShown;
     return in;
 }

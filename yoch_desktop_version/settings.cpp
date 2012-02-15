@@ -22,7 +22,6 @@
 // Should allways by absolute.
 QString BOOKPATH;
 QString TMPPATH;
-QString HEBREWBOOKSPATH;
 QString USERPATH;
 
 //Global translator object
@@ -31,9 +30,11 @@ QTranslator *translator;
 //Default lang. After all, this is a Hebrew program...
 QString LANG = "Hebrew";
 
+int MAX_RESULTS_PER_BOOK = 250;
+int MAX_RESULTS = 1000;
+
 // Global
-QString gFontFamily = "Nachlieli CLM";
-int gFontSize = 16;
+QFont gFont = QFont("Nachlieli CLM", 16);
 
 Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings)
 {
@@ -65,15 +66,16 @@ Settings::Settings(QWidget *parent) : QDialog(parent), ui(new Ui::Settings)
     ui->groupBox->setEnabled(!useSystemLang);
 
     //Show current language
-    int is = -1;
-    for (int i=0; i<langs.size(); i++) if (LANG == langs[i]) is = i;
+    int is = langs.indexOf(LANG);
     ui->langComboBox->setCurrentIndex(is);
 
     //Show current font values
-    QFont f (gFontFamily, gFontSize);
-    ui->fontPreview->setFont(f);
-    ui->fontComboBox->setCurrentFont(f);
-    ui->fonSizeSpinBox->setValue(gFontSize);
+    ui->fontPreview->setFont(gFont);
+    ui->fontComboBox->setCurrentFont(gFont);
+    ui->fonSizeSpinBox->setValue(gFont.pointSize());
+
+    ui->spinBox_maxResults->setValue(MAX_RESULTS);
+    ui->spinBox_maxPerBook->setValue(MAX_RESULTS_PER_BOOK);
 }
 
 Settings::~Settings()
@@ -87,7 +89,7 @@ void Settings::on_cancelBTN_clicked()
     close();
 }
 
-void Settings::on_fontComboBox_currentIndexChanged(QString font)
+void Settings::on_fontComboBox_currentIndexChanged(const QString& font)
 {
     //Settings have changed, so the save button should be enabled
     ui->saveConf->setEnabled(true);
@@ -108,17 +110,11 @@ void Settings::on_fonSizeSpinBox_valueChanged(int size)
 //Save confs
 void Settings::on_saveConf_clicked()
 {
-    //Save font
-    gFontFamily = ui->fontComboBox->currentFont().family();
-    gFontSize = ui->fonSizeSpinBox->value();
-
     ui->saveConf->setEnabled(false);
 
     //Change language if needed
-    QSettings settings("Orayta", "SingleUser");
-    settings.beginGroup("Confs");
+    QString previousLang = LANG;
 
-    settings.setValue("systemLang",ui->systemLangCbox->isChecked());
     if (ui->systemLangCbox->isChecked())
     {
         LANG = QLocale::languageToString(QLocale::system().language());
@@ -129,13 +125,34 @@ void Settings::on_saveConf_clicked()
         int i = langsDisplay.indexOf(ui->langComboBox->currentText());
         if (i != -1)
         {
-            settings.setValue("lang", langs[i]);
-            settings.endGroup();
             LANG = langs[i];
         }
     }
 
-    emit ChangeLang(LANG);
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("Confs");
+    settings.setValue("systemLang", ui->systemLangCbox->isChecked());
+    settings.setValue("lang", LANG);
+    settings.endGroup();
+
+    //Save font
+    gFont = ui->fontComboBox->currentFont();
+    gFont.setPointSize(ui->fonSizeSpinBox->value());
+
+    settings.beginGroup("Confs");
+    settings.setValue("font", gFont);
+    settings.endGroup();
+
+    MAX_RESULTS = ui->spinBox_maxResults->value();
+    MAX_RESULTS_PER_BOOK = ui->spinBox_maxPerBook->value();
+
+    settings.beginGroup("Search_confs");
+    settings.setValue("maxResults", MAX_RESULTS);
+    settings.setValue("maxPerBook", MAX_RESULTS_PER_BOOK);
+    settings.endGroup();
+
+    if (previousLang != LANG)
+        emit ChangeLang(LANG);
 
     close();
 }

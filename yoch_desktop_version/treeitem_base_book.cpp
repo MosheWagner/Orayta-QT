@@ -1,6 +1,7 @@
 #include "treeitem_base_book.h"
 #include "treeitem_html.h"
 #include "treeitem_orayta.h"
+#include "treeitem_link.h"
 #ifdef POPPLER
     #include "treeitem_pdf.h"
 #endif
@@ -26,8 +27,10 @@ NodeBook* NodeBook::BookFactory(BaseNodeItem* parent, QString path, QString name
     case NodeBook::Pdf :
         return new PdfBookItem(parent, path, name, isUserBook);
 #endif
+    case Link:
+        return new LinkItem(parent, path, name, isUserBook);
     default:
-        throw ("Unable to create Book for this booktype");
+        qFatal("Unable to create Book for this booktype");
     }
 }
 
@@ -66,12 +69,12 @@ int NodeBook::getUniqueId() const
 int NodeBook::getRealUniqueId() const
 {  return mUniqueId;  }
 
-void NodeBook::setUniqueId(int id)
-{   mUniqueId = id ;  }
-
 void NodeBook::setRandomUniqueId(int id)
 {  mRandomId = id;  }
 
 void NodeBook::setTabWidget(BookDisplayer* w)
 {  mTabWidget = w;  }
+
+void NodeBook::AddConfs()
+{}
 

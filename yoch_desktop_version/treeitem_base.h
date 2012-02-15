@@ -1,4 +1,4 @@
-#ifndef TREEITEM_BASE_H
+﻿#ifndef TREEITEM_BASE_H
 #define TREEITEM_BASE_H
 
 
@@ -11,7 +11,7 @@
 
 
 class BookDisplayer;
-
+class NodeBook;
 
 //Class containing information about the books and folders.
 class BaseNodeItem : public QTreeWidgetItem
@@ -32,26 +32,30 @@ public:
     BaseNodeItem (BaseNodeItem* parent, QString name = "", QString path = "", bool isUserBook = false);
     virtual ~BaseNodeItem();
 
-    bool IsInSearch() const;
-    bool IsHidden() const;
-    bool IsUserCheckable() const;
-    bool IsUserBook() const;
+    virtual Nodetype nodetype() const = 0;
 
-    QString getPath() const;
-    IconState getIconState() const;
+    virtual bool IsInSearch() const;
+    virtual bool IsHidden() const;
+    virtual bool IsUserCheckable() const;
+    virtual bool IsUserBook() const;
+
+    virtual QString getPath() const;
 
     virtual QString getTreeDisplayName() const;
     virtual bool isSearchable() const;
 
-    BaseNodeItem* getParent();
-    QList<BaseNodeItem*>& getChildren();
-
-    virtual Nodetype nodetype() const = 0;
-
     virtual void setName(QString name);
     virtual void changeFont( const QFont& );
 
-    void setCheckState(IconState state);
+    virtual void setCheckState(IconState state);
+
+
+    IconState getIconState() const;
+
+    BaseNodeItem* getParent();
+    QList<BaseNodeItem*>& getChildren();
+
+    NodeBook* getBookPtrFromId(int) const;
 
 
     //Add the pointed book as a child to this folder
@@ -61,6 +65,7 @@ public:
     void setSelected(bool);
 
 protected:
+
     virtual void setIcon();
 
     //Repaints the icon of this folder, by the state of it's children

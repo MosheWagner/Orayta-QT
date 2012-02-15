@@ -23,7 +23,7 @@
 
 
 #include <QObject>
-#include <QSet>
+#include <QtCore>
 #include <QDir>
 #include <QFileInfoList>
 #include <QFileInfoListIterator>
@@ -118,6 +118,7 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
     QDir cdir(absPath(dirpath));
 
     //Get all files in this dir
+    //QStringList filter; filter << "*.obk" << "*.pdf" << "*.link" << "*.html" << "*.htm";
     QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
                                             QDir::Name);
 
@@ -126,10 +127,9 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
         NodeBook::Booktype ft = NodeBook::Unkown;
         bool is_dir = false;
 
-        // set the file type
-        if ( list[i].isDir() )
+        if ( list[i].isDir() && list[i].fileName().indexOf("Pics") == -1 )
             is_dir = true;
-        else if (list[i].fileName().endsWith(".txt", Qt::CaseInsensitive))
+        else if (list[i].fileName().endsWith(".obk", Qt::CaseInsensitive))
             ft = NodeBook::Orayta;
         else if (list[i].fileName().endsWith(".html", Qt::CaseInsensitive) || list[i].fileName().endsWith(".htm", Qt::CaseInsensitive))
             ft = NodeBook::Html;
@@ -137,14 +137,13 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
         else if (list[i].fileName().endsWith(".pdf", Qt::CaseInsensitive))
             ft = NodeBook::Pdf;
 #endif
+        else if (list[i].fileName().endsWith(".link", Qt::CaseInsensitive))
+            ft = NodeBook::Link;
         else
             ft = NodeBook::Unkown;
 
         if ( is_dir || ft != NodeBook::Unkown )
         {
-            if ( list[i].fileName().indexOf("Pics") != -1 )
-                continue;
-
             QString Name = list[i].fileName();
 
             //Create BookListItem
@@ -156,7 +155,8 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
 
                 b = new NodeDirectory(parent, Name, list[i].absoluteFilePath(), isUserBooks);
 
-                if (Name == "מקרא" && !m_tanachRoot)
+                //if (Name == "מקרא" && !m_tanachRoot)
+                if (Name == "mkra" && !m_tanachRoot)
                     m_tanachRoot = b;
 
                 // recursively add children
@@ -166,11 +166,14 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
             {
                 NodeBook* _b = NodeBook::BookFactory(parent, list[i].absoluteFilePath(), Name, ft, isUserBooks);
 
-                //Add this book to the booklist
-                mBookList.push_back(_b);
+                if (ft != NodeBook::Link)
+                {
+                    //Add this book to the booklist
+                    mBookList.push_back(_b);
 
-                // after that, set uniqueId in map
-                addNewBookid(_b->getUniqueId(), _b);
+                    // after that, set uniqueId in map
+                    addNewBookid(_b);
+                }
 
                 b = _b;
             }
@@ -181,8 +184,9 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
     }
 }
 
-void BookTree::addNewBookid (int id, NodeBook* book)
+void BookTree::addNewBookid (NodeBook* book)
 {
+    int id = book->getUniqueId();
     if (id == -1)
         return;
 
@@ -217,32 +221,19 @@ BookList BookTree::BooksInSearch (void)
 
 void BookTree::CheckUid()
 {
-    QSet<int> existingId;
-    QList<NodeBook*> withoutId;
-
-    for (BookList::const_iterator it = mBookList.begin(); it != mBookList.end(); ++it)
+    for ( BookList::const_iterator it = mBookList.begin(); it != mBookList.end(); ++it )
     {
         int id = (*it)->getUniqueId();
-        if ( id != -1 )
-            existingId.insert(id);
-        else if ( (*it)->isSearchable() )
-            withoutId.push_back(*it);
-    }
+        if ( id == -1 && (*it)->isSearchable() )
+        {
+            int randomId;
+            do {
+                randomId = rand();
+            } while ( mMapId.contains( randomId ) );
 
-    //Set random id for books without id
-    for (int i=0; i < withoutId.size(); i++)
-    {
-        //qDebug() << "no uniqueId found for : " << withoutId[i]->getTreeDisplayName();
-
-        int randomId;
-        do {
-            randomId = rand();
-        } while ( existingId.contains( randomId ) );
-
-        withoutId[i]->setRandomUniqueId( randomId );
-        addNewBookid (withoutId[i]->getUniqueId(), withoutId[i]);
-
-        existingId.insert( randomId );
+            (*it)->setRandomUniqueId( randomId );
+            addNewBookid ( *it );
+        }
     }
 }
 
@@ -258,15 +249,20 @@ BaseNodeItem* BookTree::tanachRoot()
 BookList& BookTree::booklist()
 {  return mBookList;  }
 
+
 void BookTree::saveBooksConfs()
 {
     //Save books' settings
     QList<OraytaConfs> confs_lst;
 
-    for (int i=0; i < mBookList.size(); ++i)
+    for (BookList::const_iterator it = mBookList.begin(); it != mBookList.end(); ++it)
     {
-        if (mBookList[i]->booktype() == NodeBook::Orayta && mBookList[i]->getRealUniqueId() != -1)
-            confs_lst << dynamic_cast<OraytaBookItem*>(mBookList[i])->publicConfs();
+        if ((*it)->booktype() == NodeBook::Orayta && (*it)->getRealUniqueId() != -1)
+        {
+            confs_lst << dynamic_cast<OraytaBookItem*>(*it)->publicConfs();
+
+            //renew_confs(dynamic_cast<OraytaBookItem*>(*it));
+        }
     }
 
     QFile file(USERPATH + "orayta.conf");
@@ -289,20 +285,17 @@ void BookTree::restoreBooksConfs()
         OraytaConfs confs = *it;
         OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(findBookById(confs.bookid));
 
-        obook->setFont(confs.font);
+        if (!obook) continue;
+
+        if (!confs.hasDefaultFont) obook->setFont(confs.font);
         if (confs.checked) obook->setSelected(confs.checked);
         if (confs.isNikudShown) obook->showNikud(true);
         if (confs.isTeamimShown) obook->showTeamim(true);
 
         obook->setShowAlone(confs.showAlone);
 
-        if (obook->weavedSources().size() != confs.weavedSrcShown.size())
-            qWarning() << "problem with " << obook->getTreeDisplayName();
-        else
-        {
-            for (int i=0; i < confs.weavedSrcShown.size(); ++i)
-                obook->setWeavedSourceState(i, confs.weavedSrcShown[i]);
-        }
+        for (int i=0; i < confs.weavedSrcShown.size(); ++i)
+            obook->setWeavedSourceState(i, confs.weavedSrcShown[i]);
     }
 }
 
@@ -379,32 +372,24 @@ void BookTree::deleteSelectedBook()
                                    displayText,
                                    QMessageBox::Ok | QMessageBox::Cancel,
                                    QMessageBox::Cancel);
-    switch (ret) {
+    switch (ret)
+    {
     case QMessageBox::Ok:
-
         if ( book->nodetype() == BaseNodeItem::Node )
         {
-            deleteBooksFolder( path );
+            // deleteBooksFolder( path );
+            QtConcurrent::run( deleteBooksFolder, path );
         }
         else
         {
-            if ( !QFile::remove( path ) )
+            if ( dynamic_cast<OraytaBookItem*>(book) != 0 )
+                deleteOraytaBook(path);
+            else if ( !QFile::remove( path ) )
                 qDebug() << "Couldn't remove file: " << path;
-/*  #########
-            if ( book->fileType() == NodeBook::Orayta )
-            {
-                QString confFilename = path.replace(".txt", ".conf", Qt::CaseInsensitive);
-                QFile confFile(confFilename);
-                if ( confFile.exists() )
-                    confFile.remove();
-            }
-*/
         }
         updateTree();
+        break;
 
-        break;
-    case QMessageBox::Cancel:
-        break;
     default:
         break;
     }
@@ -415,7 +400,7 @@ void BookTree::changeFont()
     BaseNodeItem* node = dynamic_cast<BaseNodeItem*>(currentItem());
 
     // ######### difficile de récupérer cette info précisément, pas grave...
-    QFont defaultFont = QFont( gFontFamily, gFontSize );
+    QFont defaultFont = gFont;
 
     bool ok;
     QFont font = QFontDialog::getFont(&ok, defaultFont, this);
@@ -437,7 +422,8 @@ void BookTree::displayContextMenu(QPoint pos)
 
     if ( node->IsUserBook() && node != m_userRoot )
         menuActions << deleteBook;
-    else
+
+    if ( !node->IsUserBook() )
         menuActions << changefont;
 
     if ( !menuActions.empty() )
@@ -454,3 +440,99 @@ void BookTree::displayContextMenu(QPoint pos)
         menu.exec(point);
     }
 }
+
+/* // helpers function for make list of mixed displays by id
+
+NodeBook* BookTree::getBoookByPath(const QString& path)
+{
+    for (BookList::const_iterator it = mBookList.begin(); it != mBookList.end(); ++it)
+    {
+        if ( (*it)->getPath() == path ) return *it;
+    }
+    return 0;
+}
+
+template <typename T>
+QTextStream & operator<< ( QTextStream & out, const QList<T> & list )
+{
+    out << "(";
+    for (int i=0; i < list.size(); ++i)
+    {
+        out << list[i];
+        if (i != list.size() - 1)
+            out << ", ";
+    }
+    out << ")";
+
+    return out;
+}
+
+void BookTree::saveMixedInfos()
+{
+    QList < QPair <QString, QList<int> > > save;
+    for (BookList::const_iterator it = mBookList.begin(); it != mBookList.end(); ++it)
+    {
+        OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(*it);
+        if ( !obook ) continue;
+
+        const QList<weavedSource> sources = obook->weavedSources();
+        if (sources.empty()) continue;
+
+        QString path = obook->getPath();
+        QList<int> mixed;
+        for (int i=1; i < sources.size(); i++)
+        {
+            weavedSource src = sources[i];
+            qDebug() << src.FileName;
+            NodeBook* book = getBoookByPath(src.FileName);
+            mixed.push_back( (book ? book->getRealUniqueId() : -1) );
+        }
+        save.push_back( qMakePair(path, mixed) );
+    }
+
+    QFile data(BOOKPATH + "mixedInfos.txt");
+    if (!data.open(QFile::WriteOnly)) return;
+
+    QTextStream out(&data);
+
+    QListIterator< QPair <QString, QList<int> > > i(save);
+    while(i.hasNext())
+    {
+        QPair <QString, QList<int> > val = i.next();
+
+        out << val.first << " : " << val.second  << "\n";
+    }
+}
+*/
+
+
+/* // save confs in distinct file
+
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
+
+QTextStream & operator<< ( QTextStream & out, const QStringList & list )
+{
+    for (QStringList::const_iterator it = list.begin(); it != list.end(); ++it)
+        out << *it << "\n";
+    return out;
+}
+
+void renew_confs(OraytaBookItem* ory_book)
+{
+    QString path = ory_book->getPath();
+    QStringList confs;
+    ReadZipComment(path, confs, "UTF-8");
+
+    QuaZip zip(path);
+    if (!zip.open(QuaZip::mdAdd)) qDebug() << "Error on renew_confs!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::WriteOnly, QuaZipNewInfo("Confs"));
+    QTextStream out(&zfile);
+
+    out.setCodec( QTextCodec::codecForName("UTF-8") );
+
+    out << confs;
+}
+*/

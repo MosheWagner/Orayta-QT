@@ -20,6 +20,9 @@ PdfBookView::PdfBookView( BookDisplayer * parent ) :
     QObject::connect(pdfDropBox, SIGNAL(valueChanged(int)), this, SLOT(setPdfPage(int)));
 }
 
+QWidget* PdfBookView::widget()
+{  return this;  }
+
 NodeBook::Booktype PdfBookView::booktype() const
 {  return NodeBook::Pdf;  }
 

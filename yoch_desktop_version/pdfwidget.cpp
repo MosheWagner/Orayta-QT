@@ -59,34 +59,31 @@ using namespace std;
 //TODO: Document
 
 // Pdfwidget constructor
-PdfWidget::PdfWidget(QWidget *parent) : QScrollArea(parent)
+PdfWidget::PdfWidget(QWidget *parent) :
+    QScrollArea(parent),
+    viewlbl(new QLabel(this)),
+    current_page(-1),
+    doc(0),
+    rubberBand(0),
+    scaleFactor(1.0),
+    menu(new QMenu(this)),
+    copy(new QAction(QIcon(":/Icons/edit-copy.png"), tr("Copy text"), this)),
+    useRTL(false)
 {
-    viewlbl = new QLabel();
-
     viewlbl->setMouseTracking(false);
 
     setWidget(viewlbl);
     setWidgetResizable(true);
     verticalScrollBar()->setTracking(true);
 
-    current_page = -1;
-    doc = 0;
-    rubberBand = 0;
-    scaleFactor = 1.0;
     viewlbl->setAlignment(Qt::AlignCenter);
 
-    //Init "copy" menu
-    menu = new QMenu(this);
-    copy = new QAction(QIcon(":/Icons/edit-copy.png"), tr("Copy text"), this);
     menu->addAction(copy);
     connect (copy, SIGNAL(triggered()), this, SLOT(copyText()));
 
-    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sliderValueChanged(int)));
-    connect(verticalScrollBar(), SIGNAL(rangeChanged(int,int)), this, SLOT(sliderRangeChanged(int,int)));
+//    connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sliderValueChanged(int)));
 
     setCursor(Qt::IBeamCursor);
-
-    useRTL = false;
 }
 
 PdfWidget::~PdfWidget()
@@ -171,7 +168,6 @@ QLine PdfWidget::TextLine(QPoint p)
                 top = box->boundingBox().top();
             }
         }
-
     }
 
     return QLine(QPoint(p.x(), top), QPoint(p.x(), top + h));
@@ -188,7 +184,7 @@ QList <QRect> PdfWidget::SelectText(QPoint p1, QPoint p2, bool RTL)
     //Make sure p1 is the top point
     if (p1.y() > p2.y()) swap(p1, p2);
 
-    //Determine top and bottem line height
+    //Determine top and bottom line height
     QLine l1 = TextLine(p1);
     QLine l2 = TextLine(p2);
 
@@ -232,25 +228,25 @@ QList <QRect> PdfWidget::SelectText(QPoint p1, QPoint p2, bool RTL)
         p1 = matrix().inverted().map(p1);
         p2 = matrix().inverted().map(p2);
         QRect topline;
-        QRect bottemline;
+        QRect bottomline;
 
         if (RTL)
         {
             topline.setCoords(p1.x(), l1.p1().y(), 0, l1.p2().y() );
-            bottemline.setCoords(p2.x(), l2.p1().y(), 1000, l2.p2().y());
+            bottomline.setCoords(p2.x(), l2.p1().y(), 1000, l2.p2().y());
         }
         else
         {
             topline.setCoords(p1.x(), l1.p1().y(), 1000, l1.p2().y() );
-            bottemline.setCoords(p2.x(), l2.p1().y(), 0, l2.p2().y() );
+            bottomline.setCoords(p2.x(), l2.p1().y(), 0, l2.p2().y() );
         }
 
         QRect rest( QPoint(0, l1.p2().y() + 5), QPoint(1000, l2.p1().y() - 5) );
 
-        if (rest.top() <= topline.bottom() || rest.bottom() >= bottemline.top()) rest = topline;
-        if (rest.intersects(topline) || rest.intersects(bottemline)) rest = topline;
+        if (rest.top() <= topline.bottom() || rest.bottom() >= bottomline.top()) rest = topline;
+        if (rest.intersects(topline) || rest.intersects(bottomline)) rest = topline;
 
-        if (bottemline.top() <= topline.bottom() ) bottemline = topline;
+        if (bottomline.top() <= topline.bottom() ) bottomline = topline;
 
     
         bool hadSpace = false;
@@ -259,12 +255,12 @@ QList <QRect> PdfWidget::SelectText(QPoint p1, QPoint p2, bool RTL)
 
         foreach (Poppler::TextBox *box, doc->page(current_page)->textList())
         {
-            if (box->boundingBox().intersects(topline) || box->boundingBox().intersects(bottemline) || box->boundingBox().intersects(rest))
+            if (box->boundingBox().intersects(topline) || box->boundingBox().intersects(bottomline) || box->boundingBox().intersects(rest))
             {
                 for (int i=0; i<box->text().length(); i++)
                 {
                     rect = box->charBoundingBox(i).toAlignedRect();
-                    if (rect.intersects(topline) || rect.intersects(bottemline) || rect.intersects(rest))
+                    if (rect.intersects(topline) || rect.intersects(bottomline) || rect.intersects(rest))
                     {
                         rect.adjust(-1,0,1,0);
                         hits << rect;
@@ -338,13 +334,13 @@ void PdfWidget::showPage(int page)
 {
     //qDebug() << " entry in pdf show page";
 
-    if (page != -1 && page != current_page + 1) {
+    if (page > 0 && page - 1 != current_page) {
         current_page = page - 1;
         emit pageChanged(page, doc->numPages());
     }
 
     Poppler::Page* pdfPage = doc->page(current_page);
-    if (pdfPage == 0) {
+    if (!pdfPage) {
         qDebug() << "Couldn't open page " << current_page;
         return;
     }
@@ -512,24 +508,7 @@ bool PdfWidget::setDocument(const QString &filePath)
 {
     Poppler::Document *oldDocument = doc;
 
-
-    //Don't work on some MS-Windows systems
     doc = Poppler::Document::load(filePath);
-    /*
-    {  //
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        qDebug() << "couldn't open " << filePath;
-        return false;
-    }
-
-    QByteArray data = file.read( file.size() );
-    file.close();
-
-    doc = Poppler::Document::loadFromData(data);
-    }
-    */
 
     if (doc) {
         delete oldDocument;
@@ -547,11 +526,13 @@ bool PdfWidget::setDocument(const QString &filePath)
     return doc != 0;
 }
 
+// first page is 1
 void PdfWidget::setPage(int page)
 {
-    if (page != -1 && page != current_page + 1) {
+    if (page > 0 && page != current_page + 1) {
         searchLocation = QRectF();
         showPage(page);
+        verticalScrollBar()->setValue(0);
     }
 }
 
@@ -568,65 +549,8 @@ int PdfWidget::numPages() const
     return (doc ? doc->numPages() : 0);
 }
 
-int PdfWidget::currentPage() const
-{
-    return current_page + 1;
-}
 
-void PdfWidget::sliderValueChanged(int val)
-{
-    if (val == mSliderTop)
-    {
-        if (mSTO == true)
-        {
-            previousPage();
-            mSTO = false;
-        }
-        else
-        {
-            mSTO = true;
-        }
-    }
-    else if (val == mSliderBottem)
-    {
-        if (mSBO == true)
-        {
-            nextPage();
-            mSBO = false;
-        }
-        else
-        {
-            mSBO = true;
-        }
-    }
-}
-
-void PdfWidget::sliderRangeChanged(int top, int bottem)
-{
-    mSliderTop = top;
-    mSliderBottem = bottem;
-}
-
-void PdfWidget::nextPage()
-{
-    if (numPages() > current_page)
-    {
-        setPage(current_page + 2);
-        verticalScrollBar()->setValue(0);
-        mSTO = false;
-    }
-}
-
-void PdfWidget::previousPage()
-{
-    if (current_page > 0)
-    {
-        setPage(current_page);
-        verticalScrollBar()->setValue(0);
-        mSTO = false;
-    }
-}
-
+///////////////////////////////////////////////////////////////
 
 static QString ToBidiText(const QString& str)
 {

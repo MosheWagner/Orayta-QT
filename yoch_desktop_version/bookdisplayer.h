@@ -20,9 +20,13 @@
 
 #include <QWidget>
 #include <QTabWidget>
-#include <QVBoxLayout>
+#include <QLabel>
 #include <QUrl>
 #include <QProgressBar>
+#include <QStackedLayout>
+#include <QStackedWidget>
+#include <QMovie>
+
 
 #include "treeitem_base_book.h"
 
@@ -30,7 +34,7 @@
   Class holding all widgets and objects needed to display a book.
     The main object is a plain QWidget.
 
-    In it, a stackedwidget allows us to switch between two htmlviewers,
+    In it, a stackedwidget allows us to switch between two views,
      one for the "loading" image, and one for the book itself
 */
 
@@ -49,9 +53,8 @@ public:
     ~BookDisplayer();
 
     // wrappers
-    void loadBook( const NodeBook * );
+    void loadBook( NodeBook * );
     void loadSearchPage(const QUrl&);
-    void reload();
 
     // default implementation : nothing
     void ZoomIn() const;
@@ -60,6 +63,7 @@ public:
     void jumpToTop() const;
     void setInternalLocation(const QString&) const;
     void searchText(const QString& text, bool backwards = false) const;
+    void print() const;
 
     bool hasNikud() const;
     bool hasTeamim() const;
@@ -74,6 +78,8 @@ public:
 
 public slots:
     void setTitle(QString);
+//    void showWaitAnimation();
+//    void hideWaitAnimation();
 
 private:
 
@@ -89,7 +95,12 @@ private:
     BookViewInterface* mBookView;
 
     //Layout holding the widgets
-    QVBoxLayout * vbox;
+    QVBoxLayout* vbox;
+
+//    QStackedLayout * vbox;
+
+//    QLabel * waitLbl;
+//    QMovie * waitAnimation;
 
 };
 

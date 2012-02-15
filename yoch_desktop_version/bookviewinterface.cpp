@@ -20,14 +20,15 @@ BookViewInterface * BookViewFactory(BookDisplayer * parent, NodeBook::Booktype t
         return new PdfBookView(parent);
 #endif
     default:
-        throw("Invalid booktype : unable to create");
+        qFatal("Invalid booktype : unable to create");
     }
 }
 
 BookViewInterface::BookViewInterface( BookDisplayer* parent ) :
     mBookDisp(parent)
 {
-    if (!parent) throw "Unable to construct BookViewInterface without BookDisplayer parent object";
+    if (!parent)
+        qFatal("Unable to construct BookViewInterface without BookDisplayer parent object");
 }
 
 //// default interfaces : do nothing
@@ -51,6 +52,9 @@ void BookViewInterface::reload()
 {}
 
 void BookViewInterface::setInternalLocation(const QString& location)
+{}
+
+void BookViewInterface::print()
 {}
 
 QWidget* BookViewInterface::additionalButtons()

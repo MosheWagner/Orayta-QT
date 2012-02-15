@@ -26,11 +26,13 @@ public:
     ~BaseHtmlView();
 
     virtual NodeBook::Booktype booktype() const = 0;
+    virtual QWidget* widget();
     virtual void searchText(const QString& text, bool backwards);
     virtual void ZoomIn();
     virtual void ZoomOut();
     virtual void normalZoom();
     virtual void setInternalLocation(const QString& location);
+    virtual void print();
 
     void loadUrl(const QUrl&);
     void execScript(const QString& script);

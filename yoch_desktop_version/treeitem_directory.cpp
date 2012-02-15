@@ -1,11 +1,25 @@
 #include "treeitem_directory.h"
-
+#include "functions.h"
 
 
 NodeDirectory::NodeDirectory(BaseNodeItem* parent, QString name, QString path, bool isUserBook) :
     BaseNodeItem(parent, name, path, isUserBook)
 {
-//    qDebug() << "NodeDirectory()" << name;
+    QString filename = path + ".folder";
+
+    QStringList lines;
+
+    //Read the book's conf file file:
+    if(!ReadFileToList(filename, lines, "UTF-8"))
+        return;
+
+    for (QStringList::const_iterator it = lines.begin(); it != lines.end(); ++it)
+    {
+        if ( it->indexOf("BranchName") != -1)
+        {
+            mTreeDisplayName = it->mid(11);
+        }
+    }
 }
 
 BaseNodeItem::Nodetype NodeDirectory::nodetype() const

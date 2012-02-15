@@ -52,6 +52,11 @@ public:
     BaseNodeItem* userRoot();
     BaseNodeItem* tanachRoot();
 
+    /* ######### temporary
+    void saveMixedInfos();
+    NodeBook* getBoookByPath(const QString& path);
+    */
+
 public slots:
     void updateTree();
     void displayContextMenu (QPoint pos);
@@ -68,7 +73,7 @@ private:
     // Recursivly add all book files to the list
     void addAllBooks (BaseNodeItem* parent);
 
-    void addNewBookid (int id, NodeBook* book);
+    void addNewBookid (NodeBook* book);
 
     void keyPressEvent( QKeyEvent *keyEvent );
 

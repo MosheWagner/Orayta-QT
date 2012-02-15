@@ -16,6 +16,7 @@
 
 #include "treeitem_base.h"
 #include "treeitem_orayta.h"
+#include "treeitem_link.h"
 
 #include "bookdisplayer.h"
 #include "mainwindow.h"
@@ -30,21 +31,43 @@
 //Auto detection on current node in view?
 //Add comment s via script?
 
-
+#include <QDebug>
 
 BookDisplayer::BookDisplayer(QWidget * parent, QTabWidget * tabviewptr) :
     MW(qobject_cast<MainWindow *>(parent)),
     TW(tabviewptr),
+    vbox(new QVBoxLayout(this)),
+/*
+    vbox(new QStackedLayout(this)),
+    waitLbl(new QLabel(this)),
+    waitAnimation(new QMovie(":/Images/Wait.gif")),
+*/
     myBook(0),
     mBookView(0)
 {
     //Create new vbox
-    vbox = new QVBoxLayout(this);
     vbox->setContentsMargins(0,0,0,0);
+
+//    vbox->setAlignment(Qt::AlignCenter);
+//    vbox->setStackingMode(QStackedLayout::StackAll);
+
+//    waitAnimation->setCacheMode(QMovie::CacheAll);
+//    /*
+//    QTimer* timer = new QTimer;
+//    timer->start(100);
+//    QObject::connect(timer, SIGNAL(timeout()), waitAnimation, SLOT(jumpToNextFrame()), Qt::DirectConnection);
+//    */
+//    waitLbl->setAlignment(Qt::AlignCenter);
+//    waitLbl->setMovie(waitAnimation);
+
+//    vbox->addWidget(waitLbl);
 }
 
 BookDisplayer::~BookDisplayer()
 {
+//    waitAnimation->stop();
+//    waitAnimation->deleteLater();
+
     deleteLater();
 }
 
@@ -52,17 +75,18 @@ void BookDisplayer::resetBookView()
 {
     if (mBookView)
     {
-        // le dynamic_cast est employé ici car BookView est une classe interface qui n'est pas un QWidget.
-        QWidget* w = dynamic_cast<QWidget*>(mBookView);
-        vbox->removeWidget(w);
-        w->deleteLater();
+        vbox->removeWidget(mBookView->widget());
+        mBookView->widget()->deleteLater();
         mBookView = 0;
     }
 }
 
 // Be carefull !!!
-void BookDisplayer::loadBook( const NodeBook* book )
+void BookDisplayer::loadBook( NodeBook* book )
 {
+    if (book->booktype() == NodeBook::Link)
+        book = dynamic_cast<LinkItem*>(book)->bookPtr();
+
     if (!book)  // sanity check
         return;
 
@@ -72,7 +96,8 @@ void BookDisplayer::loadBook( const NodeBook* book )
     if (!mBookView)
     {
         mBookView = BookViewFactory(this, book->booktype());
-        vbox->addWidget(dynamic_cast<QWidget*>(mBookView));
+        vbox->addWidget(mBookView->widget());
+//        vbox->setCurrentWidget(mBookView->widget());
     }
 
     // erase tabWidget associed with previous book
@@ -124,16 +149,10 @@ void BookDisplayer::searchText(const QString& text, bool backwards) const
 {  if (mBookView) mBookView->searchText(text, backwards);  }
 
 void BookDisplayer::setInternalLocation(const QString& location) const
-{
-    if (!mBookView) return;
-    mBookView->setInternalLocation(location);
-}
+{  if (mBookView) mBookView->setInternalLocation(location);  }
 
-void BookDisplayer::reload()
-{
-    if (mBookView)  // sanity check
-        mBookView->reload();
-}
+void BookDisplayer::print() const
+{  if (mBookView) mBookView->print();  }
 
 NodeBook * BookDisplayer::book() const
 {   return myBook;  }
@@ -171,3 +190,33 @@ void BookDisplayer::setTitle(QString title)
 
 NodeBook::Booktype BookDisplayer::displayedBookType()
 {  return mBookView ? mBookView->booktype() : NodeBook::Unkown;  }
+
+
+//void BookDisplayer::showWaitAnimation()
+//{
+//    /*
+//    vbox->activate();
+//    vbox->update();
+//    */
+//    vbox->setCurrentWidget(waitLbl);
+//    //waitLbl->activateWindow();
+
+//    //if (mBookView) mBookView->widget()->hide();
+
+//    //waitAnimation->start();
+
+//    qDebug() << "entry in show anim" << vbox->currentIndex();
+//}
+
+//void BookDisplayer::hideWaitAnimation()
+//{
+//    //waitAnimation->stop();
+
+//    if (mBookView)
+//    {
+//        vbox->setCurrentWidget(mBookView->widget());
+//        //mBookView->widget()->show();
+//    }
+
+//    qDebug() << "entry in hide anim" << vbox->currentIndex();
+//}

@@ -143,19 +143,19 @@ void MainWindow::on_bookmarkWidget_itemDoubleClicked(QListWidgetItem* item)
     if(ToNum(parts[0], &id))
     {
         NodeBook* book = ui->treeWidget->findBookById(id);
-        if ( book )
+        if ( !book )  // sanity check
+            return;
+
+        BookDisplayer* tabWidget = book->tabWidget();
+        if ( tabWidget != 0 )
         {
-            BookDisplayer* tabWidget = book->tabWidget();
-            if ( tabWidget != 0 )
-            {
-                ui->viewTab->setCurrentWidget (tabWidget);
-                tabWidget->setInternalLocation(parts[1]);
-            }
-            else
-            {
-                openBook(book, true);
-                CurrentBookdisplayer()->setInternalLocation(parts[1]);
-            }
+            ui->viewTab->setCurrentWidget (tabWidget);
+            tabWidget->setInternalLocation(parts[1]);
+        }
+        else
+        {
+            openBook(book, true);
+            CurrentBookdisplayer()->setInternalLocation(parts[1]);
         }
     }
 }

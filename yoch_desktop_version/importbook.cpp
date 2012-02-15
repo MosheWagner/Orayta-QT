@@ -1,4 +1,4 @@
-/* This program is free software; you can redistribute it and/or modify
+﻿/* This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License version 2
 * as published by the Free Software Foundation.
 *
@@ -95,25 +95,22 @@ void importBook::on_cancelBTN_clicked()
     close();
 }
 
-QList <QPair <QString,QString> > listAllFiles(const QString & srcPath, const QString & destPath, const QStringList & nameFilters)
+static QList <QPair <QString,QString> > listAllFiles(const QString& srcPath, const QString& destPath, const QStringList& nameFilters)
 {
     QList <QPair <QString,QString> > ret;
+
     QDirIterator it(srcPath, nameFilters, QDir::Files | QDir::NoDotAndDotDot | QDir::AllDirs, QDirIterator::Subdirectories);
     while (it.hasNext())
     {
         QString filename = it.next();
         ret << QPair<QString,QString>(filename, QString(filename).replace(srcPath, destPath));
     }
+
     return ret;
 }
 
-void importBook::on_importBTN_clicked()
+void importBook::importRoutine()
 {
-    // A la place, on pourrait mettre une barre de progression, et fermer à la fin
-
-    //Set a busy cursor before actually resizing the text, and restores it by the end
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-
     QString booksUserPath = USERPATH + "Books/";
 
     //Make sure the dir exists
@@ -146,9 +143,6 @@ void importBook::on_importBTN_clicked()
 
     if (nFiles > 0)
     {
-        ui->progressBar->show();
-        ui->fileCopied->show();
-
         QPair <QString, QString> it;
         foreach(it, fileslist)
         {
@@ -160,15 +154,38 @@ void importBook::on_importBTN_clicked()
             else
             {
                 QString label = it.first.mid(it.first.lastIndexOf("/"));
-                ui->fileCopied->setText(label);
-                ui->progressBar->setValue( int(++cmt * 100 / nFiles) );
+
+                emit fileCopied(label);
 
                 if ( !QFile::copy(it.first, it.second) )
                     qDebug() << "Can't copy file" << it.first << " to " << it.second;
+
+                emit importProgress( int(++cmt * 100 / nFiles) );
             }
+            QApplication::processEvents();
         }
     }
 
+}
+
+void importBook::on_importBTN_clicked()
+{
+    // A la place, on pourrait mettre une barre de progression, et fermer Ã  la fin
+
+    //Set a busy cursor before actually resizing the text, and restores it by the end
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    ui->progressBar->show();
+    ui->fileCopied->show();
+
+    QObject::connect(this, SIGNAL(importProgress(int)), ui->progressBar, SLOT(setValue(int)));
+    QObject::connect(this, SIGNAL(fileCopied(QString)), ui->fileCopied, SLOT(setText(QString)));
+
+    importRoutine();
+/*
+    QFuture<void> future = QtConcurrent::run( this, &importBook::importRoutine);
+    future.waitForFinished();
+*/
     close();
 
     emit updateTreeSignal();

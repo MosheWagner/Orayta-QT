@@ -3,7 +3,10 @@
 # Author: Moshe Wagner. <moshe.wagner@gmail.com>
 # -------------------------------------------------
 
-QT += webkit
+QT += core \
+    gui \
+    webkit
+
 TARGET = orayta
 TEMPLATE = app
 
@@ -11,7 +14,9 @@ CONFIG += poppler
 
 
 win32{
-    INCLUDEPATH =  $$quote(E:\MSVC-libs\zlib-1.2.5\include)
+    INCLUDEPATH +=  $$quote(D:\Qt\4.8.0\src\3rdparty\zlib) \
+                    $$quote(D:\Libs\quazip-0.4.4)
+    LIBS += "D:\Libs\quazip-0.4.4\quazip\Release\quazip.lib"
 }
 
 
@@ -31,7 +36,6 @@ SOURCES += main.cpp \
     bookviewinterface.cpp \
     bookview_orayta.cpp \
     treeitem_base.cpp \
-    qtiocompressor.cpp \
     addbookmark.cpp \
     booktree.cpp \
     bookview_html.cpp \
@@ -41,7 +45,8 @@ SOURCES += main.cpp \
     treeitem_orayta.cpp \
     treeitem_html.cpp \
     treeitem_base_book.cpp \
-    bookview_basehtml.cpp
+    bookview_basehtml.cpp \
+    treeitem_link.cpp
 
 HEADERS += htmlgen.h \
     functions.h \
@@ -56,7 +61,6 @@ HEADERS += htmlgen.h \
     importbook.h \
     guematria.h \
     bookviewinterface.h \
-    qtiocompressor.h \
     addbookmark.h \
     booktree.h \
     treeitem_base.h \
@@ -66,7 +70,9 @@ HEADERS += htmlgen.h \
     bookview_orayta.h \
     bookview_html.h \
     bookview_basehtml.h \
-    treeitem_base_book.h
+    treeitem_base_book.h \
+    searchresults.h \
+    treeitem_link.h
 
 FORMS += \
     mainwindow.ui \
@@ -104,10 +110,10 @@ win32:poppler {
     # The following are the correct include and library paths for poppler on my system (Windows Vista).
     # Modify these to refer to the directories on your system
     # that contain the poppler-qt4.h header file and [lib]poppler-qt4 library.
-    INCLUDEPATH += $$quote(E:\MSVC-libs\poppler-0.18.2\qt4\src) \
-                  $$quote(E:\MSVC-libs\fribidi-10.9\include)
-    LIBS +=  "E:\MSVC-libs\poppler-0.18.2\qt4\src\Release\poppler-qt4.lib" \
-             "E:\MSVC-libs\fribidi-10.9\lib\libfribidi.dll.lib"
+    INCLUDEPATH += $$quote(D:\Libs\poppler-0.18.3\qt4\src) \
+                  $$quote(D:\Libs\fribidi-10.9\include)
+    LIBS +=  "D:\Libs\poppler-0.18.3\qt4\src\Release\poppler-qt4.lib" \
+             "D:\Libs\fribidi-10.9\lib\libfribidi.dll.lib"
 #    LIBS =  "C:\Users\Laurent Picard\Desktop\poppler 1.6.5 - mingw\lib\libpoppler-qt4.dll.a" \
 #            "E:\MSVC-libs\fribidi-10.9\lib\libfribidi.dll.a"
 }
@@ -157,77 +163,4 @@ INSTALLS += trans
 
 # INSTALLS += desktop
 INSTALLS += menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

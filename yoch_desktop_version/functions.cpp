@@ -16,11 +16,14 @@
 
 #include "functions.h"
 
+
 #include <QDir>
 #include <QDirIterator>
 #include <QDebug>
 #include <QObject>
 
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 
 using namespace std;
 
@@ -28,7 +31,9 @@ using namespace std;
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name, bool skipconflines)
 {
     bool conflinesended = false;
-//    qDebug() << "ReadFileToList(" << filename << ")";
+
+    //qDebug() << "ReadFileToList(" << filename << ")";
+
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
     if ( fi.isDir() || !fi.exists() )
@@ -101,6 +106,74 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
     }
     else return false;
 }
+
+bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines)
+{
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+    if (!zip.setCurrentFile(filepath)) return false;
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QTextStream t( &zfile );
+    t.setCodec(QTextCodec::codecForName(encoding_name));
+
+    bool conflinesended = false;
+    while (!t.atEnd())
+    {
+        QString line = t.readLine();
+        // skip the first lines in a file if they start with & or //.
+        if ( skipconflines && !conflinesended )
+        {
+            if ( !line.startsWith("&") && !line.startsWith("//") && !line.isEmpty() )
+            {
+                conflinesended = true;
+                text << line;
+            }
+        }
+        else
+        {
+            text << line;
+        }
+    }
+
+    return true;
+}
+
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name)
+{
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return "Error!";
+    if (!zip.setCurrentFile(filepath)) return "Error!";
+
+    QuaZipFile zfile(&zip);
+    zfile.open(QIODevice::ReadOnly);
+
+    // Set the stream to read from the file
+    QTextStream t( &zfile );
+    t.setCodec(QTextCodec::codecForName(encoding_name));
+
+    return t.readAll();
+}
+
+bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name)
+{
+    QuaZip zip(zippath);
+    if (!zip.open(QuaZip::mdUnzip)) return false;
+
+    zip.setCommentCodec(QTextCodec::codecForName(encoding_name));
+
+    text = zip.getComment().split("\n");
+    for (int i=0; i<text.size(); i++)
+        text[i] = text[i].simplified();
+
+    zip.close();
+
+    return true;
+}
+
 
 QString readfile(QString filename, const char* encoding_name)
 {
@@ -391,6 +464,16 @@ QString AllowKtivHasser(const QString& str)
     return s.replace("ו","ו?").replace("י","י?");
 }
 
+QString rangeToString(int a, int b)
+{
+    QStringList lst;
+    for (int i = a; i < b; i++)
+    {
+        lst.push_back( QString::number(i) );
+    }
+    return lst.join(", ");
+}
+
 /*
 QString pluginPage(QString title)
 {
@@ -486,6 +569,22 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
         QString destName = destFolder + "/" + files[i];
         copyFolder(srcName, destName, fileNameFilters);
     }
+}
+
+void deleteOraytaBook(QString bookPath)
+{
+    QStringList extensions;
+    extensions << "*.conf" << "*.dbf" << "*.gdb";
+
+    for (QStringList::const_iterator it = extensions.begin(); it != extensions.end(); ++it)
+    {
+        QFile file( QString(bookPath).replace(".txt", *it, Qt::CaseInsensitive) );
+        if ( file.exists() )
+            file.remove();
+    }
+
+    if ( !QFile::remove(bookPath) )
+        qDebug() << "Couldn't remove file: " << bookPath;
 }
 
 //delete the given folder (recursively) to the given path

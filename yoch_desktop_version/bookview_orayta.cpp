@@ -42,6 +42,9 @@ OraytaBookView::OraytaBookView( BookDisplayer * parent ) :
 
     QObject::connect(this, SIGNAL(linkClicked(const QUrl&)), this , SLOT(on_linkClicked(const QUrl&)));
     QObject::connect(this, SIGNAL(externalLink(QString)), mBookDisp->mainWnd(), SLOT(openExternalLink(QString)));
+
+//    QObject::connect(this, SIGNAL(loadStarted()), mBookDisp, SLOT(showWaitAnimation()));
+//    QObject::connect(this, SIGNAL(loadFinished(bool)), mBookDisp, SLOT(hideWaitAnimation()));
 }
 
 NodeBook::Booktype OraytaBookView::booktype() const
@@ -50,13 +53,14 @@ NodeBook::Booktype OraytaBookView::booktype() const
 void OraytaBookView::loadBook(const NodeBook* book)
 {
     if (book->booktype() != NodeBook::Orayta) return;  // sanity check
-
+    //qDebug() << "loading " << book->getTreeDisplayName();
     mInternalBook = dynamic_cast<OraytaBookItem*>((NodeBook*)book);
     if (!mInternalBook) return;
 
     // ########## inconsistent
     shownikud = mInternalBook->areNikudShown();
     showteamim = mInternalBook->areTeamimShown();
+
     loadUrl(QUrl::fromLocalFile(mInternalBook->getLoadableFile()));
 }
 
@@ -227,11 +231,12 @@ void OraytaBookView::mousePressEvent(QMouseEvent *event)
             menu.setLayoutDirection(Qt::RightToLeft);
             menu.exec(mapToGlobal(event->pos()));
         }
-        else //Click on link
+        else
         {
             QString link = r.linkUrl().toString();
+
             int pos;
-            //Not actually a link. A menu should open here
+            //Click on anchor : a menu should open here
             if ( (pos = link.indexOf("$")) != -1 )
             {
                 //Find book's id and add it to the link
@@ -442,7 +447,7 @@ void OraytaBookView::addCommentAtPosition(QString link, QString comment)
     if (!mInternalBook) return;  // sanity check
     //Recreate this page with new comment in other thread (new render of the book)
     // why don't work without dereferencement ?
-    QtConcurrent::run( *mInternalBook, &OraytaBookItem::htmlrender );
+    QtConcurrent::run( static_cast<const OraytaBookItem*>(mInternalBook), &OraytaBookItem::htmlrender );
 }
 
 void OraytaBookView::removeComment(QString link)
