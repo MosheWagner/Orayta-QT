@@ -225,8 +225,6 @@ void Book::loadFont()
     settings.endGroup();
 
 
-
-
     // if no font
     if ( fontDescription == "" || mFont.fromString(fontDescription) == false )
     {
@@ -624,7 +622,8 @@ void Book::setLevelMap(QString str)
     for (int i=0; i<l.size(); i++)
     {
         QList <QString> p = l[i].split("->");
-        if (p.size() == 2) levelMap.insert(p[0].toInt(), BookIter(p[1]));
+
+        if (p.size() == 2) levelMap.insert(p[0].toInt(), BookIter::fromString(p[1]));
     }
 }
 
@@ -835,3 +834,5 @@ QString Book::resultPreview(const QRegExp& exp, int offset)
     s = "... " + s + " ...";
     return s.replace(exp, "<span style='background-color:Yellow'>\\1</span>");
 }
+
+

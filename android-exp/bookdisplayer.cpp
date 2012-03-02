@@ -135,6 +135,8 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 {
     QString link = QString(url.toString());
 
+    qDebug() << link;
+
     //Not actually a link. A menu should open here
     if(link.indexOf("$") != -1 )
     {
@@ -221,7 +223,6 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
         delete csignalMapper;
         delete dcsignalMapper;
     }
-
     //External book link
     else if(link.indexOf("!") != -1 )
     {
@@ -252,6 +253,22 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         execScript(script);
     }
+    //Link to chapter
+    else if(link.indexOf("@") != -1 )
+    {
+        int pos = link.indexOf("@");
+        //Level mark is allways 1 digit only
+        QString lvls = link.mid(pos+1, 1);
+        QString lnk = link.mid(pos+2);
+
+        BookIter itr = BookIter::fromEncodedString(lnk);
+
+        bool ok;
+        int lvl = lvls.toInt(&ok) -1;
+
+        QString html = myBook->getChapterHtml(itr, MW->getBookList(), true, true, ok ? lvl : 1);
+        setHtml(html);
+    }
 }
 
 int bookDisplayer::searchPos() { return mSearchPos; }
@@ -261,10 +278,6 @@ void bookDisplayer::setSearchPos(int pos) { mSearchPos = pos; }
 void bookDisplayer::setHtml(QString html)
 {
     myurl = "";
-
-   /* // WORNING! Ugly hack ahead! remove in all costs! TODO: fix!
-    html = "<HTML><HEAD><TITLE>My Web Page</TITLE></HEAD><BODY><P>This is where you will enter all the text and images<br> you want displayed in a browser window.</P></BODY></HTML>";
-*/
 
     htmlview->setHtml(html);
 
@@ -481,7 +494,8 @@ void bookDisplayer::jumpToTop()
     if (PDFMode) pdfView->ensureVisible(0,0);
     #endif
 
-    if (!PDFMode) htmlview->page()->mainFrame()->scrollToAnchor("Top");
+    //if (!PDFMode) htmlview->page()->mainFrame()->scrollToAnchor("Top");
+    if (!PDFMode) if (myBook) setHtml(myBook->getBookIndexHtml());
 }
 
 void bookDisplayer::highlight(QRegExp rx)

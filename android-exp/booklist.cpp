@@ -276,7 +276,7 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
                 //Add the book it self as the first source
                 weavedSource base;
 
-                base.FileName = book->getPath();
+                base.FilePath = book->getPath();
 
                 base.Zoom = 0;
 
@@ -291,7 +291,7 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
             if (p.size() > 1)
             {
                 weavedSource src;
-                src.FileName = BOOKPATH + "/" + p[0];
+                src.FilePath = BOOKPATH + (BOOKPATH.endsWith("/") ? "" : "/") + p[0];
                 src.Title = p[1];
 
                 src.Zoom = 0;
@@ -353,6 +353,18 @@ Book* BookList::FindBookByName (QString name)
     for(unsigned int i=0; i<size(); i++)
     {
         if( (*this)[i]->getNormallDisplayName() == name )
+            return (*this)[i];
+    }
+    return NULL;
+}
+
+//Return pointer to the book with the given filepath - in the book list
+//  (Returns NULL if it dosen't exist)
+Book* BookList::FindBookByPath (QString path)
+{
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if( (*this)[i]->getPath() == path )
             return (*this)[i];
     }
     return NULL;

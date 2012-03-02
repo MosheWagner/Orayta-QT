@@ -20,6 +20,8 @@
 #include "bookiter.h"
 #include "guematria.h"
 
+class BookList;
+
 #include <QPointer>
 #include <QtGui/QTreeWidgetItem>
 
@@ -30,7 +32,7 @@ extern int gFontSize;
 struct weavedSource
 {
     QString Title;
-    QString FileName;
+    QString FilePath;
     int Zoom;
     int id;
     bool show;
@@ -46,6 +48,19 @@ struct weavedSourceData : weavedSource
     int line;
 };
 
+//Helper struct and functions for generating the html of the book
+
+//Struct holding information about a link to a position in the page
+struct IndexItem
+{
+    QString displayText;
+    QString linkPoint;
+    //The level of the link.
+    // (Used for deciding how the links should be formatted at the top of the page)
+    int level;
+};
+
+
 //Simplest struct holding results for a search in book.
 // Includes an iter of the result's position, and a preview of results
 //  (some puretext before and after it).
@@ -60,7 +75,8 @@ class Book
 {
 
 public:
-    enum Filetype {
+    enum Filetype
+    {
         Dir,
         Normal,
         Html,
@@ -73,6 +89,7 @@ public:
     //  it's names (see their documentation), and if it is a dir or not.
     Book(Book * parent, QString path, QString name, QString displayname, Filetype ft, bool isUserBook = false);
     ~Book();
+
 
     //get functions:
     QString getPath();
@@ -116,7 +133,7 @@ public:
     // Generates a full file into the given outfile name, and a header file into outfile + ".header.html"
     // (Returns false on failure, true on success)
     // Implemented in htmlgen.cpp
-    bool htmlrender(QString outfile, bool showNikud = true, bool showTeamim = true, QString mark = "");
+    //bool htmlrender(QString outfile, bool showNikud = true, bool showTeamim = true, QString mark = "");
 
     //Add the pointed book as a child to this folder
     void add_child(Book * child);
@@ -181,7 +198,37 @@ public:
     void BuildGuematriaDb ();
     const vector <GuematriaDb>& getGuematriaDb();
 
+    //This function reads the book's text, split up to 'Lowest Index Levels',
+    // into the 'chapterText' list, while the equivilant Iters are stored in the 'chapterIter' list.
+    void readBook(int LIL);
+
+    //Builds the list of indexItems that represent the index (תוכן) of the book
+    void buildIndex(QList <QString> text);
+
+    //Returns the Html to display of the chapter given by the iter.
+    QString getChapterHtml(BookIter iter, BookList * bl, bool shownikud, bool showteamim, int showlevel = 1,QRegExp mark = QRegExp());
+
+    //Returns the index (תוכן) of the book rendered to Html
+    QString getBookIndexHtml();
+
 protected:
+
+    //Lowest Index Level. This value is used for splitting up the book into chapters.
+    int LIL;
+
+    QList <IndexItem> indexitemlist;
+    //
+    QString chapterIndexHtml;
+
+    //This list holds all the text of the book,
+    // split up by the lowest level shown in the index ('Lowest Index Level').
+    //This list is built by 'readBook', and the parts are accessed via 'getChapterHtml'
+    QList <QStringList> chapterText;
+
+    //This list holds the BookItr of each chapter in the 'chapterText' list.
+    QList <BookIter> chapterIter;
+
+
     // recursives function
     void _unselect();
     void _select();
@@ -204,14 +251,8 @@ protected:
     //Return a QString representing the levelMap
     QString levelMapString();
 
-    /*
-    //Saved in Line:offsetInLine string format
-    QList <int> Map;
-    */
-
     //Holds the offsets of each BookIters of book in the "pureText". Use this to map search results in positions in the book
     QMap<int, BookIter> levelMap;
-
 
     //Returns a preview of the search result  (by it's search regexp and offset in puretext)
     QString resultPreview(const QRegExp& exp, int offset);
@@ -282,9 +323,6 @@ protected:
     int mIndexTextSize[5];
     int mTitleEmptyLines[5];
 
-
-    bool normalHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
-    bool mixedHtmlRender(QString outfile, bool showNikud, bool showTeamim, QRegExp mark);
 };
 
 QIcon* bookIcon(Book* book, IconState state);

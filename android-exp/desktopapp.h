@@ -51,6 +51,8 @@ public:
     DesktopApp(QWidget *parent = 0);
     ~DesktopApp();
 
+    BookList * getBookList();
+
 protected:
     //Overrides the normal "closeEvent", so it can save the program's confs before quiting
     void closeEvent(QCloseEvent *event);

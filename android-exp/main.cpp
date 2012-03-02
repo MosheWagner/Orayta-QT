@@ -126,6 +126,8 @@ void initFonts()
 }
 
 
+#include <QKinetic/flickcharm.h>
+
 void initLang(QApplication *app)
 {
     //Read lang conf

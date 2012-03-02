@@ -116,6 +116,9 @@ public:
 
     void keyPressEvent( QKeyEvent * event );
 
+    //Location in html file next load should use
+    QString InternalLocationInHtml;
+
 private:
 
     bool PDFMode;
@@ -141,9 +144,6 @@ private:
 
     //Label displaying the wait movie
     QLabel *waitlbl;
-
-    //Location in html file next load should use
-    QString InternalLocationInHtml;
 
     QRegExp SearchMarker;
 

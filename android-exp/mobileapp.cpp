@@ -47,25 +47,17 @@
 #define WAIT_PAGE 9
 
 
-//TODO: Catch android phisical button events (back & menu)
-//TODO: Select books for search
-
-//TODO: Get rid of horrible text over text bug
+//TODO: CLEAN & SPLIT UP!!!!
 //TODO: Test landscape - portrait switching
 //TODO: Improve look & feel
 //TODO: Bookmarks
 //TODO: Improve book loading speed (gradual loading)
-//TODO: implement weaved view.
 
 //IZAR-
 //TODO: load page preview
 
 
-
-
 #include <QKinetic/qtscroller.h>
-
-
 
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
@@ -85,135 +77,16 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     ui->setupUi(this);
 
-    //hide the 'go to get books' button
-    ui->toGetBooksBTN->hide();
-
     //show the about page while app loads
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
     QApplication::processEvents();
 
     QTimer::singleShot(20, this, SLOT(continueConstructor()));
-
-    /* FOLOWOING CODE TRANSFERED TO AFTER UI IS FULLY SET
-
-
-    setupSettings();
-
-    InternalLocationInHtml = "";
-
-    //IZAR
-    //setup the wait image
-    waitMovie = new QMovie(":/Images/ajax-loader.gif");
-//    ui->waitLBL->setMovie(waitMovie);
-//    if (waitMovie) waitMovie->start();
-
-    wview = new myWebView(this);
-
-
-    QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
-    QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
-    QObject::connect(wview, SIGNAL(loadStarted()), this , SLOT(wvloadStarted()));
-
-
-    //setup the back and forword keys in the book display page
-    {
-    QAction *back = wview->pageAction(QWebPage::Back);
-    QAction *forward = wview->pageAction(QWebPage::Forward);
-    back->setIcon(QIcon(":/Icons/go-previous.png"));
-    forward->setIcon(QIcon(":/Icons/go-next.png"));
-    back->setText(tr("back"));
-    forward->setText(tr("forward"));
-
-    ui->backBTN->setDefaultAction(back);
-    ui->forwardBTN->setDefaultAction(forward);
-    }
-
-
-
-
-    viewHistory = new QWidgetList();
-    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
-
-
-    ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-    ui->toGetBooksBTN->hide();
-    qApp->processEvents();
-
-
-    ui->displayArea->layout()->addWidget(wview);
-
-    wview->setHtml(tr("<center><big>Loading...</big></center>"));
-
-    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
-    QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
-
-    wview->show();
-
-    // setup the search page
-    showHideSearch(false);
-
-
-    QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
-    ui->treeWidget->setColumnWidth(0,800);
-    QtScroller::grabGesture(ui->SearchTreeWidget, QtScroller::LeftMouseButtonGesture);
-    ui->SearchTreeWidget->setColumnWidth(0,800);
-
-
-
-    //Build the book list
-    reloadBooklist();
-
-
-
-
-
-    //Initialize a new FileDownloader to download the list
-//    listdownload = NULL;
-    listdownload = new FileDownloader();
-    connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
-
-
-    //Initialize a new FileDownloader object for books downloading
-    downloader = new FileDownloader();
-
-    //Connect slots to the signalls of the book downloader
-    connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
-    connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
-    connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
-
-    //Download the list of books that could be downloaded
-//    downloadDWList();
-
-    ui->downloadGRP->hide();
-    ui->downloadPrgBar->hide();
-
-
-    //IZAR
-    // hack to enable me to test downloads without internet
-//    listDownloadDoneOverride();
-
-
-    // the default for the menu in display page is hidden.
-//    ui->dispalyMenu->hide();
-    if (bookList.empty())
-    {
-        qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
-        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
-        ui->label->setWordWrap(true);
-        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-        QApplication::processEvents();
-
-    }
-
-    if (!bookList.empty())
-    {
-        QApplication::processEvents();
-        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
-    }
-    */
 }
+
+
+#include "QKinetic/flickcharm.h"
 
 // constructor continuation
 void MobileApp::continueConstructor()
@@ -242,15 +115,15 @@ void MobileApp::continueConstructor()
 
     //setup the back and forword keys in the book display page
     {
-    QAction *back = wview->pageAction(QWebPage::Back);
-    QAction *forward = wview->pageAction(QWebPage::Forward);
-    back->setIcon(QIcon(":/Icons/go-previous.png"));
-    forward->setIcon(QIcon(":/Icons/go-next.png"));
-    back->setText(tr("back"));
-    forward->setText(tr("forward"));
+        QAction *back = wview->pageAction(QWebPage::Back);
+        QAction *forward = wview->pageAction(QWebPage::Forward);
+        back->setIcon(QIcon(":/Icons/go-previous.png"));
+        forward->setIcon(QIcon(":/Icons/go-next.png"));
+        back->setText(tr("back"));
+        forward->setText(tr("forward"));
 
-    ui->backBTN->setDefaultAction(back);
-    ui->forwardBTN->setDefaultAction(forward);
+        ui->backBTN->setDefaultAction(back);
+        ui->forwardBTN->setDefaultAction(forward);
     }
 
 
@@ -275,12 +148,12 @@ void MobileApp::continueConstructor()
     showHideSearch(false);
 
 
-    QtScroller::grabGesture(ui->treeWidget, QtScroller::LeftMouseButtonGesture);
-    ui->treeWidget->setColumnWidth(0,800);
-    QtScroller::grabGesture(ui->SearchTreeWidget, QtScroller::LeftMouseButtonGesture);
-    ui->SearchTreeWidget->setColumnWidth(0,800);
+    FlickCharm *fc = new FlickCharm(this);
+    fc->activateOn(ui->treeWidget);
+    fc->activateOn(ui->SearchTreeWidget);
 
-
+    ui->treeWidget->setColumnWidth(0, 800);
+    ui->SearchTreeWidget->setColumnWidth(0, 800);
 
     //Build the book list
     reloadBooklist();
@@ -313,21 +186,9 @@ void MobileApp::continueConstructor()
     ui->dispalyMenu->hide();
 
 
-    if (bookList.empty())
-    {
-        qDebug()<< "bookpath: " << BOOKPATH << " current dir: " << QDir::currentPath();
-        ui->label->setText(tr("<center><b> No books found! \nCheck your installation, or contact the developer.</b></center>"));
-        ui->label->setWordWrap(true);
-        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-        ui->toGetBooksBTN->show();
-        QApplication::processEvents();
-
-    }
-    else
-    {
-        QApplication::processEvents();
-        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
-    }
+    //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
+    QApplication::processEvents();
+    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
 
 MobileApp::~MobileApp()
@@ -441,7 +302,7 @@ void MobileApp::on_searchBTN_clicked()
     ui->stackedWidget->setCurrentIndex(SEARCH_PAGE);
 }
 
-
+\
 
 void MobileApp::on_getbooksBTN_clicked()
 {
@@ -450,20 +311,7 @@ void MobileApp::on_getbooksBTN_clicked()
 
 void MobileApp::on_aboutBTN_clicked()
 {
-    //try to show the help page
-    Book *helpBook = NULL;
-    if (LANG.contains( "Hebrew"))
-        //show hebrew help
-        helpBook = bookList.findBookById(2);
-    else
-        helpBook = bookList.findBookById(3);
-
-    if (helpBook)
-        showBook(helpBook);
-    // if we cant find help book go to about page instead
-    else
-        ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
-
+    ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 }
 
 void MobileApp::on_menuHelpBTN_clicked() { on_aboutBTN_clicked() ;}
@@ -531,32 +379,15 @@ void MobileApp::showBook(Book *book)
             wvloadStarted();
             qApp->processEvents();
 
-            //Generate filename representing this file, the commentreis that should open, and it's nikud (or teamim) mode
-            //  This way the file is rendered again only if it needs to be shown differently (if other commenteries were requested)
-            QString htmlfilename = book->HTMLFileName() + ".html";
+//          ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
-            //Check if file already exists. If not, make sure it renders ok.
-            QFile f(htmlfilename);
-            bool renderedOK = true;
+            book->readBook(1);
 
-            if (!f.exists())
-            {
-                renderedOK = book->htmlrender(htmlfilename, true, true, "");
-            }
+            wview->setHtml(book->getBookIndexHtml());
 
-            if (renderedOK == true)
-            {
-                QString p =  absPath(htmlfilename);
-                QUrl u = QUrl::fromLocalFile(p);
+            wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
-//                ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-
-                wview->load(u);
-
-                wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
-//                booktitle = book->getNormallDisplayName();
-            }
+//          booktitle = book->getNormallDisplayName();
             break;
         }
         case ( Book::Html ):
@@ -705,6 +536,23 @@ void MobileApp::wvlinkClicked(const QUrl & url)
 
         //Open using browser
         QDesktopServices::openUrl( QUrl("http://" + lnk) );
+    }
+
+    //Link to chapter in book
+    else if(link.indexOf("@") != -1 )
+    {
+        int pos = link.indexOf("@");
+        //Level mark is allways 1 digit only
+        QString lvls = link.mid(pos+1, 1);
+        QString lnk = link.mid(pos+2);
+
+        BookIter itr = BookIter::fromEncodedString(lnk);
+
+        bool ok;
+        int lvl = lvls.toInt(&ok) -1;
+
+        QString html = currentBook->getChapterHtml(itr, &bookList, true, true, ok ? lvl : 1);
+        wview->setHtml(html);
     }
 }
 
@@ -1529,7 +1377,8 @@ void MobileApp::setupMixedSelection(){
         //Clear old entries
         ui->selectionArea->clear();
 
-        for(int i=1; i<book->mWeavedSources.size(); i++){
+        for(int i=1; i<book->mWeavedSources.size(); i++)
+        {
             QListWidgetItem * item = new QListWidgetItem(book->mWeavedSources[i].Title);
             item->setCheckState(book->mWeavedSources[i].show? Qt::Checked : Qt::Unchecked);
             QString id = stringify(book->mWeavedSources[i].id);
@@ -1754,4 +1603,16 @@ void MobileApp::on_toGetBooksBTN_clicked()
 {    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE); }
 
 
+void MobileApp::on_gtoHelp_clicked()
+{
+    //try to show the help page
+    Book *helpBook = NULL;
+    if (LANG.contains( "Hebrew"))
+        //show hebrew help
+        helpBook = bookList.findBookById(2);
+    else
+        helpBook = bookList.findBookById(3);
 
+    if (helpBook)
+        showBook(helpBook);
+}

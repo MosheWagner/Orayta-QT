@@ -232,7 +232,6 @@ bool zipExtract(const QString & filePath, const QString & extDirPath)
     return true;
 }
 
-
 //Reads the comment file into two vectors, one for the titles and one for the texts.
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.
 bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& texts, const char* encoding_name, int id)

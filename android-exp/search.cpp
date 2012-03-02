@@ -130,15 +130,14 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
                         //This is an overkill, but I couldn't resist:
                         //linkdisplay += BookSearchDisplay (gBookList[i]->getNormallDisplayName() ,itr.toHumanString());
 
-                        linkdisplay += searchList[i]->getNormallDisplayName() + " " + searchResults[j].itr.toHumanString();
+                        linkdisplay += searchList[i]->getNormallDisplayName() + " " + searchResults[j].itr.humanDisplay();
                     }
                     //Gmarot:
                     else
                     {
                         linkdisplay += searchList[i]->getNormallDisplayName() + " ";
-                        linkdisplay += searchResults[j].itr.toGmaraString();
+                        linkdisplay += searchResults[j].itr.gmaraDisplay();
                     }
-
 
                     //Add a small link (at the index) to the full result
                     HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>\n";
@@ -148,7 +147,7 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
                     Html += "<a href=\"$" + stringify(results) + "\">&nbsp;</a>";
 
                     Html += "<a href=\"!" + stringify(searchList[i]->getUniqueId()) + ":";
-                    Html += searchResults[j].itr.toStringForLinks();
+                    Html += searchResults[j].itr.toEncodedString();
                     Html += ":" + escapeToBase32(regexp.pattern()) + "\">";
 
                     Html += linkdisplay;

@@ -185,6 +185,7 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     //Load start page. Assuming it's book[0] of course.
     if (!bookList[0]->IsDir())
     {
+        bookdisplayer(0)->setInternalLocation("*");
         openBook(bookList[0]);
     }
     else
@@ -256,8 +257,6 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     //Build the search DB while the program is running
     //QtConcurrent::run(buidSearchDBinBG, &bookList);
 }
-
-#include <QTime>
 
 //Switch GUI direction to RTL
 void DesktopApp::setDirection(bool rtl)
@@ -581,7 +580,9 @@ void DesktopApp::RenderAndLoad(Book *book, QString markString)
 
     if (!f.exists() || markString.simplified() != "")
     {
-        renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
+        //TODO: @@@
+
+        //renderedOK = book->htmlrender(htmlfilename, shownikud, showteamim, markString);
     }
     if (renderedOK == true)
     {
@@ -636,7 +637,29 @@ void DesktopApp::openBook( Book* book )
         switch ( book->fileType() )
         {
         case ( Book::Normal ):
-            RenderAndLoad(book);
+
+            if (CurrentBookdisplayer()->InternalLocationInHtml == "")
+            {
+                //TODO: Who said 1 is the best?
+                book->readBook(1);
+                CurrentBookdisplayer()->setHtml(book->getBookIndexHtml());
+            }
+            else
+            {
+                //TODO: @@@ This don't work!
+
+                QString l = CurrentBookdisplayer()->InternalLocationInHtml;
+
+                //Remove the "#"
+                l = l.mid(1);
+
+                qDebug() << l;
+                BookIter itr = BookIter::fromEncodedString(l);
+                qDebug() << itr.toString();
+
+                CurrentBookdisplayer()->setHtml(book->getChapterHtml(itr, &bookList, true, true));
+            }
+
             break;
 
         case ( Book::Html ):
@@ -1088,7 +1111,9 @@ void DesktopApp::addCommentAtPosition(QString link, QString comment)
     bool showteamim = CurrentBookdisplayer()->areTeamimShown();
     Book* book = CurrentBookdisplayer()->book();
     QString htmlfilename = book->HTMLFileName() + "_" + stringify(shownikud) + stringify(showteamim) + ".html";
-    QtConcurrent::run( book, &Book::htmlrender, htmlfilename, shownikud, showteamim, QString("") );
+
+    //TODO: @@@
+    //QtConcurrent::run( book, &Book::htmlrender, htmlfilename, shownikud, showteamim, QString("") );
 
 }
 
@@ -1411,6 +1436,7 @@ void DesktopApp::openExternalLink(QString lnk)
         Book* book = bookList.findBookById(id);
         if( book )
         {
+            /*
             // if this book is already open, don't add a new tab
             QWidget* tabWidget = book->tabWidget();
             if ( tabWidget != 0 )
@@ -1437,6 +1463,17 @@ void DesktopApp::openExternalLink(QString lnk)
 
                 openBook(book);
             }
+            */
+            //Add a new tab and open the link there
+            addViewTab(false);
+            ui->viewTab->setTabText(CURRENT_TAB, tr("Orayta"));
+
+            CurrentBookdisplayer()->setInternalLocation("#" + parts[1]);
+
+            if (parts.size() == 3)
+                CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );
+
+            openBook(book);
         }
     }
 }
@@ -1856,11 +1893,11 @@ void DesktopApp::SearchGuematria (QString txt)
 
                         //Get the text best to show for this reult's description
                         QString linkdisplay /* = tanach[i]->getNormallDisplayName() + " "*/;  // title not needed in tanach...
-                        linkdisplay += bookGuematriaDb[j].itr.toHumanString();
+                        linkdisplay += bookGuematriaDb[j].itr.humanDisplay();
                         //Add the full result to the page
                         Html += "<span style=\"font-size:20px\">";
                         Html += "<a href=!" + stringify(tanach[i]->getUniqueId()) + ":";
-                        Html += bookGuematriaDb[j].itr.toStringForLinks();
+                        Html += bookGuematriaDb[j].itr.toEncodedString();
                         Html += ":" + escapeToBase32(occ) + ">";
                         Html += stringify(results) + ") " + linkdisplay;
                         Html += "</a><br></span>\n";
@@ -1938,4 +1975,4 @@ void DesktopApp::SearchGuematria (QString txt)
     }
 }
 
-
+BookList * DesktopApp::getBookList() { return &bookList;}

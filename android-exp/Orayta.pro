@@ -18,7 +18,7 @@ android {
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
     #this is a mobile app
-    DEFINES += MOBILE
+    #DEFINES += MOBILE
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
@@ -34,7 +34,7 @@ else:unix{
     LIBS += -lz
 
     #set a test mobile version
-    DEFINES += MOBILE_TEST
+    #DEFINES += MOBILE_TEST
 }
 
 
@@ -89,12 +89,8 @@ SOURCES += main.cpp \
     QKinetic/qtscroller.cpp \
     QKinetic/qtflickgesture.cpp \
     pdfwidget.cpp \
-    filedownloader.cpp
-
-
-poppler {
-    SOURCES +=
-}
+    filedownloader.cpp \
+    QKinetic/flickcharm.cpp
 
 HEADERS += \
     mobileapp.h \
@@ -138,9 +134,8 @@ HEADERS += \
     QKinetic/qtflickgesture_p.h \
     pdfwidget.h \
     search.h \
-    filedownloader.h
-
-
+    filedownloader.h \
+    QKinetic/flickcharm.h
 
 FORMS += \
     mobileapp.ui \
@@ -343,13 +338,3 @@ OTHER_FILES += \
     android/res/values-et/strings.xml \
     android/res/values-rs/strings.xml \
     android/res/values-zh-rTW/strings.xml
-
-
-
-
-
-
-
-
-
-

@@ -29,12 +29,19 @@ public:
     //Return the index of the book with the given UniqueId - in the book list
     //  (Returns -1 if it doesn't exist)
     int FindBookById(int id);
-    Book* FindBookByName (QString name);
+    //Same function but returns a pointer to the book
     Book* findBookById(int id);
+
+    //Return pointer to the book with the given name/filepath
+    //  (Returns NULL if it dosen't exist)
+    Book* FindBookByName (QString name);
+    Book* FindBookByPath (QString path);
 
     //Return the index of the book with the given TreeWidgetItem - in the book list
     //  (Returns -1 if it doesn't exist)
     int FindBookByTWI(QTreeWidgetItem *);
+    //Same function but returns a pointer to the book
+    // (Returns NULL if it doesn't exist)
     Book* findBookByTWI(QTreeWidgetItem *);
 
 
