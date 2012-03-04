@@ -56,7 +56,7 @@ weavedSourceData initWsdFrom (const weavedSource& src)
 }
 
 //Returns a QString that will be the header of the output HTML file
-QString html_head(QString title)
+QString html_head(QString title, QString fontFamily, int basesize)
 {
     QString t;
     t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
@@ -71,7 +71,7 @@ QString html_head(QString title)
 
 
     //Add CSS settings to the html file:
-    t += CSS();
+    t += CSS(fontFamily, basesize);
 
     //Add scripts to the HTML
     t += Script();
@@ -81,15 +81,29 @@ QString html_head(QString title)
     return t;
 }
 
-QString CSS()
+QString CSS(QString fontFamily, int basesize)
 {
-    //Add a cute effect when hovering over links
-    return "<style type=\"text/css\">\n"
-           "body {text-align: justify;}\n"
-           "A {text-decoration: none;}\n"
-           "A:hover {text-decoration: underline; color: red;}\n"
-           "div {line-height: 1.5;}\n"
-           "</style>\n";
+    QString css = "<style type=\"text/css\">\n"
+            "   body { dir='RTL'; text-align: justify; font-family: '" + gFontFamily + "'; font-size: " + QString::number(basesize) + " px; }\n"
+            //"   A { text-decoration: none; }\n"
+            //"   A:hover { color: red; }\n"
+            "   div { line-height: 1.5; }\n"
+            "   h1 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + 30) + "px; }\n"
+            "   h2 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize) + "; }\n"
+            "   h3 { text-align: center; font-family: '" + gFontFamily + "'; font-size:14px; }\n"
+            "   lvl4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
+            "   lvl3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
+            "   lvl2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
+            "   lvl1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
+            "   lvl0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
+            "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "}"
+            //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
+            //"   div.Content A:hover { color:red; }\n"
+            "   div.Index A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
+            "   div.Index A:hover { color:red; }\n"
+            "</style>\n";
+
+    return css;
 }
 
 //Generate the title part of the Html file
@@ -99,34 +113,21 @@ QString html_book_title(QString name, QString copyright, QString low_comments)
     t += "<center>";
     if(copyright!="")
     {
-        t += "<span style=\"font-weight:bold; font-size:18px; color:#BE32BE;\">";
+        t += "<h2>";
         t +=  QT_TR_NOOP("All right reserved ");
         t +=  "&#169 ";
-        t += copyright + "</span><P>\n";
+        t += copyright + "</h2><P>\n";
     }
-    t += "<span style=\"font-weight:bold; font-size:52px;\">";
-    t += name + "<BR></span>";
+
+    t += "<h1>" + name + "<BR></h1>";
 
     if(low_comments!="")
     {
-        t += "<P><span style=\"font-weight:bold; font-size:14px;\">";
-        t += low_comments + "</span><P>\n";
+        t += "<P><h3>";
+        t += low_comments + "</h3><P>\n";
     }
     t += "</center><P><HR>";
     return t;
-}
-
-
-//Generates the div declaration for the top of the html file
-inline QString html_main_div( QString fontFamily, int fontSize )
-{
-    QString str = "<div class=\"Section1\" dir=\"RTL\" style=\"font-family: ";
-    str +=  fontFamily + ";";
-    str += "font-size:";
-    str +=  stringify(fontSize) + "px\">";
-
-
-    return str;
 }
 
 //Returns html code of a "<a name" tag, for the given name
@@ -928,12 +929,13 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
 QString Book::getBookIndexHtml()
 {
     QString html = "";
-    html += html_head(mNormallDisplayName);
+    html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
+
     html += "<body>";
 
     html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
 
-    html += html_main_div(mFont.family(), mFont.pointSize());
+    html += "<div class=\"Index\">";
 
     //IZAR: moved here to create quicker access to index
     html += namepoint("Top");
@@ -1010,9 +1012,15 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     }
 
     QString html = "";
-    html += html_head(mNormallDisplayName);
+    html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
+
     html += "<body>";
-    html += html_main_div(mFont.family(), mFont.pointSize());
+
+    //Should this be here?
+    //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
+
+    html += "<BR><div class=\"Content\">";
+
 
     //IZAR: moved here to create quicker access to index
     html += namepoint("Top");
@@ -1158,18 +1166,15 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             {
                 QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                //Get the font size for this level from the LevelFontSize array
-                int fontsize = mFont.pointSize() + LevelFontSizeAdd[level];
-
-                html += "<BR><span name=\"" + strforlink + "\" style=\"color:blue; font-size:";
-                html += stringify(fontsize) + "px\">";
+                html += "<lvl" + QString::number(level) + ">\n";
+                html += "<BR><a name=\"" + strforlink + "\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
                 //htmlbody += link("$" + strforlink, dispname, linkid);
                 //linkid ++;
 
                 html += Sources[0].text[i].mid(2);
-                html += "</span>\n";
+                html += "</lvl" + QString::number(level) + ">\n";
                 if (level != 0 ) html += "<BR>";
             }
         }

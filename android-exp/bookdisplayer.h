@@ -83,6 +83,9 @@ public:
     void ZoomOut();
     void normalZoom();
 
+    //Go back to the previous page shown
+    void goBack();
+
     void setInternalLocation(QString location);
     void setSearchMarker(QRegExp marker);
 

@@ -235,6 +235,8 @@ private slots:
     void searchGuematria();
 
     void on_progressBar_valueChanged(int value);
+    void on_backBTN_clicked();
+    void on_nextChap_clicked();
 };
 
 //Build book search DB

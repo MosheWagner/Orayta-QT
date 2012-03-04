@@ -725,6 +725,93 @@
            </widget>
           </item>
           <item>
+           <widget class="QToolButton" name="backBTN">
+            <property name="toolTip">
+             <string>Back</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="Orayta.qrc">
+              <normaloff>:/Icons/back.png</normaloff>:/Icons/back.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>14</width>
+              <height>14</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="prevChap">
+            <property name="toolTip">
+             <string>Next chapter</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="Orayta.qrc">
+              <normaloff>:/Icons/go-previous-view-page.png</normaloff>:/Icons/go-previous-view-page.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="nextChap">
+            <property name="toolTip">
+             <string>Previous chapter</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="Orayta.qrc">
+              <normaloff>:/Icons/go-next-view-page.png</normaloff>:/Icons/go-next-view-page.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QToolButton" name="topButton">
             <property name="toolTip">
              <string>Jump to top</string>
@@ -1881,7 +1968,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>23</height>
+     <height>28</height>
     </rect>
    </property>
    <property name="layoutDirection">

@@ -192,8 +192,8 @@ private:
     //TODO - create a global settings object
 //    QSettings settings;
 
-//    QWebView * wview;
-    myWebView * wview;
+    QWebView * wview;
+//    myWebView * wview;
 
     #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"

@@ -28,7 +28,7 @@ using namespace std;
 
 
 //Returns a string that will be the header of the output HTML file
-QString html_head(QString title);
+QString html_head(QString title, QString fontFamily, int basesize);
 
 //Generates and returns the Title of the book
 QString html_book_title(QString , QString, QString);
@@ -38,9 +38,6 @@ QString html_link_table(QList <IndexItem>,int short_index_level, bool dot , bool
 
 //Generates an index to all LINKS with the given level (NOTE: links to links, not to text)
 inline QString index_to_index(QList <IndexItem> indexitemlist,int short_index_level);
-
-//Generates the div declaration for the top of the html file
-inline QString html_main_div( QString fontFamily, int fontSize );
 
 //Returns html code of a "<a name" tag, for the given name
 inline QString namepoint (QString name);
@@ -53,7 +50,7 @@ QString bluedot();
 QString reddot();
 
 
-QString CSS();
+QString CSS(QString fontFamily, int fontSize);
 QString Script();
 
 

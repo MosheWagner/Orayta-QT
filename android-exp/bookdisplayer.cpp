@@ -498,6 +498,11 @@ void bookDisplayer::jumpToTop()
     if (!PDFMode) if (myBook) setHtml(myBook->getBookIndexHtml());
 }
 
+void bookDisplayer::goBack()
+{
+    htmlview->back();
+}
+
 void bookDisplayer::highlight(QRegExp rx)
 {
     QString txt = pageText();

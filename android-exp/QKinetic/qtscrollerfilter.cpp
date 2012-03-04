@@ -128,6 +128,21 @@ bool QtScrollerFilter::eventFilter(QObject *o, QEvent *e)
 bool QtScrollerFilter::eventFilter_QWebView(QWebView *view, QEvent *event)
 {
     switch (event->type()) {
+
+    //Hack by me to allow the wheel to work...
+    case QEvent::Wheel:
+    {
+        QWheelEvent *e = static_cast<QWheelEvent *>(event);
+
+        int d = e->delta() / 3; // 3 was chosen for no good reason
+
+        if (QWebFrame *frame = view->page()->mainFrame())
+        {
+            if (e->orientation() == Qt::Horizontal) frame->scroll(d, 0);
+            else frame->scroll(0, d * -1);
+        }
+        break;
+    }
     case QtScrollPrepareEvent::ScrollPrepare: {
         QtScrollPrepareEvent *se = static_cast<QtScrollPrepareEvent *>(event);
         scrollingFrames[view] = 0;
@@ -150,7 +165,7 @@ bool QtScrollerFilter::eventFilter_QWebView(QWebView *view, QEvent *event)
         }
         return false;
     } 
-    case QtScrollEvent::Scroll: {
+    case QtScrollEvent::Scroll:  {
         if (QWebFrame *frame = scrollingFrames.value(view)) {
             QtScrollEvent *se = static_cast<QtScrollEvent *>(event);
             // no way to do that from outside of QtWebKit

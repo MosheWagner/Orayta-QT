@@ -167,6 +167,38 @@ static void setScrollOffset(QWidget *widget, const QPoint &p)
         frame->evaluateJavaScript(QString("window.scrollTo(%1,%2);").arg(p.x()).arg(p.y()));
 }
 
+static void showScrollBars(QWidget *widget)
+{
+    QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
+    if (scrollArea) {
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    }
+
+    QWebView *webView = dynamic_cast<QWebView*>(widget);
+    if (webView) {
+        QWebFrame *frame = webView->page()->mainFrame();
+        frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAsNeeded);
+        frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAsNeeded);
+    }
+}
+
+static void hideScrollBars(QWidget *widget)
+{
+    QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
+    if (scrollArea) {
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
+
+    QWebView *webView = dynamic_cast<QWebView*>(widget);
+    if (webView) {
+        QWebFrame *frame = webView->page()->mainFrame();
+        frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
+        frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
+    }
+}
+
 static QPoint deaccelerate(const QPoint &speed, int a = 1, int max = 64)
 {
     int x = qBound(-max, speed.x(), max);
@@ -295,6 +327,11 @@ void FlickCharm::timerEvent(QTimerEvent *event)
         item.next();
         FlickData *data = item.value();
 
+        if (data->state == FlickData::ManualScroll || data->state == FlickData::AutoScroll)
+        {
+            showScrollBars(data->widget);
+        }
+
         if (data->state == FlickData::ManualScroll) {
             count++;
             data->speed = (QCursor::pos() - data->dragPos) / 10;
@@ -307,7 +344,10 @@ void FlickCharm::timerEvent(QTimerEvent *event)
             QPoint p = scrollOffset(data->widget);
             setScrollOffset(data->widget, p - data->speed);
             if (data->speed == QPoint(0, 0))
+            {
                 data->state = FlickData::Steady;
+                hideScrollBars(data->widget);
+            }
         }
     }
 
@@ -316,3 +356,4 @@ void FlickCharm::timerEvent(QTimerEvent *event)
 
     QObject::timerEvent(event);
 }
+

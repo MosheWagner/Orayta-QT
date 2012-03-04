@@ -103,7 +103,7 @@ void MobileApp::continueConstructor()
 //    ui->waitLBL->setMovie(waitMovie);
 //    if (waitMovie) waitMovie->start();
 
-    wview = new myWebView(this);
+    wview = new QWebView(this);
 
 
     QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
@@ -302,7 +302,7 @@ void MobileApp::on_searchBTN_clicked()
     ui->stackedWidget->setCurrentIndex(SEARCH_PAGE);
 }
 
-\
+
 
 void MobileApp::on_getbooksBTN_clicked()
 {
@@ -725,13 +725,14 @@ void MobileApp::viewChanged(int index)
 //go to previous view of stacked widget.
 void MobileApp::goBack()
 {
-    qDebug()<< "going back";
+    //qDebug()<< "going back";
 
     if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
-        {
-            qDebug()<< "exiting";
-            close();
-        }
+    {
+        qDebug()<< "exiting";
+        close();
+    }
+
     // if we have only one object it probably is the current view and we cant go back
     else if(!viewHistory)
     {
@@ -1243,9 +1244,12 @@ void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int colum
 
     if (!book) {return;}
 
+    if (book->IsInSearch()) book->unselect();
+    else book->select();
+
     // select/unselect childrean
-    if (item->checkState(column) == Qt::Checked) book->select();
-    else book->unselect();
+    //if (item->checkState(column) == Qt::Checked) book->select();
+    //else book->unselect();
 
 }
 

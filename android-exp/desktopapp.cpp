@@ -209,10 +209,13 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
 
     ui->btnBox->addButton((QAbstractButton *)ui->refreshButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->newTabButton, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
+    //ui->btnBox->addButton((QAbstractButton *)ui->topButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoominButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->zoomoutButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->showSearchBarButton, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->backBTN, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->nextChap, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->prevChap, QDialogButtonBox::ActionRole);
 
     cornerWidgetLayout->addWidget(ui->btnBox);
 
@@ -879,6 +882,12 @@ void DesktopApp::on_zoomoutButton_clicked()
 void DesktopApp::on_topButton_clicked()
 {
     CurrentBookdisplayer()->jumpToTop();
+}
+
+void DesktopApp::on_backBTN_clicked()
+{
+    CurrentBookdisplayer()->jumpToTop();
+    //CurrentBookdisplayer()->goBack();
 }
 
 void DesktopApp::on_refreshButton_clicked()
@@ -1930,11 +1939,12 @@ void DesktopApp::SearchGuematria (QString txt)
         title = tr("Search results for guematria : ") + "\"" + txt + "\"";
         title += " (" + stringify(guematria) + ")";
 
-        Htmlhead = html_head(title);
-        Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
+
+        Htmlhead = html_head(title, gFontFamily, gFontSize);
+        Htmlhead += "<body>";
         Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
-        Htmlhead += "\n<span style=\"font-size:17px\">";
+        Htmlhead += "\n<div class=\"Contect\">";
 
         if (stopSearchFlag == true)
         {
@@ -1964,7 +1974,7 @@ void DesktopApp::SearchGuematria (QString txt)
 
         Html = Htmlhead + Html;
 
-        Html += "</span></div>\n";
+        Html += "</div>\n";
         Html += "\n</body>\n</html>";
 
         writetofile(TMPPATH + "Guematria.html", Html, "UTF-8");
@@ -1975,4 +1985,10 @@ void DesktopApp::SearchGuematria (QString txt)
     }
 }
 
+
 BookList * DesktopApp::getBookList() { return &bookList;}
+
+void DesktopApp::on_nextChap_clicked()
+{
+    //CurrentBookdisplayer()->nextChapter();
+}

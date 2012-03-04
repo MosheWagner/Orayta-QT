@@ -174,7 +174,7 @@ margin: 1 px;
       </palette>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2742,7 +2742,23 @@ p, li { white-space: pre-wrap; }
              <bool>false</bool>
             </property>
             <property name="styleSheet">
-             <string notr="true"/>
+             <string notr="true"> QTreeView::branch:has-children:!has-siblings:closed,
+ QTreeView::branch:closed:has-children:has-siblings {
+         border-image: none;
+         image: url(:/Icons/arrow-left.png);
+ }
+
+ QTreeView::branch:open:has-children:!has-siblings,
+ QTreeView::branch:open:has-children:has-siblings  {
+         border-image: none;
+         image: url(:/Icons/arrow-down.png);
+ }
+
+ QTreeView::indicator {
+     width: 13px;
+     height: 13px;
+ }
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -2775,6 +2791,9 @@ p, li { white-space: pre-wrap; }
              <bool>true</bool>
             </property>
             <property name="allColumnsShowFocus">
+             <bool>false</bool>
+            </property>
+            <property name="expandsOnDoubleClick">
              <bool>false</bool>
             </property>
             <property name="columnCount">
