@@ -8,7 +8,8 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD
 
     #for test only
-    #DEFINES += MOBILE
+    DEFINES += MOBILE
+    DEFINES +=android
 
 android {
 #    INSTALL_PATH = "/sdcard/Orayta/"
@@ -54,7 +55,6 @@ poppler {
 
 
 SOURCES += main.cpp \
-    mobileapp.cpp \
     desktopapp.cpp \
     htmlgen.cpp \
     functions.cpp \
@@ -83,17 +83,9 @@ SOURCES += main.cpp \
     quazip/quacrc32.cpp \
     quazip/quaadler32.cpp \
     quazip/qioapi.cpp \
-    QKinetic/qtscrollevent.cpp \
-    QKinetic/qtscrollerproperties.cpp \
-    QKinetic/qtscrollerfilter.cpp \
-    QKinetic/qtscroller.cpp \
-    QKinetic/qtflickgesture.cpp \
-    pdfwidget.cpp \
-    filedownloader.cpp \
-    QKinetic/flickcharm.cpp
+    pdfwidget.cpp
 
 HEADERS += \
-    mobileapp.h \
     htmlgen.h \
     functions.h \
     book.h \
@@ -124,6 +116,34 @@ HEADERS += \
     quazip/quacrc32.h \
     quazip/quachecksum32.h \
     quazip/quaadler32.h \
+    pdfwidget.h \
+    search.h
+
+
+FORMS += \
+    addcomment.ui \
+    bookmarktitle.ui \
+    about.ui \
+    errorreport.ui \
+    bookfind.ui \
+    settings.ui \
+    importbook.ui \
+    desktopapp.ui
+
+#Android stuff:
+SOURCES += \
+    mobileapp.cpp \
+    QKinetic/qtscrollevent.cpp \
+    QKinetic/qtscrollerproperties.cpp \
+    QKinetic/qtscrollerfilter.cpp \
+    QKinetic/qtscroller.cpp \
+    QKinetic/qtflickgesture.cpp \
+    filedownloader.cpp \
+    QKinetic/flickcharm.cpp \
+    textdisplayer.cpp
+
+HEADERS += \
+    mobileapp.h \
     QKinetic/qtscrollevent_p.h \
     QKinetic/qtscrollevent.h \
     QKinetic/qtscrollerproperties_p.h \
@@ -132,81 +152,12 @@ HEADERS += \
     QKinetic/qtscroller_p.h \
     QKinetic/qtscroller.h \
     QKinetic/qtflickgesture_p.h \
-    pdfwidget.h \
-    search.h \
     filedownloader.h \
-    QKinetic/flickcharm.h
+    QKinetic/flickcharm.h \
+    textdisplayer.h
 
 FORMS += \
     mobileapp.ui \
-    addcomment.ui \
-    bookmarktitle.ui \
-    about.ui \
-    errorreport.ui \
-    bookfind.ui \
-    settings.ui \
-    importbook.ui \
-    desktopapp.ui \
-
-RESOURCES += Orayta.qrc \
-
-win32:RC_FILE = orayta.rc
-
-TRANSLATIONS = Hebrew.ts \
-    French.ts
-
-# Install binary
-target.path = /usr/bin
-
-# Install books
-books.path = $${INSTALL_BOOKS_PATH}
-books.files = Books/.
-#android: books.files += android/res/raw/.
-#android: books.files += android/assets/.
-
-# Install icon
-icon.path = $${INSTALL_PATH}
-
-icon.files = Icons/Orayta.png
-#Install wait image
-icon.files += Images/Wait.gif
-
-andrid {
-} else : linux {
-# Desktop shortcut
-desktop.path = /home/*/Desktop/
-desktop.files = Orayta.desktop
-
-# Install shortcut
-menu.path = /usr/share/applications
-menu.files = Orayta.desktop
-}
-
-# Install translation
-trans.path = $${INSTALL_PATH}
-trans.files = Hebrew.qm
-
-# install fonts
-#fonts.path = $${INSTALL_PATH}"fonts/"
-fonts.path = $${INSTALL_PATH}
-fonts.files = fonts/.
-
-# copy licence info
-licence.path = $${INSTALL_PATH}
-licence.files = licence/.
-
-INSTALLS += target
-INSTALLS += books
-message("Books target set to:" $${INSTALL_BOOKS_PATH})
-INSTALLS += icon
-INSTALLS += trans
-#fonts are now in the qrc file, no need for them in assets.
-INSTALLS += fonts
-INSTALLS += licence
-
-# INSTALLS += desktop
-linux: INSTALLS += menu
-
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
@@ -338,3 +289,63 @@ OTHER_FILES += \
     android/res/values-et/strings.xml \
     android/res/values-rs/strings.xml \
     android/res/values-zh-rTW/strings.xml
+
+
+RESOURCES += Orayta.qrc \
+
+win32:RC_FILE = orayta.rc
+
+TRANSLATIONS = Hebrew.ts \
+    French.ts
+
+# Install binary
+target.path = /usr/bin
+
+# Install books
+books.path = $${INSTALL_BOOKS_PATH}
+books.files = Books/.
+#android: books.files += android/res/raw/.
+#android: books.files += android/assets/.
+
+# Install icon
+icon.path = $${INSTALL_PATH}
+
+icon.files = Icons/Orayta.png
+#Install wait image
+icon.files += Images/Wait.gif
+
+andrid {
+} else : linux {
+# Desktop shortcut
+desktop.path = /home/*/Desktop/
+desktop.files = Orayta.desktop
+
+# Install shortcut
+menu.path = /usr/share/applications
+menu.files = Orayta.desktop
+}
+
+# Install translation
+trans.path = $${INSTALL_PATH}
+trans.files = Hebrew.qm
+
+# install fonts
+#fonts.path = $${INSTALL_PATH}"fonts/"
+fonts.path = $${INSTALL_PATH}
+fonts.files = fonts/.
+
+# copy licence info
+licence.path = $${INSTALL_PATH}
+licence.files = licence/.
+
+INSTALLS += target
+INSTALLS += books
+message("Books target set to:" $${INSTALL_BOOKS_PATH})
+INSTALLS += icon
+INSTALLS += trans
+#fonts are now in the qrc file, no need for them in assets.
+INSTALLS += fonts
+INSTALLS += licence
+
+# INSTALLS += desktop
+linux: INSTALLS += menu

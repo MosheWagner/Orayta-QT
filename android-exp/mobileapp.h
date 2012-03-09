@@ -4,11 +4,12 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QTreeWidgetItem>
+#include <QListWidgetItem>
 #include "filedownloader.h"
 #include "booklist.h"
 #include "book.h"
 
-#include "mywebview.h"
+#include "textdisplayer.h"
 
 namespace Ui {
     class MobileApp;
@@ -32,43 +33,27 @@ protected:
 
 private slots:
 
+    void on_toolButton_3_clicked();
+    void on_toolButton_2_clicked();
+    void on_toolButton_6_clicked();
+
     void on_openBTN_clicked();
-
     void on_searchBTN_clicked();
-
     void on_getbooksBTN_clicked();
-
     void on_aboutBTN_clicked();
-
-    void on_treeWidget_clicked(const QModelIndex &index);
-
-    void on_openBook_clicked();
+    void on_settings_BTN_clicked();
+    void on_saveConf_clicked();
+    void on_cancelBTN_clicked();
+    void on_SearchInBooksBTN_clicked();
+    void on_downloadBTN_clicked();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
-    //void wvloadFinished(bool);
-    //void wvloadStarted();
-
-    void on_toolButton_3_clicked();
-
-    void on_toolButton_2_clicked();
-
-    void on_toolButton_6_clicked();
-
-    void on_settings_BTN_clicked();
-
-    void on_saveConf_clicked();
-
     void on_fontComboBox_currentIndexChanged(const QString &arg1);
-
     void on_fonSizeSpinBox_valueChanged(int arg1);
 
-    void on_cancelBTN_clicked();
-
-    void on_SearchInBooksBTN_clicked();
-
-    void on_downloadBTN_clicked();
+    void on_langComboBox_currentIndexChanged(const QString &arg1);
 
 
     void downloadProgress(int val);
@@ -115,12 +100,6 @@ private slots:
     //copied from desktopapp
     void translate(QString newlang);
 
-
-    void on_langComboBox_currentIndexChanged(const QString &arg1);
-
-    // *copied from desktop app*
-    //Remove all temporary html files the program created
-    void ClearTmp();
 
     void on_mixedSelectBTN_clicked();
 
@@ -170,15 +149,14 @@ private slots:
 
     void on_gtoHelp_clicked();
 
-    void on_textBrowser_anchorClicked(const QUrl &arg1);
+    void on_treeWidget_clicked(const QModelIndex &index);
+
+    void on_openBook_clicked();
 
 private:
     Ui::MobileApp *ui;
 
     void showBook(Book *);
-
-    // test if 'currnetBook' is displayed now
-    bool currentBookDisplayed();
 
     BookList bookList, booksInSearch;
 
@@ -186,8 +164,6 @@ private:
     QPoint currentPossision;
 
     QString booktitle;
-
-    QString InternalLocationInHtml;
 
     //TODO - create a global settings object
     //QSettings settings;
@@ -212,15 +188,13 @@ private:
 //    QWidgetList *viewHistory;
     QList<int> *viewHistory;
 
-    //shows a moving wait image
-    QMovie *waitMovie;
-
     //----------------------------------------------------
     //copied from settings.h
 
     //Holds the available languages and the way they should be displayed (such as "עברית" for "Hebrew")
     QStringList langs, langsDisplay;
 
+    textDisplayer *displayer;
 
 };
 

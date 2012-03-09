@@ -140,13 +140,10 @@ QString SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> search
                     }
 
                     //Add a small link (at the index) to the full result
-                    HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>\n";
+                    HtmlTopLinks += reddot() + "&nbsp;&nbsp;&nbsp;<a href=\"#A" + stringify(results) + "\">" + stringify(results) + ")&nbsp;&nbsp;" + linkdisplay  + "</a><BR>\n";
 
                     //Add the full result to the page
-                    Html += "<span style=\"font-size:23px\">";
-                    Html += "<a href=\"$" + stringify(results) + "\">&nbsp;</a>";
-
-                    Html += "<a href=\"!" + stringify(searchList[i]->getUniqueId()) + ":";
+                    Html += "<a name=\"A" + stringify(results) + "\" href=\"!" + stringify(searchList[i]->getUniqueId()) + ":";
                     Html += searchResults[j].itr.toEncodedString();
                     Html += ":" + escapeToBase32(regexp.pattern()) + "\">";
 

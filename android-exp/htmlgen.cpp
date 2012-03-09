@@ -1035,7 +1035,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
         Book *b;
         if (i == 0) b = this;
-        else booklist->FindBookByPath(Sources[i].FilePath);
+        else b = booklist->FindBookByPath(Sources[i].FilePath);
 
         //qDebug() << i << Sources[i].FilePath;
 
