@@ -73,7 +73,7 @@ public:
     void setSearchPos (int);
 
     QString title();
-    //QUrl url();
+
     QString activeLink();
 
     virtual QVariant execScript(QString script);
@@ -121,6 +121,9 @@ public:
 
     //Location in html file next load should use
     QString InternalLocationInHtml;
+
+    //TODO: Make private
+    BookIter currentLocation;
 
 private:
 

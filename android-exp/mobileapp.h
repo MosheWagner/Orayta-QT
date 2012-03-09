@@ -47,10 +47,8 @@ private slots:
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
-    void wvloadFinished(bool);
-    void wvloadStarted();
-    void wvlinkClicked(const QUrl &);
-
+    //void wvloadFinished(bool);
+    //void wvloadStarted();
 
     void on_toolButton_3_clicked();
 
@@ -172,6 +170,8 @@ private slots:
 
     void on_gtoHelp_clicked();
 
+    void on_textBrowser_anchorClicked(const QUrl &arg1);
+
 private:
     Ui::MobileApp *ui;
 
@@ -190,10 +190,8 @@ private:
     QString InternalLocationInHtml;
 
     //TODO - create a global settings object
-//    QSettings settings;
+    //QSettings settings;
 
-    QWebView * wview;
-//    myWebView * wview;
 
     #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"

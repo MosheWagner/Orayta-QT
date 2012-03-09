@@ -72,8 +72,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     viewHistory = NULL;
     listdownload = NULL;
     downloader = NULL;
-    wview = NULL;
 
+    InternalLocationInHtml = "";
 
     ui->setupUi(this);
 
@@ -91,10 +91,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 // constructor continuation
 void MobileApp::continueConstructor()
 {
-    setupSettings();
-
-
-    InternalLocationInHtml = "";
 
     //IZAR
     //setup the wait image
@@ -103,16 +99,15 @@ void MobileApp::continueConstructor()
 //    ui->waitLBL->setMovie(waitMovie);
 //    if (waitMovie) waitMovie->start();
 
-    wview = new QWebView(this);
-
-
-    QObject::connect(wview, SIGNAL(linkClicked(const QUrl &)), this , SLOT(wvlinkClicked(const QUrl &)));
-    QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
-    QObject::connect(wview, SIGNAL(loadStarted()), this , SLOT(wvloadStarted()));
+    //QObject::connect(tview, SIGNAL(anchorClicked(QUrl)), this , SLOT(tvlinkClicked(const QUrl &)));
+    //QObject::connect(wview, SIGNAL(loadFinished(bool)), this , SLOT(wvloadFinished(bool)));
+    //QObject::connect(wview, SIGNAL(loadStarted()), this , SLOT(wvloadStarted()));
 
 //    wview->setZoomFactor(1.0);
 
 
+    /*
+      //@@@@
     //setup the back and forword keys in the book display page
     {
         QAction *back = wview->pageAction(QWebPage::Back);
@@ -125,24 +120,19 @@ void MobileApp::continueConstructor()
         ui->backBTN->setDefaultAction(back);
         ui->forwardBTN->setDefaultAction(forward);
     }
+    */
 
-
-//    viewHistory = new QWidgetList();
     viewHistory = new QList<int>;
     //the base of history should always point to the main page
-    viewHistory->append( MAIN_PAGE);
+    viewHistory->append(MAIN_PAGE);
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
 
 
-    ui->displayArea->layout()->addWidget(wview);
+    //wview->setHtml(tr("<center><big>Loading...</big></center>"));
+    //wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
-//    wview->setHtml(tr("<center><big>Loading...</big></center>"));
-
-    wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-
-    QtScroller::grabGesture(wview, QtScroller::LeftMouseButtonGesture);
-
-    wview->show();
+    QtScroller::grabGesture(ui->textBrowser, QtScroller::LeftMouseButtonGesture);
+    //QtScroller::grabGesture(tview, QtScroller::TouchGesture);
 
     // setup the search page
     showHideSearch(false);
@@ -157,7 +147,6 @@ void MobileApp::continueConstructor()
 
     //Build the book list
     reloadBooklist();
-
 
     //Initialize a new FileDownloader to download the list
     listdownload = new FileDownloader();
@@ -189,13 +178,13 @@ void MobileApp::continueConstructor()
     //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
     QApplication::processEvents();
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+
+
+    setupSettings();
 }
 
 MobileApp::~MobileApp()
 {
-
-    qDebug() << "in destructer";
-
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();
@@ -376,28 +365,34 @@ void MobileApp::showBook(Book *book)
 //            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
             //force view to show loading...
-            wvloadStarted();
+        //@@@@@
+        //wvloadStarted();
+        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             qApp->processEvents();
 
 //          ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
             book->readBook(1);
 
-            wview->setHtml(book->getBookIndexHtml());
+            ui->textBrowser->setHtml(book->getBookIndexHtml());
 
-            wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+            //wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
 //          booktitle = book->getNormallDisplayName();
             break;
         }
         case ( Book::Html ):
         {
-            wview->load( QUrl::fromLocalFile(book->getPath()) );
-            wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+            QFile f(book->getPath());
+            ui->textBrowser->setHtml( f.readAll() );
+            //@@@
+            //wview->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
             //TODO: title
 //            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             break;
         }
+    /*
+      //@@@@@@@@
         case ( Book::Pdf ):
         {
             //TODO: Add poppler support?
@@ -411,7 +406,8 @@ void MobileApp::showBook(Book *book)
                 //ui->viewTab->setTabText(CURRENT_TAB, book->getNormallDisplayName());
             }
             break;
-        }
+
+        }*/
         case ( Book::Link ):
         {
             //Process link:
@@ -436,6 +432,7 @@ void MobileApp::showBook(Book *book)
     }
 }
 
+/*
 void MobileApp::wvloadFinished(bool ok)
 {
 //    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
@@ -483,8 +480,10 @@ void MobileApp::wvloadStarted()
     QApplication::processEvents();
 
 }
+*/
 
-void MobileApp::wvlinkClicked(const QUrl & url)
+
+void MobileApp::on_textBrowser_anchorClicked(const QUrl &url)
 {
     QString link = QString(url.toString());
 
@@ -495,10 +494,7 @@ void MobileApp::wvlinkClicked(const QUrl & url)
         int pos = link.indexOf("#");
         QString lnk = link.mid(pos+1);
 
-        QString script = "paintByHref(\"$" + lnk + "\");";
-
-        wview->page()->currentFrame()->evaluateJavaScript(script);
-//        wview->page()->currentFrame()->scrollToAnchor(lnk);
+        ui->textBrowser->scrollToAnchor("\"$" + lnk + "\"");
     }
     //External book link
     else if(link.indexOf("!") != -1 )
@@ -552,7 +548,7 @@ void MobileApp::wvlinkClicked(const QUrl & url)
         int lvl = lvls.toInt(&ok) -1;
 
         QString html = currentBook->getChapterHtml(itr, &bookList, true, true, ok ? lvl : 1);
-        wview->setHtml(html);
+        ui->textBrowser->setHtml(html);
     }
 }
 
@@ -573,7 +569,9 @@ void MobileApp::closeEvent(QCloseEvent *event)
          settings.setValue("lastBook", currentBook->getUniqueId());
 
      //store current possision in book. not 100% acurate, but is good enough for me. (IZAR)
-     currentPossision = wview->page()->currentFrame()->scrollPosition();
+     ///@@@@
+     //currentPossision = tview->scrollBarWidgets(Qt::al).value();
+     //currentPossision = wview->page()->currentFrame()->scrollPosition();
      settings.setValue("possision", currentPossision);
      settings.endGroup();
 
@@ -729,14 +727,14 @@ void MobileApp::goBack()
 
     if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
     {
-        qDebug()<< "exiting";
+        qDebug()<< "Exiting!";
         close();
     }
 
     // if we have only one object it probably is the current view and we cant go back
     else if(!viewHistory)
     {
-        qDebug()<< "no history found! exiting.";
+        qDebug()<< "No history found! exiting.";
         close();
     }
 
@@ -752,13 +750,13 @@ void MobileApp::goBack()
             {
             //some pages should be ignored from history:
             case WAIT_PAGE:
-                // we are in progress of loading a book. stop it.
-                wview->stop();
             case SETTINGS_PAGE:
             case MIXED_SELECTION_PAGE :
-
                 break;
-
+            case DISPLAY_PAGE :
+                //@@@
+                //Go back to index...
+                break;
             default:
                 ui->stackedWidget->setCurrentIndex(id);
                 viewHistory->removeAt(i-1);
@@ -771,29 +769,9 @@ void MobileApp::goBack()
         viewHistory->removeAt(i-1);
     }
 
-    // if we got 'till here then:
-    qDebug()<< "no ware to go. exiting.";
+    //If we got 'till here then:
+    qDebug()<< "Nowhere to go. exiting.";
     close();
-
-
-//    else
-//    {
-//        //when going back from diplay page, stop loading the page.
-//        if (ui->stackedWidget->currentIndex() == DISPLAY_PAGE)
-//        {
-//            wview->stop();
-//            currentPossision = wview->page()->currentFrame()->scrollPosition();
-//        }
-
-//        //go to the one-before-last view, which is the previous view.
-//        QWidget *previousView = viewHistory->at(viewHistory->length()-2);
-
-//        //remove the last two objects. these are the current and previous view. the previous view will be re insereted later via viewChanged.
-//        viewHistory->removeLast(); viewHistory->removeLast();
-
-//        ui->stackedWidget->setCurrentWidget(previousView);
-
-//    }
 }
 
 
@@ -801,17 +779,20 @@ void MobileApp::goBack()
 
 void MobileApp::on_toolButton_3_clicked()
 {
-    wview->setZoomFactor(wview->zoomFactor() + 0.1);
+    //@@@@@
+    //wview->setZoomFactor(wview->zoomFactor() + 0.1);
 }
 
 void MobileApp::on_toolButton_2_clicked()
 {
-    if (wview->zoomFactor() > 0.3) wview->setZoomFactor(wview->zoomFactor() - 0.1);
+    //@@@@@@
+    //if (wview->zoomFactor() > 0.3) wview->setZoomFactor(wview->zoomFactor() - 0.1);
 }
 
 void MobileApp::on_toolButton_6_clicked()
 {
-    wview->page()->mainFrame()->scrollToAnchor("Top");
+    ui->textBrowser->scrollToAnchor("Top");
+    //wview->page()->mainFrame()->scrollToAnchor("Top");
 }
 
 
@@ -948,8 +929,10 @@ void MobileApp::on_SearchInBooksBTN_clicked()
         QApplication::processEvents();
 
         QUrl u = SearchInBooks (regexp, otxt, booksInSearch.BooksInSearch(), ui->progressBar);
-        wview->load(QUrl(u));
-        wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+        //@@@@@@
+        QFile f(u.toLocalFile());
+        ui->textBrowser->setHtml(f.readAll());
+        //wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 
         //done search, reset the ui
@@ -1304,18 +1287,17 @@ void MobileApp::setupSettings(){
 
     //get stored settings for display font
     settings.beginGroup("Confs");
-    //TODO fix droid font and make it the default
-    QString defaultFont = "Droid Sans Hebrew Orayta";
-//    QString defaultFont = "Ezra SIL SR";
-    gFontFamily = settings.value("fontfamily", defaultFont).toString();
-    gFontSize = settings.value("fontsize",20).toInt();
+        //TODO fix droid font and make it the default
+        QString defaultFont = "Droid Sans Hebrew Orayta";
+        //QString defaultFont = "Ezra SIL SR";
+        gFontFamily = settings.value("fontfamily", defaultFont).toString();
+        gFontSize = settings.value("fontsize",20).toInt();
     settings.endGroup();
 
     resetSettingsPage();
+
     //as default display the font selection page int the settings page
     ui->tabWidget->setCurrentIndex(0);
-
-
 }
 
 void MobileApp::resetSettingsPage()
@@ -1586,7 +1568,8 @@ void MobileApp::on_lastBookBTN_clicked()
     {
         showBook(currentBook);
         QApplication::processEvents();
-        wview->page()->currentFrame()->setScrollPosition(currentPossision);
+        //@@@@@@@
+        //wview->page()->currentFrame()->setScrollPosition(currentPossision);
     }
 
 
@@ -1595,11 +1578,15 @@ void MobileApp::on_lastBookBTN_clicked()
 // test if 'currnetBook' is displayed now
 bool MobileApp::currentBookDisplayed()
 {
-    if (!currentBook || !wview) return false;
+    //if (!currentBook || !wview) return false;
+
+    //@@@@@@
 
    QString filename = currentBook->HTMLFileName();
-   if (wview->url().toString().contains(filename)) return true;
-   else return false;
+   //if (wview->url().toString().contains(filename)) return true;
+   //else return false;
+
+   return false;
 }
 
 

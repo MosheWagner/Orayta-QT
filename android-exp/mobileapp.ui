@@ -174,7 +174,7 @@ margin: 1 px;
       </palette>
      </property>
      <property name="currentIndex">
-      <number>5</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -591,6 +591,9 @@ p, li { white-space: pre-wrap; }
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="textBrowser"/>
        </item>
        <item>
         <widget class="QFrame" name="dispalyMenu">

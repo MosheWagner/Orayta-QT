@@ -70,7 +70,7 @@ QString createSearchPattern (QString userInput, bool allWords, bool fullWords, i
 bool stopSearchFlag;
 
 #define RESULTS_MAX 500
-QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar)
+QString SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar)
 {
     //TODO: make preview look nice
 
@@ -194,12 +194,9 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
         Html += "</span></div>\n";
         Html += "\n</body>\n</html>";
 
-        //TODO: Search results are special books
-        writetofile(TMPPATH + "Search" + ".html", Html, "UTF-8");
-
         if (pbar) pbar->setValue(100);
         //ui->pbarbox->hide();
     }
 
-    return QUrl::fromLocalFile(TMPPATH + "Search" + ".html");
+    return Html;
 }

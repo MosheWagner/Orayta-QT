@@ -835,4 +835,40 @@ QString Book::resultPreview(const QRegExp& exp, int offset)
     return s.replace(exp, "<span style='background-color:Yellow'>\\1</span>");
 }
 
+//Returns a bookiter representing the chapter coming before/after the given chapter.
+BookIter Book::nextChap(BookIter iter)
+{
+    //Who said 1 is default?
+    if (!isBookOpen()) readBook(1);
 
+    //Find this iter
+    int n = -1;
+    for (int j=0; j < chapterIter.size(); j++)
+    {
+        if (iter == chapterIter[j]) n = j;
+    }
+
+    if (n != -1 && n + 1 < chapterIter.size()) return chapterIter[n+1];
+
+    else return iter;
+}
+
+BookIter Book::prevChap(BookIter iter)
+{
+    //Who said 1 is default?
+    if (!isBookOpen()) readBook(1);
+
+    //Find this iter
+    int n = -1;
+    for (int j=0; j < chapterIter.size(); j++)
+    {
+        if (iter == chapterIter[j]) n = j;
+    }
+
+    if (n > 0) return chapterIter[n-1];
+
+    else return iter;
+}
+
+//Returns True if readbook was called on the book, and closeBook() wasn't
+bool Book::isBookOpen() { return (chapterIter.size() > 0) ; }

@@ -19,11 +19,10 @@
 
 extern bool stopSearchFlag;
 
-//Searches for the given phrase in all books that have SearchMe as true,
-// creates a html file with the results, and loads it a new tab (unless current tab is empty)
-QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar);
+//Searches for the given phrase in all books that have SearchMe set to true.
+// Returns the html contents of the results
+QString SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar);
 
 QString createSearchPattern (QString userInput, bool allWords = true, bool fullWords = false, int spacing = 0);
-
 
 #endif // SEARCH_H

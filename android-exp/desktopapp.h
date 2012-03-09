@@ -236,7 +236,8 @@ private slots:
 
     void on_progressBar_valueChanged(int value);
     void on_backBTN_clicked();
-    void on_nextChap_clicked();
+    void on_leftChap_clicked();
+    void on_rightChap_clicked();
 };
 
 //Build book search DB

@@ -211,14 +211,17 @@ public:
     //Returns the index (תוכן) of the book rendered to Html
     QString getBookIndexHtml();
 
+    //Returns a bookiter representing the chapter coming before/after the given chapter.
+    BookIter nextChap(BookIter iter);
+    BookIter prevChap(BookIter iter);
+
+    //Returns True if readbook was called on the book, and closeBook() wasn't
+    bool isBookOpen();
+
 protected:
 
-    //Lowest Index Level. This value is used for splitting up the book into chapters.
-    int LIL;
-
-    QList <IndexItem> indexitemlist;
     //
-    QString chapterIndexHtml;
+    //QString chapterIndexHtml;
 
     //This list holds all the text of the book,
     // split up by the lowest level shown in the index ('Lowest Index Level').
@@ -227,6 +230,11 @@ protected:
 
     //This list holds the BookItr of each chapter in the 'chapterText' list.
     QList <BookIter> chapterIter;
+
+    //Lowest Index Level. This value is used for splitting up the book into chapters.
+    int LIL;
+
+    QList <IndexItem> indexitemlist;
 
 
     // recursives function

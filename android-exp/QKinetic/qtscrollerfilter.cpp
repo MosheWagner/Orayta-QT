@@ -109,9 +109,14 @@ bool QtScrollerFilter::eventFilter(QObject *o, QEvent *e)
             result |= eventFilter_QWebView(web, e);
 #endif // QTSCROLLER_NO_WEBKIT
 
+        QAbstractScrollArea *area;
+        if(!(area = qobject_cast<QAbstractScrollArea *>(w->parentWidget())))
+            area = qobject_cast<QAbstractScrollArea *>(w);
+        result |= eventFilter_QAbstractScrollArea(area, e);
+
          if (w->parentWidget()) {
             if (QAbstractScrollArea *area = qobject_cast<QAbstractScrollArea *>(w->parentWidget())) {
-                if (area->viewport() == w) {             
+                if (area->viewport() == w) {
                     if (QAbstractItemView *view = qobject_cast<QAbstractItemView *>(area))
                         result |= eventFilter_QAbstractItemView(view, e);
 

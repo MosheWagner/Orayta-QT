@@ -754,7 +754,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="prevChap">
+           <widget class="QToolButton" name="leftChap">
             <property name="toolTip">
              <string>Next chapter</string>
             </property>
@@ -783,7 +783,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="nextChap">
+           <widget class="QToolButton" name="rightChap">
             <property name="toolTip">
              <string>Previous chapter</string>
             </property>

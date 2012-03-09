@@ -249,6 +249,8 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
         int pos = link.indexOf("#");
         QString lnk = link.mid(pos+1);
 
+        //TODO: @@@@@
+
         QString script = "paintByHref(\"$" + lnk + "\");";
 
         execScript(script);
@@ -268,6 +270,8 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         QString html = myBook->getChapterHtml(itr, MW->getBookList(), true, true, ok ? lvl : 1);
         setHtml(html);
+
+        currentLocation = itr;
     }
 }
 

@@ -185,6 +185,7 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     //Load start page. Assuming it's book[0] of course.
     if (!bookList[0]->IsDir())
     {
+        //@@@@
         bookdisplayer(0)->setInternalLocation("*");
         openBook(bookList[0]);
     }
@@ -214,8 +215,8 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     ui->btnBox->addButton((QAbstractButton *)ui->zoomoutButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->showSearchBarButton, QDialogButtonBox::ActionRole);
     ui->btnBox->addButton((QAbstractButton *)ui->backBTN, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->nextChap, QDialogButtonBox::ActionRole);
-    ui->btnBox->addButton((QAbstractButton *)ui->prevChap, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->rightChap, QDialogButtonBox::ActionRole);
+    ui->btnBox->addButton((QAbstractButton *)ui->leftChap, QDialogButtonBox::ActionRole);
 
     cornerWidgetLayout->addWidget(ui->btnBox);
 
@@ -649,8 +650,6 @@ void DesktopApp::openBook( Book* book )
             }
             else
             {
-                //TODO: @@@ This don't work!
-
                 QString l = CurrentBookdisplayer()->InternalLocationInHtml;
 
                 //Remove the "#"
@@ -658,9 +657,11 @@ void DesktopApp::openBook( Book* book )
 
                 qDebug() << l;
                 BookIter itr = BookIter::fromEncodedString(l);
-                qDebug() << itr.toString();
 
                 CurrentBookdisplayer()->setHtml(book->getChapterHtml(itr, &bookList, true, true));
+                CurrentBookdisplayer()->currentLocation = itr;
+
+                CurrentBookdisplayer()->InternalLocationInHtml = "";
             }
 
             break;
@@ -1492,6 +1493,8 @@ void DesktopApp::on_openMixed_clicked()
     Book* book = bookList.findBookByTWI(ui->treeWidget->currentItem());
     if ( book )
     {
+        //@@@@@@@@@
+
         //Reopen at current position, if exists
 
         //TODO: If active part is in view, use it instead
@@ -1736,8 +1739,8 @@ void DesktopApp::on_SearchInBooksBTN_clicked()
         QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
         ui->viewTab->setTabText(CURRENT_TAB, title);
 
-        QUrl u = SearchInBooks (regexp, otxt, bookList.BooksInSearch(), ui->progressBar);
-        pCurrentBookdisplayer->load(QUrl(u));
+        QString s = SearchInBooks (regexp, otxt, bookList.BooksInSearch(), ui->progressBar);
+        pCurrentBookdisplayer->setHtml(s);
     }
 }
 
@@ -1988,7 +1991,29 @@ void DesktopApp::SearchGuematria (QString txt)
 
 BookList * DesktopApp::getBookList() { return &bookList;}
 
-void DesktopApp::on_nextChap_clicked()
+void DesktopApp::on_leftChap_clicked()
 {
-    //CurrentBookdisplayer()->nextChapter();
+    //@@@
+    //Shouldn't this be done in bookdisplayer?
+
+    BookIter itr = CurrentBookdisplayer()->currentLocation;
+    if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->nextChap(itr);
+    else itr = CurrentBookdisplayer()->book()->prevChap(itr);
+
+    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(itr, &bookList, true, true));
+    CurrentBookdisplayer()->currentLocation = itr;
+}
+
+void DesktopApp::on_rightChap_clicked()
+{
+    //@@@
+    //Shouldn't this be done in bookdisplayer?
+
+    BookIter itr = CurrentBookdisplayer()->currentLocation;
+
+    if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->prevChap(itr);
+    else itr = CurrentBookdisplayer()->book()->nextChap(itr);
+
+    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(itr, &bookList, true, true));
+    CurrentBookdisplayer()->currentLocation = itr;
 }

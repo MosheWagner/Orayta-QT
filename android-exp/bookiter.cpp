@@ -71,7 +71,7 @@ void BookIter::SetLevelFromLine(const QString& level_line)
 
         if (level != -1)
         {
-            mLevelName[level] = removeSigns(level_line.mid(2));
+            mLevelName[level] = removeSigns(level_line.mid(2)).simplified();
 
             if (level > 0) ZeroLevel(level - 1);
         }

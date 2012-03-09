@@ -42,7 +42,7 @@
 const QString LevelSigns = "!~@^#";
 
 //Font sizes each level's label (in the text itself) should get
-const int LevelFontSizeAdd[] = {2,12,18,18,18};
+const int LevelFontSizeAdd[] = {2,12,18,20,24};
 
 weavedSourceData initWsdFrom (const weavedSource& src)
 {
@@ -88,14 +88,14 @@ QString CSS(QString fontFamily, int basesize)
             //"   A { text-decoration: none; }\n"
             //"   A:hover { color: red; }\n"
             "   div { line-height: 1.5; }\n"
-            "   h1 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + 30) + "px; }\n"
-            "   h2 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize) + "; }\n"
-            "   h3 { text-align: center; font-family: '" + gFontFamily + "'; font-size:14px; }\n"
-            "   lvl4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
-            "   lvl3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
-            "   lvl2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
-            "   lvl1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
-            "   lvl0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
+            //"   h1 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + 30) + "px; }\n"
+            //"   h2 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize) + "; }\n"
+            //"   h3 { text-align: center; font-family: '" + gFontFamily + "'; font-size:14px; }\n"
+            "   h4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
+            "   h3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
+            "   h2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
+            "   h1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
+            "   h0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
             "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "}"
             //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
@@ -110,23 +110,23 @@ QString CSS(QString fontFamily, int basesize)
 QString html_book_title(QString name, QString copyright, QString low_comments)
 {
     QString t="";
-    t += "<center>";
+    t += "<center><span>";
     if(copyright!="")
     {
-        t += "<h2>";
+        t += "<h3>";
         t +=  QT_TR_NOOP("All right reserved ");
         t +=  "&#169 ";
-        t += copyright + "</h2><P>\n";
+        t += copyright + "</h3><P>\n";
     }
 
-    t += "<h1>" + name + "<BR></h1>";
+    t += "<h4>" + name + "<BR></h4>";
 
     if(low_comments!="")
     {
-        t += "<P><h3>";
-        t += low_comments + "</h3><P>\n";
+        t += "<P><h1>";
+        t += low_comments + "</h1><P>\n";
     }
-    t += "</center><P><HR>";
+    t += "</span></center><P><HR>";
     return t;
 }
 
@@ -707,6 +707,7 @@ void Book::readBook(int LowsetIndexLevel)
                 chapterText.append(t);
                 t.clear();
             }
+
             t.append(text[i]);
 
         }
@@ -940,7 +941,7 @@ QString Book::getBookIndexHtml()
     //IZAR: moved here to create quicker access to index
     html += namepoint("Top");
 
-    html += "<center><i>" + genLink("@9 ", "הצג את כל הספר") + "</i></center><br><br>\n";
+    html += "<center><i>" + genLink("@5 ", "הצג את כל הספר") + "</i></center><br><br>\n";
 
     //IZAR
     // try to geuss the short index level
@@ -1043,19 +1044,34 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             //TODO: Prevent double reading
             b->readBook(showlevel);
 
-            //qDebug() << "A" << iter.toString(showlevel);
-
+            //Try comparing the iter's the right way:
             int n = -1;
             for (int j=0; j < b->chapterIter.size(); j++)
             {
-                //qDebug() << "B" << b->chapterIter[j].toString(showlevel);
                 if (iter.toString(showlevel).indexOf(b->chapterIter[j].toString(showlevel)) != -1) n = j;
+            }
+
+            //If it wasn't found by the orthodox way, it's probably a link...
+            if (n == -1)
+            {
+                //Compare link iters using the humanDisplay system, or it won't work...
+                QString ia = iter.humanDisplay();
+
+                for (int j=0; j < b->chapterIter.size(); j++)
+                {
+                    QString ib = b->chapterIter[j].humanDisplay();
+
+                    if (ia.indexOf(ib) != -1) n = j;
+                }
             }
 
             if (n < 0 || n > b->chapterText.size()) Sources[i].text.clear();
             else Sources[i].text = b->chapterText[n];
 
-            if (showlevel > 4) Sources[i].text = b->chapterText[0];
+            if (showlevel > 4 && b->chapterText.size() > 0)
+            {
+                Sources[i].text = b->chapterText[0];
+            }
         }
 
         Sources[i].str = "";
@@ -1166,15 +1182,15 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             {
                 QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                html += "<lvl" + QString::number(level) + ">\n";
-                html += "<BR><a name=\"" + strforlink + "\">";
+                html += "<BR><span><h" + QString::number(level) + ">";
+                html += "<a name=\"" + strforlink + "\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
                 //htmlbody += link("$" + strforlink, dispname, linkid);
                 //linkid ++;
 
                 html += Sources[0].text[i].mid(2);
-                html += "</lvl" + QString::number(level) + ">\n";
+                html += "</h" + QString::number(level) + "></span>\n";
                 if (level != 0 ) html += "<BR>";
             }
         }

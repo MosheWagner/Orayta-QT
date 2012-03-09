@@ -8,7 +8,7 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD
 
     #for test only
-    DEFINES += MOBILE
+    #DEFINES += MOBILE
 
 android {
 #    INSTALL_PATH = "/sdcard/Orayta/"
