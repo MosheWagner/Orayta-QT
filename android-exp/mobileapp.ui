@@ -174,7 +174,7 @@ margin: 1 px;
       </palette>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">

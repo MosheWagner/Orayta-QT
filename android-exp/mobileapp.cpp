@@ -70,11 +70,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
-    //set stuff as null only for pertection
-    viewHistory = NULL;
-    listdownload = NULL;
-    downloader = NULL;
-
     ui->setupUi(this);
 
     //show the about page while app loads
@@ -82,42 +77,39 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
-    QTimer::singleShot(20, this, SLOT(continueConstructor()));
+    //set stuff as null only for pertection
+    viewHistory = NULL;
+    listdownload = NULL;
+    downloader = NULL;
+
+    QTimer::singleShot(200, this, SLOT(continueConstructor()));
 }
 
 // constructor continuation
 void MobileApp::continueConstructor()
 {
 
-    /*
-      //@@@@
-    //setup the back and forword keys in the book display page
-    {
-        QAction *back = wview->pageAction(QWebPage::Back);
-        QAction *forward = wview->pageAction(QWebPage::Forward);
-        back->setIcon(QIcon(":/Icons/go-previous.png"));
-        forward->setIcon(QIcon(":/Icons/go-next.png"));
-        back->setText(tr("back"));
-        forward->setText(tr("forward"));
+    //Initialize a new FileDownloader to download the list
+    listdownload = new FileDownloader();
+    connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
+    //Initialize a new FileDownloader object for books downloading
+    downloader = new FileDownloader();
 
-        ui->backBTN->setDefaultAction(back);
-        ui->forwardBTN->setDefaultAction(forward);
-    }
-    */
-
+    //Initialize the bookdisplayer object
     displayer = new textDisplayer(this, &bookList);
     ui->displayArea->layout()->addWidget(displayer);
+    QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
+
 
     viewHistory = new QList<int>;
     //the base of history should always point to the main page
     viewHistory->append(MAIN_PAGE);
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(viewChanged(int)));
 
-    QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
-
     // setup the search page
     showHideSearch(false);
 
+    //Setup flick charm on the treewidgets
     FlickCharm *fc = new FlickCharm(this);
     fc->activateOn(ui->treeWidget);
     fc->activateOn(ui->SearchTreeWidget);
@@ -128,39 +120,28 @@ void MobileApp::continueConstructor()
     //Build the book list
     reloadBooklist();
 
-    //Initialize a new FileDownloader to download the list
-    listdownload = new FileDownloader();
-    connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
-
-
-    //Initialize a new FileDownloader object for books downloading
-    downloader = new FileDownloader();
-
     //Connect slots to the signalls of the book downloader
     connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
     connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
     connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
 
-
     ui->downloadGRP->hide();
     ui->downloadPrgBar->hide();
-
 
     //IZAR
     // hack to enable me to test downloads without internet
     // listDownloadDoneOverride();
 
-
     // the default for the menu in display page is hidden.
     ui->dispalyMenu->hide();
 
+    setupSettings();
 
     //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
+
     QApplication::processEvents();
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 
-
-    setupSettings();
 }
 
 MobileApp::~MobileApp()
@@ -193,7 +174,6 @@ void MobileApp::reloadBooklist(){
     QSettings settings("Orayta", "SingleUser");
 
     //Load books settings
-//    for(unsigned int i=0; i<bookList.size(); i++)
     foreach (Book *book, bookList)
     {
         if (!book || book->getUniqueId() == -1)
@@ -201,14 +181,14 @@ void MobileApp::reloadBooklist(){
 
         settings.beginGroup("Book" + stringify(book->getUniqueId()));
         //default is to show no commentaries
-            book->showAlone = settings.value("ShowAlone", true).toBool();
-//            int n = settings.value("MixedDisplayes", 0).toInt();
-            int n = book->mWeavedSources.size();
-            //start from 1, ignore first source which shold always be shown.
-            for (int j=1; j<n; j++)
-            {
-                book->mWeavedSources[j].show = settings.value("Shown" + stringify(j), false).toBool();
-            }
+        book->showAlone = settings.value("ShowAlone", true).toBool();
+        //int n = settings.value("MixedDisplayes", 0).toInt();
+        int n = book->mWeavedSources.size();
+        //start from 1, ignore first source which shold always be shown.
+        for (int j=1; j<n; j++)
+        {
+            book->mWeavedSources[j].show = settings.value("Shown" + stringify(j), false).toBool();
+        }
 
         settings.endGroup();
     }
@@ -297,6 +277,8 @@ void MobileApp::showBook(Book *book, BookIter itr)
 
             displayer->display(book, itr);
 
+            ui->bookNameLBL->setText(book->getNormallDisplayName());
+
             break;
         }
     }
@@ -328,6 +310,7 @@ void MobileApp::showBook(Book *book)
             //book->readBook(1);
 
             displayer->display(book);
+            ui->bookNameLBL->setText(book->getNormallDisplayName());
 
             break;
         }
@@ -336,6 +319,7 @@ void MobileApp::showBook(Book *book)
             //QFile f(book->getPath());
             //ui->textBrowser->setHtml( f.readAll() );
             displayer->displayHtml(book->getPath());
+            ui->bookNameLBL->setText(book->getName());
 
             break;
         }
@@ -444,25 +428,25 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //remmeber last open book
     settings.beginGroup("History");
 
-     settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
+    settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
 
-     settings.setValue("position", displayer->getCurrentIter().toEncodedString());
-     settings.endGroup();
+    settings.setValue("position", displayer->getCurrentIter().toEncodedString());
+    settings.endGroup();
 
-     foreach (Book *book, bookList)
-     {
-         if (book->getUniqueId() == -1 || book->hasRandomId)
-             continue;
+    foreach (Book *book, bookList)
+    {
+        if (book->getUniqueId() == -1 || book->hasRandomId)
+            continue;
 
-         settings.beginGroup("Book" + stringify(book->getUniqueId()));
-         settings.setValue("ShowAlone", book->showAlone);
-         for (int j=1; j<book->mWeavedSources.size(); j++)
-         {
-             settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
-         }
-         settings.setValue("InSearch", book->IsInSearch());
-         settings.endGroup();
-     }
+        settings.beginGroup("Book" + stringify(book->getUniqueId()));
+        settings.setValue("ShowAlone", book->showAlone);
+        for (int j=1; j<book->mWeavedSources.size(); j++)
+        {
+            settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
+        }
+        settings.setValue("InSearch", book->IsInSearch());
+        settings.endGroup();
+    }
 
     QDialog::close();
 }
