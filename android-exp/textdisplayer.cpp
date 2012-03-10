@@ -29,6 +29,8 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     showNikud = true;
     showTeamim = true;
 
+    currentBook = NULL;
+
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 }
 

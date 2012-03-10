@@ -161,11 +161,9 @@ private:
     Ui::MobileApp *ui;
 
     void showBook(Book *);
+    void showBook(Book *, BookIter);
 
     BookList bookList, booksInSearch;
-
-    Book *currentBook;
-    QPoint currentPossision;
 
     QString booktitle;
 

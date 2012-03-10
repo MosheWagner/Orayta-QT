@@ -71,7 +71,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
     //set stuff as null only for pertection
-    currentBook = NULL;
     viewHistory = NULL;
     listdownload = NULL;
     downloader = NULL;
@@ -287,6 +286,21 @@ void MobileApp::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     on_treeWidget_itemDoubleClicked(item, column);
 }
 
+void MobileApp::showBook(Book *book, BookIter itr)
+{
+    switch ( book->fileType() )
+    {
+        case ( Book::Normal ):
+        {
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            qApp->processEvents();
+
+            displayer->display(book, itr);
+
+            break;
+        }
+    }
+}
 
 void MobileApp::showBook(Book *book)
 {
@@ -295,11 +309,6 @@ void MobileApp::showBook(Book *book)
         qDebug() << "Error! Can't open book";
         return;
     }
-
-    //remember curently displayed book
-    currentBook = book;
-
-
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
@@ -434,45 +443,24 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
     //remmeber last open book
     settings.beginGroup("History");
-     if (currentBook)
-         settings.setValue("lastBook", currentBook->getUniqueId());
 
-     //store current possision in book. not 100% acurate, but is good enough for me. (IZAR)
-     ///@@@@
-     //currentPossision = tview->scrollBarWidgets(Qt::al).value();
-     //currentPossision = wview->page()->currentFrame()->scrollPosition();
-     settings.setValue("possision", currentPossision);
+     settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
+
+     settings.setValue("position", displayer->getCurrentIter().toEncodedString());
      settings.endGroup();
 
-//    settings.beginGroup("DesktopApp");
-//    settings.setValue("size", size());
-//    settings.setValue("pos", pos());
-//    settings.setValue("state", saveState());
-//    settings.endGroup();
-
-
-//    settings.beginGroup("Confs");
-  //  settings.setValue("fontfamily", gFontFamily);
-  //  settings.setValue("fontsize", gFontSize);
-   // settings.endGroup();
-
-  //  qDebug() << "on colse event\n" << "settings: "<<settings.fileName();
-
-     //Save books' settings
-//     for(unsigned int i=0; i<bookList.size(); i++)
      foreach (Book *book, bookList)
      {
          if (book->getUniqueId() == -1 || book->hasRandomId)
              continue;
 
          settings.beginGroup("Book" + stringify(book->getUniqueId()));
-//             settings.setValue("MixedDisplayes", book->mWeavedSources.size());
-             settings.setValue("ShowAlone", book->showAlone);
-             for (int j=1; j<book->mWeavedSources.size(); j++)
-             {
-                 settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
-             }
-             settings.setValue("InSearch", book->IsInSearch());
+         settings.setValue("ShowAlone", book->showAlone);
+         for (int j=1; j<book->mWeavedSources.size(); j++)
+         {
+             settings.setValue("Shown" + stringify(j), book->mWeavedSources[j].show);
+         }
+         settings.setValue("InSearch", book->IsInSearch());
          settings.endGroup();
      }
 
@@ -720,12 +708,13 @@ void MobileApp::on_saveConf_clicked()
            ui->stackedWidget->widget(DISPLAY_PAGE)->objectName()) */
             viewHistory->at(viewHistory->length()-2) == DISPLAY_PAGE)
     {
-        if (currentBook) {
+        if (displayer->getCurrentBook()) {
             // remove two last itmes from history. (settings page and dispaly page).
-//            viewHistory->removeLast(); viewHistory->removeLast();
+            //viewHistory->removeLast(); viewHistory->removeLast();
 
             //reload previously shown book
-            showBook(currentBook);
+            showBook(displayer->getCurrentBook(), displayer->getCurrentIter());
+
         }
 
     }
@@ -1214,7 +1203,7 @@ void MobileApp::on_mixedSelectBTN_clicked()
 }
 
 void MobileApp::setupMixedSelection(){
-    Book* book = currentBook;
+    Book* book = displayer->getCurrentBook();
 
     // no current book or no commentaries available.
     if (!book || !book->IsMixed()){
@@ -1299,13 +1288,13 @@ void MobileApp::setupMixedSelection(){
 
 void MobileApp::on_openMixed_clicked()
 {
-    if (!currentBook) return;
+    if (!displayer->getCurrentBook()) return;
 
     bool showalone =true;
 
-    for(int j=1; j<currentBook->mWeavedSources.size(); j++)
+    for(int j=1; j<displayer->getCurrentBook()->mWeavedSources.size(); j++)
     {
-        QString srcId = stringify(currentBook->mWeavedSources[j].id);
+        QString srcId = stringify(displayer->getCurrentBook()->mWeavedSources[j].id);
 
         for (int i =0; i< ui->selectionArea->count(); i++)
         {
@@ -1318,20 +1307,20 @@ void MobileApp::on_openMixed_clicked()
                   bool checked = item->checkState() == Qt::Checked? true : false;
 
                   //set the showability of this item to what the user chose.
-                  currentBook->mWeavedSources[j].show = checked;
+                  displayer->getCurrentBook()->mWeavedSources[j].show = checked;
                   if (checked) showalone = false;
               }
         }
     }
 
-    currentBook->showAlone = showalone;
+    displayer->getCurrentBook()->showAlone = showalone;
 
     //show the book
     //showBook(currentBook);
     ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
     qApp->processEvents();
 
-    displayer->display(currentBook, displayer->getCurrentIter());
+    showBook(displayer->getCurrentBook(), displayer->getCurrentIter());
 
     //clear the history. we don't want the back butten to take us here.
 //    viewHistory->removeLast(); viewHistory->removeLast();
@@ -1416,23 +1405,25 @@ void MobileApp::on_resetBookListBTN_clicked()
 
 void MobileApp::on_lastBookBTN_clicked()
 {
-    QPoint currentPossision;
+    Book *b = displayer->getCurrentBook();
+    BookIter itr = displayer->getCurrentIter();
 
     //probably we just loaded the app
-    if (!currentBook)
+    if (!displayer->getCurrentBook())
     {
         //get last open book
         QSettings settings("Orayta", "SingleUser");
         settings.beginGroup("History");
-        int lastBookId = settings.value("lastBook").toInt();
-        currentBook = bookList.findBookById(lastBookId);
-        currentPossision = settings.value("possision", QPoint()).toPoint();
+            int lastBookId = settings.value("lastBook").toInt();
+            b = bookList.findBookById(lastBookId);
+            itr = BookIter::fromEncodedString(settings.value("position", "").toString());
         settings.endGroup();
+
+        if (!b) return;
+        showBook(b, itr);
     }
-    if (!currentBook) return;
 
-
-    showBook(currentBook);
+    showBook(b, itr);
 
 }
 
@@ -1460,7 +1451,7 @@ void MobileApp::on_backBTN_clicked()
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->prevChap(it);
-    displayer->display(b, it);
+    showBook(b, it);
 }
 
 void MobileApp::on_forwardBTN_clicked()
@@ -1468,5 +1459,5 @@ void MobileApp::on_forwardBTN_clicked()
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->nextChap(it);
-    displayer->display(b, it);
+    showBook(b, it);
 }
