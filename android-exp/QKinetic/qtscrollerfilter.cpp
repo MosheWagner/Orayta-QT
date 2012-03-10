@@ -98,8 +98,6 @@ void QtScrollerFilter::stateChanged(QtScroller::State state)
 bool QtScrollerFilter::eventFilter(QObject *o, QEvent *e)
 {
     bool result = false;
-    
-    //qWarning() << o << e->type();
 
     if (o->isWidgetType()) {
         QWidget *w = static_cast<QWidget *>(o);

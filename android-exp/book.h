@@ -206,7 +206,7 @@ public:
     void buildIndex(QList <QString> text);
 
     //Returns the Html to display of the chapter given by the iter.
-    QString getChapterHtml(BookIter iter, BookList * bl, bool shownikud, bool showteamim, int showlevel = 1,QRegExp mark = QRegExp());
+    QString getChapterHtml(BookIter iter, BookList * bl, bool shownikud, bool showteamim, QRegExp mark = QRegExp());
 
     //Returns the index (תוכן) of the book rendered to Html
     QString getBookIndexHtml();
@@ -330,6 +330,8 @@ protected:
 
     int mIndexTextSize[5];
     int mTitleEmptyLines[5];
+
+
 
 };
 

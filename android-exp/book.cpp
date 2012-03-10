@@ -77,6 +77,9 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     mFont = QFont( gFontFamily, gFontSize );
 
 
+    //Split level for chapter splitting
+    LIL = 1;
+
     mPureText = "";
 }
 
@@ -838,8 +841,7 @@ QString Book::resultPreview(const QRegExp& exp, int offset)
 //Returns a bookiter representing the chapter coming before/after the given chapter.
 BookIter Book::nextChap(BookIter iter)
 {
-    //Who said 1 is default?
-    if (!isBookOpen()) readBook(1);
+    if (!isBookOpen()) readBook(LIL);
 
     //Find this iter
     int n = -1;

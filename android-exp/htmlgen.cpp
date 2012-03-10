@@ -754,8 +754,10 @@ void Book::buildIndex(QList <QString> text)
 
             indexitem.level = level + 1;
 
-            //Add a name point ("<a name=...") to html index (for the small index to point to it)
-            indexitem.linkPoint =  "@" + QString::number(indexitem.level) + itr.toEncodedString();
+            if (level == LIL)
+            {
+                indexitem.linkPoint =  "@" + itr.toEncodedString();
+            }
 
             //Display of link levels in the Html itself, and in the index
             QString dispname;
@@ -941,7 +943,7 @@ QString Book::getBookIndexHtml()
     //IZAR: moved here to create quicker access to index
     html += namepoint("Top");
 
-    html += "<center><i>" + genLink("@5 ", "הצג את כל הספר") + "</i></center><br><br>\n";
+    //html += "<center><i>" + genLink("@5 ", "הצג את כל הספר") + "</i></center><br><br>\n";
 
     //IZAR
     // try to geuss the short index level
@@ -972,7 +974,7 @@ QString Book::getBookIndexHtml()
 }
 
 //Returns the Html to display of the chpter given by the iter.
-QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, int showlevel, QRegExp mark)
+QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, QRegExp mark)
 {
     QList <weavedSourceData> Sources;
     for (int i=0; i<mWeavedSources.size(); i++)
@@ -1020,11 +1022,9 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     //Should this be here?
     //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
 
-    html += "<BR><div class=\"Content\">";
+    html += "<div class=\"Content\">";
 
-
-    //IZAR: moved here to create quicker access to index
-    html += namepoint("Top");
+    //html += namepoint("Top");
 
     QString last_label="";
 
@@ -1042,13 +1042,13 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
         if (b)
         {
             //TODO: Prevent double reading
-            b->readBook(showlevel);
+            b->readBook(LIL);
 
             //Try comparing the iter's the right way:
             int n = -1;
             for (int j=0; j < b->chapterIter.size(); j++)
             {
-                if (iter.toString(showlevel).indexOf(b->chapterIter[j].toString(showlevel)) != -1) n = j;
+                if (iter.toString(LIL).indexOf(b->chapterIter[j].toString(LIL)) != -1) n = j;
             }
 
             //If it wasn't found by the orthodox way, it's probably a link...
@@ -1068,10 +1068,12 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             if (n < 0 || n > b->chapterText.size()) Sources[i].text.clear();
             else Sources[i].text = b->chapterText[n];
 
-            if (showlevel > 4 && b->chapterText.size() > 0)
+            /*
+            if (LIL > 4 && b->chapterText.size() > 0)
             {
                 Sources[i].text = b->chapterText[0];
             }
+            */
         }
 
         Sources[i].str = "";

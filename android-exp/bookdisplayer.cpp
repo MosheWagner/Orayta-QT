@@ -259,16 +259,12 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
     else if(link.indexOf("@") != -1 )
     {
         int pos = link.indexOf("@");
-        //Level mark is allways 1 digit only
-        QString lvls = link.mid(pos+1, 1);
-        QString lnk = link.mid(pos+2);
+
+        QString lnk = link.mid(pos+1);
 
         BookIter itr = BookIter::fromEncodedString(lnk);
 
-        bool ok;
-        int lvl = lvls.toInt(&ok) -1;
-
-        QString html = myBook->getChapterHtml(itr, MW->getBookList(), true, true, ok ? lvl : 1);
+        QString html = myBook->getChapterHtml(&itr, MW->getBookList(), true, true);
         setHtml(html);
 
         currentLocation = itr;

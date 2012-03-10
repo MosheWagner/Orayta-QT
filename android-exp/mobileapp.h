@@ -153,6 +153,10 @@ private slots:
 
     void on_openBook_clicked();
 
+    void on_backBTN_clicked();
+
+    void on_forwardBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 

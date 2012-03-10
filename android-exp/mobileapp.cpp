@@ -116,10 +116,8 @@ void MobileApp::continueConstructor()
 
     QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
 
-
     // setup the search page
     showHideSearch(false);
-
 
     FlickCharm *fc = new FlickCharm(this);
     fc->activateOn(ui->treeWidget);
@@ -1455,4 +1453,20 @@ void MobileApp::on_gtoHelp_clicked()
 
     if (helpBook)
         showBook(helpBook);
+}
+
+void MobileApp::on_backBTN_clicked()
+{
+    Book *b = displayer->getCurrentBook();
+    BookIter it = displayer->getCurrentIter();
+    it = b->prevChap(it);
+    displayer->display(b, it);
+}
+
+void MobileApp::on_forwardBTN_clicked()
+{
+    Book *b = displayer->getCurrentBook();
+    BookIter it = displayer->getCurrentIter();
+    it = b->nextChap(it);
+    displayer->display(b, it);
 }

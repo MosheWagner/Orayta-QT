@@ -658,7 +658,7 @@ void DesktopApp::openBook( Book* book )
                 qDebug() << l;
                 BookIter itr = BookIter::fromEncodedString(l);
 
-                CurrentBookdisplayer()->setHtml(book->getChapterHtml(itr, &bookList, true, true));
+                CurrentBookdisplayer()->setHtml(book->getChapterHtml(&itr, &bookList, true, true));
                 CurrentBookdisplayer()->currentLocation = itr;
 
                 CurrentBookdisplayer()->InternalLocationInHtml = "";
@@ -2000,7 +2000,7 @@ void DesktopApp::on_leftChap_clicked()
     if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->nextChap(itr);
     else itr = CurrentBookdisplayer()->book()->prevChap(itr);
 
-    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(itr, &bookList, true, true));
+    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(&itr, &bookList, true, true));
     CurrentBookdisplayer()->currentLocation = itr;
 }
 
@@ -2014,6 +2014,6 @@ void DesktopApp::on_rightChap_clicked()
     if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->prevChap(itr);
     else itr = CurrentBookdisplayer()->book()->nextChap(itr);
 
-    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(itr, &bookList, true, true));
+    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(&itr, &bookList, true, true));
     CurrentBookdisplayer()->currentLocation = itr;
 }

@@ -93,17 +93,12 @@ void textDisplayer::processAnchor(const QUrl &url)
     else if(link.indexOf("@") != -1 )
     {
         int pos = link.indexOf("@");
-        //Level mark is allways 1 digit only
-        QString lvls = link.mid(pos+1, 1);
-        QString lnk = link.mid(pos+2);
+        QString lnk = link.mid(pos+1);
 
         BookIter itr = BookIter::fromEncodedString(lnk);
         currentIter = itr;
 
-        bool ok;
-        int lvl = lvls.toInt(&ok) -1;
-
-        QString html = currentBook->getChapterHtml(itr, booklist, true, true, ok ? lvl : 1);
+        QString html = currentBook->getChapterHtml(&itr, booklist, true, true);
         setHtml(html);
     }
 }
@@ -113,6 +108,7 @@ void textDisplayer::display(Book * book)
 {  
     currentBook = book;
     currentMode = BookDisplay;
+    currentIter = BookIter();
 
     //@@@
     book->readBook(1);
@@ -123,7 +119,7 @@ void textDisplayer::display(Book * book)
 
 //Show the given chapter of the book
 // (Loads the chapter, and the tries to jump to the exact itr position)
-void textDisplayer::display(Book * book, BookIter itr, int splitlevel)
+void textDisplayer::display(Book * book, BookIter itr)
 {
     currentBook = book;
     currentMode = BookDisplay;
@@ -132,9 +128,9 @@ void textDisplayer::display(Book * book, BookIter itr, int splitlevel)
     //@@@
     book->readBook(1);
 
-    QString html = currentBook->getChapterHtml(itr, booklist, showNikud, showTeamim, splitlevel);
-    setHtml(html);
+    QString html = currentBook->getChapterHtml(&itr, booklist, showNikud, showTeamim);
 
+    setHtml(html);
 
     //TODO: Search results need to be improved
     scrollToAnchor(itr.toEncodedString());
@@ -168,3 +164,39 @@ void textDisplayer::goToIndex()
 Book * textDisplayer::getCurrentBook() { return currentBook; }
 
 BookIter textDisplayer::getCurrentIter() { return currentIter; }
+
+#include <QMouseEvent>
+
+void textDisplayer::mousePressEvent(QMouseEvent *ev)
+{
+    _startPoint = ev->pos();
+
+    QTextBrowser::mousePressEvent(ev);
+}
+
+void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
+{
+    _endPoint = ev->pos();
+
+    //process distance and direction
+    int xDiff = _startPoint.x() - _endPoint.x();
+    int yDiff = _startPoint.y() - _endPoint.y();
+    if( qAbs(xDiff) > qAbs(yDiff) )
+    {
+        BookIter it = currentIter;
+
+        // horizontal swipe detected, now find direction
+        if( _startPoint.x() > _endPoint.x() ) {
+            //Left swipe:
+            it = currentBook->prevChap(it);
+            display(currentBook, it);
+
+        } else {
+            //Right swipe
+            it = currentBook->nextChap(it);
+            display(currentBook, it);
+        }
+    }
+
+    QTextBrowser::mouseReleaseEvent(ev);
+}

@@ -40,7 +40,7 @@ public:
 
     //Show the given chapter of the book
     // (Loads the chapter, and the tries to jump to the exact itr position)
-    void display(Book * book, BookIter itr, int splitlevel = 1);
+    void display(Book * book, BookIter itr);
 
     void displaySearchResult(QString);
 
@@ -69,11 +69,18 @@ private:
     bool showNikud;
     bool showTeamim;
 
+    QPoint _startPoint;
+    QPoint _endPoint;
+
 signals:
 
 public slots:
     //Called when anchor clicked
     void processAnchor(const QUrl &);
+
+protected:
+    virtual void mousePressEvent(QMouseEvent *ev);
+    virtual void mouseReleaseEvent(QMouseEvent *ev);
 };
 
 #endif // TEXTDISPLAYER_H
