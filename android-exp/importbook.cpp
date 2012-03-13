@@ -18,7 +18,10 @@
 #include "importbook.h"
 #include "functions.h"
 #include "ui_importbook.h"
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
+
 
 #include <QDesktopServices>
 #include <QDebug>

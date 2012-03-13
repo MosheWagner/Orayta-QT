@@ -18,7 +18,10 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
+
 #include <QDialog>
 
 namespace Ui {

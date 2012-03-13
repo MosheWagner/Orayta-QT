@@ -9,7 +9,9 @@ INCLUDEPATH += $$PWD
 
     #for test only
     DEFINES += MOBILE
-    DEFINES +=android
+    DEFINES += android
+#    CONFIG += MOBILE
+    CONFIG += android
 
 android {
 #    INSTALL_PATH = "/sdcard/Orayta/"
@@ -17,6 +19,9 @@ android {
     INSTALL_PATH = "/assets/Orayta/"
 #    INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
+
+    QT -= webkit
+    DEFINES += QTSCROLLER_NO_WEBKIT
 
     #this is a mobile app
     #DEFINES += MOBILE
@@ -26,6 +31,7 @@ else: win32{
     INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
 }
 else:unix{
+    message("compiling for desktop")
     CONFIG += poppler \
         linux
     INSTALL_PATH = /usr/share/Orayta/
@@ -50,29 +56,22 @@ poppler {
 
     #Fribidi
     LIBS += -lfribidi
+
+    SOURCES +=  pdfwidget.cpp
+    HEADERS +=  pdfwidget.h
+
 }
 
 
 
 SOURCES += main.cpp \
-    desktopapp.cpp \
     htmlgen.cpp \
     functions.cpp \
     book.cpp \
     bookiter.cpp \
     booklist.cpp \
-    addcomment.cpp \
-    bookmarktitle.cpp \
-    mywebview.cpp \
     mytreetab.cpp \
-    about.cpp \
-    errorreport.cpp \
-    bookfind.cpp \
-    bookdisplayer.cpp \
-    bookmark.cpp \
     search.cpp \
-    settings.cpp \
-    importbook.cpp \
     guematria.cpp \
     quazip/quazip.cpp \
     quazip/zip.c \
@@ -83,7 +82,22 @@ SOURCES += main.cpp \
     quazip/quacrc32.cpp \
     quazip/quaadler32.cpp \
     quazip/qioapi.cpp \
-    pdfwidget.cpp
+
+! android {
+SOURCES += \
+    desktopapp.cpp \
+    mywebview.cpp \
+    bookdisplayer.cpp \
+    addcomment.cpp \
+    bookmarktitle.cpp \
+    about.cpp \
+    errorreport.cpp \
+    bookfind.cpp \
+    settings.cpp \
+    importbook.cpp \
+    bookmark.cpp \
+}
+
 
 HEADERS += \
     htmlgen.h \
@@ -91,17 +105,7 @@ HEADERS += \
     book.h \
     bookiter.h \
     booklist.h \
-    desktopapp.h \
-    addcomment.h \
-    bookmarktitle.h \
-    mywebview.h \
     mytreetab.h \
-    about.h \
-    errorreport.h \
-    bookfind.h \
-    bookdisplayer.h \
-    settings.h \
-    importbook.h \
     guematria.h \
     quazip/quazip.h \
     quazip/zip.h \
@@ -116,10 +120,23 @@ HEADERS += \
     quazip/quacrc32.h \
     quazip/quachecksum32.h \
     quazip/quaadler32.h \
-    pdfwidget.h \
     search.h
 
+! android {
+HEADERS += \
+    desktopapp.h \
+    mywebview.h \
+    bookdisplayer.h \
+    addcomment.h \
+    bookmarktitle.h \
+    about.h \
+    errorreport.h \
+    settings.h \
+    bookfind.h \
+    importbook.h \
+}
 
+! android {
 FORMS += \
     addcomment.ui \
     bookmarktitle.ui \
@@ -129,6 +146,7 @@ FORMS += \
     settings.ui \
     importbook.ui \
     desktopapp.ui
+}
 
 #Android stuff:
 SOURCES += \
@@ -314,7 +332,7 @@ icon.files = Icons/Orayta.png
 #Install wait image
 icon.files += Images/Wait.gif
 
-andrid {
+android {
 } else : linux {
 # Desktop shortcut
 desktop.path = /home/*/Desktop/

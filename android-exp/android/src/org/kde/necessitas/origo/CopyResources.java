@@ -23,12 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.R;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Environment;
@@ -60,6 +55,11 @@ public class CopyResources {
 		
 		// the full path to target files.
 		String fullPath = extendPath(location, path);
+		
+		// make sure our path exists
+		File fullPathFile = new File (fullPath);
+		if (! fullPathFile.exists())
+			fullPathFile.mkdirs();
 
 		
 		
@@ -75,7 +75,7 @@ public class CopyResources {
 		if (versionDir.exists())
 			removeChildrean(versionDir);
 		log("making dir: " + versionDir.toString());
-		versionDir.mkdir();
+		versionDir.mkdirs();
 
 		// get the sdcard path:
 		String target = fullPath;

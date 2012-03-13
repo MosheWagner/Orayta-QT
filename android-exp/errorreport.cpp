@@ -16,7 +16,10 @@
 
 #include "errorreport.h"
 #include "functions.h"
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
+
 #include "ui_errorreport.h"
 #include <QUrl>
 

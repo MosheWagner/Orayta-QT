@@ -27,7 +27,10 @@ Not extremly important, but it isn't too complicated either.
 #include <QClipboard>
 
 #include "functions.h"
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
+
 #include "bookdisplayer.h"
 
 class bookDisplayer;

@@ -14,10 +14,13 @@
 * Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
+#ifndef MOBILE
 #include "desktopapp.h"
 #include "bookmarktitle.h"
 #include "bookdisplayer.h"
 #include "mywebview.h"
+#endif
+
 
 
 // This is just a very simple define. every place in the code,

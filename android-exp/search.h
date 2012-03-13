@@ -17,6 +17,8 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
+#include <QProgressBar>
+
 extern bool stopSearchFlag;
 
 //Searches for the given phrase in all books that have SearchMe set to true.

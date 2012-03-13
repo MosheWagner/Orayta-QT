@@ -176,14 +176,16 @@ void textDisplayer::mousePressEvent(QMouseEvent *ev)
     QTextBrowser::mousePressEvent(ev);
 }
 
+// minimal movment to be considered as a swipe and not a press
+#define MIN_MOVMENT 50
 void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
 {
     _endPoint = ev->pos();
 
     //process distance and direction
-    int xDiff = _startPoint.x() - _endPoint.x();
-    int yDiff = _startPoint.y() - _endPoint.y();
-    if( qAbs(xDiff) > qAbs(yDiff) )
+    int xDiff = qAbs(_startPoint.x() - _endPoint.x());
+    int yDiff = qAbs(_startPoint.y() - _endPoint.y());
+    if( xDiff > MIN_MOVMENT && xDiff > yDiff )
     {
         BookIter it = currentIter;
 
@@ -199,6 +201,7 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
             display(currentBook, it);
         }
     }
-
-    QTextBrowser::mouseReleaseEvent(ev);
+    else {
+        QTextBrowser::mouseReleaseEvent(ev);
+    }
 }

@@ -15,7 +15,10 @@
 */
 
 #include "bookdisplayer.h"
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
+
 #include "mywebview.h"
 #include "pdfwidget.h"
 #include <QDebug>

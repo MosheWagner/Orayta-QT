@@ -15,8 +15,13 @@
 */
 
 #include <QApplication>
+#ifdef MOBILE
 #include "mobileapp.h"
+#else
 #include "desktopapp.h"
+#endif
+#include <QDir>
+#include <QSettings>
 #include "functions.h"
 #include "about.h"
 #include <QDebug>

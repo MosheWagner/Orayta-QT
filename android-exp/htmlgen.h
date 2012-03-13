@@ -21,7 +21,9 @@
 #include "bookiter.h"
 #include "functions.h"
 
+#ifndef MOBILE
 #include "desktopapp.h"
+#endif
 
 using namespace std;
 

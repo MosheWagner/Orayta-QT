@@ -20,14 +20,13 @@
 
 #include "functions.h"
 #include "booklist.h"
+#include "book.h"
 #include "search.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QFile>
 #include <QDir>
 #include <QCloseEvent>
-#include <QWebFrame>
-#include <QWebPage>
 #include <QSettings>
 #include <QDesktopServices>
 #include <QMovie>
@@ -63,6 +62,9 @@
 
 #include <QKinetic/qtscroller.h>
 
+// Global
+QString gFontFamily = "Droid Sans Hebrew Orayta";
+int gFontSize = 16;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -82,6 +84,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     listdownload = NULL;
     downloader = NULL;
 
+
     QTimer::singleShot(200, this, SLOT(continueConstructor()));
 }
 
@@ -94,6 +97,7 @@ void MobileApp::continueConstructor()
     connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
     //Initialize a new FileDownloader object for books downloading
     downloader = new FileDownloader();
+
 
     //Initialize the bookdisplayer object
     displayer = new textDisplayer(this, &bookList);

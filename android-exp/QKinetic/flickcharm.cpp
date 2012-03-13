@@ -31,8 +31,10 @@
 #include <QList>
 #include <QMouseEvent>
 #include <QScrollBar>
-#include <QWebFrame>
-#include <QWebView>
+#ifndef QTSCROLLER_NO_WEBKIT
+#  include <QWebFrame>
+#  include <QWebView>
+#endif // QTSCROLLER_NO_WEBKIT
 
 #include <QDebug>
 
@@ -87,6 +89,7 @@ void FlickCharm::activateOn(QWidget *widget)
         return;
     }
 
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         QWebFrame *frame = webView->page()->mainFrame();
@@ -102,6 +105,7 @@ void FlickCharm::activateOn(QWidget *widget)
 
         return;
     }
+#endif // QTSCROLLER_NO_WEBKIT
 
     qWarning() << "FlickCharm only works on QAbstractScrollArea (and derived classes)";
     qWarning() << "or QWebView (and derived classes)";
@@ -122,6 +126,7 @@ void FlickCharm::deactivateFrom(QWidget *widget)
         return;
     }
 
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         webView->removeEventFilter(this);
@@ -131,6 +136,7 @@ void FlickCharm::deactivateFrom(QWidget *widget)
 
         return;
     }
+#endif // QTSCROLLER_NO_WEBKIT
 }
 
 static QPoint scrollOffset(QWidget *widget)
@@ -142,13 +148,14 @@ static QPoint scrollOffset(QWidget *widget)
         x = scrollArea->horizontalScrollBar()->value();
         y = scrollArea->verticalScrollBar()->value();
     }
-
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         QWebFrame *frame = webView->page()->mainFrame();
         x = frame->evaluateJavaScript("window.scrollX").toInt();
         y = frame->evaluateJavaScript("window.scrollY").toInt();
     }
+#endif // QTSCROLLER_NO_WEBKIT
 
     return QPoint(x, y);
 }
@@ -160,11 +167,12 @@ static void setScrollOffset(QWidget *widget, const QPoint &p)
         scrollArea->horizontalScrollBar()->setValue(p.x());
         scrollArea->verticalScrollBar()->setValue(p.y());
     }
-
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     QWebFrame *frame = webView ? webView->page()->mainFrame() : 0;
     if (frame)
         frame->evaluateJavaScript(QString("window.scrollTo(%1,%2);").arg(p.x()).arg(p.y()));
+#endif // QTSCROLLER_NO_WEBKIT
 }
 
 static void showScrollBars(QWidget *widget)
@@ -175,12 +183,14 @@ static void showScrollBars(QWidget *widget)
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     }
 
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         QWebFrame *frame = webView->page()->mainFrame();
         frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAsNeeded);
         frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAsNeeded);
     }
+#endif // QTSCROLLER_NO_WEBKIT
 }
 
 static void hideScrollBars(QWidget *widget)
@@ -191,12 +201,14 @@ static void hideScrollBars(QWidget *widget)
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
 
+#ifndef QTSCROLLER_NO_WEBKIT
     QWebView *webView = dynamic_cast<QWebView*>(widget);
     if (webView) {
         QWebFrame *frame = webView->page()->mainFrame();
         frame->setScrollBarPolicy(Qt::Vertical, Qt::ScrollBarAlwaysOff);
         frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
     }
+#endif // QTSCROLLER_NO_WEBKIT
 }
 
 static QPoint deaccelerate(const QPoint &speed, int a = 1, int max = 64)
@@ -269,9 +281,10 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
     case FlickData::ManualScroll:
         if (mouseEvent->type() == QEvent::MouseMove) {
             consumed = true;
+            QPoint delta = mouseEvent->pos() - data->pressPos;
+
             //Hack for RTL support and for slowing down the drag.
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            QPoint delta = mouseEvent->pos() - data->pressPos;
             delta.setX((delta.x() / dragSlowDownXRatio) * -1 );
             delta.setY(delta.y() / dragSlowDownYRatio);
 
@@ -279,6 +292,28 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
         }
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
             consumed = true;
+
+            //--hack to avoid simple press to be recognized as move--
+            // by izar <izar00@gmail.com>
+            QPoint delta = mouseEvent->pos() - data->pressPos;
+            const int minMovment = 5;
+            if (delta.x() < minMovment && delta.y() < minMovment) {
+                data->state = FlickData::Steady;
+
+                QMouseEvent *event1 = new QMouseEvent(QEvent::MouseButtonPress,
+                                                      data->pressPos, Qt::LeftButton,
+                                                      Qt::LeftButton, Qt::NoModifier);
+                QMouseEvent *event2 = new QMouseEvent(*mouseEvent);
+
+                data->ignored << event1;
+                data->ignored << event2;
+                QApplication::postEvent(object, event1);
+                QApplication::postEvent(object, event2);
+
+                return true;
+            }
+            //--end--
+
             data->state = FlickData::AutoScroll;
         }
         break;

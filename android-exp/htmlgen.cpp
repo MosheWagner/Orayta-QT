@@ -34,6 +34,9 @@
 #include "htmlgen.h"
 #include <QDebug>
 #include <QTime>
+#include "booklist.h"
+#include "book.h"
+#include <QApplication>
 
 #define QT_USE_FAST_CONCATENATION
 #define QT_USE_FAST_OPERATOR_PLUS
@@ -166,7 +169,7 @@ QString index_to_index(QList <IndexItem> indexitemlist,int level)
         {
             str += reddot();
             str += "&nbsp;" + link("#Index" + stringify(indexcount), indexitemlist[i].displayText);
-            str += "&nbsp;&nbsp;&nbsp;";
+            str += "&nbsp;";
             //str += "&nbsp;<a href=\"#Index";
             //str += stringify(indexcount);
             //str += "\">";
@@ -796,19 +799,19 @@ void Book::buildIndex(QList <QString> text)
 }
 
 //Returns an html link by the given link_to and display text
-inline QString genLink(QString linkto, QString text, int id = 0)
+inline QString genLink(QString linkto, QString text, int id = 0, QString name ="")
 {
     if (linkto.indexOf("$") != -1)
     {
-        return "<a id=id_" + stringify(id) + " href=\"" + linkto + "\" style=\"text-decoration:none; color:indigo\" onclick='paintMe(this)' >" + text + "</a> ";
+        return "<a name=\"" + name + "\" id=id_" + stringify(id) + " href=\"" + linkto + "\" style=\"text-decoration:none; color:indigo\" onclick='paintMe(this)' >" + text + "</a> ";
     }
     else if (linkto.indexOf("#") != -1)
     {
-        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp;";
+        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp;";
     }
     else
     {
-        return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
+        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
     }
 
 }
@@ -879,17 +882,17 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
     {
         for (unsigned int j=0; j<indexitemlist.size(); j++)
         {
-            if(short_index_level == indexitemlist[j].level)
-            {
-                QString name = "Index"+ stringify(iln);
-                link_table += "<a name=\"" + name + "\" " + "href=\"$" + name + "\">&nbsp;</a>\n";
-                iln ++;
-            }
-
             if (opentable && indexitemlist[j].level >= higherLevel)
             {
                 link_table += "<P></td></tr></tbody></table>";
                 opentable = false;
+            }
+
+            if(short_index_level == indexitemlist[j].level)
+            {
+                QString name = "Index"+ stringify(iln);
+                link_table += "<a name=\"" + name + "\" " + "href=\"$" + name + "\"></a>\n";
+                iln ++;
             }
 
             //Higher than one above the lowest
@@ -902,7 +905,7 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
             }
             else if (indexitemlist[j].level == higherLevel)
             {
-                link_table += "<span style=\"font-size:28px;\"> &nbsp;&nbsp;";
+                link_table += "<span style=\"font-size:28px;\">&nbsp;";
 
                 link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +=  "</span>\n";
@@ -917,6 +920,7 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
                     link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +="&nbsp;\n";
             }
+
         }
     }
     if (opentable)
@@ -965,11 +969,13 @@ QString Book::getBookIndexHtml()
     }
 
     //TODO: @@@
-    //html +=  index_to_index(QList <IndexItem> indexitemlist,int level)
+    html +=  index_to_index(indexitemlist,mShortIndexLevel);
     html +=  html_link_table(indexitemlist, mShortIndexLevel, true, true);
 
 
     html += "</div></body></html>";
+
+    qDebug() << "/n/n--------------------/nindex html:\n" << html;
     return html;
 }
 
@@ -1224,7 +1230,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     html += "</div>";
     html += "</body>\n</html>";
 
-    //qDebug() << html;
+//    qDebug() << "html:" << html;
 
     return html;
 }
