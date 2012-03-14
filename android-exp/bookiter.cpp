@@ -19,7 +19,7 @@
 
 #include "bookiter.h"
 
-//Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
+//Symbols representing level marks in the text. '!' is the lowest (1), and '#' is the highest (5)
 const QString LevelSigns = "!~@^#";
 
 BookIter::BookIter()
@@ -200,4 +200,11 @@ QString BookIter::gmaraDisplay()
     {
         return humanDisplay();
     }
+}
+
+//Returns true if all levels of this iter are empty.
+bool BookIter::isEmpty()
+{
+    for (int i=0; i<5; i++) { if (mLevelName[i] != "") return false; }
+    return true;
 }

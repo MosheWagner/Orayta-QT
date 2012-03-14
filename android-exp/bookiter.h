@@ -82,6 +82,9 @@ public:
     //Returns a string representing the position of the itr formatted in gmara page style
     QString gmaraDisplay();
 
+    //Returns true if all levels of this iter are empty.
+    bool isEmpty();
+
     /*
     //Returns a string representing the current position
     // (for html links and name points)

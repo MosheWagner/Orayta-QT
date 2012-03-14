@@ -132,6 +132,11 @@ void textDisplayer::display(Book * book, BookIter itr)
 
     QString html = currentBook->getChapterHtml(&itr, booklist, showNikud, showTeamim);
 
+    if (html == "") {
+        qDebug()<< "empty html";
+        return;
+    }
+
     setHtml(html);
 
     //TODO: Search results need to be improved

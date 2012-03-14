@@ -979,9 +979,12 @@ QString Book::getBookIndexHtml()
     return html;
 }
 
-//Returns the Html to display of the chpter given by the iter.
+//Returns the Html to display of the chapter given by the iter.
 QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, QRegExp mark)
 {
+    //ignore invalid iters
+    if (iter.isEmpty()) return "";
+
     QList <weavedSourceData> Sources;
     for (int i=0; i<mWeavedSources.size(); i++)
     {
@@ -1071,7 +1074,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 }
             }
 
-            if (n < 0 || n > b->chapterText.size()) Sources[i].text.clear();
+            if (n < 0 || n >= b->chapterText.size()) Sources[i].text.clear();
             else Sources[i].text = b->chapterText[n];
 
             /*
