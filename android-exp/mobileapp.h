@@ -157,6 +157,10 @@ private slots:
 
     void on_forwardBTN_clicked();
 
+    void on_ZoomInBTN_clicked();
+
+    void on_ZoomOutBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 

@@ -182,6 +182,38 @@ int main(int argc, char *argv[])
 
     }
 
+    //Build DB option chosen
+    if (args.contains("-D") || args.contains("--buildDB"))
+    {
+        int p = args.indexOf("-D");
+        if (p == -1) p = args.indexOf("--buildDB");
+
+        QString path = "";
+        if (args.size() > p + 1) path = args[p+1];
+        else
+        {
+            qDebug() << "Error! no path for DB buldng given.";
+            return 2;
+        }
+
+        QString lvlmapoutpath;
+        QString dboutpath;
+        QString pt = path;
+        if (path.endsWith(".txt"))
+        {
+            lvlmapoutpath = pt.replace(".txt", ".LMP");
+            dboutpath = pt.replace(".LMP", ".TDB");
+        }
+        if (path.endsWith(".TXT"))
+        {
+            lvlmapoutpath = pt.replace(".TXT", ".LMP");
+            dboutpath = pt.replace(".LMP", ".TDB");
+        }
+        GenerateSearchTextDB(path, dboutpath, lvlmapoutpath);
+
+        return 0;
+    }
+
 
     //Define location for program dirs
     initPaths();

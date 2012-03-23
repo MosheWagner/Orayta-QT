@@ -75,6 +75,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->setupUi(this);
 
     //show the about page while app loads
+    ui->gtoHelp->hide();
+
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
     QApplication::processEvents();
@@ -146,6 +148,7 @@ void MobileApp::continueConstructor()
     QApplication::processEvents();
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 
+    ui->gtoHelp->show();
 }
 
 MobileApp::~MobileApp()
@@ -1439,7 +1442,8 @@ void MobileApp::on_backBTN_clicked()
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->prevChap(it);
-    showBook(b, it);
+
+    if (it != BookIter()) showBook(b, it);
 }
 
 void MobileApp::on_forwardBTN_clicked()
@@ -1447,5 +1451,16 @@ void MobileApp::on_forwardBTN_clicked()
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->nextChap(it);
-    showBook(b, it);
+
+    if (it != BookIter()) showBook(b, it);
+}
+
+void MobileApp::on_ZoomInBTN_clicked()
+{
+    displayer->zoomIn();
+}
+
+void MobileApp::on_ZoomOutBTN_clicked()
+{
+    displayer->zoomOut();
 }

@@ -77,9 +77,9 @@ QString html_head(QString title, QString fontFamily, int basesize)
     t += CSS(fontFamily, basesize);
 
     //Add scripts to the HTML
-    t += Script();
+    //t += Script();
     
-    t +="\n</head>";
+    t +="\n</head>\n";
 
     return t;
 }
@@ -87,19 +87,25 @@ QString html_head(QString title, QString fontFamily, int basesize)
 QString CSS(QString fontFamily, int basesize)
 {
     QString css = "<style type=\"text/css\">\n"
-            "   body { dir='RTL'; text-align: justify; font-family: '" + gFontFamily + "'; font-size: " + QString::number(basesize) + " px; }\n"
+            "   body { dir=\"RTL\"; text-align:justify; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize) + "px; }\n"
             //"   A { text-decoration: none; }\n"
             //"   A:hover { color: red; }\n"
             "   div { line-height: 1.5; }\n"
-            //"   h1 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + 30) + "px; }\n"
-            //"   h2 { text-align: center; font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize) + "; }\n"
-            //"   h3 { text-align: center; font-family: '" + gFontFamily + "'; font-size:14px; }\n"
-            "   h4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
-            "   h3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
-            "   h2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
-            "   h1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
-            "   h0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
-            "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "}"
+            /*
+            "   L4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
+            "   L3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
+            "   L2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
+            "   L1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
+            "   L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
+            */
+
+            "   L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
+            "   L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
+            "   L2 { font-family: '" + gFontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
+            "   L1 { font-family: '" + gFontFamily + "'; font-size:x-large; }\n"
+            "   L0 { font-family: '" + gFontFamily + "'; font-size:medium; }\n"
+
+
             //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
             "   div.Index A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
@@ -722,11 +728,10 @@ void Book::readBook(int LowsetIndexLevel)
 
     if (!t.isEmpty())
     {
-        chapterIter.append(itr);
         chapterText.append(t);
     }
 
-    //The first chapterText is all what came before the forst relevant itr, so we don't need it
+    //The first chapterText is all what came before the first relevant itr, so we don't need it
     if (chapterText.size() > 1) chapterText.removeFirst();
 
 }
@@ -757,10 +762,10 @@ void Book::buildIndex(QList <QString> text)
 
             indexitem.level = level + 1;
 
-            if (level == LIL)
-            {
+            //if (level == LIL)
+            //{
                 indexitem.linkPoint =  "@" + itr.toEncodedString();
-            }
+            //}
 
             //Display of link levels in the Html itself, and in the index
             QString dispname;
@@ -845,7 +850,7 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
     }
 
 
-    //Get i to one above the lowest existing level:
+    //Get LevelMIN to one above the lowest existing level:
 
     unsigned int levelMIN=0, higherLevel=0;
     //Find lowest level
@@ -969,13 +974,13 @@ QString Book::getBookIndexHtml()
     }
 
     //TODO: @@@
-    html +=  index_to_index(indexitemlist,mShortIndexLevel);
+    html +=  index_to_index(indexitemlist, mShortIndexLevel);
     html +=  html_link_table(indexitemlist, mShortIndexLevel, true, true);
 
 
     html += "</div></body></html>";
 
-    qDebug() << "/n/n--------------------/nindex html:\n" << html;
+    //qDebug() << "/n/n--------------------/nindex html:\n" << html;
     return html;
 }
 
@@ -1031,7 +1036,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     //Should this be here?
     //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
 
-    html += "<div class=\"Content\">";
+    html += "<div class=\"Content\"><L0>";
 
     //html += namepoint("Top");
 
@@ -1066,7 +1071,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 //Compare link iters using the humanDisplay system, or it won't work...
                 QString ia = iter.humanDisplay();
 
-                for (int j=0; j < b->chapterIter.size(); j++)
+                for (int j=0; j < b->chapterIter.size() && j < b->chapterText.size(); j++)
                 {
                     QString ib = b->chapterIter[j].humanDisplay();
 
@@ -1074,7 +1079,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 }
             }
 
-            if (n < 0 || n >= b->chapterText.size()) Sources[i].text.clear();
+            if (n < 0 || n >= b->chapterText.size() || n >= b->chapterIter.size()) Sources[i].text.clear();
             else Sources[i].text = b->chapterText[n];
 
             /*
@@ -1193,7 +1198,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             {
                 QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                html += "<BR><span><h" + QString::number(level) + ">";
+                html += "<BR><span><L" + QString::number(level) + ">";
                 html += "<a name=\"" + strforlink + "\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
@@ -1201,7 +1206,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 //linkid ++;
 
                 html += Sources[0].text[i].mid(2);
-                html += "</h" + QString::number(level) + "></span>\n";
+                html += "</a></L" + QString::number(level) + "></span>\n";
                 if (level != 0 ) html += "<BR>";
             }
         }
@@ -1230,7 +1235,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
     for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
 
-    html += "</div>";
+    html += "</L0></div>";
     html += "</body>\n</html>";
 
 //    qDebug() << "html:" << html;

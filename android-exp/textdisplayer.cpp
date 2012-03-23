@@ -135,7 +135,7 @@ void textDisplayer::display(Book * book, BookIter itr)
     QString html = currentBook->getChapterHtml(&itr, booklist, showNikud, showTeamim);
 
     if (html == "") {
-        qDebug()<< "empty html";
+        qDebug()<< "Empty html!";
         return;
     }
 
@@ -200,12 +200,12 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
         if( _startPoint.x() > _endPoint.x() ) {
             //Left swipe:
             it = currentBook->prevChap(it);
-            display(currentBook, it);
+            if (it != BookIter()) display(currentBook, it);
 
         } else {
             //Right swipe
             it = currentBook->nextChap(it);
-            display(currentBook, it);
+            if (it != BookIter()) display(currentBook, it);
         }
     }
     else {

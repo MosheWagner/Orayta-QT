@@ -174,6 +174,9 @@ void copyFolder(QString sourceFolder, QString destFolder, QStringList fileNameFi
 //delete the given folder (recursively) to the given path
 void deleteBooksFolder(QString sourceFolder);
 
+//Generate search DB files from the given bookflie (Non-compressed)
+void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString levelMapOutPath);
+
 #ifdef POPPLER
 
 // Returns a corrected Bidi string from the given one.

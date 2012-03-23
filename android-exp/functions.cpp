@@ -835,6 +835,118 @@ void deleteBooksFolder(QString sourceFolder)
 
 
 
+
+#include "bookiter.h"
+
+void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString levelMapOutPath)
+{
+    //TODO: remove references to other books
+    //TODO: Html books too
+
+    //Set all QString to work with unicode
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+
+    //Holds the offsets of each BookIters of book in the "pureText". Use this to map search results in positions in the book
+    QMap<int, BookIter> levelMap;
+
+
+    QString ptext = "";
+
+    //Read book's contents
+    QStringList text;
+
+    bool ok = ReadFileToList(infile, text, "UTF-8");
+
+    if (!ok) qDebug() << "Can't read" << infile;
+
+
+    //Build DB:
+    BookIter itr;
+
+    //If a line starts with one of these, it's a level sign
+    QString levelSigns = "!@#$^~";
+    //Any char not matching this pattern, is no *pure* text.
+    QRegExp notText("[^א-תA-Za-z0-9 ]");
+    //These are turned into spaces, and not just ignored.
+    QRegExp spaceSigns("[-_:׃.,;?]");
+
+    //Pad with spaces, so "full word searches" work on begining and end of text too
+    ptext = " ";
+
+    for (int i=0; i<text.size(); i++)
+    {
+        //Level line
+        if (levelSigns.contains(text[i][0]))
+        {
+            //Update iter
+            //but if levelSign is '$' ???
+            itr.SetLevelFromLine(text[i]);
+
+            //Map with it's position in the pureText
+            levelMap.insert(ptext.length(), itr);
+
+            /*
+            //What for?
+            if (text[i][0] == '!')
+            {
+                //Remove all non "pure-text" chars
+                text[i].replace(QChar(0x05BE), " "); //Makaf
+                text[i].replace(notText, "");
+                ptext += " " +  text[i].mid(2).simplified() + " ";
+            }
+            */
+            //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
+        }
+        //Externall link
+        else if (text.startsWith("<!--ex"))
+        {
+            //Ignore
+        }
+        //Text line
+        else
+        {
+            //Test if book is from the bible. Hope this is ok...
+            if ( infile.contains("מקרא") )
+            {
+                //Turn קרי וכתיב into only קרי. Maybe this should be an option?
+                text[i].replace( QRegExp ("[(][^)]*[)] [[]([^]]*)[]]"), "\\1");
+            }
+
+            //Remove html tags
+            //text[i].replace( QRegExp("<[^>]*>"), "" );
+
+            //Remove all non "pure-text" chars
+            text[i].replace(QChar(0x05BE), " "); //Makaf
+            text[i] = text[i].replace(spaceSigns, " ");
+            text[i].replace(notText, "");
+
+            //Remove double spaces and line breaks
+            ptext += text[i].simplified();
+
+            if (ptext[ptext.size() -1] == ' ') ptext += " ";
+        }
+    }
+
+    //Pad with spaces, so "full word searches" work on begining and end of text too
+    ptext += " ";
+
+    QString lvlmpstr = "";
+
+    QList <int> keys = levelMap.keys();
+    QList <BookIter> vals = levelMap.values();
+
+    for (int i=0; i<keys.length(); i++)
+    {
+        lvlmpstr += QString::number(keys[i]) + "->" + vals[i].toString() + "\n";
+    }
+
+    //Save the files
+    writetofile(pureTextOutPath, ptext, "UTF-8", true);
+    writetofile(levelMapOutPath, lvlmpstr, "UTF-8", true);
+}
+
+
 #ifdef POPPLER
 
 QString ToBidiText(QString str)
