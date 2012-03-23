@@ -39,7 +39,7 @@
 #include <QDebug>
 
 const float dragSlowDownXRatio = 1.5;
-const float dragSlowDownYRatio = 10;
+const float dragSlowDownYRatio = 15;
 
 struct FlickData {
     typedef enum { Steady, Pressed, ManualScroll, AutoScroll, Stop } State;

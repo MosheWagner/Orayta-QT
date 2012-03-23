@@ -24,6 +24,8 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 {
     //setOpenLinks(false);
 
+    setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
+
     booklist = bl;
 
     showNikud = true;
