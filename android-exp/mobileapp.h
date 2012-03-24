@@ -33,8 +33,6 @@ protected:
 
 private slots:
 
-    void on_toolButton_3_clicked();
-    void on_toolButton_2_clicked();
     void on_toolButton_6_clicked();
 
     void on_openBTN_clicked();
@@ -44,7 +42,7 @@ private slots:
     void on_settings_BTN_clicked();
     void on_saveConf_clicked();
     void on_cancelBTN_clicked();
-    void on_SearchInBooksBTN_clicked();
+//    void on_SearchInBooksBTN_clicked();
     void on_downloadBTN_clicked();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
@@ -55,6 +53,8 @@ private slots:
 
     void on_langComboBox_currentIndexChanged(const QString &arg1);
 
+//    void on_SearchInBooksBTN_clicked();
+    void on_SearchInBooksBTN_released();
 
     void downloadProgress(int val);
     void downloadError();
@@ -122,12 +122,6 @@ private slots:
 
     void on_lastBookBTN_clicked();
 
-//    void on_backBTN_clicked();
-
-//    void on_forwardBTN_clicked();
-
-
-
     void on_markAllBTN_2_clicked();
 
     void on_unmarkAllBTN_2_clicked();
@@ -146,6 +140,7 @@ private slots:
     void on_menuHelpBTN_clicked();
 
     void on_horizontalSlider_valueChanged(int value);
+
 
     void on_gtoHelp_clicked();
 

@@ -53,6 +53,9 @@ public:
     Book * getCurrentBook();
     BookIter getCurrentIter();
 
+    //override
+    void setHtml(const QString &text);
+
 private:
 
     DisplayMode currentMode;

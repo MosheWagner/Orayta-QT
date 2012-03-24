@@ -61,5 +61,6 @@
         <file>Icons/go-previous.png</file>
         <file>Icons/go-next-view-page.png</file>
         <file>Icons/go-previous-view-page.png</file>
+        <file>Images/ajax-loader.gif</file>
     </qresource>
 </RCC>

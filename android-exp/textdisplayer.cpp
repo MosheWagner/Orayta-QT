@@ -212,3 +212,8 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
         QTextBrowser::mouseReleaseEvent(ev);
     }
 }
+
+void textDisplayer::setHtml(const QString &text){
+    qDebug() << "/n/n----------------------/n html:\n" << text << "\n-----------------------";
+    QTextBrowser::setHtml(text);
+}

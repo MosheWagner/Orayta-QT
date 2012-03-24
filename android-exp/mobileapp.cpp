@@ -20,7 +20,6 @@
 
 #include "functions.h"
 #include "booklist.h"
-#include "book.h"
 #include "search.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -119,7 +118,6 @@ void MobileApp::continueConstructor()
     FlickCharm *fc = new FlickCharm(this);
     fc->activateOn(ui->treeWidget);
     fc->activateOn(ui->SearchTreeWidget);
-
     ui->treeWidget->setColumnWidth(0, 800);
     ui->SearchTreeWidget->setColumnWidth(0, 800);
 
@@ -624,18 +622,6 @@ void MobileApp::goBack()
 }
 
 
-void MobileApp::on_toolButton_3_clicked()
-{
-    //@@@@@
-    //wview->setZoomFactor(wview->zoomFactor() + 0.1);
-}
-
-void MobileApp::on_toolButton_2_clicked()
-{
-    //@@@@@@
-    //if (wview->zoomFactor() > 0.3) wview->setZoomFactor(wview->zoomFactor() - 0.1);
-}
-
 void MobileApp::on_toolButton_6_clicked()
 {
     displayer->goToIndex();
@@ -750,7 +736,8 @@ void MobileApp::on_cancelBTN_clicked()
 }
 
 //perform search in books
-void MobileApp::on_SearchInBooksBTN_clicked()
+//void MobileApp::on_SearchInBooksBTN_clicked()
+void MobileApp::on_SearchInBooksBTN_released()
 {
 
         //Do search
@@ -787,7 +774,7 @@ void MobileApp::on_SearchInBooksBTN_clicked()
 
 }
 
-void MobileApp::on_searchInBooksLine_returnPressed() { on_SearchInBooksBTN_clicked(); }
+void MobileApp::on_searchInBooksLine_returnPressed() { on_SearchInBooksBTN_released(); }
 
 
 
@@ -1423,6 +1410,8 @@ void MobileApp::on_toGetBooksBTN_clicked()
 {    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE); }
 
 
+
+
 void MobileApp::on_gtoHelp_clicked()
 {
     //try to show the help page
@@ -1444,6 +1433,9 @@ void MobileApp::on_backBTN_clicked()
     it = b->prevChap(it);
 
     if (it != BookIter()) showBook(b, it);
+    
+    //TODO- implement the folowing, in a way that really works.
+//    displayer->backward();
 }
 
 void MobileApp::on_forwardBTN_clicked()
@@ -1453,6 +1445,9 @@ void MobileApp::on_forwardBTN_clicked()
     it = b->nextChap(it);
 
     if (it != BookIter()) showBook(b, it);
+
+    //TODO- implement the folowing, in a way that really works.
+//    displayer->forward();
 }
 
 void MobileApp::on_ZoomInBTN_clicked()
