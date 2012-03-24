@@ -690,6 +690,7 @@ void MobileApp::on_saveConf_clicked()
             //viewHistory->removeLast(); viewHistory->removeLast();
 
             //reload previously shown book
+            displayer->getCurrentBook()->setFont(QFont(gFontFamily,gFontSize));
             showBook(displayer->getCurrentBook(), displayer->getCurrentIter());
 
         }
@@ -1452,10 +1453,10 @@ void MobileApp::on_forwardBTN_clicked()
 
 void MobileApp::on_ZoomInBTN_clicked()
 {
-    displayer->zoomIn();
+    displayer->increaseSize();
 }
 
 void MobileApp::on_ZoomOutBTN_clicked()
 {
-    displayer->zoomOut();
+    displayer->decreaseSize();
 }

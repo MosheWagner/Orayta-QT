@@ -16,9 +16,9 @@
 
 #include <QApplication>
 #ifdef MOBILE
-#include "mobileapp.h"
+    #include "mobileapp.h"
 #else
-#include "desktopapp.h"
+    #include "desktopapp.h"
 #endif
 #include <QDir>
 #include <QSettings>
@@ -26,6 +26,7 @@
 #include "about.h"
 #include <QDebug>
 #include <QTranslator>
+#include <QSplashScreen>
 #include <iostream>
 
 #include <QFontDatabase>
@@ -58,7 +59,7 @@ void initPaths()
     QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
-    //qDebug() << "bookpath:" << BOOKPATH ;
+    qDebug() << "bookpath:" << BOOKPATH ;
 
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
@@ -249,14 +250,23 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef MOBILE
+    //Show splash screen:
+    QPixmap pixmap(":/Icons/Orayta.png");
+    QSplashScreen *splash = new QSplashScreen(pixmap);
+    splash->show();
+    //splash->showMessage("Loading Orayta...");
+
+
     // fix for certain devices which don't support hebrew chars well.
     app.setFont(QFont("DejaVu Sans"));
 
     MobileApp m;
-
     m.show();
 
     app.processEvents();
+
+    //Hide slpash screen
+    splash->finish(&m);
 #endif
 
     return app.exec();

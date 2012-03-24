@@ -91,20 +91,21 @@ QString CSS(QString fontFamily, int basesize)
             //"   A { text-decoration: none; }\n"
             //"   A:hover { color: red; }\n"
             "   div { line-height: 1.5; }\n"
-            /*
+
             "   L4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
             "   L3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
             "   L2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
             "   L1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
             "   L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
-            */
 
+
+            /*
             "   L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
             "   L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
             "   L2 { font-family: '" + gFontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
             "   L1 { font-family: '" + gFontFamily + "'; font-size:x-large; }\n"
             "   L0 { font-family: '" + gFontFamily + "'; font-size:medium; }\n"
-
+            */
 
             //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
@@ -643,6 +644,7 @@ void Book::readBook(int LowsetIndexLevel)
     chapterText.clear();
     indexitemlist.clear();
 
+
     //Read text into vector
     QList <QString> text;
 
@@ -661,7 +663,43 @@ void Book::readBook(int LowsetIndexLevel)
         return ;
     }
 
-    //Invalid LIL
+
+    //Find real LIL
+    //Levels possible here are 1,2,3,4,5
+    bool haslevel[5]={false};
+
+    for(int i=0; i<text.size(); i++)
+    {
+        int level = LevelSigns.indexOf(text[i][0]);
+        if ( level > 0 && level < 6)
+        {
+            haslevel[level - 1] = true;
+        }
+    }
+
+    //Get LevelMIN to one above the lowest existing level:
+
+    unsigned int levelMIN=0, higherLevel=0;
+    //Find lowest level
+    for (levelMIN=0; levelMIN < 4 && haslevel[levelMIN] == false; levelMIN++) {};
+
+    /*
+    //Find the next one above it:
+    for (higherLevel = levelMIN + 1 ; higherLevel < 4 && haslevel[higherLevel] == false; higherLevel++) {};
+
+        higherLevel += 1;
+        */
+    // (The found numbers are 1 under the real level, because they started from 0 and the levels start from 1)
+    levelMIN ++;
+
+    if (levelMIN > 1 && LowsetIndexLevel == 1)
+    {
+        LIL = levelMIN;
+        LowsetIndexLevel = LIL;
+    }
+
+
+    //Validate LIL
     if (LowsetIndexLevel < 0 || LowsetIndexLevel >= LevelSigns.size()) return;
 
 
@@ -762,10 +800,10 @@ void Book::buildIndex(QList <QString> text)
 
             indexitem.level = level + 1;
 
-            //if (level == LIL)
-            //{
+            if (level == LIL)
+            {
                 indexitem.linkPoint =  "@" + itr.toEncodedString();
-            //}
+            }
 
             //Display of link levels in the Html itself, and in the index
             QString dispname;
@@ -801,6 +839,9 @@ void Book::buildIndex(QList <QString> text)
             indexitemlist.push_back(indexitem);
         }
     }
+
+
+
 }
 
 //Returns an html link by the given link_to and display text

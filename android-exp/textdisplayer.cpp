@@ -125,6 +125,9 @@ void textDisplayer::display(Book * book)
 // (Loads the chapter, and the tries to jump to the exact itr position)
 void textDisplayer::display(Book * book, BookIter itr)
 {
+    //Show index
+    if (itr == BookIter()) display(book);
+
     currentBook = book;
     currentMode = BookDisplay;
     currentIter = itr;
@@ -213,7 +216,27 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
     }
 }
 
-void textDisplayer::setHtml(const QString &text){
-    qDebug() << "/n/n----------------------/n html:\n" << text << "\n-----------------------";
-    QTextBrowser::setHtml(text);
+#include <QFont>
+
+void textDisplayer::increaseSize()
+{
+    QFont f = currentBook->getFont();
+    f.setPointSize(f.pointSize() + 2);
+    currentBook->setFont(f);
+
+    reloadBook();
+}
+
+void textDisplayer::decreaseSize()
+{
+    QFont f = currentBook->getFont();
+    f.setPointSize(f.pointSize() - 2);
+    currentBook->setFont(f);
+
+    reloadBook();
+}
+
+void textDisplayer::reloadBook()
+{
+    display(currentBook, currentIter);
 }

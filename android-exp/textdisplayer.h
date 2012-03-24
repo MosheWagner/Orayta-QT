@@ -53,8 +53,13 @@ public:
     Book * getCurrentBook();
     BookIter getCurrentIter();
 
-    //override
-    void setHtml(const QString &text);
+    //Zoomin
+    void increaseSize();
+
+    //Zoomout
+    void decreaseSize();
+
+    void reloadBook();
 
 private:
 
