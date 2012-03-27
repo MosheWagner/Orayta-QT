@@ -19,6 +19,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QDesktopServices>
+#include <QApplication>
 
 textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 {
@@ -110,6 +111,10 @@ void textDisplayer::processAnchor(const QUrl &url)
 //Show the index of the book
 void textDisplayer::display(Book * book)
 {  
+    //Cause ui to show wait status
+    emit loadStart();
+    QApplication::processEvents();
+
     currentBook = book;
     currentMode = BookDisplay;
     currentIter = BookIter();
@@ -125,6 +130,10 @@ void textDisplayer::display(Book * book)
 // (Loads the chapter, and the tries to jump to the exact itr position)
 void textDisplayer::display(Book * book, BookIter itr)
 {
+    //Cause ui to show wait status
+    emit loadStart();
+    QApplication::processEvents();
+
     //Show index
     if (itr == BookIter()) display(book);
 
@@ -239,4 +248,17 @@ void textDisplayer::decreaseSize()
 void textDisplayer::reloadBook()
 {
     display(currentBook, currentIter);
+}
+
+void textDisplayer::setHtml(const QString &text){
+
+    //Cause ui to show wait status
+    emit loadStart();
+    QApplication::processEvents();
+
+    QTextBrowser::setHtml(text);
+    emit loadEnd();
+    //    qDebug() << "\n-------------\n" << "set html: \n" << text <<"\n-------------\n" ;
+
+
 }

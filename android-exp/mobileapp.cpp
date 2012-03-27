@@ -105,6 +105,11 @@ void MobileApp::continueConstructor()
     ui->displayArea->layout()->addWidget(displayer);
     QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
 
+    //Initialize wait movie
+    waitMovie = new QMovie(":/Images/ajax-loader.gif");
+    connect(displayer, SIGNAL(loadStart()), this, SLOT(wvloadStarted()));
+    connect(displayer, SIGNAL(loadEnd()), this, SLOT(wvloadFinished()));
+
 
     viewHistory = new QList<int>;
     //the base of history should always point to the main page
@@ -369,27 +374,27 @@ void MobileApp::showBook(Book *book)
     }
 }
 
-/*
-void MobileApp::wvloadFinished(bool ok)
+
+void MobileApp::wvloadFinished()
 {
-//    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
-//    ui->waitLBL->hide();
+    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
+    ui->waitLBL->hide();
 
 
     //display the webpage title
-     ui->bookNameLBL->setText(wview->title());
+//     ui->bookNameLBL->setText();
 
 
-   if (InternalLocationInHtml != "")
-   {
-       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
-       wview->page()->mainFrame()->evaluateJavaScript(script);
+//   if (InternalLocationInHtml != "")
+//   {
+//       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
+//       wview->page()->mainFrame()->evaluateJavaScript(script);
 
-       qDebug() << script;
-       InternalLocationInHtml="";
-   }
+//       qDebug() << script;
+//       InternalLocationInHtml="";
+//   }
 
-   ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+//   ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
    QApplication::processEvents();
 }
 
@@ -397,13 +402,13 @@ void MobileApp::wvloadStarted()
 {
 //    QApplication::processEvents();
     qDebug()<< "load started";
-    ui->stackedWidget->setCurrentIndex(WAIT_PAGE);
+//    ui->stackedWidget->setCurrentIndex(WAIT_PAGE);
 
     if (!waitMovie)
     {
         qDebug() << "waitMovie ceased to exist!";
-//        waitMovie = new QMovie(":/Images/ajax-loader.gif");
-        waitMovie = new QMovie(":/Images/Wait.gif");
+        waitMovie = new QMovie(":/Images/ajax-loader.gif");
+//        waitMovie = new QMovie(":/Images/Wait.gif");
     }
 
 //    ui->displayArea->setTitle(tr("Loading..."));
@@ -414,10 +419,10 @@ void MobileApp::wvloadStarted()
     ui->waitLBL->movie()->start();
 //    waitMovie->start();
 
-    QApplication::processEvents();
+//    QApplication::processEvents();
 
 }
-*/
+
 
 
 
@@ -737,7 +742,6 @@ void MobileApp::on_cancelBTN_clicked()
 }
 
 //perform search in books
-//void MobileApp::on_SearchInBooksBTN_clicked()
 void MobileApp::on_SearchInBooksBTN_released()
 {
 
@@ -1405,12 +1409,6 @@ void MobileApp::on_lastBookBTN_clicked()
     showBook(b, itr);
 
 }
-
-
-void MobileApp::on_toGetBooksBTN_clicked()
-{    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE); }
-
-
 
 
 void MobileApp::on_gtoHelp_clicked()

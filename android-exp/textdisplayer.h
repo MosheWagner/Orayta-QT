@@ -61,6 +61,8 @@ public:
 
     void reloadBook();
 
+    void setHtml(const QString &text);
+
 private:
 
     DisplayMode currentMode;
@@ -81,6 +83,8 @@ private:
     QPoint _endPoint;
 
 signals:
+    void loadStart();
+    void loadEnd();
 
 public slots:
     //Called when anchor clicked

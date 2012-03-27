@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
+#include <QMovie>
 #include "filedownloader.h"
 #include "booklist.h"
 #include "book.h"
@@ -42,7 +43,6 @@ private slots:
     void on_settings_BTN_clicked();
     void on_saveConf_clicked();
     void on_cancelBTN_clicked();
-//    void on_SearchInBooksBTN_clicked();
     void on_downloadBTN_clicked();
 
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
@@ -53,8 +53,11 @@ private slots:
 
     void on_langComboBox_currentIndexChanged(const QString &arg1);
 
-//    void on_SearchInBooksBTN_clicked();
     void on_SearchInBooksBTN_released();
+
+    void wvloadFinished();
+    void wvloadStarted();
+
 
     void downloadProgress(int val);
     void downloadError();
@@ -132,8 +135,6 @@ private slots:
 
     void on_unmarkAllBTN_3_clicked();
 
-    void on_toGetBooksBTN_clicked();
-
     // constructor continuation
     void continueConstructor();
 
@@ -188,6 +189,8 @@ private:
 //    QWidget *currentView;
 //    QWidgetList *viewHistory;
     QList<int> *viewHistory;
+
+    QMovie * waitMovie;
 
     //----------------------------------------------------
     //copied from settings.h

@@ -30,6 +30,7 @@
 #include <iostream>
 
 #include <QFontDatabase>
+#include <QDesktopWidget>
 
 //For test only
 //#define MOBILE
@@ -253,6 +254,10 @@ int main(int argc, char *argv[])
     //Show splash screen:
     QPixmap pixmap(":/Icons/Orayta.png");
     QSplashScreen *splash = new QSplashScreen(pixmap);
+
+    //IZAR: funny hack but not to bad
+    QDesktopWidget *desktop = QApplication::desktop();
+    splash->resize(desktop->screenGeometry().size());
     splash->show();
     //splash->showMessage("Loading Orayta...");
 

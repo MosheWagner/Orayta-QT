@@ -62,9 +62,9 @@ weavedSourceData initWsdFrom (const weavedSource& src)
 QString html_head(QString title, QString fontFamily, int basesize)
 {
     QString t;
-    t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
+    t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" ";
     t += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    t += "<html dir=\"RTL\">\n<head>\n\t";
+    t += "<html dir=\"RTL\">\n<head>\n";
 
     t += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
 
@@ -90,27 +90,28 @@ QString CSS(QString fontFamily, int basesize)
             "   body { dir=\"RTL\"; text-align:justify; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize) + "px; }\n"
             //"   A { text-decoration: none; }\n"
             //"   A:hover { color: red; }\n"
-            "   div { line-height: 1.5; }\n"
+//            "   div { line-height: 1.5; }\n"
 
-            "   L4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
-            "   L3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
-            "   L2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
-            "   L1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
-            "   L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
+            "   .L4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; font-weight:bold; color:indigo; }\n"
 
 
             /*
-            "   L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
-            "   L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
-            "   L2 { font-family: '" + gFontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
-            "   L1 { font-family: '" + gFontFamily + "'; font-size:x-large; }\n"
-            "   L0 { font-family: '" + gFontFamily + "'; font-size:medium; }\n"
+            "   .L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
+            "   .L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
+            "   .L2 { font-family: '" + gFontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
+            "   .L1 { font-family: '" + gFontFamily + "'; font-size:x-large; }\n"
+            "   .L0 { font-family: '" + gFontFamily + "'; font-size:medium; }\n"
             */
+
 
             //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
             "   div.Index A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
-            "   div.Index A:hover { color:red; }\n"
+//            "   div.Index A:hover { color:red; }\n"
             "</style>\n";
 
     return css;
@@ -1077,7 +1078,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     //Should this be here?
     //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
 
-    html += "<div class=\"Content\"><L0>";
+    html += "<div class=\"Content\">";
 
     //html += namepoint("Top");
 
@@ -1239,7 +1240,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             {
                 QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                html += "<BR><span><L" + QString::number(level) + ">";
+                html += "<BR><span class=\"L" + QString::number(level) + "\">";
                 html += "<a name=\"" + strforlink + "\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
@@ -1247,7 +1248,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 //linkid ++;
 
                 html += Sources[0].text[i].mid(2);
-                html += "</a></L" + QString::number(level) + "></span>\n";
+                html += "</a></span>\n";
                 if (level != 0 ) html += "<BR>";
             }
         }
@@ -1276,7 +1277,7 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
     for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
 
-    html += "</L0></div>";
+    html += "</div>";
     html += "</body>\n</html>";
 
 //    qDebug() << "html:" << html;
