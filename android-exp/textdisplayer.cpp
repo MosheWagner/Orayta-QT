@@ -41,13 +41,12 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 }
 
-#include <QScrollBar>
-
 void textDisplayer::adjustWidth()
 {
     //Stupid hack, but this seems to work...:
     document()->setTextWidth(document()->textWidth() - 2);
 }
+
 
 
 void textDisplayer::processAnchor(const QUrl &url)

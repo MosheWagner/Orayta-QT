@@ -158,6 +158,8 @@ private slots:
 
     void on_ZoomOutBTN_clicked();
 
+    void titleUpdate(QUrl);
+
 private:
     Ui::MobileApp *ui;
 

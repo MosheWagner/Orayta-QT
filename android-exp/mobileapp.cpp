@@ -101,6 +101,7 @@ void MobileApp::continueConstructor()
     displayer = new textDisplayer(this, &bookList);
     ui->displayArea->layout()->addWidget(displayer);
     QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
+    connect(displayer, SIGNAL(sourceChanged(QUrl)), this, SLOT(titleUpdate(QUrl)));
 
     //Initialize wait movie
     waitMovie = new QMovie(":/Images/ajax-loader.gif");
@@ -301,8 +302,6 @@ void MobileApp::showBook(Book *book, BookIter itr)
 
             displayer->display(book, itr);
 
-            ui->bookNameLBL->setText(book->getNormallDisplayName());
-
             break;
         }
     }
@@ -392,6 +391,9 @@ void MobileApp::showBook(Book *book)
 void MobileApp::tdloadFinished()
 {
    QApplication::processEvents();
+
+   titleUpdate(QUrl());
+
    ui->loadBar->hide();
 }
 
@@ -401,7 +403,10 @@ void MobileApp::tdloadStarted()
     QApplication::processEvents();
 }
 
-
+void MobileApp::titleUpdate(QUrl u)
+{
+    ui->bookNameLBL->setText(displayer->getCurrentBook()->getNormallDisplayName());
+}
 
 
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
@@ -620,7 +625,6 @@ void MobileApp::goBack()
     else
     {
             int id = viewHistory->at(viewHistory->size()-2);
-             qDebug() << currentId << id;
             viewHistory->removeLast();
             ui->stackedWidget->setCurrentIndex(id);
 
