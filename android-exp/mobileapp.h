@@ -28,6 +28,7 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *pEvent);
+    void ClearTmp();
 
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);

@@ -436,7 +436,25 @@ void MobileApp::closeEvent(QCloseEvent *event)
         settings.endGroup();
     }
 
+    ClearTmp();
+
     QDialog::close();
+}
+
+//Remove all temporary html files the program created
+void MobileApp::ClearTmp()
+{
+    QDir dir;
+    QStringList list;
+    QFile f;
+
+    //remove all html rended files in temp path
+    dir = QDir(TMPPATH);
+    list = dir.entryList(QStringList("*.html"));
+    for (int i=0; i<list.size(); i++)
+    {
+        f.remove(dir.absoluteFilePath(list[i]));
+    }
 }
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){

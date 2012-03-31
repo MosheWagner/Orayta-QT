@@ -1029,7 +1029,7 @@ QUrl Book::renderBookIndex()
     //qDebug() << "/n/n--------------------/nindex html:\n" << html;
     //return html;
 
-    QString path = TMPPATH + "Index" + QString::number(ind++);
+    QString path = TMPPATH + "Index" + QString::number(ind++) + ".html";
     writetofile(path, html, "UTF-8", true);
 
     return QUrl::fromLocalFile(path);
@@ -1296,7 +1296,7 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
     //return html;
 
-    QString path = TMPPATH + "HTML" + QString::number(ind++);
+    QString path = TMPPATH + "HTML" + QString::number(ind++) + ".html";
     writetofile(path, html, "UTF-8", true);
 
     return QUrl::fromLocalFile(path);
