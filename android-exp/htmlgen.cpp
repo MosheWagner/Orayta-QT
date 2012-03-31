@@ -37,6 +37,7 @@
 #include "booklist.h"
 #include "book.h"
 #include <QApplication>
+#include <QUrl>
 
 #define QT_USE_FAST_CONCATENATION
 #define QT_USE_FAST_OPERATOR_PLUS
@@ -162,6 +163,25 @@ inline QString link (QString linkto, QString text, int id)
         return  "<a href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
     }
 }
+
+//Returns an html link by the given link_to and display text
+inline QString genLink(QString linkto, QString text, int id = 0, QString name ="")
+{
+    if (linkto.indexOf("$") != -1)
+    {
+        return "<a name=\"" + name + "\" id=id_" + stringify(id) + " href=\"" + linkto + "\" style=\"text-decoration:none; color:indigo\" onclick='paintMe(this)' >" + text + "</a> ";
+    }
+    else if (linkto.indexOf("#") != -1)
+    {
+        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp;";
+    }
+    else
+    {
+        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
+    }
+
+}
+
 
 QString index_to_index(QList <IndexItem> indexitemlist,int level)
 {
@@ -845,24 +865,6 @@ void Book::buildIndex(QList <QString> text)
 
 }
 
-//Returns an html link by the given link_to and display text
-inline QString genLink(QString linkto, QString text, int id = 0, QString name ="")
-{
-    if (linkto.indexOf("$") != -1)
-    {
-        return "<a name=\"" + name + "\" id=id_" + stringify(id) + " href=\"" + linkto + "\" style=\"text-decoration:none; color:indigo\" onclick='paintMe(this)' >" + text + "</a> ";
-    }
-    else if (linkto.indexOf("#") != -1)
-    {
-        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\" onclick='paintWhoILinkTo(this)'>" + text + "</a> &nbsp;";
-    }
-    else
-    {
-        return  "<a name=\"" + name + "\" href=\"" + linkto + "\" style=\"text-decoration:none\">" + text + "</a> &nbsp;";
-    }
-
-}
-
 QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, bool dot, bool hasRUS)
 {
 
@@ -980,8 +982,10 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
 
 
 
-QString Book::getBookIndexHtml()
+QUrl Book::renderBookIndex()
 {
+    static int ind = 0;
+
     QString html = "";
     html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
 
@@ -1023,14 +1027,22 @@ QString Book::getBookIndexHtml()
     html += "</div></body></html>";
 
     //qDebug() << "/n/n--------------------/nindex html:\n" << html;
-    return html;
+    //return html;
+
+    QString path = TMPPATH + "Index" + QString::number(ind++);
+    writetofile(path, html, "UTF-8", true);
+
+    return QUrl::fromLocalFile(path);
 }
 
 //Returns the Html to display of the chapter given by the iter.
-QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, QRegExp mark)
+
+QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, QRegExp mark)
 {
+    static int ind = 0;
+
     //ignore invalid iters
-    if (iter.isEmpty()) return "";
+    if (iter.isEmpty()) return QUrl();
 
     QList <weavedSourceData> Sources;
     for (int i=0; i<mWeavedSources.size(); i++)
@@ -1282,5 +1294,10 @@ QString Book::getChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
 //    qDebug() << "html:" << html;
 
-    return html;
+    //return html;
+
+    QString path = TMPPATH + "HTML" + QString::number(ind++);
+    writetofile(path, html, "UTF-8", true);
+
+    return QUrl::fromLocalFile(path);
 }

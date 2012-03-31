@@ -1407,26 +1407,29 @@ void MobileApp::on_gtoHelp_clicked()
 
 void MobileApp::on_backBTN_clicked()
 {
+    /*
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->prevChap(it);
 
     if (it != BookIter()) showBook(b, it);
-    
+ */
     //TODO- implement the folowing, in a way that really works.
-//    displayer->backward();
+    displayer->backward();
+
 }
 
 void MobileApp::on_forwardBTN_clicked()
 {
+    /*
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->nextChap(it);
 
     if (it != BookIter()) showBook(b, it);
-
+*/
     //TODO- implement the folowing, in a way that really works.
-//    displayer->forward();
+    displayer->forward();
 }
 
 void MobileApp::on_ZoomInBTN_clicked()

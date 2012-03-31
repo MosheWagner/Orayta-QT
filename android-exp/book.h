@@ -205,11 +205,11 @@ public:
     //Builds the list of indexItems that represent the index (תוכן) of the book
     void buildIndex(QList <QString> text);
 
-    //Returns the Html to display of the chapter given by the iter.
-    QString getChapterHtml(BookIter iter, BookList * bl, bool shownikud, bool showteamim, QRegExp mark = QRegExp());
+    //Returns a QUrl to the rendered html file of the chapter given by the iter.
+    QUrl renderChapterHtml(BookIter iter, BookList * bl, bool shownikud, bool showteamim, QRegExp mark = QRegExp());
 
-    //Returns the index (תוכן) of the book rendered to Html
-    QString getBookIndexHtml();
+    //Returns a QUrl to the rendered html file of the index (תוכן) of this book
+    QUrl renderBookIndex();
 
     //Returns a bookiter representing the chapter coming before/after the given chapter.
     BookIter nextChap(BookIter iter);

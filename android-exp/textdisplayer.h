@@ -61,7 +61,7 @@ public:
 
     void reloadBook();
 
-    void setHtml(const QString &text);
+    void setSource(const QUrl &name);
 
 private:
 

@@ -37,6 +37,7 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(this,SIGNAL(textChanged()), SLOT(adjustWidth()));
+
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 }
 
@@ -45,8 +46,9 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 void textDisplayer::adjustWidth()
 {
     //Stupid hack, but this seems to work...:
-    document()->setTextWidth(document()->textWidth()-1);
+    document()->setTextWidth(document()->textWidth() - 2);
 }
+
 
 void textDisplayer::processAnchor(const QUrl &url)
 {
@@ -112,8 +114,8 @@ void textDisplayer::processAnchor(const QUrl &url)
         BookIter itr = BookIter::fromEncodedString(lnk);
         currentIter = itr;
 
-        QString html = currentBook->getChapterHtml(&itr, booklist, true, true);
-        setHtml(html);
+        QUrl u = currentBook->renderChapterHtml(&itr, booklist, true, true);
+        setSource(u);
     }
 }
 
@@ -131,7 +133,8 @@ void textDisplayer::display(Book * book)
     //@@@
     book->readBook(1);
 
-    setHtml(currentBook->getBookIndexHtml());
+    QUrl u = currentBook->renderBookIndex();
+    setSource(u);
 }
 
 
@@ -153,14 +156,14 @@ void textDisplayer::display(Book * book, BookIter itr)
     //@@@
     book->readBook(1);
 
-    QString html = currentBook->getChapterHtml(&itr, booklist, showNikud, showTeamim);
+    QUrl u = currentBook->renderChapterHtml(&itr, booklist, showNikud, showTeamim);
 
-    if (html == "") {
-        qDebug()<< "Empty html!";
+    if (u != QUrl()) setSource(u);
+    else
+    {
+        qDebug()<< "Render error!";
         return;
     }
-
-    setHtml(html);
 
     //TODO: Search results need to be improved
     scrollToAnchor(itr.toEncodedString());
@@ -188,7 +191,11 @@ void textDisplayer::goToIndex()
     //Empty the current iter
     currentIter = BookIter();
 
-    if (currentMode == BookDisplay && currentBook) setHtml(currentBook->getBookIndexHtml());
+    if (currentMode == BookDisplay && currentBook)
+    {
+        QUrl u = currentBook->renderBookIndex();
+        setSource(u);
+    }
 }
 
 Book * textDisplayer::getCurrentBook() { return currentBook; }
@@ -260,15 +267,13 @@ void textDisplayer::reloadBook()
     display(currentBook, currentIter);
 }
 
-void textDisplayer::setHtml(const QString &text){
 
+void textDisplayer::setSource(const QUrl &name)
+{
     //Cause ui to show wait status
     emit loadStart();
     QApplication::processEvents();
 
-    QTextBrowser::setHtml(text);
+    QTextBrowser::setSource(name);
     emit loadEnd();
-    //    qDebug() << "\n-------------\n" << "set html: \n" << text <<"\n-------------\n" ;
-
-
 }
