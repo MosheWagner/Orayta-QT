@@ -55,8 +55,8 @@ private slots:
 
     void on_SearchInBooksBTN_released();
 
-    void wvloadFinished();
-    void wvloadStarted();
+    void tdloadFinished();
+    void tdloadStarted();
 
 
     void downloadProgress(int val);

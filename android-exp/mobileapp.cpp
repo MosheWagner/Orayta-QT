@@ -55,9 +55,6 @@
 //TODO: Bookmarks
 //TODO: Improve book loading speed (gradual loading)
 
-//IZAR-
-//TODO: load page preview
-
 
 #include <QKinetic/qtscroller.h>
 
@@ -108,8 +105,8 @@ void MobileApp::continueConstructor()
 
     //Initialize wait movie
     waitMovie = new QMovie(":/Images/ajax-loader.gif");
-    connect(displayer, SIGNAL(loadStart()), this, SLOT(wvloadStarted()));
-    connect(displayer, SIGNAL(loadEnd()), this, SLOT(wvloadFinished()));
+    connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
+    connect(displayer, SIGNAL(loadEnd()), this, SLOT(tdloadFinished()));
 
 
     viewHistory = new QList<int>;
@@ -393,52 +390,16 @@ void MobileApp::showBook(Book *book)
 }
 
 
-void MobileApp::wvloadFinished()
+void MobileApp::tdloadFinished()
 {
-    if (ui->waitLBL->movie()) ui->waitLBL->movie()->stop();
-    ui->waitLBL->hide();
-
-
-    //display the webpage title
-//     ui->bookNameLBL->setText();
-
-
-//   if (InternalLocationInHtml != "")
-//   {
-//       QString script = "paintByHref(\"" + InternalLocationInHtml.replace("#", "$") + "\");";
-//       wview->page()->mainFrame()->evaluateJavaScript(script);
-
-//       qDebug() << script;
-//       InternalLocationInHtml="";
-//   }
-
-//   ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
    QApplication::processEvents();
+   ui->loadBar->hide();
 }
 
-void MobileApp::wvloadStarted()
+void MobileApp::tdloadStarted()
 {
-//    QApplication::processEvents();
-    qDebug()<< "load started";
-//    ui->stackedWidget->setCurrentIndex(WAIT_PAGE);
-
-    if (!waitMovie)
-    {
-        qDebug() << "waitMovie ceased to exist!";
-        waitMovie = new QMovie(":/Images/ajax-loader.gif");
-//        waitMovie = new QMovie(":/Images/Wait.gif");
-    }
-
-//    ui->displayArea->setTitle(tr("Loading..."));
-//    ui->bookNameLBL->setText(tr("Loading..."));
-
-//    ui->waitLBL->show();
-    ui->waitLBL->setMovie(waitMovie);
-    ui->waitLBL->movie()->start();
-//    waitMovie->start();
-
-//    QApplication::processEvents();
-
+    ui->loadBar->show();
+    QApplication::processEvents();
 }
 
 
