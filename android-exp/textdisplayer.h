@@ -89,6 +89,7 @@ signals:
 public slots:
     //Called when anchor clicked
     void processAnchor(const QUrl &);
+    void adjustWidth();
 
 protected:
     virtual void mousePressEvent(QMouseEvent *ev);

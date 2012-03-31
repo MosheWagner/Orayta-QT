@@ -238,9 +238,11 @@ bool QtScrollerFilter::eventFilter_QAbstractScrollArea(QAbstractScrollArea *area
     {
         QtScrollEvent *se = static_cast<QtScrollEvent *>(event);
 
-        QScrollBar *hBar = area->horizontalScrollBar();
+        //QScrollBar *hBar = area->horizontalScrollBar();
         QScrollBar *vBar = area->verticalScrollBar();
-        hBar->setValue(se->contentPos().x());
+        //Hack by me. Seems to work well...
+        // <moshe.wagner@gmail.com>
+        //hBar->setValue(se->contentPos().x());
         vBar->setValue(se->contentPos().y());
 
         QPoint os = overshoot.value(area);
@@ -273,6 +275,9 @@ bool QtScrollerFilter::eventFilter_QAbstractScrollArea(QAbstractScrollArea *area
 #endif
         {
             QPoint delta = os - se->overshootDistance().toPoint();
+            //Hack by me. Seems to work well...
+            // <moshe.wagner@gmail.com>
+            delta.setX(0);
             if (!delta.isNull()) {
                 ignoreMove = true;
                 area->viewport()->move(area->viewport()->pos() + delta);

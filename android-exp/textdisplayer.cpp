@@ -34,10 +34,19 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 
     currentBook = NULL;
 
+    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    connect(this,SIGNAL(textChanged()), SLOT(adjustWidth()));
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 }
 
+#include <QScrollBar>
 
+void textDisplayer::adjustWidth()
+{
+    //Stupid hack, but this seems to work...:
+    document()->setTextWidth(document()->textWidth()-1);
+}
 
 void textDisplayer::processAnchor(const QUrl &url)
 {
@@ -187,6 +196,7 @@ Book * textDisplayer::getCurrentBook() { return currentBook; }
 BookIter textDisplayer::getCurrentIter() { return currentIter; }
 
 #include <QMouseEvent>
+#include <QScrollBar>
 
 void textDisplayer::mousePressEvent(QMouseEvent *ev)
 {
@@ -196,7 +206,7 @@ void textDisplayer::mousePressEvent(QMouseEvent *ev)
 }
 
 // minimal movment to be considered as a swipe and not a press
-#define MIN_MOVMENT 50
+#define MIN_MOVMENT 40
 void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
 {
     _endPoint = ev->pos();

@@ -252,7 +252,8 @@ int main(int argc, char *argv[])
 
 #ifdef MOBILE
     //Show splash screen:
-    QPixmap pixmap(":/Icons/Orayta.png");
+    //QPixmap pixmap(":/Icons/Orayta.png");
+    QPixmap pixmap(":/Images/Orayta.png");
     QSplashScreen *splash = new QSplashScreen(pixmap);
 
     //IZAR: funny hack but not to bad

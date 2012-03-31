@@ -86,7 +86,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     downloader = NULL;
 
 
-    QTimer::singleShot(200, this, SLOT(continueConstructor()));
+    //QTimer::singleShot(50, this, SLOT(continueConstructor()));
+    continueConstructor();
 }
 
 // constructor continuation
@@ -149,7 +150,24 @@ void MobileApp::continueConstructor()
     //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
 
     QApplication::processEvents();
-    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+
+    //Reopen last book, if relevant
+    //get last open book
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("History");
+        int page = settings.value("lastPage").toInt();
+        int lastBookId = settings.value("lastBook").toInt();
+        Book *b = bookList.findBookById(lastBookId);
+        BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
+        int vp =  settings.value("viewposition").toInt();
+    settings.endGroup();
+
+    if (page != DISPLAY_PAGE || !b) ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+    else
+    {
+        showBook(b, itr);
+        displayer->verticalScrollBar()->setValue(vp);
+    }
 
     ui->gtoHelp->show();
 }
@@ -429,7 +447,6 @@ void MobileApp::wvloadStarted()
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MobileApp::closeEvent(QCloseEvent *event)
 {
-
     //Cancel any running searches
     stopSearchFlag = true;
 
@@ -437,10 +454,10 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
     //remmeber last open book
     settings.beginGroup("History");
-
+    settings.setValue("lastPage", ui->stackedWidget->currentIndex());
     settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
-
     settings.setValue("position", displayer->getCurrentIter().toEncodedString());
+    settings.setValue("viewposition", displayer->verticalScrollBar()->value());
     settings.endGroup();
 
     foreach (Book *book, bookList)
@@ -1400,10 +1417,12 @@ void MobileApp::on_lastBookBTN_clicked()
             int lastBookId = settings.value("lastBook").toInt();
             b = bookList.findBookById(lastBookId);
             itr = BookIter::fromEncodedString(settings.value("position", "").toString());
+            int vp =  settings.value("viewposition").toInt();
         settings.endGroup();
 
         if (!b) return;
         showBook(b, itr);
+        displayer->verticalScrollBar()->setValue(vp);
     }
 
     showBook(b, itr);
