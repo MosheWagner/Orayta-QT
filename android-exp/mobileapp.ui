@@ -571,9 +571,6 @@ p, li { white-space: pre-wrap; }
           </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>1</number>
-            </property>
             <item>
              <widget class="QLabel" name="bookNameLBL">
               <property name="sizePolicy">
@@ -581,6 +578,12 @@ p, li { white-space: pre-wrap; }
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
               </property>
               <property name="text">
                <string>Loading... </string>
@@ -599,7 +602,7 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
+           <width>100000</width>
            <height>9</height>
           </size>
          </property>

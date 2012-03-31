@@ -252,21 +252,19 @@ int main(int argc, char *argv[])
 
 #ifdef MOBILE
     //Show splash screen:
-    //QPixmap pixmap(":/Icons/Orayta.png");
-    QPixmap pixmap(":/Images/Orayta.png");
+    QPixmap pixmap(":/Icons/Orayta.png");
+    //QPixmap pixmap(":/Images/Orayta.png");
     QSplashScreen *splash = new QSplashScreen(pixmap);
-
-    //IZAR: funny hack but not to bad
-    QDesktopWidget *desktop = QApplication::desktop();
-    splash->resize(desktop->screenGeometry().size());
-    splash->show();
-    //splash->showMessage("Loading Orayta...");
-
+    splash->showFullScreen();
 
     // fix for certain devices which don't support hebrew chars well.
     app.setFont(QFont("DejaVu Sans"));
 
     MobileApp m;
+
+    //splash->resize(m.size());
+
+
     m.show();
 
     app.processEvents();
