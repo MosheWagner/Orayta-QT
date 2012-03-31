@@ -127,7 +127,6 @@ void textDisplayer::display(Book * book)
     QApplication::processEvents();
 
     currentBook = book;
-    currentMode = BookDisplay;
     currentIter = BookIter();
 
     //@@@
@@ -150,7 +149,6 @@ void textDisplayer::display(Book * book, BookIter itr)
     if (itr == BookIter()) display(book);
 
     currentBook = book;
-    currentMode = BookDisplay;
     currentIter = itr;
 
     //@@@
@@ -169,29 +167,13 @@ void textDisplayer::display(Book * book, BookIter itr)
     scrollToAnchor(itr.toEncodedString());
 }
 
-void textDisplayer::displaySearchResult(QString html)
-{
-    currentMode = SearchResultDisplay;
-
-    setHtml(html);
-}
-
-//Show html book
-void textDisplayer::displayHtml(QUrl url)
-{
-    QFile f(url.toLocalFile());
-    currentMode = HtmlFileDisplay;
-
-    setHtml(f.readAll());
-}
-
 //Jump to index
 void textDisplayer::goToIndex()
 {
     //Empty the current iter
     currentIter = BookIter();
 
-    if (currentMode == BookDisplay && currentBook)
+    if (currentBook)
     {
         QUrl u = currentBook->renderBookIndex();
         setSource(u);
@@ -276,4 +258,11 @@ void textDisplayer::setSource(const QUrl &name)
 
     QTextBrowser::setSource(name);
     emit loadEnd();
+}
+
+bool textDisplayer::isLastSearch()
+{
+    if (historyUrl(-1).toString().indexOf("SEARCH") != -1) return true;
+
+    return false;
 }

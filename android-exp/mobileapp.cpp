@@ -46,7 +46,6 @@
 #define GET_BOOKS_PAGE 6
 #define SETTINGS_PAGE 7
 #define MIXED_SELECTION_PAGE 8
-#define WAIT_PAGE 9
 
 
 //TODO: CLEAN & SPLIT UP!!!!
@@ -343,7 +342,7 @@ void MobileApp::showBook(Book *book)
         {
             //QFile f(book->getPath());
             //ui->textBrowser->setHtml( f.readAll() );
-            displayer->displayHtml(book->getPath());
+            displayer->setSource(QUrl::fromLocalFile(book->getPath()));
             ui->bookNameLBL->setText(book->getName());
 
             break;
@@ -507,7 +506,12 @@ void MobileApp::showMenu()
         if (ui->dispalyMenu->isVisible())
             ui->dispalyMenu->hide();
         else
+        {
+            if (displayer->isLastSearch()) ui->toolButton_6->setText(tr("Back to results"));
+            else ui->toolButton_6->setText(tr("Index"));
+
             ui->dispalyMenu->show();
+        }
         return;
 
     case MAIN_PAGE:
@@ -539,7 +543,11 @@ void MobileApp::viewChanged(int index)
 //    if (ui->stackedWidget->currentWidget())
 //        viewHistory->append(ui->stackedWidget->currentWidget());
     //add this page to history
-    viewHistory->append(index);
+    if (viewHistory->size() == 0) viewHistory->append(index);
+    else
+    {
+        if (viewHistory->at(viewHistory->size()-1) != index) viewHistory->append(index);
+    }
 
     //IZAR
     // this is a list of things to do when we go to a certain page
@@ -570,7 +578,7 @@ void MobileApp::viewChanged(int index)
 //go to previous view of stacked widget.
 void MobileApp::goBack()
 {
-    //qDebug()<< "going back";
+    qDebug()<< "Back pressed";
 
     if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
     {
@@ -578,43 +586,45 @@ void MobileApp::goBack()
         close();
     }
 
-    // if we have only one object it probably is the current view and we can't go back
-    else if(!viewHistory)
+    // if we have only one object it probably is the current view and we can only go back to the main page
+    else if(viewHistory->size() < 2)
     {
-        qDebug()<< "No history found! exiting.";
-        close();
+        ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+        return;
     }
 
+    int currentId = ui->stackedWidget->currentIndex();
 
-    //go back through history and find apropriate location to go to
-    for (int i = viewHistory->length(); i> 0; i--)
+    if (currentId == DISPLAY_PAGE)
     {
-        int id = viewHistory->at(i-1);
-        //id of currently displayed page
-        int currentId = ui->stackedWidget->currentIndex();
-        if (id != currentId)
+        //If we are at the index or the search page
+        if (displayer->source().path().indexOf("Index") != -1 || displayer->source().path().indexOf("SEARCH") != -1)
         {
-            switch (id)
+            int id = viewHistory->at(viewHistory->size()-2);
+            viewHistory->removeLast();
+            ui->stackedWidget->setCurrentIndex(id);
+        }
+        else
+        {
+            if (displayer->isLastSearch())
             {
-            //some pages should be ignored from history:
-            case WAIT_PAGE:
-            case SETTINGS_PAGE:
-            case MIXED_SELECTION_PAGE :
-                break;
-            case DISPLAY_PAGE :
-                //@@@
-                //Go back to index...
-                break;
-            default:
-                ui->stackedWidget->setCurrentIndex(id);
-                viewHistory->removeAt(i-1);
-                return;
-
+                displayer->backward();
+            }
+            else
+            {
+                displayer->goToIndex();
             }
         }
+        return ;
+    }
+    else
+    {
+            int id = viewHistory->at(viewHistory->size()-2);
+             qDebug() << currentId << id;
+            viewHistory->removeLast();
+            ui->stackedWidget->setCurrentIndex(id);
 
-        //remove this item from history
-        viewHistory->removeAt(i-1);
+            return;
     }
 
     //If we got 'till here then:
@@ -625,7 +635,15 @@ void MobileApp::goBack()
 
 void MobileApp::on_toolButton_6_clicked()
 {
-    displayer->goToIndex();
+    if (displayer->isLastSearch())
+    {
+        displayer->backward();
+    }
+    else
+    {
+        displayer->goToIndex();
+    }
+
     //ui->textBrowser->scrollToAnchor("Top");
     //wview->page()->mainFrame()->scrollToAnchor("Top");
 }
@@ -763,9 +781,8 @@ void MobileApp::on_SearchInBooksBTN_released()
 
         QApplication::processEvents();
 
-        QString html = SearchInBooks (regexp, otxt, booksInSearch.BooksInSearch(), ui->progressBar);
-
-        displayer->displaySearchResult(html);
+        QUrl u = SearchInBooks (regexp, otxt, booksInSearch.BooksInSearch(), ui->progressBar);
+        displayer->setSource(u);
 
         //wview->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);

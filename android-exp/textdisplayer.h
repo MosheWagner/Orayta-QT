@@ -25,13 +25,6 @@ class textDisplayer : public QTextBrowser
 {
     Q_OBJECT
 
-    enum DisplayMode
-    {
-        BookDisplay,
-        SearchResultDisplay,
-        HtmlFileDisplay
-    };
-
 public:
     explicit textDisplayer(QWidget *, BookList *);
 
@@ -41,11 +34,6 @@ public:
     //Show the given chapter of the book
     // (Loads the chapter, and the tries to jump to the exact itr position)
     void display(Book * book, BookIter itr);
-
-    void displaySearchResult(QString);
-
-    //Show html book
-    void displayHtml(QUrl url);
 
     //Jump to index
     void goToIndex();
@@ -63,9 +51,10 @@ public:
 
     void setSource(const QUrl &name);
 
-private:
+    //Returns true if last page was a search result page
+    bool isLastSearch();
 
-    DisplayMode currentMode;
+private:
 
     //A pointer to the public booklist. We need this for weaved display
     BookList *booklist;

@@ -18,12 +18,13 @@
 #define SEARCH_H
 
 #include <QProgressBar>
+#include <QUrl>
 
 extern bool stopSearchFlag;
 
 //Searches for the given phrase in all books that have SearchMe set to true.
-// Returns the html contents of the results
-QString SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar);
+// Returns a QUrl to a file contents of the results
+QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchList, QProgressBar *pbar);
 
 QString createSearchPattern (QString userInput, bool allWords = true, bool fullWords = false, int spacing = 0);
 
