@@ -108,6 +108,10 @@ public class QtActivity extends Activity
     private ActivityInfo m_activityInfo = null; // activity info object, used to access the libs and the strings
     private DexClassLoader m_classLoader = null; // loader object
     private String[] m_qtLibs = null; // required qt libs
+    
+    //prevents circular referencing in the on stop method 
+	private boolean firstStop = true;
+
 
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
@@ -216,7 +220,7 @@ public class QtActivity extends Activity
             m_service = null;
         }
     };
-
+    
     private void ministroNotFound()
     {
         AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
@@ -1061,6 +1065,7 @@ public class QtActivity extends Activity
     @Override
     protected void onPause()
     {
+		Log.d("izar", "calling pause");
         super.onPause();
         QtApplication.invokeDelegate();
     }
@@ -1206,8 +1211,20 @@ public class QtActivity extends Activity
     @Override
     protected void onStop()
     {
-        super.onStop();
-        QtApplication.invokeDelegate();
+		Log.d("izar", "calling stop");
+
+    	////prevents circular referencing:
+    	if (firstStop){
+    		firstStop = false;
+    	//we want to close the app. send the app a signal:
+    		Log.d("izar", "sending media back");
+    		onKeyUp(KeyEvent.KEYCODE_MEDIA_STOP, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
+    	}
+//    	else {
+    		super.onStop();
+    		QtApplication.invokeDelegate();
+//    	}
+    	
     }
     //---------------------------------------------------------------------------
 
@@ -1354,32 +1371,32 @@ public class QtActivity extends Activity
 
 //////////////// Activity API 8 /////////////
 //@ANDROID-8
-//QtCreator @Override
-//QtCreator     protected Dialog onCreateDialog(int id, Bundle args)
-//QtCreator     {
-//QtCreator         QtApplication.InvokeResult res = QtApplication.invokeDelegate(id, args);
-//QtCreator         if (res.invoked)
-//QtCreator             return (Dialog)res.methodReturns;
-//QtCreator         else
-//QtCreator             return super.onCreateDialog(id, args);
-//QtCreator     }
-//QtCreator     public Dialog super_onCreateDialog(int id, Bundle args)
-//QtCreator     {
-//QtCreator         return super.onCreateDialog(id, args);
-//QtCreator     }
-//QtCreator     //---------------------------------------------------------------------------
-//QtCreator 
-//QtCreator     @Override
-//QtCreator     protected void onPrepareDialog(int id, Dialog dialog, Bundle args)
-//QtCreator     {
-//QtCreator         if (!QtApplication.invokeDelegate(id, dialog, args).invoked)
-//QtCreator             super.onPrepareDialog(id, dialog, args);
-//QtCreator     }
-//QtCreator     public void super_onPrepareDialog(int id, Dialog dialog, Bundle args)
-//QtCreator     {
-//QtCreator         super.onPrepareDialog(id, dialog, args);
-//QtCreator     }
-//QtCreator     //---------------------------------------------------------------------------
+@Override
+    protected Dialog onCreateDialog(int id, Bundle args)
+    {
+        QtApplication.InvokeResult res = QtApplication.invokeDelegate(id, args);
+        if (res.invoked)
+            return (Dialog)res.methodReturns;
+        else
+            return super.onCreateDialog(id, args);
+    }
+    public Dialog super_onCreateDialog(int id, Bundle args)
+    {
+        return super.onCreateDialog(id, args);
+    }
+    //---------------------------------------------------------------------------
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog, Bundle args)
+    {
+        if (!QtApplication.invokeDelegate(id, dialog, args).invoked)
+            super.onPrepareDialog(id, dialog, args);
+    }
+    public void super_onPrepareDialog(int id, Dialog dialog, Bundle args)
+    {
+        super.onPrepareDialog(id, dialog, args);
+    }
+    //---------------------------------------------------------------------------
 //@ANDROID-8
     //////////////// Activity API 11 /////////////
 

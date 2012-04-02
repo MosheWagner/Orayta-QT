@@ -91,7 +91,7 @@ QUrl SearchInBooks (const QRegExp& regexp, QString disp, vector<Book*> searchLis
         //Head and title of the Html
         title = QObject::tr("Search results: ") + "\"" + disp + "\"";
 
-        Htmlhead = html_head(title, gFontFamily, gFontSize);
+        Htmlhead = html_head(title, QFont(gFontFamily, gFontSize));
         Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\" >";
         Htmlhead += "<div style=\"font-size:30px; text-align:center\"><b><i>";
         Htmlhead += title + ":" + "</i></b></div><BR>";

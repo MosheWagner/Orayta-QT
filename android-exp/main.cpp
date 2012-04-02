@@ -30,7 +30,10 @@
 #include <iostream>
 
 #include <QFontDatabase>
+
 #include <QDesktopWidget>
+#include <QPainter>
+#include <QRect>
 
 //For test only
 //#define MOBILE
@@ -60,7 +63,7 @@ void initPaths()
     QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
-    qDebug() << "bookpath:" << BOOKPATH ;
+//    qDebug() << "bookpath:" << BOOKPATH ;
 
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
@@ -101,7 +104,7 @@ void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
     if (fontId >= 0)
-        qDebug()<< "installed font successfuly: " << font;
+        /*qDebug()<< "installed font successfuly: " << font;*/ return;
     else
         qDebug()<< "cant add font "<< font;
 }
@@ -117,10 +120,6 @@ void initFonts()
 #endif
     fonts.append(fontpath + "DejaVuSans.ttf");
     fonts.append(fontpath + "DejaVuSerif.ttf");
-//    fonts.append(fontpath + "DroidSansHebrew.ttf");
-//     fonts.append(fontpath + "DroidSansFallbackFull.ttf");
-//     fonts.append(fontpath + "DroidSansHebrew-Regular.ttf");
-//     fonts.append(fontpath + "DroidSansHebrew-Bold.ttf");
     fonts.append(fontpath + "DroidSansHebrewOrayta.ttf");
 //    fonts.append(fontpath + "DavidCLM-Medium.ttf");
     fonts.append(fontpath + "MiriamCLM-Book.ttf");
@@ -252,19 +251,38 @@ int main(int argc, char *argv[])
 
 #ifdef MOBILE
     //Show splash screen:
-    QPixmap pixmap(":/Icons/Orayta.png");
-    //QPixmap pixmap(":/Images/Orayta.png");
-    QSplashScreen *splash = new QSplashScreen(pixmap);
-    splash->showFullScreen();
+//    QPixmap splashSourcePixmap(":/Icons/Orayta.png");
+    QPixmap basePixmap(":/Images/Orayta.png");
+
+    //get desktop size
+    QDesktopWidget* desktop = QApplication::desktop();
+    const QRect desktopRect = desktop->availableGeometry();
+
+    //create a resized version of image
+    QPixmap resizedPixmap (basePixmap.scaledToWidth(desktopRect.width()));
+
+    //create a background empty rectangle
+    QPixmap splashPixmap(desktopRect.width(), desktopRect.height());
+    splashPixmap.fill(QColor("black"));
+
+    //put our image in the middle of background
+    QPainter p;
+    p.begin(&splashPixmap);
+    QRect targetRect((splashPixmap.width() - resizedPixmap.width())/2,
+                     (splashPixmap.height() - resizedPixmap.height())/2,
+                     resizedPixmap.width(), resizedPixmap.height());
+    p.drawPixmap(targetRect, resizedPixmap);
+    p.end();
+
+    QSplashScreen *splash = new QSplashScreen(splashPixmap);
+    splash->show();
+//    splash->showMessage("Loading Orayta...", Qt::AlignLeft, Qt::white);
+
 
     // fix for certain devices which don't support hebrew chars well.
     app.setFont(QFont("DejaVu Sans"));
 
     MobileApp m;
-
-    //splash->resize(m.size());
-
-
     m.show();
 
     app.processEvents();

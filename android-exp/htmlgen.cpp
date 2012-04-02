@@ -60,8 +60,11 @@ weavedSourceData initWsdFrom (const weavedSource& src)
 }
 
 //Returns a QString that will be the header of the output HTML file
-QString html_head(QString title, QString fontFamily, int basesize)
+QString html_head(QString title, QFont font)
 {
+    QString fontFamily = font.family();
+    int basesize = font.pointSize();
+
     QString t;
     t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" ";
     t += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
@@ -987,7 +990,7 @@ QUrl Book::renderBookIndex()
     static int ind = 0;
 
     QString html = "";
-    html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
+    html += html_head(mNormallDisplayName, getFont());
 
     html += "<body>";
 
@@ -1083,7 +1086,7 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     }
 
     QString html = "";
-    html += html_head(mNormallDisplayName, mFont.family(), mFont.pointSize());
+    html += html_head(mNormallDisplayName, getFont());
 
     html += "<body>";
 

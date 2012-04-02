@@ -59,7 +59,7 @@
 
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
-int gFontSize = 16;
+int gFontSize = 5;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -171,6 +171,7 @@ void MobileApp::continueConstructor()
 
 MobileApp::~MobileApp()
 {
+    qDebug()<< "destructor";
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();
@@ -300,6 +301,11 @@ void MobileApp::showBook(Book *book, BookIter itr)
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             qApp->processEvents();
 
+            //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
+            //TODO: fix this.
+            QFont font( gFontFamily, gFontSize );
+            book->setFont(font);
+
             displayer->display(book, itr);
 
             break;
@@ -412,6 +418,8 @@ void MobileApp::titleUpdate(QUrl u)
 //Overrides the normal "closeEvent", so it can save tha window's state before quiting
 void MobileApp::closeEvent(QCloseEvent *event)
 {
+    qDebug()<<"close event";
+
     //Cancel any running searches
     stopSearchFlag = true;
 
@@ -465,6 +473,11 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
     switch ( keyEvent->key() )
     {
+
+    //stop event sent from android. exit app
+    case Qt::Key_MediaStop:
+        close();
+        break;
 
     //back button was clicked
     case Qt::Key_MediaPrevious:
@@ -1143,9 +1156,7 @@ void MobileApp::setupSettings(){
 
     //get stored settings for display font
     settings.beginGroup("Confs");
-        //TODO fix droid font and make it the default
         QString defaultFont = "Droid Sans Hebrew Orayta";
-        //QString defaultFont = "Ezra SIL SR";
         gFontFamily = settings.value("fontfamily", defaultFont).toString();
         gFontSize = settings.value("fontsize",20).toInt();
     settings.endGroup();
@@ -1446,29 +1457,32 @@ void MobileApp::on_gtoHelp_clicked()
 
 void MobileApp::on_backBTN_clicked()
 {
-    /*
+    // if there is a location to go backwords to, go there. else, go to previous chapter.
+    if (displayer->isBackwardAvailable())
+        displayer->backward();
+    else
+    {
     Book *b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
     it = b->prevChap(it);
 
     if (it != BookIter()) showBook(b, it);
- */
-    //TODO- implement the folowing, in a way that really works.
-    displayer->backward();
-
-}
+    }
+ }
 
 void MobileApp::on_forwardBTN_clicked()
 {
-    /*
-    Book *b = displayer->getCurrentBook();
-    BookIter it = displayer->getCurrentIter();
-    it = b->nextChap(it);
+   // if there is a location to go forword to, go there. else, go to next chapter.
+    if (displayer->isForwardAvailable())
+        displayer->forward();
+    else
+    {
+        Book *b = displayer->getCurrentBook();
+        BookIter it = displayer->getCurrentIter();
+        it = b->nextChap(it);
 
-    if (it != BookIter()) showBook(b, it);
-*/
-    //TODO- implement the folowing, in a way that really works.
-    displayer->forward();
+        if (it != BookIter()) showBook(b, it);
+    }
 }
 
 void MobileApp::on_ZoomInBTN_clicked()

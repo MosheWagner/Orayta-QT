@@ -306,9 +306,6 @@ protected:
     //Pointer to book's parent
     Book * mpParent;
 
-    //font to display (if it's directory, applied on all children)
-    QFont mFont;
-
     //Level of the short index (index to index)
     int mShortIndexLevel;
 
@@ -331,7 +328,13 @@ protected:
     int mIndexTextSize[5];
     int mTitleEmptyLines[5];
 
+private:
 
+    //font to display (if it's directory, applied on all children)
+    // IZAR:
+    // this shoud be NULL if it wasn't defined in conf, in which case gFontSize and gFontFamlily will be used instead.
+    // the reason is that we want to be able to change the font size during runtime and not only during book constructor.
+    QFont *mFont;
 
 };
 

@@ -30,7 +30,8 @@ using namespace std;
 
 
 //Returns a string that will be the header of the output HTML file
-QString html_head(QString title, QString fontFamily, int basesize);
+//QString html_head(QString title, QString fontFamily, int basesize);
+QString html_head(QString title, QFont font);
 
 //Generates and returns the Title of the book
 QString html_book_title(QString , QString, QString);

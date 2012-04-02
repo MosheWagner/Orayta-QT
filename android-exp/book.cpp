@@ -74,7 +74,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
 
     hasRandomId = false;
 
-    mFont = QFont( gFontFamily, gFontSize );
+//    mFont = QFont( gFontFamily, gFontSize );
+    mFont = NULL;
 
 
     //Split level for chapter splitting
@@ -198,12 +199,17 @@ void Book::setTabWidget(QWidget* w)
 Book::Filetype Book::fileType()
 {  return mFiletype;  }
 
+//see header for info
 QFont Book::getFont()
-{  return mFont;  }
+{  if (mFont)
+        return *mFont;
+    else
+        return QFont(gFontFamily, gFontSize);
+}
 
 void Book::setFont(const QFont& font)
 {
-    mFont = font;
+    mFont = new QFont(font);
 
     if ( !mvChildren.empty() )
     {
@@ -229,11 +235,11 @@ void Book::loadFont()
 
 
     // if no font
-    if ( fontDescription == "" || mFont.fromString(fontDescription) == false )
+    if ( fontDescription == "" || !mFont || mFont->fromString(fontDescription) == false )
     {
         if (mpParent != NULL)
         {
-            mFont = mpParent->mFont;
+            setFont(mpParent->getFont());
         }
     }
 }
