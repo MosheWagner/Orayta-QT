@@ -3,7 +3,7 @@
 
 // 01_A_scan0002 02_scan0257 03_A_scan0003 04_scan0256 05_A_scan0004 06_scan0255 07_A_scan0005 08_scan0254 09_A_scan0006 10_scan0253 11_A_scan0007 12_scan0252 13_A_scan0008 14_scan0251 15_A_scan0009 16_scan0250 17_A_scan0010 18_scan0249 19_A_scan0011 20_scan0248 21_A_scan0012
 // 22_scan0247 23_A_scan0013 24_B_scan0246 25_A_scan0014 26_B_scan0245 27_A_scan0015 28_B_scan0244 29_A_scan0016 30_B_scan0243 31_A_scan0017 32_B_scan0242 33_A_scan0018 34_B_scan0241 35_A_scan0019 36_B_scan0240 37_A_scan0020 38_B_scan0239 39_A_scan0021 40_B_scan0238 41_A_scan0022
-// 42_B_scan0237 43_A_scan0023 44_B_scan0236 45_A_scan0024 46_B_scan0235 47_A_scan0025 48_B_scan0234 49_A_scan0026 50_B_scan0233 
+// 42_B_scan0237 43_A_scan0023 44_B_scan0236 45_A_scan0024 46_B_scan0235 47_A_scan0025 48_B_scan0234 49_A_scan0026 50_B_scan0233
 
 
 $ משנה - שבת - רע''ב

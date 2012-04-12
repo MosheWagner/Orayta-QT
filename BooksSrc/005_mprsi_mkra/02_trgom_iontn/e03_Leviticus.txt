@@ -1,4 +1,4 @@
-&UniqueId=1590&ForcedBookName=תרגום יונתן&CosmeticsType==721&GroupId=b3&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
+&UniqueId=1590&ForcedBookName=תרגום יונתן&CosmeticsType==1418&GroupId=b3&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
 $ ויקרא - תרגום יונתן
 רבי יונתן בן עוזיאל
 

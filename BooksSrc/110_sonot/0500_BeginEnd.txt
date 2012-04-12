@@ -1,4 +1,4 @@
-&TextSource=J. Alan Groves Center&Group=פסוק המתחיל ומסתיים באות&ParagraphPrefix=~&SpecialTitle=&LastLevelIndex=2&PutNewlinesAsIs=1&SearchInTitles=1&UniqueId=720&Mehaber=תורת&CosmeticsType=#nik=1#sil=5#sp2=2
+&TextSource=J. Alan Groves Center&Group=פסוק המתחיל ומסתיים באות&ParagraphPrefix=~&SpecialTitle=&LastLevelIndex=2&PutNewlinesAsIs=1&SearchInTitles=1&UniqueId=720&Mehaber=תורת&CosmeticsType=#nik=1#sem=^#sil=5#sp2=2
 $ פסוק המתחיל ומסתיים באות
 סגולה שלא ישכח שמו ליום הדין : יאמר קודם יהיו לרצון השני בתפילת העמידה פסוק מהתנ''ך המתחיל באות הראשונה של שמו ומסתיים באות האחרונה של שמו או פסוק ששמו מופיע בו, להלן פסוקי התנ"ך ממויינים לפי האות הראשונה והאחרונה שלהם.
 

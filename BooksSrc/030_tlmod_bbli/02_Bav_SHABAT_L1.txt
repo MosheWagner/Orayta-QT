@@ -1,4 +1,4 @@
-&UniqueId=844&LastLevelIndex=2&ForcedBookName=גמרא&GroupId=shabat&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType=#bp=<BR><HR>
+&UniqueId=844&LastLevelIndex=2&ForcedBookName=גמרא&GroupId=shabat&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==841&PutNewLinesAsIs=0&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files\Projects\Bav SHABAT Layer 1 - 312 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.
@@ -1418,9 +1418,9 @@ $ תלמוד בבלי - שבת
  זכרו תורת משה עבדי וגו': וא''ר יהושע בן לוי בשעה שעלה משה למרום מצאו להקב''ה שהיה קושר כתרים לאותיות אמר לו משה אין שלום בעירך אמר לפניו כלום יש עבד שנותן שלום לרבו א''ל היה לך לעזרני מיד אמר לו
 <!--excJDMHCGNGKDADADADADHDGDDDNCDCBOOODOBOIPACEPIPHPNCJODONCLHJOGONHMHMH-->{במדבר יד-יז}
  ועתה יגדל נא כח ה' כאשר דברת (אמר) ר' יהושע בן לוי מ''ד
-<!--excJDMHCGNGKDADADADADHDGDBDNCDCJPOOFOKPACEPIPHPNCMOBONCLHAONHMHMH-->{שמות לב-א}
+<!--excJDMHCGNGKDADADADBDEDCDFDNCDCJPOOFOKPACEPIPHPNCMOBONCLHAONHMHMH-->{שמות לב-א}
  וירא העם כי בושש משה אל תקרי בושש אלא באו שש בשעה שעלה משה למרום אמר להן לישראל לסוף ארבעים יום בתחלת שש אני בא לסוף מ' יום בא שטן ועירבב את העולם אמר להן משה רבכם היכן הוא אמרו לו עלה למרום אמר להן באו שש ולא השגיחו עליו מת ולא השגיחו עליו הראה להן דמות מטתו והיינו דקאמרי ליה לאהרן
-<!--excJDMHCGNGKDADADADADHDGDBDNCDCJPOOFOKPACEPIPHPNCMOBOMHMH-->{שמות לב-א/כג ??}
+<!--excJDMHCGNGKDADADADADHDGDBDNCDCJPOOFOKPACEPIPHPNCMOBOMHMH-->{שמות לב-א}
  כי זה משה האיש וגו': א''ל ההוא מרבנן לרב כהנא מי שמיע לך מאי הר סיני א''ל הר שנעשו בו נסים לישראל הר ניסאי מיבעי ליה אלא הר שנעשה סימן טוב לישראל הר סימנאי מיבעי ליה א''ל מ''ט לא שכיחת קמיה דרב פפא ורב הונא בריה דרב יהושע דמעייני באגדתא דרב חסדא ורבה ברי' דרב הונא דאמרי תרווייהו מאי הר סיני הר שירדה שנאה לעכו''ם עליו והיינו דאמר ר' יוסי בר' חנינא ה' שמות יש לו מדבר צין שנצטוו ישראל עליו מדבר קדש שנתקדשו ישראל עליו מדבר קדמות שנתנה קדומה עליו מדבר פארן
 
 ~ דף פט - ב

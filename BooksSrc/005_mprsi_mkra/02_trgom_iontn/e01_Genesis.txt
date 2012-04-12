@@ -1,4 +1,4 @@
-&UniqueId=1588&ForcedBookName=תרגום יונתן&CosmeticsType==721&GroupId=b1&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
+&UniqueId=1588&ForcedBookName=תרגום יונתן&CosmeticsType==1418&GroupId=b1&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
 $ בראשית - תרגום יונתן
 רבי יונתן בן עוזיאל
 

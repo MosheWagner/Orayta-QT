@@ -1,5 +1,4 @@
-&CosmeticsType=#bp=<BR><HR>
-<B>&LastLevelIndex=2&ForcedBookName=תוספות&UniqueId=849&GroupId=eruvin&TextSource=ר'</B> פנחס ראובן שליט''א
+&CosmeticsType==841&PutNewLinesAsIs=0&LastLevelIndex=2&ForcedBookName=תוספות&UniqueId=849&GroupId=eruvin&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files\Projects\Bav ERUVIN Layer 3 - 207 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.

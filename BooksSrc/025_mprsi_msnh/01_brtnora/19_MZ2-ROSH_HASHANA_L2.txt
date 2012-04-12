@@ -1,7 +1,7 @@
 &UniqueId=1092&TextSource=ר' פנחס ראובן שליט''א&LastLevelIndex=2&CosmeticsType==911&ForcedBookName=רע''ב&GroupId=mishna_rosh_hashana&PutNewLinesAsIs=1&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-ROSH HASHANA Layer 2 - 12 pages
 
-// קא. קא: קב. קב: קג. קג: קד. קד: קה. קה: קו. קו: 
+// קא. קא: קב. קב: קג. קג: קד. קד: קה. קה: קו. קו:
 
 
 $ משנה - ראש השנה - רע''ב

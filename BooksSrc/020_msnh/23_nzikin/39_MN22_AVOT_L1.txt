@@ -1,4 +1,6 @@
 &UniqueId=1196&TextSource=ר' פנחס ראובןשליט''א&ForcedBookName=משנה&CosmeticsType==911&LastLevelIndex=2&GroupId=mishna_avot&PutNewLinesAsIs=1&SearchInTitles=0
+שליט''א&ForcedBookName=משנה&CosmeticsType==911&LastLevelIndex=2&GroupId=mishna_avot&PutNewLi
+nesAsIs=1&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files 2\Projects\MN22_AVOT Layer 1 - 40 pages
 
 // כז. כז: כח. כח: כט. כט: ל. ל: לא. לא: לב. לב: לג. לג: לד. לד: לה. לה: לו. לו: לז.

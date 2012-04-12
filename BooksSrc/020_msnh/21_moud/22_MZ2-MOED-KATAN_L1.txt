@@ -1,7 +1,7 @@
 &UniqueId=1097&CosmeticsType==911&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=משנה&GroupId=mishna_moed_katan&PutNewLinesAsIs=1&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-MOED-KATAN Layer 1 - 8 pages
 
-// קכ. קכ: קכא. קכא: קכב. קכב: קכג. קכג: 
+// קכ. קכ: קכא. קכא: קכב. קכב: קכג. קכג:
 
 
 $ משנה - מועד קטן

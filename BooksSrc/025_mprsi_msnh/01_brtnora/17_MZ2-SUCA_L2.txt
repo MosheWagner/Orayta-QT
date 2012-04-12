@@ -1,7 +1,7 @@
 &UniqueId=1111&LastLevelIndex=2&ForcedBookName=רע''ב&CosmeticsType==911&TextSource=ר' פנחס ראובן שליט''א&GroupId=mishna_suca&PutNewLinesAsIs=1&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-SUCA Layer 2 - 19 pages
 
-// פג. פג: פד. פד: פה. פה: פו. פו: פז. פז: פח. פח: פט. פט: צ. צ: צא. צא: צב. 
+// פג. פג: פד. פד: פה. פה: פו. פו: פז. פז: פח. פח: פט. פט: צ. צ: צא. צא: צב.
 
 
 $ משנה - סוכה - רע''ב

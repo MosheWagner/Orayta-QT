@@ -1,4 +1,4 @@
-&UniqueId=1584&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רמב''ן&LastLevelIndex=2&SearchInTitles=0&CosmeticsType==721&GroupId=b2
+&UniqueId=1584&TextSource=ר' פנחס ראובן שליט''א&ForcedBookName=רמב''ן&LastLevelIndex=2&SearchInTitles=0&CosmeticsType==1418&GroupId=b2
 $ שמות - רמב''ן
 
 ^ פרשת שמות

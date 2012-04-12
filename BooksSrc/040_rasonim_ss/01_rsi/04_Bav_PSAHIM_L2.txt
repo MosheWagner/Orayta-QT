@@ -1,4 +1,4 @@
-&UniqueId=909&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א, לרבנית שלומית קטן תליט''א <BR>כולל אוצר לעזי רש''י מאת הרב משה קטן זצ''ל&ForcedBookName=רש''י&GroupId=psahim&CosmeticsType=#bp=<BR><HR>
+&UniqueId=909&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א, לרבנית שלומית קטן תליט''א <BR>כולל אוצר לעזי רש''י מאת הרב משה קטן זצ''ל&ForcedBookName=רש''י&GroupId=psahim&CosmeticsType==841&PutNewLinesAsIs=0&SearchInTitles=0
 // C:\Dev\BhOCR\Runtime files\Projects\Bav PSAHIM Layer 2 - 240 pages
 
 // ב. ב: ג. ג: ד. ד: ה. ה: ו. ו: ז. ז: ח. ח: ט. ט: י. י: יא. יא: יב.

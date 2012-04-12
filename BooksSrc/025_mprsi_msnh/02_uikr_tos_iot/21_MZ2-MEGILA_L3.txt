@@ -1,7 +1,8 @@
 &CosmeticsType==911&PutNewLinesAsIs=1&TextSource=ר' פנחס ראובן שליט''א&SearchInTitles=0&UniqueId=1096&CosmeticsType=1 #bp=<BR><HR>&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&ForcedBookName=עיקר תוי''ט&GroupId=mishna_megila
+<B>&UniqueId=1096&CosmeticsType=1 #bp=<BR><HR>&LastLevelIndex=2&TextSource=ר'</B> פנחס ראובן שליט''א&ForcedBookName=עיקר תוי''ט&GroupId=mishna_megila
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-MEGILA Layer 3 - 13 pages
 
-// קיג. קיג: קיד. קיד: קטו. קטו: קטז. קטז: קיז. קיז: קיח. קיח: קיט. 
+// קיג. קיג: קיד. קיד: קטו. קטו: קטז. קטז: קיז. קיז: קיח. קיח: קיט.
 
 
 $ משנה - מגילה - עיקר תוי''ט

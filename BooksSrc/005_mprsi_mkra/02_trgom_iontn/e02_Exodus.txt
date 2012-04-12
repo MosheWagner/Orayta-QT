@@ -1,4 +1,4 @@
-&UniqueId=1589&ForcedBookName=תרגום יונתן&CosmeticsType==721&GroupId=b2&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
+&UniqueId=1589&ForcedBookName=תרגום יונתן&CosmeticsType==1418&GroupId=b2&TextSource=ויקיטקסט&SearchInTitles=0&LastLevelIndex=2
 $ שמות - תרגום יונתן
 רבי יונתן בן עוזיאל
 

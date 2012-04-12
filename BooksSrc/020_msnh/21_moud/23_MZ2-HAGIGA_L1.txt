@@ -1,7 +1,7 @@
 &UniqueId=1067&ForcedBookName=משנה&SearchInTitles=0&LastLevelIndex=2&TextSource=ר' פנחס ראובן שליט''א&CosmeticsType==911&GroupId=mishna_hagiga&PutNewLinesAsIs=1
 // C:\Dev\BhOCR\Runtime files 2\Projects\MZ2-HAGIGA Layer 1 - 9 pages
 
-// קכד. קכד: קכה. קכה: קכו. קכו: קכז. קכז: קכח. 
+// קכד. קכד: קכה. קכה: קכו. קכו: קכז. קכז: קכח.
 
 
 $ משנה - חגיגה
