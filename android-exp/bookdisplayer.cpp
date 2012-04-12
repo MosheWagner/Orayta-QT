@@ -267,8 +267,9 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         BookIter itr = BookIter::fromEncodedString(lnk);
 
-        QString html = myBook->getChapterHtml(&itr, MW->getBookList(), true, true);
-        setHtml(html);
+
+        QUrl u = myBook->renderChapterHtml(&itr, MW->getBookList(), true, true);
+        load(u);
 
         currentLocation = itr;
     }
@@ -498,7 +499,7 @@ void bookDisplayer::jumpToTop()
     #endif
 
     //if (!PDFMode) htmlview->page()->mainFrame()->scrollToAnchor("Top");
-    if (!PDFMode) if (myBook) setHtml(myBook->getBookIndexHtml());
+    if (!PDFMode) if (myBook) load(myBook->renderBookIndex());
 }
 
 void bookDisplayer::goBack()

@@ -121,10 +121,6 @@ void textDisplayer::processAnchor(const QUrl &url)
 //Show the index of the book
 void textDisplayer::display(Book * book)
 {  
-    //Cause ui to show wait status
-    emit loadStart();
-    QApplication::processEvents();
-
     currentBook = book;
     currentIter = BookIter();
 
@@ -135,15 +131,12 @@ void textDisplayer::display(Book * book)
     setSource(u);
 }
 
+#include <QScrollBar>
 
 //Show the given chapter of the book
 // (Loads the chapter, and the tries to jump to the exact itr position)
 void textDisplayer::display(Book * book, BookIter itr)
 {
-    //Cause ui to show wait status
-    emit loadStart();
-    QApplication::processEvents();
-
     //Show index
     if (itr == BookIter()) display(book);
 
@@ -162,7 +155,6 @@ void textDisplayer::display(Book * book, BookIter itr)
         return;
     }
 
-    //TODO: Search results need to be improved
     scrollToAnchor(itr.toEncodedString());
 }
 
@@ -256,6 +248,8 @@ void textDisplayer::setSource(const QUrl &name)
     QApplication::processEvents();
 
     QTextBrowser::setSource(name);
+
+    QApplication::processEvents();
     emit loadEnd();
 }
 

@@ -50,18 +50,21 @@
         <file>Icons/Orayta.ico</file>
         <file>Icons/tab-new2.png</file>
         <file>Icons/find-big.png</file>
-        <file>Icons/help-about-big.png</file>
         <file>Icons/Orayta-Huge.png</file>
         <file>Icons/search-big.png</file>
         <file>Icons/bookcase-big.png</file>
         <file>Icons/help-contents-big.png</file>
         <file>Icons/booksearch.png</file>
-        <file>Icons/dl-book2.png</file>
         <file>Icons/go-next.png</file>
         <file>Icons/go-previous.png</file>
         <file>Icons/go-next-view-page.png</file>
         <file>Icons/go-previous-view-page.png</file>
         <file>Images/ajax-loader.gif</file>
         <file>Images/Orayta-small.png</file>
+        <file>Icons/plus.png</file>
+        <file>Icons/list-add.png</file>
+        <file>Icons/list-remove.png</file>
+        <file>Icons/dl-book2.png</file>
+        <file>Icons/help-about-big.png</file>
     </qresource>
 </RCC>

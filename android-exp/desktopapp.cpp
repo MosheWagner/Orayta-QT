@@ -186,7 +186,7 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     if (!bookList[0]->IsDir())
     {
         //@@@@
-        bookdisplayer(0)->setInternalLocation("*");
+        //bookdisplayer(0)->setInternalLocation("*");
         openBook(bookList[0]);
     }
     else
@@ -646,7 +646,8 @@ void DesktopApp::openBook( Book* book )
             {
                 //TODO: Who said 1 is the best?
                 book->readBook(1);
-                CurrentBookdisplayer()->setHtml(book->getBookIndexHtml());
+                QUrl u = book->renderBookIndex();
+                CurrentBookdisplayer()->load(u);
             }
             else
             {
@@ -658,7 +659,8 @@ void DesktopApp::openBook( Book* book )
                 qDebug() << l;
                 BookIter itr = BookIter::fromEncodedString(l);
 
-                CurrentBookdisplayer()->setHtml(book->getChapterHtml(&itr, &bookList, true, true));
+                QUrl u = book->renderChapterHtml(&itr, &bookList, true, true);
+                CurrentBookdisplayer()->load(u);
                 CurrentBookdisplayer()->currentLocation = itr;
 
                 CurrentBookdisplayer()->InternalLocationInHtml = "";
@@ -1739,8 +1741,8 @@ void DesktopApp::on_SearchInBooksBTN_clicked()
         QString title = tr("Searching: "); title += "\"" + otxt + "\"" + " ...";
         ui->viewTab->setTabText(CURRENT_TAB, title);
 
-        QString s = SearchInBooks (regexp, otxt, bookList.BooksInSearch(), ui->progressBar);
-        pCurrentBookdisplayer->setHtml(s);
+        QUrl u = SearchInBooks (regexp, otxt, bookList.BooksInSearch(), ui->progressBar);
+        pCurrentBookdisplayer->load(u);
     }
 }
 
@@ -1943,7 +1945,7 @@ void DesktopApp::SearchGuematria (QString txt)
         title += " (" + stringify(guematria) + ")";
 
 
-        Htmlhead = html_head(title, gFontFamily, gFontSize);
+        Htmlhead = html_head(title, QFont(gFontFamily, gFontSize));
         Htmlhead += "<body>";
         Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
@@ -2000,7 +2002,8 @@ void DesktopApp::on_leftChap_clicked()
     if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->nextChap(itr);
     else itr = CurrentBookdisplayer()->book()->prevChap(itr);
 
-    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(&itr, &bookList, true, true));
+    QUrl u = CurrentBookdisplayer()->book()->renderChapterHtml(&itr, &bookList, true, true);
+    CurrentBookdisplayer()->load(u);
     CurrentBookdisplayer()->currentLocation = itr;
 }
 
@@ -2014,6 +2017,7 @@ void DesktopApp::on_rightChap_clicked()
     if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->prevChap(itr);
     else itr = CurrentBookdisplayer()->book()->nextChap(itr);
 
-    CurrentBookdisplayer()->setHtml(CurrentBookdisplayer()->book()->getChapterHtml(&itr, &bookList, true, true));
+    QUrl u = CurrentBookdisplayer()->book()->renderChapterHtml(&itr, &bookList, true, true);
+    CurrentBookdisplayer()->load(u);
     CurrentBookdisplayer()->currentLocation = itr;
 }

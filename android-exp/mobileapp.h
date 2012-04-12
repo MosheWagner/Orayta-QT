@@ -22,8 +22,8 @@ class MobileApp : public QDialog
 
 public:
     explicit MobileApp(QWidget *parent = 0);
-     QStringList downloadsList;
-      void downloadNext();
+    QStringList downloadsList;
+    void downloadNext();
     ~MobileApp();
 
 protected:
@@ -92,8 +92,6 @@ private slots:
 
     void on_doneBTN_clicked();
 
-    void on_selectBooksForSearchLink_clicked();
-
     void on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
     /* void on_systemLangCbox_clicked(bool checked); */
@@ -136,9 +134,6 @@ private slots:
 
     void on_unmarkAllBTN_3_clicked();
 
-    // constructor continuation
-    void continueConstructor();
-
     void on_menuHelpBTN_clicked();
 
     void on_horizontalSlider_valueChanged(int value);
@@ -159,6 +154,8 @@ private slots:
     void on_ZoomOutBTN_clicked();
 
     void titleUpdate(QUrl);
+
+    void jumpToLastPos();
 
 private:
     Ui::MobileApp *ui;

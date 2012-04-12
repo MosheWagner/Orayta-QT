@@ -54,6 +54,9 @@ public:
     //Returns true if last page was a search result page
     bool isLastSearch();
 
+    //Scrolls to the given y value when the document is fully loaded
+    //scrollTo(int y);
+
 private:
 
     //A pointer to the public booklist. We need this for weaved display

@@ -10,7 +10,7 @@ INCLUDEPATH += $$PWD
     #for test only
     DEFINES += MOBILE
     DEFINES += android
-#    CONFIG += MOBILE
+    CONFIG += MOBILE
     CONFIG += android
 
 android {
@@ -149,6 +149,7 @@ FORMS += \
 }
 
 #Android stuff:
+android {
 SOURCES += \
     mobileapp.cpp \
     QKinetic/qtscrollevent.cpp \
@@ -337,7 +338,7 @@ OTHER_FILES += \
     android/res/drawable-mdpi/icon.png \
     android/res/drawable-hdpi/icon.png \
     android/AndroidManifest.xml
-
+}
 
 RESOURCES += Orayta.qrc \
 

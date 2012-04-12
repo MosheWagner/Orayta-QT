@@ -15,9 +15,11 @@
 * Izar <izar00@gmail.com>
 * Moshe Wagner. <moshe.wagner@gmail.com>
 */
+
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
-
+#include "QKinetic/qtscroller.h"
+#include "QKinetic/flickcharm.h"
 #include "functions.h"
 #include "booklist.h"
 #include "search.h"
@@ -34,32 +36,29 @@
 #include <QTimer>
 
 
-#include "QKinetic/flickcharm.h"
-
 
 #define MAIN_PAGE 0
 #define ABOUT_PAGE 1
 #define DISPLAY_PAGE 2
 #define LIST_PAGE 3
 #define SEARCH_PAGE 4
-#define BOOK_SELECTION_PAGE 5
-#define GET_BOOKS_PAGE 6
-#define SETTINGS_PAGE 7
-#define MIXED_SELECTION_PAGE 8
+#define GET_BOOKS_PAGE 5
+#define SETTINGS_PAGE 6
+#define MIXED_SELECTION_PAGE 7
 
 
 //TODO: CLEAN & SPLIT UP!!!!
-//TODO: Test landscape - portrait switching
 //TODO: Improve look & feel
 //TODO: Bookmarks
-//TODO: Improve book loading speed (gradual loading)
 
 
-#include <QKinetic/qtscroller.h>
+
 
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
 int gFontSize = 5;
+
+int vp;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -81,15 +80,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     listdownload = NULL;
     downloader = NULL;
 
-
-    //QTimer::singleShot(50, this, SLOT(continueConstructor()));
-    continueConstructor();
-}
-
-// constructor continuation
-void MobileApp::continueConstructor()
-{
-
     //Initialize a new FileDownloader to download the list
     listdownload = new FileDownloader();
     connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
@@ -100,11 +90,13 @@ void MobileApp::continueConstructor()
     //Initialize the bookdisplayer object
     displayer = new textDisplayer(this, &bookList);
     ui->displayArea->layout()->addWidget(displayer);
+    ui->displayArea->layout()->addWidget(ui->loadBar);
+
     QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
     connect(displayer, SIGNAL(sourceChanged(QUrl)), this, SLOT(titleUpdate(QUrl)));
 
     //Initialize wait movie
-    waitMovie = new QMovie(":/Images/ajax-loader.gif");
+    //waitMovie = new QMovie(":/Images/ajax-loader.gif");
     connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
     connect(displayer, SIGNAL(loadEnd()), this, SLOT(tdloadFinished()));
 
@@ -156,17 +148,29 @@ void MobileApp::continueConstructor()
         int lastBookId = settings.value("lastBook").toInt();
         Book *b = bookList.findBookById(lastBookId);
         BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
-        int vp =  settings.value("viewposition").toInt();
+        ///
+        vp =  settings.value("viewposition").toInt();
+        //int vp =  settings.value("viewposition").toInt();
     settings.endGroup();
+
 
     if (page != DISPLAY_PAGE || !b) ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
     else
     {
         showBook(b, itr);
-        displayer->verticalScrollBar()->setValue(vp);
+
+        //Yuchy hack. but I culdn't get it to work otherwise...
+        QTimer::singleShot(100, this, SLOT(jumpToLastPos()));
     }
 
     ui->gtoHelp->show();
+}
+
+//Yuchy hack. but I culdn't get it to work otherwise...
+void MobileApp::jumpToLastPos()
+{
+    displayer->verticalScrollBar()->setValue(vp);
+    vp = -1;
 }
 
 MobileApp::~MobileApp()
@@ -259,7 +263,10 @@ void MobileApp::on_aboutBTN_clicked()
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 }
 
-void MobileApp::on_menuHelpBTN_clicked() { on_aboutBTN_clicked() ;}
+void MobileApp::on_menuHelpBTN_clicked()
+{
+    on_aboutBTN_clicked() ;
+}
 
 void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 {
@@ -294,23 +301,15 @@ void MobileApp::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 
 void MobileApp::showBook(Book *book, BookIter itr)
 {
-    switch ( book->fileType() )
-    {
-        case ( Book::Normal ):
-        {
-            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-            qApp->processEvents();
+    ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+    qApp->processEvents();
 
-            //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
-            //TODO: fix this.
-            QFont font( gFontFamily, gFontSize );
-            book->setFont(font);
+    //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
+    //TODO: fix this.
+    QFont font( gFontFamily, gFontSize );
+    book->setFont(font);
 
-            displayer->display(book, itr);
-
-            break;
-        }
-    }
+    displayer->display(book, itr);
 }
 
 void MobileApp::showBook(Book *book)
@@ -399,19 +398,20 @@ void MobileApp::tdloadFinished()
    QApplication::processEvents();
 
    titleUpdate(QUrl());
-
+   displayer->setEnabled(true);
    ui->loadBar->hide();
 }
 
 void MobileApp::tdloadStarted()
 {
     ui->loadBar->show();
+    displayer->setEnabled(false);
     QApplication::processEvents();
 }
 
 void MobileApp::titleUpdate(QUrl u)
 {
-    ui->bookNameLBL->setText(displayer->getCurrentBook()->getNormallDisplayName());
+    if (displayer->getCurrentBook()) ui->bookNameLBL->setText(displayer->getCurrentBook()->getNormallDisplayName());
 }
 
 
@@ -428,7 +428,9 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //remmeber last open book
     settings.beginGroup("History");
     settings.setValue("lastPage", ui->stackedWidget->currentIndex());
-    settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
+
+    if (displayer->getCurrentBook()) settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
+
     settings.setValue("position", displayer->getCurrentIter().toEncodedString());
     settings.setValue("viewposition", displayer->verticalScrollBar()->value());
     settings.endGroup();
@@ -537,10 +539,6 @@ void MobileApp::showMenu()
         ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
         return;
 
-    case SEARCH_PAGE:
-        ui->stackedWidget->setCurrentIndex(BOOK_SELECTION_PAGE);
-        return;
-
     //TODO: set more options
     default:
         ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
@@ -571,10 +569,6 @@ void MobileApp::viewChanged(int index)
     // this is a list of things to do when we go to a certain page
     switch (index){
     //when going to books in search page, reset the page
-    case (BOOK_SELECTION_PAGE):
-        //canceled. not needed and does trouble.
-//        resetSearchBookTree();
-        break;
 
     //when going to get books page get the list from server.
     case (GET_BOOKS_PAGE):
@@ -822,26 +816,9 @@ void MobileApp::on_stopSearchBTN_clicked()
 
 // switch the view from normal to in search mode
 void MobileApp::showHideSearch(bool inSearch){
-    ui->inSearchGroup->setVisible(inSearch);
-    ui->searchStartGroup->setVisible(!inSearch);
-   /*
-    if (inSearch)
-    {
-        ui->searchGBX->show();
-         //hide the search butten and show stop search
-        ui->SearchInBooksBTN->hide();
-        ui->stopSearchBTN->show();
-        ui->selectBooksForSearchLink->hide();
 
-    }
-    else
-    {
-        ui->searchGBX->hide();
-        //show the search butten and hide stop search
-        ui->SearchInBooksBTN->show();
-        ui->stopSearchBTN->hide();
-        ui->selectBooksForSearchLink->show();
-    } */
+    ui->inSearchGroup->setVisible(inSearch);
+    ui->SearchInBooksBTN->setVisible(!inSearch);
 }
 
 
@@ -1084,12 +1061,6 @@ void MobileApp::on_doneBTN_clicked()
     goBack();
 }
 
-
-void MobileApp::on_selectBooksForSearchLink_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(BOOK_SELECTION_PAGE);
-}
-
 void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     Book* book = booksInSearch.findBookByTWI(item);
@@ -1220,6 +1191,8 @@ void MobileApp::setupMixedSelection(){
     if (!book || !book->IsMixed()){
         ui->noCommemtaries->show();
         ui->mixedGroup->hide();
+
+        return;
     }
     else if (book->IsMixed())
     //Show / Hide mixed display stuff
@@ -1236,64 +1209,9 @@ void MobileApp::setupMixedSelection(){
             item->setCheckState(book->mWeavedSources[i].show? Qt::Checked : Qt::Unchecked);
             QString id = stringify(book->mWeavedSources[i].id);
             item->setWhatsThis(id);
-            qDebug() << "id: " << id;
+            item->setToolTip(item->checkState() == Qt::Checked? "True" : "False");
             ui->selectionArea->addItem(item);
         }
-
-        /*
-        //Clear old entries
-        for (int i=0; i<weavedList.size(); i++)
-        {
-            weavedList[i]->hide();
-        }
-        weavedList.clear();
-
-        //Create new entries
-        for(int i=1; i<book->mWeavedSources.size(); i++)
-        {
-            QCheckBox *chk = new QCheckBox(book->mWeavedSources[i].Title, ui->mixedFrame);
-            ui->selectionArea->addWidget(chk);
-
-            if (book->mWeavedSources[i].show == true)
-            {
-                chk->setChecked(true);
-            }
-
-            chk->setWhatsThis(stringify(book->mWeavedSources[i].id));
-
-            weavedList << chk;
-
-//            QSignalMapper *signalMapper = new QSignalMapper(this);
-
-//            connect(chk, SIGNAL(clicked()), signalMapper, SLOT(map()));
-//            signalMapper->setMapping(chk, weavedList.size() - 1);
-//            connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(weavedCheckBoxClicked(int)));
-        }
-
-        ui->showaloneCBX->setChecked(book->showAlone);
-        ui->mixedFrame->setEnabled(!ui->showaloneCBX->isChecked());
-        */
-
-        /* void DesktopApp::weavedCheckBoxClicked(int btnIndex)
-    //Still a bit ugly
-
-    QTreeWidgetItem* current = ui->treeWidget->currentItem();
-    Book* book = bookList.findBookByTWI(current);
-
-    if (book == NULL) return;
-
-    QString id = weavedList[btnIndex]->whatsThis();
-
-    for(int i=1; i<book->mWeavedSources.size(); i++)
-    {
-        if (stringify(book->mWeavedSources[i].id) == id)
-        {
-            book->mWeavedSources[i].show = weavedList[btnIndex]->checkState();
-        }
-    }
-
-    book->setTabWidget( 0 );
-    */
     }
 }
 
@@ -1385,10 +1303,29 @@ void MobileApp::on_unmarkAllBTN_3_clicked()
 
 void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 {
-    //toggle the current check state of the item
-    item->checkState() == Qt::Checked? item->setCheckState(Qt::Unchecked) : item->setCheckState(Qt::Checked);
-}
+    //Invert the selection of the item only if it was not chnaged by the click itself already.
+    // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
+    if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
+        (item->checkState() == Qt::Unchecked && item->toolTip() == "False") )
+    {
+        if (item->checkState() == Qt::Checked)
+        {
+            item->setCheckState(Qt::Unchecked);
+            item->setToolTip("False");
+        }
+        else
+        {
+            item->setCheckState(Qt::Checked);
+            item->setToolTip("True");
+        }
+    }
+    else
+    {
+        if (item->checkState() == Qt::Checked) item->setToolTip("True");
+        else item->setToolTip("False");
+    }
 
+}
 
 /* derecated
 void MobileApp::on_moreInfoBTN_clicked()
@@ -1494,3 +1431,4 @@ void MobileApp::on_ZoomOutBTN_clicked()
 {
     displayer->decreaseSize();
 }
+

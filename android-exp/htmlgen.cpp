@@ -216,122 +216,6 @@ QString index_to_index(QList <IndexItem> indexitemlist,int level)
     return str;
 }
 
-/*
-QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, bool dot, bool hasRUS)
-{
-
-    //TODO: Make those in tables look better (strech to both sides?)
-
-    //NOTE: This is a bit tricksy (see LOTR if you don't know that word),
-    //      this should be tested with more books, and documented a lot more
-
-    QString link_table="";
-    bool opentable = false;
-    int iln = 0;
-
-    //Levels possible here are 2,3,4,5
-    bool haslevel[4]={false};
-
-
-    for (unsigned int i=0; i<indexitemlist.size(); i++)
-    {
-        if (indexitemlist[i].level == 2)
-            haslevel[0] = true;
-        if (indexitemlist[i].level == 3)
-            haslevel[1] = true;
-        if (indexitemlist[i].level == 4)
-            haslevel[2] = true;
-        if (indexitemlist[i].level == 5)
-            haslevel[3] = true;
-    }
-
-
-    //Get i to one above the lowest existing level:
-
-    unsigned int levelMIN=0, higherLevel=0;
-    //Find lowest level
-    for (levelMIN=0; levelMIN < 4 && haslevel[levelMIN] == false; levelMIN++) {};
-
-    //Find the next one above it:
-    for (higherLevel = levelMIN + 1 ; higherLevel < 4 && haslevel[higherLevel] == false; higherLevel++) {};
-
-    // (The found numbers are 2 under the real levels, because they started from 0 and the levels start from 2)
-    levelMIN += 2;
-    higherLevel += 2;
-
-
-    //If only one link level is present (and thus higherLevel became 6)
-    if ( higherLevel == 6)
-    {
-        link_table += "<span style=\"font-size:20px;\">";
-        for (unsigned int j=0; j<indexitemlist.size(); j++)
-        {
-            link_table += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            link_table += bluedot() + "&nbsp;";
-
-            link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-
-            if (!hasRUS) link_table +="<BR>\n";
-        }
-        link_table += "</span>";
-    }
-
-    //If more than one level,
-    // the lowest is in a table under the one closest above it,
-    // and the higher one(s) get a <P> before them.
-    else
-    {
-        for (unsigned int j=0; j<indexitemlist.size(); j++)
-        {
-            if(short_index_level == indexitemlist[j].level)
-            {
-                QString name = "Index"+ stringify(iln);
-                link_table += "<a name=\"" + name + "\" " + "href=\"$" + name + "\">&nbsp;</a>\n";
-                iln ++;
-            }
-
-            if (opentable && indexitemlist[j].level >= higherLevel)
-            {
-                link_table += "<P></td></tr></tbody></table>";
-                opentable = false;
-            }
-
-            //Higher than one above the lowest
-            if (indexitemlist[j].level > higherLevel)
-            {
-                link_table += "<P><span style=\"font-size:40px;\">";
-
-                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table += "</span>\n";
-            }
-            else if (indexitemlist[j].level == higherLevel)
-            {
-                link_table += "<span style=\"font-size:28px;\"> &nbsp;&nbsp;";
-
-                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table +=  "</span>\n";
-                link_table += "<table border=\"0\" cellpadding=\"8\" cellspacing=\"2\" width=\"100%\"><tbody><tr><td width=\"24\"><td align=\"right\">";
-                opentable = true;
-            }
-            else
-            {
-                if(dot)
-                    link_table += bluedot() + " " + link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                else
-                    link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table +="&nbsp;\n";
-            }
-        }
-    }
-    if (opentable)
-        link_table += "</td></tr></tbody></table>";
-
-    if (link_table != "") link_table += "<HR>";
-
-    return link_table;
-}
-
-*/
 
 QString Script()
 {
@@ -647,13 +531,9 @@ string Decrypt (string text, bool decrypt)
   Chapter loading :
 
   TODO:
-  - Externall links
-  - Jump to location within shown chapter
   - Release loaded books
   - Test
-  - CSS
   - Bookmarks
-  - Guess LIL
   - Clean code
   - Comments, etc'
 
@@ -1020,6 +900,20 @@ QUrl Book::renderBookIndex()
         if (highetLVL > lowestLVL) mShortIndexLevel = highetLVL;
 
         qDebug()<< "short index level geuss: " << mShortIndexLevel ;
+    }
+
+
+    //Book with no chapters:
+    if (indexitemlist.size() == 0)
+    {
+        //Read text into vector
+        QList <QString> text;
+
+        //Read the source file associated to this book:
+        QString zipfile = absPath(mPath);
+        ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true);
+
+        for (int i=0; i<text.size(); i++) if (text[i][0] != '$') html += text[i] + "<BR>\n";
     }
 
     //TODO: @@@
