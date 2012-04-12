@@ -39,6 +39,12 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     connect(this,SIGNAL(textChanged()), SLOT(adjustWidth()));
 
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
+
+    //remove arrows from scrollBars
+    QString noArrows = "QScrollBar { margin: 0px ; width: 5px;}";
+         noArrows +=    "QScrollBar::add-line, QScrollBar::sub-line{border: 0px;  height: 0px; }";
+         noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
+    this->setStyleSheet(noArrows);
 }
 
 void textDisplayer::adjustWidth()
@@ -250,7 +256,7 @@ void textDisplayer::setSource(const QUrl &name)
     QTextBrowser::setSource(name);
 
     QApplication::processEvents();
-    emit loadEnd();
+    emit loadEnd(name);
 }
 
 bool textDisplayer::isLastSearch()

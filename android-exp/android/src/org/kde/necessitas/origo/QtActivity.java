@@ -35,18 +35,18 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.kde.necessitas.ministro.IMinistro;
-import org.kde.necessitas.ministro.IMinistroCallback;
+//import org.kde.necessitas.ministro.IMinistro;
+//import org.kde.necessitas.ministro.IMinistroCallback;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
+//import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
+//import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -54,12 +54,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources.Theme;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.net.Uri;
+//import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
-import android.os.RemoteException;
+//import android.os.IBinder;
+//import android.os.RemoteException;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -177,7 +177,7 @@ public class QtActivity extends Activity
         }
     }
 
-    private ServiceConnection m_ministroConnection=new ServiceConnection() {
+   /* private ServiceConnection m_ministroConnection=new ServiceConnection() {
         private IMinistro m_service = null;
     @Override
         public void onServiceConnected(ComponentName name, IBinder service)
@@ -237,7 +237,7 @@ public class QtActivity extends Activity
             }
         });
         errorDialog.show();
-    }
+    } */
 
     private void startApp(final boolean firstStart)
     {
@@ -394,7 +394,7 @@ public class QtActivity extends Activity
 //            */
             
 
-            try {
+           /* try {
                 if (!bindService(new Intent(org.kde.necessitas.ministro.IMinistro.class.getCanonicalName()), m_ministroConnection, Context.BIND_AUTO_CREATE))
                     throw new SecurityException("");
             } catch (Exception e) {
@@ -431,7 +431,7 @@ public class QtActivity extends Activity
                 {
                     ministroNotFound();
                 }
-            }
+            }*/
         }
         catch (Exception e)
         {
@@ -1208,19 +1208,42 @@ public class QtActivity extends Activity
     }
     //---------------------------------------------------------------------------
 
+    private final class CloseAction extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			Log.d("izar", "sending media back");
+    		onKeyUp(KeyEvent.KEYCODE_MEDIA_STOP, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void v){
+			onStop();
+    		QtApplication.invokeDelegate();
+		}
+		
+	}
     @Override
     protected void onStop()
     {
-		Log.d("izar", "calling stop");
+		
 
-    	////prevents circular referencing:
+   	////prevents circular referencing:
     	if (firstStop){
+    		Log.d("izar", "calling stop");
     		firstStop = false;
     	//we want to close the app. send the app a signal:
-    		Log.d("izar", "sending media back");
+    		Log.d("izar", "sending media stop");
     		onKeyUp(KeyEvent.KEYCODE_MEDIA_STOP, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
+    		QtApplication.invokeDelegate();
+    		
+    		
+//    		CloseAction ca = new CloseAction();
+//    		ca.execute();
     	}
 //    	else {
+    		Log.d("izar", "calling super.stop");
     		super.onStop();
     		QtApplication.invokeDelegate();
 //    	}

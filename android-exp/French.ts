@@ -1106,12 +1106,12 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 <context>
     <name>MobileApp</name>
     <message>
-        <location filename="mobileapp.ui" line="84"/>
+        <location filename="mobileapp.ui" line="165"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="356"/>
+        <location filename="mobileapp.ui" line="697"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1120,53 +1120,48 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Chargement...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2432"/>
+        <location filename="mobileapp.ui" line="2891"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="238"/>
+        <location filename="mobileapp.ui" line="549"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="297"/>
-        <location filename="mobileapp.ui" line="2565"/>
+        <location filename="mobileapp.ui" line="611"/>
+        <location filename="mobileapp.ui" line="3165"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="415"/>
+        <location filename="mobileapp.ui" line="785"/>
         <source>Get books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="476"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="850"/>
+        <location filename="mobileapp.ui" line="1308"/>
         <source>settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="766"/>
+        <location filename="mobileapp.ui" line="1224"/>
         <source>commentaries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2383"/>
+        <location filename="mobileapp.ui" line="2842"/>
         <source>Open</source>
         <translation type="unfinished">Ouvrir</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2423"/>
+        <location filename="mobileapp.ui" line="2882"/>
         <source>Search:</source>
         <translation type="unfinished">Recherche:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2460"/>
+        <location filename="mobileapp.ui" line="2925"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
@@ -1174,62 +1169,38 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 </translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2591"/>
+        <location filename="mobileapp.ui" line="3191"/>
         <source>Searching...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2656"/>
+        <location filename="mobileapp.ui" line="3256"/>
         <source>Stop Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="985"/>
+        <location filename="mobileapp.ui" line="1443"/>
         <source>back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="940"/>
+        <location filename="mobileapp.ui" line="1398"/>
         <source>forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="724"/>
-        <source>help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="515"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; color:#000031;&quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; font-weight:600; color:#000031;&quot;&gt;Android beta version&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600; font-style:italic; color:#000031;&quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans serif&apos;; font-size:6pt;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#000031;&quot;&gt;Simple free access to Jewish books for Windows, Linux, Mac and android.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#000031;&quot;&gt;Moshe Wagner,     Avi Izar&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; color:#000031;&quot;&gt;Israel,                      5772&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#000031;&quot;&gt;Questions, comments, and donations are welcome at:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mobileapp.ui" line="539"/>
+        <location filename="mobileapp.ui" line="902"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="589"/>
+        <location filename="mobileapp.ui" line="957"/>
         <source>Loading... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="682"/>
-        <location filename="mobileapp.cpp" line="529"/>
+        <location filename="mobileapp.ui" line="1140"/>
+        <location filename="mobileapp.cpp" line="549"/>
         <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1242,47 +1213,47 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Réduire</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1445"/>
+        <location filename="mobileapp.ui" line="1903"/>
         <source>Start again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1877"/>
+        <location filename="mobileapp.ui" line="2335"/>
         <source>Last book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2533"/>
+        <location filename="mobileapp.ui" line="3133"/>
         <source>Select books for search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2699"/>
+        <location filename="mobileapp.ui" line="3299"/>
         <source>Select Books For Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3289"/>
+        <location filename="mobileapp.ui" line="3898"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3314"/>
+        <location filename="mobileapp.ui" line="3926"/>
         <source>Downloading books list. If this message stays, plaese check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3342"/>
+        <location filename="mobileapp.ui" line="3954"/>
         <source>Select book packages to download:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3415"/>
+        <location filename="mobileapp.ui" line="4027"/>
         <source>Download books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3483"/>
+        <location filename="mobileapp.ui" line="4101"/>
         <source>Font</source>
         <translation type="unfinished">Police</translation>
     </message>
@@ -1295,17 +1266,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3622"/>
+        <location filename="mobileapp.ui" line="4240"/>
         <source>Font preview:</source>
         <translation type="unfinished">Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3637"/>
+        <location filename="mobileapp.ui" line="4255"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="3777"/>
+        <location filename="mobileapp.ui" line="4395"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1314,17 +1285,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3785"/>
+        <location filename="mobileapp.ui" line="4403"/>
         <source>Language</source>
         <translation type="unfinished">Langue</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3805"/>
+        <location filename="mobileapp.ui" line="4423"/>
         <source>Custom language</source>
         <translation type="unfinished">Langage</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3814"/>
+        <location filename="mobileapp.ui" line="4432"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1337,75 +1308,99 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3865"/>
+        <location filename="mobileapp.ui" line="4483"/>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3885"/>
+        <location filename="mobileapp.ui" line="4503"/>
         <source>Save settings</source>
         <translation type="unfinished">Sauvegarder</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3914"/>
+        <location filename="mobileapp.ui" line="4532"/>
         <source>sorry, no commentaries available for current book.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2729"/>
-        <location filename="mobileapp.ui" line="3363"/>
-        <location filename="mobileapp.ui" line="3944"/>
+        <location filename="mobileapp.ui" line="3338"/>
+        <location filename="mobileapp.ui" line="3975"/>
+        <location filename="mobileapp.ui" line="4562"/>
         <source>Remove all books from search</source>
         <translation type="unfinished">Supprimer tous les livres de la recherche</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="808"/>
+        <location filename="mobileapp.ui" line="878"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; &quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; font-weight:600; &quot;&gt;Android beta version&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600; font-style:italic; &quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans serif&apos;; font-size:6pt; &quot;&gt;   &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;Simple free access to Jewish books for Windows, Linux, Mac and android.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; &quot;&gt;  &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; &quot;&gt;Moshe Wagner,     Avi Izar&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; &quot;&gt;Israel,                      5772&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; &quot;&gt;   &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;Questions, comments, and donations are welcome at:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1182"/>
+        <source>home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="1266"/>
         <source>zoom+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="895"/>
+        <location filename="mobileapp.ui" line="1353"/>
         <source>zoom-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2732"/>
-        <location filename="mobileapp.ui" line="3366"/>
-        <location filename="mobileapp.ui" line="3947"/>
+        <location filename="mobileapp.ui" line="3341"/>
+        <location filename="mobileapp.ui" line="3978"/>
+        <location filename="mobileapp.ui" line="4565"/>
         <source>unmark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2752"/>
-        <location filename="mobileapp.ui" line="3386"/>
-        <location filename="mobileapp.ui" line="3961"/>
+        <location filename="mobileapp.ui" line="3361"/>
+        <location filename="mobileapp.ui" line="3998"/>
+        <location filename="mobileapp.ui" line="4579"/>
         <source>Add all books to search</source>
         <translation type="unfinished">Ajouter tous les livres à la recherche</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2755"/>
-        <location filename="mobileapp.ui" line="3389"/>
-        <location filename="mobileapp.ui" line="3964"/>
+        <location filename="mobileapp.ui" line="3364"/>
+        <location filename="mobileapp.ui" line="4001"/>
+        <location filename="mobileapp.ui" line="4582"/>
         <source>mark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3510"/>
+        <location filename="mobileapp.ui" line="4128"/>
         <source>Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3563"/>
+        <location filename="mobileapp.ui" line="4181"/>
         <source>Font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3986"/>
+        <location filename="mobileapp.ui" line="4604"/>
         <source>Display with:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4028"/>
+        <location filename="mobileapp.ui" line="4646"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -1414,17 +1409,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="528"/>
+        <location filename="mobileapp.cpp" line="423"/>
+        <source>Search results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="543"/>
         <source>Back to results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="996"/>
+        <location filename="mobileapp.cpp" line="1015"/>
         <source>download complete!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1131"/>
+        <location filename="mobileapp.cpp" line="1150"/>
         <source>×¢××¨××ª</source>
         <translation type="unfinished"></translation>
     </message>

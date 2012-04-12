@@ -76,7 +76,7 @@ private:
 
 signals:
     void loadStart();
-    void loadEnd();
+    void loadEnd(QUrl);
 
 public slots:
     //Called when anchor clicked

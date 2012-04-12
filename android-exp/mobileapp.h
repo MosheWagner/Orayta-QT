@@ -6,6 +6,7 @@
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
 #include <QMovie>
+#include <QUrl>
 #include "filedownloader.h"
 #include "booklist.h"
 #include "book.h"
@@ -35,13 +36,12 @@ protected:
 
 private slots:
 
-    void on_toolButton_6_clicked();
+    void on_toIndexMenuBTN_clicked();
 
     void on_openBTN_clicked();
     void on_searchBTN_clicked();
     void on_getbooksBTN_clicked();
     void on_aboutBTN_clicked();
-    void on_settings_BTN_clicked();
     void on_saveConf_clicked();
     void on_cancelBTN_clicked();
     void on_downloadBTN_clicked();
@@ -56,7 +56,7 @@ private slots:
 
     void on_SearchInBooksBTN_released();
 
-    void tdloadFinished();
+    void tdloadFinished(QUrl);
     void tdloadStarted();
 
 
@@ -134,8 +134,6 @@ private slots:
 
     void on_unmarkAllBTN_3_clicked();
 
-    void on_menuHelpBTN_clicked();
-
     void on_horizontalSlider_valueChanged(int value);
 
 
@@ -156,6 +154,8 @@ private slots:
     void titleUpdate(QUrl);
 
     void jumpToLastPos();
+    
+    void on_toMainMenuBTN_clicked();
 
 private:
     Ui::MobileApp *ui;

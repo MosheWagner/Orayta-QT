@@ -60,10 +60,7 @@
         <file>Icons/go-next-view-page.png</file>
         <file>Icons/go-previous-view-page.png</file>
         <file>Images/ajax-loader.gif</file>
-        <file>Images/Orayta-small.png</file>
-        <file>Icons/plus.png</file>
-        <file>Icons/list-add.png</file>
-        <file>Icons/list-remove.png</file>
+        <file>Icons/go-home.png</file>
         <file>Icons/dl-book2.png</file>
         <file>Icons/help-about-big.png</file>
     </qresource>

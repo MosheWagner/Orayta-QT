@@ -98,7 +98,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //Initialize wait movie
     //waitMovie = new QMovie(":/Images/ajax-loader.gif");
     connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
-    connect(displayer, SIGNAL(loadEnd()), this, SLOT(tdloadFinished()));
+    connect(displayer, SIGNAL(loadEnd(QUrl)), this, SLOT(tdloadFinished(QUrl)));
 
 
     viewHistory = new QList<int>;
@@ -263,11 +263,6 @@ void MobileApp::on_aboutBTN_clicked()
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 }
 
-void MobileApp::on_menuHelpBTN_clicked()
-{
-    on_aboutBTN_clicked() ;
-}
-
 void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 {
     if (ui->treeWidget->isExpanded(index)) ui->treeWidget->collapse(index);
@@ -393,11 +388,11 @@ void MobileApp::showBook(Book *book)
 }
 
 
-void MobileApp::tdloadFinished()
+void MobileApp::tdloadFinished(QUrl u)
 {
    QApplication::processEvents();
 
-   titleUpdate(QUrl());
+   titleUpdate(u);
    displayer->setEnabled(true);
    ui->loadBar->hide();
 }
@@ -411,7 +406,21 @@ void MobileApp::tdloadStarted()
 
 void MobileApp::titleUpdate(QUrl u)
 {
-    if (displayer->getCurrentBook()) ui->bookNameLBL->setText(displayer->getCurrentBook()->getNormallDisplayName());
+//    qDebug() << "titleupdate. url: " << u;
+    QString titleTail = displayer->getCurrentIter().humanDisplay();
+    QString titleHead, title = "";
+
+    if (displayer && displayer->getCurrentBook()){
+        titleHead= displayer->getCurrentBook()->getNormallDisplayName();
+        // add separator
+        titleHead   += " | ";
+    }
+
+    //if titleTail is empty we may be at a search results page. TODO: find a way to really check and not only guess.
+    if (u.toString().contains("SEARCH")) { title = tr("Search results"); }
+    else {title = titleHead + titleTail;}
+
+    ui->bookNameLBL->setText(title);
 }
 
 
@@ -527,8 +536,18 @@ void MobileApp::showMenu()
             ui->dispalyMenu->hide();
         else
         {
-            if (displayer->isLastSearch()) ui->toolButton_6->setText(tr("Back to results"));
-            else ui->toolButton_6->setText(tr("Index"));
+            QToolButton * idxBtn = ui->toIndexMenuBTN;
+            if (displayer->isLastSearch())
+            {
+                idxBtn->setText(tr("Back to results"));
+                //shrink font to fit button
+                idxBtn->setFont(QFont(idxBtn->font().family(), 7));
+            }
+            else
+            {
+                idxBtn->setText(tr("Index"));
+                idxBtn->setFont(QFont(idxBtn->font().family(), 9));
+            }
 
             ui->dispalyMenu->show();
         }
@@ -550,21 +569,6 @@ void MobileApp::showMenu()
 void MobileApp::viewChanged(int index)
 {
 
-    if(!viewHistory)
-    {
-        qDebug()<< "cant stat view history";
-        return;
-    }
-
-//    if (ui->stackedWidget->currentWidget())
-//        viewHistory->append(ui->stackedWidget->currentWidget());
-    //add this page to history
-    if (viewHistory->size() == 0) viewHistory->append(index);
-    else
-    {
-        if (viewHistory->at(viewHistory->size()-1) != index) viewHistory->append(index);
-    }
-
     //IZAR
     // this is a list of things to do when we go to a certain page
     switch (index){
@@ -577,12 +581,29 @@ void MobileApp::viewChanged(int index)
 
     case (SETTINGS_PAGE):
         resetSettingsPage();
+        //don't put this page in history
+        return;
         break;
 
     //when going to commentary selection page, reset it.
     case (MIXED_SELECTION_PAGE):
         setupMixedSelection();
+        //don't put this page in history
+        return;
         break;
+    }
+
+    if(!viewHistory)
+    {
+        qDebug()<< "cant stat view history";
+        return;
+    }
+
+    //add this page to history
+    if (viewHistory->size() == 0) viewHistory->append(index);
+    else
+    {
+        if (viewHistory->at(viewHistory->size()-1) != index) viewHistory->append(index);
     }
 
 }
@@ -644,7 +665,7 @@ void MobileApp::goBack()
 }
 
 
-void MobileApp::on_toolButton_6_clicked()
+void MobileApp::on_toIndexMenuBTN_clicked()
 {
     if (displayer->isLastSearch())
     {
@@ -659,11 +680,6 @@ void MobileApp::on_toolButton_6_clicked()
     //wview->page()->mainFrame()->scrollToAnchor("Top");
 }
 
-
-void MobileApp::on_settings_BTN_clicked()
-{
-     ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
-}
 
 void MobileApp::on_saveConf_clicked()
 {
@@ -1430,5 +1446,10 @@ void MobileApp::on_ZoomInBTN_clicked()
 void MobileApp::on_ZoomOutBTN_clicked()
 {
     displayer->decreaseSize();
+}
+
+void MobileApp::on_toMainMenuBTN_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
 
