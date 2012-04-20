@@ -164,6 +164,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     }
 
     ui->gtoHelp->show();
+
+    ui->stackedWidget->currentWidget()->setFocus();
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -339,6 +341,8 @@ void MobileApp::showBook(Book *book)
         }
         case ( Book::Html ):
         {
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            qApp->processEvents();
             //QFile f(book->getPath());
             //ui->textBrowser->setHtml( f.readAll() );
             displayer->setSource(QUrl::fromLocalFile(book->getPath()));
@@ -365,6 +369,9 @@ void MobileApp::showBook(Book *book)
         }*/
         case ( Book::Link ):
         {
+            ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
+            qApp->processEvents();
+
             //Process link:
 
             //Read link file
@@ -1070,11 +1077,6 @@ void MobileApp::markDownloadedBooks()
 void MobileApp::on_settingsMenuBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
-}
-
-void MobileApp::on_doneBTN_clicked()
-{
-    goBack();
 }
 
 void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)

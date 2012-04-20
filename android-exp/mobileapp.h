@@ -90,8 +90,6 @@ private slots:
 
     void on_settingsMenuBTN_clicked();
 
-    void on_doneBTN_clicked();
-
     void on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
     /* void on_systemLangCbox_clicked(bool checked); */

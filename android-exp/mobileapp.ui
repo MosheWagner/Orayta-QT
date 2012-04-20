@@ -186,6 +186,7 @@ QWidget#mainpage{
 QDialog{ border: 1px 0px ; border-color: rgb(15, 15, 15); border-style: solid}
 
 QTextBrowser{ 	color: black; 	background-color: white;}
+QTextBrowser:disabled {color:gray;}
 
 QToolButton, QPushButton {   
     /* Margins so that we get a little space on the left and right. */
@@ -715,7 +716,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
           </layout>
          </item>
          <item row="5" column="1">
-          <spacer name="verticalSpacer_2">
+          <spacer name="verticalSpacer_4">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
