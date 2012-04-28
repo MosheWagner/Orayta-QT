@@ -34,6 +34,9 @@ protected:
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);
 
+    //Adjust UI properties depending on device screen size
+    void adjustToScreenSize();
+
 private slots:
 
     void on_toIndexMenuBTN_clicked();

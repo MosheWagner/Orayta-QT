@@ -23,8 +23,6 @@
 
 textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 {
-    //setOpenLinks(false);
-
     setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
 
     booklist = bl;
@@ -45,15 +43,18 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
          noArrows +=    "QScrollBar::add-line, QScrollBar::sub-line{border: 0px;  height: 0px; }";
          noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
     this->setStyleSheet(noArrows);
+
+    adjustWidth();
+
+    inSwipe = false;
 }
 
+#include <QScrollBar>
 void textDisplayer::adjustWidth()
 {
     //Stupid hack, but this seems to work...:
-    document()->setTextWidth(document()->textWidth() - 2);
+    document()->setTextWidth(size().width() - 15);
 }
-
-
 
 void textDisplayer::processAnchor(const QUrl &url)
 {
@@ -184,8 +185,11 @@ BookIter textDisplayer::getCurrentIter() { return currentIter; }
 #include <QMouseEvent>
 #include <QScrollBar>
 
+/*
 void textDisplayer::mousePressEvent(QMouseEvent *ev)
 {
+    qDebug() << "A";
+
     _startPoint = ev->pos();
 
     QTextBrowser::mousePressEvent(ev);
@@ -195,6 +199,8 @@ void textDisplayer::mousePressEvent(QMouseEvent *ev)
 #define MIN_MOVMENT 40
 void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
 {
+        qDebug() << "B";
+
     _endPoint = ev->pos();
 
     //process distance and direction
@@ -219,6 +225,34 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
     else {
         QTextBrowser::mouseReleaseEvent(ev);
     }
+}
+*/
+
+void textDisplayer::rightSwipe()
+{
+    if (!inSwipe)
+    {
+        inSwipe = true;
+        BookIter it = currentIter;
+        it = currentBook->nextChap(it);
+        if (it != BookIter()) display(currentBook, it);
+    }
+}
+
+void textDisplayer::leftSwipe()
+{
+    if (!inSwipe)
+    {
+        inSwipe = true;
+        BookIter it = currentIter;
+        it = currentBook->prevChap(it);
+        if (it != BookIter()) display(currentBook, it);
+    }
+}
+
+void textDisplayer::swipeDone()
+{
+    inSwipe = false;
 }
 
 #include <QFont>

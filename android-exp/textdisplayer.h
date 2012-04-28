@@ -74,6 +74,8 @@ private:
     QPoint _startPoint;
     QPoint _endPoint;
 
+    bool inSwipe;
+
 signals:
     void loadStart();
     void loadEnd(QUrl);
@@ -83,9 +85,12 @@ public slots:
     void processAnchor(const QUrl &);
     void adjustWidth();
 
+    void leftSwipe();
+    void rightSwipe();
+    void swipeDone();
 protected:
-    virtual void mousePressEvent(QMouseEvent *ev);
-    virtual void mouseReleaseEvent(QMouseEvent *ev);
+    //virtual void mousePressEvent(QMouseEvent *ev);
+    //virtual void mouseReleaseEvent(QMouseEvent *ev);
 };
 
 #endif // TEXTDISPLAYER_H

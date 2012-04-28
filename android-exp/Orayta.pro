@@ -152,25 +152,12 @@ FORMS += \
 android {
 SOURCES += \
     mobileapp.cpp \
-    QKinetic/qtscrollevent.cpp \
-    QKinetic/qtscrollerproperties.cpp \
-    QKinetic/qtscrollerfilter.cpp \
-    QKinetic/qtscroller.cpp \
-    QKinetic/qtflickgesture.cpp \
     filedownloader.cpp \
     QKinetic/flickcharm.cpp \
     textdisplayer.cpp
 
 HEADERS += \
     mobileapp.h \
-    QKinetic/qtscrollevent_p.h \
-    QKinetic/qtscrollevent.h \
-    QKinetic/qtscrollerproperties_p.h \
-    QKinetic/qtscrollerproperties.h \
-    QKinetic/qtscrollerfilter_p.h \
-    QKinetic/qtscroller_p.h \
-    QKinetic/qtscroller.h \
-    QKinetic/qtflickgesture_p.h \
     filedownloader.h \
     QKinetic/flickcharm.h \
     textdisplayer.h
@@ -398,5 +385,18 @@ INSTALLS += licence
 
 # INSTALLS += desktop
 linux: INSTALLS += menu
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

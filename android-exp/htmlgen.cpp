@@ -80,9 +80,11 @@ QString html_head(QString title, QFont font)
     //Add CSS settings to the html file:
     t += CSS(fontFamily, basesize);
 
+#ifndef android
     //Add scripts to the HTML
-    //t += Script();
-    
+    t += Script();
+#endif
+
     t +="\n</head>\n";
 
     return t;
@@ -134,7 +136,7 @@ QString html_book_title(QString name, QString copyright, QString low_comments)
         t += copyright + "</h3><P>\n";
     }
 
-    t += "<h4>" + name + "<BR></h4>";
+    t += "<h2>" + name + "<BR></h2>";
 
     if(low_comments!="")
     {
@@ -297,6 +299,22 @@ QString Script()
            "    paintMe(obj);\n"
            "}\n";
 
+    str += "function findByAName(link) {\n"
+           "    var a = document.getElementsByTagName(\"A\");\n"
+           "    for(var i=0;i<a.length;i++)\n"
+           "    {\n"
+           "        if (a[i].name.indexOf(link) != -1)\n"
+           "        {\n"
+           "            return a[i];\n"
+           "        }\n"
+           "    }\n"
+           "    return null;\n"
+           "}\n";
+
+    str += "function paintByName(name) {\n"
+           "    var obj = findByAName(name);\n"
+           "    paintMe(obj);\n"
+           "}\n";
 
     str += "function paintWhoILinkTo(obj) {\n"
            "     var p = obj.href.indexOf(\"#\");\n"

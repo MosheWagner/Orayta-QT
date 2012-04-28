@@ -254,7 +254,9 @@ void bookDisplayer::htmlView_linkClicked(QUrl url)
 
         //TODO: @@@@@
 
-        QString script = "paintByHref(\"$" + lnk + "\");";
+        QString script = "paintByName(\"" + lnk + "\");";
+
+        qDebug() << script;
 
         execScript(script);
     }

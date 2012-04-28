@@ -30,7 +30,6 @@
         <file>Icons/edit-copy.png</file>
         <file>Icons/help-about.png</file>
         <file>Icons/bug.png</file>
-        <file>Icons/configure.png</file>
         <file>Icons/book-grey-double.png</file>
         <file>Icons/book-blue-double.png</file>
         <file>Images/Orayta.png</file>
@@ -63,5 +62,6 @@
         <file>Icons/go-home.png</file>
         <file>Icons/dl-book2.png</file>
         <file>Icons/help-about-big.png</file>
+        <file>Icons/configure.png</file>
     </qresource>
 </RCC>

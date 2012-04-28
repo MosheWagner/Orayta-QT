@@ -52,13 +52,11 @@
 //TODO: Bookmarks
 
 
-
-
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
 int gFontSize = 5;
 
-int vp;
+int vp = 0;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -70,6 +68,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     //show the about page while app loads
     ui->gtoHelp->hide();
+
+    adjustToScreenSize();
 
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
@@ -92,7 +92,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->displayArea->layout()->addWidget(displayer);
     ui->displayArea->layout()->addWidget(ui->loadBar);
 
-    QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
+    //QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
+    FlickCharm *f = new FlickCharm(this);
+    f->activateOn(displayer);
+    connect(f, SIGNAL(leftSwipe()), displayer, SLOT(leftSwipe()));
+    connect(f, SIGNAL(rightSwipe()), displayer, SLOT(rightSwipe()));
+    connect(f, SIGNAL(swipeDone()), displayer, SLOT(swipeDone()));
+
     connect(displayer, SIGNAL(sourceChanged(QUrl)), this, SLOT(titleUpdate(QUrl)));
 
     //Initialize wait movie
@@ -148,9 +154,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         int lastBookId = settings.value("lastBook").toInt();
         Book *b = bookList.findBookById(lastBookId);
         BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
-        ///
         vp =  settings.value("viewposition").toInt();
-        //int vp =  settings.value("viewposition").toInt();
     settings.endGroup();
 
 
@@ -166,6 +170,28 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->gtoHelp->show();
 
     ui->stackedWidget->currentWidget()->setFocus();
+}
+
+//Adjust UI properties depending on device screen size
+void MobileApp::adjustToScreenSize()
+{
+    qDebug() << "S" << size();
+
+    //Adjust main page icons:
+        int w = (size().width() / 2);
+        //Round to the closest 20
+        w = int(w / 20) * 20;
+        QSize a(w -20, w - 20);
+        ui->openBTN->setIconSize(a);
+        ui->openBTN->setMaximumSize(w,w);
+        ui->searchBTN->setIconSize(a);
+        ui->searchBTN->setMaximumSize(w,w);
+        ui->getbooksBTN->setIconSize(a);
+        ui->getbooksBTN->setMaximumSize(w,w);
+        ui->aboutBTN->setIconSize(a);
+        ui->aboutBTN->setMaximumSize(w,w);
+
+
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -515,7 +541,34 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
          return;
     case Qt::Key_TopMenu:
         qDebug()<<"caught manu";
-         return;*/
+         return;
+*/
+
+    //Test different screen sizes:
+    case Qt::Key_0:
+        resize(QSize(240,300));
+        adjustToScreenSize();
+        break;
+    case Qt::Key_1:
+        resize(QSize(240,380));
+        adjustToScreenSize();
+        break;
+    case Qt::Key_2:
+        resize(QSize(240,412));
+        adjustToScreenSize();
+        break;
+    case Qt::Key_3:
+        resize(QSize(320,460));
+        adjustToScreenSize();
+        break;
+    case Qt::Key_4:
+        resize(QSize(480,780));
+        adjustToScreenSize();
+        break;
+    case Qt::Key_5:
+        resize(QSize(480,834));
+        adjustToScreenSize();
+        break;
 
     //menu button was clicked
     case Qt::Key_Explorer:
@@ -1454,4 +1507,3 @@ void MobileApp::on_toMainMenuBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
-

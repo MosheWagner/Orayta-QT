@@ -44,6 +44,11 @@ protected:
 
 private:
     FlickCharmPrivate *d;
+
+signals:
+    void leftSwipe();
+    void rightSwipe();
+    void swipeDone();
 };
 
 #endif // FLICKCHARM_H

@@ -481,16 +481,29 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <property name="spacing">
-        <number>1</number>
+        <number>-1</number>
        </property>
        <property name="margin">
-        <number>0</number>
+        <number>9</number>
        </property>
+       <item>
+        <spacer name="verticalSpacer_10">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>12</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <layout class="QGridLayout" name="gridLayout">
          <property name="sizeConstraint">
@@ -500,9 +513,9 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
           <number>1</number>
          </property>
          <property name="spacing">
-          <number>0</number>
+          <number>-1</number>
          </property>
-         <item row="2" column="1">
+         <item row="1" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout">
            <property name="sizeConstraint">
             <enum>QLayout::SetMinimumSize</enum>
@@ -518,7 +531,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>29</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -567,7 +580,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </item>
           </layout>
          </item>
-         <item row="2" column="3">
+         <item row="1" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <property name="sizeConstraint">
             <enum>QLayout::SetMinimumSize</enum>
@@ -583,7 +596,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>29</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -629,7 +642,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </item>
           </layout>
          </item>
-         <item row="6" column="3">
+         <item row="4" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_13">
            <property name="sizeConstraint">
             <enum>QLayout::SetMinimumSize</enum>
@@ -645,7 +658,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>29</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -715,33 +728,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </item>
           </layout>
          </item>
-         <item row="5" column="1">
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>2</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="1">
-          <spacer name="verticalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>2</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="6" column="1">
+         <item row="4" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_12">
            <property name="sizeConstraint">
             <enum>QLayout::SetMinimumSize</enum>
@@ -757,7 +744,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>29</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -803,59 +790,20 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </item>
           </layout>
          </item>
-         <item row="7" column="1">
-          <spacer name="verticalSpacer_8">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>2</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="0">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>2</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="2">
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>2</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="4">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>2</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_9">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -1119,7 +1067,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1164,7 +1112,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1206,7 +1154,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1248,7 +1196,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1290,7 +1238,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1332,7 +1280,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1377,7 +1325,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -1422,7 +1370,7 @@ p, li { white-space: pre-wrap; }
             <property name="minimumSize">
              <size>
               <width>50</width>
-              <height>25</height>
+              <height>29</height>
              </size>
             </property>
             <property name="font">
@@ -2384,6 +2332,9 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
          <property name="alternatingRowColors">
           <bool>false</bool>
          </property>
+         <property name="verticalScrollMode">
+          <enum>QAbstractItemView::ScrollPerPixel</enum>
+         </property>
          <property name="indentation">
           <number>20</number>
          </property>
@@ -2950,11 +2901,11 @@ width: 15 px;
                <string>Add all books to search</string>
               </property>
               <property name="text">
-               <string>Mark all</string>
+               <string/>
               </property>
               <property name="icon">
                <iconset resource="Orayta.qrc">
-                <normaloff>:/Icons/greenv.png</normaloff>:/Icons/greenv.png</iconset>
+                <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
               </property>
               <property name="flat">
                <bool>true</bool>
@@ -2973,16 +2924,29 @@ width: 15 px;
                <string>Remove all books from search</string>
               </property>
               <property name="text">
-               <string>Unmark all</string>
+               <string/>
               </property>
               <property name="icon">
                <iconset resource="Orayta.qrc">
-                <normaloff>:/Icons/greyv.png</normaloff>:/Icons/greyv.png</iconset>
+                <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
               </property>
               <property name="flat">
                <bool>true</bool>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -3042,6 +3006,9 @@ width: 15 px;
               <width>200</width>
               <height>200</height>
              </size>
+            </property>
+            <property name="verticalScrollMode">
+             <enum>QAbstractItemView::ScrollPerPixel</enum>
             </property>
             <property name="indentation">
              <number>20</number>
@@ -3341,6 +3308,12 @@ width: 15 px;
             </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
+            </property>
+            <property name="verticalScrollMode">
+             <enum>QAbstractItemView::ScrollPerPixel</enum>
+            </property>
+            <property name="horizontalScrollMode">
+             <enum>QAbstractItemView::ScrollPerPixel</enum>
             </property>
            </widget>
           </item>
@@ -3950,6 +3923,12 @@ p, li { white-space: pre-wrap; }
 width: 18 px;
 }
 </string>
+               </property>
+               <property name="verticalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <property name="horizontalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
                </property>
               </widget>
              </item>

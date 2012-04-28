@@ -162,6 +162,9 @@ void initLang(QApplication *app)
     app->installTranslator(translator);
 }
 
+
+#include <QPlastiqueStyle>
+
 int main(int argc, char *argv[])
 {
     //Start the App
@@ -228,8 +231,6 @@ int main(int argc, char *argv[])
     initLang(&app);
 
 #ifndef MOBILE
-
-
     //Show splash screen:
     QPixmap pixmap(":/Images/Orayta.png");
     QSplashScreen *splash = new QSplashScreen(pixmap);
@@ -276,13 +277,16 @@ int main(int argc, char *argv[])
 
     QSplashScreen *splash = new QSplashScreen(splashPixmap);
     splash->show();
-//    splash->showMessage("Loading Orayta...", Qt::AlignLeft, Qt::white);
+    //splash->showMessage("Loading Orayta...", Qt::AlignLeft, Qt::white);
 
 
     // fix for certain devices which don't support hebrew chars well.
     app.setFont(QFont("DejaVu Sans"));
 
     MobileApp m;
+
+    QApplication::setStyle(new QPlastiqueStyle);
+
     m.show();
 
     app.processEvents();
