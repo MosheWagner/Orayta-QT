@@ -66,11 +66,10 @@ void FlickCharm::activateOn(QWidget *widget)
 {
     QAbstractScrollArea *scrollArea = dynamic_cast<QAbstractScrollArea*>(widget);
     if (scrollArea) {
-        //scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         //scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         //Moshe:
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
         QWidget *viewport = scrollArea->viewport();
 

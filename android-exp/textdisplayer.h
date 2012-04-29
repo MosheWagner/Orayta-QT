@@ -83,7 +83,6 @@ signals:
 public slots:
     //Called when anchor clicked
     void processAnchor(const QUrl &);
-    void adjustWidth();
 
     void leftSwipe();
     void rightSwipe();

@@ -34,8 +34,6 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    connect(this,SIGNAL(textChanged()), SLOT(adjustWidth()));
-
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 
     //remove arrows from scrollBars
@@ -44,16 +42,7 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
          noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
     this->setStyleSheet(noArrows);
 
-    adjustWidth();
-
     inSwipe = false;
-}
-
-#include <QScrollBar>
-void textDisplayer::adjustWidth()
-{
-    //Stupid hack, but this seems to work...:
-    document()->setTextWidth(size().width() - 15);
 }
 
 void textDisplayer::processAnchor(const QUrl &url)

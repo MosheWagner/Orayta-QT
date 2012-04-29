@@ -18,7 +18,6 @@
 
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
-#include "QKinetic/qtscroller.h"
 #include "QKinetic/flickcharm.h"
 #include "functions.h"
 #include "booklist.h"
