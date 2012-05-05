@@ -22,10 +22,6 @@ android {
 }
 
 
-
-
-
-
 poppler {
     DEFINES += POPPLER
 
@@ -94,6 +90,7 @@ FORMS += \
     bookfind.ui \
     settings.ui \
     importbook.ui
+
 RESOURCES += Orayta.qrc
 win32:RC_FILE = orayta.rc
 
