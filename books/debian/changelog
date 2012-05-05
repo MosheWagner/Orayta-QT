@@ -1,8 +1,8 @@
-orayta-books (0.11) oneiric; urgency=low
+orayta-books (0.10ubuntu2) oneiric; urgency=low
 
-  * now using compressed (ziped) files. to be used only with new orayta version.
+  * Test.
 
- -- avi izraeli <izar00@gmail.com>  Mon, 28 Nov 2011 14:36:19 +0200
+ -- moshe <moshe.wagner@gmail.com>  Tue, 20 Mar 2012 15:28:51 +0200
 
 orayta-books (0.10ubuntu1) natty; urgency=low
 

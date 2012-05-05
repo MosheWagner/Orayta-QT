@@ -5,7 +5,7 @@
 # This version is for packages that are architecture dependent.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 build: build-stamp
 build-stamp:
@@ -13,11 +13,14 @@ build-stamp:
 	# Add here commands to compile the package.
 	#Delete all svn files:
 	set +e
-	- find -name ".svn" -exec rm -rf {} \;
-	set -e
-	./GenMakeFile.sh
-	$(MAKE)
-	touch build-stamp
+	#- find -name ".svn" -exec rm -rf {} \;
+	#set -e
+	$("./Generate.sh")
+	#cp GenMakeFile.sh ../GeneratedBooks/
+	#cd ../GeneratedBooks
+	#./GenMakeFile.sh
+	#$(MAKE)
+	#touch build-stamp
 
 clean:
 	
@@ -28,7 +31,7 @@ install: build
 	dh_prep
 	dh_installdirs
 	# Add here commands to install the package into debian/<packagename>
-	$(MAKE) DESTDIR=`pwd`/debian/`dh_listpackages` install
+	#$(MAKE) DESTDIR=`pwd`/debian/`dh_listpackages` install
 
 # Build architecture-independent files here.
 binary-indep: build install
