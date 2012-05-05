@@ -885,18 +885,6 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
 
             //Map with it's position in the pureText
             levelMap.insert(ptext.length(), itr);
-
-            /*
-            //What for?
-            if (text[i][0] == '!')
-            {
-                //Remove all non "pure-text" chars
-                text[i].replace(QChar(0x05BE), " "); //Makaf
-                text[i].replace(notText, "");
-                ptext += " " +  text[i].mid(2).simplified() + " ";
-            }
-            */
-            //else pureText += "</br>" + text[i].mid(2).replace("{", "(").replace("}",")");
         }
         //Externall link
         else if (text.startsWith("<!--ex"))
@@ -914,7 +902,7 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
             }
 
             //Remove html tags
-            //text[i].replace( QRegExp("<[^>]*>"), "" );
+            text[i].replace( QRegExp("<[^>]*>"), "" );
 
             //Remove all non "pure-text" chars
             text[i].replace(QChar(0x05BE), " "); //Makaf
@@ -924,12 +912,10 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
             //Remove double spaces and line breaks
             ptext += text[i].simplified();
 
-            if (ptext[ptext.size() -1] == ' ') ptext += " ";
+            //Pad with spaces, so "full word searches" work on begining and end of text too
+            ptext += " ";
         }
     }
-
-    //Pad with spaces, so "full word searches" work on begining and end of text too
-    ptext += " ";
 
     QString lvlmpstr = "";
 

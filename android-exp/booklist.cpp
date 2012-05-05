@@ -269,6 +269,12 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
             }
         }
 
+        else if (text[i].indexOf("WeaveLevel") != -1)
+        {
+            QString wl = text[i].mid(text[i].size()-1);
+            book->WeaveLevel = wl;
+        }
+
         else if (text[i].indexOf("AddSource") != -1)
         {
             if ( book->mWeavedSources.size() == 0)

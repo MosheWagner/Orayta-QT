@@ -489,7 +489,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
         <number>6</number>
        </property>
        <property name="margin">
-        <number>9</number>
+        <number>3</number>
        </property>
        <item>
         <spacer name="verticalSpacer_10">
@@ -499,7 +499,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>12</height>
+           <height>6</height>
           </size>
          </property>
         </spacer>
@@ -800,10 +800,27 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>20</height>
+           <height>10</height>
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Orayta - Jewish books</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -2805,6 +2822,9 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
       </layout>
      </widget>
      <widget class="QWidget" name="searchpage">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_13">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">

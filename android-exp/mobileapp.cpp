@@ -35,7 +35,6 @@
 #include <QTimer>
 
 
-
 #define MAIN_PAGE 0
 #define ABOUT_PAGE 1
 #define DISPLAY_PAGE 2
@@ -169,7 +168,154 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->gtoHelp->show();
 
     ui->stackedWidget->currentWidget()->setFocus();
+
+    adjustToScreenSize();
+
+    //for(int i=0; i<5; i++) BookTool(i);
 }
+
+/*
+//A maintenance function used to edit stuff in books. Should always be commented
+void MobileApp::BookTool(int n)
+{
+    QString out = "";
+
+
+    QStringList aliyot;
+    aliyot << "שני" ; aliyot << "שלישי" ; aliyot << "רביעי" ; aliyot << "חמישי" ; aliyot << "שישי" ; aliyot << "שביעי" ;
+
+    const QString LevelSigns = "!~@^#";
+
+    bool ok;
+
+    Book *b = bookList.findBookById(760 + n);
+
+    //Read text into vector
+    QList <QString> text;
+
+    //Read the source file associated to this book:
+    QString zipfile = absPath(b->getPath());
+    if( !ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true) )
+    {
+        print( "ERROR: Unable to open zipfile: " + zipfile + " !");
+        return ;
+    }
+
+
+    QString ap = "/home/moshe/Desktop/עליות";
+    QList <QString> at;
+    ReadFileToList(ap,at, "UTF-8");
+
+
+    BookIter itr;
+    int perek = 0;
+    int pasuk = 0;
+
+    int j= - 1;
+    QString tag = "";
+    int prk = 0;
+    int psk = 0;
+
+    bool done = false;
+    while (!done)
+    {
+        j++;
+        QStringList s;
+
+        s = at[j].replace("\"", "").split(";");
+
+        QString a = "";
+        int ali = s[2].toInt(&ok);
+        if (!ok) return;
+        ali --;
+        if (ali >= 0 && ali < 6) a = aliyot[ali];
+
+        int b = s[4].mid(0,1).toInt(&ok);
+        if (!ok) return;
+
+        if (b == n + 1) done = true;
+        else a = "";
+
+        QString p = s[4].mid(1);
+        QString p1 = p.mid(0,3);
+        QString p2 = p.mid(3);
+
+        prk = p1.toInt(&ok);
+        psk = p2.toInt(&ok);
+
+        if (!ok) return;
+
+        if (!a.isEmpty()) tag = "<BR><span class=\"Aliyah\">" + a + "</span>";
+    }
+
+
+    for(int i=0; i<text.size(); i++)
+    {
+        QChar c = text[i][0];
+
+        if (c == '!') pasuk ++;
+        if (c == '~')
+        {
+            perek ++;
+            pasuk = 0;
+        }
+
+
+        out += text[i] + "\n";
+
+        //If it's one of the level signs
+        if ( LevelSigns.indexOf(text[i][0]) != -1 )
+        {
+            //Advance the book itr to the new position
+            itr.SetLevelFromLine(text[i]);
+        }
+        else if (perek == prk && pasuk == psk)
+        {
+            if (!tag.isEmpty()) out += tag + "\n";
+
+            //Update aliyah
+            if (j + 1 < at.size()) j++;
+            {
+                QStringList s;
+
+                s = at[j].replace("\"", "").split(";");
+
+                QString a = "";
+                int ali = s[2].toInt(&ok);
+                if (!ok) return;
+                ali --;
+                if (ali >= 0 && ali < 6) a = aliyot[ali];
+
+                int b = s[4].mid(0,1).toInt(&ok);
+                if (!ok) return;
+
+                if (b != n + 1) a = "";
+
+                qDebug() << b << n+1;
+
+                QString p = s[4].mid(1);
+                QString p1 = p.mid(0,3);
+                QString p2 = p.mid(3);
+
+                prk = p1.toInt(&ok);
+                psk = p2.toInt(&ok);
+
+                if (!ok) return;
+
+                tag = "";
+                if (!a.isEmpty()) tag = "<BR><span class=\"Aliyah\">" + a + "</span>";
+            }
+        }
+    }
+
+    QString ppp = b->getPath()+".new";
+    qDebug() << ppp;
+    writetofile(ppp, out, "UTF-8", true);
+}
+*/
+
+
+
 
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()
@@ -180,7 +326,7 @@ void MobileApp::adjustToScreenSize()
         int w = (size().width() / 2);
         //Round to the closest 20
         w = int(w / 20) * 20;
-        QSize a(w -20, w - 20);
+        QSize a(w -30, w - 30);
         ui->openBTN->setIconSize(a);
         ui->openBTN->setMaximumSize(w,w);
         ui->searchBTN->setIconSize(a);
@@ -191,18 +337,22 @@ void MobileApp::adjustToScreenSize()
         ui->aboutBTN->setMaximumSize(w,w);
 
 
+
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
 void MobileApp::jumpToLastPos()
 {
+    ui->stackedWidget->currentWidget()->setFocus();
+    displayer->setFocus();
+
     displayer->verticalScrollBar()->setValue(vp);
     vp = -1;
 }
 
 MobileApp::~MobileApp()
 {
-    qDebug()<< "destructor";
+    qDebug() << "destructor";
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();

@@ -252,33 +252,40 @@ int main(int argc, char *argv[])
 
 #ifdef MOBILE
     //Show splash screen:
-//    QPixmap splashSourcePixmap(":/Icons/Orayta.png");
     QPixmap basePixmap(":/Images/Orayta.png");
 
     //get desktop size
     QDesktopWidget* desktop = QApplication::desktop();
     const QRect desktopRect = desktop->availableGeometry();
 
-    //create a resized version of image
-    QPixmap resizedPixmap (basePixmap.scaledToWidth(desktopRect.width()));
+    QSplashScreen *splash;
 
-    //create a background empty rectangle
-    QPixmap splashPixmap(desktopRect.width(), desktopRect.height());
-    splashPixmap.fill(QColor("black"));
+    //Scale down splash image:
 
-    //put our image in the middle of background
-    QPainter p;
-    p.begin(&splashPixmap);
-    QRect targetRect((splashPixmap.width() - resizedPixmap.width())/2,
-                     (splashPixmap.height() - resizedPixmap.height())/2,
-                     resizedPixmap.width(), resizedPixmap.height());
-    p.drawPixmap(targetRect, resizedPixmap);
-    p.end();
+    if (desktopRect.size().width() < basePixmap.size().width())
+    {
+        //create a resized version of image
+        QPixmap resizedPixmap (basePixmap.scaledToWidth(desktopRect.width()));
 
-    QSplashScreen *splash = new QSplashScreen(splashPixmap);
+        //create a background empty rectangle
+        QPixmap splashPixmap(desktopRect.width(), desktopRect.height());
+        splashPixmap.fill(QColor("black"));
+
+        //put our image in the middle of background
+        QPainter p;
+        p.begin(&splashPixmap);
+        QRect targetRect((splashPixmap.width() - resizedPixmap.width())/2,
+                         (splashPixmap.height() - resizedPixmap.height())/2,
+                         resizedPixmap.width(), resizedPixmap.height());
+        p.drawPixmap(targetRect, resizedPixmap);
+        p.end();
+
+        splash = new QSplashScreen(splashPixmap);
+    }
+    else splash = new QSplashScreen(basePixmap);
+
     splash->show();
     //splash->showMessage("Loading Orayta...", Qt::AlignLeft, Qt::white);
-
 
     // fix for certain devices which don't support hebrew chars well.
     app.setFont(QFont("DejaVu Sans"));

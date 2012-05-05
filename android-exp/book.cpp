@@ -38,6 +38,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
 
     mpTreeItem = NULL;
 
+    WeaveLevel = "";
+
     for(int i=0;i<5;i++)
     {
         mRemoveSuffix[i]="";

@@ -105,6 +105,9 @@ QString CSS(QString fontFamily, int basesize)
             "   .L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; font-weight:bold; color:indigo; }\n"
 
 
+            "   .Aliyah { text-align: center; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
+            "   .S0 { font-size:" + QString::number(basesize - 5) + "px;  font-weight:bold;}\n"
+
             /*
             "   .L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
             "   .L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
@@ -917,7 +920,7 @@ QUrl Book::renderBookIndex()
         }
         if (highetLVL > lowestLVL) mShortIndexLevel = highetLVL;
 
-        qDebug()<< "short index level geuss: " << mShortIndexLevel ;
+        //qDebug()<< "short index level geuss: " << mShortIndexLevel ;
     }
 
 
@@ -955,6 +958,9 @@ QUrl Book::renderBookIndex()
 QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud, bool showteamim, QRegExp mark)
 {
     static int ind = 0;
+
+    bool FullChapterWeaveMode = false;
+    if (LevelSigns.indexOf(WeaveLevel) == LIL) FullChapterWeaveMode = true;
 
     //ignore invalid iters
     if (iter.isEmpty()) return QUrl();
@@ -1045,6 +1051,7 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                     QString ib = b->chapterIter[j].humanDisplay();
 
                     if (ia.indexOf(ib) != -1) n = j;
+                    if (n == -1)  if (ib.indexOf(ia) != -1) n = j;
                 }
             }
 
@@ -1068,6 +1075,8 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     Sources[0].text.push_back("! {EOF}");
 
 
+    //for (int i=0; i<Sources.size(); i++) qDebug() << Sources[i].text;
+
     //Go over every line in the main source:
     for (int i=0; i<Sources[0].text.size(); i++)
     {
@@ -1086,38 +1095,41 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
         int level;
         if ( (level = LevelSigns.indexOf(line[0])) != -1 )
         {
-            // Go over all other sources
-            for (int j=1; j<Sources.size(); j++)
+            if (!FullChapterWeaveMode)
             {
-                if (Sources[j].line < Sources[j].text.size())
+                // Go over all other sources
+                for (int j=1; j<Sources.size(); j++)
                 {
-                    //Update the sources' itr to this line
-                    // (It should be a level line that matters, because the loop doesn't stop before that)
-                    Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
-
-                    //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-                    if (Sources[0].itr == Sources[j].itr)
+                    if (Sources[j].line < Sources[j].text.size())
                     {
-                        Sources[j].line ++;
+                        //Update the sources' itr to this line
+                        // (It should be a level line that matters, because the loop doesn't stop before that)
+                        Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
 
-                        QString source_line = Sources[j].text[Sources[j].line];
-
-                        //Clone the sources' itr, so we can see if it changed
-                        BookIter tmpitr(Sources[j].itr);
-                        tmpitr.SetLevelFromLine(source_line);
-
-                        //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr == Sources[0].itr) && (Sources[j].line < Sources[j].text.size()))
+                        //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
+                        if (Sources[0].itr == Sources[j].itr)
                         {
-                            if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
-
                             Sources[j].line ++;
 
-                            if (Sources[j].line < Sources[j].text.size())
+                            QString source_line = Sources[j].text[Sources[j].line];
+
+                            //Clone the sources' itr, so we can see if it changed
+                            BookIter tmpitr(Sources[j].itr);
+                            tmpitr.SetLevelFromLine(source_line);
+
+                            //As long as the file didn't end and no level that matters was changed, keep on adding text
+                            while ( (tmpitr == Sources[0].itr) && (Sources[j].line < Sources[j].text.size()))
                             {
-                                //Update the cloned itr
-                                source_line = Sources[j].text[Sources[j].line];
-                                tmpitr.SetLevelFromLine(source_line);
+                                if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
+
+                                Sources[j].line ++;
+
+                                if (Sources[j].line < Sources[j].text.size())
+                                {
+                                    //Update the cloned itr
+                                    source_line = Sources[j].text[Sources[j].line];
+                                    tmpitr.SetLevelFromLine(source_line);
+                                }
                             }
                         }
                     }
@@ -1201,6 +1213,29 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             Sources[0].str += line + " ";
         }
     }
+
+
+    //
+
+    if (FullChapterWeaveMode)
+    {
+        for (int i=1; i<Sources.size(); i++)
+        {
+            QString t = "";
+            for (int j=1 /* Skip iter line*/ ; j<Sources[i].text.size(); j++) t += Sources[i].text[j] + "\n";
+            t = t.simplified();
+
+            if (!t.isEmpty())
+            {
+                html += Sources[i].Prefix;
+                html += t;
+                html += Sources[i].Suffix;
+                html += "<BR>\n";
+                if (Sources.size() > 1) html += "<BR>\n";
+            }
+        }
+    }
+
 
     for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
 

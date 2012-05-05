@@ -150,6 +150,10 @@ public:
 
     bool hasRandomId;
 
+    //Holds a level for special weaving.
+    // If this has a value, when a source is weaved with this book, it will weave all the text in this level even if it doesn't perfectly match.
+    QString WeaveLevel;
+
     //Variables that don't seem to do much yet; maybe I'll use them later
     bool SearchInTitles;
     bool PutNewLinesAsIs;

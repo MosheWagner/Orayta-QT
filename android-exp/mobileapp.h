@@ -158,6 +158,8 @@ private slots:
     
     void on_toMainMenuBTN_clicked();
 
+    //A maintenance function used to edit stuff in books. Should always be commented
+    //void BookTool(int);
 private:
     Ui::MobileApp *ui;
 
