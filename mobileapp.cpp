@@ -33,6 +33,8 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QTimer>
+#include <QDesktopWidget>
+
 
 
 #define MAIN_PAGE 0
@@ -320,21 +322,38 @@ void MobileApp::BookTool(int n)
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()
 {
-    qDebug() << "S" << size();
+
+    QDesktopWidget* desktop = QApplication::desktop();
+    QSize size = desktop->availableGeometry().size();
+    qDebug() << "Screen:" << size;
 
     //Adjust main page icons:
-        int w = (size().width() / 2);
+        int w = (size.width() / 2);
+        int max = 1000;
         //Round to the closest 20
         w = int(w / 20) * 20;
         QSize a(w -30, w - 30);
         ui->openBTN->setIconSize(a);
-        ui->openBTN->setMaximumSize(w,w);
+        ui->openBTN->setMaximumSize(w,max);
         ui->searchBTN->setIconSize(a);
-        ui->searchBTN->setMaximumSize(w,w);
+        ui->searchBTN->setMaximumSize(w,max);
         ui->getbooksBTN->setIconSize(a);
-        ui->getbooksBTN->setMaximumSize(w,w);
+        ui->getbooksBTN->setMaximumSize(w,max);
         ui->aboutBTN->setIconSize(a);
-        ui->aboutBTN->setMaximumSize(w,w);
+        ui->aboutBTN->setMaximumSize(w,max);
+
+        int fontSize = 10;
+        //IZAR: this is a guess that must be tested deeper.
+        if (w>=150) fontSize = 12;
+        if (w>=200) fontSize = 18;
+
+        //IZAR TODO: find a better way to cange font size. this way breaks much of our styling.
+        QString styleSheet("font: " +QString::number(fontSize) +"pt;");
+        ui->stackedWidget->setStyleSheet(styleSheet);
+//        qApp->setStyleSheet(styleSheet); //--tested this but it doesn't work.
+//        QFont base(qApp->font().family(), fontSize);
+//        qApp->setFont(base);
+//       setFont(base);
 
 
 
@@ -374,6 +393,9 @@ void MobileApp::reloadBooklist(){
     ui->treeWidget->clear();
 
     bookList.BuildFromFolder(BOOKPATH);
+
+    if (bookList.empty())
+        qDebug()<<"can't find books in: " << BOOKPATH;
 
     // Check all uids
     bookList.CheckUid();
@@ -715,7 +737,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         adjustToScreenSize();
         break;
     case Qt::Key_5:
-        resize(QSize(480,834));
+        resize(QSize(480,854));
         adjustToScreenSize();
         break;
 

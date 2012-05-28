@@ -197,23 +197,27 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
         break;
 
     case FlickData::ManualScroll:
+    {
+        QPoint delta = mouseEvent->pos() - data->pressPos;
+
         if (mouseEvent->type() == QEvent::MouseMove) {
             consumed = true;
-            QPoint delta = mouseEvent->pos() - data->pressPos;
 
             //Hack for RTL support
             // By Moshe Wagner <moshe.wagner@gmail.com)
             delta.setX(delta.x() * -1 );
 
+
             //Emit side swipes for chapter advancing.
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            if ( qAbs(delta.x()) > 80 )
+            const int minSwipe = 80;
+            if ( qAbs(delta.x()) > minSwipe && qAbs(delta.x()) > qAbs(delta.y()) )
             {
-                if (delta.x() > 80)
+                if (delta.x() > minSwipe)
                 {
                     emit leftSwipe();
                 }
-                else if (delta.x() < (-80))
+                else if (delta.x() < (-minSwipe))
                 {
                     emit rightSwipe();
                 }
@@ -223,11 +227,35 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             setScrollOffset(data->widget, data->offset - delta);
         }
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
+
+            //--hack to avoid simple press to be recognized as move--
+            // by izar <izar00@gmail.com>
+            const int minMovment = 5;
+            if (delta.x() < minMovment && delta.y() < minMovment) {
+                qDebug() << "steady";
+                data->state = FlickData::Steady;
+
+                QMouseEvent *event1 = new QMouseEvent(QEvent::MouseButtonPress,
+                                                      data->pressPos, Qt::LeftButton,
+                                                      Qt::LeftButton, Qt::NoModifier);
+                QMouseEvent *event2 = new QMouseEvent(*mouseEvent);
+
+                data->ignored << event1;
+                data->ignored << event2;
+                QApplication::postEvent(object, event1);
+                QApplication::postEvent(object, event2);
+
+//                emit swipeDone();
+
+//                return true;
+            }
+
             consumed = true;
             data->state = FlickData::AutoScroll;
 
             emit swipeDone();
         }
+    }
         break;
 
     case FlickData::AutoScroll:
