@@ -37,6 +37,9 @@ protected:
     //Adjust UI properties depending on device screen size
     void adjustToScreenSize();
 
+    //set global font size to ui.
+    void adjustFontSize();
+
 private slots:
 
     void on_toIndexMenuBTN_clicked();
