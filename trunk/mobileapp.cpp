@@ -342,7 +342,9 @@ void MobileApp::adjustToScreenSize()
         ui->aboutBTN->setIconSize(a);
         ui->aboutBTN->setMaximumSize(w,max);
 
-        int fontSize = 10;
+        adjustFontSize();
+
+     /*   int fontSize = 10;
         //IZAR: this is a guess that must be tested deeper.
         if (w>=150) fontSize = 12;
         if (w>=200) fontSize = 18;
@@ -354,9 +356,21 @@ void MobileApp::adjustToScreenSize()
 //        QFont base(qApp->font().family(), fontSize);
 //        qApp->setFont(base);
 //       setFont(base);
+*/
 
 
+}
 
+//set global font size to ui.
+void MobileApp::adjustFontSize()
+{
+
+    //IZAR TODO: find a better way to cange font size. this way breaks much of our styling.
+    int fontSize = gFontSize;
+    // font for menus should be about 50% of font for book-display.
+    fontSize /= 2;
+    QString styleSheet("font: " +QString::number(fontSize) +"pt;");
+    ui->stackedWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -954,6 +968,8 @@ void MobileApp::on_saveConf_clicked()
 //    emit ChangeLang(LANG);
     translate(LANG);
 
+    adjustFontSize();
+
     //also, clear currently displayed book.
 
     // test if the previous view was the book itself. if so we want to reload the book.
@@ -1389,6 +1405,7 @@ void MobileApp::resetSettingsPage()
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
     ui->saveConf->setEnabled(false);
+
 }
 //------------------------------------
 
