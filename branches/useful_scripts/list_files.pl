@@ -16,7 +16,7 @@ sub getVals { # get the uid and bookname
 	
 	open FH, "$filename" or warn "cant open $filename" and return ; 
 	while (<FH>) {
-		 if (/^UniqueId=\s*(\S+)\s*$/) {$uid = $1} 
+		 if (/^UniqueId=\s*(\d+)\s*$/) {$uid = $1} 
 		 elsif (/^DisplayName=\s*(.+)$/) {$bookname1 = $1}
 		 elsif (/^ForcedBookName=\s*(.+)$/) {$bookname2 = $1};
 	}
