@@ -4,10 +4,13 @@ package ory;
 
 
 import java.io.IOException;
+import java.util.zip.ZipFile;
 //import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import ory.fileTypes.ObkFile;
 
 
 
@@ -87,7 +90,31 @@ public class OryFile {
 		else if (Main.parameters.getOutputPath() == null){
 			Main.parameters.setOutputPath(getOraytaDir());
 		}
-//		Filename outFile = new Filename(Main.parameters.getOutputPath(), inputFilename.getBaseName(), "txt");
+
+		/* TODO: save to a ziped .obk archive:
+		 * generate search database;
+		 * save filetext and DB to tempfiles;
+		 * get conf as a string. (myConf.getText())
+		 * create zipfile with three temp files.
+		 * create zipnote wite conf text.
+		 * save zip arcive. (-9)
+		 * remove tempfiles.
+		 */
+		
+		//check if filename is available
+		Filename savedFile = Main.ui.checkExistance(myFilename);
+		if (savedFile== null)
+			return null;
+		
+		ObkFile obk = new ObkFile(savedFile);
+		obk.setText(fileText.toString());
+		obk.setConfText(myConf.getText());
+		
+		obk.save();
+		
+		return savedFile;
+		
+		/* original code:
 		Filename savedFile = Main.ui.saveStringToFile(fileText.toString(), myFilename);
 		if (savedFile== null)
 			return null;
@@ -98,7 +125,7 @@ public class OryFile {
 		myConf.save();
 		
 		
-		return myFilename;
+		return myFilename;*/
 	}
 	
 	

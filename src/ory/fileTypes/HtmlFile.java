@@ -59,8 +59,10 @@ public class HtmlFile extends MsFile implements FileType {
 			oryFiles = DaatHtmlToOryExtractor.walkThrough(this);
 			Main.ui.dbgLog("processing daat");
 		}
-		else
-			oryFiles = HtmlToOryExtractor.walkThrough(this);
+		else {
+//			oryFiles = HtmlToOryExtractor.walkThrough(this);
+			return super.convertToOrayta();
+		}
 		
 		String[] fileNames = oryFiles.save();
 		return fileNames;

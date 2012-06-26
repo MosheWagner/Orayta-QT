@@ -23,9 +23,10 @@ public class Main {
 		else
 			ui = new Utils();
 			
+		// if user indicated that he needs help, or if he did not provide a input file and we are not in gui mode (in which the user will defined the file latter).
 		if (parameters.isHelp() || 
-				parameters.getInputFilename() == null){
-			usage();
+				(parameters.getInputFilename() == null && !parameters.isGui())){
+			usage(); //print help message.
 		}
 		else {
 			new Odt2Ory();

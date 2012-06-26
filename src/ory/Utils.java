@@ -6,11 +6,19 @@ import java.util.Scanner;
 import org.apache.commons.io.FileUtils;
 
 public class Utils {
+	private Parameters parameters;
 	
-	public Utils() {}
+	public Utils() {
+		parameters = Main.parameters;
+		if (parameters == null){
+			String s[] = new String[1];
+			s[0] = "";
+			parameters = new Parameters(s);
+		}
+	}
 	
 	public String getInputFile() {
-		return Main.parameters.getInputFilename();
+		return parameters.getInputFilename();
 	}
 
 	public void message (String str){
@@ -53,10 +61,18 @@ public class Utils {
 	}
 	
 	public void dbgLog(String string) {
-		if (Main.parameters.isDebug())
+		if (parameters.isDebug())
 			log(string);
 	}
 
+	/**
+	 * saves a string as a file on the disk.
+	 * WARNING - may return null.
+	 * @param string - string to save.
+	 * @param outFile - filename to which we want to save the string.
+	 * @return the name of the file that was saved, null if something went wrong.
+	 * @throws IOException
+	 */
 	public Filename saveStringToFile(String string, Filename outFile) throws IOException {
 		outFile = checkExistance(outFile); //check if file already exists, and if it does, decide what to do. 
 		if (outFile== null)
@@ -66,16 +82,17 @@ public class Utils {
 	}
 	
 	/**
-	 * check if file already exists, and if it does, decide what to do. 
+	 * check if file already exists, and if it does, decide what to do.
+	 * WARNING- may return null. 
 	 * @param outFile
 	 * @return a different or the same file.
 	 */
-	private Filename checkExistance(Filename outFile) {
+	Filename checkExistance(Filename outFile) {
 		if (! outFile.exists())
 			return outFile; //create new file.
-		else if (Main.parameters.isForce())
+		else if (parameters.isForce())
 			return outFile; //overwrite existing file.
-		else if (Main.parameters.isSkip())
+		else if (parameters.isSkip())
 			return null;
 		else 
 		{ //else, ask the user what to do, and check the new file
@@ -111,7 +128,7 @@ public class Utils {
 				break;
 			}
 			case 'O' : {
-				Main.parameters.setForce(true);
+				parameters.setForce(true);
 				newFile = outFile;
 				break;
 			}
@@ -125,7 +142,7 @@ public class Utils {
 				break;
 			}
 			case 'S': {
-				Main.parameters.setSkip(true);
+				parameters.setSkip(true);
 				newFile = null;
 				break;
 			}
