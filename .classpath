@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="dependencies/jod"/>
+	<classpathentry excluding="ory/SubGui.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="dependencies/commons-io-2.0.1.jar"/>
-	<classpathentry kind="lib" path="dependencies/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="dependencies/odfdom-java-0.8.7-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="dependencies/commons-io-2.0.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/avi/java/jars/commons-io-2.0.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="dependencies/commons-lang-2.6.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/avi/avi-old/programming/java/jars/commons-lang-2.6-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="dependencies/odfdom-java-0.8.7-jar-with-dependencies.jar" sourcepath="/home/avi/avi-old/programming/java/jars/odfdom-java-0.8.7-sources.jar"/>
 	<classpathentry kind="lib" path="dependencies/commons-cli-1.2.jar" sourcepath="/home/avi/avi-old/programming/java/jars/commons-cli-1.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/home/avi/avi-old/programming/java/jars/commons-cli-1.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ridl.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/java_uno.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/juh.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/jurt.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/ridl.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/unoloader.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/ooosdk/unoil.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/home-old/home/avi/programming/java/jars/slf4j-simple-1.6.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter.zip"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/slf4j-simple-1.6.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/xstream-1.3.1.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/java_uno.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/juh.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/jurt.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/ridl.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/unoil.jar"/>
+	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/unoloader.jar"/>
+	<classpathentry kind="lib" path="/home/avi/java/jars/nekohtml.jar" sourcepath="/home-old/home/avi/programming/java/sources/nekohtml-1.9.15-src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home-old/home/avi/programming/java/javadoc/nekohtml-1.9.15-javadoc/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
