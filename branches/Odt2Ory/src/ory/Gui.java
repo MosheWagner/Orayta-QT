@@ -36,6 +36,7 @@ public class Gui extends Utils {
 		textArea.setEditable(false);
 		textArea.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		textArea.append("main text Area" + "\n");
+		textArea.setAutoscrolls(true);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
 		panel = new JPanel();
@@ -77,9 +78,12 @@ public class Gui extends Utils {
 		//		fileChooser.setFileFilter(filter ); //TODO: create file filter.
 		
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		fileChooser.setSelectedFile(new File(Main.parameters.getInputFilename()));
+		if (Main.parameters.getInputFilename() != null)
+			fileChooser.setSelectedFile(new File(Main.parameters.getInputFilename()));
 		
-		int option = fileChooser.showOpenDialog(frame);
+		mainPanel.add(fileChooser);
+		int option = fileChooser.showOpenDialog(mainPanel);
+		//mainPanel.repaint();
 
 		if (option != JFileChooser.APPROVE_OPTION) {
 			System.exit(0); 

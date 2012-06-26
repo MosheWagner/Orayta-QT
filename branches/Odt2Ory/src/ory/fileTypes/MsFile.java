@@ -124,7 +124,7 @@ public class MsFile extends Filename implements FileType {
 				message.append(
 						"כדי ליצור חיבור לאופן אופיס יש לפתוח פורט ל8100. בלינוקס ניתן באמצאות השורה הבאה:\n");
 				message.append(
-						"soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\" -nofirststartwizard\n");
+						"soffice --headless --accept=\"socket,host=127.0.0.1,port=8100;urp;\" --nofirststartwizard\n");
 				
 
 				Main.ui.errorMessage(message.toString(), e);
@@ -188,7 +188,7 @@ public class MsFile extends Filename implements FileType {
 				message.append(
 				"כדי ליצור חיבור לאופן אופיס יש לפתוח פורט ל2002. בלינוקס ניתן באמצאות השורה הבאה:\n");
 		message.append(
-				"soffice -headless -accept=\"socket,host=127.0.0.1,port=2002;urp;\" -nofirststartwizard\n");
+				"soffice --headless --accept=\"socket,host=127.0.0.1,port=2002;urp;\" --nofirststartwizard\n");
 				
 				message.append(unoconvLog);
 							
