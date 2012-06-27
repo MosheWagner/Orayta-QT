@@ -23,7 +23,7 @@ About::About(QWidget *parent) : QDialog(parent), m_ui(new Ui::About)
 
     setWindowIcon(QIcon(":/Icons/Orayta.png"));
 
-    QString text = "<center><b>" + tr("Orayta - Hebrew Books");
+    QString text = "<center dir='LTR'><b>" + tr("Orayta - Hebrew Books");
     text += QString(" , ") + VERSION + "<br>";
 
     //Add some info about this build
@@ -38,8 +38,8 @@ About::About(QWidget *parent) : QDialog(parent), m_ui(new Ui::About)
     text += "<br><br> </b>";
 
     text += "   <a href=\"http://orayta.googlecode.com\">http://orayta.googlecode.com</a> <br><br>";
-    text += "   yoch.melka@gmail.com, " + tr("5770") + "<br><br>";
-    text += "   <i>originally written by : " + tr("Moshe Wagner") + " -   moshe.wagner@gmail.com, " + tr("5770") + "</i><br>";
+    text += tr("Moshe Wagner") + "   -   moshe.wagner@gmail.com, " + tr("5770") + "<br>";
+    text += "and  :  <i>yoch.melka@gmail.com</i>, " + tr("5772") + "<br><br>";
     text += "   <i>based on : " + tr("Torat Emet software") + " </i><br>";
     text += "</center>";
 

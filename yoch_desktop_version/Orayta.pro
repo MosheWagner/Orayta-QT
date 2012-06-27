@@ -14,7 +14,7 @@ CONFIG += poppler
 
 
 win32{
-    INCLUDEPATH +=  $$quote(D:\Qt\4.8.0\src\3rdparty\zlib) \
+    INCLUDEPATH +=  $$quote(D:\Qt\4.8.2\src\3rdparty\zlib) \
                     $$quote(D:\Libs\quazip-0.4.4)
     LIBS += "D:\Libs\quazip-0.4.4\quazip\Release\quazip.lib"
 }
@@ -110,9 +110,9 @@ win32:poppler {
     # The following are the correct include and library paths for poppler on my system (Windows Vista).
     # Modify these to refer to the directories on your system
     # that contain the poppler-qt4.h header file and [lib]poppler-qt4 library.
-    INCLUDEPATH += $$quote(D:\Libs\poppler-0.18.3\qt4\src) \
+    INCLUDEPATH += $$quote(D:\Libs\poppler-0.20.1\qt4\src) \
                   $$quote(D:\Libs\fribidi-10.9\include)
-    LIBS +=  "D:\Libs\poppler-0.18.3\qt4\src\Release\poppler-qt4.lib" \
+    LIBS +=  "D:\Libs\poppler-0.20.1\qt4\src\Release\poppler-qt4.lib" \
              "D:\Libs\fribidi-10.9\lib\libfribidi.dll.lib"
 #    LIBS =  "C:\Users\Laurent Picard\Desktop\poppler 1.6.5 - mingw\lib\libpoppler-qt4.dll.a" \
 #            "E:\MSVC-libs\fribidi-10.9\lib\libfribidi.dll.a"
