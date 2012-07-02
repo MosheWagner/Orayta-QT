@@ -34,12 +34,23 @@ LinkItem::LinkItem ( BaseNodeItem* parent, QString path, QString name, bool isUs
 NodeBook::Booktype LinkItem::booktype() const
 {  return NodeBook::Link;  }
 
+QList<QAction*> LinkItem::menuActions() const
+{
+    NodeBook* p = bookPtr();
+    return ( p ? p->menuActions() : QList<QAction*>() );
+}
+
 bool LinkItem::isSearchable() const
 {
     NodeBook* p = bookPtr();
     return ( p ? p->isSearchable() : false );
 }
 
+bool LinkItem::isFontModifiable() const
+{
+    NodeBook* p = bookPtr();
+    return ( p ? p->isFontModifiable() : false );
+}
 
 bool LinkItem::IsInSearch() const
 {

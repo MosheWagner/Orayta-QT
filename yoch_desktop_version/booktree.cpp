@@ -87,7 +87,7 @@ BookTree::BookTree( QWidget * parent ) :
     mMapId(QMap<int, NodeBook*>())
 {
     init();
-
+/*
     openbook = new QAction(QIcon(":/Icons/book-blue.png"), tr("Open book"), this);
     openbooknewtab = new QAction(QIcon(":/Icons/tab-new.png"), tr("Open in new tab"), this);
     deleteBook = new QAction(QIcon(":/Icons/edit-delete.png"), tr("Delete book"), this);
@@ -98,7 +98,7 @@ BookTree::BookTree( QWidget * parent ) :
     connect(openbooknewtab, SIGNAL(triggered()), this , SLOT(openSelectedBookInNewTab()));
     connect(deleteBook, SIGNAL(triggered()), this, SLOT(deleteSelectedBook()));
     connect(changefont, SIGNAL(triggered()), this , SLOT(changeFont()));
-
+*/
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayContextMenu(QPoint)));
 }
 
@@ -356,7 +356,7 @@ void BookTree::openSelectedBookInNewTab()
     if (book) emit openBookRequested(book, true);
 }
 
-// Le nom prete à confusion, il s'agit ici de node, pas de book
+// delete user book and associated node
 void BookTree::deleteSelectedBook()
 {
     QTreeWidgetItem * selectedItem = currentItem();
@@ -399,8 +399,14 @@ void BookTree::changeFont()
 {
     BaseNodeItem* node = dynamic_cast<BaseNodeItem*>(currentItem());
 
-    // ######### difficile de récupérer cette info précisément, pas grave...
     QFont defaultFont = gFont;
+
+    // Ugly...
+    if (node->nodetype() == BaseNodeItem::Leaf)
+    {
+        OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(node);
+        if (obook) defaultFont = obook->getFont();
+    }
 
     bool ok;
     QFont font = QFontDialog::getFont(&ok, defaultFont, this);
@@ -409,22 +415,13 @@ void BookTree::changeFont()
 
 void BookTree::displayContextMenu(QPoint pos)
 {
-    QList<QAction*> menuActions;
-
     QTreeWidgetItem * item = itemAt(pos);
     if ( !item ) return;
 
     BaseNodeItem* node = dynamic_cast<BaseNodeItem*>(item);
     if ( !node ) return;
 
-    if (node->nodetype() == BaseNodeItem::Leaf)
-        menuActions << openbook << openbooknewtab;
-
-    if ( node->IsUserBook() && node != m_userRoot )
-        menuActions << deleteBook;
-
-    if ( !node->IsUserBook() )
-        menuActions << changefont;
+    QList<QAction*> menuActions = node->menuActions();
 
     if ( !menuActions.empty() )
     {

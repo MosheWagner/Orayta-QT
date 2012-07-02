@@ -17,7 +17,10 @@ OraytaBookView::OraytaBookView( BookDisplayer * parent ) :
     mSearchPos(-1),
     mInternalBook(0),
     shownikud(false),
-    showteamim(false)
+    showteamim(false),
+    mAdditionalLayout(new QHBoxLayout),
+    mAdditionalButtons(new QWidget(this)),
+    reloadBtn(new QToolButton(this))
 {
     page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
@@ -25,6 +28,15 @@ OraytaBookView::OraytaBookView( BookDisplayer * parent ) :
     comment = new QAction(QIcon(":/Icons/edit.png"), tr("Add/edit comment..."), this);
     delcomment = new QAction(QIcon(":/Icons/edit-delete.png"), tr("Delete comment"), this);
     copyNoSigns = new QAction(QIcon(":/Icons/copy-clean.png"), tr("Copy text only"), this);
+
+    reloadAction = new QAction(QIcon(":/Icons/refresh.png"), tr("Reload book"), this);
+    reloadAction->setShortcut(QKeySequence::Refresh);
+
+    QObject::connect(reloadAction, SIGNAL(triggered()), this, SLOT(reloadSlot()));
+    addAction(reloadAction);
+
+    reloadBtn->setDefaultAction(reloadAction);
+    reloadBtn->setAutoRaise(true);
 
     msignalMapper = new QSignalMapper(this);
     csignalMapper = new QSignalMapper(this);
@@ -45,6 +57,11 @@ OraytaBookView::OraytaBookView( BookDisplayer * parent ) :
 
 //    QObject::connect(this, SIGNAL(loadStarted()), mBookDisp, SLOT(showWaitAnimation()));
 //    QObject::connect(this, SIGNAL(loadFinished(bool)), mBookDisp, SLOT(hideWaitAnimation()));
+
+    mAdditionalLayout->setDirection(QBoxLayout::RightToLeft);
+    mAdditionalLayout->setContentsMargins(0,0,0,0);
+    mAdditionalLayout->addWidget(reloadBtn);
+    mAdditionalButtons->setLayout(mAdditionalLayout);
 }
 
 NodeBook::Booktype OraytaBookView::booktype() const
@@ -53,6 +70,7 @@ NodeBook::Booktype OraytaBookView::booktype() const
 void OraytaBookView::loadBook(const NodeBook* book)
 {
     if (book->booktype() != NodeBook::Orayta) return;  // sanity check
+
     //qDebug() << "loading " << book->getTreeDisplayName();
     mInternalBook = dynamic_cast<OraytaBookItem*>((NodeBook*)book);
     if (!mInternalBook) return;
@@ -75,6 +93,9 @@ void OraytaBookView::reload()
     page()->triggerAction(QWebPage::Reload);
 }
 
+void OraytaBookView::reloadSlot()
+{  reload();  }
+
 // special function, for reload after html modifications
 void OraytaBookView::reloadAtSameLocation()
 {
@@ -88,6 +109,9 @@ void OraytaBookView::reloadAtSameLocation()
     loadUrl(QUrl::fromLocalFile(mInternalBook->getLoadableFile()));
     setInternalLocation(link);
 }
+
+QWidget* OraytaBookView::additionalButtons()
+{  return mAdditionalButtons;  }
 
 void OraytaBookView::jumpToTop()
 {  page()->mainFrame()->scrollToAnchor("Top");  }

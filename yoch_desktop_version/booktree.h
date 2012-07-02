@@ -85,11 +85,6 @@ private:
 
     QMap<int, NodeBook*> mMapId;
 
-    // treeWidget context menu actions
-    QAction *openbook;
-    QAction *openbooknewtab;
-    QAction *deleteBook;
-    QAction *changefont;
 };
 
 

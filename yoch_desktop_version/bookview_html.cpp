@@ -13,12 +13,17 @@ HtmlBookView::HtmlBookView( BookDisplayer * parent ) :
     backAction->setShortcut(QKeySequence::Back);
     forwardAction = pageAction(QWebPage::Forward);
     forwardAction->setShortcut(QKeySequence::Forward);
+    reloadAction = pageAction(QWebPage::Reload);
+    reloadAction->setShortcut(QKeySequence::Refresh);
 
     addAction(backAction);
     addAction(forwardAction);
+    addAction(reloadAction);
 
     backBtn->setDefaultAction(backAction);
+    backBtn->setAutoRaise(true);
     frwdBtn->setDefaultAction(forwardAction);
+    frwdBtn->setAutoRaise(true);
 
     mAdditionalLayout->setContentsMargins(0,0,0,0);
     mAdditionalLayout->setDirection(QBoxLayout::RightToLeft);

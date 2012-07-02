@@ -12,6 +12,7 @@
 
 class BookDisplayer;
 class NodeBook;
+class BookTree;
 
 //Class containing information about the books and folders.
 class BaseNodeItem : public QTreeWidgetItem
@@ -29,10 +30,14 @@ public:
     };
 
 // Name ?
-    BaseNodeItem (BaseNodeItem* parent, QString name = "", QString path = "", bool isUserBook = false);
+    BaseNodeItem (BaseNodeItem *parent, QString name = "", QString path = "", bool isUserBook = false);
     virtual ~BaseNodeItem();
 
     virtual Nodetype nodetype() const = 0;
+    virtual bool isFontModifiable() const = 0;
+    virtual bool isSearchable() const = 0;
+
+    virtual QList<QAction*> menuActions() const;
 
     virtual bool IsInSearch() const;
     virtual bool IsHidden() const;
@@ -42,13 +47,11 @@ public:
     virtual QString getPath() const;
 
     virtual QString getTreeDisplayName() const;
-    virtual bool isSearchable() const;
 
     virtual void setName(QString name);
     virtual void changeFont( const QFont& );
 
     virtual void setCheckState(IconState state);
-
 
     IconState getIconState() const;
 
@@ -57,10 +60,8 @@ public:
 
     NodeBook* getBookPtrFromId(int) const;
 
-
     //Add the pointed book as a child to this folder
     void add_child(BaseNodeItem* child);
-
 
     void setSelected(bool);
 
@@ -93,7 +94,6 @@ protected:
     bool mIsHidden;
     bool mUserBook;
 };
-
 
 
 

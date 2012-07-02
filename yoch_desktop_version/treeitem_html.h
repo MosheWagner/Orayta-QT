@@ -6,7 +6,7 @@
 class HtmlBookItem : public NodeBook
 {
 public:
-    HtmlBookItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook );
+    HtmlBookItem (BaseNodeItem *parent, QString path, QString name, bool isUserBook );
 
     Booktype booktype() const;
     virtual bool isSearchable() const;

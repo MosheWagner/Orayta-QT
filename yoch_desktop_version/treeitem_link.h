@@ -7,10 +7,11 @@
 class LinkItem : public NodeBook
 {
 public:
-    LinkItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook );
+    LinkItem ( BaseNodeItem *parent, QString path, QString name, bool isUserBook );
 
     Booktype booktype() const;
     virtual bool isSearchable() const;
+    virtual bool isFontModifiable() const;
 
     virtual bool IsInSearch() const;
     virtual bool IsHidden() const;
@@ -20,6 +21,8 @@ public:
     virtual QString getPath() const;
 
     //virtual void setCheckState(IconState state);
+    virtual QList<QAction*> menuActions() const;
+
     virtual void changeFont( const QFont& );
 
     virtual QString getLoadableFile() const;

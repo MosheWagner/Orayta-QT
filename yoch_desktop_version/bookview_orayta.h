@@ -5,6 +5,8 @@
 
 
 #include <QSignalMapper>
+#include <QToolButton>
+#include <QHBoxLayout>
 
 
 class OraytaBookItem;
@@ -18,7 +20,6 @@ public:
 
     virtual NodeBook::Booktype booktype() const;
     virtual void loadBook(const NodeBook*);
-    virtual void reload();
     virtual void searchText(const QString& text, bool backwards);
     virtual void jumpToTop();
     virtual void setInternalLocation(const QString& location);
@@ -33,6 +34,10 @@ public:
 */
     virtual void showNikud(bool show);
     virtual void showTeamim(bool show);
+
+    virtual void reload();
+
+    virtual QWidget* additionalButtons();
 
     void highlight( const QRegExp& );
     void unhighlight();
@@ -52,6 +57,7 @@ private slots:
     void keyPressEvent( QKeyEvent* );
     void removeComment( QString );
     void addCommentAtPosition(QString, QString);
+    void reloadSlot();
 
 private:
     OraytaBookItem* mInternalBook;
@@ -66,6 +72,10 @@ private:
     QAction *comment;
     QAction *delcomment;
     QAction *mark;
+
+    QWidget* mAdditionalButtons;
+    QHBoxLayout* mAdditionalLayout;
+    QToolButton* reloadBtn;
 
     bool shownikud;
     bool showteamim;

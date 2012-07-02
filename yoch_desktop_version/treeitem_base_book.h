@@ -21,7 +21,7 @@ public:
         Unkown
     };
 
-    NodeBook(BaseNodeItem* parent, QString path, QString name, bool isUserBook = false);
+    NodeBook(BaseNodeItem *parent, QString path, QString name, bool isUserBook);
 
     //getters
     Nodetype nodetype() const;
@@ -29,15 +29,17 @@ public:
     int getUniqueId() const;
     int getRealUniqueId() const;
 
-    virtual Booktype booktype() const = 0;
-    virtual QString getLoadableFile() const;
+    virtual bool isFontModifiable() const;
     virtual bool isSearchable() const;
+    virtual Booktype booktype() const = 0;
+    virtual QList<QAction*> menuActions() const;
+    virtual QString getLoadableFile() const;
 
     // setters
     void setTabWidget(BookDisplayer*);
     void setRandomUniqueId(int id);
 
-    static NodeBook* BookFactory(BaseNodeItem* parent, QString path, QString name, NodeBook::Booktype ft, bool isUserBook);
+    static NodeBook* BookFactory(BaseNodeItem *parent, QString path, QString name, Booktype ft, bool isUserBook);
 
 
 protected:

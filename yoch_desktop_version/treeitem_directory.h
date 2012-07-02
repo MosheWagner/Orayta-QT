@@ -7,9 +7,12 @@
 class NodeDirectory : public BaseNodeItem
 {
 public:
-    NodeDirectory(BaseNodeItem* parent, QString name, QString path, bool isUserBook = false);
+    NodeDirectory(BaseNodeItem *parent, QString name, QString path, bool isUserBook = false);
 
-    Nodetype nodetype() const;
+    virtual Nodetype nodetype() const;
+    virtual bool isFontModifiable() const;
+    virtual bool isSearchable() const;
+    virtual QList<QAction*> menuActions() const;
 
 private:
     void setIcon();

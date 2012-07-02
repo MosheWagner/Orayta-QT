@@ -1,6 +1,9 @@
 #include "treeitem_directory.h"
 #include "functions.h"
 
+#include "booktree.h"
+
+#include <QAction>
 
 NodeDirectory::NodeDirectory(BaseNodeItem* parent, QString name, QString path, bool isUserBook) :
     BaseNodeItem(parent, name, path, isUserBook)
@@ -22,8 +25,41 @@ NodeDirectory::NodeDirectory(BaseNodeItem* parent, QString name, QString path, b
     }
 }
 
+// recursive (call it after tree is complete)
+bool NodeDirectory::isSearchable() const
+{
+    for (QList<BaseNodeItem*>::const_iterator it = mvChildren.begin(); it != mvChildren.end(); ++it)
+        if ( (*it)->isSearchable() ) return true;
+
+    return false;
+}
+
+// recursive (call it after tree is complete)
+bool NodeDirectory::isFontModifiable() const
+{
+    for (QList<BaseNodeItem*>::const_iterator it = mvChildren.begin(); it != mvChildren.end(); ++it)
+        if ( (*it)->isFontModifiable() ) return true;
+
+    return false;
+}
+
 BaseNodeItem::Nodetype NodeDirectory::nodetype() const
 {  return Node;  }
+
+QList<QAction*> NodeDirectory::menuActions() const
+{
+    QList<QAction*> ret = BaseNodeItem::menuActions();
+
+    if (isFontModifiable())
+    {
+        QAction* changefont = new QAction(QIcon(":/Icons/font.png"), QObject::tr("Change font"), treeWidget());
+        QObject::connect(changefont, SIGNAL(triggered()), treeWidget(), SLOT(changeFont()));
+
+        ret << changefont;
+    }
+
+    return ret;
+}
 
 void NodeDirectory::setIcon()
 {

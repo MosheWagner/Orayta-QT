@@ -43,9 +43,13 @@
     </message>
     <message>
         <location filename="about.cpp" line="41"/>
-        <location filename="about.cpp" line="42"/>
         <source>5770</source>
         <translation>תש&quot;ע</translation>
+    </message>
+    <message>
+        <location filename="about.cpp" line="41"/>
+        <source>Moshe Wagner</source>
+        <translation>משה וגנר</translation>
     </message>
     <message>
         <location filename="about.cpp" line="43"/>
@@ -110,19 +114,24 @@
 <context>
     <name>BaseHtmlView</name>
     <message>
-        <location filename="bookview_html.cpp" line="25"/>
+        <location filename="bookview_basehtml.cpp" line="27"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>
     <message>
-        <location filename="bookview_html.cpp" line="178"/>
+        <location filename="bookview_basehtml.cpp" line="184"/>
         <source>404 - Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookview_html.cpp" line="178"/>
+        <location filename="bookview_basehtml.cpp" line="184"/>
         <source>file not found</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="bookview_basehtml.cpp" line="198"/>
+        <source>print this book</source>
+        <translation>הדפס ספר זה</translation>
     </message>
 </context>
 <context>
@@ -157,44 +166,40 @@
         <translation>ספריית המשתמש</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="91"/>
         <source>Open book</source>
-        <translation>פתח ספר</translation>
+        <translation type="obsolete">פתח ספר</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="92"/>
         <source>Open in new tab</source>
-        <translation>פתח בלשונית חדשה</translation>
+        <translation type="obsolete">פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="93"/>
         <source>Delete book</source>
-        <translation>מחק ספר זה</translation>
+        <translation type="obsolete">מחק ספר זה</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="94"/>
         <source>Change font</source>
-        <translation>שנה גופן</translation>
+        <translation type="obsolete">שנה גופן</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="374"/>
+        <location filename="booktree.cpp" line="367"/>
         <source>Are you sure you want to remove this </source>
         <translation>האם אתה בטוח שברצונך למחוק </translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="375"/>
+        <location filename="booktree.cpp" line="368"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation>תיקיה זו ?
 כל הספרים הקיימים בתקיה יימחקו.</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="376"/>
+        <location filename="booktree.cpp" line="369"/>
         <source>book ?</source>
         <translation>ספר זה?</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="378"/>
+        <location filename="booktree.cpp" line="371"/>
         <source>Deleting book</source>
         <translation>מחיקה</translation>
     </message>
@@ -202,8 +207,8 @@ This will remove all the books in this directory.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="100"/>
-        <location filename="mainwindow.cpp" line="391"/>
+        <location filename="mainwindow.cpp" line="99"/>
+        <location filename="mainwindow.cpp" line="394"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
@@ -272,64 +277,73 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">ביטוי רגולרי:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="161"/>
+        <location filename="mainwnd_search.cpp" line="155"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="165"/>
+        <location filename="mainwnd_search.cpp" line="159"/>
         <source>Search results: </source>
         <translation>תוצאות חיפוש :</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="210"/>
-        <location filename="mainwnd_search.cpp" line="341"/>
+        <location filename="mainwnd_search.cpp" line="195"/>
+        <source> occurences</source>
+        <translation> תוצאות</translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="204"/>
+        <source> results</source>
+        <translation> תוצאות</translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="209"/>
+        <location filename="mainwnd_search.cpp" line="340"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="217"/>
+        <location filename="mainwnd_search.cpp" line="216"/>
         <source>No search results found:</source>
         <translation>לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="225"/>
         <source>firsts results only</source>
-        <translation>תוצאות ראשונות בלבד</translation>
+        <translation type="obsolete">תוצאות ראשונות בלבד</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="229"/>
+        <location filename="mainwnd_search.cpp" line="228"/>
         <source> entries founds</source>
         <translation> תוצאות נמצאו</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="297"/>
+        <location filename="mainwnd_search.cpp" line="296"/>
         <source>Searching guematria for: </source>
         <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="330"/>
+        <location filename="mainwnd_search.cpp" line="329"/>
         <source>Search results for guematria : </source>
         <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="348"/>
+        <location filename="mainwnd_search.cpp" line="347"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <oldsource>Any tanach books selected : please select books in tanach and search again.</oldsource>
         <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="354"/>
+        <location filename="mainwnd_search.cpp" line="353"/>
         <source>No guematria results found:</source>
         <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="361"/>
+        <location filename="mainwnd_search.cpp" line="360"/>
         <source>Result list: </source>
         <translation>רשימת תוצאות: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="362"/>
+        <location filename="mainwnd_search.cpp" line="361"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation> תוצאות נמצאו.</translation>
@@ -339,12 +353,17 @@ This will remove all the books in this directory.</source>
         <translation type="obsolete">לא נמצאו תוצאות לחיפוש המבוקש:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="222"/>
+        <location filename="mainwnd_search.cpp" line="221"/>
         <source>Short result list: </source>
         <translation>רשימת תוצאות מקוצרת:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="233"/>
+        <location filename="mainwnd_search.cpp" line="224"/>
+        <source> firsts results only</source>
+        <translation> תוצאות ראשונות בלבד</translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="232"/>
         <source>Full result list:</source>
         <oldsource>full result list</oldsource>
         <translation>רשימת תוצאות מלאה:</translation>
@@ -854,30 +873,35 @@ This will remove all the books in this directory.</source>
 <context>
     <name>OraytaBookView</name>
     <message>
-        <location filename="bookview_orayta.cpp" line="19"/>
+        <location filename="bookview_orayta.cpp" line="27"/>
         <source>Add bookmark here...</source>
         <translation>הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="20"/>
+        <location filename="bookview_orayta.cpp" line="28"/>
         <source>Add/edit comment...</source>
         <translation>הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="21"/>
+        <location filename="bookview_orayta.cpp" line="29"/>
         <source>Delete comment</source>
         <translation>מחק הערה</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="22"/>
+        <location filename="bookview_orayta.cpp" line="30"/>
         <source>Copy text only</source>
         <translation>העתק טקסט בלבד</translation>
+    </message>
+    <message>
+        <location filename="bookview_orayta.cpp" line="32"/>
+        <source>Reload book</source>
+        <translation>רענן</translation>
     </message>
 </context>
 <context>
     <name>PdfBookView</name>
     <message>
-        <location filename="bookview_pdf.cpp" line="75"/>
+        <location filename="bookview_pdf.cpp" line="80"/>
         <source>Page </source>
         <translation>דף </translation>
     </message>
@@ -885,7 +909,7 @@ This will remove all the books in this directory.</source>
 <context>
     <name>PdfWidget</name>
     <message>
-        <location filename="pdfwidget.cpp" line="80"/>
+        <location filename="pdfwidget.cpp" line="70"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>
@@ -893,51 +917,30 @@ This will remove all the books in this directory.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="functions.cpp" line="496"/>
+        <location filename="functions.cpp" line="534"/>
         <source>LTR</source>
         <translation>RTL</translation>
     </message>
-</context>
-<context>
-    <name>QtIOCompressor</name>
     <message>
-        <location filename="qtiocompressor.cpp" line="129"/>
-        <location filename="qtiocompressor.cpp" line="595"/>
-        <source>Internal zlib error when compressing: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="56"/>
+        <source>Open book</source>
+        <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="161"/>
-        <source>Error writing to underlying device: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="57"/>
+        <source>Open in new tab</source>
+        <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="362"/>
-        <source>Error opening underlying device: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="66"/>
+        <source>Delete book</source>
+        <translation>מחק ספר זה</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="532"/>
-        <source>Error reading data from underlying device: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qtiocompressor.cpp" line="552"/>
-        <source>Internal zlib error when decompressing: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QtIOCompressor::open</name>
-    <message>
-        <location filename="qtiocompressor.cpp" line="396"/>
-        <source>The gzip format not supported in this version of zlib.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qtiocompressor.cpp" line="412"/>
-        <source>Internal zlib error: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_directory.cpp" line="55"/>
+        <location filename="treeitem_orayta.cpp" line="56"/>
+        <source>Change font</source>
+        <translation>שנה גופן</translation>
     </message>
 </context>
 <context>
@@ -987,57 +990,57 @@ This will remove all the books in this directory.</source>
         <translation>הגדרות אורייתא</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="24"/>
+        <location filename="settings.ui" line="27"/>
         <source>Font</source>
         <translation>גופן</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="36"/>
+        <location filename="settings.ui" line="39"/>
         <source>Default font:</source>
         <translation>פונט ברירת מחדל:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="46"/>
+        <location filename="settings.ui" line="49"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translation>font: 8pt &quot;Sans Serif&quot;;</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="76"/>
+        <location filename="settings.ui" line="79"/>
         <source>Base font size:</source>
         <translation>גודל גופן בסיס:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="99"/>
+        <location filename="settings.ui" line="102"/>
         <source>Font preview:</source>
         <translation>תצוגה מקדימה:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="114"/>
+        <location filename="settings.ui" line="117"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
     </message>
     <message utf8="true">
-        <location filename="settings.ui" line="254"/>
+        <location filename="settings.ui" line="257"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="285"/>
+        <location filename="settings.ui" line="288"/>
         <source>(Font confs will apply as of next book)</source>
         <translation>(ההגדרות יחולו החל מהספרים הבאים)</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="296"/>
+        <location filename="settings.ui" line="299"/>
         <source>Language</source>
         <translation>שפה</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="316"/>
+        <location filename="settings.ui" line="319"/>
         <source>Custom language</source>
         <translation>שפה מותאמת אישית</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="325"/>
+        <location filename="settings.ui" line="328"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1046,21 +1049,36 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="345"/>
+        <location filename="settings.ui" line="348"/>
         <source>Use system language</source>
         <translation>השתמש בשפת המערכת</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="369"/>
+        <source>Search</source>
+        <translation>חיפוש</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="384"/>
+        <source>Max Results :</source>
+        <translation>מקסימום תוצאות :</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="391"/>
+        <source>Max results per book :</source>
+        <translation>מקסימום תוצאות לכל ספר :</translation>
     </message>
     <message>
         <source>Note: Changing the language will restart the application, and close all open books</source>
         <translation type="obsolete">שינוי השפה יגרום לאתחול התוכנה, ולסגירת כל הספרים הפתוחים</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="380"/>
+        <location filename="settings.ui" line="446"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="400"/>
+        <location filename="settings.ui" line="466"/>
         <source>Save settings</source>
         <translation>שמור הגדרות</translation>
     </message>
@@ -1196,7 +1214,7 @@ p, li { white-space: pre-wrap; }
         <translation>יבוא</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="58"/>
+        <location filename="importbook.cpp" line="60"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
         <translation></translation>
     </message>

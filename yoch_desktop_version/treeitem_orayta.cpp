@@ -4,7 +4,7 @@
 #include "settings.h"
 
 #include "bookview_orayta.h"
-
+#include "booktree.h"
 
 #include <QFile>
 #include <QtCore>
@@ -49,14 +49,29 @@ OraytaBookItem::OraytaBookItem ( BaseNodeItem* parent, QString path, QString nam
     AddBookConfs();
 }
 
+QList<QAction*> OraytaBookItem::menuActions() const
+{
+    QList<QAction*> ret = NodeBook::menuActions();
+
+    QAction* changefont = new QAction(QIcon(":/Icons/font.png"), QObject::tr("Change font"), treeWidget());
+    QObject::connect(changefont, SIGNAL(triggered()), treeWidget(), SLOT(changeFont()));
+
+    ret << changefont;
+
+    return ret;
+}
+
 NodeBook::Booktype OraytaBookItem::booktype() const
-{  return Orayta;  }
+{   return Orayta;  }
 
 bool OraytaBookItem::isSearchable() const
 {   return true && !mIsHidden;  }
 
+bool OraytaBookItem::isFontModifiable() const
+{   return true;  }
+
 QString OraytaBookItem::getTreeDisplayName() const
-{  return mNormallDisplayName != "" ? mNormallDisplayName : mTreeDisplayName;  }
+{   return mNormallDisplayName != "" ? mNormallDisplayName : mTreeDisplayName;  }
 
 QString OraytaBookItem::getLoadableFile() const
 {

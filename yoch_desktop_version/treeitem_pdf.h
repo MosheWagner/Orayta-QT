@@ -8,7 +8,7 @@
 class PdfBookItem : public NodeBook
 {
 public:
-    PdfBookItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook );
+    PdfBookItem ( BaseNodeItem *parent, QString path, QString name, bool isUserBook );
 
     Booktype booktype() const;
     virtual bool isSearchable() const;

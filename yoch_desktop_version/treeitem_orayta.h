@@ -36,7 +36,7 @@ class OraytaBookItem : public NodeBook
 //    Q_GADGET
 public:
 
-    OraytaBookItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook );
+    OraytaBookItem ( BaseNodeItem *parent, QString path, QString name, bool isUserBook );
 
     //Getters
     Booktype booktype() const;
@@ -50,6 +50,8 @@ public:
     QFont getFont() const;
     OraytaConfs publicConfs() const;
     virtual bool isSearchable() const;
+    virtual bool isFontModifiable() const;
+    virtual QList<QAction*> menuActions() const;
     virtual QString getTreeDisplayName() const;
     virtual QString getLoadableFile() const;
     //Returns the filename that should be used for the book, depending on the shown commentaries

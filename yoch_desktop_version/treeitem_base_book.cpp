@@ -7,7 +7,7 @@
 #endif
 
 #include "bookdisplayer.h"
-
+#include "booktree.h"
 
 //////////////////////////////////////////////////////////////
 //                       Node Book
@@ -49,11 +49,37 @@ NodeBook::~NodeBook()
 }
 */
 
+QList<QAction*> NodeBook::menuActions() const
+{
+    QList<QAction*> ret = BaseNodeItem::menuActions();
+
+    QAction* openbook = new QAction(QIcon(":/Icons/book-blue.png"), QObject::tr("Open book"), treeWidget());
+    QAction* openbooknewtab = new QAction(QIcon(":/Icons/tab-new.png"), QObject::tr("Open in new tab"), treeWidget());
+
+    QObject::connect(openbook, SIGNAL(triggered()), treeWidget() , SLOT(openSelectedBook()));
+    QObject::connect(openbooknewtab, SIGNAL(triggered()), treeWidget() , SLOT(openSelectedBookInNewTab()));
+
+    ret << openbook << openbooknewtab;
+
+    if (mUserBook)
+    {
+        QAction* deleteBook = new QAction(QIcon(":/Icons/edit-delete.png"), QObject::tr("Delete book"), treeWidget());
+        QObject::connect(deleteBook, SIGNAL(triggered()), treeWidget(), SLOT(deleteSelectedBook()));
+        ret << deleteBook;
+    }
+
+    return ret;
+}
+
 BaseNodeItem::Nodetype NodeBook::nodetype() const
 {  return Leaf;  }
 
-// default implémentation
+// implementation by default
 bool NodeBook::isSearchable() const
+{  return false;  }
+
+// implementation by default
+bool NodeBook::isFontModifiable() const
 {  return false;  }
 
 BookDisplayer* NodeBook::tabWidget() const

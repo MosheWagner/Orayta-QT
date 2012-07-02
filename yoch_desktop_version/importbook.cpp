@@ -22,6 +22,8 @@
 
 #include <QFileDialog>
 
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
 
 importBook::importBook(QWidget *parent) : QDialog(parent), ui(new Ui::importBook)
 {
@@ -109,6 +111,31 @@ static QList <QPair <QString,QString> > listAllFiles(const QString& srcPath, con
     return ret;
 }
 
+static bool copyFile(const QString& src, const QString& dest)
+{
+    if (src.endsWith(".txt"))
+    {
+        QuaZip zip(QString(dest).replace(".txt", ".obk")); // not totally safe
+        if (zip.open(QuaZip::mdCreate))
+        {
+            QuaZipFile zfile(&zip);
+            zfile.open(QIODevice::WriteOnly, QuaZipNewInfo("BookText"));
+
+            // allowed encoding is only utf-8...
+            QTextStream out(&zfile);
+            out.setCodec( QTextCodec::codecForName("UTF-8") );
+            out << readfile(src, "UTF-8");
+
+            return true;
+        }
+        return false;
+    }
+    else
+    {
+        return QFile::copy(src, dest);
+    }
+}
+
 void importBook::importRoutine()
 {
     QString booksUserPath = USERPATH + "Books/";
@@ -157,7 +184,7 @@ void importBook::importRoutine()
 
                 emit fileCopied(label);
 
-                if ( !QFile::copy(it.first, it.second) )
+                if ( !copyFile(it.first, it.second) )
                     qDebug() << "Can't copy file" << it.first << " to " << it.second;
 
                 emit importProgress( int(++cmt * 100 / nFiles) );

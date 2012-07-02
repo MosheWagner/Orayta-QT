@@ -28,10 +28,6 @@ BaseHtmlView::BaseHtmlView( BookDisplayer * parent ) :
     copyAction->setIcon(QIcon(":/Icons/edit-copy.png"));
     addAction(copyAction);
 
-    QAction* reloadAction = pageAction(QWebPage::Reload);
-    reloadAction->setShortcut(QKeySequence::Refresh);
-    addAction(reloadAction);
-
     QObject::connect(this, SIGNAL(titleChanged(QString)), parent, SLOT(setTitle(QString)));
     QObject::connect(this, SIGNAL(loadFinished(bool)), this, SLOT(on_loadFinished(bool)));
 

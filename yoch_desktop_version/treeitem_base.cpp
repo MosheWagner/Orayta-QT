@@ -5,29 +5,23 @@
 BaseNodeItem::BaseNodeItem ( BaseNodeItem* parent, QString name, QString path, bool isUserBook ) :
     mpParent(parent),
     mPath(path),
-    mTreeDisplayName(name),   // ######### completement faux...
+    mTreeDisplayName(name),   // ######### wrong
     mIconState(GREY),
     mInSearch(false),
     mIsHidden(false),
     mUserBook(isUserBook)
 {}
 
-// tres casse pieds, il faut supprimer l'item présent du vector au niveau supérieur...
 BaseNodeItem::~BaseNodeItem()
 {
-    //qDebug() << "delete " << mTreeDisplayName;
     qDeleteAll(mvChildren.begin(), mvChildren.end());
-    // ######## hum, plutot couteux...
+    // ######## must remove it from parent vector
     if (mpParent) mpParent->mvChildren.removeOne(this);
 }
 
-// recursive (call it after tree is complete)
-bool BaseNodeItem::isSearchable() const
+QList<QAction*> BaseNodeItem::menuActions() const
 {
-    for (QList<BaseNodeItem*>::const_iterator it = mvChildren.begin(); it != mvChildren.end(); ++it)
-        if ( (*it)->isSearchable() ) return true;
-
-    return false;
+    return QList<QAction*>();
 }
 
 QString BaseNodeItem::getPath() const
@@ -172,4 +166,3 @@ NodeBook* BaseNodeItem::getBookPtrFromId(int uid) const
     BookTree* tree = dynamic_cast<BookTree*>(treeWidget());
     return ( tree ? tree->findBookById(uid) : NULL );
 }
-
