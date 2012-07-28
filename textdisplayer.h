@@ -78,7 +78,7 @@ private:
 
 signals:
     void loadStart();
-    void loadEnd(QUrl);
+    void loadEnd(QUrl, Book*,  BookIter);
 
 public slots:
     //Called when anchor clicked

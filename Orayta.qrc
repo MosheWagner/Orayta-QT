@@ -63,5 +63,6 @@
         <file>Icons/dl-book2.png</file>
         <file>Icons/help-about-big.png</file>
         <file>Icons/configure.png</file>
+        <file>Images/spalsh-portrait.png</file>
     </qresource>
 </RCC>

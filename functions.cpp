@@ -181,28 +181,50 @@ bool zipExtract(const QString & filePath, const QString & extDirPath)
             return false;
         }
 
-        name = QString("%1/%2").arg(extDirPath).arg(file.getActualFileName());
-
+//        name = QString("%1/%2").arg(extDirPath).arg(file.getActualFileName());
+        name = QString("%1%2").arg(extDirPath).arg(file.getActualFileName());
         if (file.getZipError() != UNZ_OK) {
             qWarning("testRead(): file.getFileName(): %d", file.getZipError());
             return false;
         }
 
-        //out.setFileName("out/" + name);
-        out.setFileName(name);
+
 
         //Folder
         if (name.endsWith("/"))
         {
             QDir d;
-            d.mkpath(name);
+            d.mkpath(name);            
         }
+        //File
+        else
+        {
+            //out.setFileName("out/" + name);
+            out.setFileName(name);
+            QFileInfo outInfo(out);
+            QDir parent = outInfo.dir();
 
-        // this will fail if "name" contains subdirectories, but we don't mind that
-        out.open(QIODevice::WriteOnly);
+            if (!parent.exists()) {
+                parent.mkpath(parent.dirName());
+            }
 
-        out.write(file.readAll());
-        out.close();
+            // this will fail if "name" contains subdirectories, but we don't mind that
+            out.open(QIODevice::WriteOnly);
+
+            if (!out.isWritable()){
+                qWarning() <<name << " isn't writeable";
+            }
+
+            if (out.write(file.readAll()) == -1){
+                qWarning() << "cant write "+ name+ " error: " << out.error();
+                return false;
+            }
+            if (!out.flush()){
+                qWarning() << "cant flush "+ name+ " error: " << out.error();
+                return false;
+            }
+            out.close();
+        }
 
         if (file.getZipError() != UNZ_OK) {
             qWarning("testRead(): file.getFileName(): %d", file.getZipError());

@@ -62,7 +62,7 @@ private slots:
 
     void on_SearchInBooksBTN_released();
 
-    void tdloadFinished(QUrl);
+    void tdloadFinished(QUrl u, Book* book, BookIter iter);
     void tdloadStarted();
 
 
@@ -161,8 +161,15 @@ private slots:
     
     void on_toMainMenuBTN_clicked();
 
+    //book mark methods
+    void addBookMark(Book *b, BookIter iter);
+
     //A maintenance function used to edit stuff in books. Should always be commented
     //void BookTool(int);
+    void on_reloadDlBookListBTN_clicked();
+
+    void on_bookMarkList_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::MobileApp *ui;
 

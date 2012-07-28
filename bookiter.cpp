@@ -33,10 +33,15 @@ BookIter::BookIter()
 
 //Copy constructor, making this itr equivalent to the given one
 BookIter::BookIter(BookIter * other_book)
-{   
-    for (int i=0; i<5; i++)
+{
+    if(! other_book)
+        BookIter();
+    else
     {
-        this->mLevelName[i] = other_book->mLevelName[i];
+        for (int i=0; i<5; i++)
+        {
+            this->mLevelName[i] = other_book->mLevelName[i];
+        }
     }
 }
 
@@ -183,7 +188,7 @@ QString BookIter::gmaraDisplay()
 
     unsigned int i;
     //Find lowest level with value
-    for (i=0; !mLevelName[i].contains("דף ") && i < 5; i++);
+    for (i=0; i < 5 && !mLevelName[i].contains("דף "); i++);
 
     if (i < 5)
     {

@@ -279,7 +279,7 @@ void textDisplayer::setSource(const QUrl &name)
     QTextBrowser::setSource(name);
 
     QApplication::processEvents();
-    emit loadEnd(name);
+    emit loadEnd(name, currentBook, currentIter);
 }
 
 bool textDisplayer::isLastSearch()

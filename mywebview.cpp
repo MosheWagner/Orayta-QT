@@ -270,6 +270,10 @@ void myWebView::setTextSizeMultiplier(qreal factor)
 void myWebView::rememberActiveLink(QString message)
 {
     mActiveLink = message;
+    //?
+    mActiveLink = url().toString();
+    qDebug() << "url: " << mActiveLink;
+
 }
 
 //Returns the value of given JS variable

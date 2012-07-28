@@ -35,6 +35,9 @@
 #include <QPainter>
 #include <QRect>
 
+#include <QFileInfo>
+#include <QFileInfoList>
+
 //For test only
 //#define MOBILE
 
@@ -103,8 +106,10 @@ void initPaths()
 void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
-    if (fontId >= 0)
-        /*qDebug()<< "installed font successfuly: " << font;*/ return;
+    if (fontId >= 0) {
+//        qDebug()<< "installed font successfuly: " << font;
+        return;
+    }
     else
         qDebug()<< "cant add font "<< font;
 }
@@ -115,10 +120,12 @@ void initFonts()
     QList<QString> fonts;
 //    QString fontpath (":/fonts/");
     QString fontpath (MAINPATH + "fonts/");
-#ifdef MOBILE_TEST
+#ifdef Q_OS_ANDROID
+    fontpath = "/sdcard/Orayta/fonts/"; //assets not working well yet on alpha 3.4
+#else ifdef MOBILE_TEST
     fontpath = "fonts/";
 #endif
-    fonts.append(fontpath + "DejaVuSans.ttf");
+   /* fonts.append(fontpath + "DejaVuSans.ttf");
     fonts.append(fontpath + "DejaVuSerif.ttf");
     fonts.append(fontpath + "DroidSansHebrewOrayta.ttf");
 //    fonts.append(fontpath + "DavidCLM-Medium.ttf");
@@ -128,6 +135,14 @@ void initFonts()
     //add all fonts to the application
     foreach(const QString &font, fonts){
         addFont(font);
+    }*/
+    QDir fontDir(fontpath);
+//    qDebug() << "fontdir: " << fontDir;
+    //Get all .folder or .obk files in the directory
+    QStringList filter("*.ttf");
+    QFileInfoList list = fontDir.entryInfoList(filter, QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
+    foreach(QFileInfo child, list){
+        addFont(child.filePath());
     }
 }
 
@@ -252,7 +267,8 @@ int main(int argc, char *argv[])
 
 #ifdef MOBILE
     //Show splash screen:
-    QPixmap basePixmap(":/Images/Orayta.png");
+//    QPixmap basePixmap(":/Images/Orayta.png");
+    QPixmap basePixmap(":/Images/spalsh-portrait.png");
 
     //get desktop size
     QDesktopWidget* desktop = QApplication::desktop();
