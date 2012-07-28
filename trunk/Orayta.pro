@@ -32,8 +32,10 @@ else: win32{
 }
 else:unix{
     message("compiling for desktop")
-    CONFIG += poppler \
-        linux
+    CONFIG += linux \
+        poppler
+
+
     INSTALL_PATH = /usr/share/Orayta/
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
 
@@ -82,6 +84,8 @@ SOURCES += main.cpp \
     quazip/quacrc32.cpp \
     quazip/quaadler32.cpp \
     quazip/qioapi.cpp \
+    minibmark.cpp \
+    bmarklist.cpp
 
 ! android {
 SOURCES += \
@@ -120,7 +124,9 @@ HEADERS += \
     quazip/quacrc32.h \
     quazip/quachecksum32.h \
     quazip/quaadler32.h \
-    search.h
+    search.h \
+    minibmark.h \
+    bmarklist.h
 
 ! android {
 HEADERS += \
@@ -417,6 +423,14 @@ OTHER_FILES += \
     android/res/drawable/icon.png \
     android/res/drawable-mdpi/icon.png \
     android/res/drawable-hdpi/icon.png
+
+
+
+
+
+
+
+
 
 
 

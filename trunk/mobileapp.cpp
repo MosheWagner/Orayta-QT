@@ -34,6 +34,7 @@
 #include <QListWidgetItem>
 #include <QTimer>
 #include <QDesktopWidget>
+#include "minibmark.h"
 
 
 
@@ -45,6 +46,7 @@
 #define GET_BOOKS_PAGE 5
 #define SETTINGS_PAGE 6
 #define MIXED_SELECTION_PAGE 7
+#define HISTORY_PAGE 8
 
 
 //TODO: CLEAN & SPLIT UP!!!!
@@ -54,7 +56,7 @@
 
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
-int gFontSize = 5;
+int gFontSize = 0;
 
 int vp = 0;
 
@@ -68,8 +70,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     //show the about page while app loads
     ui->gtoHelp->hide();
-
-    adjustToScreenSize();
 
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
@@ -104,7 +104,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //Initialize wait movie
     //waitMovie = new QMovie(":/Images/ajax-loader.gif");
     connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
-    connect(displayer, SIGNAL(loadEnd(QUrl)), this, SLOT(tdloadFinished(QUrl)));
+    connect(displayer, SIGNAL(loadEnd(QUrl, Book*, BookIter)), this, SLOT(tdloadFinished(QUrl, Book*, BookIter)));
 
 
     viewHistory = new QList<int>;
@@ -140,9 +140,14 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     // the default for the menu in display page is hidden.
     ui->dispalyMenu->hide();
 
+    //load saved settings
     setupSettings();
 
+    adjustToScreenSize();
+
+
     //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
+    // IZAR- already checking for sdcard in java file.
 
     QApplication::processEvents();
 
@@ -156,6 +161,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
         vp =  settings.value("viewposition").toInt();
     settings.endGroup();
+
+    // restore the bookmark list
+    ui->bookMarkList->loadHistory(bookList);
 
 
     if (page != DISPLAY_PAGE || !b) ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
@@ -342,22 +350,37 @@ void MobileApp::adjustToScreenSize()
         ui->aboutBTN->setIconSize(a);
         ui->aboutBTN->setMaximumSize(w,max);
 
+
+
+        // if the font size wasn't set manually by the user, we will geuss the best values
+        // depending on target device dpi
+
+        if (gFontSize < 1)
+        {
+
+            int dpix = desktop->physicalDpiX();
+            int dpiy = desktop->physicalDpiY();
+            int dpi = (dpix+dpiy)/2;
+
+            qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
+
+
+            //IZAR: this is a guess that must be tested deeper.
+            int fontSize = 16;
+            if (dpi >= 150) fontSize = 24;
+            if (dpi >= 200) fontSize = 28;
+            if (dpi >= 250) fontSize = 36;
+
+            gFontSize = fontSize;
+
+            QSettings settings("Orayta", "SingleUser");
+            settings.beginGroup("Confs");
+            //save current font settings
+            settings.setValue("fontsize", gFontSize);
+            settings.endGroup();
+        }
+
         adjustFontSize();
-
-     /*   int fontSize = 10;
-        //IZAR: this is a guess that must be tested deeper.
-        if (w>=150) fontSize = 12;
-        if (w>=200) fontSize = 18;
-
-        //IZAR TODO: find a better way to cange font size. this way breaks much of our styling.
-        QString styleSheet("font: " +QString::number(fontSize) +"pt;");
-        ui->stackedWidget->setStyleSheet(styleSheet);
-//        qApp->setStyleSheet(styleSheet); //--tested this but it doesn't work.
-//        QFont base(qApp->font().family(), fontSize);
-//        qApp->setFont(base);
-//       setFont(base);
-*/
-
 
 }
 
@@ -518,6 +541,7 @@ void MobileApp::showBook(Book *book, BookIter itr)
     book->setFont(font);
 
     displayer->display(book, itr);
+//    addBookMark(book, itr);
 }
 
 void MobileApp::showBook(Book *book)
@@ -527,6 +551,8 @@ void MobileApp::showBook(Book *book)
         qDebug() << "Error! Can't open book";
         return;
     }
+
+//    addBookMark(book, BookIter());
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
@@ -606,13 +632,19 @@ void MobileApp::showBook(Book *book)
 }
 
 
-void MobileApp::tdloadFinished(QUrl u)
+void MobileApp::tdloadFinished(QUrl u, Book* book, BookIter iter)
 {
    QApplication::processEvents();
 
    titleUpdate(u);
    displayer->setEnabled(true);
    ui->loadBar->hide();
+
+    //IZAR- add a bookmark in new location
+   if (book)
+   {
+       addBookMark(book, iter);
+   }
 }
 
 void MobileApp::tdloadStarted()
@@ -1305,6 +1337,8 @@ void MobileApp::markDownloadedBooks()
     QSettings settings("Orayta", "SingleUser");
 
     settings.beginGroup("DownloadedBooks");
+    //remove old values
+    settings.remove("");
 
     for(unsigned int i=0; i<downloadedBooks.size(); i++)
     {
@@ -1387,7 +1421,9 @@ void MobileApp::setupSettings(){
     settings.beginGroup("Confs");
         QString defaultFont = "Droid Sans Hebrew Orayta";
         gFontFamily = settings.value("fontfamily", defaultFont).toString();
-        gFontSize = settings.value("fontsize",20).toInt();
+
+        //default set to 0. if it is so, adjustToScreenSize() will guess a better value depending on target screen dpi.
+        gFontSize = settings.value("fontsize",0).toInt();
     settings.endGroup();
 
     resetSettingsPage();
@@ -1612,27 +1648,28 @@ void MobileApp::on_resetBookListBTN_clicked()
 
 void MobileApp::on_lastBookBTN_clicked()
 {
-    Book *b = displayer->getCurrentBook();
-    BookIter itr = displayer->getCurrentIter();
+//    Book *b = displayer->getCurrentBook();
+//    BookIter itr = displayer->getCurrentIter();
 
-    //probably we just loaded the app
-    if (!displayer->getCurrentBook())
-    {
-        //get last open book
-        QSettings settings("Orayta", "SingleUser");
-        settings.beginGroup("History");
-            int lastBookId = settings.value("lastBook").toInt();
-            b = bookList.findBookById(lastBookId);
-            itr = BookIter::fromEncodedString(settings.value("position", "").toString());
-            int vp =  settings.value("viewposition").toInt();
-        settings.endGroup();
+//    //probably we just loaded the app
+//    if (!displayer->getCurrentBook())
+//    {
+//        //get last open book
+//        QSettings settings("Orayta", "SingleUser");
+//        settings.beginGroup("History");
+//            int lastBookId = settings.value("lastBook").toInt();
+//            b = bookList.findBookById(lastBookId);
+//            itr = BookIter::fromEncodedString(settings.value("position", "").toString());
+//            int vp =  settings.value("viewposition").toInt();
+//        settings.endGroup();
 
-        if (!b) return;
-        showBook(b, itr);
-        displayer->verticalScrollBar()->setValue(vp);
-    }
+//        if (!b) return;
+//        showBook(b, itr);
+//        displayer->verticalScrollBar()->setValue(vp);
+//    }
 
-    showBook(b, itr);
+//    showBook(b, itr);
+    ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
 
 }
 
@@ -1694,4 +1731,33 @@ void MobileApp::on_ZoomOutBTN_clicked()
 void MobileApp::on_toMainMenuBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
+}
+
+// remove all previously downloaded books from history, and refresh list.
+void MobileApp::on_reloadDlBookListBTN_clicked()
+{
+    downloadedBooks.clear();
+    markDownloadedBooks();
+    updateDownloadableList();
+
+}
+
+void MobileApp::addBookMark(Book * b, BookIter iter){
+    // dont create a bookmark for an index page
+    // TODO: let the user decide?
+    if (iter.isEmpty()) return;
+
+    ui->bookMarkList->newBookMark(b, iter);
+}
+
+void MobileApp::on_bookMarkList_itemClicked(QListWidgetItem *item)
+{
+    MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
+//    MiniBMark* bm= static_cast<MiniBMark*> (item);
+//    MiniBMark *bm= qobject_cast<MiniBMark *>(item);
+    if (!bm || bm == 0) return;
+    BookIter it = bm->getBookIter();
+    showBook(bm->getBook(), it);
+    return;
+
 }
