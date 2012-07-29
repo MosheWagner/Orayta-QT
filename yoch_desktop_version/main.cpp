@@ -17,7 +17,9 @@
 #include "mainwindow.h"
 #include "settings.h"
 
+#ifdef Q_OS_WIN
 #include <windows.h>
+#endif
 
 //Define location for program dirs
 void initPaths()

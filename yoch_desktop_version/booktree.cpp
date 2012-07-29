@@ -119,7 +119,7 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
 
     //Get all files in this dir
     //QStringList filter; filter << "*.obk" << "*.pdf" << "*.link" << "*.html" << "*.htm";
-    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
+    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries /*| QDir::NoSymLinks*/ | QDir::NoDotAndDotDot,
                                             QDir::Name);
 
     for (int i=0; i < list.size(); i++)

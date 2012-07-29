@@ -174,7 +174,9 @@ void OraytaBookItem::AddBookConfs()
 
     //Read the book's conf file file:
     if(!ReadFileToList(filename, text, "UTF-8"))
-        return;
+        //or try the zip comment instead
+        if (!ReadZipComment(mPath, text, "UTF-8"))
+            return;
 
     for(int i=0; i<text.size() ; i++)
     {
