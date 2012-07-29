@@ -92,7 +92,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->displayArea->layout()->addWidget(displayer);
     ui->displayArea->layout()->addWidget(ui->loadBar);
 
-    //QtScroller::grabGesture(displayer, QtScroller::LeftMouseButtonGesture);
     FlickCharm *f = new FlickCharm(this);
     f->activateOn(displayer);
     connect(f, SIGNAL(leftSwipe()), displayer, SLOT(leftSwipe()));
@@ -101,8 +100,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     connect(displayer, SIGNAL(sourceChanged(QUrl)), this, SLOT(titleUpdate(QUrl)));
 
-    //Initialize wait movie
-    //waitMovie = new QMovie(":/Images/ajax-loader.gif");
     connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
     connect(displayer, SIGNAL(loadEnd(QUrl, Book*, BookIter)), this, SLOT(tdloadFinished(QUrl, Book*, BookIter)));
 
@@ -121,6 +118,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     fc->activateOn(ui->SearchTreeWidget);
     ui->treeWidget->setColumnWidth(0, 800);
     ui->SearchTreeWidget->setColumnWidth(0, 800);
+
+    fc->activateOn(ui->bookMarkList);
+    fc->activateOn(ui->downloadListWidget);
 
     //Build the book list
     reloadBooklist();
@@ -333,54 +333,66 @@ void MobileApp::adjustToScreenSize()
 
     QDesktopWidget* desktop = QApplication::desktop();
     QSize size = desktop->availableGeometry().size();
+// hack to enable desktop usage as well as
+#ifndef Q_OS_ANDROID
+    size = this->size();
+#endif
     qDebug() << "Screen:" << size;
 
     //Adjust main page icons:
-        int w = (size.width() / 2);
-        int max = 1000;
-        //Round to the closest 20
-        w = int(w / 20) * 20;
-        QSize a(w -30, w - 30);
-        ui->openBTN->setIconSize(a);
-        ui->openBTN->setMaximumSize(w,max);
-        ui->searchBTN->setIconSize(a);
-        ui->searchBTN->setMaximumSize(w,max);
-        ui->getbooksBTN->setIconSize(a);
-        ui->getbooksBTN->setMaximumSize(w,max);
-        ui->aboutBTN->setIconSize(a);
-        ui->aboutBTN->setMaximumSize(w,max);
+    int w = (size.width() / 2);
+    int max = 1000;
+    //Round to the closest 20
+    w = int(w / 20) * 20;
+
+    QSize a(w -25, w - 25);
+    qDebug() << "Icon size:" << a;
+
+    int h = (size.height() / 18);
+    //        ui->aboutBTN->setIconSize(a);
+    ui->aboutBTN->setMaximumSize(w,h);
+    //        ui->helpBTN->setIconSize(a);
+    ui->helpBTN->setMaximumSize(w,h);
+
+    ui->openBTN->setIconSize(a);
+    ui->openBTN->setMaximumSize(w,max);
+    ui->searchBTN->setIconSize(a);
+    ui->searchBTN->setMaximumSize(w,max);
+    ui->getbooksBTN->setIconSize(a);
+    ui->getbooksBTN->setMaximumSize(w,max);
+    ui->bookMarksBTN->setIconSize(a);
+    ui->bookMarksBTN->setMaximumSize(w,max);
 
 
+    // if the font size wasn't set manually by the user, we will geuss the best values
+    // depending on target device dpi
 
-        // if the font size wasn't set manually by the user, we will geuss the best values
-        // depending on target device dpi
+    if (gFontSize < 1)
+    {
 
-        if (gFontSize < 1)
-        {
+        int dpix = desktop->physicalDpiX();
+        int dpiy = desktop->physicalDpiY();
+        int dpi = (dpix+dpiy)/2;
 
-            int dpix = desktop->physicalDpiX();
-            int dpiy = desktop->physicalDpiY();
-            int dpi = (dpix+dpiy)/2;
-
-            qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
+        qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
 
 
-            //IZAR: this is a guess that must be tested deeper.
-            int fontSize = 16;
-            if (dpi >= 150) fontSize = 24;
-            if (dpi >= 200) fontSize = 28;
-            if (dpi >= 250) fontSize = 36;
+        //IZAR: this is a guess that must be tested deeper.
+        int fontSize = 16;
+        if (dpi >= 150) fontSize = 24;
+        if (dpi >= 200) fontSize = 28;
+        if (dpi >= 250) fontSize = 36;
 
-            gFontSize = fontSize;
+        gFontSize = fontSize;
 
-            QSettings settings("Orayta", "SingleUser");
-            settings.beginGroup("Confs");
-            //save current font settings
-            settings.setValue("fontsize", gFontSize);
-            settings.endGroup();
-        }
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("Confs");
+        //save current font settings
+        settings.setValue("fontsize", gFontSize);
+        settings.endGroup();
+    }
 
-        adjustFontSize();
+    adjustFontSize();
 
 }
 
@@ -1182,9 +1194,8 @@ void MobileApp::updateDownloadableList()
     //Refresh the list
     ui->downloadListWidget->clear();
     //show aprorpriate widgets
-    ui->downloadGRP->show();
     ui->listdownloadlbl->hide();
-
+    ui->downloadGRP->show();
 
     QStringList t;
     ReadFileToList(SAVEDBOOKLIST, t, "UTF-8");
@@ -1648,29 +1659,24 @@ void MobileApp::on_resetBookListBTN_clicked()
 
 void MobileApp::on_lastBookBTN_clicked()
 {
-//    Book *b = displayer->getCurrentBook();
-//    BookIter itr = displayer->getCurrentIter();
+    //probably we just loaded the app
+    if (!displayer->getCurrentBook())
+    {
+        //get last open book
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("History");
+            int lastBookId = settings.value("lastBook").toInt();
+            Book *b = bookList.findBookById(lastBookId);
+            BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
+            int vp =  settings.value("viewposition").toInt();
+        settings.endGroup();
 
-//    //probably we just loaded the app
-//    if (!displayer->getCurrentBook())
-//    {
-//        //get last open book
-//        QSettings settings("Orayta", "SingleUser");
-//        settings.beginGroup("History");
-//            int lastBookId = settings.value("lastBook").toInt();
-//            b = bookList.findBookById(lastBookId);
-//            itr = BookIter::fromEncodedString(settings.value("position", "").toString());
-//            int vp =  settings.value("viewposition").toInt();
-//        settings.endGroup();
-
-//        if (!b) return;
-//        showBook(b, itr);
-//        displayer->verticalScrollBar()->setValue(vp);
-//    }
-
-//    showBook(b, itr);
-    ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
-
+        if (!b) return;
+        showBook(b, itr);
+        displayer->verticalScrollBar()->setValue(vp);
+    }
+    else
+        ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
 }
 
 
@@ -1753,11 +1759,19 @@ void MobileApp::addBookMark(Book * b, BookIter iter){
 void MobileApp::on_bookMarkList_itemClicked(QListWidgetItem *item)
 {
     MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
-//    MiniBMark* bm= static_cast<MiniBMark*> (item);
-//    MiniBMark *bm= qobject_cast<MiniBMark *>(item);
     if (!bm || bm == 0) return;
     BookIter it = bm->getBookIter();
     showBook(bm->getBook(), it);
     return;
 
+}
+
+void MobileApp::on_bookMarksBTN_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
+}
+
+void MobileApp::on_helpBTN_clicked()
+{
+    on_gtoHelp_clicked();
 }

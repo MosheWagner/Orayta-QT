@@ -170,6 +170,10 @@ private slots:
 
     void on_bookMarkList_itemClicked(QListWidgetItem *item);
 
+    void on_bookMarksBTN_clicked();
+
+    void on_helpBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 
