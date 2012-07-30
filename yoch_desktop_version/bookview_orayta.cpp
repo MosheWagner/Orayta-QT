@@ -416,10 +416,9 @@ void OraytaBookView::openCommentDialog(QString link)
 
     //See if there is a match in the titles
     vector<QString>::iterator vitr = std::find(comment_titles.begin(), comment_titles.end(), link);
-    int index = distance (comment_titles.begin (), vitr);
-
-    if (index != comment_titles.size())
+    if (vitr != comment_titles.end())
     {
+        int index = distance (comment_titles.begin (), vitr);
         previosComment = comment_texts[index];
     }
 
@@ -435,7 +434,7 @@ void OraytaBookView::openCommentDialog(QString link)
 void OraytaBookView::addCommentAtPosition(QString link, QString comment)
 {
     //Escape the comment's text
-    QString text  = comment.replace("|", "\\|").replace("\n", "|");
+    QString text = comment.replace("|", "\\|").replace("\n", "|");
 
     //Read all comments (to see if one allready exists here)
     vector<QString> comment_titles, comment_texts;
@@ -443,17 +442,16 @@ void OraytaBookView::addCommentAtPosition(QString link, QString comment)
 
     //See if there is a match in the titles
     vector<QString>::iterator vitr = std::find(comment_titles.begin(), comment_titles.end(), link);
-    int index = distance (comment_titles.begin (), vitr);
 
     //If it allready has a comment, rewrite the file without it
-    if (index != comment_titles.size())
+    if (vitr != comment_titles.end())
     {
-        comment_titles.erase( comment_titles.begin() + index);
-        comment_texts.erase( comment_texts.begin() + index);
+        int index = distance (comment_titles.begin(), vitr);
 
         QString str = "";
         for (unsigned int i=0; i<comment_titles.size(); i++)
         {
+            if (i == index) continue;
             str += comment_titles[i] + "\n" + comment_texts[i] + "\n";
         }
         writetofile(USERPATH + "CommentList.txt", str, "UTF-8", true);
@@ -469,8 +467,8 @@ void OraytaBookView::addCommentAtPosition(QString link, QString comment)
     execScript(script);
 
     if (!mInternalBook) return;  // sanity check
+
     //Recreate this page with new comment in other thread (new render of the book)
-    // why don't work without dereferencement ?
     QtConcurrent::run( static_cast<const OraytaBookItem*>(mInternalBook), &OraytaBookItem::htmlrender );
 }
 

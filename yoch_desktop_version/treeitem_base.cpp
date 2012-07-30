@@ -166,3 +166,4 @@ NodeBook* BaseNodeItem::getBookPtrFromId(int uid) const
     BookTree* tree = dynamic_cast<BookTree*>(treeWidget());
     return ( tree ? tree->findBookById(uid) : NULL );
 }
+

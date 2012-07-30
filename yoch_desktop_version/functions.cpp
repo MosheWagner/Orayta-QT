@@ -83,6 +83,9 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
     {
         titles.clear();
         texts.clear();
+
+        const QString txt_id = QString::number(id);
+
         for (int i=0; i<text.size(); i+=2)
         {
             if (id == -1)
@@ -94,7 +97,7 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
             {
                 int p = text[i].indexOf(":");
                 QString t_id = text[i].mid(0,p);
-                if (t_id == QString::number(id))
+                if (t_id == txt_id)
                 {
                     QString title = text[i].mid(p+1);
                     titles.push_back(title);
@@ -105,6 +108,31 @@ bool ReadCommentFile(QString path, vector<QString>& titles, vector<QString>& tex
         return true;
     }
     else return false;
+}
+
+QHash<QString,QString> getCommentsForBookId(QString path, int id, const char *encoding_name)
+{
+    QHash<QString,QString> ret;
+
+    QList <QString> text;
+    if (ReadFileToList(path, text, encoding_name))
+    {
+        const QString txt_id = QString::number(id);
+
+        for (int i=0; i < text.size(); i+=2)
+        {
+            int p = text[i].indexOf(":");
+            QString t_id = text[i].mid(0,p);
+            if (t_id == txt_id)
+            {
+                QString title = text[i].mid(p+1);
+
+                ret.insert(title, text[i+1]);
+            }
+        }
+    }
+
+    return ret;
 }
 
 bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines)
@@ -211,9 +239,8 @@ void writetofile(QString filename, const QString& data, const char* encoding_nam
     //Set incoding to the one sent to the function
     outstream.setCodec(QTextCodec::codecForName(encoding_name));
 
-    QIODevice::OpenMode mode;
-    if (overwrite == false) mode = QIODevice::WriteOnly | QIODevice::Append;
-    else mode = QIODevice::WriteOnly;
+    QIODevice::OpenMode mode = QIODevice::WriteOnly;
+    if (!overwrite) mode |= QIODevice::Append;
 
     //Write the data to the file
     if ( outfile.open(mode) )

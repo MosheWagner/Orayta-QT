@@ -30,7 +30,7 @@ AddComment::AddComment(QWidget *parent, QString lnk, QString previosComment) :
     //(And make the cursor start on the right)
     m_ui->textEdit->setHtml("<div dir=\"RTL\">" + previosComment);
 
-    if ( previosComment == "") m_ui->erase->hide();
+    if (previosComment == "") m_ui->erase->hide();
 }
 
 

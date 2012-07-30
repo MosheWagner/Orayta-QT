@@ -26,6 +26,11 @@
 
 #include "htmlgen.h"
 #include "settings.h"
+#include "functions.h"
+#include "htmlrender.h"
+
+
+#include <QTime>
 
 using namespace std;
 
@@ -34,773 +39,55 @@ using namespace std;
 #define QT_USE_FAST_OPERATOR_PLUS
 
 
-//Symbols representing level marks in the text. '!' is the lowest (1), and '^' is the highest (5)
-const QString LevelSigns = "!~@^#";
 
 //Font sizes each level's label (in the text itself) should add
 const int LevelFontSizeAdd[] = {2,10,12,14,16,24};
-const QString LevelTagStart[] = {"<h6>", "<h5>", "<h4>", "<h3>", "<h2>", "<h1>"};
-const QString LevelTagEnd[]   = {"</h6>", "</h5>", "</h4>", "</h3>", "</h2>", "</h1>"};
 
-struct weavedSourceData : weavedSource
+
+static QString basicCSS(const QFont& font)
 {
-    QList <QString> text;
-    QString str;
-    QString Prefix;
-    QString Suffix;
-    BookIter itr;
-    int line;
-};
-
-//Renders a html file from the given Orayta file.
-//Generates a full file into the given outfile name, and a header file into outfile + ".header.html"
-//bool Book::htmlrender(QString filename, QString outfilename)
-bool OraytaBookItem::htmlrender() const
-{
-    if (ShowAlone())
-    {
-        return normalHtmlRender();
-    }
-    else
-    {
-        return mixedHtmlRender();
-    }
-}
-
-weavedSourceData initWsdFrom (const weavedSource& src)
-{
-    weavedSourceData ret;
-    ret.Title = src.Title;
-    ret.FileName = src.FileName;
-    ret.show = src.show;
-    return ret;
-}
-
-QString OraytaBookItem::insertCommentInHtml( const QString& strforlink, const vector<QString>& comment_titles, const vector<QString>& comment_texts) const
-{
-    QString ret = "";
-    //See if the is a comment for the past position, and if so, insert it now
-    vector<QString>::const_iterator vitr = find(comment_titles.begin(), comment_titles.end(), strforlink);
-    if (vitr != comment_titles.end())
-    {
-        int index = distance (comment_titles.begin (), vitr);
-        //Add the text as a special link so menu's can be opened here (and know where this is)
-        ret += "\n\t<a href=\"*" + strforlink + "\"* name=\"*" + strforlink + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
-        ret += " [*] " + QString(comment_texts[index]).replace("\\|", "|").replace("|", "<BR>") + "</a>\n";
-    }
-    return ret;
-}
-
-bool OraytaBookItem::mixedHtmlRender() const
-{
-    QString outfile = HTMLFileName();
-
-    int linkid = 0;
-
-    //TODO: implement zoom attribute?
-
-    QList <weavedSourceData> Sources;
-    for (int i=0; i<mWeavedSources.size(); i++)
-    {
-        if (mWeavedSources[i].show == true)
-        {
-            weavedSourceData src = initWsdFrom ( mWeavedSources[i] );
-            Sources.append(src);
-        }
-    }
-
-    if (Sources.size() == 0) return false;
-
-
-    vector<QString> comment_titles, comment_texts;
-    //Read coment file into it's vectors
-    ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
-
-
-    QStringList colors;
-    colors << "#009000" << "#0000FF" << "#A52A2A" << "#4B0082";
-    for (int i=1; i<Sources.size(); i++)
-    {
-        int j = ((i - 1) % colors.size());
-
-        //Title is now before the text, not after
-        if (Sources[i].Prefix == "")
-        {
-            Sources[i].Prefix = "<span style= color:" + colors[j] + ">";
-            Sources[i].Prefix += "<i><b> " +  Sources[i].Title + ": </b></i><br>";
-        }
-        if (Sources[i].Suffix == "") Sources[i].Suffix = "</span>";
-        //if (Sources[i].Suffix == "") Sources[i].Suffix = "<small> [" +  Sources[i].Title + ") </small></span>";
-    }
-
-    QString html;
-    QString htmlbody;
-    QString last_label="", lastlink="", last_level_line="";
-//    QString mNameForTitle = "";
-
-    vector <IndexItem> indexitemlist;
-
-    //Load all sources to the memory:
-    for (int i=0; i<Sources.size(); i++)
-    {
-        Sources[i].text.clear();
-        if(!ReadFileFromZip(Sources[i].FileName, "BookText", Sources[i].text, "UTF-8", true))
-        {
-            qDebug() << "ERROR: Unable to open file: " << Sources[i].FileName << " !";
-        }
-        Sources[i].str = "";
-        Sources[i].line = 0;
-    }
-
-    //BEWARE: Super ugly hack; But it's still better than what we had before.
-    //Add a fake level sign to the end of the main source, so we know we're done
-    Sources[0].text.push_back("! {EOF}");
-
-
-    //Go over every line in the main source:
-    for (int i=0; i<Sources[0].text.size(); i++)
-    {
-        //Be nice to other people too
-        QApplication::processEvents();
-
-        //Use the first line of whats left of the file, and chop it off
-        QString line = Sources[0].text[i];
-
-        //Display nikud and teamim depending on the NikudMode
-        if ( hasNikud && !shownikud ) line = removeNikud(line);
-        if ( hasTeamim && !showteamim ) line = removeTeamim(line);
-
-        //A new level is reached, so add all that came before it to the Html, and get all of the sources' text for this level
-        //NOTE: this is a bit funny (think about it). Maybe this should be fixed. But it still works...
-        int level;
-        if ( (level = LevelSigns.indexOf(line[0])) != -1 )
-        {
-            // Go over all other sources
-            for (int j=1; j<Sources.size(); j++)
-            {
-                if (Sources[j].line < Sources[j].text.size())
-                {
-                    //Update the sources' itr to this line
-                    // (It should be a level line that matters, because the loop doesn't stop before that)
-                    Sources[j].itr.SetLevelFromLine(Sources[j].text[Sources[j].line]);
-
-                    //If it's the same as the one level just passed in the main source, add this level's text to the Html too.
-                    if (Sources[0].itr.toHumanString() == Sources[j].itr.toHumanString())
-                    {
-                        Sources[j].line ++;
-
-                        QString source_line = Sources[j].text[Sources[j].line];
-
-                        //Clone the sources' itr, so we can see if it changed
-                        BookIter tmpitr(Sources[j].itr);
-                        tmpitr.SetLevelFromLine(source_line);
-
-                        //As long as the file didn't end and no level that matters was changed, keep on adding text
-                        while ( (tmpitr.toHumanString() == Sources[0].itr.toHumanString()) && (Sources[j].line < Sources[j].text.size()))
-                        {
-                            if (LevelSigns.indexOf(source_line[0]) == -1) Sources[j].str += source_line + "\n";
-
-                            Sources[j].line ++;
-
-                            if (Sources[j].line < Sources[j].text.size())
-                            {
-                                //Update the cloned itr
-                                source_line = Sources[j].text[Sources[j].line];
-                                tmpitr.SetLevelFromLine(source_line);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (last_label != "")
-            {
-                for (int j=0; j<Sources.size(); j++)
-                {
-                    if ( Sources[j].str.replace("\n", "") != "" )
-                    {
-                        htmlbody += Sources[j].Prefix;
-                        htmlbody += Sources[j].str;
-                        htmlbody += Sources[j].Suffix;
-                        htmlbody += "<BR><BR>\n";
-                    }
-                }
-            }
-
-            //Emtpy strs
-            for (int j=0; j<Sources.size(); j++) Sources[j].str.clear();
-
-            //See if the is a comment for the past position, and if so, insert it now
-            //htmlbody += insertCommentInHtml(lastlink, comment_titles, comment_texts);
-
-            //Deal with the level sign for this book itself:
-
-            //Advance itr:
-            Sources[0].itr.SetLevelFromLine(line);
-
-            QString source0_strforlink = Sources[0].itr.toStringForLinks(level + 1);
-
-            last_label = line;
-
-            lastlink = source0_strforlink;
-
-            if (level == 0)
-            {
-                //This level dosn't get indexed
-
-                //Add the text as a special link so menu's can be opened here (and know where this is), unless it's a fake sign.
-                if (line.mid(2).indexOf("EOF") == -1)
-                {
-                    htmlbody += "<span>" + link("$" + source0_strforlink, line.mid(2), linkid);
-                    htmlbody += insertCommentInHtml(lastlink, comment_titles, comment_texts);
-                    htmlbody += "</span>\n";
-                    linkid ++;
-                }
-            }
-            else
-            {
-                IndexItem indexitem;
-
-                indexitem.level = level + 1;
-
-                //Add a name point ("<a name=...") to html index (for the small index to point to it)
-                indexitem.linkPoint =  "#" + source0_strforlink;
-
-                //Display of link levels in the Html itself, and in the index
-                QString dispname = "";
-
-                //If the book is a gmara, give the pages (that are level 1) thier special names:
-                if ( !IsUserBook() && (mPath.contains("תלמוד") || mPath.contains("שס")) && level == 1 )
-                {
-                    dispname = Sources[0].itr.toGmaraString();
-                }
-                else
-                {
-                    //If only part of the link name should be in the index - cut it.
-                    if (mRemoveSuffix[level] != "")
-                    {
-                        QStringList tmp = splittotwo ( line.mid(2), mRemoveSuffix[level]);
-                        if(tmp[1] != "")
-                            dispname = tmp[1];
-                        else
-                            dispname = tmp[0];
-                    }
-                    else
-                        dispname = line.mid(2);
-                }
-
-                indexitem.displayText = dispname;
-
-                //Add the new indexitem to the indexitems list
-                indexitemlist.push_back(indexitem);
-
-                htmlbody += "<span>";
-                htmlbody += LevelTagStart[level];
-                //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + source0_strforlink, dispname, linkid);
-                htmlbody += LevelTagEnd[level];
-
-                htmlbody += insertCommentInHtml(lastlink, comment_titles, comment_texts);
-                htmlbody += "</span>\n";
-
-                linkid ++;
-            }
-
-            last_level_line = line;
-        }
-
-        //External link ("<!--ex" type)
-        else if(line.startsWith("<!--ex"))
-        {
-            //htmlbody += ExternalLink(line);
-            Sources[0].str += ExternalLink(line);
-        }
-        else
-        {
-            //Hope this is OK... Not realy tested yet
-            //Run all pre-set replaces
-            for (int i=0; i<replaceFrom.size(); i++)
-            {
-                line.replace(replaceFrom[i], replaceTo[i]);
-            }
-
-            Sources[0].str += line + " ";
-        }
-    }
-
-    for (int i=0; i<Sources.size(); i++) Sources[i].text.clear();
-
-
-    //Stick together all parts of HTML:
-    html += html_head(mNormallDisplayName, getFont().family(), getFont().pointSize());
-
-    html += "<body>";
-
-    html += namepoint("Top");
-
-    html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
-
-    html += index_to_index(indexitemlist,mShortIndexLevel);
-
-    html += "<div class=\"Index\">";
-    html += html_link_table(indexitemlist, mShortIndexLevel , true, mRemoveSuffix[1]!="");
-    html += "</div>\n";
-
-    html += "<div class=\"Content\">";
-    html += htmlbody;
-    html += "</div>\n";
-
-    html += "</body>\n</html>";
-
-    //Save the Html file
-    writetofile(outfile, html, "UTF-8");
-
-    return true;
-}
-
-bool OraytaBookItem::normalHtmlRender() const
-{
-    QString outfilename = HTMLFileName();
-
-    int linkid = 0;
-
-    vector <IndexItem> indexitemlist;
-
-    BookIter itr;
-
-    //These are just like consts, but I might change these some day...
-    bool dot = true;
-
-    QList <QString> text;
-
-    QString low_comments="";
-    QString html="";
-    QString htmlbody="";
-    //QString lastlabel = "";
-    QString mNameForTitle = "";
-
-    //Read the source file associated to this book:
-    QString zipfile = absPath(mPath);
-    if(!ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true))
-    {
-        qDebug() << "ERROR: Unable to open file: " << zipfile << " !";
-        return false;
-    }
-
-    //TODO: %$%#%$
-    //Simple check to make sure we don't get stuck with a emtpy (or almost empty) file
-    if ( text.size() < 2 )
-    {
-        qDebug() << "ERROR: Invalid file: " << zipfile << " !";
-        return false;
-    }
-
-    vector<QString> comment_titles, comment_texts;
-    //Read coment file into it's vectors
-    ReadCommentFile(USERPATH + "CommentList.txt", comment_titles, comment_texts, "UTF-8", mUniqueId);
-
-    for(int i=0; i<text.size(); i++)
-    {
-        //Be nice to other people too
-        QApplication::processEvents();
-
-        //Display nikud and teamim depending on the NikudMode
-        if ( hasNikud && !shownikud ) text[i] = removeNikud(text[i]);
-        if ( hasTeamim && !showteamim ) text[i] = removeTeamim(text[i]);
-
-        int level;
-
-        //Book name (usually second line)
-        if (text[i][0] == '$')
-        {
-            //There's a space after the $ sign, so the name is from char 2 untill the end
-            mNameForTitle = text[i].mid(2);
-
-            //TODO: dangerous...
-            //Usually, after the line with the $, a comment comes until an empty line.
-            //This is a bit dangerous, I hope it makes no problems now
-            int tmp = i;
-
-            while( i+1 < text.size() && text[i+1] != "" && text[i+1] != " " )
-            {
-                //A level sign was reached, meaning something went wrong. Undo all that was done here
-                if ( LevelSigns.indexOf(text[i][0]) != -1 )
-                {
-                    i = tmp;
-                    low_comments = "";
-
-                    break;
-                }
-
-                low_comments += text[i+1] + "<BR>";
-                i++;
-            }
-        }
-        //If it's one of the level signs
-        else if ( (level = LevelSigns.indexOf(text[i][0])) != -1 )
-        {
-            //Advance the book itr to the new position
-            itr.SetLevelFromLine(text[i]);
-
-            QString strforlink = itr.toStringForLinks(level + 1);
-
-            if (level == 0)  //This level dosn't get indexed
-            {
-                htmlbody += "<span>";
-                //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + strforlink, text[i].mid(2), linkid);
-
-                //See if the is a comment for the past position, and if so, insert it now
-                htmlbody += insertCommentInHtml(strforlink, comment_titles, comment_texts);
-
-                htmlbody += "</span>\n";
-                linkid ++;
-            }
-            else
-            {
-                IndexItem indexitem;
-
-                indexitem.level = level + 1;
-
-                /////????
-                //Add a name point ("<a name=...") to html index (for the small index to point to it)
-                indexitem.linkPoint =  "#" + strforlink;
-
-                //Display of link levels in the Html itself, and in the index
-                QString dispname;
-
-                //If the book is a gmara, give the pages (that are level 1) thier special names:
-                if ( !IsUserBook() && (mPath.contains("תלמוד") || mPath.contains("שס")) && level == 1 )
-                {
-                    dispname = itr.toGmaraString();
-                }
-                else
-                {
-                    //If only part of the link name should be in the index - cut it.
-                    if (mRemoveSuffix[level] != "")
-                    {
-                        QStringList tmp = splittotwo ( text[i].mid(2), mRemoveSuffix[level]);
-                        dispname = (tmp[1] != "" ? tmp[1] : tmp[0]);
-                    }
-                    else
-                    {
-                        dispname = text[i].mid(2);
-                    }
-                }
-
-                indexitem.displayText = dispname;
-
-                //Add the new indexitem to the indexitems list
-                indexitemlist.push_back(indexitem);
-
-                htmlbody += "<span>";
-                htmlbody += LevelTagStart[level];
-                //Add the text as a special link so menu's can be opened here (and know where this is)
-                htmlbody += link("$" + strforlink, dispname, linkid);
-                htmlbody += LevelTagEnd[level];
-
-                //See if the is a comment for the past position, and if so, insert it now
-                htmlbody += insertCommentInHtml(strforlink, comment_titles, comment_texts);
-
-                htmlbody += "</span>\n";
-                linkid ++;
-            }
-        }
-        //External link ("<!--ex" type)
-        else if(text[i].startsWith("<!--ex"))
-        {
-            htmlbody += ExternalLink(text[i]);
-        }
-        //Plain text
-        else
-        {
-            QString txt = text[i];
-
-            //Run all pre-set replaces
-            for (int i=0; i<replaceFrom.size(); i++)
-                txt.replace(replaceFrom[i], replaceTo[i]);
-
-            htmlbody += txt + " \n";
-
-            if (PutNewLinesAsIs) htmlbody += "<BR>";
-        }
-    }
-
-    //Stick together all parts of HTML:
-    html += html_head(mNameForTitle, getFont().family(), getFont().pointSize());
-
-    html += "<body>";
-
-    html += namepoint("Top");
-    
-    html += html_book_title(mNameForTitle, mCopyrightInfo, low_comments);
-
-    html += index_to_index(indexitemlist,mShortIndexLevel);
-
-    html += "<div class=\"Index\">";
-    html += html_link_table(indexitemlist, mShortIndexLevel , dot, mRemoveSuffix[1]!="");
-    html += "</div>\n";
-
-    html += "<div class=\"Content\">";
-    html += htmlbody;
-    html += "</div>\n";
-
-    html += "</body>\n</html>";
-
-    //Save the Html file
-    writetofile(outfilename, html, "UTF-8");
-
-    return true;
-}
-
-//Returns true if the given line has either a empty line after it,
-// or only lines with "//" and an empty line at the end of them.
-// (Recusive function). Used to recognize the 'special name' links.
-bool space_or_slash_after_this(const vector <QString>& text, int line)
-{
-    if ( text[line+1] == "" )
-    {
-        return true;
-    }
-    else if ( text[line+1][0] == '/' && text[line+1][1] == '/' )
-    {
-        return space_or_slash_after_this(text, line+1);
-    }
-    else
-        return false;
-}
-
-//Returns a QString that will be the header of the output HTML file
-QString html_head(QString title, QString fontFamily, int basesize)
-{
-    QString t;
-    t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
-    t += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    t += "<html dir=\"RTL\">\n<head>\n\t";
-
-    t += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
-
-    t += "\n<title>";
-    t += title;
-    t += "</title>\n";
-
-    //Add CSS settings to the html file:
-    t += CSS(fontFamily, basesize);
-
-    //Add scripts to the HTML
-    t += Script();
-    
-    t +="\n</head>";
-
-    return t;
-}
-
-
-QString CSS(QString fontFamily, int basesize)
-{
-    QString ret = "<style type=\"text/css\">\n"
-            "  body { dir='RTL'; text-align: justify; font-family: '" + gFont.family() + "'; font-size: " + QString::number(gFont.pointSize()) + " px; }\n"
-            "   A { text-decoration: none; }\n"
+    QString fontFamily = font.family();
+    int basesize = font.pointSize();
+
+    QString ret = "  body { dir='RTL'; text-align: justify; font-family: '" + gFont.family() + "'; font-size: " +
+            QString::number(gFont.pointSize()) + " px; }\n"
+            "   A { text-decoration: none; margin: 1.3em 0 }\n"
             "   A:hover { color: red; }\n"
             "   div { line-height: 1.5; }\n"
-            "   h1 { text-align: center; font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[5]) + "px; }\n"
-            "   h2 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; }\n"
-            "   h3 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; }\n"
-            "   h4 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; }\n"
-            "   h5 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; }\n"
-            "   h6 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; }\n"
-            "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "}"
+            "   h1 { text-align: center; font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[5]) + "px; margin: 0.3em 0 }\n"
+            "   h2 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; margin: 0.4em 0 }\n"
+            "   h3 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; margin: 0.5em 0 }\n"
+            "   h4 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; margin: 0.5em 0 }\n"
+            "   h5 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; margin: 0.75em 0 }\n"
+            "   h6 { font-family: '" + gFont.family() + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; margin: 1.em 0 }\n"
+            "   div.Content { font-family: '" + fontFamily + "'; font-size: " + QString::number(basesize) + "px; }\n"
             "   div.Content A { font-family: '" + gFont.family() + "'; color:indigo; }\n"
             "   div.Content A:hover { color:red; }\n"
-            "</style>\n";
+            "   .Aliyah { text-align: center; font-family:'" + gFont.family() + "'; font-size:" +
+            QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
+            "   .S0 { font-size:" + QString::number(basesize - 5) + "px;  font-weight:bold;}\n";
 
     return ret;
 }
 
-//Generate the title part of the Html file
-QString html_book_title(QString name, QString copyright, QString low_comments)
+static QString weavedCSS(const QFont font, QString color, int num)
 {
-    QString t = "";
-    if (copyright!="")
-    {
-        t += "<div style=\"text-align:center; font-weight:bold; font-size:18px; color:#BE32BE;\">";
-        t +=  QT_TR_NOOP("All right reserved ");
-        t +=  "&#169 " + copyright + "</div>\n";
-    }
+    QString fontFamily = font.family();
+    int fontsize = font.pointSize();
 
-    t += "<h1>" + name + "</h1>";
+    QString ret;
+    ret += "   div.mixed_" + QString::number(num) + " { color: " + color + "; font-family: '" +
+            fontFamily + "'; font-size: " + QString::number(fontsize) +
+            "px; margin-right: 10px; margin-top: 3px; margin-bottom: 3px }\n";
+    ret += "   span.title_mixed_"  + QString::number(num) + "{ font: bold italic " +
+            QString::number(gFont.pointSize()) + "px '" + gFont.family() + "'; }\n";
 
-    if (low_comments!="")
-    {
-        t += "<p style=\"font-weight:bold; font-size:14px;\">";
-        t += low_comments + "</p>\n";
-    }
-    t += "<P><HR>";
-    return t;
+    return ret;
 }
 
-//Returns html code of a "<a name" tag, for the given name
-inline QString namepoint (QString name)
-{     return "<a name=\"" + name + "\">&nbsp;</a>\n";          }
-
-
-//Returns an html link by the given link_to and display text
-inline QString link (QString linkto, QString text, int id)
+static QString oraytaScripts()
 {
-    if (linkto.startsWith("$"))
-    {
-        return "<a id=id_" + QString::number(id) + " name=\"" + linkto.mid(1) +
-                "\" href=\"" + linkto + "\" onclick='paintMe(this)'>" + text + "</a>";
-    }
-    else if (linkto.startsWith("#"))
-    {
-        return  "<a href=\"" + linkto + "\" onclick='paintWhoILinkTo(this)'>" +
-                text + "</a> &nbsp;";
-    }
-    else
-    {
-        return  "<a href=\"" + linkto + "\">" + text + "</a> &nbsp;";
-    }
-}
-
-//Return html code of dots:
-QString bluedot()
-{  return "<span style=\"color:blue\"><B>&bull;</B></span>"; }
-
-QString reddot()
-{   return "<span style=\"color:red\"><B>&bull;</B></span>";  }
-
-
-QString index_to_index(const vector<IndexItem>& indexitemlist, int level)
-{
-    QString str="";
-
-    int indexcount = 0;
-
-    str += "<center><span style=\"font-size:16px;\">";
-    for(unsigned int i=0; i<indexitemlist.size(); i++)
-    {
-        if(indexitemlist[i].level == level)
-        {
-            str += reddot() + "&nbsp;" + link("#Index" + QString::number(indexcount), indexitemlist[i].displayText) + "&nbsp;";
-
-            indexcount++;
-        }
-    }
-    str += "</span></center>";
-
-    if (indexcount != 0) str += "<HR><BR>";
-
-    return str;
-}
-
-QString html_link_table(const vector<IndexItem>& indexitemlist, int short_index_level, bool dot, bool hasRUS)
-{
-
-    //TODO: Make those in tables look better (strech to both sides?)
-
-    //NOTE: This is a bit tricksy (see LOTR if you don't know that word),
-    //      this should be tested with more books, and documented a lot more
-
-    QString link_table="";
-
-    //Levels possible here are 2,3,4,5
-    bool haslevel[4]= { false };
-
-    for (unsigned int i=0; i<indexitemlist.size(); i++)
-    {
-        haslevel[indexitemlist[i].level - 2] = true;
-    }
-
-
-    //Get i to one above the lowest existing level:
-    int levelMIN=0, higherLevel=0;
-    //Find lowest level
-    for (levelMIN=0; levelMIN < 4 && !haslevel[levelMIN]; levelMIN++) {};
-
-    //Find the next one above it:
-    for (higherLevel = levelMIN + 1 ; higherLevel < 4 && !haslevel[higherLevel]; higherLevel++) {};
-
-    // (The found numbers are 2 under the real levels, because they started from 0 and the levels start from 2)
-    levelMIN += 2;
-    higherLevel += 2;
-
-
-    //If only one link level is present (and thus higherLevel became 6)
-    if ( higherLevel == 6)
-    {
-        link_table += "<span style=\"font-size:20px;\">";
-        for (unsigned int j=0; j<indexitemlist.size(); j++)
-        {
-            link_table += "&nbsp;&nbsp;&nbsp;" + bluedot() + "&nbsp;";
-
-            link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-
-            if (!hasRUS) link_table +="<BR>\n";
-        }
-        link_table += "</span>";
-    }
-    //If more than one level,
-    // the lowest is in a table under the one closest above it,
-    // and the higher one(s) get a <P> before them.
-    else
-    {
-        int iln = 0;
-        bool opentable = false;
-
-        for (unsigned int j=0; j<indexitemlist.size(); j++)
-        {
-            if (short_index_level == indexitemlist[j].level)
-            {
-                link_table += "<a name=\"Index" + QString::number(iln) + "\"></a>\n";
-                iln ++;
-            }
-
-            if (opentable && indexitemlist[j].level >= higherLevel)
-            {
-                link_table += "</td></tr></tbody></table>\n";
-                opentable = false;
-            }
-
-            //Higher than one above the lowest
-            if (indexitemlist[j].level > higherLevel)
-            {
-                link_table += "<p style=\"text-align:center; font-size:40px;\">";
-                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table += "</p>\n";
-            }
-            else if (indexitemlist[j].level == higherLevel)
-            {
-                link_table += "<span style=\"font-size:28px;\">&nbsp;";
-                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table +=  "</span>\n";
-
-                opentable = true;
-                link_table += "<table border=\"0\" cellpadding=\"8\" cellspacing=\"2\" width=\"100%\"><tbody><tr><td width=\"24\"><td align=\"right\">";
-            }
-            else
-            {
-                if(dot)
-                    link_table += bluedot() + "&nbsp;" + link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                else
-                    link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
-                link_table +="&nbsp;\n";
-            }
-        }
-        if (opentable)
-            link_table += "</td></tr></tbody></table>\n";
-    }
-
-
-    if (link_table != "") link_table += "<HR>";
-
-    return link_table;
-}
-
-
-QString Script()
-{
-    QString str = "<script type=\"text/javascript\">\n";
+    QString str;
 
     //Script showing active part and putting it's link in the status bar
     str += "currentlyPainted=null;\n";
@@ -917,14 +204,14 @@ QString Script()
             "    ret.push(document.createTextNode(lst[i]));\n"
             "    ret.push(document.createElement('br'));\n"
             "  }\n"
+            "  ret.push(document.createElement('br'));\n"
             "  return ret;\n"
             "}\n";
 
     str += "function addComment (name, comment) {\n"
            "  if ( comment != '' ){"
            "    var newLink = document.createElement('a');\n"
-           "    newLink.href = '*' + name;\n"
-           "    newLink.name = '*' + name;\n"
+           "    newLink.href = newLink.name = '*' + name;\n"
            "    newLink.setAttribute('style', 'text-decoration:none; color:blue; font-size:14px');\n"
            "    lst = comment_line(comment); for (var i=0; i < lst.length; i++) { newLink.appendChild(lst[i]); }\n"
            "  }\n"
@@ -935,8 +222,6 @@ QString Script()
            "    if ( comment != '' ) nameElem.parentNode.appendChild(newLink);\n"
            "  }\n"
            "}\n";
-
-    str += "</script>\n";
 /*
     str += "<code>"
             "<object type=\"application/x-qt-plugin\" classid=\"QProgressBar\" "
@@ -952,6 +237,207 @@ QString Script()
 */
     return str;
 }
+
+
+//Returns a QString that will be the header of the output HTML file
+QString html_head(const QString& title, const QFont& font)
+{
+    QString t;
+    t = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n ";
+    t += "\"http://www.w3.org/TR/html4/loose.dtd\">\n";
+    t += "<html dir=\"RTL\">\n<head>\n\t";
+
+    t += "<meta http-equiv=Content-Type content=\"text/html; charset=UTF-8\">";
+
+    t += "\n<title>";
+    t += title;
+    t += "</title>\n";
+
+    //Add CSS settings to the html file:
+    t += "<style type=\"text/css\">\n" + basicCSS(font) + "</style>\n";
+
+    //Add scripts to the HTML
+    t += "<script type=\"text/javascript\">\n" + oraytaScripts() + "</script>\n";
+
+    t +="\n</head>";
+
+    return t;
+}
+
+/*
+//Returns true if the given line has either a empty line after it,
+// or only lines with "//" and an empty line at the end of them.
+// (Recusive function). Used to recognize the 'special name' links.
+bool space_or_slash_after_this(const vector <QString>& text, int line)
+{
+    if ( text[line+1] == "" )
+    {
+        return true;
+    }
+    else if ( text[line+1][0] == '/' && text[line+1][1] == '/' )
+    {
+        return space_or_slash_after_this(text, line+1);
+    }
+    else
+        return false;
+}
+*/
+
+//Generate the title part of the Html file
+QString html_book_title(QString name, QString copyright, QString low_comments)
+{
+    QString t = "";
+    if (copyright!="")
+    {
+        t += "<div style=\"text-align:center; font-weight:bold; font-size:18px; color:#BE32BE;\">";
+        t +=  QT_TR_NOOP("All right reserved ");
+        t +=  "&#169 " + copyright + "</div>\n";
+    }
+
+    t += "<h1>" + name + "</h1>";
+
+    if (low_comments!="")
+    {
+        t += "<p style=\"font-weight:bold; font-size:14px;\">";
+        t += low_comments + "</p>\n";
+    }
+    t += "<P><HR>";
+    return t;
+}
+
+//Return html code of dots:
+QString bluedot()
+{  return "<span style=\"color:blue\"><B>&bull;</B></span>"; }
+
+QString reddot()
+{   return "<span style=\"color:red\"><B>&bull;</B></span>";  }
+
+
+QString index_to_index(const vector<IndexItem>& indexitemlist, int level)
+{
+    QString str="";
+
+    int indexcount = 0;
+
+    str += "<center><span style=\"font-size:16px;\">";
+    for(unsigned int i=0; i<indexitemlist.size(); i++)
+    {
+        if(indexitemlist[i].level == level)
+        {
+            str += reddot() + "&nbsp;" + link("#Index" + QString::number(indexcount), indexitemlist[i].displayText) + "&nbsp;";
+
+            indexcount++;
+        }
+    }
+    str += "</span></center>";
+
+    if (indexcount != 0) str += "<HR><BR>";
+
+    return str;
+}
+
+QString html_link_table(const vector<IndexItem>& indexitemlist, int short_index_level, bool dot, bool hasRUS)
+{
+    //TODO: Make those in tables look better (strech to both sides?)
+
+    //NOTE: This is a bit tricksy (see LOTR if you don't know that word),
+    //      this should be tested with more books, and documented a lot more
+
+    QString link_table="";
+
+    //Levels possible here are 2,3,4,5
+    bool haslevel[4]= { false };
+
+    for (unsigned int i=0; i<indexitemlist.size(); i++)
+    {
+        haslevel[indexitemlist[i].level - 2] = true;
+    }
+
+
+    //Get i to one above the lowest existing level:
+    int levelMIN=0, higherLevel=0;
+    //Find lowest level
+    for (levelMIN=0; levelMIN < 4 && !haslevel[levelMIN]; levelMIN++) {};
+
+    //Find the next one above it:
+    for (higherLevel = levelMIN + 1 ; higherLevel < 4 && !haslevel[higherLevel]; higherLevel++) {};
+
+    // (The found numbers are 2 under the real levels, because they started from 0 and the levels start from 2)
+    levelMIN += 2;
+    higherLevel += 2;
+
+
+    //If only one link level is present (and thus higherLevel became 6)
+    if ( higherLevel == 6)
+    {
+        link_table += "<span style=\"font-size:20px;\">";
+        for (unsigned int j=0; j<indexitemlist.size(); j++)
+        {
+            link_table += "&nbsp;&nbsp;&nbsp;" + bluedot() + "&nbsp;";
+
+            link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
+
+            if (!hasRUS) link_table +="<BR>\n";
+        }
+        link_table += "</span>";
+    }
+    //If more than one level,
+    // the lowest is in a table under the one closest above it,
+    // and the higher one(s) get a <P> before them.
+    else
+    {
+        int iln = 0;
+        bool opentable = false;
+
+        for (unsigned int j=0; j<indexitemlist.size(); j++)
+        {
+            if (short_index_level == indexitemlist[j].level)
+            {
+                link_table += "<a name=\"Index" + QString::number(iln) + "\"></a>\n";
+                iln ++;
+            }
+
+            if (opentable && indexitemlist[j].level >= higherLevel)
+            {
+                link_table += "</td></tr></tbody></table>\n";
+                opentable = false;
+            }
+
+            //Higher than one above the lowest
+            if (indexitemlist[j].level > higherLevel)
+            {
+                link_table += "<p style=\"text-align:center; font-size:40px;\">";
+                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
+                link_table += "</p>\n";
+            }
+            else if (indexitemlist[j].level == higherLevel)
+            {
+                link_table += "<span style=\"font-size:28px;\">&nbsp;";
+                link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
+                link_table +=  "</span>\n";
+
+                opentable = true;
+                link_table += "<table border=\"0\" cellpadding=\"8\" cellspacing=\"2\" width=\"100%\"><tbody><tr><td width=\"24\"><td align=\"right\">";
+            }
+            else
+            {
+                if(dot)
+                    link_table += bluedot() + "&nbsp;" + link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
+                else
+                    link_table += link(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
+                link_table +="&nbsp;\n";
+            }
+        }
+        if (opentable)
+            link_table += "</td></tr></tbody></table>\n";
+    }
+
+
+    if (link_table != "") link_table += "<HR>";
+
+    return link_table;
+}
+
 
 //External links:
 
@@ -1104,4 +590,58 @@ string Decrypt (string text, bool decrypt)
     }
     //Failure
     return "";
+}
+
+///////////////////////////////////////////////////////////////////
+
+
+//Renders a html file from the given Orayta file.
+//Generates a full file into the given outfile name, and a header file into outfile + ".header.html"
+// TODO : return false if have a problem
+bool OraytaBookItem::htmlrender() const
+{
+    //qDebug() << "entry in experimental render";
+
+    QTime tm;
+    tm.start();
+
+    HtmlRender render( getPath() );
+
+    render.addCss( basicCSS( getFont() ) );
+    render.addScript( oraytaScripts() );
+    render.addComments( getCommentsForBookId(USERPATH + "CommentList.txt", getUniqueId()) );
+
+    render.setOrySpecificInfos(mCopyrightInfo, (QString*)mRemoveSuffix, mShortIndexLevel);
+    render.setReplacements(replaceFrom, replaceTo);
+    render.setWDispMinLevel(weaveLevel);
+
+    if ( hasNikud && !shownikud ) render.remNikud();
+    if ( hasTeamim && !showteamim ) render.remTeamim();
+    if ( PutNewLinesAsIs ) render.setNewLine();
+    if ( !IsUserBook() && (mPath.contains("תלמוד") || mPath.contains("שס")) ) render.setDafAmudFormat();
+
+    if (!ShowAlone())
+    {
+        QStringList colors;
+        colors << "#009000" << "#0000FF" << "#A52A2A" << "#4B0082";
+
+        for (int i=0, n=0; i < mWeavedSources.size(); i++)
+        {
+            if (mWeavedSources[i].show)
+            {
+                n++;
+
+                OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(getBookPtrFromId(mWeavedSources[i].id));
+
+                render.addWsource( obook->getPath() );
+                render.addCss( weavedCSS(obook->getFont(), colors[n%colors.size()], n) );
+            }
+        }
+    }
+
+    qDebug() << " Render : elapsed " << tm.elapsed() << "ms";
+
+    writetofile(HTMLFileName(), render.toHtml(), "UTF-8");
+
+    return true;
 }

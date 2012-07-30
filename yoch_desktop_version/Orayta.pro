@@ -49,6 +49,7 @@ SOURCES += main.cpp \
     treeitem_html.cpp \
     treeitem_base_book.cpp \
     bookview_basehtml.cpp \
+    htmlrender.cpp      \
     treeitem_link.cpp
 
 HEADERS += htmlgen.h \
@@ -74,6 +75,8 @@ HEADERS += htmlgen.h \
     bookview_html.h \
     bookview_basehtml.h \
     treeitem_base_book.h \
+    searchresults.h \
+    htmlrender.h    \
     searchresults.h \
     treeitem_link.h
 

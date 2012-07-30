@@ -103,8 +103,8 @@ int main(int argc, char *argv[])
     //Sleep(10000);
 
     //Set all QString to work with utf-8
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
     //Start the App
     QApplication app(argc, argv);

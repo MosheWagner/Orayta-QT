@@ -615,9 +615,16 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem* current, QTre
 
         //Create new entries
         const QList<weavedSource> weavedSources = book->weavedSources();
-        for(int i=1; i < weavedSources.size(); i++)
+        for(int i=0; i < weavedSources.size(); i++)
         {
-            MixedCheckBox *chk = new MixedCheckBox(weavedSources[i].Title);
+            NodeBook* book = ui->treeWidget->findBookById(weavedSources[i].id);
+            if (!book)
+            {
+                qDebug() << "waved source not founf for id " << weavedSources[i].id;
+                continue;
+            }
+
+            MixedCheckBox *chk = new MixedCheckBox(book->getTreeDisplayName());
             chk->setChecked(weavedSources[i].show);
             chk->setData(i);
 

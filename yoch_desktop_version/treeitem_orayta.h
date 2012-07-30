@@ -14,9 +14,9 @@
 //A simple struct holding all information needed for every source in the weaved display mode
 struct weavedSource
 {
-    QString Title;
-    QString FileName;
+    int id;
     bool show;
+    //QString FileName;
 };
 
 struct OraytaConfs
@@ -36,7 +36,7 @@ class OraytaBookItem : public NodeBook
 //    Q_GADGET
 public:
 
-    OraytaBookItem ( BaseNodeItem *parent, QString path, QString name, bool isUserBook );
+    OraytaBookItem ( BaseNodeItem* parent, QString path, QString name, bool isUserBook );
 
     //Getters
     Booktype booktype() const;
@@ -49,11 +49,13 @@ public:
     bool areTeamimShown() const;
     QFont getFont() const;
     OraytaConfs publicConfs() const;
+
     virtual bool isSearchable() const;
     virtual bool isFontModifiable() const;
     virtual QList<QAction*> menuActions() const;
     virtual QString getTreeDisplayName() const;
     virtual QString getLoadableFile() const;
+
     //Returns the filename that should be used for the book, depending on the shown commentaries
     QString HTMLFileName() const;
 
@@ -69,8 +71,8 @@ public:
     inline QString GDBFilePath()const;
 
     //Fills "pureText" and "levelMap" with their values
-    void BuildSearchTextDB() const;
-    void BuildGuematriaDb() const;
+    void BuildSearchTextDB(QString&, QMap<int, BookIter>&) const;
+    void BuildGuematriaDb(QVector<GuematriaDb>&) const;
 
     //Return a list of results to all occurrences of the requested phrase in the book
     QList <SearchResult> findInBook(const QRegExp& regexp) const;
@@ -109,23 +111,21 @@ private:
     // Implemented in htmlgen.cpp
     bool normalHtmlRender() const;
     bool mixedHtmlRender() const;
+    bool experimentalHtmlRender() const;
 
     QString insertCommentInHtml( const QString& strforlink, const std::vector<QString>& comment_titles, const std::vector<QString>& comment_texts) const;
 
     //Display name for most purposes (search results, etc.)
     QString mNormallDisplayName;
-/*
-    // pour charger le fichier de confs
-    struct OraytaBookInfos
-    {
 
-    };
-*/
+    QChar weaveLevel;
+
     bool showAlone;
     bool hasNikud;
     bool hasTeamim;
     bool shownikud;
     bool showteamim;
+    bool searchable;
 
     bool PutNewLinesAsIs;
 

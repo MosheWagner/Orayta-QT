@@ -158,7 +158,7 @@ void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
         //Head and title of the Html
         title = tr("Search results: ") + "\"" + disp + "\"";
 
-        Htmlhead = html_head(title, gFont.family() ,gFont.pointSize());
+        Htmlhead = html_head(title, gFont);
         Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
         Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
         Htmlhead += title + ":" + "</center></i></b></div><BR>";
@@ -329,7 +329,7 @@ void MainWindow::SearchGuematriaInTanach( const QString& txt )
     title = tr("Search results for guematria : ") + "\"" + txt + "\"";
     title += " (" + QString::number(guematria) + ")";
 
-    Htmlhead = html_head(title, gFont.family(), gFont.pointSize());
+    Htmlhead = html_head(title, gFont);
     Htmlhead += "<body><div class=\"Section1\" dir=\"RTL\">";
     Htmlhead += "<div style=\"font-size:30px\"><b><i><center>";
     Htmlhead += title + ":" + "</center></i></b></div><BR>";

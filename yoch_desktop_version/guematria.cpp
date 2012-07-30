@@ -18,19 +18,21 @@ inline QString OraytaBookItem::GDBFilePath() const
 void OraytaBookItem::getGuematriaDB(QVector<GuematriaDb>& guematriaDbase) const
 {
     if (!hasGDBFile())
-        BuildGuematriaDb();
+        BuildGuematriaDb(guematriaDbase);
+    else
+    {
+        QuaZip zip(mPath);
+        if (!zip.open(QuaZip::mdUnzip)) qDebug() << "Error!";
+        if (!zip.setCurrentFile(GDBFilePath())) qDebug() <<  "Error!";
 
-    QuaZip zip(mPath);
-    if (!zip.open(QuaZip::mdUnzip)) qDebug() << "Error!";
-    if (!zip.setCurrentFile(GDBFilePath())) qDebug() <<  "Error!";
+        QuaZipFile zfile(&zip);
+        zfile.open(QIODevice::ReadOnly);
 
-    QuaZipFile zfile(&zip);
-    zfile.open(QIODevice::ReadOnly);
+        // Set the stream to read from the file
+        QDataStream in(&zfile);
 
-    // Set the stream to read from the file
-    QDataStream in(&zfile);
-
-    in >> guematriaDbase;
+        in >> guematriaDbase;
+    }
 }
 
 //serialize Search database
@@ -55,10 +57,8 @@ bool OraytaBookItem::hasGDBFile() const
     return true;
 }
 
-void OraytaBookItem::BuildGuematriaDb() const
+void OraytaBookItem::BuildGuematriaDb(QVector<GuematriaDb>& guematriaDb) const
 {
-    QVector <GuematriaDb> guematriaDb;
-
     GuematriaDb current;
 
     //Read book's contents
@@ -73,8 +73,6 @@ void OraytaBookItem::BuildGuematriaDb() const
     QString levelSigns = "!@#$^~";
     //Any char not matchong this pattern, is no *pure* text.
     QRegExp notText("[^ א-ת]");
-    //These are turned into spaces, and not just ignored.
-    QString spaceSigns = "[-_:.,?]";
 
     for (int i=0; i < text.size(); i++)
     {

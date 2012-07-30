@@ -21,6 +21,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <QHash>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextCodec>
@@ -46,7 +47,9 @@ bool ReadFileToList(QString filename, QList<QString>&, const char* encoding_name
 
 //Reads the comment file into two vectors, one for the titles and one for the texts.
 // If a book's id is given, only comments for that book are put into the vector, with the "id:" part of the line choped.
-bool ReadCommentFile(QString path, std::vector<QString>& titles, std::vector<QString>& texts, const char* encoding_name, int id=-1);
+bool ReadCommentFile(QString path, std::vector<QString>& titles, std::vector<QString>& texts, const char* encoding_name, int id = -1);
+
+QHash<QString,QString> getCommentsForBookId(QString path, int id, const char *encoding_name = "UTF-8");
 
 //Writes the given data to the given file path with the given encoding
 void writetofile(QString filename, const QString& data, const char* encoding_name, bool overwrite = true);

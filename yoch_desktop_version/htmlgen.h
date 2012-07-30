@@ -20,12 +20,24 @@
 #include "treeitem_orayta.h"
 #include "bookiter.h"
 #include "functions.h"
-
 #include "mainwindow.h"
 
 
 
 //Helper struct and functions for generating the html of the book
+
+struct weavedSourceData
+{
+    QList <QString> text;
+    QString Title;
+    QString FileName;
+    QString str;
+    QString Prefix;
+    QString Suffix;
+    BookIter itr;
+    QFont font;
+    int line;
+};
 
 //Struct holding information about a link to a position in the page
 struct IndexItem
@@ -38,7 +50,7 @@ struct IndexItem
 };
 
 //Returns a string that will be the header of the output HTML file
-QString html_head(QString title, QString fontFamily, int basesize);
+QString html_head(const QString& title, const QFont &font);
 
 //Generates and returns the Title of the book
 QString html_book_title(QString , QString, QString);
@@ -47,7 +59,7 @@ QString html_book_title(QString , QString, QString);
 QString html_link_table(const std::vector<IndexItem>&, int short_index_level, bool dot , bool hasRUS = false);
 
 //Generates an index to all LINKS with the given level (NOTE: links to links, not to text)
-inline QString index_to_index(const std::vector<IndexItem>&, int short_index_level);
+QString index_to_index(const std::vector<IndexItem>&, int short_index_level);
 
 //Generates the div declaration for the top of the html file
 //inline QString html_main_div( QString fontFamily, int fontSize );
@@ -58,9 +70,6 @@ inline QString index_to_index(const std::vector<IndexItem>&, int short_index_lev
 // (Recusive function). Used to recognize the 'special name' links.
 bool space_or_slash_after_this(const std::vector <QString>& text, int line);
 
-//Returns html code of a "<a name" tag, for the given name
-inline QString namepoint (QString name);
-
 //Returns an html link ("<a href") by the given link_to and name.
 inline QString link(QString linkto, QString displaytext, int id = 0);
 
@@ -69,9 +78,8 @@ QString bluedot();
 QString reddot();
 
 
-QString CSS(QString fontFamily, int basesize);
-QString Script();
-
+QString basicCSS(const QFont&);
+QString oraytaScripts();
 
 //Returns the Html code for the given external link
 QString ExternalLink(QString linkcode);
