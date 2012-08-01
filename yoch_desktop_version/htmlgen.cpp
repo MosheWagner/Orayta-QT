@@ -44,7 +44,7 @@ using namespace std;
 const int LevelFontSizeAdd[] = {2,10,12,14,16,24};
 
 
-static QString basicCSS(const QFont& font)
+QString basicCSS(const QFont& font)
 {
     QString fontFamily = font.family();
     int basesize = font.pointSize();
@@ -85,7 +85,7 @@ static QString weavedCSS(const QFont font, QString color, int num)
     return ret;
 }
 
-static QString oraytaScripts()
+QString oraytaScripts()
 {
     QString str;
 

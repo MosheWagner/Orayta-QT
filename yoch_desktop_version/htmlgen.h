@@ -71,7 +71,7 @@ QString index_to_index(const std::vector<IndexItem>&, int short_index_level);
 bool space_or_slash_after_this(const std::vector <QString>& text, int line);
 
 //Returns an html link ("<a href") by the given link_to and name.
-inline QString link(QString linkto, QString displaytext, int id = 0);
+QString link(QString linkto, QString displaytext, int id = 0);
 
 //Return html code of dots:
 QString bluedot();

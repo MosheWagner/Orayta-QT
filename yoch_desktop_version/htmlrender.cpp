@@ -67,7 +67,7 @@ void LevelNode::parse (QList<QString>& liste)
     }
 }
 
-static bool line_equal(const LevelNode* n1, const LevelNode* n2)
+bool line_equal(const LevelNode* n1, const LevelNode* n2)
 {
     return n1->firstline == n2->firstline;
 }
@@ -80,7 +80,7 @@ void LevelNode::addTree(const LevelNode* node, int num)
     QList<LevelNode*>::iterator it = children.begin();
     foreach (const LevelNode* nnode, node->children)
     {
-        it = std::find_if(it, children.end(), std::bind(line_equal, nnode, std::placeholders::_1));
+        it = std::find_if(it, children.end(), std::tr1::bind(line_equal, nnode, std::tr1::placeholders::_1));
 
         if (it == children.end())
         {
@@ -283,7 +283,7 @@ QString HtmlRender::toHtml()
 }
 
 //Returns an html link by the given link_to and display text
-inline QString link (QString linkto, QString text, int id)
+QString link (QString linkto, QString text, int id)
 {
     if (linkto.startsWith("$"))
     {
@@ -358,7 +358,7 @@ QString HtmlRender::recToHtml(LevelNode* node, int &id)
         ret += insertWSources(node);
 
     // recursive calls
-    for (auto it = node->children.begin(); it != node->children.end(); ++it)
+    for (QList<LevelNode*>::iterator it = node->children.begin(); it != node->children.end(); ++it)
     {
         ret += recToHtml(*it, id);
     }
