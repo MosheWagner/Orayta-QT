@@ -22,6 +22,7 @@
 
 class BookList;
 
+#include <QDateTime>
 #include <QPointer>
 #include <QtGui/QTreeWidgetItem>
 
@@ -221,6 +222,8 @@ public:
 
     //Returns True if readbook was called on the book, and closeBook() wasn't
     bool isBookOpen();
+
+    QDateTime modificationDate();
 
 protected:
 

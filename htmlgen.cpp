@@ -565,10 +565,8 @@ string Decrypt (string text, bool decrypt)
 // into the 'chapterText' list, while the equivilant Iters are stored in the 'chapterIter' list.
 void Book::readBook(int LowsetIndexLevel)
 {
-    chapterIter.clear();
-    chapterText.clear();
-    indexitemlist.clear();
-
+    //Don't load book twice
+    if (chapterIter.size() > 0) return;
 
     //Read text into vector
     QList <QString> text;

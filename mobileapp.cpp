@@ -37,7 +37,6 @@
 #include "minibmark.h"
 
 
-
 #define MAIN_PAGE 0
 #define ABOUT_PAGE 1
 #define DISPLAY_PAGE 2
@@ -51,7 +50,6 @@
 
 //TODO: CLEAN & SPLIT UP!!!!
 //TODO: Improve look & feel
-//TODO: Bookmarks
 
 
 // Global
@@ -116,11 +114,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     FlickCharm *fc = new FlickCharm(this);
     fc->activateOn(ui->treeWidget);
     fc->activateOn(ui->SearchTreeWidget);
-    ui->treeWidget->setColumnWidth(0, 800);
-    ui->SearchTreeWidget->setColumnWidth(0, 800);
-
     fc->activateOn(ui->bookMarkList);
-    fc->activateOn(ui->downloadListWidget);
 
     //Build the book list
     reloadBooklist();
@@ -130,7 +124,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
     connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
 
-    ui->downloadGRP->hide();
     ui->downloadPrgBar->hide();
 
     //IZAR
@@ -180,152 +173,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->currentWidget()->setFocus();
 
     adjustToScreenSize();
-
-    //for(int i=0; i<5; i++) BookTool(i);
 }
-
-/*
-//A maintenance function used to edit stuff in books. Should always be commented
-void MobileApp::BookTool(int n)
-{
-    QString out = "";
-
-
-    QStringList aliyot;
-    aliyot << "שני" ; aliyot << "שלישי" ; aliyot << "רביעי" ; aliyot << "חמישי" ; aliyot << "שישי" ; aliyot << "שביעי" ;
-
-    const QString LevelSigns = "!~@^#";
-
-    bool ok;
-
-    Book *b = bookList.findBookById(760 + n);
-
-    //Read text into vector
-    QList <QString> text;
-
-    //Read the source file associated to this book:
-    QString zipfile = absPath(b->getPath());
-    if( !ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true) )
-    {
-        print( "ERROR: Unable to open zipfile: " + zipfile + " !");
-        return ;
-    }
-
-
-    QString ap = "/home/moshe/Desktop/עליות";
-    QList <QString> at;
-    ReadFileToList(ap,at, "UTF-8");
-
-
-    BookIter itr;
-    int perek = 0;
-    int pasuk = 0;
-
-    int j= - 1;
-    QString tag = "";
-    int prk = 0;
-    int psk = 0;
-
-    bool done = false;
-    while (!done)
-    {
-        j++;
-        QStringList s;
-
-        s = at[j].replace("\"", "").split(";");
-
-        QString a = "";
-        int ali = s[2].toInt(&ok);
-        if (!ok) return;
-        ali --;
-        if (ali >= 0 && ali < 6) a = aliyot[ali];
-
-        int b = s[4].mid(0,1).toInt(&ok);
-        if (!ok) return;
-
-        if (b == n + 1) done = true;
-        else a = "";
-
-        QString p = s[4].mid(1);
-        QString p1 = p.mid(0,3);
-        QString p2 = p.mid(3);
-
-        prk = p1.toInt(&ok);
-        psk = p2.toInt(&ok);
-
-        if (!ok) return;
-
-        if (!a.isEmpty()) tag = "<BR><span class=\"Aliyah\">" + a + "</span>";
-    }
-
-
-    for(int i=0; i<text.size(); i++)
-    {
-        QChar c = text[i][0];
-
-        if (c == '!') pasuk ++;
-        if (c == '~')
-        {
-            perek ++;
-            pasuk = 0;
-        }
-
-
-        out += text[i] + "\n";
-
-        //If it's one of the level signs
-        if ( LevelSigns.indexOf(text[i][0]) != -1 )
-        {
-            //Advance the book itr to the new position
-            itr.SetLevelFromLine(text[i]);
-        }
-        else if (perek == prk && pasuk == psk)
-        {
-            if (!tag.isEmpty()) out += tag + "\n";
-
-            //Update aliyah
-            if (j + 1 < at.size()) j++;
-            {
-                QStringList s;
-
-                s = at[j].replace("\"", "").split(";");
-
-                QString a = "";
-                int ali = s[2].toInt(&ok);
-                if (!ok) return;
-                ali --;
-                if (ali >= 0 && ali < 6) a = aliyot[ali];
-
-                int b = s[4].mid(0,1).toInt(&ok);
-                if (!ok) return;
-
-                if (b != n + 1) a = "";
-
-                qDebug() << b << n+1;
-
-                QString p = s[4].mid(1);
-                QString p1 = p.mid(0,3);
-                QString p2 = p.mid(3);
-
-                prk = p1.toInt(&ok);
-                psk = p2.toInt(&ok);
-
-                if (!ok) return;
-
-                tag = "";
-                if (!a.isEmpty()) tag = "<BR><span class=\"Aliyah\">" + a + "</span>";
-            }
-        }
-    }
-
-    QString ppp = b->getPath()+".new";
-    qDebug() << ppp;
-    writetofile(ppp, out, "UTF-8", true);
-}
-*/
-
-
-
 
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()
@@ -342,16 +190,17 @@ void MobileApp::adjustToScreenSize()
     //Adjust main page icons:
     int w = (size.width() / 2);
     int max = 1000;
+
     //Round to the closest 20
     w = int(w / 20) * 20;
 
-    QSize a(w -25, w - 25);
+    QSize a(w -26, w - 26);
     qDebug() << "Icon size:" << a;
 
     int h = (size.height() / 18);
-    //        ui->aboutBTN->setIconSize(a);
+    //ui->aboutBTN->setIconSize(a);
     ui->aboutBTN->setMaximumSize(w,h);
-    //        ui->helpBTN->setIconSize(a);
+    //ui->helpBTN->setIconSize(a);
     ui->helpBTN->setMaximumSize(w,h);
 
     ui->openBTN->setIconSize(a);
@@ -363,6 +212,8 @@ void MobileApp::adjustToScreenSize()
     ui->bookMarksBTN->setIconSize(a);
     ui->bookMarksBTN->setMaximumSize(w,max);
 
+
+    ui->treeWidget->setColumnWidth(0, size.width()-20);
 
     // if the font size wasn't set manually by the user, we will geuss the best values
     // depending on target device dpi
@@ -1128,36 +979,123 @@ void MobileApp::showHideSearch(bool inSearch){
     ui->SearchInBooksBTN->setVisible(!inSearch);
 }
 
+void MobileApp::parseDLFile(QList <QString> dl)
+{
 
-//IZAR initiate download of download list
+    for (int i=0; i<dl.size(); i++)
+    {
+        //Comment, ignore
+        if (dl[i].startsWith("#")) {}
+        //Group name
+        else if (dl[i].startsWith("@"))
+        {
+            //Create new group
+            DownloadbleBookGroup g;
+            g.name = dl[i].mid(2);
+            groups.append(g);
+        }
+
+        else if (dl[i].startsWith("./"))
+        {
+            if (groups.size() < 1)
+            {
+                qDebug() << "Error! Book with no group... Aborting download list";
+                return ;
+            }
+
+            DownloadbleBookObject bo;
+            QStringList sl = dl[i].split(", ");
+            if (sl.size() < 3)
+            {
+                qDebug() << "Error! Invalid book entry! Skipping.";
+                break ;
+            }
+
+            QString t = sl[0];
+            bo.URL = t.replace("./", "https://orayta.googlecode.com/svn/books/");
+            bo.UnpackPath = sl[0].replace("./", BOOKPATH);
+            int n; if (ToNum(sl[1], &n)) bo.fileSize = n / 1000000.0;
+
+            bo.dateModified = QDate::fromString(sl[2].simplified(), "dd/MM/yy");
+            //Because QT thinks '12' is 1912 and not 2012...
+            bo.dateModified.setYMD(100 + bo.dateModified.year(), bo.dateModified.month(), bo.dateModified.day());
+            groups.last().books.append(bo);
+
+        }
+    }
+
+    for (int i=0; i<groups.size(); i++)
+    {
+        //qDebug() << "#" << groups[i].name << groups[i].groupSize;
+
+        bool hasAll = true;
+        bool hasNone = true;
+
+        for (int j=0; j<groups[i].books.size(); j++)
+        {
+            Book * b = bookList.FindBookByPath(groups[i].books[j].UnpackPath);
+
+            bool needToDownload;
+
+            if (b)
+            {
+                if (b->modificationDate() >= QDateTime(groups[i].books[j].dateModified))
+                {
+                    needToDownload = false;
+                }
+                else needToDownload = true;
+            }
+            else needToDownload = true;
+
+
+            if (!needToDownload)
+            {
+                    groups[i].books[j].needToDownload = false;
+                    hasNone = false;
+            }
+            else
+            {
+                groups[i].books[j].needToDownload = true;
+                hasAll = false;
+            }
+
+            //qDebug() << groups[i].books[j].URL << groups[i].books[j].UnpackPath << groups[i].books[j].dateModified;
+        }
+
+        //Calculate size of download
+        double fs = 0, ds = 0;
+        for (int k=0; k < groups[i].books.size(); k++)
+        {
+            if (groups[i].books[k].needToDownload) ds += groups[i].books[k].fileSize;
+            fs += groups[i].books[k].fileSize;
+        }
+        groups[i].fullSize = int (fs * 10) / 10.0;
+        groups[i].downloadSize = int (ds * 10) / 10.0;
+
+        if (hasAll) groups[i].downloadState = 0; //All installed
+        else if (hasNone) groups[i].downloadState = 2; //None installed
+        else groups[i].downloadState = 1; //Needs update
+
+        //qDebug() << groups[i].name <<  groups[i].downloadState << groups[i].fullSize << groups[i].downloadSize;
+    }
+
+
+
+}
+
 void MobileApp::downloadDWList()
 {
-    QFile *downloadedList = new QFile(SAVEDBOOKLIST);
+    //show aprorpriate widgets
+    ui->downloadSTKWidget->setCurrentIndex(0);
 
-    //if listdownload dosn't exist we should reload.
-    if (listdownload == NULL || listdownload == 0)
+    //If we already created a download list widget, we are done.
+    // In any other case, we should download the list.
+    if (ui->downloadListWidget->count() < 1)
     {
         listdownload = new FileDownloader();
         connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
         listdownload->Download(BOOKLISTURL, SAVEDBOOKLIST, true);
     }
-    //if the list already exists
-    else if ( downloadedList->exists())
-    {
-        // continue as though the file was downloaded.
-//        listDownloadDone();
-        updateDownloadableList();
-    }
-    else
-    {
-
-//        if (listdownload ) delete listdownload;
-        listdownload = new FileDownloader();
-        connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
-
-        listdownload->Download(BOOKLISTURL, SAVEDBOOKLIST, true);
-    }
-
 }
 
 void MobileApp::listDownloadDone()
@@ -1165,14 +1103,14 @@ void MobileApp::listDownloadDone()
     //If all is ok
     if (listdownload)
     {
-        if (listdownload->getFileName().contains("Android"))
+        if (listdownload->getFileName().contains("Orayta"))
         {
             updateDownloadableList();
         }
         else
         {
             listdownload = NULL;
-             downloadDWList();
+            downloadDWList();
         }
 
     }
@@ -1184,40 +1122,36 @@ void MobileApp::listDownloadDone()
 
 void MobileApp::updateDownloadableList()
 {
-    //Get list of previously downloaded books
-    QSettings settings("Orayta", "SingleUser");
-    settings.beginGroup("DownloadedBooks");
-        //(Fixes wierd behavior of QSettings)
-    downloadedBooks = settings.allKeys().replaceInStrings("http:/", "http://");
-    settings.endGroup();
+    //Test of new system:
+    QList <QString> dl;
+    ReadFileToList(SAVEDBOOKLIST, dl, "UTF-8");
+    parseDLFile(dl);
+
+
+    //show aprorpriate widgets
+    ui->downloadSTKWidget->setCurrentIndex(1);
+
+    //Show downloadble stuff:
 
     //Refresh the list
     ui->downloadListWidget->clear();
-    //show aprorpriate widgets
-    ui->listdownloadlbl->hide();
-    ui->downloadGRP->show();
 
-    QStringList t;
-    ReadFileToList(SAVEDBOOKLIST, t, "UTF-8");
-
-    for (int i=0; i<t.size(); i++)
+    for (int i=0; i<groups.size(); i++)
     {
-        QStringList tt = t[i].split(",");
-
-        QListWidgetItem *lwi;
-        if (tt.size() > 2)
+        if (groups[i].downloadState != 0)
         {
-            if (!downloadedBooks.contains(tt[0]))
-            {
-                lwi= new QListWidgetItem(tt[1] + " (" + tt[2] + " MB)");
-                lwi->setCheckState(Qt::Unchecked);
-                lwi->setWhatsThis(tt[0]);
+            QListWidgetItem *lwi;
+            lwi= new QListWidgetItem(groups[i].name + " (" + QString::number(groups[i].downloadSize)
+                                     + /* "/" + QString::number(groups[i].fullSize) + */ " MB)");
+            lwi->setCheckState(Qt::Unchecked);
+            lwi->setWhatsThis(stringify(i));
+            lwi->setToolTip("False");
 
-                ui->downloadListWidget->addItem(lwi);
-                ui->downloadListWidget->setEnabled(true);
-            }
+            ui->downloadListWidget->addItem(lwi);
+            ui->downloadListWidget->setEnabled(true);
         }
     }
+
 }
 
 // start download of the selected books.
@@ -1228,20 +1162,31 @@ void MobileApp::on_downloadBTN_clicked()
 
     for (int i=0; i<ui->downloadListWidget->count(); i++)
     {
-
         QListWidgetItem *item = ui->downloadListWidget->item(i);
         if (item->checkState() == Qt::Checked)
         {
-            //Generate download url
-            QString url = item->whatsThis();
-
-            downloadsList << url;
+            //Generate download urls
+            int n;
+            if (ToNum(item->whatsThis(), &n))
+            {
+                if (groups.size() > n)
+                {
+                    for (int j=0; j<groups[n].books.size(); j++)
+                    {
+                        if (groups[n].books[j].needToDownload)
+                        {
+                            QString url = groups[n].books[j].URL;
+                            downloadsList << url;
+                        }
+                    }
+                }
+            }
         }
     }
     ui->downloadListWidget->setEnabled(false);
     ui->downloadBTN->setEnabled(false);
 
-    qDebug() << downloadsList;
+    //qDebug() << downloadsList;
 
     // download the next file in downloadsList.
     downloadNext();
@@ -1259,7 +1204,9 @@ void MobileApp::downloadNext()
         QString url = downloadsList.first();
         QString name = url.mid(url.lastIndexOf("/") + 1);
         //Generate download target
-        QString target = BOOKPATH + name;
+        QString target = QString(url).replace("https://orayta.googlecode.com/svn/books/", BOOKPATH);
+        QString p = target.left(target.length() - name.length());
+        QDir().mkpath(p);
 
         //qDebug() <<"download file to: "<< target;
         downloader->Download(url, target, true);
@@ -1276,7 +1223,7 @@ void MobileApp::downloadNext()
     {
         //qDebug() << "done downloading";
         //display download information:
-        ui->downloadInfo->setText(tr("download complete!"));
+        ui->downloadInfo->setText(tr("Download complete!"));
 
         //reload the book tree
         reloadBooklist();
@@ -1290,7 +1237,6 @@ void MobileApp::downloadNext()
         ui->downloadListWidget->setEnabled(true);
         ui->downloadBTN->setEnabled(true);
 
-        markDownloadedBooks();
 
         //Switch view to book tree to see the new books
         if (ui->stackedWidget->currentIndex() == GET_BOOKS_PAGE)
@@ -1316,18 +1262,6 @@ void MobileApp::downloadDone()
     //Book downloaded
     if (downloader)
     {
-        //Unpack the file:
-        if (!zipExtract(downloader->getFileName(), BOOKPATH))
-        {
-            qDebug() << "Couldn't extract:" << downloader->getFileName();
-
-            //If extracting failed, don't mark that book as downloaded
-            downloadedBooks.removeLast();
-        }
-
-        QFile f(downloader->getFileName());
-        f.remove();
-
         ui->downloadPrgBar->hide();
 
         //this file has finished downloading, get the next file.
@@ -1335,27 +1269,30 @@ void MobileApp::downloadDone()
     }
 }
 
-void MobileApp::on_downloadListWidget_itemDoubleClicked(QListWidgetItem *item)
+
+void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
 {
-    if (item->checkState() == Qt::Checked)
-        item->setCheckState(Qt::Unchecked);
-    else
-        item->setCheckState(Qt::Checked);
-}
-
-void MobileApp::markDownloadedBooks()
-{
-    QSettings settings("Orayta", "SingleUser");
-
-    settings.beginGroup("DownloadedBooks");
-    //remove old values
-    settings.remove("");
-
-    for(unsigned int i=0; i<downloadedBooks.size(); i++)
+    //Invert the selection of the item only if it was not chnaged by the click itself already.
+    // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
+    if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
+        (item->checkState() == Qt::Unchecked && item->toolTip() == "False") )
     {
-        settings.setValue(downloadedBooks[i], "Downloaded");
+        if (item->checkState() == Qt::Checked)
+        {
+            item->setCheckState(Qt::Unchecked);
+            item->setToolTip("False");
+        }
+        else
+        {
+            item->setCheckState(Qt::Checked);
+            item->setToolTip("True");
+        }
     }
-    settings.endGroup();
+    else
+    {
+        if (item->checkState() == Qt::Checked) item->setToolTip("True");
+        else item->setToolTip("False");
+    }
 }
 
 
@@ -1587,7 +1524,9 @@ void MobileApp::on_unmarkAllBTN_2_clicked()
 {
     //uncheck all items
     for (int i =0; i< ui->downloadListWidget->count(); i++)
+    {
         ui->downloadListWidget->item(i)->setCheckState(Qt::Unchecked);
+    }
 }
 
 void MobileApp::on_markAllBTN_3_clicked()
@@ -1739,14 +1678,6 @@ void MobileApp::on_toMainMenuBTN_clicked()
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
 
-// remove all previously downloaded books from history, and refresh list.
-void MobileApp::on_reloadDlBookListBTN_clicked()
-{
-    downloadedBooks.clear();
-    markDownloadedBooks();
-    updateDownloadableList();
-
-}
 
 void MobileApp::addBookMark(Book * b, BookIter iter){
     // dont create a bookmark for an index page
