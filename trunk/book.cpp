@@ -84,6 +84,10 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     LIL = 1;
 
     mPureText = "";
+
+    chapterIter.clear();
+    chapterText.clear();
+    indexitemlist.clear();
 }
 
 Book::~Book()
@@ -882,3 +886,9 @@ BookIter Book::prevChap(BookIter iter)
 
 //Returns True if readbook was called on the book, and closeBook() wasn't
 bool Book::isBookOpen() { return (chapterIter.size() > 0) ; }
+
+QDateTime Book::modificationDate()
+{
+    QFileInfo f(mPath);
+    return f.lastModified();
+}

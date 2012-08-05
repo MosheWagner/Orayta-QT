@@ -130,7 +130,7 @@ static void setScrollOffset(QWidget *widget, const QPoint &p)
 
 }
 
-static QPoint deaccelerate(const QPoint &speed, int a = 1, int max = 64)
+static QPoint deaccelerate(const QPoint &speed, int a = 1, int max = 80)
 {
     int x = qBound(-max, speed.x(), max);
     int y = qBound(-max, speed.y(), max);
@@ -205,7 +205,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
 
             //Hack for RTL support
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            delta.setX(delta.x() * -1 );
+            delta.setX(delta.x() * -0.6 );
 
 
             //Emit side swipes for chapter advancing.
@@ -268,7 +268,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             data->offset = scrollOffset(data->widget);
             //Hack for RTL support
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            data->offset.setX(data->offset.x() * -1);
+            data->offset.setX(data->offset.x() * -0.5);
         }
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
             consumed = true;
@@ -298,6 +298,8 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
     return consumed;
 }
 
+#define SPEED_BOOST 3
+
 void FlickCharm::timerEvent(QTimerEvent *event)
 {
     int count = 0;
@@ -308,7 +310,7 @@ void FlickCharm::timerEvent(QTimerEvent *event)
 
         if (data->state == FlickData::ManualScroll) {
             count++;
-            data->speed = QCursor::pos() - data->dragPos;
+            data->speed = (QCursor::pos() - data->dragPos) * SPEED_BOOST;
             data->dragPos = QCursor::pos();
         }
 

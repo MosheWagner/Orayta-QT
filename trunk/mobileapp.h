@@ -90,9 +90,7 @@ private slots:
     //Downloads the next book in the booksToDownload list.
     void downloadDWList();
 
-    void on_downloadListWidget_itemDoubleClicked(QListWidgetItem *item);
-
-    void markDownloadedBooks();
+    void on_downloadListWidget_itemClicked(QListWidgetItem *item);
 
     void on_settingsMenuBTN_clicked();
 
@@ -166,13 +164,13 @@ private slots:
 
     //A maintenance function used to edit stuff in books. Should always be commented
     //void BookTool(int);
-    void on_reloadDlBookListBTN_clicked();
 
     void on_bookMarkList_itemClicked(QListWidgetItem *item);
 
     void on_bookMarksBTN_clicked();
 
     void on_helpBTN_clicked();
+
 
 private:
     Ui::MobileApp *ui;
@@ -182,13 +180,41 @@ private:
 
     BookList bookList, booksInSearch;
 
+    ///#####
+    void parseDLFile(QList <QString> dl);
+
+
+
     QString booktitle;
 
     //TODO - create a global settings object
     //QSettings settings;
 
 
-    #define BOOKLISTURL "http://orayta.googlecode.com/files/Android-Books"
+    struct DownloadbleBookObject
+    {
+        QString URL;
+        QString UnpackPath;
+        double fileSize;
+        QDate dateModified;
+
+        bool needToDownload;
+    };
+
+    struct DownloadbleBookGroup
+    {
+        QString name;
+        double fullSize;
+        double downloadSize;
+        QList <DownloadbleBookObject> books;
+
+        //0 - Installed, 1 - Needs update, 2 - Not installed
+        int downloadState;
+    };
+
+    QList <DownloadbleBookGroup> groups;
+
+    #define BOOKLISTURL "http://orayta.googlecode.com/files/OraytaBooksDownloadList"
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
     FileDownloader *listdownload;
     FileDownloader *downloader;
