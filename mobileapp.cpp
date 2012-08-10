@@ -1133,6 +1133,9 @@ void MobileApp::updateDownloadableList()
 {
     //Test of new system:
     QList <QString> dl;
+    dl.clear();
+    groups.clear();
+
     ReadFileToList(SAVEDBOOKLIST, dl, "UTF-8");
     parseDLFile(dl);
 
