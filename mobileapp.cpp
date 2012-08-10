@@ -1067,6 +1067,12 @@ void MobileApp::parseDLFile(QList <QString> dl)
                 groups[i].books[j].needToDownload = true;
                 hasAll = false;
             }
+            if (groups[i].books[j].needToDownload){
+                QString mDate;
+                b? mDate = b->modificationDate().toString() : mDate = "unknown mod date.";
+                qDebug() << groups[i].books[j].URL << groups[i].books[j].UnpackPath << groups[i].books[j].dateModified << mDate;
+            }
+
         }
 
         //Calculate size of download
@@ -1080,10 +1086,10 @@ void MobileApp::parseDLFile(QList <QString> dl)
         groups[i].downloadSize = int (ds * 10) / 10.0;
 
         if (hasAll) groups[i].downloadState = 0; //All installed
-
-        //qDebug() << groups[i].name <<  groups[i].downloadState << groups[i].fullSize << groups[i].downloadSize;
         else if (hasNone) groups[i].downloadState = 2; //None installed
         else groups[i].downloadState = 1; //Needs update
+
+        qDebug() << groups[i].name <<  groups[i].downloadState << groups[i].fullSize << groups[i].downloadSize;
    }
 }
 

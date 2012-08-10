@@ -16,6 +16,7 @@
 
 #include "filedownloader.h"
 #include <QUrl>
+#include <QDebug>
 
 FileDownloader::FileDownloader()
 {
@@ -86,8 +87,15 @@ void FileDownloader::downloadDone(bool error)
     else
     {
         //Rename the filename to the real name (without the ".part");
-        mTargetFile.rename(mFileName);
+        //first remove the old version if it exists:
+        QFile old(mFileName);
+        if (old.exists()) old.remove();
+        //now we can rename the new file:
+        bool ok = mTargetFile.rename(mFileName);
         mTargetFile.close();
+
+        if (!ok)
+            qDebug()<< "cant rename: " << mTargetFile.fileName() << " as: " << mFileName;
 
         //Force deletion of .part file
         QFile deleter(mFileName + ".part");

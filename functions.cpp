@@ -983,7 +983,8 @@ QString dafYomi(QDate d)
 
     }
 
-    return masehtot[masehet] + ' ' + NumberToGematria(i+1, false);
+    QChar separator = '%';
+    return masehtot[masehet] + separator + NumberToGematria(i+1, false);
 }
 
 
