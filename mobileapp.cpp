@@ -1068,7 +1068,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
                 hasAll = false;
             }
 
-            //qDebug() << groups[i].books[j].URL << groups[i].books[j].UnpackPath << groups[i].books[j].dateModified;
+            qDebug() << groups[i].books[j].URL << groups[i].books[j].needToDownload << groups[i].books[j].dateModified;
         }
 
         //Calculate size of download

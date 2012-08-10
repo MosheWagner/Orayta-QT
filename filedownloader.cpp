@@ -89,6 +89,10 @@ void FileDownloader::downloadDone(bool error)
         mTargetFile.rename(mFileName);
         mTargetFile.close();
 
+        //Force deletion of .part file
+        QFile deleter(mFileName + ".part");
+        if (deleter.exists()) deleter.remove();
+
         emit done();
     }
 }
