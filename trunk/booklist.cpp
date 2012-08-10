@@ -315,6 +315,29 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
             }
         }
 
+        // code from yoch to add new commentaries by id
+        else if (text[i].indexOf("MixedSources") != -1)
+        {
+            QString srcLst = text[i].mid(12);
+            srcLst = srcLst.mid(srcLst.indexOf("(") + 1);
+            srcLst = srcLst.mid(0, srcLst.indexOf(")"));
+            QList<int> wsrc;
+            QStringList srcId = srcLst.split(',', QString::SkipEmptyParts);
+
+            for (QStringList::const_iterator it = srcId.begin(); it != srcId.end(); ++it)
+            {
+                int id;
+                if(ToNum(*it, &id))
+                {
+                    weavedSource src;
+                    src.show = false;
+                    src.id = id;
+                    //                    mWeavedSources.push_back(src);
+                    book->mWeavedSources.append(src);
+                }
+            }
+        }
+
         else if (text[i].indexOf("CosmeticsType") != -1)
         {
             book->setCosmetics(text[i]);
