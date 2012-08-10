@@ -1454,7 +1454,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mobileapp.ui" line="1225"/>
-        <location filename="mobileapp.cpp" line="837"/>
+        <location filename="mobileapp.cpp" line="829"/>
         <source>Index</source>
         <translation>לתוכן</translation>
     </message>
@@ -1731,24 +1731,29 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
         <translation type="obsolete">בטל חיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="682"/>
+        <location filename="mobileapp.cpp" line="674"/>
         <source>Search results</source>
         <translation>תוצאות חיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="831"/>
+        <location filename="mobileapp.cpp" line="823"/>
         <source>Back to results</source>
         <translation>חזרה לתוצאות החיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1279"/>
+        <location filename="mobileapp.cpp" line="1283"/>
         <source>download complete!</source>
         <translation>הורדה הושלמה!</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1405"/>
+        <location filename="mobileapp.cpp" line="1409"/>
         <source>×¢××¨××ª</source>
         <translation>עברית</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1529"/>
+        <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
+        <translation>(לא מותקן. נא להתקין את המפרש מתפריט &apos;הורד ספרים&apos;)</translation>
     </message>
     <message>
         <source>FranÃ§ais</source>

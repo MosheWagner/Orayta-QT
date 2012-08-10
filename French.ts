@@ -1199,7 +1199,7 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="mobileapp.ui" line="1225"/>
-        <location filename="mobileapp.cpp" line="837"/>
+        <location filename="mobileapp.cpp" line="829"/>
         <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1423,23 +1423,28 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="682"/>
+        <location filename="mobileapp.cpp" line="674"/>
         <source>Search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="831"/>
+        <location filename="mobileapp.cpp" line="823"/>
         <source>Back to results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1279"/>
+        <location filename="mobileapp.cpp" line="1283"/>
         <source>download complete!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1405"/>
+        <location filename="mobileapp.cpp" line="1409"/>
         <source>×¢××¨××ª</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mobileapp.cpp" line="1529"/>
+        <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

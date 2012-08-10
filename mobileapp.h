@@ -13,6 +13,17 @@
 
 #include "textdisplayer.h"
 
+
+#define MAIN_PAGE 0
+#define ABOUT_PAGE 1
+#define DISPLAY_PAGE 2
+#define LIST_PAGE 3
+#define SEARCH_PAGE 4
+#define GET_BOOKS_PAGE 5
+#define SETTINGS_PAGE 6
+#define MIXED_SELECTION_PAGE 7
+#define HISTORY_PAGE 8
+
 namespace Ui {
     class MobileApp;
 }
@@ -232,6 +243,7 @@ private:
 //    QWidget *currentView;
 //    QWidgetList *viewHistory;
     QList<int> *viewHistory;
+    QList<int> exclude; //<< SETTINGS_PAGE<< MIXED_SELECTION_PAGE;
 
     QMovie * waitMovie;
 

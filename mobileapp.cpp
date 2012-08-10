@@ -37,15 +37,6 @@
 #include "minibmark.h"
 
 
-#define MAIN_PAGE 0
-#define ABOUT_PAGE 1
-#define DISPLAY_PAGE 2
-#define LIST_PAGE 3
-#define SEARCH_PAGE 4
-#define GET_BOOKS_PAGE 5
-#define SETTINGS_PAGE 6
-#define MIXED_SELECTION_PAGE 7
-#define HISTORY_PAGE 8
 
 
 //TODO: CLEAN & SPLIT UP!!!!
@@ -102,6 +93,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     connect(displayer, SIGNAL(loadEnd(QUrl, Book*, BookIter)), this, SLOT(tdloadFinished(QUrl, Book*, BookIter)));
 
 
+    exclude << SETTINGS_PAGE<< MIXED_SELECTION_PAGE ;//<< HISTORY_PAGE;
     viewHistory = new QList<int>;
     //the base of history should always point to the main page
     viewHistory->append(MAIN_PAGE);
@@ -404,7 +396,9 @@ void MobileApp::showBook(Book *book, BookIter itr)
     book->setFont(font);
 
     displayer->display(book, itr);
-//    addBookMark(book, itr);
+
+    // display mixed selection button only if the book has commentaries
+    ui->mixedSelectBTN->setEnabled(book->IsMixed());
 }
 
 void MobileApp::showBook(Book *book)
@@ -414,8 +408,6 @@ void MobileApp::showBook(Book *book)
         qDebug() << "Error! Can't open book";
         return;
     }
-
-//    addBookMark(book, BookIter());
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
@@ -722,14 +714,14 @@ void MobileApp::viewChanged(int index)
     case (SETTINGS_PAGE):
         resetSettingsPage();
         //don't put this page in history
-        return;
+//        return;
         break;
 
     //when going to commentary selection page, reset it.
     case (MIXED_SELECTION_PAGE):
         setupMixedSelection();
         //don't put this page in history
-        return;
+//        return;
         break;
     }
 
@@ -743,7 +735,11 @@ void MobileApp::viewChanged(int index)
     if (viewHistory->size() == 0) viewHistory->append(index);
     else
     {
-        if (viewHistory->at(viewHistory->size()-1) != index) viewHistory->append(index);
+        // never add the same page twice
+        if (viewHistory->at(viewHistory->size()-1) != index)
+            // ignore pages we want to exclude
+            if (!exclude.contains(index))
+                viewHistory->append(index);
     }
 
 }
@@ -751,7 +747,7 @@ void MobileApp::viewChanged(int index)
 //go to previous view of stacked widget.
 void MobileApp::goBack()
 {
-    qDebug()<< "Back pressed";
+//    qDebug()<< "Back pressed";
 
     if (ui->stackedWidget->currentIndex() == MAIN_PAGE)
     {
@@ -760,7 +756,7 @@ void MobileApp::goBack()
     }
 
     // if we have only one object it probably is the current view and we can only go back to the main page
-    else if(viewHistory->size() < 2)
+    else if(viewHistory->size() <= 1)
     {
         ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
         return;
@@ -773,9 +769,10 @@ void MobileApp::goBack()
         //If we are at the index or the search page
         if (displayer->source().path().indexOf("Index") != -1 || displayer->source().path().indexOf("SEARCH") != -1)
         {
-            int id = viewHistory->at(viewHistory->size()-2);
-            viewHistory->removeLast();
-            ui->stackedWidget->setCurrentIndex(id);
+            //do nothing here. we'll get to the next statement and execute there.
+//            int id = viewHistory->at(viewHistory->size()-2);
+//            viewHistory->removeLast();
+//            ui->stackedWidget->setCurrentIndex(id);
         }
         else
         {
@@ -787,12 +784,19 @@ void MobileApp::goBack()
             {
                 displayer->goToIndex();
             }
+            return ;
         }
-        return ;
     }
-    else
+//    else
     {
-            int id = viewHistory->at(viewHistory->size()-2);
+
+            int id = viewHistory->at(viewHistory->size()-1);
+            // if we are at a excluded page, this means that it isn't in wiewHistory, in which case we should go to the last item in the list
+            if (id == currentId)
+            {
+                viewHistory->removeLast();
+                id = viewHistory->at(viewHistory->size()-1);
+            }
             viewHistory->removeLast();
             ui->stackedWidget->setCurrentIndex(id);
 
@@ -1454,6 +1458,15 @@ void MobileApp::setupMixedSelection(){
             item->setWhatsThis(id);
             item->setToolTip(item->checkState() == Qt::Checked? "True" : "False");
             ui->selectionArea->addItem(item);
+
+            // if the book isn't installed
+            QFile f (book->mWeavedSources[i].FilePath);
+            if (!f.exists())
+            {
+                item->setText(item->text() + tr(" (Not installed. please install it from 'Get books' page)"));
+                item->setTextColor(QColor("gray"));
+                item->setCheckState(Qt::PartiallyChecked);
+            }
         }
     }
 }
@@ -1481,6 +1494,7 @@ void MobileApp::on_openMixed_clicked()
                   //set the showability of this item to what the user chose.
                   displayer->getCurrentBook()->mWeavedSources[j].show = checked;
                   if (checked) showalone = false;
+                  break;
               }
         }
     }
@@ -1488,14 +1502,8 @@ void MobileApp::on_openMixed_clicked()
     displayer->getCurrentBook()->showAlone = showalone;
 
     //show the book
-    //showBook(currentBook);
-    ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
     qApp->processEvents();
-
     showBook(displayer->getCurrentBook(), displayer->getCurrentIter());
-
-    //clear the history. we don't want the back butten to take us here.
-//    viewHistory->removeLast(); viewHistory->removeLast();
 
 }
 
@@ -1548,6 +1556,9 @@ void MobileApp::on_unmarkAllBTN_3_clicked()
 
 void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 {
+    // ignore books that aren't installed:
+    if (item->checkState() == Qt::PartiallyChecked) return;
+
     //Invert the selection of the item only if it was not chnaged by the click itself already.
     // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
     if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
