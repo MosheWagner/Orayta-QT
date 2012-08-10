@@ -3373,6 +3373,12 @@ width: 15 px;
          </widget>
          <widget class="QWidget" name="download">
           <layout class="QVBoxLayout" name="verticalLayout_20">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="margin">
+            <number>1</number>
+           </property>
            <item>
             <widget class="QLabel" name="label_4">
              <property name="font">
@@ -3598,7 +3604,7 @@ width: 15 px;
 </string>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
