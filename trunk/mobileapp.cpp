@@ -42,6 +42,8 @@
 //TODO: CLEAN & SPLIT UP!!!!
 //TODO: Improve look & feel
 
+//TODO: Daf yomi bookmark...
+
 
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
@@ -56,6 +58,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
 
     ui->setupUi(this);
+
+    //qDebug() << dafYomi(QDate::currentDate());
+
 
     //show the about page while app loads
     ui->gtoHelp->hide();
@@ -1676,12 +1681,20 @@ void MobileApp::on_forwardBTN_clicked()
 
 void MobileApp::on_ZoomInBTN_clicked()
 {
+    float p = (float) displayer->verticalScrollBar()->value() / displayer->verticalScrollBar()->maximum();
+
     displayer->increaseSize();
+
+    displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->maximum() * p);
 }
 
 void MobileApp::on_ZoomOutBTN_clicked()
 {
+    float p = (float) displayer->verticalScrollBar()->value() / displayer->verticalScrollBar()->maximum();
+
     displayer->decreaseSize();
+
+    displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->maximum() * p);
 }
 
 void MobileApp::on_toMainMenuBTN_clicked()
