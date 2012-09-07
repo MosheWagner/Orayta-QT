@@ -111,7 +111,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     FlickCharm *fc = new FlickCharm(this);
     fc->activateOn(ui->treeWidget);
     fc->activateOn(ui->SearchTreeWidget);
-    fc->activateOn(ui->bookMarkList);
+    fc->activateOn(ui->staticBookMarkList);
+    fc->activateOn(ui->dailyLearningList);
+    fc->activateOn(ui->historyBookmarkList);
 
     //Build the book list
     reloadBooklist();
@@ -120,6 +122,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
     connect(downloader, SIGNAL(downloadProgress(int)), this, SLOT(downloadProgress(int)));
     connect(downloader, SIGNAL(downloadError()), this, SLOT(downloadError()));
+
 
     ui->downloadPrgBar->hide();
 
@@ -134,6 +137,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     setupSettings();
 
     adjustToScreenSize();
+
+    setupBookmarkList();
 
 
     //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
@@ -153,7 +158,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     settings.endGroup();
 
     // restore the bookmark list
-    ui->bookMarkList->loadHistory(bookList);
+    ui->historyBookmarkList->loadHistory(bookList);
+    ui->staticBookMarkList->loadHistory(bookList);
 
 
     if (page != DISPLAY_PAGE || !b) ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
@@ -800,6 +806,10 @@ void MobileApp::goBack()
             if (id == currentId)
             {
                 viewHistory->removeLast();
+
+                // no where to go back to.
+                if (viewHistory->size() <= 0) { qDebug()<< "Nowhere to go. exiting."; close(); return;}
+
                 id = viewHistory->at(viewHistory->size()-1);
             }
             viewHistory->removeLast();
@@ -1404,6 +1414,12 @@ void MobileApp::resetSettingsPage()
     ui->saveConf->setEnabled(false);
 
 }
+
+void MobileApp::setupBookmarkList(){
+
+    ui->dailyLearningList->addDafYomi(bookList);
+}
+
 //------------------------------------
 
 //copied from desktopapp
@@ -1712,10 +1728,10 @@ void MobileApp::addBookMark(Book * b, BookIter iter){
     // TODO: let the user decide?
     if (iter.isEmpty()) return;
 
-    ui->bookMarkList->newBookMark(b, iter);
+    ui->historyBookmarkList->addBookMark(b, iter);
 }
 
-void MobileApp::on_bookMarkList_itemClicked(QListWidgetItem *item)
+void MobileApp::loadBookFromBM(QListWidgetItem *item)
 {
     MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
     if (!bm || bm == 0) return;
@@ -1723,6 +1739,16 @@ void MobileApp::on_bookMarkList_itemClicked(QListWidgetItem *item)
     showBook(bm->getBook(), it);
     return;
 
+}
+
+void MobileApp::addStaticBMhere(){
+    Book* b = displayer->getCurrentBook();
+    BookIter it = displayer->getCurrentIter();
+    MiniBMark* bm = ui->staticBookMarkList->addBookMark(b, it);
+
+    //make the bookmark static so it doesn't get removed automatically
+    if (!bm) return;
+    bm->setConstant(true);
 }
 
 void MobileApp::on_bookMarksBTN_clicked()

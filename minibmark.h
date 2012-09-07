@@ -22,8 +22,11 @@ signals:
 public slots:
     Book* getBook();
     BookIter getBookIter();
+    bool isConstant();
     void setBook(Book *b);
     void setBookIter(BookIter iter);
+    void setConstant(bool);
+
     int getUid();
 
 private:
@@ -36,7 +39,7 @@ private:
     Book* mBook;
     BookIter mBIter;
     //true if user wants this bookmark to remain in place;
-    bool thumbTack;
+    bool constant;
 
 
 };

@@ -112,6 +112,8 @@ private slots:
 
     void resetSettingsPage();
 
+    void setupBookmarkList();
+
     //copied from desktopapp
     void translate(QString newlang);
 
@@ -176,11 +178,13 @@ private slots:
     //A maintenance function used to edit stuff in books. Should always be commented
     //void BookTool(int);
 
-    void on_bookMarkList_itemClicked(QListWidgetItem *item);
+    void loadBookFromBM(QListWidgetItem *item);
 
     void on_bookMarksBTN_clicked();
 
     void on_helpBTN_clicked();
+
+    void addStaticBMhere();
 
 
 private:

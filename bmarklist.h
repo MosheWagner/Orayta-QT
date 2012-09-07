@@ -22,7 +22,7 @@ class BMarkList : public QListWidget
 public:
     explicit BMarkList(QWidget *parent = 0);
     ~BMarkList();
-    void newBookMark(Book* book, BookIter iter);
+    MiniBMark* addBookMark(Book* book, BookIter iter);
 
 
 signals:
@@ -39,18 +39,18 @@ private:
    static const int limit = 30;
 
    // does the user want to show daf yomi in this list
-   bool dafYomiActive;
-   bool parshaYomiActive;
-   bool mishnaYomiActive;
-   //etc...
+//   bool dafYomiActive;
+//   bool parshaYomiActive;
+//   bool mishnaYomiActive;
+//   //etc...
 
-   bool isDafYomiActive();
-   bool isParshaYomiActive();
-   bool isMishnaYomiActive();
+//   bool isDafYomiActive();
+//   bool isParshaYomiActive();
+//   bool isMishnaYomiActive();
 
-   void setDafYomiActive(bool);
-   void setParshaYomiActive(bool);
-   void setMishnaYomiActive(bool);
+//   void setDafYomiActive(bool);
+//   void setParshaYomiActive(bool);
+//   void setMishnaYomiActive(bool);
 
 
 
