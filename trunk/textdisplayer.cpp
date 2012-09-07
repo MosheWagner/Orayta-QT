@@ -274,7 +274,7 @@ void textDisplayer::setSource(const QUrl &name)
 {
     //Cause ui to show wait status
     emit loadStart();
-    QApplication::processEvents();
+//    QApplication::processEvents();
 
     QTextBrowser::setSource(name);
 

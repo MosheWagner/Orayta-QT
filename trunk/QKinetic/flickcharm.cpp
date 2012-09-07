@@ -245,9 +245,9 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
                 QApplication::postEvent(object, event1);
                 QApplication::postEvent(object, event2);
 
-//                emit swipeDone();
+                emit swipeDone();
 
-//                return true;
+                return true;
             }
 
             consumed = true;

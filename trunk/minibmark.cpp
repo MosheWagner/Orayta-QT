@@ -8,7 +8,7 @@ MiniBMark::MiniBMark(Book *b, BookIter iter)
 //        mBIter = new BookIter();
 //    else
         mBIter = iter;
-    thumbTack = false;
+    constant = false;
 
 
     setText(mBook->getNormallDisplayName() + ", " + mBIter.humanDisplay());
@@ -36,6 +36,14 @@ void MiniBMark::setBookIter(BookIter iter){
 
 int MiniBMark::getUid(){
     return mBook->getUniqueId();
+}
+
+bool MiniBMark::isConstant(){
+    return constant;
+}
+
+void MiniBMark::setConstant(bool b){
+    constant = b;
 }
 
 //#ifdef MOBILE
