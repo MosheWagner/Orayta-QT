@@ -1127,6 +1127,7 @@ void MobileApp::downloadDWList()
         connect(listdownload, SIGNAL(done()), this, SLOT(listDownloadDone()));
         listdownload->Download(BOOKLISTURL, SAVEDBOOKLIST, true);
     }
+    else ui->downloadSTKWidget->setCurrentIndex(1);
 }
 
 void MobileApp::listDownloadDone()
