@@ -477,7 +477,7 @@ QString ExternalLink (QString linkcode)
     if ( DS>>0 & 0x1 ) Html += "<B>";
     //if ( DS>>1 & 0x1 ) Html += "<U>";
     if ( DS>>2 & 0x1 ) Html += "<I>";
-    if ( DS>>3 & 0x1 ) Html += "<small>";
+    //if ( DS>>3 & 0x1 ) Html += "<small>";
     if ( DS>>4 & 0x1 ) Html += "<big>";
 
     //if (ShouldBePrintedOnNewLine)
@@ -503,7 +503,7 @@ QString ExternalLink (QString linkcode)
     //I'm ignoring the coloers at the moment
     //revert order to respect html tags nested
     if ( DS>>4 & 0x1 ) Html += "</big>";
-    if ( DS>>3 & 0x1 ) Html += "</small>";
+    //if ( DS>>3 & 0x1 ) Html += "</small>";
     if ( DS>>2 & 0x1 ) Html += "</I>";
     //if ( DS>>1 & 0x1 ) Html += "</U>";
     if ( DS>>0 & 0x1 ) Html += "</B>";
