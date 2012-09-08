@@ -223,6 +223,7 @@ void MobileApp::adjustToScreenSize()
 
 
     ui->treeWidget->setColumnWidth(0, size.width()-20);
+    ui->SearchTreeWidget->setColumnWidth(0, size.width()-20);
 
     // if the font size wasn't set manually by the user, we will geuss the best values
     // depending on target device dpi
