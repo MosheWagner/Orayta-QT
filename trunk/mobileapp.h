@@ -34,7 +34,6 @@ class MobileApp : public QDialog
 
 public:
     explicit MobileApp(QWidget *parent = 0);
-    void resizeEvent();
 
     QStringList downloadsList;
     void downloadNext();
@@ -43,6 +42,8 @@ public:
 protected:
     void closeEvent(QCloseEvent *pEvent);
     void ClearTmp();
+
+    virtual void resizeEvent(QResizeEvent *);
 
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);
