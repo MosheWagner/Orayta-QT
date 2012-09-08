@@ -265,8 +265,12 @@ void MobileApp::adjustFontSize()
     int fontSize = gFontSize;
     // font for menus should be about 50% of font for book-display.
     fontSize /= 2;
-    QString styleSheet("font: " +QString::number(fontSize) +"pt;");
-    ui->stackedWidget->setStyleSheet(styleSheet);
+
+
+    ///QString styleSheet("font: " +QString::number(fontSize) +"pt;");
+
+
+    ///ui->stackedWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
