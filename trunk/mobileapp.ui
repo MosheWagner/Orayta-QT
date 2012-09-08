@@ -530,7 +530,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -598,7 +598,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -666,7 +666,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -731,7 +731,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -796,7 +796,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -858,7 +858,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>19</height>
+               <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -1213,7 +1213,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="font">
@@ -1258,13 +1258,14 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>15</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
                <font>
                 <pointsize>7</pointsize>
                 <weight>50</weight>
+                <italic>false</italic>
                 <bold>false</bold>
                </font>
               </property>
@@ -1272,53 +1273,11 @@ p, li { white-space: pre-wrap; }
                <string notr="true">font: 7pt;</string>
               </property>
               <property name="text">
-               <string>commentaries</string>
+               <string>Parshanim</string>
               </property>
               <property name="icon">
                <iconset resource="Orayta.qrc">
                 <normaloff>:/Icons/bookcase.png</normaloff>:/Icons/bookcase.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>50</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonTextUnderIcon</enum>
-              </property>
-              <property name="autoRaise">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="toMainMenuBTN">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>50</width>
-                <height>19</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>home</string>
-              </property>
-              <property name="icon">
-               <iconset resource="Orayta.qrc">
-                <normaloff>:/Icons/go-home.png</normaloff>:/Icons/go-home.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1345,7 +1304,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="font">
@@ -1379,12 +1338,15 @@ p, li { white-space: pre-wrap; }
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <layout class="QHBoxLayout" name="horizontalLayout_21">
             <property name="spacing">
              <number>0</number>
             </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QToolButton" name="forwardBTN">
+             <widget class="QToolButton" name="toMainMenuBTN">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1394,7 +1356,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="font">
@@ -1404,60 +1366,12 @@ p, li { white-space: pre-wrap; }
                 <bold>false</bold>
                </font>
               </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
               <property name="text">
-               <string>forward</string>
+               <string>home</string>
               </property>
               <property name="icon">
                <iconset resource="Orayta.qrc">
-                <normaloff>:/Icons/go-previous.png</normaloff>:/Icons/go-previous.png</iconset>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>50</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonTextUnderIcon</enum>
-              </property>
-              <property name="autoRaise">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="ZoomOutBTN">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>50</width>
-                <height>19</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="autoFillBackground">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>zoom-</string>
-              </property>
-              <property name="icon">
-               <iconset resource="Orayta.qrc">
-                <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
+                <normaloff>:/Icons/go-home.png</normaloff>:/Icons/go-home.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1484,7 +1398,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>15</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1530,7 +1444,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="font">
@@ -1541,11 +1455,63 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text">
-               <string>zoom+</string>
+               <string>zoom +</string>
               </property>
               <property name="icon">
                <iconset resource="Orayta.qrc">
                 <normaloff>:/Icons/zoom-in.png</normaloff>:/Icons/zoom-in.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>50</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+              <property name="autoRaise">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="forwardBTN">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>50</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>forward</string>
+              </property>
+              <property name="icon">
+               <iconset resource="Orayta.qrc">
+                <normaloff>:/Icons/go-previous.png</normaloff>:/Icons/go-previous.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1572,7 +1538,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>22</height>
                </size>
               </property>
               <property name="font">
@@ -1591,6 +1557,51 @@ p, li { white-space: pre-wrap; }
               <property name="icon">
                <iconset resource="Orayta.qrc">
                 <normaloff>:/Icons/go-next.png</normaloff>:/Icons/go-next.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>50</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+              <property name="autoRaise">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="ZoomOutBTN">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>50</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>zoom -</string>
+              </property>
+              <property name="icon">
+               <iconset resource="Orayta.qrc">
+                <normaloff>:/Icons/zoom-out.png</normaloff>:/Icons/zoom-out.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -3664,7 +3675,7 @@ width: 15 px;
 </string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToContentsOnFirstShow</enum>

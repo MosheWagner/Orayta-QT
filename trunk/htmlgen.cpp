@@ -960,6 +960,8 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     bool FullChapterWeaveMode = false;
     if (LevelSigns.indexOf(WeaveLevel) == LIL) FullChapterWeaveMode = true;
 
+    qDebug() << FullChapterWeaveMode;
+
     //ignore invalid iters
     if (iter.isEmpty()) return QUrl();
 
@@ -1076,24 +1078,25 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     //for (int i=0; i<Sources.size(); i++) qDebug() << Sources[i].text;
 
     //Go over every line in the main source:
-    if (!FullChapterWeaveMode)
+    for (int i=0; i<Sources[0].text.size(); i++)
     {
-        for (int i=0; i<Sources[0].text.size(); i++)
+        //Be nice to other people too
+        QApplication::processEvents();
+
+        //Use the first line of whats left of the file, and chop it off
+        QString line = Sources[0].text[i];
+
+        //Display nikud and teamim depending on the NikudMode
+        if ( hasNikud && shownikud == false) line = removeNikud(line);
+        if ( hasTeamim && showteamim == false) line = removeTeamim(line);
+
+        //A new level is reached, so add all that came before it to the Html, and get all of the sources' text for this level
+        //NOTE: this is a bit funny (think about it). Maybe this should be fixed. But it still works...
+        int level;
+        if ( (level = LevelSigns.indexOf(line[0])) != -1 )
         {
-            //Be nice to other people too
-            QApplication::processEvents();
-
-            //Use the first line of whats left of the file, and chop it off
-            QString line = Sources[0].text[i];
-
-            //Display nikud and teamim depending on the NikudMode
-            if ( hasNikud && shownikud == false) line = removeNikud(line);
-            if ( hasTeamim && showteamim == false) line = removeTeamim(line);
-
-            //A new level is reached, so add all that came before it to the Html, and get all of the sources' text for this level
-            //NOTE: this is a bit funny (think about it). Maybe this should be fixed. But it still works...
-            int level;
-            if ( (level = LevelSigns.indexOf(line[0])) != -1 )
+            //In full chapter mode the other sources are dealt with outside the loop
+            if (!FullChapterWeaveMode)
             {
                 // Go over all other sources
                 for (int j=1; j<Sources.size(); j++)
@@ -1169,87 +1172,93 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                         }
                     }
                 }
+            }
 
-                if (last_label != "")
+            if (last_label != "")
+            {
+                for (int j=0; j<Sources.size(); j++)
                 {
-                    for (int j=0; j<Sources.size(); j++)
+                    if ( Sources[j].str.replace("\n", "") != "" )
                     {
-                        if ( Sources[j].str.replace("\n", "") != "" )
-                        {
-                            html += Sources[j].Prefix;
-                            html += Sources[j].str;
-                            html += Sources[j].Suffix;
-                            html += "<BR>\n";
-                            if (Sources.size() > 1) html += "<BR>\n";
-                        }
+                        html += Sources[j].Prefix;
+                        html += Sources[j].str;
+                        html += Sources[j].Suffix;
+                        html += "<BR>\n";
+                        if (Sources.size() > 1) html += "<BR>\n";
                     }
                 }
-
-                last_label = line;
-
-                //Emtpy strs
-                for (int j=0; j<Sources.size(); j++) Sources[j].str.clear();
-
-                /*
-                //See if the is a comment for the past position, and if so, insert it now
-                vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlink);
-                int index = distance (comment_titles.begin (), vitr);
-                if (index != comment_titles.size())
-                {
-                    QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
-
-                    //Add the text as a special link so menu's can be opened here (and know where this is)
-                    htmlbody += "<a href=\"*" + last_label + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
-                    htmlbody += comment + "</a>";
-                }
-                */
-
-                //Deal with the level sign for this book itself:
-
-                //Advance itr:
-                Sources[0].itr.SetLevelFromLine(line);
-
-                if (Sources[0].itr.humanDisplay().indexOf("EOF") == -1)
-                {
-                    QString strforlink = Sources[0].itr.toEncodedString(level + 1);
-
-                    html += "<BR><span class=\"L" + QString::number(level) + "\">";
-                    html += "<a name=\"" + strforlink + "\">";
-
-                    //Add the text as a special link so menu's can be opened here (and know where this is)
-                    //htmlbody += link("$" + strforlink, dispname, linkid);
-                    //linkid ++;
-
-                    html += Sources[0].text[i].mid(2);
-                    html += "</a></span>\n";
-                    if (level != 0 ) html += "<BR>";
-                }
             }
 
-            //External link ("<!--ex" type)
-            else if(line.startsWith("<!--ex"))
+            last_label = line;
+
+            //Emtpy strs
+            for (int j=0; j<Sources.size(); j++) Sources[j].str.clear();
+
+            /*
+            //See if the is a comment for the past position, and if so, insert it now
+            vector<QString>::iterator vitr = find(comment_titles.begin(), comment_titles.end(), lastlink);
+            int index = distance (comment_titles.begin (), vitr);
+            if (index != comment_titles.size())
             {
-                //htmlbody += ExternalLink(line);
-                Sources[0].str += ExternalLink(line);
+                QString comment = " [*] " + comment_texts[index].replace("\\|", "|").replace("|", "<BR>");
+
+                //Add the text as a special link so menu's can be opened here (and know where this is)
+                htmlbody += "<a href=\"*" + last_label + "\" style=\"text-decoration:none; color:blue; font-size:14px\">";
+                htmlbody += comment + "</a>";
             }
-            else
+            */
+
+            //Deal with the level sign for this book itself:
+
+            //Advance itr:
+            Sources[0].itr.SetLevelFromLine(line);
+
+            if (Sources[0].itr.humanDisplay().indexOf("EOF") == -1)
             {
-                //Hope this is OK... Not realy tested yet
-                //Run all pre-set replaces
-                for (int i=0; i<replaceFrom.size(); i++)
-                {
-                    line.replace(replaceFrom[i], replaceTo[i]);
-                }
+                QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                if (mark.pattern() != "()" && mark.pattern() != "")
-                    line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+                html += "<BR><span class=\"L" + QString::number(level) + "\">";
+                html += "<a name=\"" + strforlink + "\">";
 
-                Sources[0].str += line + " ";
+                //Add the text as a special link so menu's can be opened here (and know where this is)
+                //htmlbody += link("$" + strforlink, dispname, linkid);
+                //linkid ++;
+
+                html += Sources[0].text[i].mid(2);
+                html += "</a></span>\n";
+                if (level != 0 ) html += "<BR>";
             }
         }
+
+        //External link ("<!--ex" type)
+        else if(line.startsWith("<!--ex"))
+        {
+            //htmlbody += ExternalLink(line);
+            Sources[0].str += ExternalLink(line);
+        }
+        else
+        {
+            //Hope this is OK... Not realy tested yet
+            //Run all pre-set replaces
+            for (int i=0; i<replaceFrom.size(); i++)
+            {
+                line.replace(replaceFrom[i], replaceTo[i]);
+            }
+
+            if (mark.pattern() != "()" && mark.pattern() != "")
+                line.replace(mark, "<span style=\"background-color:#FFF532\">\\1</span>");
+
+            Sources[0].str += line + " ";
+        }
     }
-    else if (FullChapterWeaveMode)
+
+
+    //This is important for cases where we need to force whole chapter weaving,
+    // becuase otherwise it won't weave properly. i.e., when the sub-chapters of the sources aren't of the same type.
+    if (FullChapterWeaveMode)
     {
+        qDebug() << "AAA";
+
         for (int i=1; i<Sources.size(); i++)
         {
             QString t = "";
