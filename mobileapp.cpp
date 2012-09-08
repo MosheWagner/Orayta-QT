@@ -178,16 +178,15 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     adjustToScreenSize();
 }
 
-void MobileApp::resizeEvent()
+void MobileApp::resizeEvent(QResizeEvent *)
 {
-        adjustToScreenSize();
+    adjustToScreenSize();
 }
 
 
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()
 {
-
     QDesktopWidget* desktop = QApplication::desktop();
     QSize size = desktop->availableGeometry().size();
 // hack to enable desktop usage as well as
