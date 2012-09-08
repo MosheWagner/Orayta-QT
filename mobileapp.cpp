@@ -178,6 +178,12 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     adjustToScreenSize();
 }
 
+void MobileApp::resizeEvent()
+{
+        adjustToScreenSize();
+}
+
+
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()
 {
