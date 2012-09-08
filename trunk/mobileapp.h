@@ -231,7 +231,8 @@ private:
 
     QList <DownloadbleBookGroup> groups;
 
-    #define BOOKLISTURL "http://orayta.googlecode.com/files/OraytaBooksDownloadList"
+    #define BOOKLISTURL "http://orayta.googlecode.com/svn/books/OraytaBookList"
+
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
     FileDownloader *listdownload;
     FileDownloader *downloader;
