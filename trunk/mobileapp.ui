@@ -481,7 +481,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -530,7 +530,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -598,7 +598,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -666,7 +666,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -731,7 +731,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -796,7 +796,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -858,7 +858,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>25</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -1213,7 +1213,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1258,7 +1258,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>14</height>
                </size>
               </property>
               <property name="font">
@@ -1304,7 +1304,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1356,7 +1356,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1398,7 +1398,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>19</height>
+                <height>14</height>
                </size>
               </property>
               <property name="font">
@@ -1444,7 +1444,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1493,7 +1493,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1538,7 +1538,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1583,7 +1583,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>22</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -3675,7 +3675,7 @@ width: 15 px;
 </string>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -4200,14 +4200,19 @@ width: 18 px;
         <widget class="QTabWidget" name="tabWidget_2">
          <property name="font">
           <font>
-           <pointsize>7</pointsize>
            <weight>50</weight>
            <italic>false</italic>
            <bold>false</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 7pt;</string>
+          <string notr="true">
+QTabBar{ 
+	font: 8pt;
+}
+QTabBar::tab:selected {
+	font-weight: bold;
+}</string>
          </property>
          <property name="currentIndex">
           <number>0</number>
@@ -4234,14 +4239,6 @@ width: 18 px;
            </property>
            <item>
             <widget class="BMarkList" name="historyBookmarkList">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="accessibleName">
               <string>history list</string>
              </property>
@@ -4274,14 +4271,6 @@ width: 18 px;
            </property>
            <item>
             <widget class="BMarkList" name="dailyLearningList">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="accessibleName">
               <string>daily learning</string>
              </property>
@@ -4314,14 +4303,6 @@ width: 18 px;
            </property>
            <item>
             <widget class="BMarkList" name="staticBookMarkList">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
-              </font>
-             </property>
              <property name="accessibleName">
               <string>static bookmark list</string>
              </property>
