@@ -220,9 +220,9 @@ void MobileApp::adjustToScreenSize()
     ui->bookMarksBTN->setIconSize(a);
     ui->bookMarksBTN->setMaximumSize(w,max);
 
-
-    ui->treeWidget->setColumnWidth(0, size.width()-20);
-    ui->SearchTreeWidget->setColumnWidth(0, size.width()-20);
+    int wth = size.width()+100;
+    ui->treeWidget->setColumnWidth(0, wth);
+    ui->SearchTreeWidget->setColumnWidth(0, wth);
 
     // if the font size wasn't set manually by the user, we will geuss the best values
     // depending on target device dpi
