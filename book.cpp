@@ -37,6 +37,7 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     mUserBook = isUserBook;
 
     mpTreeItem = NULL;
+    mpSearchTreeItem = NULL;
 
     WeaveLevel = "";
 
@@ -128,11 +129,11 @@ bool Book::IsDir()
 bool Book::IsUserBook()
 { return mUserBook; }
 
-bool Book::IsUserCheckable()
+bool Book::IsUserCheckable(QTreeWidgetItem *it)
 {
-    if (!mpTreeItem)
-        return false;
-    return mpTreeItem->flags() & Qt::ItemIsUserCheckable;
+    if (it)
+        return it->flags() & Qt::ItemIsUserCheckable;
+    return false;
 }
 
 bool Book::ShowMixed()
@@ -152,6 +153,9 @@ bool Book::ShowAlone()
 
 QTreeWidgetItem * Book::getTreeItemPtr()
 {  return mpTreeItem; }
+
+QTreeWidgetItem * Book::getSearchTreeItemPtr()
+{  return mpSearchTreeItem; }
 
 // Book Setters:
 void Book::setPath(QString path)
@@ -183,6 +187,9 @@ void Book::setUniqueId(int id)
 
 void Book::setTreeItemPtr(QTreeWidgetItem * treeitem)
 {   mpTreeItem = treeitem; }
+
+void Book::setSearchTreeItemPtr(QTreeWidgetItem * treeitem)
+{   mpSearchTreeItem = treeitem; }
 
 void Book::add_child(Book * child)
 {
@@ -278,16 +285,22 @@ void Book::repainticon()
     {
         //Dark icon
         setIcon(mpTreeItem, GREY);
+        setIcon(mpSearchTreeItem, GREY);
+
     }
     else if ( !grey_child && !mixed_child )
     {
         //Blue icon
         setIcon(mpTreeItem, BLUE);
+        setIcon(mpSearchTreeItem, BLUE);
+
     }
     else
     {
         //Half icon
         setIcon(mpTreeItem, HALF);
+        setIcon(mpSearchTreeItem, HALF);
+
     }
 
     if(getParent() != NULL)
@@ -296,13 +309,16 @@ void Book::repainticon()
 
 void Book::_unselect()
 {
-    if ( !IsUserCheckable() )
-        return;
+//    if ( !IsUserCheckable() )
+//        return;
 
     mInSearch = false;
 
     //Darken icon
-    setIcon(mpTreeItem, GREY);
+    if (mpTreeItem)
+        setIcon(mpTreeItem, GREY);
+    if (mpSearchTreeItem)
+        setIcon(mpSearchTreeItem, GREY);
 
     //Unselect all children
     for (unsigned int i=0;i < mvChildren.size(); i++)
@@ -323,13 +339,17 @@ void Book::unselect()
 
 void Book::_select()
 {
-    if ( !IsUserCheckable() )
-        return;
+//    bool q =IsUserCheckable();
+//    if ( !q )
+//        return;
 
     mInSearch = true;
 
     //Make icon blue
-    setIcon(mpTreeItem, BLUE);
+    if (mpTreeItem && IsUserCheckable(mpTreeItem))
+        setIcon(mpTreeItem, BLUE);
+    if (mpSearchTreeItem && IsUserCheckable(mpSearchTreeItem))
+        setIcon(mpSearchTreeItem, BLUE);
 
     //select all children
     for (unsigned int i=0;i < mvChildren.size(); i++)
@@ -395,7 +415,7 @@ QIcon* bookIcon(Book* book, IconState state)
 
 void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
 {
-    if (TreeItem == NULL) return;
+    if (TreeItem == NULL || !IsUserCheckable(TreeItem)) return;
 
     //set icon state
     mIconState = newiconstate;
@@ -418,6 +438,7 @@ void Book::setIcon(QTreeWidgetItem *TreeItem, IconState newiconstate)
 void Book::restoreIconeState()
 {
     setIcon( mpTreeItem, mIconState);
+    setIcon( mpSearchTreeItem, mIconState);
 }
 
 //Sets the cosmetic types of the book, by the given conf line

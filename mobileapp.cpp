@@ -86,6 +86,11 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->displayArea->layout()->addWidget(displayer);
     ui->displayArea->layout()->addWidget(ui->loadBar);
 
+    //Initialize bookFind page
+    bookFindDialog = new BookFindMobile(this, bookList);
+//    ui->findBook->layout()->addWidget(bookFindDialog);
+    ui->stackedWidget->addWidget(bookFindDialog);
+
     FlickCharm *f = new FlickCharm(this);
     f->activateOn(displayer);
     connect(f, SIGNAL(leftSwipe()), displayer, SLOT(leftSwipe()));
@@ -266,10 +271,10 @@ void MobileApp::adjustFontSize()
     fontSize /= 2;
 
 
-    ///QString styleSheet("font: " +QString::number(fontSize) +"pt;");
+    QString styleSheet("font: " +QString::number(fontSize) +"pt;");
 
 
-    ///ui->stackedWidget->setStyleSheet(styleSheet);
+    ui->stackedWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -346,9 +351,13 @@ void MobileApp::reloadBooklist(){
 //when going to 'books in search' page, reset the page
 void MobileApp::resetSearchBookTree(){
 
+//    QTime time;
+//    time.start();
     ui->SearchTreeWidget->clear();
-    booksInSearch.BuildFromFolder(BOOKPATH);
-    booksInSearch.displayInTree(ui->SearchTreeWidget, true);
+//    booksInSearch.BuildFromFolder(BOOKPATH);
+    booksInSearch = BookList(bookList);
+    booksInSearch.displayInTree(ui->SearchTreeWidget, true, true);
+//    qDebug() << "load time: "<< time.elapsed();
 
 }
 
@@ -897,10 +906,8 @@ void MobileApp::on_saveConf_clicked()
     //also, clear currently displayed book.
 
     // test if the previous view was the book itself. if so we want to reload the book.
-    if (viewHistory->length() > 2 &&
-          /* viewHistory->at(viewHistory->length()-2)->objectName() ==
-           ui->stackedWidget->widget(DISPLAY_PAGE)->objectName()) */
-            viewHistory->at(viewHistory->length()-2) == DISPLAY_PAGE)
+    if (viewHistory->length() > 1 &&
+                      viewHistory->at(viewHistory->length()-1) == DISPLAY_PAGE)
     {
         if (displayer->getCurrentBook()) {
             // remove two last itmes from history. (settings page and dispaly page).
@@ -1770,4 +1777,9 @@ void MobileApp::on_bookMarksBTN_clicked()
 void MobileApp::on_helpBTN_clicked()
 {
     on_gtoHelp_clicked();
+}
+
+void MobileApp::on_findBookBTN_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(bookFindDialog);
 }

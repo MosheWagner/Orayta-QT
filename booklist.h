@@ -24,6 +24,7 @@ class BookList : public vector<Book *>
 {
 public:
     BookList();
+    BookList(BookList * other_list);
     ~BookList();
 
     //Return the index of the book with the given UniqueId - in the book list
@@ -60,7 +61,7 @@ public:
     void CheckUid();
 
     //Display the booklist in the given QTreeWidget
-    void displayInTree(QTreeWidget *tree, bool showCheck);
+    void displayInTree(QTreeWidget *tree, bool showCheck, bool isSearchTree = false);
 
 private:
 };
