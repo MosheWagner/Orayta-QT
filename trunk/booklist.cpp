@@ -24,6 +24,15 @@
 
 BookList::BookList() {}
 
+BookList::BookList(BookList * other_list)
+{
+    for(unsigned int i=0; i<other_list->size(); i++)
+    {
+        this->at(i) = other_list->at(i);
+    }
+
+}
+
 BookList::~BookList() {   }
 
 //Builds the booklist from all fles within the given folder
@@ -420,6 +429,11 @@ int BookList::FindBookByTWI(QTreeWidgetItem *TWI)
         if((*this)[i]->getTreeItemPtr() == TWI)
             return i;
     }
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if((*this)[i]->getSearchTreeItemPtr() == TWI)
+            return i;
+    }
     return -1;
 }
 
@@ -430,6 +444,11 @@ Book* BookList::findBookByTWI(QTreeWidgetItem *TWI)
     for(unsigned int i=0; i<size(); i++)
     {
         if((*this)[i]->getTreeItemPtr() == TWI)
+            return (*this)[i];
+    }
+    for(unsigned int i=0; i<size(); i++)
+    {
+        if((*this)[i]->getSearchTreeItemPtr() == TWI)
             return (*this)[i];
     }
     qDebug()<< "can't find book from TWI : " << TWI->text(0);
@@ -504,7 +523,7 @@ void BookList::CheckUid()
 }
 
 //Display the booklist in the given QTreeWidget
-void BookList::displayInTree(QTreeWidget *tree, bool showCheck)
+void BookList::displayInTree(QTreeWidget *tree, bool showCheck, bool isSearchTree)
 {
     //Add treeItems for each book to the treeWidget
     for(unsigned int i=0;i<size();i++)
@@ -515,9 +534,15 @@ void BookList::displayInTree(QTreeWidget *tree, bool showCheck)
             if(this->at(i)->getParent() == NULL)
                 twi = new QTreeWidgetItem(tree);
             else
-                twi = new QTreeWidgetItem(this->at(i)->getParent()->getTreeItemPtr());
+                if(isSearchTree)
+                    twi = new QTreeWidgetItem(this->at(i)->getParent()->getSearchTreeItemPtr());
+                else
+                    twi = new QTreeWidgetItem(this->at(i)->getParent()->getTreeItemPtr());
 
-            this->at(i)->setTreeItemPtr(twi);
+            if(isSearchTree)
+                this->at(i)->setSearchTreeItemPtr(twi);
+            else
+                this->at(i)->setTreeItemPtr(twi);
 
             QString dn;
 

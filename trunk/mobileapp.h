@@ -12,6 +12,7 @@
 #include "book.h"
 
 #include "textdisplayer.h"
+#include "bookfindmobile.h"
 
 
 #define MAIN_PAGE 0
@@ -23,6 +24,8 @@
 #define SETTINGS_PAGE 6
 #define MIXED_SELECTION_PAGE 7
 #define HISTORY_PAGE 8
+#define BOOKFIND_PAGE 9
+
 
 namespace Ui {
     class MobileApp;
@@ -190,6 +193,8 @@ private slots:
     void addStaticBMhere();
 
 
+    void on_findBookBTN_clicked();
+
 private:
     Ui::MobileApp *ui;
 
@@ -262,6 +267,7 @@ private:
     QStringList langs, langsDisplay;
 
     textDisplayer *displayer;
+    BookFindMobile *bookFindDialog;
 
 };
 

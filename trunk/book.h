@@ -105,12 +105,21 @@ public:
     bool ShowAlone();
     bool ShowMixed();
     bool IsUserBook();
-    bool IsUserCheckable();
+    bool IsUserCheckable(QTreeWidgetItem *it);
     Book * getParent();
     vector<Book*>& getChildren();
     QTreeWidgetItem * getTreeItemPtr();
+    QTreeWidgetItem * getSearchTreeItemPtr();
     QFont getFont();
     Filetype fileType();
+    //Returns a conf entry representing this book
+    QString confEntry();
+    //Returns the filename that should be used for the book, depending on the shown commentaries
+    QString HTMLFileName();
+
+
+    QWidget* tabWidget();
+
 
     //set functions:
     void setPath(QString path);
@@ -122,10 +131,13 @@ public:
     void setIcon(QTreeWidgetItem *TreeItem, IconState iconstate);
     void setUniqueId(int id);
     void setTreeItemPtr(QTreeWidgetItem * treeitem);
+    void setSearchTreeItemPtr(QTreeWidgetItem * treeitem);
     void setIsInSearch(bool);
     void setIsHidden(bool);
     void setFont(const QFont& font);
     void loadFont();
+
+    void setTabWidget(QWidget*);
 
     //Sets the cosmetic types of the book, by the given conf line
     void setCosmetics(QString);
@@ -169,17 +181,15 @@ public:
 
     QList <weavedSource> mWeavedSources;
 
-    //Returns a conf entry representing this book
-    QString confEntry();
-
     //Icon state of this book (or folder)
     IconState mIconState;
 
-    //Returns the filename that should be used for the book, depending on the shown commentaries
-    QString HTMLFileName();
+    vector <GuematriaDb> guematriaDb;
+    bool guematriaDbExists;
 
-    QWidget* tabWidget();
-    void setTabWidget(QWidget*);
+    void BuildGuematriaDb ();
+    const vector <GuematriaDb>& getGuematriaDb();
+
     
     //Rrturn a list of bookiters to all occurrences of the reqested phrase in the book
     QList <SearchResult> findInBook(const QString& phrase);
@@ -197,11 +207,6 @@ public:
     //Fills "pureText" and "levelMap" with their values
     //void BuildSearchTextDB();
 
-    vector <GuematriaDb> guematriaDb;
-    bool guematriaDbExists;
-
-    void BuildGuematriaDb ();
-    const vector <GuematriaDb>& getGuematriaDb();
 
     //This function reads the book's text, split up to 'Lowest Index Levels',
     // into the 'chapterText' list, while the equivilant Iters are stored in the 'chapterIter' list.
@@ -273,6 +278,7 @@ protected:
     QString resultPreview(const QRegExp& exp, int offset);
 
     QTreeWidgetItem *mpTreeItem;
+    QTreeWidgetItem *mpSearchTreeItem;
 
     //Tell if the book should be shown in the book tree or ignored
     bool mIsHidden;
