@@ -86,8 +86,7 @@ SOURCES += main.cpp \
     quazip/qioapi.cpp \
     minibmark.cpp \
     bmarklist.cpp \
-    bookfind.cpp \
-    bookfindmobile.cpp
+    bookfind.cpp
 
 ! android {
 SOURCES += \
@@ -128,8 +127,7 @@ HEADERS += \
     search.h \
     minibmark.h \
     bmarklist.h \
-    bookfind.h \
-    bookfindmobile.h
+    bookfind.h
 
 ! android {
 HEADERS += \
@@ -150,7 +148,6 @@ FORMS += \
     bookmarktitle.ui \
     about.ui \
     errorreport.ui \
-    bookfind.ui \
     settings.ui \
     importbook.ui \
     desktopapp.ui
@@ -172,6 +169,7 @@ HEADERS += \
 
 FORMS += \
     mobileapp.ui \
+    bookfind.ui \
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
@@ -425,33 +423,6 @@ OTHER_FILES += \
     android/res/drawable/icon.png \
     android/res/drawable-mdpi/icon.png \
     android/res/drawable-hdpi/icon.png
-
-FORMS += \
-    bookfindmobile.ui
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -481,7 +481,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>9</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -4749,7 +4749,16 @@ QTabBar::tab:selected {
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="findBook"/>
+     <widget class="QWidget" name="findBook">
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

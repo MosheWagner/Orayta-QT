@@ -17,6 +17,7 @@
 #include "bookfind.h"
 #include "ui_bookfind.h"
 #include "functions.h"
+#include "QKinetic/flickcharm.h"
 #ifndef MOBILE
 #include "desktopapp.h"
 #endif
@@ -25,6 +26,15 @@
 bookfind::bookfind(QWidget *parent, BookList& booklist) : QDialog(parent), m_ui(new Ui::bookfind), mBookList(booklist)
 {
     m_ui->setupUi(this);
+
+    m_ui->radioButton->setChecked(true);
+
+#ifdef MOBILE
+    m_ui->buttonGRP->hide();
+    m_ui->radioGRP->hide();
+    FlickCharm *f = new FlickCharm(this);
+    f->activateOn(m_ui->listWidget);
+#endif //mobile
 
     if (LANG == "Hebrew") toRTL();
 }
@@ -113,3 +123,8 @@ void bookfind::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     int bookid = item->data(Qt::UserRole).toInt();
     emit openBook( bookid );
 }
+
+#ifdef MOBILE
+void bookfind::on_listWidget_itemClicked(QListWidgetItem *item)
+    {on_listWidget_itemDoubleClicked(item);}
+#endif

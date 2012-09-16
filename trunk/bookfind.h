@@ -49,6 +49,9 @@ private slots:
     void on_radioButton_2_toggled(bool checked);
     void on_lineEdit_textEdited(QString);
     void on_listWidget_itemDoubleClicked(QListWidgetItem *);
+#ifdef MOBILE
+    void on_listWidget_itemClicked(QListWidgetItem *);
+#endif
 };
 
 #endif // BOOKFIND_H
