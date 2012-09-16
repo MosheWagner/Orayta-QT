@@ -10,9 +10,9 @@
 #include "filedownloader.h"
 #include "booklist.h"
 #include "book.h"
+#include "bookfind.h"
 
 #include "textdisplayer.h"
-#include "bookfindmobile.h"
 
 
 #define MAIN_PAGE 0
@@ -270,7 +270,6 @@ private:
     QStringList langs, langsDisplay;
 
     textDisplayer *displayer;
-//    BookFindMobile *bookFindDialog;
     bookfind *bookFindDialog;
 
 

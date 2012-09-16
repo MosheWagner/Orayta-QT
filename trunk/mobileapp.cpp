@@ -87,7 +87,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->displayArea->layout()->addWidget(ui->loadBar);
 
     //Initialize bookFind page
-//    bookFindDialog = new BookFindMobile(this, &bookList);
 ////    ui->stackedWidget->addWidget(bookFindDialog);
 //    ui->findBook->layout()->addWidget(bookFindDialog);
 //    connect(bookFindDialog, SIGNAL(openBook(int)), this, SLOT(showBook(int)));
