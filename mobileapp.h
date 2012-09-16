@@ -195,11 +195,14 @@ private slots:
 
     void on_findBookBTN_clicked();
 
+    void showBook(Book *);
+    void showBook(Book *, BookIter);
+    void showBook(int);
+
 private:
     Ui::MobileApp *ui;
 
-    void showBook(Book *);
-    void showBook(Book *, BookIter);
+
 
     BookList bookList, booksInSearch;
 
@@ -267,7 +270,9 @@ private:
     QStringList langs, langsDisplay;
 
     textDisplayer *displayer;
-    BookFindMobile *bookFindDialog;
+//    BookFindMobile *bookFindDialog;
+    bookfind *bookFindDialog;
+
 
 };
 

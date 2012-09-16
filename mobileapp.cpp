@@ -87,9 +87,14 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->displayArea->layout()->addWidget(ui->loadBar);
 
     //Initialize bookFind page
-    bookFindDialog = new BookFindMobile(this, bookList);
+//    bookFindDialog = new BookFindMobile(this, &bookList);
+////    ui->stackedWidget->addWidget(bookFindDialog);
 //    ui->findBook->layout()->addWidget(bookFindDialog);
-    ui->stackedWidget->addWidget(bookFindDialog);
+//    connect(bookFindDialog, SIGNAL(openBook(int)), this, SLOT(showBook(int)));
+    bookFindDialog = new bookfind(this, bookList);
+    ui->findBook->layout()->addWidget(bookFindDialog);
+    connect(bookFindDialog, SIGNAL(openBook(int)), this, SLOT(showBook(int)));
+
 
     FlickCharm *f = new FlickCharm(this);
     f->activateOn(displayer);
@@ -119,6 +124,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     fc->activateOn(ui->staticBookMarkList);
     fc->activateOn(ui->dailyLearningList);
     fc->activateOn(ui->historyBookmarkList);
+
 
     //Build the book list
     reloadBooklist();
@@ -514,6 +520,13 @@ void MobileApp::showBook(Book *book)
             break;
         }
     }
+}
+
+void MobileApp::showBook(int id)
+{
+    qDebug() << "open book " << id;
+    Book *b= bookList.findBookById(id);
+    showBook(b);
 }
 
 
@@ -1781,5 +1794,6 @@ void MobileApp::on_helpBTN_clicked()
 
 void MobileApp::on_findBookBTN_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(bookFindDialog);
+//    ui->stackedWidget->setCurrentWidget(bookFindDialog);
+    ui->stackedWidget->setCurrentIndex(BOOKFIND_PAGE);
 }
