@@ -19,7 +19,8 @@
 #include <QUrl>
 #include <QDebug>
 #include <QTime>
-#include <QtGui>
+//#include <QtGui>
+#include <QApplication>
 
 // This is just a very simple define. every place in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".

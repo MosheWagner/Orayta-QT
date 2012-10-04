@@ -39,6 +39,8 @@
 
 
 
+
+
 //TODO: CLEAN & SPLIT UP!!!!
 //TODO: Improve look & feel
 
@@ -56,6 +58,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //Set all QString to work with unicode
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+
+    //set the display to native android look.
+//     QApplication::setStyle(new QAndroidStyle()); //dosnt work
 
     ui->setupUi(this);
 
@@ -649,15 +654,18 @@ void MobileApp::ClearTmp()
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
+    qDebug() << "key pressed: " << keyEvent->key();
+
     switch ( keyEvent->key() )
     {
 
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
-        close();
+//        close();
         break;
 
     //back button was clicked
+    case Qt::Key_Close:
     case Qt::Key_MediaPrevious:
         goBack();
         break;
@@ -667,16 +675,13 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         if (keyEvent->modifiers() == Qt::CTRL) goBack();
         break;
 
-  /*  case Qt::Key_Back:
+    case Qt::Key_Back:
         qDebug()<<"caught back";
         return;
-    case Qt::Key_Close:
-        qDebug()<<"caught close";
-         return;
     case Qt::Key_TopMenu:
         qDebug()<<"caught manu";
          return;
-*/
+
 
     //Test different screen sizes:
     case Qt::Key_0:
@@ -705,13 +710,13 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
     //menu button was clicked
+    case Qt::Key_Menu:
     case Qt::Key_Explorer:
     case Qt::Key_Meta:
         showMenu();
         break;
 
     default:
-//        qDebug() << "key pressed: " << keyEvent->key();
         QDialog::keyReleaseEvent(keyEvent);
     }
 

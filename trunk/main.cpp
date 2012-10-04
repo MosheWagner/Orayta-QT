@@ -38,6 +38,7 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 
+
 //For test only
 //#define MOBILE
 
@@ -50,11 +51,8 @@ void initPaths()
 
 #ifdef Q_OS_ANDROID
     defPath = "/sdcard/Orayta/Books/";
-//    defPath = "Orayta/Books/"; //IZAR: try to access books directly in assets. this didn't work. waiting for answer from bogdan.
-
-//    MAINPATH = "/sdcard/Orayta/";
     //set terget to assets folder
-    MAINPATH = "/Orayta/";
+    MAINPATH = "assets:/Orayta/";
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
     MAINPATH = "/usr/share/Orayta/";
@@ -66,7 +64,7 @@ void initPaths()
     QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
-//    qDebug() << "bookpath:" << BOOKPATH ;
+    qDebug() << "bookpath:" << BOOKPATH ;
 
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
@@ -107,7 +105,7 @@ void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
     if (fontId >= 0) {
-//        qDebug()<< "installed font successfuly: " << font;
+        qDebug()<< "installed font successfuly: " << font;
         return;
     }
     else
@@ -122,23 +120,13 @@ void initFonts()
     QString fontpath (MAINPATH + "fonts/");
 #ifdef Q_OS_ANDROID
     fontpath = "/sdcard/Orayta/fonts/"; //assets not working well yet on alpha 3.4
-#else ifdef MOBILE_TEST
+#elif defined MOBILE_TEST
     fontpath = "fonts/";
 #endif
-   /* fonts.append(fontpath + "DejaVuSans.ttf");
-    fonts.append(fontpath + "DejaVuSerif.ttf");
-    fonts.append(fontpath + "DroidSansHebrewOrayta.ttf");
-//    fonts.append(fontpath + "DavidCLM-Medium.ttf");
-    fonts.append(fontpath + "MiriamCLM-Book.ttf");
-    fonts.append(fontpath + "SILEOTSR.ttf");
 
-    //add all fonts to the application
-    foreach(const QString &font, fonts){
-        addFont(font);
-    }*/
     QDir fontDir(fontpath);
-//    qDebug() << "fontdir: " << fontDir;
-    //Get all .folder or .obk files in the directory
+    qDebug() << "fontdir: " << fontDir;
+
     QStringList filter("*.ttf");
     QFileInfoList list = fontDir.entryInfoList(filter, QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
     foreach(QFileInfo child, list){
@@ -159,10 +147,12 @@ void initLang(QApplication *app)
 #ifndef MOBILE
     //system language disabled in mobile because it doesn't work.
     systemlang = settings.value("systemLang",true).toBool();
+
 #endif
 
     if (systemlang) LANG = QLocale::languageToString(QLocale::system().language());
     else (LANG = settings.value("lang","Hebrew").toString());
+//    qDebug()<<"lang: " + LANG;
 
     settings.endGroup();
 
@@ -173,6 +163,8 @@ void initLang(QApplication *app)
     //Update path for translator installation
     QString transPath (MAINPATH);
     if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", transPath);
+    QFile file(transPath+LANG + ".qm");
+    qDebug()<<"trans: " << file.fileName();
     //Install as the app's translator
     app->installTranslator(translator);
 }
