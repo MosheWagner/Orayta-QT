@@ -1254,7 +1254,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">טוען...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3069"/>
+        <location filename="mobileapp.ui" line="3501"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -1370,12 +1370,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">התרחק</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3010"/>
+        <location filename="mobileapp.ui" line="3442"/>
         <source>Open</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3046"/>
+        <location filename="mobileapp.ui" line="3478"/>
         <source>Search:</source>
         <translation>חפש:</translation>
     </message>
@@ -1400,12 +1400,12 @@ get searched</source>
         <translation type="obsolete">בחר ספרים לחיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3278"/>
+        <location filename="mobileapp.ui" line="3710"/>
         <source>Searching...</source>
         <translation>מחפש...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3346"/>
+        <location filename="mobileapp.ui" line="3778"/>
         <source>Stop Search</source>
         <translation>עצור חיפוש</translation>
     </message>
@@ -1453,7 +1453,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="mobileapp.ui" line="1230"/>
-        <location filename="mobileapp.cpp" line="702"/>
+        <location filename="mobileapp.cpp" line="748"/>
         <source>Index</source>
         <translation>לתוכן</translation>
     </message>
@@ -1470,7 +1470,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">התחל שוב</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2494"/>
+        <location filename="mobileapp.ui" line="2926"/>
         <source>Last book</source>
         <translation>ספר אחרון</translation>
     </message>
@@ -1489,22 +1489,22 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">סיימתי</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3405"/>
+        <location filename="mobileapp.ui" line="3837"/>
         <source>Downloading books list. If this message stays, plaese check your internet connection.</source>
         <translation>מוריד את רשימת הספרים. אם הודעה זו נשארת אנא בדוק את חיבור האינטרנט שלך.</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3465"/>
+        <location filename="mobileapp.ui" line="3897"/>
         <source>Select book packages to download:</source>
         <translation>בחר חבילות ספרים להורדה:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3553"/>
+        <location filename="mobileapp.ui" line="3985"/>
         <source>Download books</source>
         <translation>הורד ספרים</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3622"/>
+        <location filename="mobileapp.ui" line="4054"/>
         <source>Font</source>
         <translation>גופן</translation>
     </message>
@@ -1521,17 +1521,17 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">גודל פונט בסיסי:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3761"/>
+        <location filename="mobileapp.ui" line="4193"/>
         <source>Font preview:</source>
         <translation>תצוגה מקדימה:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3776"/>
+        <location filename="mobileapp.ui" line="4208"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
     </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="3916"/>
+        <location filename="mobileapp.ui" line="4348"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
     </message>
@@ -1544,17 +1544,17 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">(ההגדרות יחולו החל מהספרים הבאים)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3924"/>
+        <location filename="mobileapp.ui" line="4356"/>
         <source>Language</source>
         <translation>שפה</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3944"/>
+        <location filename="mobileapp.ui" line="4376"/>
         <source>Custom language</source>
         <translation>שפה מותאמת אישית</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3953"/>
+        <location filename="mobileapp.ui" line="4385"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1571,23 +1571,23 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">השתמש בשפת המערכת</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4004"/>
+        <location filename="mobileapp.ui" line="4436"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4024"/>
+        <location filename="mobileapp.ui" line="4456"/>
         <source>Save settings</source>
         <translation>שמור הגדרות</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4053"/>
+        <location filename="mobileapp.ui" line="4485"/>
         <source>sorry, no commentaries available for current book.</source>
         <translation>אנו מצטערים, אין פרשנים זמינים לספר זה.</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3151"/>
-        <location filename="mobileapp.ui" line="4083"/>
+        <location filename="mobileapp.ui" line="3583"/>
+        <location filename="mobileapp.ui" line="4515"/>
         <source>Remove all books from search</source>
         <translation>הוצא את כל הספרים מהחיפוש</translation>
     </message>
@@ -1627,15 +1627,15 @@ p, li { white-space: pre-wrap; }
         <translation>דף הבית</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3486"/>
-        <location filename="mobileapp.ui" line="4086"/>
+        <location filename="mobileapp.ui" line="3918"/>
+        <location filename="mobileapp.ui" line="4518"/>
         <source>unmark all</source>
         <translation>נקה סימונים</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3128"/>
-        <location filename="mobileapp.ui" line="3509"/>
-        <location filename="mobileapp.ui" line="4100"/>
+        <location filename="mobileapp.ui" line="3560"/>
+        <location filename="mobileapp.ui" line="3941"/>
+        <location filename="mobileapp.ui" line="4532"/>
         <source>Add all books to search</source>
         <translation>הוסף את כל הספרים לחיפוש</translation>
     </message>
@@ -1661,7 +1661,12 @@ p, li { white-space: pre-wrap; }
         <translation>כווץ הכל</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3096"/>
+        <location filename="mobileapp.ui" line="2494"/>
+        <source>Find</source>
+        <translation>חפש</translation>
+    </message>
+    <message>
+        <location filename="mobileapp.ui" line="3528"/>
         <source>Books in search:</source>
         <translation>ספרים לחיפוש:</translation>
     </message>
@@ -1674,63 +1679,63 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">נקה סימונים</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3264"/>
+        <location filename="mobileapp.ui" line="3696"/>
         <source>Start search</source>
         <translation>התחל חיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3512"/>
-        <location filename="mobileapp.ui" line="4103"/>
+        <location filename="mobileapp.ui" line="3944"/>
+        <location filename="mobileapp.ui" line="4535"/>
         <source>mark all</source>
         <translation>סמן הכל</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3649"/>
+        <location filename="mobileapp.ui" line="4081"/>
         <source>Font:</source>
         <translation>גופן:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3702"/>
+        <location filename="mobileapp.ui" line="4134"/>
         <source>Font size:</source>
         <translation>גודל פונט:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4128"/>
+        <location filename="mobileapp.ui" line="4560"/>
         <source>Display with:</source>
         <translation>הצג בשילוב עם:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4180"/>
+        <location filename="mobileapp.ui" line="4612"/>
         <source>OK</source>
         <translation>אישור</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4222"/>
+        <location filename="mobileapp.ui" line="4654"/>
         <source>Recent Books</source>
         <translation>ספרים אחרונים</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4243"/>
+        <location filename="mobileapp.ui" line="4675"/>
         <source>history list</source>
         <translation>רשימת הסטוריה</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4254"/>
+        <location filename="mobileapp.ui" line="4686"/>
         <source>Daily learning</source>
         <translation>לימוד יומי</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4275"/>
+        <location filename="mobileapp.ui" line="4707"/>
         <source>daily learning</source>
         <translation>לימוד יומי</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4286"/>
+        <location filename="mobileapp.ui" line="4718"/>
         <source>Bookmarks</source>
         <translation>סימניות</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4307"/>
+        <location filename="mobileapp.ui" line="4739"/>
         <source>static bookmark list</source>
         <translation>רשימת סימניות סטטית</translation>
     </message>
@@ -1767,17 +1772,17 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
         <translation type="obsolete">בטל חיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="547"/>
+        <location filename="mobileapp.cpp" line="587"/>
         <source>Search results</source>
         <translation>תוצאות חיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="696"/>
+        <location filename="mobileapp.cpp" line="742"/>
         <source>Back to results</source>
         <translation>חזרה לתוצאות החיפוש</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1261"/>
+        <location filename="mobileapp.cpp" line="1305"/>
         <source>Download complete!</source>
         <translation>הורדה הושלמה!</translation>
     </message>
@@ -1786,12 +1791,12 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
         <translation type="obsolete">הורדה הושלמה!</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1377"/>
+        <location filename="mobileapp.cpp" line="1421"/>
         <source>×¢××¨××ª</source>
         <translation>עברית</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1503"/>
+        <location filename="mobileapp.cpp" line="1547"/>
         <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
         <translation>(לא מותקן. נא להתקין את המפרש מתפריט &apos;הורד ספרים&apos;)</translation>
     </message>
@@ -2014,22 +2019,32 @@ p, li { white-space: pre-wrap; }
         <translation>חפש ספר לפי שם</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="26"/>
+        <location filename="bookfind.ui" line="82"/>
         <source>Search in name&apos;s beginning</source>
         <translation>חפש בתחילת השם</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="36"/>
+        <location filename="bookfind.ui" line="75"/>
         <source>Search in the whole name</source>
         <translation>חפש בכל השם</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="57"/>
+        <location filename="bookfind.ui" line="29"/>
+        <source>Find a book named:</source>
+        <translation>חפש ספר בשם:</translation>
+    </message>
+    <message>
+        <location filename="bookfind.ui" line="52"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="bookfind.ui" line="110"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="67"/>
+        <location filename="bookfind.ui" line="120"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>

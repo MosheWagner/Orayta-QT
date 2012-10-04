@@ -50,6 +50,7 @@ protected:
 
     //IZAR
     void keyReleaseEvent(QKeyEvent *keyEvent);
+    void mouseReleaseEvent(QMouseEvent *ev);
 
     //Adjust UI properties depending on device screen size
     void adjustToScreenSize();

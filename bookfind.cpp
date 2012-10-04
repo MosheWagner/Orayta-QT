@@ -128,3 +128,14 @@ void bookfind::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 void bookfind::on_listWidget_itemClicked(QListWidgetItem *item)
     {on_listWidget_itemDoubleClicked(item);}
 #endif
+
+void bookfind::Reset()
+{
+     m_ui->lineEdit->clear();
+     reBuildList("");
+}
+
+void bookfind::on_clearSearchBTN_clicked()
+{
+   Reset();
+}

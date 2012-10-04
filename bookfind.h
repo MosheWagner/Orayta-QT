@@ -31,6 +31,9 @@ public:
     bookfind(QWidget *parent, BookList& booklist);
     ~bookfind();
 
+public slots:
+    void Reset();
+
 protected:
 
 private:
@@ -52,6 +55,7 @@ private slots:
 #ifdef MOBILE
     void on_listWidget_itemClicked(QListWidgetItem *);
 #endif
+    void on_clearSearchBTN_clicked();
 };
 
 #endif // BOOKFIND_H
