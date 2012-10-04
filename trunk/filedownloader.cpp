@@ -95,11 +95,27 @@ void FileDownloader::downloadDone(bool error)
         mTargetFile.close();
 
         if (!ok)
-            qDebug()<< "cant rename: " << mTargetFile.fileName() << " as: " << mFileName;
+            qDebug()<< "Can't rename: " << mTargetFile.fileName() << " as: " << mFileName;
 
         //Force deletion of .part file
         QFile deleter(mFileName + ".part");
         if (deleter.exists()) deleter.remove();
+
+        //Make sure the file isn't empty, or delete it too:
+        QFile test(mFileName);
+        test.open(QIODevice::ReadOnly);
+        QString s = QString(test.readAll().simplified());
+        if (s == "" || s.indexOf("was not found on this server") != -1 )
+        {
+            qDebug()<< "Empty file: " << mTargetFile.fileName() << " deleteing it. You may want to download it again or report a bug.";
+            test.remove();
+        }
+        else if( s.indexOf("http://members.neto.net.il/?a=block") != -1)
+        {
+            qDebug()<< "The download was blocked by Internet Rimon. Contact them and request to unblock the download.";
+            test.remove();
+        }
+        else test.close();
 
         emit done();
     }
