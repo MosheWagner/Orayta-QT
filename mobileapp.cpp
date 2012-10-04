@@ -1137,12 +1137,6 @@ void MobileApp::parseDLFile(QList <QString> dl)
                 groups[i].books[j].needToDownload = true;
                 hasAll = false;
             }
-            if (groups[i].books[j].needToDownload){
-                QString mDate;
-                b? mDate = b->modificationDate().toString() : mDate = "unknown mod date.";
-                qDebug() << groups[i].books[j].URL << groups[i].books[j].UnpackPath << groups[i].books[j].dateModified << mDate;
-            }
-
         }
 
         //Calculate size of download
