@@ -481,17 +481,15 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>9</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
        <font>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: bold;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_12">
        <property name="spacing">
@@ -547,7 +545,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>
@@ -615,7 +612,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>
@@ -683,7 +679,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>
@@ -748,7 +743,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>
@@ -813,7 +807,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>
@@ -875,7 +868,6 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              </property>
              <property name="font">
               <font>
-               <pointsize>9</pointsize>
                <weight>75</weight>
                <italic>false</italic>
                <bold>true</bold>

@@ -108,6 +108,9 @@ QString CSS(QString fontFamily, int basesize)
             "   .Aliyah { text-align: center; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
             "   .S0 { font-size:" + QString::number(basesize - 5) + "px;  font-weight:bold;}\n"
 
+            "   .VerySmall { font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
+
+
             /*
             "   .L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
             "   .L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
@@ -198,7 +201,7 @@ QString index_to_index(QList <IndexItem> indexitemlist,int level)
 
     int indexcount = 0;
 
-    str += "<center> &nbsp; <span style=\"font-size:16px;\">";
+    str += "<center> &nbsp; <span class=\"VerySmall\">";
     for(unsigned int i=0; i<indexitemlist.size(); i++)
     {
         if(indexitemlist[i].level == level)
@@ -813,7 +816,7 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
     //If only one link level is present (and thus higherLevel became 6)
     if ( higherLevel == 6)
     {
-        link_table += "<span style=\"font-size:20px;\">";
+        link_table += "<span class=\"L1\">&nbsp;";
         for (unsigned int j=0; j<indexitemlist.size(); j++)
         {
             link_table += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -849,14 +852,14 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
             //Higher than one above the lowest
             if (indexitemlist[j].level > higherLevel)
             {
-                link_table += "<P><span style=\"font-size:40px;\">";
+                link_table += "<P><span class=\"L2\">&nbsp;";
 
                 link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table += "</span>\n";
             }
             else if (indexitemlist[j].level == higherLevel)
             {
-                link_table += "<span style=\"font-size:28px;\">&nbsp;";
+                link_table += "<span class=\"L1\">&nbsp;";
 
                 link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +=  "</span>\n";

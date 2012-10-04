@@ -252,6 +252,7 @@ void MobileApp::adjustToScreenSize()
         if (dpi >= 150) fontSize = 24;
         if (dpi >= 200) fontSize = 28;
         if (dpi >= 250) fontSize = 36;
+        if (dpi >= 300) fontSize = 48;
 
         gFontSize = fontSize;
 
@@ -269,14 +270,33 @@ void MobileApp::adjustToScreenSize()
 //set global font size to ui.
 void MobileApp::adjustFontSize()
 {
+    QDesktopWidget* desktop = QApplication::desktop();
+    QSize size = desktop->availableGeometry().size();
+
+    int dpix = desktop->physicalDpiX();
+    int dpiy = desktop->physicalDpiY();
+    int dpi = (dpix+dpiy)/2;
+
+    //IZAR: this is a guess that must be tested deeper.
+    int fontSize = gFontSize/2;
+    if (dpi >= 150) {
+        fontSize = gFontSize/2;
+    }
+    if (dpi >= 200) {
+        fontSize = gFontSize/2;
+    }
+    if (dpi >= 250) {
+        fontSize = gFontSize/3;
+    }
+    if (dpi >= 300) {
+        fontSize = gFontSize/4;
+    }
+
 
     //IZAR TODO: find a better way to cange font size. this way breaks much of our styling.
-    int fontSize = gFontSize;
     // font for menus should be about 50% of font for book-display.
-    fontSize /= 2;
 
-
-    QString styleSheet("font: " +QString::number(fontSize) +"pt;");
+    QString styleSheet("font-size: " +QString::number(fontSize) +"pt;");
 
 
     ui->stackedWidget->setStyleSheet(styleSheet);
@@ -696,6 +716,12 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     }
 
     keyEvent->accept();
+}
+
+void MobileApp::mouseReleaseEvent(QMouseEvent *ev){
+    if (ev->button() == Qt::RightButton) showMenu();
+
+    QDialog::mouseReleaseEvent(ev);
 }
 
 // when menu butten clicked, show the menu
@@ -1795,4 +1821,5 @@ void MobileApp::on_findBookBTN_clicked()
 {
 //    ui->stackedWidget->setCurrentWidget(bookFindDialog);
     ui->stackedWidget->setCurrentIndex(BOOKFIND_PAGE);
+    bookFindDialog->Reset();
 }
