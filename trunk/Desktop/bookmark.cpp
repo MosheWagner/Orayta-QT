@@ -110,9 +110,7 @@ void DesktopApp::editBookMarkTitle(int ind, QString newtitle)
 //Remove the selected bookmark from the list and file
 void DesktopApp::on_removeBookmark_clicked()
 {
-    QListWidgetItem * itm = ui->bookMarkList->currentItem();
-    ui->bookMarkList->takeItem(ui->bookMarkList->currentRow());
-    delete itm;
+    delete ui->bookMarkList->currentItem();
 }
 
 

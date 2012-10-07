@@ -323,7 +323,7 @@ void DesktopApp::connectMenuActions()
     connect(ui->zoominAction, SIGNAL(triggered()), this, SLOT(on_zoominButton_clicked()));
     connect(ui->zoomoutAction, SIGNAL(triggered()), this, SLOT(on_zoomoutButton_clicked()));
     connect(ui->jumptotopAction, SIGNAL(triggered()), this, SLOT(on_topButton_clicked()));
-    //connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
+    connect(ui->printAction, SIGNAL(triggered()), this, SLOT(printBook()));
 
     connect(ui->findBookAction, SIGNAL(triggered()), this, SLOT(findBookForm()));
     connect(ui->opentabAction, SIGNAL(triggered()), this, SLOT(on_newTabButton_clicked()));
@@ -2010,4 +2010,19 @@ void DesktopApp::on_rightChap_clicked()
     QUrl u = CurrentBookdisplayer()->book()->renderChapterHtml(&itr, &bookList, true, true);
     CurrentBookdisplayer()->load(u);
     CurrentBookdisplayer()->currentLocation = itr;
+}
+
+//Print the contents of the current book displayer
+void DesktopApp::printBook()
+{
+    QPrinter printer;
+
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("Print book"));
+    if (dialog->exec() != QDialog::Accepted)
+        return;
+    else
+    {
+        //CurrentBookdisplayer()->print(&printer);
+    }
 }
