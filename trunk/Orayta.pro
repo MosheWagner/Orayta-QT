@@ -13,30 +13,30 @@ CONFIG += mobility
 MOBILITY =
 
     #for test only
-    DEFINES += MOBILE
-    DEFINES += android
-    CONFIG += MOBILE
-    CONFIG += android
+    #DEFINES += MOBILE
+    #DEFINES += android
+    #CONFIG += MOBILE
+    #CONFIG += android
 
 android {
-#    INSTALL_PATH = "/sdcard/Orayta/"
-#    INSTALL_BOOKS_PATH = "/sdcard/Orayta/Books/"
     INSTALL_PATH = "/assets/Orayta/"
-#    INSTALL_BOOKS_PATH = $${INSTALL_PATH}"Books/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
     QT -= webkit
     DEFINES += QTSCROLLER_NO_WEBKIT
 
     #this is a mobile app
-    #DEFINES += MOBILE
+    DEFINES += MOBILE
+    DEFINES += android
+    CONFIG += MOBILE
+    CONFIG += android
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
     INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
 }
 else:unix{
-    message("compiling for desktop")
+    message("Compiling for desktop")
     CONFIG += linux \
         poppler
 
@@ -64,283 +64,277 @@ poppler {
     #Fribidi
     LIBS += -lfribidi
 
-    SOURCES +=  pdfwidget.cpp
-    HEADERS +=  pdfwidget.h
-
+    SOURCES +=  Desktop/pdfwidget.cpp
+    HEADERS +=  Desktop/pdfwidget.h
 }
 
-
-
-SOURCES += main.cpp \
-    htmlgen.cpp \
-    functions.cpp \
-    book.cpp \
-    bookiter.cpp \
-    booklist.cpp \
-    mytreetab.cpp \
-    search.cpp \
-    guematria.cpp \
-    quazip/quazip.cpp \
-    quazip/zip.c \
-    quazip/unzip.c \
-    quazip/quazipnewinfo.cpp \
-    quazip/quazipfile.cpp \
-    quazip/JlCompress.cpp \
-    quazip/quacrc32.cpp \
-    quazip/quaadler32.cpp \
-    quazip/qioapi.cpp \
-    minibmark.cpp \
-    bmarklist.cpp \
-    bookfind.cpp
-
-! android {
-SOURCES += \
-    desktopapp.cpp \
-    mywebview.cpp \
-    bookdisplayer.cpp \
-    addcomment.cpp \
-    bookmarktitle.cpp \
-    about.cpp \
-    errorreport.cpp \
-    settings.cpp \
-    importbook.cpp \
-    bookmark.cpp \
-}
-
+SOURCES +=  \
+    main.cpp \
+    OraytaBase/booklist.cpp \
+    OraytaBase/bookfind.cpp \
+    OraytaBase/htmlgen.cpp \
+    OraytaBase/functions.cpp \
+    OraytaBase/filedownloader.cpp \
+    OraytaBase/book.cpp \
+    OraytaBase/bookiter.cpp \
+    OraytaBase/search.cpp \
+    OraytaBase/guematria.cpp \
+    OraytaBase/quazip/quazip.cpp \
+    OraytaBase/quazip/zip.c \
+    OraytaBase/quazip/unzip.c \
+    OraytaBase/quazip/quazipnewinfo.cpp \
+    OraytaBase/quazip/quazipfile.cpp \
+    OraytaBase/quazip/JlCompress.cpp \
+    OraytaBase/quazip/quacrc32.cpp \
+    OraytaBase/quazip/quaadler32.cpp \
+    OraytaBase/quazip/qioapi.cpp \
+    OraytaBase/minibmark.cpp \
+    OraytaBase/bmarklist.cpp
 
 HEADERS += \
     htmlgen.h \
-    functions.h \
-    book.h \
-    bookiter.h \
-    booklist.h \
-    mytreetab.h \
-    guematria.h \
-    quazip/quazip.h \
-    quazip/zip.h \
-    quazip/unzip.h \
-    quazip/quazipnewinfo.h \
-    quazip/quazipfileinfo.h \
-    quazip/quazipfile.h \
-    quazip/quazip_global.h \
-    quazip/JlCompress.h \
-    quazip/ioapi.h \
-    quazip/crypt.h \
-    quazip/quacrc32.h \
-    quazip/quachecksum32.h \
-    quazip/quaadler32.h \
-    search.h \
-    minibmark.h \
-    bmarklist.h \
-    bookfind.h
+    OraytaBase/functions.h \
+    OraytaBase/filedownloader.h \
+    OraytaBase/book.h \
+    OraytaBase/bookiter.h \
+    OraytaBase/booklist.h \
+    OraytaBase/bookfind.h \
+    OraytaBase/guematria.h \
+    OraytaBase/search.h \
+    OraytaBase/quazip/quazip.h \
+    OraytaBase/quazip/zip.h \
+    OraytaBase/quazip/unzip.h \
+    OraytaBase/quazip/quazipnewinfo.h \
+    OraytaBase/quazip/quazipfileinfo.h \
+    OraytaBase/quazip/quazipfile.h \
+    OraytaBase/quazip/quazip_global.h \
+    OraytaBase/quazip/JlCompress.h \
+    OraytaBase/quazip/ioapi.h \
+    OraytaBase/quazip/crypt.h \
+    OraytaBase/quazip/quacrc32.h \
+    OraytaBase/quazip/quachecksum32.h \
+    OraytaBase/quazip/quaadler32.h \
+    OraytaBase/minibmark.h \
+    OraytaBase/bmarklist.h
 
-! android {
-HEADERS += \
-    desktopapp.h \
-    mywebview.h \
-    bookdisplayer.h \
-    addcomment.h \
-    bookmarktitle.h \
-    about.h \
-    errorreport.h \
-    settings.h \
-    importbook.h \
-}
-
-! android {
 FORMS += \
-    addcomment.ui \
-    bookmarktitle.ui \
-    about.ui \
-    errorreport.ui \
-    settings.ui \
-    importbook.ui \
-    desktopapp.ui
+    OraytaBase/bookfind.ui
+
+! android {
+    HEADERS += \
+        Desktop/desktopapp.h \
+        Desktop/mywebview.h \
+        Desktop/mytreetab.h \
+        Desktop/bookdisplayer.h \
+        Desktop/addcomment.h \
+        Desktop/about.h \
+        Desktop/errorreport.h \
+        Desktop/settings.h \
+        Desktop/importbook.h
+
+    SOURCES += \
+        Desktop/desktopapp.cpp \
+        Desktop/mywebview.cpp \
+        Desktop/mytreetab.cpp \
+        Desktop/bookdisplayer.cpp \
+        Desktop/addcomment.cpp \
+        Desktop/about.cpp \
+        Desktop/errorreport.cpp \
+        Desktop/settings.cpp \
+        Desktop/importbook.cpp \
+        Desktop/bookmark.cpp
+
+    FORMS += \
+        Desktop/addcomment.ui \
+        Desktop/about.ui \
+        Desktop/errorreport.ui \
+        Desktop/settings.ui \
+        Desktop/importbook.ui \
+        Desktop/desktopapp.ui
 }
 
 #Android stuff:
 android {
-SOURCES += \
-    mobileapp.cpp \
-    filedownloader.cpp \
-    QKinetic/flickcharm.cpp \
-    textdisplayer.cpp
+    SOURCES += \
+        Mobile/mobileapp.cpp \
+        Mobile/QKinetic/flickcharm.cpp \
+        Mobile/textdisplayer.cpp \
+        Mobile/booksDownload.cpp
 
-HEADERS += \
-    mobileapp.h \
-    filedownloader.h \
-    QKinetic/flickcharm.h \
-    textdisplayer.h
+    HEADERS += \
+        Mobile/mobileapp.h \
+        Mobile/QKinetic/flickcharm.h \
+        Mobile/textdisplayer.h \
 
-FORMS += \
-    mobileapp.ui \
-    bookfind.ui \
+    FORMS += \
+        Mobile/mobileapp.ui \
 
-OTHER_FILES += \
-    android/AndroidManifest.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/src/org/kde/necessitas/origo/CopyResources.java \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/res/drawable-ldpi/icon.png \
-    android/res/values-it/strings.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/values-de/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/drawable-mdpi/icon.png \
-    android/res/values-ms/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-ja/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values-fa/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/AndroidManifest.xml \
-    android/AndroidManifest.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/src/org/kde/necessitas/origo/CopyResources.java \
-    android/AndroidManifest.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/version.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/res/values-it/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-ms/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-ja/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/AndroidManifest.xml
+    OTHER_FILES += \
+        android/AndroidManifest.xml \
+        android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+        android/src/org/kde/necessitas/origo/QtApplication.java \
+        android/src/org/kde/necessitas/origo/QtActivity.java \
+        android/res/values-ja/strings.xml \
+        android/res/values-fa/strings.xml \
+        android/res/values-ro/strings.xml \
+        android/res/values-de/strings.xml \
+        android/res/values-pl/strings.xml \
+        android/res/values-nl/strings.xml \
+        android/res/drawable-ldpi/icon.png \
+        android/res/drawable/logo.png \
+        android/res/drawable/icon.png \
+        android/res/values-pt-rBR/strings.xml \
+        android/res/values-it/strings.xml \
+        android/res/drawable-mdpi/icon.png \
+        android/res/drawable-hdpi/icon.png \
+        android/res/values-ms/strings.xml \
+        android/res/layout/splash.xml \
+        android/res/values-fr/strings.xml \
+        android/res/values-zh-rCN/strings.xml \
+        android/res/values-el/strings.xml \
+        android/res/values/libs.xml \
+        android/res/values/strings.xml \
+        android/res/values-nb/strings.xml \
+        android/res/values-id/strings.xml \
+        android/res/values-ru/strings.xml \
+        android/res/values-es/strings.xml \
+        android/res/values-et/strings.xml \
+        android/res/values-rs/strings.xml \
+        android/res/values-zh-rTW/strings.xml \
+        android/src/org/kde/necessitas/origo/CopyResources.java \
+        android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+        android/src/org/kde/necessitas/origo/QtApplication.java \
+        android/res/drawable-ldpi/icon.png \
+        android/res/values-it/strings.xml \
+        android/res/values/libs.xml \
+        android/res/values/strings.xml \
+        android/res/layout/splash.xml \
+        android/res/values-id/strings.xml \
+        android/res/values-zh-rCN/strings.xml \
+        android/res/values-pt-rBR/strings.xml \
+        android/res/drawable/logo.png \
+        android/res/drawable/icon.png \
+        android/res/values-de/strings.xml \
+        android/res/values-es/strings.xml \
+        android/res/drawable-mdpi/icon.png \
+        android/res/values-ms/strings.xml \
+        android/res/values-el/strings.xml \
+        android/res/values-nl/strings.xml \
+        android/res/values-ru/strings.xml \
+        android/res/values-fr/strings.xml \
+        android/res/values-nb/strings.xml \
+        android/res/values-et/strings.xml \
+        android/res/values-pl/strings.xml \
+        android/res/values-ja/strings.xml \
+        android/res/values-zh-rTW/strings.xml \
+        android/res/drawable-hdpi/icon.png \
+        android/res/values-fa/strings.xml \
+        android/res/values-rs/strings.xml \
+        android/res/values-ro/strings.xml \
+        android/AndroidManifest.xml \
+        android/AndroidManifest.xml \
+        android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+        android/src/org/kde/necessitas/origo/QtApplication.java \
+        android/src/org/kde/necessitas/origo/QtActivity.java \
+        android/res/values-ja/strings.xml \
+        android/res/values-fa/strings.xml \
+        android/res/values-ro/strings.xml \
+        android/res/values-de/strings.xml \
+        android/res/values-pl/strings.xml \
+        android/res/values-nl/strings.xml \
+        android/res/drawable-ldpi/icon.png \
+        android/res/drawable/logo.png \
+        android/res/drawable/icon.png \
+        android/res/values-pt-rBR/strings.xml \
+        android/res/values-it/strings.xml \
+        android/res/drawable-mdpi/icon.png \
+        android/res/drawable-hdpi/icon.png \
+        android/res/values-ms/strings.xml \
+        android/res/layout/splash.xml \
+        android/res/values-fr/strings.xml \
+        android/res/values-zh-rCN/strings.xml \
+        android/res/values-el/strings.xml \
+        android/res/values/libs.xml \
+        android/res/values/strings.xml \
+        android/res/values-nb/strings.xml \
+        android/res/values-id/strings.xml \
+        android/res/values-ru/strings.xml \
+        android/res/values-es/strings.xml \
+        android/res/values-et/strings.xml \
+        android/res/values-rs/strings.xml \
+        android/res/values-zh-rTW/strings.xml \
+        android/src/org/kde/necessitas/origo/CopyResources.java \
+        android/AndroidManifest.xml \
+        android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+        android/src/org/kde/necessitas/origo/QtApplication.java \
+        android/src/org/kde/necessitas/origo/QtActivity.java \
+        android/res/values-ja/strings.xml \
+        android/res/values-fa/strings.xml \
+        android/res/values-ro/strings.xml \
+        android/res/values-de/strings.xml \
+        android/res/values-pl/strings.xml \
+        android/res/values-nl/strings.xml \
+        android/res/drawable-ldpi/icon.png \
+        android/res/drawable/logo.png \
+        android/res/drawable/icon.png \
+        android/res/values-pt-rBR/strings.xml \
+        android/res/values-it/strings.xml \
+        android/res/drawable-mdpi/icon.png \
+        android/res/drawable-hdpi/icon.png \
+        android/res/values-ms/strings.xml \
+        android/res/layout/splash.xml \
+        android/res/values-fr/strings.xml \
+        android/res/values-zh-rCN/strings.xml \
+        android/res/values-el/strings.xml \
+        android/res/values/libs.xml \
+        android/res/values/strings.xml \
+        android/res/values-nb/strings.xml \
+        android/res/values-id/strings.xml \
+        android/res/values-ru/strings.xml \
+        android/res/values-es/strings.xml \
+        android/res/values-et/strings.xml \
+        android/res/values-rs/strings.xml \
+        android/res/values-zh-rTW/strings.xml \
+        android/version.xml \
+        android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+        android/src/org/kde/necessitas/origo/QtApplication.java \
+        android/res/values-it/strings.xml \
+        android/res/layout/splash.xml \
+        android/res/values-id/strings.xml \
+        android/res/values-zh-rCN/strings.xml \
+        android/res/values-pt-rBR/strings.xml \
+        android/res/values-de/strings.xml \
+        android/res/values-es/strings.xml \
+        android/res/values-ms/strings.xml \
+        android/res/values-el/strings.xml \
+        android/res/values-nl/strings.xml \
+        android/res/values-ru/strings.xml \
+        android/res/values-fr/strings.xml \
+        android/res/values-nb/strings.xml \
+        android/res/values-et/strings.xml \
+        android/res/values-pl/strings.xml \
+        android/res/values-ja/strings.xml \
+        android/res/values-zh-rTW/strings.xml \
+        android/res/values-fa/strings.xml \
+        android/res/values-rs/strings.xml \
+        android/res/values-ro/strings.xml \
+        android/res/drawable-ldpi/icon.png \
+        android/res/drawable/logo.png \
+        android/res/drawable/icon.png \
+        android/res/drawable-mdpi/icon.png \
+        android/res/drawable-hdpi/icon.png \
+        android/AndroidManifest.xml
 }
 
-RESOURCES += Orayta.qrc \
 
+RESOURCES += Orayta.qrc
 win32:RC_FILE = orayta.rc
+
 
 TRANSLATIONS = Hebrew.ts \
     French.ts
@@ -361,15 +355,14 @@ icon.files = Icons/Orayta.png
 #Install wait image
 icon.files += Images/Wait.gif
 
-android {
-} else : linux {
-# Desktop shortcut
-desktop.path = /home/*/Desktop/
-desktop.files = Orayta.desktop
+linux {
+    # Desktop shortcut
+    desktop.path = /home/*/Desktop/
+    desktop.files = Orayta.desktop
 
-# Install shortcut
-menu.path = /usr/share/applications
-menu.files = Orayta.desktop
+    # Install shortcut
+    menu.path = /usr/share/applications
+    menu.files = Orayta.desktop
 }
 
 # Install translation
@@ -394,107 +387,4 @@ INSTALLS += trans
 INSTALLS += fonts
 INSTALLS += licence
 
-# INSTALLS += desktop
-linux: INSTALLS += menu
-
-OTHER_FILES += \
-    android/version.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/AndroidManifest.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/version.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml \
-    android/AndroidManifest.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values/libs.xml \
-    android/AndroidManifest.xml \
-    android/version.xml \
-    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
-    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
-    android/src/org/kde/necessitas/origo/QtApplication.java \
-    android/src/org/kde/necessitas/origo/QtActivity.java \
-    android/res/values-ja/strings.xml \
-    android/res/values-fa/strings.xml \
-    android/res/values-ro/strings.xml \
-    android/res/values-de/strings.xml \
-    android/res/values-pl/strings.xml \
-    android/res/values-nl/strings.xml \
-    android/res/drawable-ldpi/icon.png \
-    android/res/drawable/logo.png \
-    android/res/drawable/icon.png \
-    android/res/values-pt-rBR/strings.xml \
-    android/res/values-it/strings.xml \
-    android/res/drawable-mdpi/icon.png \
-    android/res/drawable-hdpi/icon.png \
-    android/res/values-ms/strings.xml \
-    android/res/layout/splash.xml \
-    android/res/values-fr/strings.xml \
-    android/res/values-zh-rCN/strings.xml \
-    android/res/values-el/strings.xml \
-    android/res/values/libs.xml \
-    android/res/values/strings.xml \
-    android/res/values-nb/strings.xml \
-    android/res/values-id/strings.xml \
-    android/res/values-ru/strings.xml \
-    android/res/values-es/strings.xml \
-    android/res/values-et/strings.xml \
-    android/res/values-rs/strings.xml \
-    android/res/values-zh-rTW/strings.xml
-
-
-
-
+linux: INSTALLS += menu desktop

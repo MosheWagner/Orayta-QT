@@ -16,14 +16,14 @@
 
 #include <QApplication>
 #ifdef MOBILE
-    #include "mobileapp.h"
+    #include "Mobile/mobileapp.h"
 #else
-    #include "desktopapp.h"
+    #include "Desktop/desktopapp.h"
 #endif
 #include <QDir>
 #include <QSettings>
-#include "functions.h"
-#include "about.h"
+#include "OraytaBase/functions.h"
+#include "Desktop/about.h"
 #include <QDebug>
 #include <QTranslator>
 #include <QSplashScreen>
@@ -133,9 +133,6 @@ void initFonts()
         addFont(child.filePath());
     }
 }
-
-
-#include <QKinetic/flickcharm.h>
 
 void initLang(QApplication *app)
 {
