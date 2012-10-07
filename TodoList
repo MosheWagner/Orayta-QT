@@ -1,0 +1,50 @@
+Orayta TODOS:
+
+Not in order. Some things here are very old. Yet it's still the best place to find TODOs.
+
+- Global:
+    - Redo readme file
+
+- Books:
+    - Fix חק לישראל
+    - Why does בן-סירא miss parts? (מ', מ"א ...)  [e-mailed אור שפירא]
+    - Make sources open book+them from tree?
+    - Update option for books
+    
+- Chapter system:
+    - Allow full book display
+    - See why חק לישראל is so wierd
+    - Jump to exact point after externall link
+    - openbook() & closeBook() methods
+
+- Mobile:
+    - Add a way to remove bookmarks
+    - Multitouch gestures
+    - Have פרשנים in different tabs
+    - Add pre-load next and last chapter
+    - Search issues: [stop search should show results, slow...]
+    - Search regexp dosn't work
+    - UI Improvements
+    - Split into a few files
+    - Mark search results
+    - Add sliding effect to page advance ?
+    - Update translation
+    - Add some more info to about + רועי רוט
+
+- Desktop:
+    - Do search results work ?
+    - Help page should be adapted to new chapter system
+    - Allow (at least as an option) full book display
+    - Right click menu (in bookdisplayer) dosn't work any more
+    - Html books?
+    - Toggle nikud/teamim dosn't work
+    - Comments don't work
+    - Add print dialog (it should work now)
+    - Update translation
+    
+- Major re-write:
+    - Split mobileapp
+    - Use same bookmark files for mobile and desktop
+    - Simplify
+    - Yoch's version
+    - Improve about & help
