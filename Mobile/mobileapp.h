@@ -101,7 +101,6 @@ private slots:
 
 
     //All of these are implemented in 'booksDownload.cpp':
-
         //Downloads the next book in the booksToDownload list.
         void downloadBookList();
         void downloadStart();
@@ -109,7 +108,7 @@ private slots:
         void downloadError();
         void downloadDone();
         void listDownloadDone();
-        ///#####
+        //Parse the booklist file
         void parseDLFile(QList <QString> dl);
 
 
@@ -287,6 +286,9 @@ private:
 
     textDisplayer *displayer;
     bookfind *bookFindDialog;
+
+    //Holds the offset of the viewposition before the program was shut
+    int lastViewPosition;
 
 
 };
