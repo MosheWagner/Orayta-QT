@@ -19,45 +19,45 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="about.ui" line="14"/>
+        <location filename="Desktop/about.ui" line="14"/>
         <source>About Orayta</source>
         <translation>A propos de Orayta</translation>
     </message>
     <message>
-        <location filename="about.cpp" line="30"/>
+        <location filename="Desktop/about.cpp" line="30"/>
         <source>&lt;center&gt;&lt;b&gt;Orayta - Hebrew Books</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="about.cpp" line="46"/>
+        <location filename="Desktop/about.cpp" line="47"/>
         <source>   Moshe Wagner - </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="about.cpp" line="47"/>
-        <source>   moshe.wagner@gmail.com, 5770</source>
-        <translation></translation>
+        <location filename="Desktop/about.cpp" line="48"/>
+        <source>   moshe.wagner@gmail.com, 5773</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AddComment</name>
     <message>
-        <location filename="addcomment.ui" line="17"/>
+        <location filename="Desktop/addcomment.ui" line="17"/>
         <source>Add comment</source>
         <translation>Ajouter un commentaire</translation>
     </message>
     <message>
-        <location filename="addcomment.ui" line="41"/>
+        <location filename="Desktop/addcomment.ui" line="41"/>
         <source>Delete comment</source>
         <translation>Supprimer un commentaire</translation>
     </message>
     <message>
-        <location filename="addcomment.ui" line="64"/>
+        <location filename="Desktop/addcomment.ui" line="64"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="addcomment.ui" line="71"/>
+        <location filename="Desktop/addcomment.ui" line="71"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
@@ -65,293 +65,314 @@
 <context>
     <name>BookMarkTitle</name>
     <message>
-        <location filename="bookmarktitle.ui" line="17"/>
         <source>Bookmark&apos;s title</source>
-        <translation>Titre du marque-page</translation>
+        <translation type="obsolete">Titre du marque-page</translation>
     </message>
     <message>
-        <location filename="bookmarktitle.ui" line="26"/>
         <source>Bookmark&apos;s title:</source>
-        <translation>Titre du marque-page:</translation>
+        <translation type="obsolete">Titre du marque-page:</translation>
     </message>
     <message>
-        <location filename="bookmarktitle.ui" line="42"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="bookmarktitle.ui" line="62"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
     <name>DesktopApp</name>
     <message>
-        <location filename="bookmark.cpp" line="37"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="28"/>
         <source>Edit bookmark title...</source>
         <translation type="unfinished">Editer le marque-page...</translation>
     </message>
     <message>
-        <location filename="bookmark.cpp" line="40"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="31"/>
         <source>Delete bookmark</source>
         <translation type="unfinished">Supprimer le marque page</translation>
     </message>
     <message>
-        <location filename="bookmark.cpp" line="169"/>
-        <location filename="desktopapp.cpp" line="170"/>
-        <location filename="desktopapp.cpp" line="194"/>
-        <location filename="desktopapp.cpp" line="195"/>
-        <location filename="desktopapp.cpp" line="807"/>
-        <location filename="desktopapp.cpp" line="809"/>
-        <location filename="desktopapp.cpp" line="814"/>
-        <location filename="desktopapp.cpp" line="1481"/>
-        <location filename="desktopapp.cpp" line="1729"/>
-        <location filename="desktopapp.cpp" line="1733"/>
-        <location filename="desktopapp.cpp" line="1734"/>
-        <location filename="desktopapp.cpp" line="1856"/>
-        <location filename="desktopapp.cpp" line="1860"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="64"/>
+        <source>Bookmark title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="64"/>
+        <source>Bookmark title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="95"/>
+        <source>Change bookmark title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="96"/>
+        <source>New bookmark title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp.cpp" line="160"/>
+        <location filename="Desktop/desktopapp.cpp" line="184"/>
+        <location filename="Desktop/desktopapp.cpp" line="185"/>
+        <location filename="Desktop/desktopapp.cpp" line="797"/>
+        <location filename="Desktop/desktopapp.cpp" line="799"/>
+        <location filename="Desktop/desktopapp.cpp" line="804"/>
+        <location filename="Desktop/desktopapp.cpp" line="1471"/>
+        <location filename="Desktop/desktopapp.cpp" line="1719"/>
+        <location filename="Desktop/desktopapp.cpp" line="1723"/>
+        <location filename="Desktop/desktopapp.cpp" line="1724"/>
+        <location filename="Desktop/desktopapp.cpp" line="1846"/>
+        <location filename="Desktop/desktopapp.cpp" line="1850"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="78"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="194"/>
+        <location filename="Desktop/desktopapp.cpp" line="184"/>
         <source>Jewish books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="546"/>
+        <location filename="Desktop/desktopapp.cpp" line="536"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation type="unfinished">Aucun livre trouvé !
 Verifiez votre installation, ou contactez le devloppeur.</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="575"/>
+        <location filename="Desktop/desktopapp.cpp" line="565"/>
         <source>Loading...</source>
         <translation type="unfinished">Chargement...</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="601"/>
+        <location filename="Desktop/desktopapp.cpp" line="591"/>
         <source>&lt;h2&gt;An error occured...&lt;/h2&gt;&lt;br /&gt;Please report this bug : &apos;http://code.google.com/p/orayta/issues/entry&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="761"/>
+        <location filename="Desktop/desktopapp.cpp" line="751"/>
         <source>Are you sure you want to remove this </source>
         <translation type="unfinished">Etes vous sûr de vouloir supprimer ce </translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="762"/>
+        <location filename="Desktop/desktopapp.cpp" line="752"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation type="unfinished">repertoire ?
 Ceci supprimera également tous les livres présents dans ce repertoire.</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="763"/>
+        <location filename="Desktop/desktopapp.cpp" line="753"/>
         <source>book ?</source>
         <translation type="unfinished">livre ?</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="765"/>
+        <location filename="Desktop/desktopapp.cpp" line="755"/>
         <source>Deleting book</source>
         <translation type="unfinished">Suppression</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="935"/>
+        <location filename="Desktop/desktopapp.cpp" line="925"/>
         <source>Open book</source>
         <translation type="unfinished">Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="937"/>
+        <location filename="Desktop/desktopapp.cpp" line="927"/>
         <source>Open in new tab</source>
         <translation type="unfinished">Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="950"/>
+        <location filename="Desktop/desktopapp.cpp" line="940"/>
         <source>Delete book</source>
         <translation type="unfinished">Supprimer ce livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="961"/>
+        <location filename="Desktop/desktopapp.cpp" line="951"/>
         <source>Change font</source>
         <translation type="unfinished">Changer la police</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1434"/>
+        <location filename="Desktop/desktopapp.cpp" line="1424"/>
         <source>Orayta - Jewish books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1741"/>
+        <location filename="Desktop/desktopapp.cpp" line="1731"/>
         <source>Searching: </source>
         <translation type="unfinished">Recherche: </translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1871"/>
+        <location filename="Desktop/desktopapp.cpp" line="1861"/>
         <source>Searching guematria for: </source>
         <translation type="unfinished">Recherche la guematria de: </translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1944"/>
+        <location filename="Desktop/desktopapp.cpp" line="1934"/>
         <source>Search results for guematria : </source>
         <translation type="unfinished">Résultats pour la quematria de : </translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1956"/>
+        <location filename="Desktop/desktopapp.cpp" line="1946"/>
         <source>(Search stopped by user)</source>
         <translation type="unfinished">(Recherche stoppée par l&apos;utilisateur)</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1963"/>
+        <location filename="Desktop/desktopapp.cpp" line="1953"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <translation type="unfinished">Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1969"/>
+        <location filename="Desktop/desktopapp.cpp" line="1959"/>
         <source>No guematria results found:</source>
         <translation type="unfinished">Aucune guematria trouvée:</translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1976"/>
+        <location filename="Desktop/desktopapp.cpp" line="1966"/>
         <source>Result list: </source>
         <translation type="unfinished">Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="desktopapp.cpp" line="1977"/>
+        <location filename="Desktop/desktopapp.cpp" line="1967"/>
         <source> results founds.</source>
         <translation type="unfinished">résultats trouvés.</translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp.cpp" line="2021"/>
+        <source>Print book</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DesktopAppClass</name>
     <message>
-        <location filename="desktopapp.ui" line="26"/>
+        <location filename="Desktop/desktopapp.ui" line="26"/>
         <source>Orayta - Hebrew books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="502"/>
+        <location filename="Desktop/desktopapp.ui" line="502"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="649"/>
-        <location filename="desktopapp.ui" line="707"/>
+        <location filename="Desktop/desktopapp.ui" line="649"/>
+        <location filename="Desktop/desktopapp.ui" line="707"/>
         <source>Open new tab</source>
         <translation type="unfinished">Ouvrir un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="652"/>
+        <location filename="Desktop/desktopapp.ui" line="652"/>
         <source>Pdf page:</source>
         <translation type="unfinished">Pdf page:</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="690"/>
+        <location filename="Desktop/desktopapp.ui" line="690"/>
         <source>refresh this book</source>
         <translation type="unfinished">recharger</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="730"/>
+        <location filename="Desktop/desktopapp.ui" line="730"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="759"/>
+        <location filename="Desktop/desktopapp.ui" line="759"/>
         <source>Next chapter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="788"/>
+        <location filename="Desktop/desktopapp.ui" line="788"/>
         <source>Previous chapter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="817"/>
+        <location filename="Desktop/desktopapp.ui" line="817"/>
         <source>Jump to top</source>
         <translation type="unfinished">Revenir au début</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="846"/>
+        <location filename="Desktop/desktopapp.ui" line="846"/>
         <source>Zoom out</source>
         <translation type="unfinished">Réduire</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="875"/>
+        <location filename="Desktop/desktopapp.ui" line="875"/>
         <source>Zoom in</source>
         <translation type="unfinished">Agrandir</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="904"/>
+        <location filename="Desktop/desktopapp.ui" line="904"/>
         <source>Search in current books</source>
         <translation type="unfinished">Cherche dans ce livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="967"/>
-        <location filename="desktopapp.ui" line="1165"/>
-        <location filename="desktopapp.ui" line="1179"/>
+        <location filename="Desktop/desktopapp.ui" line="967"/>
+        <location filename="Desktop/desktopapp.ui" line="1165"/>
+        <location filename="Desktop/desktopapp.ui" line="1179"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="997"/>
+        <location filename="Desktop/desktopapp.ui" line="997"/>
         <source>Search in book:</source>
         <translation type="unfinished">Recherche dans la page:</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1011"/>
+        <location filename="Desktop/desktopapp.ui" line="1011"/>
         <source>Search backwards in book</source>
         <translation type="unfinished">chercher en arriére dans le livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1040"/>
+        <location filename="Desktop/desktopapp.ui" line="1040"/>
         <source>Search forward in book</source>
         <translation type="unfinished">Chercher en avant dans le livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1134"/>
+        <location filename="Desktop/desktopapp.ui" line="1134"/>
         <source>Books</source>
         <translation type="unfinished">Livres</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1162"/>
+        <location filename="Desktop/desktopapp.ui" line="1162"/>
         <source>Add all books to search</source>
         <translation type="unfinished">Ajouter tous les livres à la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1176"/>
+        <location filename="Desktop/desktopapp.ui" line="1176"/>
         <source>Remove all books from search</source>
         <translation type="unfinished">Supprimer tous les livres de la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1288"/>
+        <location filename="Desktop/desktopapp.ui" line="1288"/>
         <source>Display with:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1307"/>
+        <location filename="Desktop/desktopapp.ui" line="1307"/>
         <source>Hide commentaries</source>
         <translation type="unfinished">Cacher les commentaires</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1329"/>
+        <location filename="Desktop/desktopapp.ui" line="1329"/>
         <source>Open</source>
         <translation type="unfinished">Ouvrir</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1364"/>
-        <location filename="desktopapp.ui" line="1575"/>
+        <location filename="Desktop/desktopapp.ui" line="1364"/>
+        <location filename="Desktop/desktopapp.ui" line="1575"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1375"/>
+        <location filename="Desktop/desktopapp.ui" line="1375"/>
         <source>Search for:</source>
         <translation type="unfinished">Rechercher:</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1390"/>
+        <location filename="Desktop/desktopapp.ui" line="1390"/>
         <source>( The search ignores Punctuation,
         Nikud and Teamim. )
 </source>
@@ -359,247 +380,245 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 </translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1407"/>
+        <location filename="Desktop/desktopapp.ui" line="1407"/>
         <source>String search</source>
         <translation type="unfinished">Texte recherché</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1424"/>
+        <location filename="Desktop/desktopapp.ui" line="1424"/>
         <source>Find exact string (or regexp)</source>
         <translation type="unfinished">Phrase exacte (ou regex)</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1445"/>
+        <location filename="Desktop/desktopapp.ui" line="1445"/>
         <source>Find all words</source>
         <translation type="unfinished">Tous les mots</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1464"/>
+        <location filename="Desktop/desktopapp.ui" line="1464"/>
         <source>spacing (in words)</source>
         <translation type="unfinished">espacement (en mots)</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1476"/>
+        <location filename="Desktop/desktopapp.ui" line="1476"/>
         <source>Find any of the words</source>
         <translation type="unfinished">Une partie des mots</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1493"/>
+        <location filename="Desktop/desktopapp.ui" line="1493"/>
         <source>Find full words only</source>
         <translation type="unfinished">Mots entiers seulement</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1505"/>
+        <location filename="Desktop/desktopapp.ui" line="1505"/>
         <source>Allow &quot;Ktiv Haser&quot;</source>
         <translation type="unfinished">Autorise le &quot;Ktiv &apos;Hasser&quot;</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1523"/>
+        <location filename="Desktop/desktopapp.ui" line="1523"/>
         <source>Guematria search (tanach only)</source>
         <translation type="unfinished">Rechercher une guematria (tanach uniquement)</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1616"/>
+        <location filename="Desktop/desktopapp.ui" line="1616"/>
         <source>Searching ...</source>
         <translation type="unfinished">Recherche en cours...</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1663"/>
+        <location filename="Desktop/desktopapp.ui" line="1663"/>
         <source>Cancel search</source>
         <translation type="unfinished">Annuler</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1709"/>
+        <location filename="Desktop/desktopapp.ui" line="1709"/>
         <source>Bookmarks</source>
         <translation type="unfinished">Marque-pages</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1720"/>
+        <location filename="Desktop/desktopapp.ui" line="1720"/>
         <source>Remove bookmark</source>
         <translation type="unfinished">Supprimer le marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1723"/>
+        <location filename="Desktop/desktopapp.ui" line="1723"/>
         <source>Erase bookmark</source>
         <translation type="unfinished">Effacer le marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1749"/>
         <source>Move bookmark up</source>
-        <translation type="unfinished">Monter le marque-page</translation>
+        <translation type="obsolete">Monter le marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1778"/>
         <source>Move bookmark down</source>
-        <translation type="unfinished">Descendre le marque-page</translation>
+        <translation type="obsolete">Descendre le marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1807"/>
+        <location filename="Desktop/desktopapp.ui" line="1749"/>
         <source>Edit bookmark&apos;s title</source>
         <translation type="unfinished">Editer le titre du marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1901"/>
+        <location filename="Desktop/desktopapp.ui" line="1843"/>
         <source>Add a bookmark here:</source>
         <translation type="unfinished">Ajouter un marque-page ici:</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1918"/>
+        <location filename="Desktop/desktopapp.ui" line="1860"/>
         <source>Title:</source>
         <translation type="unfinished">Titre:</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1947"/>
+        <location filename="Desktop/desktopapp.ui" line="1889"/>
         <source>Add bookmark</source>
         <translation type="unfinished">Ajouter un marque-page</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1982"/>
+        <location filename="Desktop/desktopapp.ui" line="1924"/>
         <source>&amp;File</source>
         <translation type="unfinished">&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="1997"/>
+        <location filename="Desktop/desktopapp.ui" line="1939"/>
         <source>&amp;Help</source>
         <translation type="unfinished">Aide</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2006"/>
+        <location filename="Desktop/desktopapp.ui" line="1948"/>
         <source>&amp;Display</source>
         <translation type="unfinished">&amp;Affichage</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2019"/>
+        <location filename="Desktop/desktopapp.ui" line="1961"/>
         <source>&amp;Search</source>
         <translation type="unfinished">&amp;Recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2039"/>
+        <location filename="Desktop/desktopapp.ui" line="1981"/>
         <source>&amp;Location</source>
         <translation type="unfinished">&amp;Position</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2057"/>
+        <location filename="Desktop/desktopapp.ui" line="1999"/>
         <source>E&amp;xit</source>
         <translation type="unfinished">&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2066"/>
+        <location filename="Desktop/desktopapp.ui" line="2008"/>
         <source>&amp;About</source>
         <translation type="unfinished">&amp;A propos</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2075"/>
+        <location filename="Desktop/desktopapp.ui" line="2017"/>
         <source>Zoom &amp;in</source>
         <translation type="unfinished">&amp;Agrandir</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2084"/>
+        <location filename="Desktop/desktopapp.ui" line="2026"/>
         <source>Zoom &amp;out</source>
         <translation type="unfinished">&amp;Réduire</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2093"/>
+        <location filename="Desktop/desktopapp.ui" line="2035"/>
         <source>&amp;Jump to top</source>
         <translation type="unfinished">Aller au &amp;début</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2102"/>
+        <location filename="Desktop/desktopapp.ui" line="2044"/>
         <source>&amp;Print book</source>
         <translation type="unfinished">Im&amp;prime le livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2111"/>
+        <location filename="Desktop/desktopapp.ui" line="2053"/>
         <source>&amp;Close tab</source>
         <translation type="unfinished">&amp;Fermer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2120"/>
+        <location filename="Desktop/desktopapp.ui" line="2062"/>
         <source>&amp;Open new tab</source>
         <translation type="unfinished">&amp;Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2131"/>
+        <location filename="Desktop/desktopapp.ui" line="2073"/>
         <source>Show nikud</source>
         <translation type="unfinished">Afficher le Nikud</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2142"/>
+        <location filename="Desktop/desktopapp.ui" line="2084"/>
         <source>Show teamim</source>
         <translation type="unfinished">Afficher les Teamim</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2151"/>
+        <location filename="Desktop/desktopapp.ui" line="2093"/>
         <source>Add &amp;bookmark</source>
         <translation type="unfinished">Ajouter un &amp;signet</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2160"/>
+        <location filename="Desktop/desktopapp.ui" line="2102"/>
         <source>Add/edit &amp;comment</source>
         <translation type="unfinished">Ajouter/éditer un &amp;commentaire</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2169"/>
+        <location filename="Desktop/desktopapp.ui" line="2111"/>
         <source>&amp;Report typo</source>
         <translation type="unfinished">&amp;Rapporter une erreur</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2178"/>
+        <location filename="Desktop/desktopapp.ui" line="2120"/>
         <source>&amp;Search in books</source>
         <translation type="unfinished">&amp;Rechercher dans la bibliothèque</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2187"/>
+        <location filename="Desktop/desktopapp.ui" line="2129"/>
         <source>Search in book</source>
         <translation type="unfinished">Chercher dans le livre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2196"/>
+        <location filename="Desktop/desktopapp.ui" line="2138"/>
         <source>Search forward</source>
         <translation type="unfinished">Chercher en avant</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2205"/>
+        <location filename="Desktop/desktopapp.ui" line="2147"/>
         <source>Search backwards</source>
         <translation type="unfinished">Chercher en arrière</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2214"/>
+        <location filename="Desktop/desktopapp.ui" line="2156"/>
         <source>Remove book from search</source>
         <translation type="unfinished">Enlever ce livre de la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2223"/>
+        <location filename="Desktop/desktopapp.ui" line="2165"/>
         <source>Add book to search</source>
         <translation type="unfinished">Ajouter ce livre à la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2232"/>
+        <location filename="Desktop/desktopapp.ui" line="2174"/>
         <source>Add all to search</source>
         <translation type="unfinished">Tout ajouter à la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2241"/>
+        <location filename="Desktop/desktopapp.ui" line="2183"/>
         <source>Remove all from search</source>
         <translation type="unfinished">Tout enlever de la recherche</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2250"/>
+        <location filename="Desktop/desktopapp.ui" line="2192"/>
         <source>&amp;Find book by name</source>
         <translation type="unfinished">&amp;Trouver un livre d&apos;aprés le titre</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2259"/>
+        <location filename="Desktop/desktopapp.ui" line="2201"/>
         <source>&amp;Settings</source>
         <translation type="unfinished">&amp;Préférences</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2268"/>
+        <location filename="Desktop/desktopapp.ui" line="2210"/>
         <source>&amp;Import</source>
         <translation type="unfinished">&amp;Import</translation>
     </message>
     <message>
-        <location filename="desktopapp.ui" line="2277"/>
+        <location filename="Desktop/desktopapp.ui" line="2219"/>
         <source>Search &amp;guematria</source>
         <translation type="unfinished">Rechercher une &amp;guematria</translation>
     </message>
@@ -1106,12 +1125,12 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 <context>
     <name>MobileApp</name>
     <message>
-        <location filename="mobileapp.ui" line="165"/>
+        <location filename="Mobile/mobileapp.ui" line="165"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="888"/>
+        <location filename="Mobile/mobileapp.ui" line="880"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1120,37 +1139,37 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Chargement...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3501"/>
+        <location filename="Mobile/mobileapp.ui" line="3493"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="563"/>
+        <location filename="Mobile/mobileapp.ui" line="560"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="696"/>
+        <location filename="Mobile/mobileapp.ui" line="691"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="761"/>
+        <location filename="Mobile/mobileapp.ui" line="755"/>
         <source>Get books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1318"/>
+        <location filename="Mobile/mobileapp.ui" line="1310"/>
         <source>settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3442"/>
+        <location filename="Mobile/mobileapp.ui" line="3434"/>
         <source>Open</source>
         <translation type="unfinished">Ouvrir</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3478"/>
+        <location filename="Mobile/mobileapp.ui" line="3470"/>
         <source>Search:</source>
         <translation type="unfinished">Recherche:</translation>
     </message>
@@ -1162,39 +1181,39 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 </translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3710"/>
+        <location filename="Mobile/mobileapp.ui" line="3702"/>
         <source>Searching...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3778"/>
+        <location filename="Mobile/mobileapp.ui" line="3770"/>
         <source>Stop Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1555"/>
+        <location filename="Mobile/mobileapp.ui" line="1547"/>
         <source>back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1510"/>
+        <location filename="Mobile/mobileapp.ui" line="1502"/>
         <source>forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="826"/>
-        <location filename="mobileapp.ui" line="978"/>
+        <location filename="Mobile/mobileapp.ui" line="819"/>
+        <location filename="Mobile/mobileapp.ui" line="970"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1036"/>
+        <location filename="Mobile/mobileapp.ui" line="1028"/>
         <source>Loading... </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1230"/>
-        <location filename="mobileapp.cpp" line="748"/>
+        <location filename="Mobile/mobileapp.ui" line="1222"/>
+        <location filename="Mobile/mobileapp.cpp" line="733"/>
         <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1207,27 +1226,27 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Réduire</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2926"/>
+        <location filename="Mobile/mobileapp.ui" line="2918"/>
         <source>Last book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3837"/>
+        <location filename="Mobile/mobileapp.ui" line="3829"/>
         <source>Downloading books list. If this message stays, plaese check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3897"/>
+        <location filename="Mobile/mobileapp.ui" line="3889"/>
         <source>Select book packages to download:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3985"/>
+        <location filename="Mobile/mobileapp.ui" line="3977"/>
         <source>Download books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4054"/>
+        <location filename="Mobile/mobileapp.ui" line="4046"/>
         <source>Font</source>
         <translation type="unfinished">Police</translation>
     </message>
@@ -1240,17 +1259,17 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4193"/>
+        <location filename="Mobile/mobileapp.ui" line="4185"/>
         <source>Font preview:</source>
         <translation type="unfinished">Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4208"/>
+        <location filename="Mobile/mobileapp.ui" line="4200"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="mobileapp.ui" line="4348"/>
+        <location filename="Mobile/mobileapp.ui" line="4340"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1259,17 +1278,17 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4356"/>
+        <location filename="Mobile/mobileapp.ui" line="4348"/>
         <source>Language</source>
         <translation type="unfinished">Langue</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4376"/>
+        <location filename="Mobile/mobileapp.ui" line="4368"/>
         <source>Custom language</source>
         <translation type="unfinished">Langage</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4385"/>
+        <location filename="Mobile/mobileapp.ui" line="4377"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1282,38 +1301,38 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4436"/>
+        <location filename="Mobile/mobileapp.ui" line="4428"/>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4456"/>
+        <location filename="Mobile/mobileapp.ui" line="4448"/>
         <source>Save settings</source>
         <translation type="unfinished">Sauvegarder</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4485"/>
+        <location filename="Mobile/mobileapp.ui" line="4477"/>
         <source>sorry, no commentaries available for current book.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3583"/>
-        <location filename="mobileapp.ui" line="4515"/>
+        <location filename="Mobile/mobileapp.ui" line="3575"/>
+        <location filename="Mobile/mobileapp.ui" line="4507"/>
         <source>Remove all books from search</source>
         <translation type="unfinished">Supprimer tous les livres de la recherche</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="631"/>
+        <location filename="Mobile/mobileapp.ui" line="627"/>
         <source>BookMarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="924"/>
+        <location filename="Mobile/mobileapp.ui" line="916"/>
         <source>Orayta - Jewish books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="954"/>
+        <location filename="Mobile/mobileapp.ui" line="946"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1332,122 +1351,122 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1075"/>
+        <location filename="Mobile/mobileapp.ui" line="1067"/>
         <source>%p%</source>
         <extracomment>loading</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1276"/>
+        <location filename="Mobile/mobileapp.ui" line="1268"/>
         <source>Parshanim</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1370"/>
+        <location filename="Mobile/mobileapp.ui" line="1362"/>
         <source>home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1416"/>
+        <location filename="Mobile/mobileapp.ui" line="1408"/>
         <source>bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2494"/>
+        <location filename="Mobile/mobileapp.ui" line="2486"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4654"/>
+        <location filename="Mobile/mobileapp.ui" line="4646"/>
         <source>Recent Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4675"/>
+        <location filename="Mobile/mobileapp.ui" line="4667"/>
         <source>history list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4686"/>
+        <location filename="Mobile/mobileapp.ui" line="4678"/>
         <source>Daily learning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4707"/>
+        <location filename="Mobile/mobileapp.ui" line="4699"/>
         <source>daily learning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4718"/>
+        <location filename="Mobile/mobileapp.ui" line="4710"/>
         <source>Bookmarks</source>
         <translation type="unfinished">Marque-pages</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4739"/>
+        <location filename="Mobile/mobileapp.ui" line="4731"/>
         <source>static bookmark list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="2062"/>
+        <location filename="Mobile/mobileapp.ui" line="2054"/>
         <source>Collpase all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3528"/>
+        <location filename="Mobile/mobileapp.ui" line="3520"/>
         <source>Books in search:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3696"/>
+        <location filename="Mobile/mobileapp.ui" line="3688"/>
         <source>Start search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3918"/>
-        <location filename="mobileapp.ui" line="4518"/>
+        <location filename="Mobile/mobileapp.ui" line="3910"/>
+        <location filename="Mobile/mobileapp.ui" line="4510"/>
         <source>unmark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3560"/>
-        <location filename="mobileapp.ui" line="3941"/>
-        <location filename="mobileapp.ui" line="4532"/>
+        <location filename="Mobile/mobileapp.ui" line="3552"/>
+        <location filename="Mobile/mobileapp.ui" line="3933"/>
+        <location filename="Mobile/mobileapp.ui" line="4524"/>
         <source>Add all books to search</source>
         <translation type="unfinished">Ajouter tous les livres à la recherche</translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1458"/>
+        <location filename="Mobile/mobileapp.ui" line="1450"/>
         <source>zoom +</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="1600"/>
+        <location filename="Mobile/mobileapp.ui" line="1592"/>
         <source>zoom -</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="3944"/>
-        <location filename="mobileapp.ui" line="4535"/>
+        <location filename="Mobile/mobileapp.ui" line="3936"/>
+        <location filename="Mobile/mobileapp.ui" line="4527"/>
         <source>mark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4081"/>
+        <location filename="Mobile/mobileapp.ui" line="4073"/>
         <source>Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4134"/>
+        <location filename="Mobile/mobileapp.ui" line="4126"/>
         <source>Font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4560"/>
+        <location filename="Mobile/mobileapp.ui" line="4552"/>
         <source>Display with:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.ui" line="4612"/>
+        <location filename="Mobile/mobileapp.ui" line="4604"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -1456,27 +1475,27 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="587"/>
+        <location filename="Mobile/mobileapp.cpp" line="572"/>
         <source>Search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="742"/>
+        <location filename="Mobile/mobileapp.cpp" line="727"/>
         <source>Back to results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1305"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="271"/>
         <source>Download complete!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1421"/>
+        <location filename="Mobile/mobileapp.cpp" line="1116"/>
         <source>×¢××¨××ª</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mobileapp.cpp" line="1547"/>
+        <location filename="Mobile/mobileapp.cpp" line="1242"/>
         <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1484,7 +1503,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>PdfWidget</name>
     <message>
-        <location filename="pdfwidget.cpp" line="75"/>
+        <location filename="Desktop/pdfwidget.cpp" line="75"/>
         <source>Copy text</source>
         <translation>Copier le texte</translation>
     </message>
@@ -1492,32 +1511,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QObject</name>
     <message>
-        <location filename="search.cpp" line="92"/>
+        <location filename="OraytaBase/search.cpp" line="93"/>
         <source>Search results: </source>
         <translation type="unfinished">Résultats :</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="163"/>
+        <location filename="OraytaBase/search.cpp" line="164"/>
         <source>(Search stopped by user)</source>
         <translation type="unfinished">(Recherche stoppée par l&apos;utilisateur)</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="170"/>
+        <location filename="OraytaBase/search.cpp" line="171"/>
         <source>No search results found:</source>
         <translation type="unfinished">Aucun résultat:</translation>
     </message>
     <message>
-        <location filename="search.cpp" line="175"/>
+        <location filename="OraytaBase/search.cpp" line="176"/>
         <source>Short result list: </source>
         <translation type="unfinished">Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="search.cpp" line="178"/>
+        <location filename="OraytaBase/search.cpp" line="179"/>
         <source>first results only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="search.cpp" line="186"/>
+        <location filename="OraytaBase/search.cpp" line="187"/>
         <source>Full result list:</source>
         <translation type="unfinished">Liste complète:</translation>
     </message>
@@ -1525,7 +1544,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>QuaZipFilePrivate</name>
     <message>
-        <location filename="quazip/quazipfile.cpp" line="172"/>
+        <location filename="OraytaBase/quazip/quazipfile.cpp" line="172"/>
         <source>ZIP/UNZIP API error %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1568,62 +1587,62 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Settings</name>
     <message>
-        <location filename="settings.ui" line="14"/>
+        <location filename="Desktop/settings.ui" line="14"/>
         <source>Orayta settings</source>
         <translation>Réglages Orayta</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="24"/>
+        <location filename="Desktop/settings.ui" line="24"/>
         <source>Font</source>
         <translation>Police</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="36"/>
+        <location filename="Desktop/settings.ui" line="36"/>
         <source>Default font:</source>
         <translation>Police par défaut:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="55"/>
+        <location filename="Desktop/settings.ui" line="55"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="85"/>
+        <location filename="Desktop/settings.ui" line="85"/>
         <source>Base font size:</source>
         <translation>Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="108"/>
+        <location filename="Desktop/settings.ui" line="108"/>
         <source>Font preview:</source>
         <translation>Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="123"/>
+        <location filename="Desktop/settings.ui" line="123"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="settings.ui" line="263"/>
+        <location filename="Desktop/settings.ui" line="263"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="294"/>
+        <location filename="Desktop/settings.ui" line="294"/>
         <source>(Font confs will apply as of next book)</source>
         <translation>(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="305"/>
+        <location filename="Desktop/settings.ui" line="305"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="325"/>
+        <location filename="Desktop/settings.ui" line="325"/>
         <source>Custom language</source>
         <translation>Langage</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="334"/>
+        <location filename="Desktop/settings.ui" line="334"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1632,17 +1651,17 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="354"/>
+        <location filename="Desktop/settings.ui" line="354"/>
         <source>Use system language</source>
         <translation>Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="389"/>
+        <location filename="Desktop/settings.ui" line="389"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="409"/>
+        <location filename="Desktop/settings.ui" line="409"/>
         <source>Save settings</source>
         <translation>Sauvegarder</translation>
     </message>
@@ -1650,27 +1669,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>bookDisplayer</name>
     <message>
-        <location filename="bookdisplayer.cpp" line="99"/>
+        <location filename="Desktop/bookdisplayer.cpp" line="99"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="155"/>
+        <location filename="Desktop/bookdisplayer.cpp" line="155"/>
         <source>Add bookmark here...</source>
         <translation>Ajouter un marque-page ici...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="166"/>
+        <location filename="Desktop/bookdisplayer.cpp" line="166"/>
         <source>Add/edit comment...</source>
         <translation>Ajouter/Editer un commentaire...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="199"/>
+        <location filename="Desktop/bookdisplayer.cpp" line="199"/>
         <source>Edit comment...</source>
         <translation>Editer le commentaire...</translation>
     </message>
     <message>
-        <location filename="bookdisplayer.cpp" line="210"/>
+        <location filename="Desktop/bookdisplayer.cpp" line="210"/>
         <source>Delete comment</source>
         <translation>Supprimer le commentaire</translation>
     </message>
@@ -1678,37 +1697,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>bookfind</name>
     <message>
-        <location filename="bookfind.ui" line="14"/>
+        <location filename="OraytaBase/bookfind.ui" line="14"/>
         <source>find book by name</source>
         <translation>Trouver un livre d&apos;aprés le titre</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="82"/>
+        <location filename="OraytaBase/bookfind.ui" line="82"/>
         <source>Search in name&apos;s beginning</source>
         <translation>Début du titre</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="75"/>
+        <location filename="OraytaBase/bookfind.ui" line="75"/>
         <source>Search in the whole name</source>
         <translation>N&apos;importe ou dans le titre</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="29"/>
+        <location filename="OraytaBase/bookfind.ui" line="29"/>
         <source>Find a book named:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="52"/>
+        <location filename="OraytaBase/bookfind.ui" line="52"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="110"/>
+        <location filename="OraytaBase/bookfind.ui" line="110"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="bookfind.ui" line="120"/>
+        <location filename="OraytaBase/bookfind.ui" line="120"/>
         <source>Open book</source>
         <translation>Ouvrir le livre</translation>
     </message>
@@ -1716,27 +1735,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>errorReport</name>
     <message>
-        <location filename="errorreport.ui" line="14"/>
+        <location filename="Desktop/errorreport.ui" line="14"/>
         <source>Report typo</source>
         <translation>Rapporter une erreur</translation>
     </message>
     <message>
-        <location filename="errorreport.ui" line="23"/>
+        <location filename="Desktop/errorreport.ui" line="23"/>
         <source>Typo&apos;s location</source>
         <translation>Position de l&apos;erreur</translation>
     </message>
     <message>
-        <location filename="errorreport.ui" line="37"/>
+        <location filename="Desktop/errorreport.ui" line="37"/>
         <source>Describe the typo:</source>
         <translation>Description de l&apos;erreur:</translation>
     </message>
     <message>
-        <location filename="errorreport.ui" line="52"/>
+        <location filename="Desktop/errorreport.ui" line="52"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="errorreport.ui" line="72"/>
+        <location filename="Desktop/errorreport.ui" line="72"/>
         <source>Send</source>
         <translation>Envoyer</translation>
     </message>
@@ -1744,17 +1763,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>importBook</name>
     <message>
-        <location filename="importbook.ui" line="14"/>
+        <location filename="Desktop/importbook.ui" line="14"/>
         <source>Import books</source>
         <translation>Importer des livres</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="26"/>
+        <location filename="Desktop/importbook.ui" line="26"/>
         <source>Books to import:</source>
         <translation>Livres à importer:</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="32"/>
+        <location filename="Desktop/importbook.ui" line="32"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1768,27 +1787,27 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="79"/>
+        <location filename="Desktop/importbook.ui" line="79"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="86"/>
+        <location filename="Desktop/importbook.ui" line="86"/>
         <source>Add folder</source>
         <translation>Ajouter un dossier</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="93"/>
+        <location filename="Desktop/importbook.ui" line="93"/>
         <source>Add books</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="116"/>
+        <location filename="Desktop/importbook.ui" line="116"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="importbook.ui" line="136"/>
+        <location filename="Desktop/importbook.ui" line="136"/>
         <source>Import</source>
         <translation>Importer</translation>
     </message>
@@ -1797,7 +1816,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Fichiers html(*.htm *.html);;Fichiers texte(*.txt);;Fichiers pdf(*.pdf)</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="62"/>
+        <location filename="Desktop/importbook.cpp" line="58"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
         <translation>Tous les types de fichiers supportés (*.html *.htm *.txt *.pdf);;Fichiers html (*.htm *.html);;Fichiers texte (*.txt);;Fichiers pdf (*.pdf)</translation>
     </message>
@@ -1805,7 +1824,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>myWebView</name>
     <message>
-        <location filename="mywebview.cpp" line="43"/>
+        <location filename="Desktop/mywebview.cpp" line="43"/>
         <source>Copy text only</source>
         <translation>Coiper le texte uniquement</translation>
     </message>

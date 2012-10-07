@@ -17,9 +17,9 @@
 */
 
 #include "mobileapp.h"
-#include "minibmark.h"
 #include "ui_mobileapp.h"
 #include "QKinetic/flickcharm.h"
+#include "../OraytaBase/minibmark.h"
 #include "../OraytaBase/functions.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/search.h"
@@ -34,15 +34,9 @@
 #include <QTimer>
 #include <QDesktopWidget>
 
-//TODO: CLEAN & SPLIT UP!!!!
-//TODO: Improve look & feel
-
-
 // Global
 QString gFontFamily = "Droid Sans Hebrew Orayta";
 int gFontSize = 0;
-
-int vp = 0;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
@@ -155,7 +149,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         int lastBookId = settings.value("lastBook").toInt();
         Book *b = bookList.findBookById(lastBookId);
         BookIter itr = BookIter::fromEncodedString(settings.value("position", "").toString());
-        vp =  settings.value("viewposition").toInt();
+        lastViewPosition =  settings.value("viewposition").toInt();
     settings.endGroup();
 
     // restore the bookmark list
@@ -299,8 +293,8 @@ void MobileApp::jumpToLastPos()
     ui->stackedWidget->currentWidget()->setFocus();
     displayer->setFocus();
 
-    displayer->verticalScrollBar()->setValue(vp);
-    vp = -1;
+    displayer->verticalScrollBar()->setValue(lastViewPosition);
+    lastViewPosition = -1;
 }
 
 MobileApp::~MobileApp()

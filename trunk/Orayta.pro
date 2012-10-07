@@ -13,10 +13,10 @@ CONFIG += mobility
 MOBILITY =
 
     #for test only
-    #DEFINES += MOBILE
-    #DEFINES += android
-    #CONFIG += MOBILE
-    #CONFIG += android
+    DEFINES += MOBILE
+    DEFINES += android
+    CONFIG += MOBILE
+    CONFIG += android
 
 android {
     INSTALL_PATH = "/assets/Orayta/"
@@ -142,7 +142,7 @@ FORMS += \
         Desktop/errorreport.cpp \
         Desktop/settings.cpp \
         Desktop/importbook.cpp \
-        Desktop/bookmark.cpp
+        Desktop/desktopapp_bookmark.cpp
 
     FORMS += \
         Desktop/addcomment.ui \
@@ -159,7 +159,7 @@ android {
         Mobile/mobileapp.cpp \
         Mobile/QKinetic/flickcharm.cpp \
         Mobile/textdisplayer.cpp \
-        Mobile/booksDownload.cpp
+        Mobile/mobileapp_download.cpp
 
     HEADERS += \
         Mobile/mobileapp.h \
