@@ -153,6 +153,9 @@ private slots:
     //Changes the title of the given bookmark (by it's index) to the given one
     void editBookMarkTitle(int index, QString newtitle);
 
+    //Print the contents of the current book displayer
+    void printBook();
+
 
     //Show the comment adding / editing dialog
     void openCommentDialog(QString str);

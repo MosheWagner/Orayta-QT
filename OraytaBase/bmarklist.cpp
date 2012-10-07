@@ -64,6 +64,7 @@ BMarkList::~BMarkList(){
 
     //save book mark list to memory
     settings.beginWriteArray("BookMarkList");
+    settings.remove("");
     const QList<QListWidgetItem*> list =  findItems("", Qt::MatchContains);
     int id = 1;
     foreach( QListWidgetItem* item, list)
