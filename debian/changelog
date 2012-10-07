@@ -1,3 +1,9 @@
+orayta (0.13ubuntu2) precise; urgency=low
+
+  * 
+
+ -- Moshe <moshe.wagner@gmail.com>  Sun, 07 Oct 2012 13:13:15 +0200
+
 orayta (0.13ubuntu1) precise; urgency=low
 
   * New chapter display system (due to android version)
@@ -5,7 +11,7 @@ orayta (0.13ubuntu1) precise; urgency=low
 
  -- Moshe <moshe.wagner@gmail.com>  Sun, 07 Oct 2012 02:54:50 +0200
 
-orayta (0.012) maverick; urgency=low
+orayta (0.12) maverick; urgency=low
 
   * new DB for searching. should be used with orayta-books >= 0.10
 
