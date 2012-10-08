@@ -27,28 +27,16 @@ About::About(QWidget *parent) : QDialog(parent), m_ui(new Ui::About)
 
     setWindowIcon(QIcon(":/Icons/Orayta.png"));
 
-    QString text = tr("<center><b>Orayta - Hebrew Books");
-    text += QString(" , ") + VERSION;
+    QString text = m_ui->label->text();
+    text.replace("VERSION", VERSION);
 
-    //Add some info about this build
-    text += " , QT-WEBKIT Engine";
-
-#ifdef Q_WS_WIN
-    text += " , Win32";
-#else
-    text += " , GNU\\Linux";
-#endif
-
-    text += "<br> </b></center>";
-
-    text += "   <a href=\"http://orayta.googlecode.com\">http://orayta.googlecode.com</a> <br><br>";
-    text += "   Don't skip our android app! ";
-
-    text += tr("   Moshe Wagner - ");
-    text += tr("   moshe.wagner@gmail.com, 5773");
+    #ifdef Q_WS_WIN
+        text.replace("OS", "Win32");
+    #else
+        text.replace("OS", "GNU\\Linux");
+    #endif
 
     m_ui->label->setText(text);
-
 }
 
 About::~About()

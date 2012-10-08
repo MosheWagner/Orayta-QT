@@ -149,8 +149,6 @@ void initLang(QApplication *app)
 
     if (systemlang) LANG = QLocale::languageToString(QLocale::system().language());
     else (LANG = settings.value("lang","Hebrew").toString());
-//    qDebug()<<"lang: " + LANG;
-
     settings.endGroup();
 
 
@@ -160,8 +158,7 @@ void initLang(QApplication *app)
     //Update path for translator installation
     QString transPath (MAINPATH);
     if (!translator->load(LANG + ".qm", ".")) translator->load(LANG + ".qm", transPath);
-    QFile file(transPath+LANG + ".qm");
-    qDebug()<<"trans: " << file.fileName();
+
     //Install as the app's translator
     app->installTranslator(translator);
 }
