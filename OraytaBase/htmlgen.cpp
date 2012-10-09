@@ -98,8 +98,8 @@ QString CSS(QString fontFamily, int basesize)
             // options from gmara nocha
             "   .ref {font-size:" + QString::number((int)(basesize*0.8)) + "px;}\n"
             "   .pasuk {background:#FCF5FF; font-family: \"SBL Hebrew\"; }\n"
-            "   .editor {color:#CC0000;}\n"
-            "   .pirush {color:#008A00;}\n"
+            "   .editor {color:#008A00;}\n"
+            "   .pirush {color:#2828AC;}\n"
             "   .pirush, .editor{background:#FFFFEB;font-size:" + QString::number((int)(basesize*0.9)) + "px;}\n"
             "   .small {font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
 //add more options...   "   . {;}\n"
@@ -681,6 +681,7 @@ void Book::readBook(int LowsetIndexLevel)
         }
         else
         {
+            if (this->PutNewLinesAsIs) text[i] += "<BR>";
             t.append(text[i]);
         }
     }
@@ -1181,8 +1182,10 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                         html += Sources[j].Prefix;
                         html += Sources[j].str;
                         html += Sources[j].Suffix;
-                        html += "<BR>\n";
-                        if (Sources.size() > 1) html += "<BR>\n";
+                        if (!this->PutNewLinesAsIs)
+                            html += "<BR>\n";
+                        if (Sources.size() > 1)
+                            html += "<BR>\n";
                     }
                 }
             }
@@ -1215,7 +1218,9 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
             {
                 QString strforlink = Sources[0].itr.toEncodedString(level + 1);
 
-                html += "<BR><span class=\"L" + QString::number(level) + "\">";
+                if (!PutNewLinesAsIs||level>0)
+                    html+="<BR>";
+                html += "<span class=\"L" + QString::number(level) + "\">";
                 html += "<a name=\"" + strforlink + "\">";
 
                 //Add the text as a special link so menu's can be opened here (and know where this is)
@@ -1224,7 +1229,8 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
                 html += Sources[0].text[i].mid(2);
                 html += "</a></span>\n";
-                if (level != 0 ) html += "<BR>";
+                if (level != 0 )
+                    html += "<BR>";
             }
         }
 
@@ -1268,8 +1274,10 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
                 html += Sources[i].Prefix;
                 html += t;
                 html += Sources[i].Suffix;
-                html += "<BR>\n";
-                if (Sources.size() > 1) html += "<BR>\n";
+                if (!this->PutNewLinesAsIs)
+                    html += "<BR>\n";
+                if (Sources.size() > 1)
+                    html += "<BR>\n";
             }
         }
     }
