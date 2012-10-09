@@ -153,7 +153,7 @@ QString BookIter::toStringForLinks(int from_level) const
     }
 
     //Join all relevant values, and make thier spaces into '_':
-    QString str = relevantValues.join("-").replace(' ','_');
+    QString str = relevantValues.join("-");
 
     //Escape the position so it has no hebrew letters, because QT can't deal with hebrew links (!)
     return escapeToBase64(removeSigns(str));

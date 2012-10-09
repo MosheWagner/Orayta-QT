@@ -50,8 +50,8 @@
 #include <fribidi/fribidi.h>
 
 // definitions of fribidi helpers functions
-static QString ToBidiText(const QString& str);
-static QString LineToBidiText(const QString& line);
+QString ToBidiText(const QString& str);
+QString LineToBidiText(const QString& line);
 
 
 using namespace std;

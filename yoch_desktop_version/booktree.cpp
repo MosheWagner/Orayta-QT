@@ -34,6 +34,8 @@
 #include <QDebug>
 
 
+QHash<QString, int> TitleToId;
+
 static void recBuild( BaseNodeItem* parentNode )
 {
     parentNode->setText(0, parentNode->getTreeDisplayName());
@@ -60,6 +62,15 @@ static void recBuild( BaseNodeItem* parentNode )
     }
 }
 
+static void addToMapTitle(BaseNodeItem* root, QString prefix)
+{
+    QList<OraytaBookItem*> tanach = BookTree::getBooksChildren( root );
+    foreach(OraytaBookItem* item, tanach)
+    {
+        TitleToId[prefix + item->getTreeDisplayName()] = item->getUniqueId();
+    }
+}
+
 void BookTree::init()
 {
     // build the book tree
@@ -75,6 +86,10 @@ void BookTree::init()
     invisibleRootItem()->addChild(m_root);       //addTopLevelItem(root());
     invisibleRootItem()->addChild(m_userRoot);   //addTopLevelItem(userRoot());
 
+    addToMapTitle(m_tanachRoot, "");
+    addToMapTitle(m_chassRoot, "גמרא ");
+    addToMapTitle(m_michnaRoot, "משנה ");
+
     root()->setExpanded(true);
 }
 
@@ -83,22 +98,13 @@ BookTree::BookTree( QWidget * parent ) :
     m_root(new NodeDirectory(NULL, tr("Orayta Library"), BOOKPATH)),
     m_userRoot(new NodeDirectory(NULL, tr("User Library"), USERPATH + "Books", true)),
     m_tanachRoot(NULL),
+    m_michnaRoot(NULL),
+    m_chassRoot(NULL),
     mBookList(BookList()),
-    mMapId(QMap<int, NodeBook*>())
+    mMapId(QHash<int, NodeBook*>())
 {
     init();
-/*
-    openbook = new QAction(QIcon(":/Icons/book-blue.png"), tr("Open book"), this);
-    openbooknewtab = new QAction(QIcon(":/Icons/tab-new.png"), tr("Open in new tab"), this);
-    deleteBook = new QAction(QIcon(":/Icons/edit-delete.png"), tr("Delete book"), this);
-    changefont = new QAction(QIcon(":/Icons/font.png"), tr("Change font"), this);
 
-    // connect context menu for treeView
-    connect(openbook, SIGNAL(triggered()), this , SLOT(openSelectedBook()));
-    connect(openbooknewtab, SIGNAL(triggered()), this , SLOT(openSelectedBookInNewTab()));
-    connect(deleteBook, SIGNAL(triggered()), this, SLOT(deleteSelectedBook()));
-    connect(changefont, SIGNAL(triggered()), this , SLOT(changeFont()));
-*/
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(displayContextMenu(QPoint)));
 }
 
@@ -119,7 +125,7 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
 
     //Get all files in this dir
     //QStringList filter; filter << "*.obk" << "*.pdf" << "*.link" << "*.html" << "*.htm";
-    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries /*| QDir::NoSymLinks*/ | QDir::NoDotAndDotDot,
+    QFileInfoList list = cdir.entryInfoList(QDir::AllEntries | QDir::NoSymLinks | QDir::NoDotAndDotDot,
                                             QDir::Name);
 
     for (int i=0; i < list.size(); i++)
@@ -131,7 +137,8 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
             is_dir = true;
         else if (list[i].fileName().endsWith(".obk", Qt::CaseInsensitive))
             ft = NodeBook::Orayta;
-        else if (list[i].fileName().endsWith(".html", Qt::CaseInsensitive) || list[i].fileName().endsWith(".htm", Qt::CaseInsensitive))
+        else if (list[i].fileName().endsWith(".html", Qt::CaseInsensitive)
+              || list[i].fileName().endsWith(".htm", Qt::CaseInsensitive))
             ft = NodeBook::Html;
 #ifdef POPPLER
         else if (list[i].fileName().endsWith(".pdf", Qt::CaseInsensitive))
@@ -158,6 +165,11 @@ void BookTree::addAllBooks (BaseNodeItem* parent)
                 //if (Name == "מקרא" && !m_tanachRoot)
                 if (Name == "mkra" && !m_tanachRoot)
                     m_tanachRoot = b;
+                else if (Name == "msnh" && !m_michnaRoot)
+                    m_michnaRoot = b;
+                else if (Name == "tlmod bbli" && !m_chassRoot)
+                    m_chassRoot = b;
+                //qDebug() << Name;
 
                 // recursively add children
                 addAllBooks(b);
@@ -436,6 +448,36 @@ void BookTree::displayContextMenu(QPoint pos)
 
         menu.exec(point);
     }
+}
+/*
+QHash<QString, int> BookTree::titleToId()
+{
+    return mapTitleToId;
+}
+*/
+//static
+QList<OraytaBookItem*> BookTree::getBooksChildren( BaseNodeItem* parent, bool inSearch )
+{
+    QList<OraytaBookItem*> ret;
+
+    if (parent == NULL)
+    {
+        qDebug() << "not parent";
+        return ret;
+    }
+
+    for ( QList<BaseNodeItem*>::const_iterator it = parent->getChildren().begin(); it != parent->getChildren().end(); ++it )
+    {
+        if ( (*it)->nodetype() == BaseNodeItem::Leaf )
+        {
+            OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(*it);
+            if (obook && (!inSearch || obook->IsInSearch()) ) ret << obook;
+        }
+        else
+            ret << getBooksChildren( *it, inSearch );
+    }
+
+    return ret;
 }
 
 /* // helpers function for make list of mixed displays by id

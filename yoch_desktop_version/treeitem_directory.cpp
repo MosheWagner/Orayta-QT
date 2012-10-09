@@ -1,9 +1,26 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Author: Yoch Melka. <yoch.melka@gmail.com>
+*/
+
 #include "treeitem_directory.h"
 #include "functions.h"
 
 #include "booktree.h"
 
 #include <QAction>
+#include <QDebug>
 
 NodeDirectory::NodeDirectory(BaseNodeItem* parent, QString name, QString path, bool isUserBook) :
     BaseNodeItem(parent, name, path, isUserBook)
@@ -14,7 +31,10 @@ NodeDirectory::NodeDirectory(BaseNodeItem* parent, QString name, QString path, b
 
     //Read the book's conf file file:
     if(!ReadFileToList(filename, lines, "UTF-8"))
+    {
+        //qDebug() << "missing .folder for " << name;
         return;
+    }
 
     for (QStringList::const_iterator it = lines.begin(); it != lines.end(); ++it)
     {

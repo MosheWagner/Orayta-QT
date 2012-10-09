@@ -636,7 +636,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem* current, QTre
 
         connect(signalMapper, SIGNAL(mapped(QWidget*)), this, SLOT(weavedCheckBoxClicked(QWidget*)));
 
-        ui->showaloneCBX->setChecked(book->ShowAlone());
+        ui->showaloneCBX->setChecked(book->ShowAloneChecked());
 
         mixedCheckBox->setLayout(mixedDisplayLayout);
         mixedCheckBox->setEnabled(!ui->showaloneCBX->isChecked());
@@ -655,8 +655,6 @@ void MainWindow::weavedCheckBoxClicked(QWidget* checkBox)
     if (!obook || !mCheckBox) return;
 
     obook->setWeavedSourceState (mCheckBox->getData(), mCheckBox->checkState());
-    obook->setTabWidget( 0 );    /// car l'affichage du livre a changé. ce point devrait eventuellement etre géré ailleurs...
-
 }
 
 void MainWindow::on_showaloneCBX_clicked(bool checked)
@@ -667,7 +665,6 @@ void MainWindow::on_showaloneCBX_clicked(bool checked)
     if ( obook )
     {
         obook->setShowAlone( checked );
-        obook->setTabWidget( 0 );
     }
 }
 
@@ -752,7 +749,7 @@ void MainWindow::openExternalLink(QString lnk)
             OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(book);
             if (obook)
             {
-                bool memShowAloneOpt = obook->ShowAlone();
+                bool memShowAloneOpt = obook->ShowAloneChecked();
                 obook->setShowAlone(true);
 
                 openBook(obook, true);

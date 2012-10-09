@@ -161,7 +161,7 @@ bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, c
                 text << line;
             }
         }
-        else
+        else if (!line.isEmpty())
         {
             text << line;
         }
@@ -500,6 +500,50 @@ QString rangeToString(int a, int b)
     }
     return lst.join(", ");
 }
+
+
+QString convert (const QString& str, const QHash<QString, int>& mapTitleToId)
+{
+    QString title = str.section(" ", 0, -2);
+    QString pos = str.section(" ", -1);
+
+    QStringList lst = pos.split("-");
+
+    // pas moyen de faire ca proprement, il faut absolument différencier les traitements...
+    QString link;
+    if (str.startsWith("גמרא"))
+        link = "דף " + lst[0] + " - " + lst[1];
+    else // if tanach
+        link = title + " פרק-" + lst[0] + "-{" + lst[1] + "}";
+
+    if (!mapTitleToId.contains(title))
+        qDebug() << "map id not contains " << title;
+    QString href = "!" + QString::number(mapTitleToId[title]) + ":" + escapeToBase64(link);
+
+    return href;
+}
+
+QString& lnkModifier (QString& str, const QHash<QString, int>& mapTitleToId)
+{
+   QRegExp rx("\\{\\{([^}]*)\\}\\} ?\\{([^}]*)\\}");
+
+   for (int pos = 0; pos >= 0; )
+   {
+       pos = rx.indexIn(str, pos);
+       if (pos >= 0) {
+          QString rep = "<i>&quot;" + rx.cap(2) + "&quot;</i> <b><small><a href=\"" + convert(rx.cap(1), mapTitleToId) + "\">("
+                + rx.cap(1) + ")</a></small></b>";
+          str.replace( pos, rx.cap().size(), rep);
+
+          //qDebug() << "replace " << rx.cap() << " to " << rep;
+
+          ++pos;
+       }
+   }
+
+   return str;
+}
+
 
 /*
 QString pluginPage(QString title)

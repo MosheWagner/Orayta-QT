@@ -52,6 +52,11 @@
         <translation>משה וגנר</translation>
     </message>
     <message>
+        <location filename="about.cpp" line="42"/>
+        <source>5772</source>
+        <translation>תש&quot;ע {5772}</translation>
+    </message>
+    <message>
         <location filename="about.cpp" line="43"/>
         <source>Torat Emet software</source>
         <translation type="unfinished"></translation>
@@ -114,22 +119,22 @@
 <context>
     <name>BaseHtmlView</name>
     <message>
-        <location filename="bookview_basehtml.cpp" line="27"/>
+        <location filename="bookview_basehtml.cpp" line="43"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>
     <message>
-        <location filename="bookview_basehtml.cpp" line="184"/>
+        <location filename="bookview_basehtml.cpp" line="200"/>
         <source>404 - Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookview_basehtml.cpp" line="184"/>
+        <location filename="bookview_basehtml.cpp" line="200"/>
         <source>file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>הקובץ לא נמצא</translation>
     </message>
     <message>
-        <location filename="bookview_basehtml.cpp" line="198"/>
+        <location filename="bookview_basehtml.cpp" line="214"/>
         <source>print this book</source>
         <translation>הדפס ספר זה</translation>
     </message>
@@ -156,12 +161,12 @@
 <context>
     <name>BookTree</name>
     <message>
-        <location filename="booktree.cpp" line="83"/>
+        <location filename="booktree.cpp" line="98"/>
         <source>Orayta Library</source>
         <translation>ספריית אורייתא</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="84"/>
+        <location filename="booktree.cpp" line="99"/>
         <source>User Library</source>
         <translation>ספריית המשתמש</translation>
     </message>
@@ -182,24 +187,24 @@
         <translation type="obsolete">שנה גופן</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="367"/>
+        <location filename="booktree.cpp" line="379"/>
         <source>Are you sure you want to remove this </source>
         <translation>האם אתה בטוח שברצונך למחוק </translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="368"/>
+        <location filename="booktree.cpp" line="380"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation>תיקיה זו ?
 כל הספרים הקיימים בתקיה יימחקו.</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="369"/>
+        <location filename="booktree.cpp" line="381"/>
         <source>book ?</source>
         <translation>ספר זה?</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="371"/>
+        <location filename="booktree.cpp" line="383"/>
         <source>Deleting book</source>
         <translation>מחיקה</translation>
     </message>
@@ -298,7 +303,7 @@ This will remove all the books in this directory.</source>
     </message>
     <message>
         <location filename="mainwnd_search.cpp" line="209"/>
-        <location filename="mainwnd_search.cpp" line="340"/>
+        <location filename="mainwnd_search.cpp" line="322"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
@@ -317,33 +322,33 @@ This will remove all the books in this directory.</source>
         <translation> תוצאות נמצאו</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="296"/>
+        <location filename="mainwnd_search.cpp" line="278"/>
         <source>Searching guematria for: </source>
         <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="329"/>
+        <location filename="mainwnd_search.cpp" line="311"/>
         <source>Search results for guematria : </source>
         <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="347"/>
+        <location filename="mainwnd_search.cpp" line="329"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <oldsource>Any tanach books selected : please select books in tanach and search again.</oldsource>
         <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="353"/>
+        <location filename="mainwnd_search.cpp" line="335"/>
         <source>No guematria results found:</source>
         <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="360"/>
+        <location filename="mainwnd_search.cpp" line="342"/>
         <source>Result list: </source>
         <translation>רשימת תוצאות: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="361"/>
+        <location filename="mainwnd_search.cpp" line="343"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation> תוצאות נמצאו.</translation>
@@ -873,27 +878,27 @@ This will remove all the books in this directory.</source>
 <context>
     <name>OraytaBookView</name>
     <message>
-        <location filename="bookview_orayta.cpp" line="27"/>
+        <location filename="bookview_orayta.cpp" line="43"/>
         <source>Add bookmark here...</source>
         <translation>הוסף סימנייה כאן...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="28"/>
+        <location filename="bookview_orayta.cpp" line="44"/>
         <source>Add/edit comment...</source>
         <translation>הוסף/ערוך הערה...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="29"/>
+        <location filename="bookview_orayta.cpp" line="45"/>
         <source>Delete comment</source>
         <translation>מחק הערה</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="30"/>
+        <location filename="bookview_orayta.cpp" line="46"/>
         <source>Copy text only</source>
         <translation>העתק טקסט בלבד</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="32"/>
+        <location filename="bookview_orayta.cpp" line="48"/>
         <source>Reload book</source>
         <translation>רענן</translation>
     </message>
@@ -901,7 +906,7 @@ This will remove all the books in this directory.</source>
 <context>
     <name>PdfBookView</name>
     <message>
-        <location filename="bookview_pdf.cpp" line="80"/>
+        <location filename="bookview_pdf.cpp" line="97"/>
         <source>Page </source>
         <translation>דף </translation>
     </message>
@@ -917,28 +922,28 @@ This will remove all the books in this directory.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="functions.cpp" line="534"/>
+        <location filename="functions.cpp" line="605"/>
         <source>LTR</source>
         <translation>RTL</translation>
     </message>
     <message>
-        <location filename="treeitem_base_book.cpp" line="56"/>
+        <location filename="treeitem_base_book.cpp" line="72"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="treeitem_base_book.cpp" line="57"/>
+        <location filename="treeitem_base_book.cpp" line="73"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="treeitem_base_book.cpp" line="66"/>
+        <location filename="treeitem_base_book.cpp" line="82"/>
         <source>Delete book</source>
         <translation>מחק ספר זה</translation>
     </message>
     <message>
-        <location filename="treeitem_directory.cpp" line="55"/>
-        <location filename="treeitem_orayta.cpp" line="56"/>
+        <location filename="treeitem_directory.cpp" line="75"/>
+        <location filename="treeitem_orayta.cpp" line="74"/>
         <source>Change font</source>
         <translation>שנה גופן</translation>
     </message>

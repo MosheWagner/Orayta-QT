@@ -14,12 +14,9 @@ CONFIG += poppler
 
 
 win32{
-    INCLUDEPATH +=  $$quote(D:\Qt\4.8.2\src\3rdparty\zlib) \
+    INCLUDEPATH +=  $$quote(D:\Qt\4.8.3\src\3rdparty\zlib) \
                     $$quote(D:\Libs\quazip-0.4.4)
     LIBS += "D:\Libs\quazip-0.4.4\quazip\Release\quazip.lib"
-} else {
-     INCLUDEPATH += "/home/avi/downloads/svn/yoch_desktop/"
-    LIBS += "/home/avi/downloads/svn/yoch_desktop/libquazip.so.1.0.0"
 }
 
 

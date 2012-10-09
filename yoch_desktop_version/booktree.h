@@ -11,7 +11,8 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 *
-* Author: Moshe Wagner. <moshe.wagner@gmail.com>
+* Author: Yoch Melka. <yoch.melka@gmail.com>
+* Original Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
 
@@ -21,6 +22,7 @@
 
 #include "treeitem_base.h"
 #include "treeitem_base_book.h"
+#include "treeitem_orayta.h"
 
 #include <QTreeWidget>
 #include <QAction>
@@ -28,6 +30,7 @@
 #include <QList>
 #include <QMap>
 
+extern QHash<QString, int> TitleToId;
 
 class BookTree : public QTreeWidget
 {
@@ -51,11 +54,13 @@ public:
     BaseNodeItem* root();
     BaseNodeItem* userRoot();
     BaseNodeItem* tanachRoot();
+    //QHash<QString, int> titleToId();
 
     /* ######### temporary
     void saveMixedInfos();
     NodeBook* getBoookByPath(const QString& path);
     */
+    static QList<OraytaBookItem*> getBooksChildren( BaseNodeItem* parent, bool inSearch = false );
 
 public slots:
     void updateTree();
@@ -80,10 +85,12 @@ private:
     BaseNodeItem* m_root;
     BaseNodeItem* m_userRoot;
     BaseNodeItem* m_tanachRoot;
+    BaseNodeItem* m_michnaRoot;
+    BaseNodeItem* m_chassRoot;
 
     BookList mBookList;
 
-    QMap<int, NodeBook*> mMapId;
+    QHash<int, NodeBook*> mMapId;
 
 };
 

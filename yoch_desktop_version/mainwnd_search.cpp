@@ -249,24 +249,6 @@ void MainWindow::SearchInSelectedBooks (const QRegExp& regexp, QString disp)
     qDebug() << " elapsed " << tm.elapsed() << "ms";
 }
 
-static QList<OraytaBookItem*> getBooksChildren( BaseNodeItem* parent )
-{
-    QList<OraytaBookItem*> ret;
-
-    for ( QList<BaseNodeItem*>::const_iterator it = parent->getChildren().begin(); it != parent->getChildren().end(); ++it )
-    {
-        if ( (*it)->nodetype() == BaseNodeItem::Leaf )
-        {
-            OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(*it);
-            if (obook && obook->IsInSearch()) ret << obook;
-        }
-        else
-            ret << getBooksChildren( *it );
-    }
-
-    return ret;
-}
-
 void MainWindow::SearchGuematriaInTanach( const QString& txt )
 {
     QTime t1;
@@ -284,7 +266,7 @@ void MainWindow::SearchGuematriaInTanach( const QString& txt )
     }
 
     QString title = "", Htmlhead = "", Html = "";
-    QList<OraytaBookItem*> tanach = getBooksChildren( tanachRoot );
+    QList<OraytaBookItem*> tanach = BookTree::getBooksChildren( tanachRoot, false );
 
     ui->pbarbox->show();
     ui->progressBar->setValue(0);

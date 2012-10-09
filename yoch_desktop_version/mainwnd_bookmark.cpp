@@ -45,7 +45,7 @@ QString MainWindow::bookMarkTitle(QString lnk)
     //Format position for human display
     int p = lnk.indexOf(":");
     QString lnkdisplay = lnk.mid(p+1);
-    lnkdisplay = unescapeFromBase64(lnkdisplay).replace("_", " ").replace("-", " ").replace("{", "").replace("}", "").replace(" 0", "");
+    lnkdisplay = unescapeFromBase64(lnkdisplay).replace("-", " ").replace("{", "").replace("}", "").replace(" 0", "");
 
     int id = -1;
     ToNum(lnk.mid(0,p), &id);

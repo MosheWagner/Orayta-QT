@@ -1,3 +1,19 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Author: Yoch Melka. <yoch.melka@gmail.com>
+*/
+
 #include "htmlrender.h"
 #include "functions.h"
 #include "htmlgen.h"
@@ -72,7 +88,7 @@ bool line_equal(const LevelNode* n1, const LevelNode* n2)
     return n1->firstline == n2->firstline;
 }
 
-#include <iostream>
+//#include <iostream>
 
 // improve this
 void LevelNode::addTree(const LevelNode* node, int num)
@@ -84,11 +100,12 @@ void LevelNode::addTree(const LevelNode* node, int num)
 
         if (it == children.end())
         {
-            // for debug
+            /* // for debug
             QTextStream stream(stdout);
             stream.setCodec("UTF-8");
-            stream << "no node found for " << nnode->firstline << ";" << nnode->data.join("") << " in " << firstline << "\n";
+            stream << "no node found for " << nnode->firstline << ";" << nnode->data.join("") << " in " << firstline << "\n"; */
 
+            qDebug() << "no node found for " << nnode->firstline << ";" << nnode->data.join("") << " in " << firstline << "\n";
             continue;
         }
 
@@ -132,15 +149,27 @@ LevelNode* HtmlRender::loadTree( const QString& path )
         }
         lines.pop_front();
     }
+/*
+// impossible si on vire les lignes vides...
+    QString lowcomment = "";
+    while ( !lines.empty() && lines.first().simplified() != "" && LevelNode::_levels.indexOf( lines.first()[0] ) == -1 )
+        lowcomment += lines.takeFirst();
+*/
 
     if (lines.empty())
     {
         qDebug() << "ERROR: Invalid orayta file: " << path << " !";
+//        qDebug() << lowcomment;
         return NULL;
     }
 
     LevelNode* tree = new LevelNode(LevelNode::_levels.indexOf("$"), title);
     tree->parse(lines);
+
+    if (!lines.empty())
+    {
+        qDebug() << "WARNING : trailing lines in " << title;
+    }
 
     return tree;
 }
@@ -164,13 +193,15 @@ HtmlRender::~HtmlRender()
     delete root;
 }
 
-void HtmlRender::addWsource( const QString& path )
+bool HtmlRender::isValid() const
+{  return root != NULL;  }
+
+void HtmlRender::addWsource( const QString& path, int num )
 {
     LevelNode* tree = HtmlRender::loadTree(path);
 
     if (tree)
     {
-        int num = weavedTitles.size() + 1;
         QString title = tree->firstline.mid(2);
 
         root->addTree(tree, num);
@@ -228,22 +259,51 @@ void HtmlRender::setOrySpecificInfos(QString copyright, QString* RUS, int shortI
     shortIndexLevel = shortIndexLvl;
 }
 
-void HtmlRender::setReplacements(const QList<QString> &from, const QList<QString> &to)
+void HtmlRender::setReplacements(const QList<QString> &from, const QList<QString> &to, int num)
 {
-    replaceFrom = from;
-    replaceTo = to;
+    for (int i=0; i < from.size(); ++i)
+    {
+        if (num == -1)
+        {
+            modifiers << std::tr1::bind(
+                             static_cast<rep>(&QString::replace),
+                             std::tr1::placeholders::_1,
+                             from[i],
+                             to[i],
+                             Qt::CaseSensitive );
+        }
+        else
+        {
+            weavedModifiers[num] << std::tr1::bind(
+                                        static_cast<rep>(&QString::replace),
+                                        std::tr1::placeholders::_1,
+                                        from[i],
+                                        to[i],
+                                        Qt::CaseSensitive );
+        }
+    }
 }
-
-/*
-void HtmlRender::addTextModifier(modifier_fn modifier)
-{
-    modifiers << modifier;
-}
-*/
 
 QString HtmlRender::toHtml()
 {
     indexitemlist.clear();
+
+    // BEWARE : must call this BEFORE create index !!!
+    int id = 0;
+    QString content = recToHtml(root, id);
+
+    QString body = "<body>\n";
+
+    body += namepoint("Top");
+    body += html_book_title(title, copyrightInfo, "" /*low_comments*/);
+    body += index_to_index(indexitemlist, shortIndexLevel);
+
+    body += "<div class=\"Index\">\n" + html_link_table(indexitemlist, shortIndexLevel, true/*dot*/, removeSuffix[1]!="")
+            + "</div>\n";
+
+    body += "<div class=\"Content\">\n" + content + "</div>\n";
+
+    body += "</body>\n";
 
     QString html;
 
@@ -261,25 +321,9 @@ QString HtmlRender::toHtml()
     if (!scripts.empty())
         html += "<script type=\"text/javascript\">\n" + scripts.join("\n") + "</script>\n";
 
-    // testing. real one is more complicated...
-    // WARNING : must call this BEFORE create index !!!
-    int id = 0;
-    QString content = recToHtml(root, id);
+    html += body + "</html>\n";
 
-    QString body = "<body>\n";
-
-    body += namepoint("Top");
-    body += html_book_title(title, copyrightInfo, "" /*low_comments*/);
-    body += index_to_index(indexitemlist, shortIndexLevel);
-
-    body += "<div class=\"Index\">" + html_link_table(indexitemlist, shortIndexLevel, true/*dot*/, removeSuffix[1]!="")
-            + "</div>\n";
-
-    body += "<div class=\"Content\">" + content + "</div>\n";
-
-    body += "</body>\n";
-
-    return html + body + "</html>\n";
+    return html;
 }
 
 //Returns an html link by the given link_to and display text
@@ -343,8 +387,12 @@ QString HtmlRender::recToHtml(LevelNode* node, int &id)
         if (remove_Nikud) _line = removeNikud(_line);
         if (remove_Teamim) _line = removeTeamim(_line);
 
-        for (int i = 0; i < replaceFrom.size(); ++i)
-            _line.replace(replaceFrom[i], replaceTo[i]);
+        foreach (modifier modify, modifiers)
+        {
+            modify(_line);
+        }
+
+        _line = lnkModifier(_line, TitleToId);
 
         ret += _line;
     }
@@ -380,6 +428,11 @@ inline QString HtmlRender::insertWSources(LevelNode* node)
 
         if (remove_Nikud) text = removeNikud(text);
         if (remove_Teamim) text = removeTeamim(text);
+
+        foreach (modifier modify, weavedModifiers[num])
+        {
+            modify(text);
+        }
 
         ret += "<div class=\"mixed_" + QString::number(num) + "\">"
                 + "<span class=\"title_mixed_" + QString::number(num) + "\">" + weavedTitles[num]

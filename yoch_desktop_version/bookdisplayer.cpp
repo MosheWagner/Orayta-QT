@@ -11,7 +11,8 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 *
-* Author: Moshe Wagner. <moshe.wagner@gmail.com>
+* Author: Yoch Melka. <yoch.melka@gmail.com>
+* Original Author: Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
 #include "treeitem_base.h"
@@ -87,8 +88,7 @@ void BookDisplayer::loadBook( NodeBook* book )
     if (book->booktype() == NodeBook::Link)
         book = dynamic_cast<LinkItem*>(book)->bookPtr();
 
-    if (!book)  // sanity check
-        return;
+    if (!book) return; // sanity check
 
     if (mBookView && mBookView->booktype() != book->booktype())
         resetBookView();
@@ -100,28 +100,27 @@ void BookDisplayer::loadBook( NodeBook* book )
 //        vbox->setCurrentWidget(mBookView->widget());
     }
 
-    // erase tabWidget associed with previous book
-    if (myBook != NULL) myBook->setTabWidget( 0 );
-    myBook = (NodeBook*)book;
-
-    if (book->booktype() == NodeBook::Pdf)
-    {
-        setTitle(book->getTreeDisplayName());
-    }
-
     MW->adjustVtabCornerLayout(this);
     mBookView->loadBook(book);
 
-    // ############## en fait, il faudrait vérifier que tout s'est bien passé
+    // ########## must ensure all is clean...
+    // erase tabWidget associed with previous book
+    if (myBook != NULL) myBook->setTabWidget( 0 );
+    myBook = book;
     myBook->setTabWidget(this);
 }
 
 void BookDisplayer::loadSearchPage(const QUrl& url)
 {
     resetBookView();
+    // erase tabWidget associed with previous book
+    if (myBook != NULL) myBook->setTabWidget( 0 );
+
     mBookView = BookViewFactory(this, NodeBook::Orayta);
+    vbox->addWidget(mBookView->widget());
+    MW->adjustVtabCornerLayout(this);
+
     OraytaBookView* oryView = dynamic_cast<OraytaBookView*>(mBookView);
-    vbox->addWidget(oryView);
     oryView->load(url);
 }
 

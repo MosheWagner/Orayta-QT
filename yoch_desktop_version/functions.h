@@ -121,6 +121,8 @@ QString AllowKtivHasser(const QString& str);
 
 QString rangeToString(int a, int b);
 
+QString& lnkModifier (QString& str, const QHash<QString, int>& mapTitleToId);
+
 QString simpleHtmlPage(QString title, QString contents);
 
 //QString pluginPage(QString title);

@@ -31,9 +31,13 @@
     </message>
     <message>
         <location filename="about.cpp" line="41"/>
-        <location filename="about.cpp" line="42"/>
         <source>5770</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="about.cpp" line="41"/>
+        <source>Moshe Wagner</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="about.cpp" line="43"/>
@@ -46,22 +50,22 @@
     <message>
         <location filename="addbookmark.ui" line="17"/>
         <source>Bookmark&apos;s title</source>
-        <translation type="unfinished">Titre du marque-page</translation>
+        <translation>Titre du marque-page</translation>
     </message>
     <message>
         <location filename="addbookmark.ui" line="26"/>
         <source>Bookmark&apos;s title:</source>
-        <translation type="unfinished">Titre du marque-page:</translation>
+        <translation>Titre du marque-page:</translation>
     </message>
     <message>
         <location filename="addbookmark.ui" line="42"/>
         <source>Cancel</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="addbookmark.ui" line="62"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -90,19 +94,24 @@
 <context>
     <name>BaseHtmlView</name>
     <message>
-        <location filename="bookview_html.cpp" line="25"/>
+        <location filename="bookview_basehtml.cpp" line="43"/>
         <source>Copy text</source>
-        <translation type="unfinished">Copier le texte</translation>
+        <translation>Copier le texte</translation>
     </message>
     <message>
-        <location filename="bookview_html.cpp" line="178"/>
+        <location filename="bookview_basehtml.cpp" line="200"/>
         <source>404 - Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="bookview_html.cpp" line="178"/>
+        <location filename="bookview_basehtml.cpp" line="200"/>
         <source>file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>fichier introuvable</translation>
+    </message>
+    <message>
+        <location filename="bookview_basehtml.cpp" line="214"/>
+        <source>print this book</source>
+        <translation>imprimer ce livre</translation>
     </message>
 </context>
 <context>
@@ -127,63 +136,59 @@
 <context>
     <name>BookTree</name>
     <message>
-        <location filename="booktree.cpp" line="83"/>
+        <location filename="booktree.cpp" line="98"/>
         <source>Orayta Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliothèque Orayta</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="84"/>
+        <location filename="booktree.cpp" line="99"/>
         <source>User Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliothèque utilisateur</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="91"/>
         <source>Open book</source>
-        <translation type="unfinished">Ouvrir le livre</translation>
+        <translation type="obsolete">Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="92"/>
         <source>Open in new tab</source>
-        <translation type="unfinished">Ouvrir dans un nouvel onglet</translation>
+        <translation type="obsolete">Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="93"/>
         <source>Delete book</source>
-        <translation type="unfinished">Supprimer ce livre</translation>
+        <translation type="obsolete">Supprimer ce livre</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="94"/>
         <source>Change font</source>
-        <translation type="unfinished">Changer la police</translation>
+        <translation type="obsolete">Changer la police</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="374"/>
+        <location filename="booktree.cpp" line="379"/>
         <source>Are you sure you want to remove this </source>
-        <translation type="unfinished">Etes vous sûr de vouloir supprimer ce </translation>
+        <translation>Etes vous sûr de vouloir supprimer ce </translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="375"/>
+        <location filename="booktree.cpp" line="380"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
-        <translation type="unfinished">repertoire ?
+        <translation>repertoire ?
 Ceci supprimera également tous les livres présents dans ce repertoire.</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="376"/>
+        <location filename="booktree.cpp" line="381"/>
         <source>book ?</source>
-        <translation type="unfinished">livre ?</translation>
+        <translation>livre ?</translation>
     </message>
     <message>
-        <location filename="booktree.cpp" line="378"/>
+        <location filename="booktree.cpp" line="383"/>
         <source>Deleting book</source>
-        <translation type="unfinished">Suppression</translation>
+        <translation>Suppression</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="100"/>
-        <location filename="mainwindow.cpp" line="391"/>
+        <location filename="mainwindow.cpp" line="99"/>
+        <location filename="mainwindow.cpp" line="394"/>
         <source>Orayta</source>
         <translation></translation>
     </message>
@@ -244,64 +249,69 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Supprimer le commentaire</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="161"/>
+        <location filename="mainwnd_search.cpp" line="155"/>
         <source>Searching: </source>
         <translation>Recherche: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="165"/>
+        <location filename="mainwnd_search.cpp" line="159"/>
         <source>Search results: </source>
         <translation>Résultats :</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="210"/>
-        <location filename="mainwnd_search.cpp" line="341"/>
+        <location filename="mainwnd_search.cpp" line="195"/>
+        <source> occurences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="204"/>
+        <source> results</source>
+        <translation> résultats</translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="209"/>
+        <location filename="mainwnd_search.cpp" line="322"/>
         <source>(Search stopped by user)</source>
         <translation>(Recherche stoppée par l&apos;utilisateur)</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="217"/>
+        <location filename="mainwnd_search.cpp" line="216"/>
         <source>No search results found:</source>
         <translation>Aucun résultat:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="225"/>
-        <source>firsts results only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwnd_search.cpp" line="229"/>
+        <location filename="mainwnd_search.cpp" line="228"/>
         <source> entries founds</source>
-        <translation type="unfinished"></translation>
+        <translation>entrées trouvées</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="297"/>
+        <location filename="mainwnd_search.cpp" line="278"/>
         <source>Searching guematria for: </source>
         <translation>Recherche la guematria de: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="330"/>
+        <location filename="mainwnd_search.cpp" line="311"/>
         <source>Search results for guematria : </source>
         <translation>Résultats pour la quematria de : </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="348"/>
+        <location filename="mainwnd_search.cpp" line="329"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <oldsource>Any tanach books selected : please select books in tanach and search again.</oldsource>
         <translation>Aucun livre du tanach dans la selection : sélectionnez svp un ou plusieurs livres avant de relancer la recherche.</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="354"/>
+        <location filename="mainwnd_search.cpp" line="335"/>
         <source>No guematria results found:</source>
         <translation>Aucune guematria trouvée:</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="361"/>
+        <location filename="mainwnd_search.cpp" line="342"/>
         <source>Result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="362"/>
+        <location filename="mainwnd_search.cpp" line="343"/>
         <source> results founds.</source>
         <oldsource> results founds.&lt;br&gt;&lt;br&gt;</oldsource>
         <translation>résultats trouvés.</translation>
@@ -311,12 +321,17 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Aucun résultat :</translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="222"/>
+        <location filename="mainwnd_search.cpp" line="221"/>
         <source>Short result list: </source>
         <translation>Liste des résultats: </translation>
     </message>
     <message>
-        <location filename="mainwnd_search.cpp" line="233"/>
+        <location filename="mainwnd_search.cpp" line="224"/>
+        <source> firsts results only</source>
+        <translation>premiers résultats uniquement</translation>
+    </message>
+    <message>
+        <location filename="mainwnd_search.cpp" line="232"/>
         <source>Full result list:</source>
         <translation>Liste complète:</translation>
     </message>
@@ -727,7 +742,7 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     <message>
         <location filename="mainwindow.ui" line="1872"/>
         <source>Search in current book</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher dans ce livre</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1944"/>
@@ -795,38 +810,43 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 <context>
     <name>OraytaBookView</name>
     <message>
-        <location filename="bookview_orayta.cpp" line="19"/>
+        <location filename="bookview_orayta.cpp" line="43"/>
         <source>Add bookmark here...</source>
-        <translation type="unfinished">Ajouter un marque-page ici...</translation>
+        <translation>Ajouter un marque-page ici...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="20"/>
+        <location filename="bookview_orayta.cpp" line="44"/>
         <source>Add/edit comment...</source>
-        <translation type="unfinished">Ajouter/Editer un commentaire...</translation>
+        <translation>Ajouter/Editer un commentaire...</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="21"/>
+        <location filename="bookview_orayta.cpp" line="45"/>
         <source>Delete comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer un commentaire</translation>
     </message>
     <message>
-        <location filename="bookview_orayta.cpp" line="22"/>
+        <location filename="bookview_orayta.cpp" line="46"/>
         <source>Copy text only</source>
-        <translation type="unfinished">Coiper le texte uniquement</translation>
+        <translation>Coiper le texte uniquement</translation>
+    </message>
+    <message>
+        <location filename="bookview_orayta.cpp" line="48"/>
+        <source>Reload book</source>
+        <translation>Recharger</translation>
     </message>
 </context>
 <context>
     <name>PdfBookView</name>
     <message>
-        <location filename="bookview_pdf.cpp" line="75"/>
+        <location filename="bookview_pdf.cpp" line="97"/>
         <source>Page </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>PdfWidget</name>
     <message>
-        <location filename="pdfwidget.cpp" line="80"/>
+        <location filename="pdfwidget.cpp" line="70"/>
         <source>Copy text</source>
         <translation>Copier le texte</translation>
     </message>
@@ -834,51 +854,30 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
 <context>
     <name>QObject</name>
     <message>
-        <location filename="functions.cpp" line="496"/>
+        <location filename="functions.cpp" line="605"/>
         <source>LTR</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QtIOCompressor</name>
-    <message>
-        <location filename="qtiocompressor.cpp" line="129"/>
-        <location filename="qtiocompressor.cpp" line="595"/>
-        <source>Internal zlib error when compressing: </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="161"/>
-        <source>Error writing to underlying device: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="72"/>
+        <source>Open book</source>
+        <translation>Ouvrir le livre</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="362"/>
-        <source>Error opening underlying device: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="73"/>
+        <source>Open in new tab</source>
+        <translation>Ouvrir dans un nouvel onglet</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="532"/>
-        <source>Error reading data from underlying device: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_base_book.cpp" line="82"/>
+        <source>Delete book</source>
+        <translation>Supprimer ce livre</translation>
     </message>
     <message>
-        <location filename="qtiocompressor.cpp" line="552"/>
-        <source>Internal zlib error when decompressing: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QtIOCompressor::open</name>
-    <message>
-        <location filename="qtiocompressor.cpp" line="396"/>
-        <source>The gzip format not supported in this version of zlib.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="qtiocompressor.cpp" line="412"/>
-        <source>Internal zlib error: </source>
-        <translation type="unfinished"></translation>
+        <location filename="treeitem_directory.cpp" line="75"/>
+        <location filename="treeitem_orayta.cpp" line="74"/>
+        <source>Change font</source>
+        <translation>Changer la police</translation>
     </message>
 </context>
 <context>
@@ -924,57 +923,57 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation>Réglages Orayta</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="24"/>
+        <location filename="settings.ui" line="27"/>
         <source>Font</source>
         <translation>Police</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="36"/>
+        <location filename="settings.ui" line="39"/>
         <source>Default font:</source>
         <translation>Police par défaut:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="46"/>
+        <location filename="settings.ui" line="49"/>
         <source>font: 8pt &quot;Sans Serif&quot;;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="76"/>
+        <location filename="settings.ui" line="79"/>
         <source>Base font size:</source>
         <translation>Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="99"/>
+        <location filename="settings.ui" line="102"/>
         <source>Font preview:</source>
         <translation>Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="114"/>
+        <location filename="settings.ui" line="117"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="settings.ui" line="254"/>
+        <location filename="settings.ui" line="257"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="285"/>
+        <location filename="settings.ui" line="288"/>
         <source>(Font confs will apply as of next book)</source>
         <translation>(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="296"/>
+        <location filename="settings.ui" line="299"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="316"/>
+        <location filename="settings.ui" line="319"/>
         <source>Custom language</source>
         <translation>Langage</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="325"/>
+        <location filename="settings.ui" line="328"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -983,17 +982,32 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="345"/>
+        <location filename="settings.ui" line="348"/>
         <source>Use system language</source>
         <translation>Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="380"/>
+        <location filename="settings.ui" line="369"/>
+        <source>Search</source>
+        <translation>Recherche</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="384"/>
+        <source>Max Results :</source>
+        <translation>Nombre max. de résultats :</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="391"/>
+        <source>Max results per book :</source>
+        <translation>Nombre max. de résultats par livre :</translation>
+    </message>
+    <message>
+        <location filename="settings.ui" line="446"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="400"/>
+        <location filename="settings.ui" line="466"/>
         <source>Save settings</source>
         <translation>Sauvegarder</translation>
     </message>
@@ -1129,7 +1143,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Fichiers html(*.htm *.html);;Fichiers texte(*.txt);;Fichiers pdf(*.pdf)</translation>
     </message>
     <message>
-        <location filename="importbook.cpp" line="58"/>
+        <location filename="importbook.cpp" line="60"/>
         <source>All supported files (*.html *.htm *.txt *.pdf);;Html files(*.htm *.html);;Text files(*.txt);;Pdf files(*.pdf)</source>
         <translation>Tous les types de fichiers supportés (*.html *.htm *.txt *.pdf);;Fichiers html (*.htm *.html);;Fichiers texte (*.txt);;Fichiers pdf (*.pdf)</translation>
     </message>

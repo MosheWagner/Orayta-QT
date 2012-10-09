@@ -26,7 +26,7 @@ errorReport::errorReport(QWidget *parent, QString location, QString bookdisp) :
 
     if (LANG == "Hebrew") toRTL();
 
-    QString disp = unescapeFromBase64(location).replace("_", " ").replace("-", " ").replace("{", "").replace("}", "").replace(" 0", "");
+    QString disp = unescapeFromBase64(location).replace("-", " ").replace("{", "").replace("}", "").replace(" 0", "");
 
     disp = bookdisp + " " + disp;
     //Remove extra spaces that appear for some reason:

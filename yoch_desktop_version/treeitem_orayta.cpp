@@ -1,3 +1,19 @@
+/* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2
+* as published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*
+* Author: Yoch Melka. <yoch.melka@gmail.com>
+*/
+
 #include "treeitem_orayta.h"
 #include "bookdisplayer.h"
 #include "functions.h"
@@ -87,27 +103,34 @@ QString OraytaBookItem::getLoadableFile() const
     {
         renderedOK = htmlrender();
     }
-
-    return renderedOK ? absPath(htmlfilename) : QString();
+    //qDebug() << "still alive";
+    return renderedOK ? absPath(htmlfilename) : QString("");
 }
 
 bool OraytaBookItem::IsMixed() const
 {  return !mWeavedSources.empty(); }
 
+/*
 bool OraytaBookItem::ShowMixed() const
 {
-    if (!IsMixed() || showAlone)
-        return false;
 
-    for (int i=1; i<mWeavedSources.size(); i++)
-        if (mWeavedSources[i].show)
-            return true;
-
-    return false;
 }
+*/
 
 bool OraytaBookItem::ShowAlone() const
-{  return !ShowMixed(); }
+{
+    if (!IsMixed() || showAlone)
+        return true;
+
+    for (int i=0; i<mWeavedSources.size(); i++)
+        if (mWeavedSources[i].show)
+            return false;
+
+    return true;
+}
+
+bool OraytaBookItem::ShowAloneChecked() const
+{  return showAlone; }
 
 bool OraytaBookItem::HasNikud() const
 {  return hasNikud;  }
@@ -137,11 +160,22 @@ void OraytaBookItem::setWeavedSourceState (int index, bool state)
         qDebug() << "  setWeavedSourceState() : index out of range";
         return;
     }
-    mWeavedSources[index].show = state;
+    if (mWeavedSources[index].show != state)
+    {
+        mWeavedSources[index].show = state;
+        setTabWidget( 0 );
+    }
 }
 
 void OraytaBookItem::setShowAlone( bool show )
-{  showAlone = show;  }
+{
+    if (showAlone != show)
+    {
+        showAlone = show;
+        // remove link to viewTab
+        setTabWidget( 0 );
+    }
+}
 
 void OraytaBookItem::setFont( const QFont& font )
 {
@@ -176,9 +210,7 @@ void OraytaBookItem::AddBookConfs()
 
     //Read the book's conf file file:
     if(!ReadFileToList(filename, text, "UTF-8"))
-        //or try the zip comment instead
-        if (!ReadZipComment(mPath, text, "UTF-8"))
-            return;
+        return;
 
     for(int i=0; i<text.size() ; i++)
     {
@@ -419,7 +451,7 @@ QString OraytaBookItem::HTMLFileName() const
     if ( !ShowAlone() )
     {
         CommenteriesMagicString += "-"; //QString representing the commenteries state
-        for (int i=1; i<mWeavedSources.size(); i++)
+        for (int i=0; i < mWeavedSources.size(); i++)
             CommenteriesMagicString += QString::number(mWeavedSources[i].show);
     }
 
@@ -517,7 +549,7 @@ void OraytaBookItem::BuildSearchTextDB(QString& pureText, QMap<int, BookIter>& l
             levelMap[pureText.length()] = itr;
         }
         //Link
-        else if (text.startsWith("<!--ex"))
+        else if (text[i].startsWith("<!--ex"))
         {
         }
         //Text line
@@ -532,6 +564,9 @@ void OraytaBookItem::BuildSearchTextDB(QString& pureText, QMap<int, BookIter>& l
 
             //Remove html tags
             text[i].replace( QRegExp("<[^>]*>"), "" );
+
+            //remove internal links
+            text[i].replace( QRegExp("\\{\\{([^}]*)\\}\\} ?\\{([^}]*)\\}"), "\\2" );
 
             //Remove all non "pure-text" chars
             text[i].replace(QChar(0x05BE), " "); //Makaf
@@ -619,6 +654,8 @@ QList<SearchResult> OraytaBookItem::findInBook(const QRegExp& exp) const
 
         BookIter itr = ( !levelMap.empty() ? mapitr.value() : BookIter() );
 
+        //qDebug() << pureText.mid(curr, exp.matchedLength());
+
         if (curr > stopOffset)
         {
             const QMap<int, BookIter>::const_iterator nextitr = levelMap.lowerBound(curr + exp.matchedLength());
@@ -642,7 +679,7 @@ QList<SearchResult> OraytaBookItem::findInBook(const QRegExp& exp) const
             results.back().nbResults++;
         }
 
-        next = curr + 1;
+        next = curr + 1;  // why not exp.matchedLength() ?
     }
 
     return results;

@@ -11,7 +11,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 *
-* Author: Moshe Wagner. <moshe.wagner@gmail.com>
+* Author: Yoch Melka. <yoch.melka@gmail.com>
 */
 
 
@@ -530,11 +530,8 @@ QString ExternalLink (QString linkcode)
     if ( DS>>3 & 0x1 ) Html += "<small>";
     if ( DS>>4 & 0x1 ) Html += "<big>";
 
-
-    // Eliminate spaces
-    QString  linkto = BookInternalLabel.replace(' ','_');
     //Escape the hebrew chars
-    linkto = escapeToBase64(linkto);
+    QString linkto = escapeToBase64(BookInternalLabel);
 
     if (BookUniqueId != 0)
     {
@@ -606,10 +603,11 @@ bool OraytaBookItem::htmlrender() const
     tm.start();
 
     HtmlRender render( getPath() );
+    if (!render.isValid()) { return false; }
 
     render.addCss( basicCSS( getFont() ) );
     render.addScript( oraytaScripts() );
-    render.addComments( getCommentsForBookId(USERPATH + "CommentList.txt", getUniqueId()) );
+    render.addComments( getCommentsForBookId(USERPATH + "CommentList.txt", getRealUniqueId()) );
 
     render.setOrySpecificInfos(mCopyrightInfo, (QString*)mRemoveSuffix, mShortIndexLevel);
     render.setReplacements(replaceFrom, replaceTo);
@@ -618,9 +616,9 @@ bool OraytaBookItem::htmlrender() const
     if ( hasNikud && !shownikud ) render.remNikud();
     if ( hasTeamim && !showteamim ) render.remTeamim();
     if ( PutNewLinesAsIs ) render.setNewLine();
-    if ( !IsUserBook() && (mPath.contains("תלמוד") || mPath.contains("שס")) ) render.setDafAmudFormat();
+    if ( !IsUserBook() && (mPath.contains("tlmod") && mPath.contains("_Bav_")) ) render.setDafAmudFormat();  // #### not work
 
-    if (!ShowAlone())
+    if ( !ShowAlone() )
     {
         QStringList colors;
         colors << "#009000" << "#0000FF" << "#A52A2A" << "#4B0082";
@@ -633,8 +631,9 @@ bool OraytaBookItem::htmlrender() const
 
                 OraytaBookItem* obook = dynamic_cast<OraytaBookItem*>(getBookPtrFromId(mWeavedSources[i].id));
 
-                render.addWsource( obook->getPath() );
+                render.addWsource( obook->getPath(), n );
                 render.addCss( weavedCSS(obook->getFont(), colors[n%colors.size()], n) );
+                render.setReplacements( obook->replaceFrom, obook->replaceTo, n);
             }
         }
     }
