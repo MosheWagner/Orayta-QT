@@ -95,6 +95,16 @@ QString CSS(QString fontFamily, int basesize)
 
             "   .VerySmall { font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
 
+            // options from gmara nocha
+            "   .ref {font-size:" + QString::number((int)(basesize*0.8)) + "px;}\n"
+            "   .pasuk {background:#FCF5FF; font-family: \"SBL Hebrew\"; }\n"
+            "   .editor {color:#CC0000;}\n"
+            "   .pirush {color:#008A00;}\n"
+            "   .pirush, .editor{background:#FFFFEB;font-size:" + QString::number((int)(basesize*0.9)) + "px;}\n"
+            "   .small {font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
+//add more options...   "   . {;}\n"
+
+
 
             /*
             "   .L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
