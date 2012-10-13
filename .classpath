@@ -12,7 +12,11 @@
 			<attribute name="javadoc_location" value="jar:file:/home/avi/avi-old/programming/java/jars/commons-lang-2.6-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="dependencies/odfdom-java-0.8.7-jar-with-dependencies.jar" sourcepath="/home/avi/avi-old/programming/java/jars/odfdom-java-0.8.7-sources.jar"/>
+	<classpathentry kind="lib" path="dependencies/odfdom-java-0.8.7-jar-with-dependencies.jar" sourcepath="/home/avi/java/jars/odfdom-java-0.8.7-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/avi/java/branches/Odt2Ory/odfdom-java-0.8.7-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="dependencies/commons-cli-1.2.jar" sourcepath="/home/avi/avi-old/programming/java/jars/commons-cli-1.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/home/avi/avi-old/programming/java/jars/commons-cli-1.2-javadoc.jar!/"/>
@@ -29,10 +33,6 @@
 	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/ridl.jar"/>
 	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/unoil.jar"/>
 	<classpathentry kind="lib" path="dependencies/jodconverter dependencies/ooosdk/unoloader.jar"/>
-	<classpathentry kind="lib" path="/home/avi/java/jars/nekohtml.jar" sourcepath="/home-old/home/avi/programming/java/sources/nekohtml-1.9.15-src">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/home-old/home/avi/programming/java/javadoc/nekohtml-1.9.15-javadoc/javadoc/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="dependencies/nekohtml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
