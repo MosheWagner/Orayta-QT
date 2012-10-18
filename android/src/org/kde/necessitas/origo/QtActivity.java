@@ -29,7 +29,6 @@
 
 package org.kde.necessitas.origo;
 
-//import java.io.File;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -83,9 +82,10 @@ import dalvik.system.DexClassLoader;
 public class QtActivity extends Activity
 {
     private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro instalation is finished
-    private static final int MINISTRO_API_LEVEL=1; // Ministro api level (check IMinistro.aidl file)
-    private static final String QT_PROVIDER="necessitas";
-    private static final int QT_VERSION=0x040800; // Qt version 4.8.00 check http://doc.trolltech.com/4.8/qtglobal.html#QT_VERSION
+//    private static final int MINISTRO_API_LEVEL=2; // Ministro api level (check IMinistro.aidl file)
+    private static final int NECESSITAS_API_LEVEL=2; // Necessitas api level used by platform plugin
+//    private static final String QT_PROVIDER="necessitas";
+//    private static final int QT_VERSION=0x040801; // Qt version 4.8.00 check http://qt-project.org/doc/qt-4.8/qtglobal.html#QT_VERSION
 
     private static final String ERROR_CODE_KEY="error.code";
     private static final String ERROR_MESSAGE_KEY="error.message";
@@ -96,19 +96,38 @@ public class QtActivity extends Activity
     private static final String ENVIRONMENT_VARIABLES_KEY="environment.variables";
     private static final String APPLICATION_PARAMETERS_KEY="application.parameters";
     private static final String BUNDLED_LIBRARIES_KEY="bundled.libraries";
+    private static final String MAIN_LIBRARY_KEY="main.library";
+    private static final String NECESSITAS_API_LEVEL_KEY="necessitas.api.level";
 
     /// Ministro server parameter keys
-    private static final String REQUIRED_MODULES_KEY="required.modules";
-    private static final String APPLICATION_TITLE_KEY="application.title";
-    private static final String QT_PROVIDER_KEY="qt.provider";
-    private static final String MINIMUM_MINISTRO_API_KEY="minimum.ministro.api";
-    private static final String MINIMUM_QT_VERSION_KEY="minimum.qt.version";
-    /// Ministro server parameter keys
+//    private static final String REQUIRED_MODULES_KEY="required.modules";
+//    private static final String APPLICATION_TITLE_KEY="application.title";
+//    private static final String QT_PROVIDER_KEY="qt.provider";
+//    private static final String MINIMUM_MINISTRO_API_KEY="minimum.ministro.api";
+//    private static final String MINIMUM_QT_VERSION_KEY="minimum.qt.version";
+//    private static final String REPOSITORIES="3rd.party.repositories"; // needs MINISTRO_API_LEVEL >=2 !!!
+                                                                       // Use this key to specify any 3rd party repositories urls
+                                                                       // Ministro will download these repositories into thier
+                                                                       // own folders, check http://community.kde.org/Necessitas/Ministro
+                                                                       // for more details.
 
+//    private static final String APPLICATION_PARAMETERS=null; // use this variable to pass any parameters to your application,
+                                                             // the parameters must not contain any white spaces
+                                                             // and must be separated with "\t"
+                                                             // e.g "-param1\t-param2=value2\t-param3\tvalue3"
+
+//    private static final String ENVIRONMENT_VARIABLES="QT_USE_ANDROID_NATIVE_STYLE=1\t";
+                                                             // use this variable to add any environment variables to your application.
+                                                             // the env vars must be separated with "\t"
+                                                             // e.g. "ENV_VAR1=1\tENV_VAR2=2\t"
+                                                             // Currently the following vars are used by the android plugin:
+                                                             // * QT_USE_ANDROID_NATIVE_STYLE - 0 if you don't want to use android style plugin, it will save a few ms at startup.
+
+    private static final int INCOMPATIBLE_MINISTRO_VERSION=1; // Incompatible Ministro version. Ministro needs to be upgraded.
     private ActivityInfo m_activityInfo = null; // activity info object, used to access the libs and the strings
     private DexClassLoader m_classLoader = null; // loader object
     private String[] m_qtLibs = null; // required qt libs
-    
+
     //prevents circular referencing in the on stop method 
 	private boolean firstStop = true;
 
@@ -118,8 +137,16 @@ public class QtActivity extends Activity
     {
         try
         {
-            if (loaderParams.getInt(ERROR_CODE_KEY) != 0)
-            { // fatal error, show the error and quit
+            final int errorCode = loaderParams.getInt(ERROR_CODE_KEY);
+            if (errorCode != 0)
+            {
+                if (errorCode == INCOMPATIBLE_MINISTRO_VERSION)
+                {
+//                    downloadUpgradeMinistro(loaderParams.getString(ERROR_MESSAGE_KEY));
+                    return;
+                }
+
+                // fatal error, show the error and quit
                 AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
                 errorDialog.setMessage(loaderParams.getString(ERROR_MESSAGE_KEY));
                 errorDialog.setButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -132,14 +159,19 @@ public class QtActivity extends Activity
                 return;
             }
 
-            // add all bundled libs to loader params
+            // add all bundled Qt libs to loader params
             ArrayList<String> libs = new ArrayList<String>();
             if ( m_activityInfo.metaData.containsKey("android.app.bundled_libs_resource_id") )
                 libs.addAll(Arrays.asList(getResources().getStringArray(m_activityInfo.metaData.getInt("android.app.bundled_libs_resource_id"))));
 
-            if ( m_activityInfo.metaData.containsKey("android.app.lib_name") )
-                libs.add(m_activityInfo.metaData.getString("android.app.lib_name"));
+            String libName = null;
+            if ( m_activityInfo.metaData.containsKey("android.app.lib_name") ) {
+                libName = m_activityInfo.metaData.getString("android.app.lib_name");
+                loaderParams.putString(MAIN_LIBRARY_KEY, libName); //main library contains main() function
+            }
+
             loaderParams.putStringArrayList(BUNDLED_LIBRARIES_KEY, libs);
+            loaderParams.putInt(NECESSITAS_API_LEVEL_KEY, NECESSITAS_API_LEVEL);
 
             // load and start QtLoader class
             m_classLoader = new DexClassLoader(loaderParams.getString(DEX_PATH_KEY) // .jar/.apk files
@@ -155,6 +187,10 @@ public class QtActivity extends Activity
                 throw new Exception("");
 
             QtApplication.setQtActivityDelegate(qtLoader);
+
+            // now load the application library so it's accessible from this class loader
+            if (libName != null)
+                System.loadLibrary(libName);
 
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
             if (!(Boolean)startAppMethod.invoke(qtLoader))
@@ -177,7 +213,7 @@ public class QtActivity extends Activity
         }
     }
 
-   /* private ServiceConnection m_ministroConnection=new ServiceConnection() {
+    /*private ServiceConnection m_ministroConnection=new ServiceConnection() {
         private IMinistro m_service = null;
     @Override
         public void onServiceConnected(ComponentName name, IBinder service)
@@ -192,6 +228,10 @@ public class QtActivity extends Activity
                     parameters.putInt(MINIMUM_MINISTRO_API_KEY, MINISTRO_API_LEVEL);
                     parameters.putString(QT_PROVIDER_KEY, QT_PROVIDER);
                     parameters.putInt(MINIMUM_QT_VERSION_KEY, QT_VERSION);
+                    parameters.putString(ENVIRONMENT_VARIABLES_KEY, ENVIRONMENT_VARIABLES);
+                    if (null!=APPLICATION_PARAMETERS)
+                        parameters.putString(APPLICATION_PARAMETERS_KEY, APPLICATION_PARAMETERS);
+                    // parameters.putStringArray(REPOSITORIES, null);
                     m_service.requestLoader(m_ministroCallback, parameters);
                 }
             } catch (RemoteException e) {
@@ -220,7 +260,36 @@ public class QtActivity extends Activity
             m_service = null;
         }
     };
-    
+
+    private void downloadUpgradeMinistro(String msg)
+    {
+        AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+        downloadDialog.setMessage(msg);
+        downloadDialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try
+                {
+                    Uri uri = Uri.parse("market://search?q=pname:org.kde.necessitas.ministro");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivityForResult(intent, MINISTRO_INSTALL_REQUEST_CODE);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    ministroNotFound();
+                }
+            }
+        });
+
+        downloadDialog.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                QtActivity.this.finish();
+            }
+        });
+        downloadDialog.show();
+    }
+
     private void ministroNotFound()
     {
         AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
@@ -237,7 +306,7 @@ public class QtActivity extends Activity
             }
         });
         errorDialog.show();
-    } */
+    }*/
 
     private void startApp(final boolean firstStart)
     {
@@ -400,32 +469,10 @@ public class QtActivity extends Activity
             } catch (Exception e) {
                 if (firstStart)
                 {
-                    AlertDialog.Builder downloadDialog = new AlertDialog.Builder(this);
+                    String msg="This application requires Ministro service. Would you like to install it?";
                     if (m_activityInfo != null && m_activityInfo.metaData.containsKey("android.app.ministro_needed_msg"))
-                        downloadDialog.setMessage(m_activityInfo.metaData.getString("android.app.ministro_needed_msg"));
-                    downloadDialog.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            try
-                            {
-                                Uri uri = Uri.parse("market://search?q=pname:org.kde.necessitas.ministro");
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivityForResult(intent, MINISTRO_INSTALL_REQUEST_CODE);
-                            }
-                            catch (Exception e) {
-                                e.printStackTrace();
-                                ministroNotFound();
-                            }
-                        }
-                    });
-
-                    downloadDialog.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            QtActivity.this.finish();
-                        }
-                    });
-                    downloadDialog.show();
+                        msg=m_activityInfo.metaData.getString("android.app.ministro_needed_msg");
+                    downloadUpgradeMinistro(msg);
                 }
                 else
                 {
@@ -435,18 +482,8 @@ public class QtActivity extends Activity
         }
         catch (Exception e)
         {
-        	 Log.e(QtApplication.QtTAG, "Can't create main activity", e);
-        	AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
-            errorDialog.setMessage("an error ocurred\n"+e.getMessage());
-            errorDialog.setButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            errorDialog.show();
-            return;
-           
+            Log.e(QtApplication.QtTAG, "Can't create main activity", e);
+
         }
     }
     
@@ -518,7 +555,7 @@ public class QtActivity extends Activity
 					dialog.dismiss();
 				}
     			
-    		}
+        }
     		
     		
     		CopyAction ca = new CopyAction();
@@ -908,19 +945,19 @@ public class QtActivity extends Activity
     //---------------------------------------------------------------------------
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
+    /*public boolean onKeyUp(int keyCode, KeyEvent event)
     {
 
         if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
-        	if (keyCode == KeyEvent.KEYCODE_BACK ){
-                        Log.d("IZAR", "invoking media back key");
-                        return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
-//        		}
-        	}
-        	else if (keyCode == KeyEvent.KEYCODE_MENU){
-        		Log.d("IZAR", "invoking  menu key");
-        		return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_EXPLORER, event);
-        	}
+//        	if (keyCode == KeyEvent.KEYCODE_BACK ){
+//                        Log.d("IZAR", "invoking media back key");
+//                        return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_MEDIA_PREVIOUS, event);
+////        		}
+//        	}
+//        	else if (keyCode == KeyEvent.KEYCODE_MENU){
+//        		Log.d("IZAR", "invoking  menu key");
+//        		return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, KeyEvent.KEYCODE_EXPLORER, event);
+//        	}
         	Log.d("IZAR", "on key up delegate");
             return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
         }
@@ -931,22 +968,17 @@ public class QtActivity extends Activity
 
 //        return true;
 
+    }*/
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyDown != null)
+            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
+        else
+            return super.onKeyUp(keyCode, event);
     }
-
     public boolean super_onKeyUp(int keyCode, KeyEvent event)
     {
-
-        if (QtApplication.m_delegateObject != null  && QtApplication.onKeyUp != null){
-        	Log.d("IZAR", "on super key up delegate");
-            return (Boolean) QtApplication.invokeDelegateMethod(QtApplication.onKeyUp, keyCode, event);
-        }
-        else {
-        	Log.d("IZAR", "on super key up call super");
-        	return super.onKeyUp(keyCode, event);
-        }
-//
-//        return true;
-
+        return super.onKeyUp(keyCode, event);
     }
     
     /*@Override
@@ -1208,22 +1240,7 @@ public class QtActivity extends Activity
     }
     //---------------------------------------------------------------------------
 
-    private final class CloseAction extends AsyncTask<Void, Void, Void> {
 
-		@Override
-		protected Void doInBackground(Void... arg0) {
-			Log.d("izar", "sending media back");
-    		onKeyUp(KeyEvent.KEYCODE_MEDIA_STOP, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void v){
-			onStop();
-    		QtApplication.invokeDelegate();
-		}
-		
-	}
     @Override
     protected void onStop()
     {
@@ -1238,9 +1255,7 @@ public class QtActivity extends Activity
     		onKeyUp(KeyEvent.KEYCODE_MEDIA_STOP, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_STOP));
     		QtApplication.invokeDelegate();
     		
-    		
-//    		CloseAction ca = new CloseAction();
-//    		ca.execute();
+
     	}
 //    	else {
     		Log.d("izar", "calling super.stop");

@@ -97,10 +97,10 @@ QString CSS(QString fontFamily, int basesize)
 
             // options from gmara nocha
             "   .ref {font-size:" + QString::number((int)(basesize*0.8)) + "px;}\n"
-            "   .pasuk {background:#FCF5FF; font-family: \"SBL Hebrew\"; }\n"
+            "   .pasuk {font-family: \"SBL Hebrew\"; }\n"
             "   .editor {color:#008A00;}\n"
             "   .pirush {color:#2828AC;}\n"
-            "   .pirush, .editor{background:#FFFFEB;font-size:" + QString::number((int)(basesize*0.9)) + "px;}\n"
+            "   .pirush, .editor{font-size:" + QString::number((int)(basesize*0.9)) + "px;}\n"
             "   .small {font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
 //add more options...   "   . {;}\n"
 
