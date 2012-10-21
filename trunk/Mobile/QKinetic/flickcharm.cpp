@@ -194,7 +194,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             data->state = FlickData::ManualScroll;
             data->dragPos = QCursor::pos();
             if (!d->ticker.isActive())
-                d->ticker.start(20, this);
+                d->ticker.start(10, this);
         }
         break;
 
@@ -298,7 +298,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             data->state = FlickData::ManualScroll;
             data->dragPos = QCursor::pos();
             if (!d->ticker.isActive())
-                d->ticker.start(20, this);
+                d->ticker.start(10, this);
         }
         break;
 
@@ -325,7 +325,7 @@ void FlickCharm::timerEvent(QTimerEvent *event)
             data->speed = (QCursor::pos() - data->dragPos);
 
             //speed up on fast scrolling
-            if(qAbs(data->speed.y())>30) data->speed = data->speed* SPEED_BOOST;
+//            if(qAbs(data->speed.y())>30) data->speed = data->speed* SPEED_BOOST;
 
             data->dragPos = QCursor::pos();
         }
@@ -333,7 +333,7 @@ void FlickCharm::timerEvent(QTimerEvent *event)
         if (data->state == FlickData::AutoScroll) {
 //            qDebug()<<"timer:auto, speed: " <<data->speed ;
             count++;
-            data->speed = deaccelerate(data->speed,2,1000);
+            data->speed = deaccelerate(data->speed,1,1000);
             QPoint p = scrollOffset(data->widget);
             setScrollOffset(data->widget, p - data->speed);
             if (data->speed == QPoint(0, 0))
