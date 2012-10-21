@@ -35,7 +35,7 @@
 #include <QDesktopWidget>
 
 // Global
-QString gFontFamily = "Droid Sans Hebrew Orayta";
+QString gFontFamily = DEFUALT_FONT;
 int gFontSize = 0;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
@@ -48,7 +48,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //QApplication::setStyle(new QAndroidStyle()); //dosnt work
 
     ui->setupUi(this);
-
 
     //show the about page while app loads
     ui->gtoHelp->hide();
@@ -108,6 +107,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     fc->activateOn(ui->staticBookMarkList);
     fc->activateOn(ui->dailyLearningList);
     fc->activateOn(ui->historyBookmarkList);
+    fc->activateOn(ui->scrollArea);
 
 
     //Build the book list
@@ -427,32 +427,14 @@ void MobileApp::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 
 void MobileApp::showBook(Book *book, BookIter itr)
 {
-    ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
-    qApp->processEvents();
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
-    QFont font( gFontFamily, gFontSize );
+    QString fontname= useCustomFontForAll? gFontFamily: DEFUALT_FONT;
+    fontname = (book->hasNikud || book->hasTeamim)? gFontFamily: fontname;
+    QFont font( fontname, gFontSize );
     book->setFont(font);
 
-    displayer->display(book, itr);
-
-    // display mixed selection button only if the book has commentaries
-    ui->mixedSelectBTN->setEnabled(book->IsMixed());
-}
-
-void MobileApp::showBook(Book *book)
-{
-    if (!book)
-    {
-        qDebug() << "Error! Can't open book";
-        return;
-    }
-
-    //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
-    //TODO: fix this.
-    QFont font( gFontFamily, gFontSize );
-    book->setFont(font);
 
     // display mixed selection button only if the book has commentaries
     ui->mixedSelectBTN->setEnabled(book->IsMixed());
@@ -465,9 +447,9 @@ void MobileApp::showBook(Book *book)
             qApp->processEvents();
 
             //book->readBook(1);
-
-            displayer->display(book);
             ui->bookNameLBL->setText(book->getNormallDisplayName());
+            displayer->display(book, itr);
+
 
             break;
         }
@@ -524,6 +506,20 @@ void MobileApp::showBook(Book *book)
             break;
         }
     }
+
+
+}
+
+void MobileApp::showBook(Book *book)
+{
+    if (!book)
+    {
+        qDebug() << "Error! Can't open book";
+        return;
+    }
+
+    showBook(book, BookIter());
+
 }
 
 void MobileApp::showBook(int id)
@@ -584,6 +580,15 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //Cancel any running searches
     stopSearchFlag = true;
 
+    saveSettings();
+
+    ClearTmp();
+
+    QDialog::close();
+}
+
+// store all settings from the app
+void MobileApp::saveSettings(){
     QSettings settings("Orayta", "SingleUser");
 
     //remmeber last open book
@@ -610,10 +615,6 @@ void MobileApp::closeEvent(QCloseEvent *event)
         settings.setValue("InSearch", book->IsInSearch());
         settings.endGroup();
     }
-
-    ClearTmp();
-
-    QDialog::close();
 }
 
 //Remove all temporary html files the program created
@@ -639,9 +640,20 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     switch ( keyEvent->key() )
     {
 
+    case Qt::Key_VolumeUp:
+        //@moshe- do something here
+        break;
+    case Qt::Key_VolumeDown:
+        //@moshe- do something here
+        break;
+
+
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
-//        close();
+        saveSettings();
+
+        // if autoResume selected by user, dont terminate app.
+        if (!autoResume)  close();
         break;
 
     //back button was clicked
@@ -888,6 +900,9 @@ void MobileApp::on_saveConf_clicked()
     gFontFamily = ui->fontComboBox->currentFont().family();
     gFontSize = ui->fonSizeSpinBox->value();
 
+    autoResume = ui->autoResumeCKBX->isChecked();
+    useCustomFontForAll = ui->customFontRDBTN->isChecked();
+
     ui->saveConf->setEnabled(false);
 
     //Change language if needed
@@ -897,6 +912,9 @@ void MobileApp::on_saveConf_clicked()
     //save current font settings
     settings.setValue("fontfamily", gFontFamily);
     settings.setValue("fontsize", gFontSize);
+
+    settings.setValue("autoResume", autoResume);
+    settings.setValue("useCustomFontForAll", useCustomFontForAll);
 
     /* disabled
     //Change language if needed
@@ -1109,6 +1127,12 @@ void MobileApp::on_systemLangCbox_clicked(bool checked)
 
 void MobileApp::setupSettings(){
 
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("Confs");
+    autoResume = settings.value("autoResume", false).toBool();
+    useCustomFontForAll = settings.value("useCustomFontForAll", false).toBool();
+    settings.endGroup();
+
     //Set available languages
     //TODO - NOTICE :
     // french disabled because we have no french translation available
@@ -1121,7 +1145,7 @@ void MobileApp::setupSettings(){
         ui->langComboBox->addItem(langsDisplay[i]);
     }
 
-    QSettings settings("Orayta", "SingleUser");
+//    QSettings settings("Orayta", "SingleUser");
 
     /* this feature is disabled
     //Check if "use system lang" is set
@@ -1162,6 +1186,9 @@ void MobileApp::resetSettingsPage()
     ui->fontComboBox->setCurrentFont(f);
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
+    ui->autoResumeCKBX->setChecked(autoResume);
+    ui->customFontRDBTN->setChecked(useCustomFontForAll);
+    ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
     ui->saveConf->setEnabled(false);
 
 }
@@ -1518,3 +1545,9 @@ void MobileApp::on_findBookBTN_clicked()
     ui->stackedWidget->setCurrentIndex(BOOKFIND_PAGE);
     bookFindDialog->Reset();
 }
+
+void MobileApp::on_customFontRDBTN_toggled(bool checked)
+    { ui->saveConf->setEnabled(true);}
+
+void MobileApp::on_autoResumeCKBX_stateChanged(int arg1)
+    { ui->saveConf->setEnabled(true);}

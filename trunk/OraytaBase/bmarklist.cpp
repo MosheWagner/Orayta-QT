@@ -58,6 +58,11 @@ void BMarkList::loadHistory(BookList booklist)
 
 
 BMarkList::~BMarkList(){
+    saveSettings();
+
+}
+
+void BMarkList::saveSettings(){
     QSettings settings("Orayta", "SingleUser");
     QString mName = this->objectName();
     settings.beginGroup(mName);
@@ -85,7 +90,6 @@ BMarkList::~BMarkList(){
     }
     settings.endArray();
     settings.endGroup();
-
 }
 
 MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)

@@ -38,6 +38,7 @@ class BMarkList : public QListWidget
 public:
     explicit BMarkList(QWidget *parent = 0);
     ~BMarkList();
+    void saveSettings();
     MiniBMark* addBookMark(Book* book, BookIter iter);
 
 signals:

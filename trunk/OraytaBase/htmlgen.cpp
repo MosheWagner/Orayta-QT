@@ -78,19 +78,19 @@ QString html_head(QString title, QFont font)
 QString CSS(QString fontFamily, int basesize)
 {
     QString css = "<style type=\"text/css\">\n"
-            "   body { dir=\"RTL\"; text-align:justify; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize) + "px; }\n"
+            "   body { dir=\"RTL\"; text-align:justify; font-family:'" + fontFamily + "'; font-size:" + QString::number(basesize) + "px; }\n"
             //"   A { text-decoration: none; }\n"
             //"   A:hover { color: red; }\n"
 //            "   div { line-height: 1.5; }\n"
 
-            "   .L4 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; font-weight:bold; color:indigo; }\n"
-            "   .L3 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; font-weight:bold; color:indigo; }\n"
-            "   .L2 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; font-weight:bold; color:indigo; }\n"
-            "   .L1 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; font-weight:bold; color:indigo; }\n"
-            "   .L0 { font-family: '" + gFontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L4 { font-family: '" + fontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[4]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L3 { font-family: '" + fontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[3]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L2 { font-family: '" + fontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[2]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L1 { font-family: '" + fontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[1]) + "px; font-weight:bold; color:indigo; }\n"
+            "   .L0 { font-family: '" + fontFamily + "'; font-size:" + QString::number(basesize + LevelFontSizeAdd[0]) + "px; font-weight:bold; color:indigo; }\n"
 
 
-            "   .Aliyah { text-align: center; font-family:'" + gFontFamily + "'; font-size:" + QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
+            "   .Aliyah { text-align: center; font-family:'" + fontFamily + "'; font-size:" + QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
             "   .S0 { font-size:" + QString::number(basesize - 5) + "px;  font-weight:bold;}\n"
 
             "   .VerySmall { font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
@@ -107,17 +107,17 @@ QString CSS(QString fontFamily, int basesize)
 
 
             /*
-            "   .L4 { font-family: '" + gFontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
-            "   .L3 { font-family: '" + gFontFamily + "'; font-size:xx-large;}\n"
-            "   .L2 { font-family: '" + gFontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
-            "   .L1 { font-family: '" + gFontFamily + "'; font-size:x-large; }\n"
-            "   .L0 { font-family: '" + gFontFamily + "'; font-size:medium; }\n"
+            "   .L4 { font-family: '" + fontFamily + "'; font-size:xx-large; font-weight:bold;}\n"
+            "   .L3 { font-family: '" + fontFamily + "'; font-size:xx-large;}\n"
+            "   .L2 { font-family: '" + fontFamily + "'; font-size:x-large;  font-weight:bold; }\n"
+            "   .L1 { font-family: '" + fontFamily + "'; font-size:x-large; }\n"
+            "   .L0 { font-family: '" + fontFamily + "'; font-size:medium; }\n"
             */
 
 
-            //"   div.Content A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
+            //"   div.Content A { font-family: '" + fontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
-            "   div.Index A { font-family: '" + gFontFamily + "'; color:indigo; }\n"
+            "   div.Index A { font-family: '" + fontFamily + "'; color:indigo; }\n"
 //            "   div.Index A:hover { color:red; }\n"
             "</style>\n";
 
@@ -812,7 +812,7 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
     //If only one link level is present (and thus higherLevel became 6)
     if ( higherLevel == 6)
     {
-        link_table += "<span class=\"L1\">&nbsp;";
+        link_table += "<span class=\"L0\">&nbsp;";
         for (unsigned int j=0; j<indexitemlist.size(); j++)
         {
             link_table += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -848,14 +848,14 @@ QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, 
             //Higher than one above the lowest
             if (indexitemlist[j].level > higherLevel)
             {
-                link_table += "<P><span class=\"L2\">&nbsp;";
+                link_table += "<P><span class=\"L1\">&nbsp;";
 
                 link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table += "</span>\n";
             }
             else if (indexitemlist[j].level == higherLevel)
             {
-                link_table += "<span class=\"L1\">&nbsp;";
+                link_table += "<span class=\"L0\">&nbsp;";
 
                 link_table += genLink(indexitemlist[j].linkPoint, indexitemlist[j].displayText);
                 link_table +=  "</span>\n";
