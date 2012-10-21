@@ -140,3 +140,8 @@ void bookfind::on_clearSearchBTN_clicked()
 {
    Reset();
 }
+
+void bookfind::on_lineEdit_textChanged(const QString &arg1)
+{
+    reBuildList(arg1);
+}

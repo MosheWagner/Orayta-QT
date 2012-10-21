@@ -51,6 +51,8 @@ extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
+extern const QString DEFUALT_FONT;
+
 
 //Small functions used by a few files:
 

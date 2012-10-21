@@ -116,6 +116,8 @@ private slots:
     void reloadBooklist();
     void resetSearchBookTree();
 
+    void saveSettings();
+
     // switch the view from normal to in search mode
     void showHideSearch(bool inSearch);
 
@@ -125,9 +127,6 @@ private slots:
     void goBack();
 
     void showMenu();
-
-
-
 
     void on_downloadListWidget_itemClicked(QListWidgetItem *item);
 
@@ -221,12 +220,21 @@ private slots:
     void showBook(Book *, BookIter);
     void showBook(int);
 
+    void on_customFontRDBTN_toggled(bool checked);
+
+    void on_autoResumeCKBX_stateChanged(int arg1);
+
 private:
     Ui::MobileApp *ui;
 
     BookList bookList, booksInSearch;
 
     QString booktitle;
+
+    bool autoResume;
+
+    // true if the user wants to use custom font for all books.
+    bool useCustomFontForAll;
 
     //TODO - create a global settings object
     //QSettings settings;

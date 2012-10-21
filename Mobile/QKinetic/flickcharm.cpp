@@ -163,6 +163,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
     switch (data->state) {
 
     case FlickData::Steady:
+//        qDebug()<<"Steady";
         if (mouseEvent->type() == QEvent::MouseButtonPress)
             if (mouseEvent->buttons() == Qt::LeftButton) {
                 consumed = true;
@@ -173,6 +174,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
         break;
 
     case FlickData::Pressed:
+//        qDebug()<<"pressed";
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
             consumed = true;
             data->state = FlickData::Steady;
@@ -198,6 +200,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
 
     case FlickData::ManualScroll:
     {
+//        qDebug()<<"manual";
         QPoint delta = mouseEvent->pos() - data->pressPos;
 
         if (mouseEvent->type() == QEvent::MouseMove) {
@@ -205,7 +208,8 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
 
             //Hack for RTL support
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            delta.setX(delta.x() * -0.6 );
+            if (data->widget->isRightToLeft())
+                delta.setX(delta.x() * -1 );
 
 
             //Emit side swipes for chapter advancing.
@@ -226,13 +230,14 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
 
             setScrollOffset(data->widget, data->offset - delta);
         }
+         const int minMovment = 5;
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
 
             //--hack to avoid simple press to be recognized as move--
             // by izar <izar00@gmail.com>
-            const int minMovment = 5;
+
             if (delta.x() < minMovment && delta.y() < minMovment) {
-                qDebug() << "steady";
+//                qDebug() << "steady";
                 data->state = FlickData::Steady;
 
                 QMouseEvent *event1 = new QMouseEvent(QEvent::MouseButtonPress,
@@ -251,7 +256,10 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             }
 
             consumed = true;
-            data->state = FlickData::AutoScroll;
+            if (qAbs(data->speed.x()) > minMovment || qAbs(data->speed.y()) > minMovment)
+                data->state = FlickData::AutoScroll;
+            else
+                data->state = FlickData::Steady;
 
             emit swipeDone();
         }
@@ -259,6 +267,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
         break;
 
     case FlickData::AutoScroll:
+//        qDebug()<<"auto";
         if (mouseEvent->type() == QEvent::MouseButtonPress) {
             consumed = true;
             data->state = FlickData::Stop;
@@ -268,7 +277,8 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
             data->offset = scrollOffset(data->widget);
             //Hack for RTL support
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            data->offset.setX(data->offset.x() * -0.5);
+            if (data->widget->isRightToLeft())
+                data->offset.setX(data->offset.x() * -1);
         }
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
             consumed = true;
@@ -278,6 +288,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
         break;
 
     case FlickData::Stop:
+//        qDebug()<<"stop";
         if (mouseEvent->type() == QEvent::MouseButtonRelease) {
             consumed = true;
             data->state = FlickData::Steady;
@@ -309,14 +320,20 @@ void FlickCharm::timerEvent(QTimerEvent *event)
         FlickData *data = item.value();
 
         if (data->state == FlickData::ManualScroll) {
+//            qDebug()<<"timer:manual";
             count++;
-            data->speed = (QCursor::pos() - data->dragPos) * SPEED_BOOST;
+            data->speed = (QCursor::pos() - data->dragPos);
+
+            //speed up on fast scrolling
+            if(qAbs(data->speed.y())>30) data->speed = data->speed* SPEED_BOOST;
+
             data->dragPos = QCursor::pos();
         }
 
         if (data->state == FlickData::AutoScroll) {
+//            qDebug()<<"timer:auto, speed: " <<data->speed ;
             count++;
-            data->speed = deaccelerate(data->speed);
+            data->speed = deaccelerate(data->speed,2,1000);
             QPoint p = scrollOffset(data->widget);
             setScrollOffset(data->widget, p - data->speed);
             if (data->speed == QPoint(0, 0))

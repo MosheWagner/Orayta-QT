@@ -28,6 +28,8 @@ QString TMPPATH;
 QString HEBREWBOOKSPATH;
 QString USERPATH;
 
+const QString DEFUALT_FONT = "Droid Sans Hebrew Orayta";
+
 //Global translator object
 QTranslator *translator;
 

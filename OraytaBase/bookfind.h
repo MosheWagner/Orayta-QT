@@ -56,6 +56,7 @@ private slots:
     void on_listWidget_itemClicked(QListWidgetItem *);
 #endif
     void on_clearSearchBTN_clicked();
+    void on_lineEdit_textChanged(const QString &arg1);
 };
 
 #endif // BOOKFIND_H
