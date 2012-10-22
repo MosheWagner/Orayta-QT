@@ -16,9 +16,9 @@ then we will compare the 4 file and merge the best results into ory-new.
 use strict;
 use warnings;
 #use Text::Diff;
-use Text::Diff3;
-use Algorithm::Diff;
-use Algorithm::Merge;
+#use Text::Diff3;
+#use Algorithm::Diff;
+#use Algorithm::Merge;
 use File::Find;
 use Encode;
 binmode STDOUT, "utf8";

@@ -4,9 +4,9 @@
 use strict;
 use warnings;
 #use Text::Diff;
-use Text::Diff3;
-use Algorithm::Diff;
-use Algorithm::Merge;
+#use Text::Diff3;
+#use Algorithm::Diff;
+#use Algorithm::Merge;
 use File::Find;
 use Encode;
 binmode STDOUT, "utf8";
