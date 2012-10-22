@@ -294,11 +294,33 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 }
 	
 	private void appendHeading (int level) {
+		// add all footnotes from this chapter
+		flushNotes(mTextBuilder);
 //		genHighestLevel(level);
 		mTextBuilder.append(headingSymbol(level));
 		increaseHeadingsInUse(level);
    	}
 	
+
+	private void flushNotes(StringBuilder sb) {
+		String notes = getNotes();
+		if (! notes.isEmpty()){
+			//		int highestHeading = getHighestHeading(); 
+			//		
+			//		// make sure we have a valid value.
+			//		if (highestHeading < 1 || highestHeading > 4)
+			//			highestHeading = 4;
+			//		
+			sb.append("\n");
+			//		sb.append(OryFileExtractor.headingSymbol(highestHeading));
+			//		
+			sb.append("<b>הערות שוליים</b>" + "\n"); 
+			sb.append(notes);
+		}
+		noteHolder = new StringBuffer();
+
+	}
+
 //	/**
 //	 * keep the highest heading level used in this file. 
 //	 * @param level
@@ -417,7 +439,6 @@ public class OryFileExtractor extends OdfTextExtractor {
 	
 	/**
 	 * override to disable printing of annotaitions.
-	 * 
 	 */
 	public void visit(OfficeAnnotationElement ele) {
 		if (printAnnotations){
@@ -478,31 +499,48 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * @param line
 	 */
 	private void revisit(OdfStylableElement ele, String line) {
-		//		Main.ui.log("attributes:");
 
-//		Main.ui.log(ele.getAttribute("text:style-name"));
 		if (line.isEmpty() || line.matches("^\\s*$"))
 			return;
+
+		// remove html bracket from text
+		if (line.matches(".*[<>].*")){
+			line = line.replaceAll("<", "{").replaceAll(">", "}");
+			ele.setTextContent(line);
+		}
+			
 
 		String font = "";
 		String size = "";
 		String align = "";
 		size = ele.getProperty(OdfTextProperties.FontSizeComplex);
-//		size += ele.getProperty(OdfTextProperties.FontSize);
-//		font += ele.getProperty(OdfTextProperties.FontFamily);
-//		font += ele.getProperty(OdfTextProperties.FontFamilyGeneric);
-//		font += ele.getProperty(OdfTextProperties.FontFamilyGenericComplex);
-//		font += ele.getProperty(OdfTextProperties.FontCharset);
-//		font += ele.getProperty(OdfTextProperties.FontCharsetComplex);
-//		font += ele.getProperty(OdfTextProperties.FontName);
 		font = ele.getProperty(OdfTextProperties.FontNameComplex);
 		align = ele.getProperty(OdfParagraphProperties.TextAlign);
-//		font += ele.getProperty(OdfTextProperties.);
-		
 		
 		if (null == size) size = "";
 		if (null == font) font = "";
 		if (null == align) align = "";
+		
+		if (null == pSize) pSize = "";
+		if (null == pFont) pFont = "";
+		
+		String mFont = font.equals("")? pFont: font;
+		String mSize = size.equals("")? pSize: size;
+		
+		// treat the following as normal (rod):
+		if (mFont.equals("Times New Roman")||mFont.equals("Rod1"))
+			mFont= "Rod";
+		else if (mFont.equals("Courier")||mFont.equals("Courier New1"))
+			mFont = "courier new";
+		else if (mFont.equals("Miriam1"))
+			mFont = "Miriam";
+		
+		int iSize=0; 
+		try{
+			iSize = Integer.parseInt(mSize.replace("pt", ""));
+		} catch (Exception e){
+			
+		}
 		
 		/*
 		 * these are the formatting instructions we received:
@@ -517,16 +555,17 @@ public class OryFileExtractor extends OdfTextExtractor {
 		 */
 		
 		// normal style
-		if (font.equals("Rod") && (size.equals("12pt") || size.equals(""))){
+		if (mFont.equals("Rod") && (iSize >=12 || iSize == 0)){
 			// new daf
-			if (line.matches("\\(.*,[אב]+\\)")){
-				Pattern p = Pattern.compile("\\((.+) (\\S+,\\S)\\s*\\)");
+			if (line.matches("\\(.*,[אב]+\\)\\s*")){
+				Pattern p = Pattern.compile("\\((.+) (\\S+,\\S)\\s*\\)\\s*");
 				Matcher m = p.matcher(line);
 				if (m.matches()){
 //					Main.ui.dbgLog("masechet: " + m.group(1) + " daf: " + m.group(2));
 					appendHeading(4);
 					ele.setTextContent(m.group(2)+"\n");
 				}
+			//new chapter
 			} else if (align.equals("center") && line.contains("פרק")){
 				Pattern p = Pattern.compile(".*(פרק.*)$");
 				Matcher m = p.matcher(line);
@@ -539,37 +578,24 @@ public class OryFileExtractor extends OdfTextExtractor {
 			}
 		}
 		
-//			appendClass(ele, "ref", line);
-		// 
-		else if (font.equals("Miriam") && size.equals("8pt"))
+		else if (mFont.equals("Miriam") /*&& iSize < 10*/)
 			appendClass(ele, "ref", line);
-		else if (font.equals("Narkisim") && size.equals(""))
+		else if (mFont.equals("Narkisim") && iSize >= 12)
 			appendClass(ele, "pasuk", line);
-		else if (font.equals("Narkisim") && size.equals("10pt"))
+		else if (mFont.equals("Narkisim") && (iSize < 12))
 			appendClass(ele, "pasuk small", line);	
-		else if (font.equals("Miriam") && size.equals("10pt"))
-			appendClass(ele, "pirush", line);	
-		// ususally tosfot
-//		else if (font.equals("Rod") && size.equals("10pt"))
-//			appendClass(ele, "pirush", line);	
-//		else if (font.equals("Rod") && size.equals("10pt") /*&& line.matches(".*")*/)
-//			appendClass(ele, "pirush", line);	
-		else if (font.equalsIgnoreCase("courier new"))
+		else if (mFont.equals("Miriam") && iSize <= 10)
+			appendClass(ele, "pirush", line);		
+		else if (mFont.equalsIgnoreCase("courier new"))
 			appendClass(ele, "editor", line);		
-//		else if (font.equals("Narkisim") && size.equals(""))
-//			appendClass(ele, "ref", line);		
-//		else if (font.equals("Narkisim") && size.equals(""))
-//			appendClass(ele, "ref", line);		
-//		else if (font.equals("Narkisim") && size.equals(""))
-//			appendClass(ele, "ref", line);
-//		else if (font.equals("") && size.equals("10pt") && line.matches("[()]")){
-//			appendClass(ele, "pirush", line);	
-//		}
-		else if (font.equals("") && size.equals("10pt") && line.equals("(")){
-			ele.setTextContent("<span class=\"pirush\">(");
-		}
-		else if (font.equals("") && size.equals("10pt") && line.equals(")")){
-			ele.setTextContent(")</span>");
+		else if (mFont.equals("Rod") && iSize < 12){ 
+			if (line.equals("("))
+				ele.setTextContent("<span class=\"pirush\">(");
+			//guess if this is supposed to close the element.
+			else if (line.matches(".*\\).*")&& line.length()<4)
+				ele.setTextContent(line+"</span>");
+			else
+				appendClass(ele, "pirush", line);
 		}
 		else {
 			Main.ui.log("unrecognized:");
@@ -586,7 +612,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	}
 
 	private void revisit(OdfElement ele, String line){
-		try { //ele = (OdfStylableElement)ele;
+		try {
 			revisit((OdfStylableElement)ele, line);
 		} catch (ClassCastException e){
 //			Main.ui.log("cant cast");
@@ -621,20 +647,21 @@ public class OryFileExtractor extends OdfTextExtractor {
 		
 		fileText.append(mTextBuilder) ;
 		
-		String notes = getNotes();
-		if (! notes.isEmpty()){
-			int highestHeading = getHighestHeading(); 
-			
-			// make sure we have a valid value.
-			if (highestHeading < 1 || highestHeading > 4)
-				highestHeading = 4;
-			
-			fileText.append("\n");
-			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
-			
-			fileText.append("הערות שוליים" + "\n"); 
-			fileText.append(notes);
-		}
+		//removed. i want notes to appear in there own chapter and not 'per file'.
+//		String notes = getNotes();
+//		if (! notes.isEmpty()){
+//			int highestHeading = getHighestHeading(); 
+//			
+//			// make sure we have a valid value.
+//			if (highestHeading < 1 || highestHeading > 4)
+//				highestHeading = 4;
+//			
+//			fileText.append("\n");
+//			fileText.append(OryFileExtractor.headingSymbol(highestHeading));
+//			
+//			fileText.append("הערות שוליים" + "\n"); 
+//			fileText.append(notes);
+//		}
 		
 		fileText = cleanHTML(fileText);
 		
@@ -683,49 +710,51 @@ public class OryFileExtractor extends OdfTextExtractor {
 //		return fileText;
 //	}
 	private StringBuffer cleanHTML(StringBuffer fileText) {
-//		int i=0;
-//		for (; i<100; i++){
-//			Pattern p1 = Pattern.compile("<([^/>][^ >]+)[^>]*>");
+
 			Pattern p1 = Pattern.compile("<([^/>][^ >]+)[^>]*>");
 
 			Matcher m1 = p1.matcher(fileText);
 			StringBuffer sb = new StringBuffer(fileText.length());
 			Pattern p2 = Pattern.compile("<([^>]+)>([^>]*>)");
 			Matcher m2 = p2.matcher(fileText);
-//			int count = 0;
 			int start = 0;
 			while (m1.find()){
-				String replacement = "";
+				try{
+					String replacement = "";
 
-				int end = m1.end();
+					int end = m1.end();
 
-//				Main.ui.dbgLog("m1: "+m1.group()+ " end: "+ end);
-//				System.out.println(fileText.toString().substring(end, end+100));
-				m2.region(end, fileText.length());
-				if (m2.find(end)){
-//					Main.ui.dbgLog("m2: "+m2.group()+ " start: "+m2.start()+" end: "+m2.end());
-					Pattern p3 = Pattern.compile("</"+Matcher.quoteReplacement(m1.group(1))+">(\\s*)"+Matcher.quoteReplacement(m1.group()));
-					Matcher m3 = p3.matcher(m2.group());
+					//				Main.ui.dbgLog("m1: "+m1.group()+ " end: "+ end);
+					//				System.out.println(fileText.toString().substring(end, end+100));
+					m2.region(end, fileText.length());
+					if (m2.find(end)){
+						//					Main.ui.dbgLog("m2: "+m2.group()+ " start: "+m2.start()+" end: "+m2.end());
 
-					if (m3.find()){
-//						Main.ui.dbgLog("m3: "+m3.group());
-						replacement=m3.group(1);
-//						m2.appendReplacement(sb, Matcher.quoteReplacement(replacement));
-//						m1.appendReplacement(sb, Matcher.quoteReplacement(replacement));
-						end= m2.start();
-//						Main.ui.dbgLog(start+","+end);
-//						if (start>end) Main.ui.dbgLog(fileText.substring(end-20,start+20));
-						String add = fileText.substring(start, end);
-//						Main.ui.dbgLog("add: "+add);
-						
-						sb.append(add);
-						sb.append(replacement);
-						start = m2.end();
-//						start = m2.start();
-//						System.out.println("next start: "+start);
-//						count++;
+						Pattern p3 = Pattern.compile("</"+quote(m1.group(1))+">([ \\t]*)"+quote(m1.group()));
+						Matcher m3 = p3.matcher(m2.group());
 
-					} 
+						if (m3.find()){
+							//						Main.ui.dbgLog("m3: "+m3.group());
+							replacement=m3.group(1);
+							//						m2.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+							//						m1.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+							end= m2.start();
+							//						Main.ui.dbgLog(start+","+end);
+							//						if (start>end) Main.ui.dbgLog(fileText.substring(end-20,start+20));
+							String add = fileText.substring(start, end);
+							//						Main.ui.dbgLog("add: "+add);
+
+							sb.append(add);
+							sb.append(replacement);
+							start = m2.end();
+							//						start = m2.start();
+							//						System.out.println("next start: "+start);
+							//						count++;
+
+						} 
+					}
+				} catch (Exception e) {
+					Main.ui.errorMessage("caught error at clean html", e);
 				}
 			}
 			int end = fileText.length();
@@ -742,6 +771,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 		
 		return sb;
 	}
+
+	private String quote(String str) {
+		String res;
+		res = str.replaceAll("[?]", "\\\\?");
+	return Matcher.quoteReplacement(res);
+}
 
 	private void setFilename(File file) {
 		inputFilename = new Filename(file);
