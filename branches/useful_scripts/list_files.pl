@@ -23,6 +23,9 @@ sub getVals { # get the uid and bookname
 	# close FH;
 	
 	warn "no uid found!" and return if ($uid == \0);
+	 if ($uid =~ /\D/){
+	warn "invalid uid! - ".$uid." in file: ".$filename and return;
+	 }
 	# my $bookname = "$bookname2 <OR> $bookname1";
 	my $bookname = "empty";
 	if ($bookname2 =~ /^\s*$/) {
@@ -44,6 +47,7 @@ sub output {
 	my @sorted = "";
 	for (@sortedKeys) {
 		push @sorted, "$_:$hash{$_}\n";
+#		push @sorted, "$_, ";
 	}
 	
 	print "@sorted";

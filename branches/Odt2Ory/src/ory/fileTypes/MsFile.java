@@ -72,7 +72,8 @@ public class MsFile extends Filename implements FileType {
 	 */
 	private  OdtFile doc2odt(Filename input) {
 		OdtFile output = new OdtFile(input.getFullPath(), input.getBaseName(), "odt");
-		output.deleteOnExit();
+		if (!Main.parameters.isDebug())
+			output.deleteOnExit();
 
 		if (Main.parameters.isUseUnoconv()) {
 			return unoConvert(input, output);
