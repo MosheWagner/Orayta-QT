@@ -64,5 +64,6 @@
         <file>Icons/help-about-big.png</file>
         <file>Icons/configure.png</file>
         <file>Images/spalsh-portrait.png</file>
+        <file>OraytaBase/DailyLimud.csv</file>
     </qresource>
 </RCC>
