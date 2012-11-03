@@ -49,6 +49,10 @@ public slots:
     // add daf yomi to this list
     void addDafYomi(BookList booklist);
 
+    void addHalachaYomit(BookList booklist);
+    void addMishnaYomit(BookList booklist);
+
+
 private:
     // max number of bookmarks to remember
     // NOTE: currently this is a const, but later we may want to let the user set this manually

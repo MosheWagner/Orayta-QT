@@ -179,9 +179,6 @@ void deleteBooksFolder(QString sourceFolder);
 //Generate search DB files from the given bookflie (Non-compressed)
 void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString levelMapOutPath);
 
-//Returns the Daf Yomi of a day by the given gregorian date
-QString dafYomi(QDate d);
-
 #ifdef POPPLER
 
 // Returns a corrected Bidi string from the given one.

@@ -33,6 +33,7 @@ MiniBMark::MiniBMark(Book *b, BookIter iter)
     id = -1;
 }
 
+
 Book* MiniBMark::getBook(){
     return mBook;
 }

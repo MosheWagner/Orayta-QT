@@ -107,7 +107,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     fc->activateOn(ui->staticBookMarkList);
     fc->activateOn(ui->dailyLearningList);
     fc->activateOn(ui->historyBookmarkList);
-    fc->activateOn(ui->scrollArea);
+    //fc->activateOn(ui->scrollArea);
 
 
     //Build the book list
@@ -900,8 +900,8 @@ void MobileApp::on_saveConf_clicked()
     gFontFamily = ui->fontComboBox->currentFont().family();
     gFontSize = ui->fonSizeSpinBox->value();
 
-    autoResume = ui->autoResumeCKBX->isChecked();
-    useCustomFontForAll = ui->customFontRDBTN->isChecked();
+    //autoResume = ui->autoResumeCKBX->isChecked();
+    //useCustomFontForAll = ui->customFontRDBTN->isChecked();
 
     ui->saveConf->setEnabled(false);
 
@@ -1186,9 +1186,9 @@ void MobileApp::resetSettingsPage()
     ui->fontComboBox->setCurrentFont(f);
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
-    ui->autoResumeCKBX->setChecked(autoResume);
-    ui->customFontRDBTN->setChecked(useCustomFontForAll);
-    ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
+    //ui->autoResumeCKBX->setChecked(autoResume);
+    //ui->customFontRDBTN->setChecked(useCustomFontForAll);
+    //ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
     ui->saveConf->setEnabled(false);
 
 }
@@ -1196,6 +1196,8 @@ void MobileApp::resetSettingsPage()
 void MobileApp::setupBookmarkList(){
 
     ui->dailyLearningList->addDafYomi(bookList);
+    ui->dailyLearningList->addMishnaYomit(bookList);
+    ui->dailyLearningList->addHalachaYomit(bookList);
 }
 
 //------------------------------------
@@ -1472,6 +1474,9 @@ void MobileApp::on_forwardBTN_clicked()
         Book *b = displayer->getCurrentBook();
         BookIter it = displayer->getCurrentIter();
         it = b->nextChap(it);
+
+        //@@@
+        qDebug() << it.toString();
 
         if (it != BookIter()) showBook(b, it);
     }

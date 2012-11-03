@@ -51,6 +51,12 @@ void DesktopApp::addBookMarkHere(QString title = "")
     Book *b =  CurrentBookdisplayer()->book();
     BookIter itr = CurrentBookdisplayer()->currentLocation;
 
+    if (!b)
+    {
+        qDebug() << "Invalid book for bookmark!";
+        return;
+    }
+
     MiniBMark * bm = ui->bookMarkList->addBookMark(b, itr);
     bm->setConstant(true);
 
@@ -72,6 +78,8 @@ void DesktopApp::on_bookMarkList_itemDoubleClicked(QListWidgetItem* item)
 {
     MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
     if (!bm || bm == 0) return;
+
+    qDebug() << bm->getBook()->getName();
 
     //Add a new tab and open the link there
     addViewTab(false);

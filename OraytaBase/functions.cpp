@@ -956,40 +956,6 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
     writetofile(levelMapOutPath, lvlmpstr, "UTF-8", true);
 }
 
-//Returns the Daf Yomi of a day by the given gregorian date
-QString dafYomi(QDate d)
-{
-
-    QStringList masehtot;
-
-    masehtot << "ברכות" << "שבת" << "עירובין" << "פסחים" << "שקלים" << "יומא" << "סוכה" << "ביצה" << "ראש השנה" << "תענית" << "מגילה" << "מועד קטן" << "חגיגה" << "יבמות" << "כתובות" << "נדרים" << "נזיר" << "סוטה" << "גיטין" << "קידושין" << "בבא קמא" << "בבא מציעא" << "בבא בתרא" << "סנהדרין" << "מכות" << "שבועות" << "עבודה זרה" << "הוריות" << "זבחים" << "מנחות" << "חולין" << "בכורות" << "ערכין" << "תמורה" << "כריתות" << "מעילה" << "נידה";
-
-    QList <int> dapim;
-    dapim << 64 << 157 << 105 << 121 << 22 << 88 << 56 << 40 << 35 << 31 << 32 << 29 << 27 << /*Yevamot*/122 << 112 << 91 << 66 << 49 << 90 << 82 << /*Bava Kama*/119 << 119 << 176 << 113 << 24 << 49 << 76 << 14 << /*Zevahim*/120 << 110 << 142 << 61 << 34 << 34 << 28 << 37 << 73;
-
-    int numDapim = 0;
-    for (int i=0; i<dapim.size(); i++) numDapim += dapim[i] - 1;
-
-    QDate firstDaf(1923, 7, 10); // כ"ו בתמוז ה'תרפ"ג
-
-    int i=(firstDaf.daysTo(d) + 1) % numDapim;
-
-    if ( i < 0 ) return "";
-    else if (i==0) i = numDapim;
-
-    int masehet=0;
-
-    while (dapim[masehet]-1 < i)
-    {
-        i-=dapim[masehet++]-1;
-
-    }
-
-    QChar separator = '%';
-    return masehtot[masehet] + separator + NumberToGematria(i+1, false);
-}
-
-
 #ifdef POPPLER
 
 QString ToBidiText(QString str)

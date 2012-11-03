@@ -13,10 +13,10 @@ CONFIG += mobility
 MOBILITY =
 
     #for test only
-    #DEFINES += MOBILE
-    #DEFINES += android
-    #CONFIG += MOBILE
-    #CONFIG += android
+    DEFINES += MOBILE
+    DEFINES += android
+    CONFIG += MOBILE
+    CONFIG += android
 
 android {
     INSTALL_PATH = "/assets/Orayta/"

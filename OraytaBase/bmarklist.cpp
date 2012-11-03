@@ -124,6 +124,106 @@ MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)
 //void BMarkList::setParshaYomiActive(bool b) {parshaYomiActive = b;}
 //void BMarkList::setMishnaYomiActive(bool b) {mishnaYomiActive = b;}
 
+void BMarkList::addMishnaYomit(BookList bl)
+{
+    QList <QString> lst;
+    ReadFileToList(":/OraytaBase/DailyLimud.csv", lst, "UTF-8");
+
+    //I know this isn't efficent, but for such small numbers, it really dosn't matter much.
+    QString d;
+    QStringList line;
+    foreach(const QString s, lst)
+    {
+        d = s.split(",")[0];
+
+        if (QDate::fromString(d,  "dd/MM/yyyy") == QDate::currentDate())
+        {
+            line = s.split(",");
+            break;
+        }
+    }
+
+    if (line.size() >= 4)
+    {
+        QString masechet, perek, mishna;
+        masechet = line[1].split("-")[0];
+        perek = line[2].split("-")[0];
+        mishna = line[3].split("-")[0];
+
+        QString n = "משנה - " + masechet;
+        Book * bk;
+
+        //Find book
+        foreach (Book *b, bl)
+        {
+            if (b->getNormallDisplayName() == n)
+            {
+                bk = b;
+                break;
+            }
+        }
+
+        if (!bk) return;
+
+        //Set iter
+        BookIter it;
+        it.SetLevelFromLine("$ משנה " + masechet);
+        it.SetLevelFromLine("^ פרק " + perek);
+        it.SetLevelFromLine("~ פרק " + perek + " - משנה " + mishna);
+
+        MiniBMark *bm = addBookMark(bk, it);
+        bm->setTitle("משנה יומית");
+    }
+}
+
+void BMarkList::addHalachaYomit(BookList bl)
+{
+    QList <QString> lst;
+    ReadFileToList(":/OraytaBase/DailyLimud.csv", lst, "UTF-8");
+
+    //I know this isn't efficent, but for such small numbers, it really dosn't matter much.
+    QString d;
+    QStringList line;
+    foreach(const QString s, lst)
+    {
+        d = s.split(",")[0];
+
+        if (QDate::fromString(d,  "dd/MM/yyyy") == QDate::currentDate())
+        {
+            line = s.split(",");
+            break;
+        }
+    }
+
+    if (line.size() >= 6)
+    {
+        QString siman, seif;
+        siman = line[4].split("-")[0];
+        int sim = GematriaValueOfString(siman);
+
+        seif = line[5].split("-")[0];
+
+        //Find which part of Shulchan aruch we are in
+        QList <int> parts;
+        parts << 127 << 241 << 344 << 428 << 529 << 697;
+        int id;
+        for (id=0; parts[id] < sim; id++);
+        id += 80000; //Id of Shulchan aruch part 1
+
+        Book * bk = bl.findBookById(id);
+
+        if (!bk) return;
+
+        //Set iter
+        BookIter it;
+        it.SetLevelFromLine("~ סימן " + siman);
+        it.SetLevelFromLine("! {" + seif + "}");
+
+        MiniBMark *bm = addBookMark(bk, it);
+        bm->setTitle("הלכה יומית");
+    }
+}
+
 void BMarkList::addDafYomi(BookList bl)
 {
     QDate d = QDate::currentDate ();
@@ -172,5 +272,6 @@ void BMarkList::addDafYomi(BookList bl)
     }
     else return;
 
-    addBookMark(b, itr);
+    MiniBMark *bm = addBookMark(b, itr);
+    bm->setTitle("דף יומי");
 }
