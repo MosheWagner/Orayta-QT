@@ -900,8 +900,8 @@ void MobileApp::on_saveConf_clicked()
     gFontFamily = ui->fontComboBox->currentFont().family();
     gFontSize = ui->fonSizeSpinBox->value();
 
-    //autoResume = ui->autoResumeCKBX->isChecked();
-    //useCustomFontForAll = ui->customFontRDBTN->isChecked();
+    autoResume = ui->autoResumeCKBX->isChecked();
+    useCustomFontForAll = ui->customFontRDBTN->isChecked();
 
     ui->saveConf->setEnabled(false);
 
@@ -1186,9 +1186,9 @@ void MobileApp::resetSettingsPage()
     ui->fontComboBox->setCurrentFont(f);
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
-    //ui->autoResumeCKBX->setChecked(autoResume);
-    //ui->customFontRDBTN->setChecked(useCustomFontForAll);
-    //ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
+    ui->autoResumeCKBX->setChecked(autoResume);
+    ui->customFontRDBTN->setChecked(useCustomFontForAll);
+    ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
     ui->saveConf->setEnabled(false);
 
 }
@@ -1476,7 +1476,7 @@ void MobileApp::on_forwardBTN_clicked()
         it = b->nextChap(it);
 
         //@@@
-        qDebug() << it.toString();
+//        qDebug() << it.toString();
 
         if (it != BookIter()) showBook(b, it);
     }
