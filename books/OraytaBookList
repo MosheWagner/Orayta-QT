@@ -509,8 +509,8 @@
 ./030_tlmod_bbli/39_Bav_Nida_L1.obk, 205560, 05/05/12
 
 @ גמרא נוחה
-./032_gmara_nocha/01_msct_brcot.obk, 571703, 10/24/12 
-./032_gmara_nocha/02_msct_sbt.obk, 1277525, 10/24/12 
+./032_gmara_nocha/01_msct_brcot.obk, 571703, 10/24/12  
+./032_gmara_nocha/02_msct_sbt.obk, 1117153, 11/30/12 
 ./032_gmara_nocha/03_msct_uirobin.obk, 763748, 10/24/12 
 ./032_gmara_nocha/04_msct_pshim.obk, 957139, 10/24/12 
 ./032_gmara_nocha/05_msct_tunit.obk, 301866, 10/24/12 
@@ -545,7 +545,7 @@
 ./032_gmara_nocha/37_msct_muilh.obk, 135321, 10/24/12 
 ./032_gmara_nocha/38_msct_tmid.obk, 107464, 10/24/12 
 ./032_gmara_nocha/39_msct_nidh.obk, 541362, 10/24/12 
-./032_gmara_nocha.folder, 66, 10/24/12 
+./032_gmara_nocha.folder, 29, 11/29/12
 
 @ ראשונים על השס
 ./040_rasonim_ss.folder, 31, 05/05/12 
