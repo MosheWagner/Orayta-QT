@@ -9,7 +9,7 @@
 # BookPATH, BookSize, BookModDate
     
 # Generation Command:   
-# find . -printf '%p, %s, %TD \n' | grep "obk\|folder" | grep -v "svn" | sort
+# find . -printf '%p, %s, %Td/%Tm/%Ty \n' | grep "obk\|folder" | grep -v "svn" | sort
 
 # Book URL: https://orayta.googlecode.com/svn/books/@BOOKURL
 
@@ -509,44 +509,43 @@
 ./030_tlmod_bbli/39_Bav_Nida_L1.obk, 205560, 05/05/12
 
 @ גמרא נוחה
-./032_gmara_nocha/01_msct_brcot.obk, 571703, 10/24/12  
-./032_gmara_nocha/02_msct_sbt.obk, 1117153, 11/30/12 
-./032_gmara_nocha/03_msct_uirobin.obk, 763748, 10/24/12 
-./032_gmara_nocha/04_msct_pshim.obk, 957139, 10/24/12 
-./032_gmara_nocha/05_msct_tunit.obk, 301866, 10/24/12 
-./032_gmara_nocha/06_msct_ras_hsnh.obk, 273655, 10/24/12 
-./032_gmara_nocha/07_msct_ioma.obk, 623960, 10/24/12 
-./032_gmara_nocha/08_msct_soch.obk, 413174, 10/24/12 
-./032_gmara_nocha/09_msct_bizh.obk, 298714, 10/24/12 
-./032_gmara_nocha/11_msct_mgilh.obk, 310154, 10/24/12 
-./032_gmara_nocha/12_msct_moud_ktn.obk, 199484, 10/24/12 
-./032_gmara_nocha/13_msct_hgigh.obk, 190017, 10/24/12 
-./032_gmara_nocha/14_msct_ibmot.obk, 1277620, 10/24/12 
-./032_gmara_nocha/15_msct_ctobot.obk, 836965, 10/24/12 
-./032_gmara_nocha/16_msct_ndrim.obk, 435754, 10/24/12 
-./032_gmara_nocha/17_msct_nzir.obk, 402532, 10/24/12 
-./032_gmara_nocha/18_msct_soth.obk, 453387, 10/24/12 
-./032_gmara_nocha/19_msct_gitin.obk, 648371, 10/24/12 
-./032_gmara_nocha/20_msct_kidosin.obk, 627268, 10/24/12 
-./032_gmara_nocha/21_msct_bba_kma.obk, 793314, 10/24/12 
-./032_gmara_nocha/22_msct_bba_mziua.obk, 882573, 10/24/12 
-./032_gmara_nocha/23_msct_bba_btra.obk, 1447744, 10/24/12 
-./032_gmara_nocha/24_msct_sndhrin.obk, 1128010, 10/24/12 
-./032_gmara_nocha/25_msct_mcot.obk, 205049, 10/24/12 
-./032_gmara_nocha/27_msct_ubodh_zrh.obk, 554146, 10/24/12 
-./032_gmara_nocha/29_msct_horiot.obk, 128583, 10/24/12 
-./032_gmara_nocha/30_msct_zbhim.obk, 889160, 10/24/12 
-./032_gmara_nocha/31_msct_mnhot.obk, 813326, 10/24/12 
-./032_gmara_nocha/32_msct_holin.obk, 1185720, 10/24/12 
-./032_gmara_nocha/33_msct_bcorot.obk, 455008, 10/24/12 
-./032_gmara_nocha/34_msct_urcin.obk, 264377, 10/24/12 
-./032_gmara_nocha/35_msct_tmorh.obk, 267961, 10/24/12 
-./032_gmara_nocha/36_msct_critot.obk, 268054, 10/24/12 
-./032_gmara_nocha/37_msct_muilh.obk, 135321, 10/24/12 
-./032_gmara_nocha/38_msct_tmid.obk, 107464, 10/24/12 
-./032_gmara_nocha/39_msct_nidh.obk, 541362, 10/24/12 
-./032_gmara_nocha.folder, 29, 11/29/12
-
+./032_gmara_nocha/01_msct_brcot.obk, 571703, 24/10/12 
+./032_gmara_nocha/02_msct_sbt.obk, 1117153, 30/11/12 
+./032_gmara_nocha/03_msct_uirobin.obk, 763748, 24/10/12 
+./032_gmara_nocha/04_msct_pshim.obk, 957139, 24/10/12 
+./032_gmara_nocha/05_msct_tunit.obk, 301866, 24/10/12 
+./032_gmara_nocha/06_msct_ras_hsnh.obk, 273655, 24/10/12 
+./032_gmara_nocha/07_msct_ioma.obk, 623960, 24/10/12 
+./032_gmara_nocha/08_msct_soch.obk, 413174, 24/10/12 
+./032_gmara_nocha/09_msct_bizh.obk, 298714, 24/10/12 
+./032_gmara_nocha/11_msct_mgilh.obk, 310154, 24/10/12 
+./032_gmara_nocha/12_msct_moud_ktn.obk, 199484, 24/10/12 
+./032_gmara_nocha/13_msct_hgigh.obk, 190017, 24/10/12 
+./032_gmara_nocha/14_msct_ibmot.obk, 1277620, 24/10/12 
+./032_gmara_nocha/15_msct_ctobot.obk, 836965, 24/10/12 
+./032_gmara_nocha/16_msct_ndrim.obk, 435754, 24/10/12 
+./032_gmara_nocha/17_msct_nzir.obk, 402532, 24/10/12 
+./032_gmara_nocha/18_msct_soth.obk, 453387, 24/10/12 
+./032_gmara_nocha/19_msct_gitin.obk, 648371, 24/10/12 
+./032_gmara_nocha/20_msct_kidosin.obk, 627268, 24/10/12 
+./032_gmara_nocha/21_msct_bba_kma.obk, 793314, 24/10/12 
+./032_gmara_nocha/22_msct_bba_mziua.obk, 882573, 24/10/12 
+./032_gmara_nocha/23_msct_bba_btra.obk, 1447744, 24/10/12 
+./032_gmara_nocha/24_msct_sndhrin.obk, 1128010, 24/10/12 
+./032_gmara_nocha/25_msct_mcot.obk, 205049, 24/10/12 
+./032_gmara_nocha/27_msct_ubodh_zrh.obk, 554146, 24/10/12 
+./032_gmara_nocha/29_msct_horiot.obk, 128583, 24/10/12 
+./032_gmara_nocha/30_msct_zbhim.obk, 889160, 24/10/12 
+./032_gmara_nocha/31_msct_mnhot.obk, 813326, 24/10/12 
+./032_gmara_nocha/32_msct_holin.obk, 1185720, 24/10/12 
+./032_gmara_nocha/33_msct_bcorot.obk, 455008, 24/10/12 
+./032_gmara_nocha/34_msct_urcin.obk, 264377, 24/10/12 
+./032_gmara_nocha/35_msct_tmorh.obk, 267961, 24/10/12 
+./032_gmara_nocha/36_msct_critot.obk, 268054, 24/10/12 
+./032_gmara_nocha/37_msct_muilh.obk, 135321, 24/10/12 
+./032_gmara_nocha/38_msct_tmid.obk, 107464, 24/10/12 
+./032_gmara_nocha/39_msct_nidh.obk, 541362, 24/10/12 
+./032_gmara_nocha.folder, 29, 29/11/12
 @ ראשונים על השס
 ./040_rasonim_ss.folder, 31, 05/05/12 
 ./040_rasonim_ss/01_rsi.folder, 18, 05/05/12 
@@ -747,9 +746,9 @@
 @ מחשבה
 ./095_mhsbh.folder, 22, 05/05/12 
 ./095_mhsbh/001_brslb.folder, 22, 05/04/12 
-./095_mhsbh/001_brslb/070_likutai_muharan_A.obk, 1024122, 08/30/12
-./095_mhsbh/001_brslb/071_likutai_muharan_B.obk, 364934, 08/30/12  
-./095_mhsbh/001_brslb/100_kitsur_likutei.obk, 493154, 08/30/12 
+./095_mhsbh/001_brslb/070_likutai_muharan_A.obk, 1024122, 25/07/12 
+./095_mhsbh/001_brslb/071_likutai_muharan_B.obk, 364934, 25/07/12 
+./095_mhsbh/001_brslb/100_kitsur_likutei.obk, 493154, 25/07/12 
 ./095_mhsbh/005_hbd.folder, 18, 05/05/12 
 ./095_mhsbh/005_hbd/tanya_p1.obk, 146720, 05/05/12 
 ./095_mhsbh/005_hbd/tanya_p2.obk, 30880, 05/05/12 
