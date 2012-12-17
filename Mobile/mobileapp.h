@@ -54,7 +54,6 @@ class MobileApp : public QDialog
 public:
     explicit MobileApp(QWidget *parent = 0);
 
-    QStringList downloadsList;
     void downloadNext();
     ~MobileApp();
 
@@ -246,6 +245,7 @@ private:
         QString UnpackPath;
         double fileSize;
         QDate dateModified;
+        QString hash;
 
         bool needToDownload;
     };
@@ -269,11 +269,11 @@ private:
     FileDownloader *listdownload;
     FileDownloader *downloader;
 
-    //Holds a list of books that the user already downloaded, so they won't be downloaded again.
-    QStringList downloadedBooks;
     //Holds a list of books that the user requested to download.
     // These will be processed by the FileDownloader object.
-    QStringList booksToDownload;
+    QStringList downloadsList;
+    QStringList hashs;
+    int downloadNum;
 
     void updateDownloadableList();
 

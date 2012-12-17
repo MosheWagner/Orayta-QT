@@ -18,6 +18,11 @@ MOBILITY =
     CONFIG += MOBILE
     CONFIG += android
 
+#Small hack for Quazip on windows
+win32{
+    DEFINES += QUAZIP_STATIC
+}
+
 android {
     INSTALL_PATH = "/assets/Orayta/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}

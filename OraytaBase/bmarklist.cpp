@@ -151,7 +151,7 @@ void BMarkList::addMishnaYomit(BookList bl)
         mishna = line[3].split("-")[0];
 
         QString n = "משנה - " + masechet;
-        Book * bk;
+        Book * bk = NULL;
 
         //Find book
         foreach (Book *b, bl)
@@ -210,7 +210,8 @@ void BMarkList::addHalachaYomit(BookList bl)
         for (id=0; parts[id] < sim; id++);
         id += 80000; //Id of Shulchan aruch part 1
 
-        Book * bk = bl.findBookById(id);
+        Book * bk = NULL;
+        bk = bl.findBookById(id);
 
         if (!bk) return;
 
@@ -251,8 +252,9 @@ void BMarkList::addDafYomi(BookList bl)
     }
 
     BookIter itr;
-    Book * b = bl.findBookById(masehtotUID[masehet]);
-    if (b != NULL)
+    Book * b = NULL;
+    b = bl.findBookById(masehtotUID[masehet]);
+    if (b)
     {
         QList <QString> t;
         if (!ReadFileFromZip(b->getPath(), "BookText", t, "UTF-8")) return;

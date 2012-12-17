@@ -402,7 +402,8 @@ Book* BookList::FindBookByPath (QString path)
 {
     for(unsigned int i=0; i<size(); i++)
     {
-        if( (*this)[i]->getPath() == path )
+        QString p = (*this)[i]->getPath().replace("\\", "/").replace("//","/");
+        if( p == path.replace("\\", "/").replace("//","/") )
             return (*this)[i];
     }
     return NULL;
