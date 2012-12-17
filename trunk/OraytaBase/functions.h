@@ -51,8 +51,6 @@ extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
-extern const QString DEFUALT_FONT;
-
 
 //Small functions used by a few files:
 
@@ -167,6 +165,8 @@ QRegExp withNikudAndTeamim( const QString& str );
 
 QString AllowKtivHasser(const QString& str);
 
+//Returns the sha1 hash of the given qfile
+QString fileHash(QString filepath);
 
 QString simpleHtmlPage(QString title, QString contents);
 QString pluginPage(QString title);

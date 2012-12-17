@@ -35,7 +35,9 @@
 #include <QDesktopWidget>
 
 // Global
-QString gFontFamily = DEFUALT_FONT;
+#define DEF_FONT "Droid Sans Hebrew Orayta"
+
+QString gFontFamily = DEF_FONT;
 int gFontSize = 0;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
@@ -188,7 +190,7 @@ void MobileApp::adjustToScreenSize()
 #ifndef Q_OS_ANDROID
     size = this->size();
 #endif
-    qDebug() << "Screen:" << size;
+    //qDebug() << "Screen:" << size;
 
     //Adjust main page icons:
     int w = (size.width() / 2);
@@ -198,7 +200,7 @@ void MobileApp::adjustToScreenSize()
     w = int(w / 20) * 20;
 
     QSize a(w -26, w - 26);
-    qDebug() << "Icon size:" << a;
+    //qDebug() << "Icon size:" << a;
 
     int h = (size.height() / 18);
     //ui->aboutBTN->setIconSize(a);
@@ -430,7 +432,7 @@ void MobileApp::showBook(Book *book, BookIter itr)
 
     //IZAR: temporary work-around. the problem is that orayta reads the global font settings ONLY on startup, and is careless if it is changed latter.
     //TODO: fix this.
-    QString fontname= useCustomFontForAll? gFontFamily: DEFUALT_FONT;
+    QString fontname= useCustomFontForAll? gFontFamily: DEF_FONT;
     fontname = (book->hasNikud || book->hasTeamim)? gFontFamily: fontname;
     QFont font( fontname, gFontSize );
     book->setFont(font);

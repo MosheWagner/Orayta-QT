@@ -75,9 +75,6 @@ void MobileApp::updateDownloadableList()
 
 }
 
-
-
-
 // Parse the booklist file
 void MobileApp::parseDLFile(QList <QString> dl)
 {
@@ -103,6 +100,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
             }
 
             DownloadbleBookObject bo;
+            bo.hash = "";
             QStringList sl = dl[i].split(", ");
             if (sl.size() < 3)
             {
@@ -111,17 +109,24 @@ void MobileApp::parseDLFile(QList <QString> dl)
             }
 
             QString t = sl[0];
-            bo.URL = t.replace("./", "https://orayta.googlecode.com/svn/books/");
+            bo.URL = t.replace("./", "http://orayta.googlecode.com/svn/books/");
             bo.UnpackPath = sl[0].replace("./", BOOKPATH);
             int n; if (ToNum(sl[1], &n)) bo.fileSize = n / 1000000.0;
 
             bo.dateModified = QDate::fromString(sl[2].simplified(), "dd/MM/yy");
             //Because QT thinks '12' is 1912 and not 2012...
             bo.dateModified.setYMD(100 + bo.dateModified.year(), bo.dateModified.month(), bo.dateModified.day());
-            groups.last().books.append(bo);
 
+            //If a hash is present for this line
+            if(sl.size() > 3)
+            {
+                bo.hash = sl[3];
+            }
+
+            groups.last().books.append(bo);
         }
     }
+
 
     for (int i=0; i<groups.size(); i++)
     {
@@ -145,7 +150,6 @@ void MobileApp::parseDLFile(QList <QString> dl)
                 else needToDownload = true;
             }
             else needToDownload = true;
-
 
             if (!needToDownload)
             {
@@ -173,7 +177,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
         else if (hasNone) groups[i].downloadState = 2; //None installed
         else groups[i].downloadState = 1; //Needs update
 
-        qDebug() << groups[i].name <<  groups[i].downloadState << groups[i].fullSize << groups[i].downloadSize;
+        //qDebug() << groups[i].name <<  groups[i].downloadState << groups[i].fullSize << groups[i].downloadSize;
    }
 }
 
@@ -204,6 +208,7 @@ void MobileApp::downloadStart()
 {
     downloader->abort();
     downloadsList.clear();
+    hashs.clear();
 
     for (int i=0; i<ui->downloadListWidget->count(); i++)
     {
@@ -222,16 +227,20 @@ void MobileApp::downloadStart()
                         {
                             QString url = groups[n].books[j].URL;
                             downloadsList << url;
+                            hashs << groups[n].books[j].hash;
                         }
                     }
                 }
             }
         }
     }
+    downloadNum = downloadsList.size();
+
+    ui->downloadInfo->toolTip() = "";
+
     ui->downloadListWidget->setEnabled(false);
     ui->downloadBTN->setEnabled(false);
 
-    //qDebug() << downloadsList;
 
     // download the next file in downloadsList.
     downloadNext();
@@ -249,19 +258,18 @@ void MobileApp::downloadNext()
         QString url = downloadsList.first();
         QString name = url.mid(url.lastIndexOf("/") + 1);
         //Generate download target
-        QString target = QString(url).replace("https://orayta.googlecode.com/svn/books/", BOOKPATH);
+        QString target = QString(url).replace("http://orayta.googlecode.com/svn/books/", BOOKPATH);
         QString p = target.left(target.length() - name.length());
         QDir().mkpath(p);
 
         //qDebug() <<"download file to: "<< target;
-        downloader->Download(url, target, true);
+        downloader->Download(url, target, true, hashs.first());
 
         //display download information:
-        ui->downloadInfo->setText(name);
-
-        downloadedBooks << downloadsList.first();
+        ui->downloadInfo->setText(tr("Downloading file ") + QString::number(downloadNum - downloadsList.size() + 1) + tr(" of ") + QString::number(downloadNum));
 
         downloadsList.removeFirst();
+        hashs.removeFirst();
     }
     //No more books to download
     else
@@ -269,6 +277,11 @@ void MobileApp::downloadNext()
         //qDebug() << "done downloading";
         //display download information:
         ui->downloadInfo->setText(tr("Download complete!"));
+
+        if (ui->downloadInfo->toolTip() == "Error")
+        {
+            ui->downloadInfo->setText(tr("Download complete with errors. Try downloading the files again."));
+        }
 
         //reload the book tree
         reloadBooklist();
@@ -282,21 +295,33 @@ void MobileApp::downloadNext()
         ui->downloadBTN->setEnabled(true);
 
 
-        //Switch view to book tree to see the new books
-        if (ui->stackedWidget->currentIndex() == GET_BOOKS_PAGE)
-            ui->stackedWidget->setCurrentIndex(LIST_PAGE);
+        if (ui->downloadInfo->toolTip() == "")
+        {
+            //Switch view to book tree to see the new books
+            if (ui->stackedWidget->currentIndex() == GET_BOOKS_PAGE)
+                ui->stackedWidget->setCurrentIndex(LIST_PAGE);
+        }
     }
 }
 
 
 void MobileApp::downloadProgress(int val) { ui->downloadPrgBar->setValue(val); }
 
+#include <QMessageBox>
+
 void MobileApp::downloadError()
 {
-    qDebug() << "Error downloading:" + downloader->getFileName();
+    qDebug() << "Error downloading: " + downloader->getFileName();
+
+    ui->downloadInfo->setToolTip("Error");
+
+    //QMessageBox msgBox;
+    //msgBox.setText(tr("Error downloading: ")  + downloader->getFileName() + tr("\nPlease try to re download it."));
+    //msgBox.exec();
 
     //remove the tmpfile created by the downloader.
-//    downloader->getFile()->remove();
+    //downloader->getFile()->remove();
+
     downloadNext();
 }
 

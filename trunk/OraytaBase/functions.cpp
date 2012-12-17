@@ -17,6 +17,7 @@
 #include "functions.h"
 #include <QDir>
 #include <QDebug>
+#include <QCryptographicHash>
 
 #include "quazip/quazipfile.h"
 
@@ -27,8 +28,6 @@ QString MAINPATH;
 QString TMPPATH;
 QString HEBREWBOOKSPATH;
 QString USERPATH;
-
-const QString DEFUALT_FONT = "Droid Sans Hebrew Orayta";
 
 //Global translator object
 QTranslator *translator;
@@ -706,6 +705,21 @@ QString allowNikudAndTeamim( const QString& str )
 QRegExp withNikudAndTeamim( const QString& str )
 {
     return QRegExp("(" + allowNikudAndTeamim(str) + ")");
+}
+
+QString fileHash(QString filepath)
+{
+    QFile f(filepath);
+
+    QCryptographicHash crypto(QCryptographicHash::Sha1);
+    if (f.open(QFile::ReadOnly))
+    {
+        QByteArray hash = QCryptographicHash::hash(f.readAll(), QCryptographicHash::Md5);
+        return QString(hash.toHex());
+    }
+    f.close();
+
+    return "";
 }
 
 ////Returns a regexp pattern all strings that are the same as the given string,

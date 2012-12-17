@@ -47,7 +47,7 @@ public:
 
     //Downloads the file at the given url to the given target.
     // Returns nothing, but emits signalls representing what happened
-    void Download(QString url, QString target, bool overwrite);
+    void Download(QString url, QString target, bool overwrite, QString hash = "");
 
     //Returns the filename of the last download (NOTE: also if it was unsuccessful)
     QString getFileName();
@@ -63,6 +63,10 @@ private:
     //File name for the finished download
         // (Until it's done it's saved to the same name with ".part" after it)
     QString mFileName;
+    //The downloaded file should have this hash when done
+    QString mHash;
+    //Tests if the downloaded file is valid, using a hash if given.
+    bool isValid();
 
 public slots:
     //Aborts the download, and emits no error

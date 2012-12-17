@@ -31,7 +31,7 @@ FileDownloader::FileDownloader()
 
 //Downloads the file at the given url to the given target.
 // Returns nothing, but emits signalls representing what happened
-void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite = false)
+void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite, QString hash)
 {
     mFileName = rTarget;
 
@@ -43,6 +43,8 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite = fa
     }
 
     mTargetFile.setFileName(rTarget);
+
+    mHash = hash;
 
     //Check if a file exists in the given target:
     if (mTargetFile.exists() && overwrite == false)
@@ -63,7 +65,6 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite = fa
 
         //Start downloading
         mHttpObject.get(url.toString(), &mTargetFile);
-
     }
 }
 
@@ -72,7 +73,7 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite = fa
 // And the done signall if it was succesful
 void FileDownloader::downloadDone(bool error)
 {
-    if (error == true)
+    if (error)
     {
         QHttp::Error E = mHttpObject.error();
 
@@ -86,38 +87,28 @@ void FileDownloader::downloadDone(bool error)
     }
     else
     {
-        //Rename the filename to the real name (without the ".part");
-        //first remove the old version if it exists:
-        QFile old(mFileName);
-        if (old.exists()) old.remove();
-        //now we can rename the new file:
-        bool ok = mTargetFile.rename(mFileName);
         mTargetFile.close();
-
-        if (!ok)
-            qDebug()<< "Can't rename: " << mTargetFile.fileName() << " as: " << mFileName;
-
-        //Force deletion of .part file
-        QFile deleter(mFileName + ".part");
-        if (deleter.exists()) deleter.remove();
-
-        //Make sure the file isn't empty, or delete it too:
-        QFile test(mFileName);
-        test.open(QIODevice::ReadOnly);
-        QString s = QString(test.readAll().simplified());
-        if (s == "" || s.indexOf("was not found on this server") != -1 )
+        if (isValid())
         {
-            qDebug()<< "Empty file: " << mTargetFile.fileName() << " deleteing it. You may want to download it again or report a bug.";
-            test.remove();
-        }
-        else if( s.indexOf("http://members.neto.net.il/?a=block") != -1)
-        {
-            qDebug()<< "The download was blocked by Internet Rimon. Contact them and request to unblock the download.";
-            test.remove();
-        }
-        else test.close();
+            //Rename the filename to the real name (without the ".part");
+            //first remove the old version if it exists:
+            QFile old(mFileName);
+            if (old.exists()) old.remove();
+            //Now we can rename the new file:
+            bool ok = mTargetFile.rename(mFileName);
 
-        emit done();
+            if (!ok)
+            {
+                qDebug()<< "Can't rename: " << mTargetFile.fileName() << " as: " << mFileName;
+            }
+
+            //Force deletion of .part file
+            QFile deleter(mFileName + ".part");
+            if (deleter.exists()) deleter.remove();
+
+            emit done();
+        }
+        else emit downloadError();
     }
 }
 
@@ -140,6 +131,42 @@ void FileDownloader::abort()
 {
     mHttpObject.abort();
     mTargetFile.close();
+}
+
+#include "functions.h"
+
+bool FileDownloader::isValid()
+{
+    QFile test(mTargetFile.fileName());
+
+    if (!test.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+    else
+    {
+        //Make sure the file isn't empty (Read only first 10 KB)
+        QString s = QString(test.read(1024 * 10).simplified());
+        if (s == "" || s.indexOf("not found on this server") != -1 )
+        {
+            qDebug()<< "Empty file: " << mFileName << " You may want to download it again or report a bug.";
+            return false;
+        }
+
+        //Compare to hash
+        if (mHash != "")
+        {
+            if ( fileHash(mTargetFile.fileName()).simplified() != mHash.simplified() )
+            {
+                qDebug()<< "Downloaded file: " << mFileName << " Does not match the hash it should have. Try to download it again or report a bug.";
+                return false;
+            }
+        }
+    }
+
+    test.close();
+
+    return true;
 }
 
 //Returns true if a download is running (at any state), and false if not
