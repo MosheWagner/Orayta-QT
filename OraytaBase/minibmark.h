@@ -24,12 +24,14 @@
 #include "../OraytaBase/book.h"
 #include "../OraytaBase/bookiter.h"
 
+class BMarkList;
+
 class MiniBMark : public QObject, public QListWidgetItem
 {
     Q_OBJECT
 
 public:
-    explicit MiniBMark(Book *b, BookIter iter);
+    explicit MiniBMark(Book *b, BookIter iter , BMarkList *parent);
 
 signals:
 
@@ -43,12 +45,14 @@ public slots:
     void setTitle(QString title);
     QString title();
     int getUid();
+    BMarkList * getParentList();
 
 private:
     //id for this bookmark
     int id;
     Book* mBook;
     BookIter mBIter;
+    BMarkList * parentList;
 
     //true if user wants this bookmark to remain in place;
     bool constant;

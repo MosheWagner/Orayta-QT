@@ -23,7 +23,6 @@
 #ifndef BMARKLIST_H
 #define BMARKLIST_H
 
-#include "minibmark.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/functions.h"
 #include <QSettings>
@@ -32,8 +31,12 @@
 #include <QListWidget>
 #include <QWidget>
 
+class MiniBMark;
+
 class BMarkList : public QListWidget
 {
+
+    Q_OBJECT
 
 public:
     explicit BMarkList(QWidget *parent = 0);
@@ -42,6 +45,8 @@ public:
     MiniBMark* addBookMark(Book* book, BookIter iter);
 
 signals:
+    void shortPress(QListWidgetItem * item);
+    void longPress(QListWidgetItem * item);
 
 public slots:
     void loadHistory(BookList booklist);
@@ -52,11 +57,18 @@ public slots:
     void addHalachaYomit(BookList booklist);
     void addMishnaYomit(BookList booklist);
 
+    void eraseBookMark(MiniBMark *bm);
 
 private:
+    void mouseMoveEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent *e);
+
     // max number of bookmarks to remember
     // NOTE: currently this is a const, but later we may want to let the user set this manually
    static const int limit = 30;
+
+   //Holds the time of the last click, so we can calculate the delta
+   QTime clickT;
 
    // does the user want to show daf yomi in this list
 //   bool dafYomiActive;
