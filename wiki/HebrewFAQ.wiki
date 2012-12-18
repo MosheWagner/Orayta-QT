@@ -1,5 +1,5 @@
 #labels Featured
-#תשובות לשאלות נפוצות
+#Hebrew FAQ
 
 <div dir="rtl">
 
