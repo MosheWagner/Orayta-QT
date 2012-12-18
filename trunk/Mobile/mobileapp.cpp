@@ -33,6 +33,7 @@
 #include <QListWidgetItem>
 #include <QTimer>
 #include <QDesktopWidget>
+#include <QMenu>
 
 // Global
 #define DEF_FONT "Droid Sans Hebrew Orayta"
@@ -62,6 +63,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     viewHistory = NULL;
     listdownload = NULL;
     downloader = NULL;
+    menu = NULL;
+    bm = NULL;
+    action = NULL;
 
     //Initialize a new FileDownloader to download the list
     listdownload = new FileDownloader();
@@ -137,9 +141,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     setupBookmarkList();
 
+    connect (ui->staticBookMarkList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
+    connect (ui->staticBookMarkList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
+    connect (ui->dailyLearningList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
+    connect (ui->dailyLearningList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
+    connect (ui->historyBookmarkList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
+    connect (ui->historyBookmarkList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
 
-    //Checking if books exist is irelevant. We need to check if the SD card works, but maybe not here...
-    // IZAR- already checking for sdcard in java file.
 
     QApplication::processEvents();
 
@@ -301,13 +309,19 @@ void MobileApp::jumpToLastPos()
 
 MobileApp::~MobileApp()
 {
-    qDebug() << "destructor";
+    ui->staticBookMarkList->saveSettings();
+    ui->historyBookmarkList->saveSettings();
+
+    qDebug() << "Destructor";
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();
 
     delete downloader;
     delete listdownload;
+
+    delete menu;
+    delete action;
 
     delete ui;
 }
@@ -1516,6 +1530,46 @@ void MobileApp::addBookMark(Book * b, BookIter iter){
     ui->historyBookmarkList->addBookMark(b, iter);
 }
 
+void MobileApp::BMShortClicked(QListWidgetItem *item)
+{
+    loadBookFromBM(item);
+}
+
+void MobileApp::BMLongClicked(QListWidgetItem *item)
+{
+    menu = new QMenu(this);
+
+    action = new QAction(tr("Delete bookmark"), menu);
+    action->setIcon(QIcon(":/Icons/edit-delete.png"));
+
+    QFont f; f.setPixelSize(gFontSize / 2);
+    action->setFont(f);
+
+    menu->addAction(action);
+
+    //I know this is an ugly way to do this, but the good way with signalMapper wouldn't work.
+    // Ugly code just works.
+    bm = dynamic_cast<MiniBMark *>(item);
+    if (!bm) return;
+
+    connect(action, SIGNAL(triggered()), this , SLOT(removeBM()));
+
+    menu->setLayoutDirection(Qt::RightToLeft);
+
+    //Open the menu under the cursor's position
+    QPoint p = QPoint(QCursor::pos().x() - (menu->width() / 2), QCursor::pos().y());
+    menu->exec(p);
+}
+
+void MobileApp::removeBM()
+{
+    if (!bm) return;
+
+    BMarkList *bml = bm->getParentList();
+
+    if (bml) bml->eraseBookMark(bm);
+}
+
 void MobileApp::loadBookFromBM(QListWidgetItem *item)
 {
     MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
@@ -1523,7 +1577,6 @@ void MobileApp::loadBookFromBM(QListWidgetItem *item)
     BookIter it = bm->getBookIter();
     showBook(bm->getBook(), it);
     return;
-
 }
 
 void MobileApp::addStaticBMhere(){
@@ -1554,7 +1607,7 @@ void MobileApp::on_findBookBTN_clicked()
 }
 
 void MobileApp::on_customFontRDBTN_toggled(bool checked)
-    { ui->saveConf->setEnabled(true);}
+{ ui->saveConf->setEnabled(true);}
 
 void MobileApp::on_autoResumeCKBX_stateChanged(int arg1)
-    { ui->saveConf->setEnabled(true);}
+{ ui->saveConf->setEnabled(true);}

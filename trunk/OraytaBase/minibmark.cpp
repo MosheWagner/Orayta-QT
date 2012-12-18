@@ -17,11 +17,12 @@
 #include "minibmark.h"
 
 //MiniBMark::MiniBMark()
-MiniBMark::MiniBMark(Book *b, BookIter iter)
+MiniBMark::MiniBMark(Book *b, BookIter iter, BMarkList * parent)
 {
     mBook = b;
     mBIter = iter;
     constant = false;
+    parentList = parent;
 
     setText(mBook->getNormallDisplayName() + ", " + mBIter.humanDisplay());
 
@@ -61,6 +62,10 @@ void MiniBMark::setBookIter(BookIter iter){
 
 int MiniBMark::getUid(){
     return mBook->getUniqueId();
+}
+
+BMarkList * MiniBMark::getParentList(){
+    return parentList;
 }
 
 bool MiniBMark::isConstant(){

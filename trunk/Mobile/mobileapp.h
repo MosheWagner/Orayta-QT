@@ -23,6 +23,7 @@
 #include <QListWidgetItem>
 #include <QMovie>
 #include <QUrl>
+#include <QSignalMapper>
 #include "../OraytaBase/filedownloader.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"
@@ -42,6 +43,8 @@
 #define HISTORY_PAGE 8
 #define BOOKFIND_PAGE 9
 
+
+class MiniBMark;
 
 namespace Ui {
     class MobileApp;
@@ -204,7 +207,13 @@ private slots:
     //A maintenance function used to edit stuff in books. Should always be commented
     //void BookTool(int);
 
+    //void BMClicked(QListWidgetItem *item);
+    //int bmClickTimer;
+    //void BMReleased(QListWidgetItem *item);
+    void BMLongClicked(QListWidgetItem *item);
+    void BMShortClicked(QListWidgetItem *item);
     void loadBookFromBM(QListWidgetItem *item);
+    void removeBM();
 
     void on_bookMarksBTN_clicked();
 
@@ -231,6 +240,10 @@ private:
     QString booktitle;
 
     bool autoResume;
+
+    QMenu * menu;
+    QAction * action;
+    MiniBMark * bm;
 
     // true if the user wants to use custom font for all books.
     bool useCustomFontForAll;

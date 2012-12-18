@@ -15,15 +15,34 @@
 */
 
 #include "bmarklist.h"
+#include "minibmark.h"
 #include <QSettings>
 #include <QDebug>
 #include <QString>
+#include <QMouseEvent>
 
 BMarkList::BMarkList(QWidget *parent) : QListWidget(parent)
 {
-
+    setMouseTracking(true);
 }
 
+//For some reason mousePress is called only at release, so we act as if the last move was a press event
+void BMarkList::mouseMoveEvent(QMouseEvent* event)
+{
+    //Save the time the click started
+    clickT = QTime::currentTime();
+}
+
+void BMarkList::mouseReleaseEvent(QMouseEvent *e)
+{
+    // Custom logic
+    QListWidgetItem *item = itemAt(e->pos());
+
+    int delta = clickT.secsTo(QTime::currentTime());
+
+    if (delta >= 1) emit longPress(item);
+    else emit shortPress(item);
+}
 
 //Call this method only after constructor.
 void BMarkList::loadHistory(BookList booklist)
@@ -57,12 +76,13 @@ void BMarkList::loadHistory(BookList booklist)
 }
 
 
-BMarkList::~BMarkList(){
+BMarkList::~BMarkList()
+{
     saveSettings();
-
 }
 
-void BMarkList::saveSettings(){
+void BMarkList::saveSettings()
+{
     QSettings settings("Orayta", "SingleUser");
     QString mName = this->objectName();
     settings.beginGroup(mName);
@@ -92,6 +112,9 @@ void BMarkList::saveSettings(){
     settings.endGroup();
 }
 
+#include <QPushButton>
+#include <QHBoxLayout>
+
 MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)
 {
     if(!book)  return NULL;
@@ -108,12 +131,18 @@ MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)
     }
 
     //add a new bookmark here
-    MiniBMark* bm = new MiniBMark(book, iter);
+    MiniBMark* bm = new MiniBMark(book, iter, this);
 
     insertItem(0, bm);
 
     // return the bm so it can be modified later
     return bm;
+}
+
+void BMarkList::eraseBookMark(MiniBMark *bm)
+{
+    takeItem(row(bm));
+    delete bm;
 }
 
 //bool BMarkList::isDafYomiActive() {return dafYomiActive;}
