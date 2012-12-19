@@ -16,6 +16,10 @@
 
 #include "desktopapp.h"
 #include "bookdisplayer.h"
+#include "../OraytaBase/minibmark.h"
+
+#include <QDebug>
+#include <QInputDialog>
 
 // This is just a very simple define. every place in the code,
 //  "CURRENT_TAB" simply represents "ui->viewTab->currentIndex()".

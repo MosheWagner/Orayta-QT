@@ -232,6 +232,8 @@ private slots:
 
     void on_autoResumeCKBX_stateChanged(int arg1);
 
+    void on_NightModeCKBX_clicked(bool checked);
+
 private:
     Ui::MobileApp *ui;
 
@@ -240,6 +242,8 @@ private:
     QString booktitle;
 
     bool autoResume;
+
+    bool nightMode;
 
     QMenu * menu;
     QAction * action;

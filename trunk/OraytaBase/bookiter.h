@@ -104,9 +104,6 @@ public:
     QString toGmaraString();
     */
 
-
-
-    //TODO: DEBUG ONLY! PUT THIS BACK!
 //protected:
 
     //Holds the name of the current position of each level
