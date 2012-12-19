@@ -214,7 +214,7 @@ bool FlickCharm::eventFilter(QObject *object, QEvent *event)
 
             //Emit side swipes for chapter advancing.
             // By Moshe Wagner <moshe.wagner@gmail.com)
-            const int minSwipe = 80;
+            const int minSwipe = 110;
             if ( qAbs(delta.x()) > minSwipe && qAbs(delta.x()) > qAbs(delta.y()) )
             {
                 if (delta.x() > minSwipe)
