@@ -769,7 +769,7 @@ void Book::buildIndex(QList <QString> text)
 QString html_link_table(QList <IndexItem> indexitemlist, int short_index_level, bool dot, bool hasRUS)
 {
 
-    //TODO: Make those in tables look better (strech to both sides?)
+    //TODO: Make those in tables look better (streach to both sides?)
 
     //NOTE: This is a bit tricksy (see LOTR if you don't know that word),
     //      this should be tested with more books, and documented a lot more

@@ -295,6 +295,18 @@ void MobileApp::adjustFontSize()
 
 
     ui->stackedWidget->setStyleSheet(styleSheet);
+
+    // Enable/Disable night mode:
+    // How I love dirty hacks... :-)
+    if (nightMode) styleSheet = "color: white; background-color:black;";
+    else styleSheet = "color: black; background-color:none;";
+
+    displayer->setStyleSheet(styleSheet);
+    ui->treeWidget->setStyleSheet(styleSheet);
+    ui->historyBookmarkList->setStyleSheet(styleSheet);
+    ui->staticBookMarkList->setStyleSheet(styleSheet);
+    ui->dailyLearningList->setStyleSheet(styleSheet);
+    ui->downloadListWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -919,6 +931,7 @@ void MobileApp::on_saveConf_clicked()
 
     autoResume = ui->autoResumeCKBX->isChecked();
     useCustomFontForAll = ui->customFontRDBTN->isChecked();
+    nightMode = ui->NightModeCKBX->isChecked();
 
     ui->saveConf->setEnabled(false);
 
@@ -932,6 +945,8 @@ void MobileApp::on_saveConf_clicked()
 
     settings.setValue("autoResume", autoResume);
     settings.setValue("useCustomFontForAll", useCustomFontForAll);
+
+    settings.setValue("nightMode", nightMode);
 
     /* disabled
     //Change language if needed
@@ -953,8 +968,9 @@ void MobileApp::on_saveConf_clicked()
             LANG = langs[i];
         }
     }
- settings.endGroup();
-   qDebug() << "settings: "<<settings.fileName();
+
+    settings.endGroup();
+    qDebug() << "Settings: "<<settings.fileName();
 
 //    emit ChangeLang(LANG);
     translate(LANG);
@@ -1146,8 +1162,9 @@ void MobileApp::setupSettings(){
 
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-    autoResume = settings.value("autoResume", false).toBool();
-    useCustomFontForAll = settings.value("useCustomFontForAll", false).toBool();
+        autoResume = settings.value("autoResume", false).toBool();
+        useCustomFontForAll = settings.value("useCustomFontForAll", false).toBool();
+        nightMode = settings.value("nightMode", false).toBool();
     settings.endGroup();
 
     //Set available languages
@@ -1204,6 +1221,7 @@ void MobileApp::resetSettingsPage()
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
     ui->autoResumeCKBX->setChecked(autoResume);
+    ui->NightModeCKBX->setChecked(nightMode);
     ui->customFontRDBTN->setChecked(useCustomFontForAll);
     ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
     ui->saveConf->setEnabled(false);
@@ -1612,3 +1630,6 @@ void MobileApp::on_customFontRDBTN_toggled(bool checked)
 
 void MobileApp::on_autoResumeCKBX_stateChanged(int arg1)
 { ui->saveConf->setEnabled(true);}
+
+void MobileApp::on_NightModeCKBX_clicked(bool checked)
+{ ui->saveConf->setEnabled(true); }
