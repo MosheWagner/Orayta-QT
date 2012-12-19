@@ -84,22 +84,22 @@
         <translation type="unfinished">Supprimer le marque page</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp_bookmark.cpp" line="64"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="70"/>
         <source>Bookmark title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp_bookmark.cpp" line="64"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="70"/>
         <source>Bookmark title:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp_bookmark.cpp" line="95"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="103"/>
         <source>Change bookmark title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp_bookmark.cpp" line="96"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="104"/>
         <source>New bookmark title:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -116,7 +116,7 @@
         <location filename="Desktop/desktopapp.cpp" line="1724"/>
         <location filename="Desktop/desktopapp.cpp" line="1846"/>
         <location filename="Desktop/desktopapp.cpp" line="1850"/>
-        <location filename="Desktop/desktopapp_bookmark.cpp" line="78"/>
+        <location filename="Desktop/desktopapp_bookmark.cpp" line="86"/>
         <source>Orayta</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1203,7 +1203,7 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="1230"/>
-        <location filename="Mobile/mobileapp.cpp" line="745"/>
+        <location filename="Mobile/mobileapp.cpp" line="761"/>
         <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1249,17 +1249,17 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">Taille de la police par défaut:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4247"/>
+        <location filename="Mobile/mobileapp.ui" line="4252"/>
         <source>Font preview:</source>
         <translation type="unfinished">Prévisualisation:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4262"/>
+        <location filename="Mobile/mobileapp.ui" line="4267"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation type="unfinished">(Assurez vous que cette police affiche correctement le Nikud et les Teamim)</translation>
     </message>
     <message utf8="true">
-        <location filename="Mobile/mobileapp.ui" line="4402"/>
+        <location filename="Mobile/mobileapp.ui" line="4420"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1268,17 +1268,17 @@ Ceci supprimera également tous les livres présents dans ce repertoire.</transl
         <translation type="obsolete">(Cette configuration sera appliquée au prochain livre)</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4414"/>
+        <location filename="Mobile/mobileapp.ui" line="4432"/>
         <source>Language</source>
         <translation type="unfinished">Langue</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4434"/>
+        <location filename="Mobile/mobileapp.ui" line="4452"/>
         <source>Custom language</source>
         <translation type="unfinished">Langage</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4443"/>
+        <location filename="Mobile/mobileapp.ui" line="4461"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1291,23 +1291,23 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Utiliser la langue du système</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4566"/>
+        <location filename="Mobile/mobileapp.ui" line="4584"/>
         <source>Cancel</source>
         <translation type="unfinished">Annuler</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4586"/>
+        <location filename="Mobile/mobileapp.ui" line="4604"/>
         <source>Save settings</source>
         <translation type="unfinished">Sauvegarder</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4616"/>
+        <location filename="Mobile/mobileapp.ui" line="4634"/>
         <source>sorry, no commentaries available for current book.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="3586"/>
-        <location filename="Mobile/mobileapp.ui" line="4646"/>
+        <location filename="Mobile/mobileapp.ui" line="4664"/>
         <source>Remove all books from search</source>
         <translation type="unfinished">Supprimer tous les livres de la recherche</translation>
     </message>
@@ -1348,48 +1348,53 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4152"/>
+        <location filename="Mobile/mobileapp.ui" line="4155"/>
         <source>Use this font for all books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4477"/>
+        <location filename="Mobile/mobileapp.ui" line="4495"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4500"/>
+        <location filename="Mobile/mobileapp.ui" line="4518"/>
         <source>Auto Resume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4785"/>
+        <location filename="Mobile/mobileapp.ui" line="4803"/>
         <source>Recent Books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4806"/>
+        <location filename="Mobile/mobileapp.ui" line="4824"/>
         <source>history list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4817"/>
+        <location filename="Mobile/mobileapp.ui" line="4835"/>
         <source>Daily learning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4838"/>
+        <location filename="Mobile/mobileapp.ui" line="4856"/>
         <source>daily learning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4849"/>
+        <location filename="Mobile/mobileapp.ui" line="4867"/>
         <source>Bookmarks</source>
         <translation type="unfinished">Marque-pages</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4870"/>
+        <location filename="Mobile/mobileapp.ui" line="4888"/>
         <source>static bookmark list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="4913"/>
+        <source>Press for a few seconds on a bookmark for the &apos;delete&apos; option to show.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1409,14 +1414,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="3921"/>
-        <location filename="Mobile/mobileapp.ui" line="4649"/>
+        <location filename="Mobile/mobileapp.ui" line="4667"/>
         <source>unmark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="3563"/>
         <location filename="Mobile/mobileapp.ui" line="3944"/>
-        <location filename="Mobile/mobileapp.ui" line="4663"/>
+        <location filename="Mobile/mobileapp.ui" line="4681"/>
         <source>Add all books to search</source>
         <translation type="unfinished">Ajouter tous les livres à la recherche</translation>
     </message>
@@ -1454,17 +1459,17 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="3947"/>
-        <location filename="Mobile/mobileapp.ui" line="4666"/>
+        <location filename="Mobile/mobileapp.ui" line="4684"/>
         <source>mark all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4105"/>
+        <location filename="Mobile/mobileapp.ui" line="4108"/>
         <source>Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4165"/>
+        <location filename="Mobile/mobileapp.ui" line="4168"/>
         <source>Use this font only for books
  with punctuation</source>
         <oldsource>Use only for books
@@ -1472,22 +1477,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4188"/>
+        <location filename="Mobile/mobileapp.ui" line="4191"/>
         <source>Font size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4509"/>
+        <location filename="Mobile/mobileapp.ui" line="4527"/>
         <source>If checked, the app will try to resume it&apos;s previous state after it has been cloesd. (expirimental).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4691"/>
+        <location filename="Mobile/mobileapp.ui" line="4709"/>
         <source>Display with:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4743"/>
+        <location filename="Mobile/mobileapp.ui" line="4761"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
@@ -1496,27 +1501,47 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Annuler</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="568"/>
+        <location filename="Mobile/mobileapp.cpp" line="584"/>
         <source>Search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="739"/>
+        <location filename="Mobile/mobileapp.cpp" line="755"/>
         <source>Back to results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp_download.cpp" line="271"/>
+        <location filename="Mobile/mobileapp.cpp" line="1542"/>
+        <source>Delete bookmark</source>
+        <translation type="unfinished">Supprimer le marque page</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp_download.cpp" line="269"/>
+        <source>Downloading file </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp_download.cpp" line="269"/>
+        <source> of </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp_download.cpp" line="279"/>
         <source>Download complete!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="1140"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="283"/>
+        <source>Download complete with errors. Try downloading the files again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.cpp" line="1156"/>
         <source>×¢××¨××ª</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="1269"/>
+        <location filename="Mobile/mobileapp.cpp" line="1287"/>
         <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
         <translation type="unfinished"></translation>
     </message>

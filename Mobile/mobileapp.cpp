@@ -113,7 +113,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     fc->activateOn(ui->staticBookMarkList);
     fc->activateOn(ui->dailyLearningList);
     fc->activateOn(ui->historyBookmarkList);
-    //fc->activateOn(ui->scrollArea);
+    fc->activateOn(ui->scrollArea);
 
 
     //Build the book list
