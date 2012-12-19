@@ -656,13 +656,14 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     switch ( keyEvent->key() )
     {
 
+    //case Qt::Key_U:
     case Qt::Key_VolumeUp:
-        //@moshe- do something here
+        displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() - 50);
         break;
+    //case Qt::Key_D:
     case Qt::Key_VolumeDown:
-        //@moshe- do something here
+        displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() + 50);
         break;
-
 
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
@@ -684,10 +685,10 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
     case Qt::Key_Back:
-        qDebug()<<"caught back";
+        qDebug()<<"Caught back";
         return;
     case Qt::Key_TopMenu:
-        qDebug()<<"caught manu";
+        qDebug()<<"Caught menu";
          return;
 
 
