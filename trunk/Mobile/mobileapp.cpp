@@ -239,7 +239,7 @@ void MobileApp::adjustToScreenSize()
         int dpiy = desktop->physicalDpiY();
         int dpi = (dpix+dpiy)/2;
 
-        qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
+//        qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
 
 
         //IZAR: this is a guess that must be tested deeper.
@@ -321,10 +321,10 @@ void MobileApp::jumpToLastPos()
 
 MobileApp::~MobileApp()
 {
-    ui->staticBookMarkList->saveSettings();
-    ui->historyBookmarkList->saveSettings();
+//    ui->staticBookMarkList->saveSettings();
+//    ui->historyBookmarkList->saveSettings();
 
-    qDebug() << "Destructor";
+//    qDebug() << "Destructor";
     //Delete the old downloadable-books list
     QFile f(SAVEDBOOKLIST);
     f.remove();
@@ -643,6 +643,9 @@ void MobileApp::saveSettings(){
         settings.setValue("InSearch", book->IsInSearch());
         settings.endGroup();
     }
+
+    ui->staticBookMarkList->saveSettings();
+    ui->historyBookmarkList->saveSettings();
 }
 
 //Remove all temporary html files the program created
@@ -663,7 +666,7 @@ void MobileApp::ClearTmp()
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
-    qDebug() << "key pressed: " << keyEvent->key();
+//    qDebug() << "key pressed: " << keyEvent->key();
 
     switch ( keyEvent->key() )
     {
@@ -697,10 +700,10 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
     case Qt::Key_Back:
-        qDebug()<<"Caught back";
+//        qDebug()<<"Caught back";
         return;
     case Qt::Key_TopMenu:
-        qDebug()<<"Caught menu";
+//        qDebug()<<"Caught menu";
          return;
 
 
@@ -753,7 +756,7 @@ void MobileApp::mouseReleaseEvent(QMouseEvent *ev){
 // when menu butten clicked, show the menu
 void MobileApp::showMenu()
 {
-    qDebug() << "show menu";
+//    qDebug() << "show menu";
     switch (ui->stackedWidget->currentIndex())
     {
     case DISPLAY_PAGE:
@@ -970,7 +973,7 @@ void MobileApp::on_saveConf_clicked()
     }
 
     settings.endGroup();
-    qDebug() << "Settings: "<<settings.fileName();
+//    qDebug() << "Settings: "<<settings.fileName();
 
 //    emit ChangeLang(LANG);
     translate(LANG);

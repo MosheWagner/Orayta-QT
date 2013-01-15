@@ -49,7 +49,7 @@ void textDisplayer::processAnchor(const QUrl &url)
 {
     QString link = QString(url.toString());
 
-    qDebug() << "url clicked: " << url;
+//    qDebug() << "url clicked: " << url;
 
     /*
     if(link.indexOf("#") != -1 )
@@ -79,7 +79,7 @@ void textDisplayer::processAnchor(const QUrl &url)
             {
                 BookIter itr = BookIter::fromEncodedString(parts[1]);
 
-                qDebug() << itr.toString();
+//                qDebug() << itr.toString();
                 /*
                 if (parts.size() == 3)
                     CurrentBookdisplayer()->setSearchMarker( QRegExp(unescapeFromBase32(parts[2])) );

@@ -64,7 +64,7 @@ void initPaths()
     QDir dir("Books/");
     if (dir.exists()) BOOKPATH = dir.absolutePath() + "/" ;
     else BOOKPATH = defPath;
-    qDebug() << "bookpath:" << BOOKPATH ;
+//    qDebug() << "bookpath:" << BOOKPATH ;
 
     dir.setPath("UserData/");
     if (dir.exists()) USERPATH =  dir.absolutePath() + "/";
@@ -105,7 +105,7 @@ void addFont(const QString &font)
 {
     int fontId = QFontDatabase::addApplicationFont(font);
     if (fontId >= 0) {
-        qDebug()<< "installed font successfuly: " << font;
+//        qDebug()<< "installed font successfuly: " << font;
         return;
     }
     else
@@ -125,7 +125,7 @@ void initFonts()
 #endif
 
     QDir fontDir(fontpath);
-    qDebug() << "fontdir: " << fontDir;
+//    qDebug() << "fontdir: " << fontDir;
 
     QStringList filter("*.ttf");
     QFileInfoList list = fontDir.entryInfoList(filter, QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
         if (args.size() > p + 1) path = args[p+1];
         else
         {
-            qDebug() << "Error! no path for DB buldng given.";
+            qDebug() << "Error! no path for DB bulding given.";
             return 2;
         }
 
