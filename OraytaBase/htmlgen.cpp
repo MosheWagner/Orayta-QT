@@ -959,7 +959,7 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     bool FullChapterWeaveMode = false;
     if (LevelSigns.indexOf(WeaveLevel) == LIL) FullChapterWeaveMode = true;
 
-    qDebug() << FullChapterWeaveMode;
+//    qDebug() << FullChapterWeaveMode;
 
     //ignore invalid iters
     if (iter.isEmpty()) return QUrl();
@@ -1261,7 +1261,7 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     // becuase otherwise it won't weave properly. i.e., when the sub-chapters of the sources aren't of the same type.
     if (FullChapterWeaveMode)
     {
-        qDebug() << "AAA";
+//        qDebug() << "AAA";
 
         for (int i=1; i<Sources.size(); i++)
         {

@@ -883,7 +883,7 @@ BookIter Book::nextChap(BookIter iter)
         if (iter == chapterIter[j]) n = j;
     }
 
-    qDebug() << iter.toString();
+//    qDebug() << iter.toString();
 
     if (n != -1 && n + 1 < chapterIter.size()) return chapterIter[n+1];
     else return iter;
