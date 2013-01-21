@@ -10,6 +10,8 @@
      
 # Generation Command: (does not create hash)   
 # find . -printf '%p, %s, %Td/%Tm/%Ty \n' | grep "obk\|folder" | grep -v "svn" | sort 
+# try also:
+# find . -type f ! -path "*.svn*" -exec md5sum {} +
  
 # Book URL: https://orayta.googlecode.com/svn/books/@BOOKURL 
  
@@ -648,7 +650,10 @@
 ./060_poskim_rasonim.folder, 39, 05/05/12, a8dd6d56f9b73500ccf4992ae83f721e
 ./060_poskim_rasonim/041_tor_aorh_hiim.obk, 810244, 05/05/12, 8c4b884578782ac24773093520ebc4d9
 ./070_solhn_uroc.folder, 31, 05/05/12, f1f147a9428afde5dc2e5560b80bb481
-./070_solhn_uroc/031_solhn_uroc_iorh_duh_thrh.obk, 66984, 05/05/12, 32c58deeb41ada5d3c7f38925587d5a0
+./031_iorh_duh.obk, 909290, 21/01/13, 6be5d5dac546c812dca7f1eea909ca14
+./032_hsn_mspt.obk, 460526, 21/01/13, 5a16bddc079cf34e086231a5ea67b0ef
+./041_shulchoshen.obk, 1041650, 21/01/13, 386dedac2f31210d10f9ac4b3dbd9f24
+./051_shulevenhaezer.obk, 464374, 21/01/13, e6f5de229be5819796c31fd0b1a094cb
 ./070_solhn_uroc/SU-P1.obk, 133917, 05/05/12, 9ea04616f12afa26caa167b51feb00ee
 ./070_solhn_uroc/SU-P2.obk, 142620, 05/05/12, 8802585b19b0ad39dbec5ca5f254026e
 ./070_solhn_uroc/SU-P3.obk, 191317, 05/05/12, 957bf8df84d7a3e7958bcba15da5c586
