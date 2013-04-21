@@ -31,7 +31,10 @@ sed -i 's/.[tT][xX][tT]/.obk/g' "Conf"
 
 echo $zipfile
 
-zip -9 $zipfile "BookText" "SearchDB" "LevelMap" -z < "Conf" # > /dev/null 2>&1
+zip -9 $zipfile "BookText" "SearchDB" "LevelMap"
+zipnote $zipfile > "head"
+cat "Conf" >> "head"
+zipnote -w $zipfile < "head"  
 
 #Clean up
 cd ..
