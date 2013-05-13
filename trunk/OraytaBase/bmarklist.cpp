@@ -83,6 +83,7 @@ BMarkList::~BMarkList()
 
 void BMarkList::saveSettings()
 {
+    qDebug()<< "saving bookmarks...";
     QSettings settings("Orayta", "SingleUser");
     QString mName = this->objectName();
     settings.beginGroup(mName);
@@ -110,6 +111,7 @@ void BMarkList::saveSettings()
     }
     settings.endArray();
     settings.endGroup();
+    qDebug()<<"done.";
 }
 
 #include <QPushButton>

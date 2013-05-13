@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!--<manifest android:versionCode="25" package="org.Oraytav5" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="beta-0.25">-->
-<manifest android:versionCode="58" package="org.Orayta" android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="beta-0.58">
+<manifest android:versionCode="60" package="org.Orayta" android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="beta-0.59">
     <application android:name="org.kde.necessitas.origo.QtApplication" android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name="org.kde.necessitas.origo.QtActivity" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden" android:label="@string/app_name">
             <intent-filter>

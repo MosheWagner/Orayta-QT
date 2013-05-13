@@ -53,6 +53,10 @@ void initPaths()
     defPath = "/sdcard/Orayta/Books/";
     //set terget to assets folder
     MAINPATH = "assets:/Orayta/";
+
+    //move the settings to where a user might be able to read them.
+    QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, defPath);
+    QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, defPath);
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
     MAINPATH = "/usr/share/Orayta/";
@@ -136,6 +140,7 @@ void initFonts()
 
 void initLang(QApplication *app)
 {
+
     //Read lang conf
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");

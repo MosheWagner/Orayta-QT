@@ -69,7 +69,7 @@ void FlickCharm::activateOn(QWidget *widget)
         scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         //scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         //Moshe:
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+//        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
         QWidget *viewport = scrollArea->viewport();
 

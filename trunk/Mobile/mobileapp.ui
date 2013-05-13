@@ -350,6 +350,15 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
           </color>
          </brush>
         </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Text">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
@@ -371,18 +380,18 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
@@ -397,6 +406,15 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
           </color>
          </brush>
         </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Text">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
@@ -418,18 +436,18 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
@@ -438,45 +456,54 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
         <colorrole role="WindowText">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>40</red>
-           <green>19</green>
-           <blue>1</blue>
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Button">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Text">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>40</red>
-           <green>19</green>
-           <blue>1</blue>
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="ButtonText">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>40</red>
-           <green>19</green>
-           <blue>1</blue>
+           <red>255</red>
+           <green>255</green>
+           <blue>255</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>0</red>
+           <green>0</green>
+           <blue>0</blue>
           </color>
          </brush>
         </colorrole>
@@ -484,7 +511,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -531,7 +558,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -598,7 +625,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -665,7 +692,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -729,7 +756,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>110</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -793,7 +820,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -854,7 +881,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>16</height>
+               <height>21</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -1100,6 +1127,15 @@ p, li { white-space: pre-wrap; }
               </color>
              </brush>
             </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
@@ -1115,6 +1151,24 @@ p, li { white-space: pre-wrap; }
                <red>40</red>
                <green>19</green>
                <blue>1</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
               </color>
              </brush>
             </colorrole>
@@ -1129,6 +1183,15 @@ p, li { white-space: pre-wrap; }
               </color>
              </brush>
             </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
             <colorrole role="Text">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
@@ -1144,6 +1207,24 @@ p, li { white-space: pre-wrap; }
                <red>40</red>
                <green>19</green>
                <blue>1</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
               </color>
              </brush>
             </colorrole>
@@ -1152,27 +1233,54 @@ p, li { white-space: pre-wrap; }
             <colorrole role="WindowText">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
+               <red>255</red>
+               <green>255</green>
+               <blue>255</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Text">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
+               <red>255</red>
+               <green>255</green>
+               <blue>255</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="ButtonText">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
+               <red>255</red>
+               <green>255</green>
+               <blue>255</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>0</red>
+               <green>0</green>
+               <blue>0</blue>
               </color>
              </brush>
             </colorrole>
@@ -1214,7 +1322,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1305,7 +1413,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1357,7 +1465,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1445,7 +1553,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1494,7 +1602,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1539,7 +1647,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1584,7 +1692,7 @@ p, li { white-space: pre-wrap; }
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>17</height>
+                <height>19</height>
                </size>
               </property>
               <property name="font">
@@ -1927,9 +2035,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="WindowText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -1981,9 +2089,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="Text">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -1999,9 +2107,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="ButtonText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2359,9 +2467,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="WindowText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2413,9 +2521,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="Text">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2431,9 +2539,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="ButtonText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2791,9 +2899,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="WindowText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2845,9 +2953,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="Text">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -2863,9 +2971,9 @@ p, li { white-space: pre-wrap; }
                <colorrole role="ButtonText">
                 <brush brushstyle="SolidPattern">
                  <color alpha="255">
-                  <red>40</red>
-                  <green>19</green>
-                  <blue>1</blue>
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
                  </color>
                 </brush>
                </colorrole>
@@ -3301,9 +3409,9 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
               <colorrole role="WindowText">
                <brush brushstyle="SolidPattern">
                 <color alpha="255">
-                 <red>40</red>
-                 <green>19</green>
-                 <blue>1</blue>
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
                 </color>
                </brush>
               </colorrole>
@@ -3355,9 +3463,9 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
               <colorrole role="Text">
                <brush brushstyle="SolidPattern">
                 <color alpha="255">
-                 <red>40</red>
-                 <green>19</green>
-                 <blue>1</blue>
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
                 </color>
                </brush>
               </colorrole>
@@ -3373,9 +3481,9 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
               <colorrole role="ButtonText">
                <brush brushstyle="SolidPattern">
                 <color alpha="255">
-                 <red>40</red>
-                 <green>19</green>
-                 <blue>1</blue>
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
                 </color>
                </brush>
               </colorrole>
@@ -3492,7 +3600,7 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
             </size>
            </property>
            <property name="layoutDirection">
-            <enum>Qt::RightToLeft</enum>
+            <enum>Qt::LeftToRight</enum>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3838,7 +3946,7 @@ width: 15 px;
               <enum>QFrame::Plain</enum>
              </property>
              <property name="text">
-              <string>Downloading books list. If this message stays, plaese check your internet connection.</string>
+              <string>Downloading books list. If this message stays, please check your internet connection.</string>
              </property>
              <property name="textFormat">
               <enum>Qt::AutoText</enum>
@@ -4045,7 +4153,7 @@ width: 15 px;
           <bool>false</bool>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <property name="sizePolicy">
@@ -4086,8 +4194,8 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>219</width>
-                <height>250</height>
+                <width>223</width>
+                <height>285</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4135,7 +4243,7 @@ width: 15 px;
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>66</number>
+                  <number>4</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -4145,7 +4253,7 @@ width: 15 px;
                  </property>
                  <property name="currentFont">
                   <font>
-                   <family>MS Shell Dlg 2</family>
+                   <family>DejaVu Sans</family>
                   </font>
                  </property>
                 </widget>
@@ -4302,6 +4410,15 @@ width: 15 px;
                       </color>
                      </brush>
                     </colorrole>
+                    <colorrole role="Button">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
                     <colorrole role="Dark">
                      <brush brushstyle="SolidPattern">
                       <color alpha="255">
@@ -4326,6 +4443,24 @@ width: 15 px;
                        <red>40</red>
                        <green>19</green>
                        <blue>1</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Base">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -4340,6 +4475,15 @@ width: 15 px;
                       </color>
                      </brush>
                     </colorrole>
+                    <colorrole role="Button">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
                     <colorrole role="Dark">
                      <brush brushstyle="SolidPattern">
                       <color alpha="255">
@@ -4364,6 +4508,24 @@ width: 15 px;
                        <red>40</red>
                        <green>19</green>
                        <blue>1</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Base">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -4372,9 +4534,18 @@ width: 15 px;
                     <colorrole role="WindowText">
                      <brush brushstyle="SolidPattern">
                       <color alpha="255">
-                       <red>40</red>
-                       <green>19</green>
-                       <blue>1</blue>
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Button">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
                       </color>
                      </brush>
                     </colorrole>
@@ -4390,18 +4561,36 @@ width: 15 px;
                     <colorrole role="Text">
                      <brush brushstyle="SolidPattern">
                       <color alpha="255">
-                       <red>40</red>
-                       <green>19</green>
-                       <blue>1</blue>
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
                       </color>
                      </brush>
                     </colorrole>
                     <colorrole role="ButtonText">
                      <brush brushstyle="SolidPattern">
                       <color alpha="255">
-                       <red>40</red>
-                       <green>19</green>
-                       <blue>1</blue>
+                       <red>255</red>
+                       <green>255</green>
+                       <blue>255</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Base">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
+                      </color>
+                     </brush>
+                    </colorrole>
+                    <colorrole role="Window">
+                     <brush brushstyle="SolidPattern">
+                      <color alpha="255">
+                       <red>0</red>
+                       <green>0</green>
+                       <blue>0</blue>
                       </color>
                      </brush>
                     </colorrole>

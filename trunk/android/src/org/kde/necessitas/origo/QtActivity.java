@@ -1098,6 +1098,8 @@ public class QtActivity extends Activity
     protected void onPause()
     {
 		Log.d("izar", "calling pause");
+                onKeyUp(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE , new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE ));
+		QtApplication.invokeDelegate();
         super.onPause();
         QtApplication.invokeDelegate();
     }
