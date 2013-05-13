@@ -294,19 +294,26 @@ void MobileApp::adjustFontSize()
     QString styleSheet("font-size: " +QString::number(fontSize) +"pt;");
 
 
-    ui->stackedWidget->setStyleSheet(styleSheet);
+//    ui->stackedWidget->setStyleSheet(styleSheet);
 
     // Enable/Disable night mode:
     // How I love dirty hacks... :-)
-    if (nightMode) styleSheet = "color: white; background-color:black;";
-    else styleSheet = "color: black; background-color:none;";
+    // IZAR says: i love your hacks even more. then i need to find out what you did to make thing go wrong.
 
-    displayer->setStyleSheet(styleSheet);
-    ui->treeWidget->setStyleSheet(styleSheet);
-    ui->historyBookmarkList->setStyleSheet(styleSheet);
-    ui->staticBookMarkList->setStyleSheet(styleSheet);
-    ui->dailyLearningList->setStyleSheet(styleSheet);
-    ui->downloadListWidget->setStyleSheet(styleSheet);
+    QString nStyleSheet("");
+    if (nightMode) nStyleSheet = "color: #7faf70; background-color:black;";
+//    else nStyleSheet = "color: black; background-color:none;";
+    nStyleSheet+= styleSheet;
+
+     ui->stackedWidget->setStyleSheet(nStyleSheet);
+
+
+//    displayer->setStyleSheet(styleSheet);
+//    ui->treeWidget->setStyleSheet(styleSheet);
+//    ui->historyBookmarkList->setStyleSheet(styleSheet);
+//    ui->staticBookMarkList->setStyleSheet(styleSheet);
+//    ui->dailyLearningList->setStyleSheet(styleSheet);
+//    ui->downloadListWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -332,8 +339,10 @@ MobileApp::~MobileApp()
     delete downloader;
     delete listdownload;
 
-    delete menu;
-    delete action;
+//    delete action;
+    action->deleteLater();
+//    delete menu;
+    menu->deleteLater();
 
     delete ui;
 }
@@ -608,7 +617,7 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //Cancel any running searches
     stopSearchFlag = true;
 
-    saveSettings();
+//    saveSettings();
 
     ClearTmp();
 
@@ -617,6 +626,9 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
 // store all settings from the app
 void MobileApp::saveSettings(){
+
+    qDebug()<<"saving global settings...";
+
     QSettings settings("Orayta", "SingleUser");
 
     //remmeber last open book
@@ -646,6 +658,7 @@ void MobileApp::saveSettings(){
 
     ui->staticBookMarkList->saveSettings();
     ui->historyBookmarkList->saveSettings();
+    qDebug()<<"done saving settings.";
 }
 
 //Remove all temporary html files the program created
@@ -666,8 +679,6 @@ void MobileApp::ClearTmp()
 
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
-//    qDebug() << "key pressed: " << keyEvent->key();
-
     switch ( keyEvent->key() )
     {
 
@@ -680,8 +691,14 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() + 50);
         break;
 
+    case Qt::Key_MediaTogglePlayPause:
+    case Qt::Key_MediaPlay:
+        qDebug()<< "android pause request";
+        saveSettings();
+
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
+        qDebug()<< "android stop request";
         saveSettings();
 
         // if autoResume selected by user, dont terminate app.
@@ -741,6 +758,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
     default:
+        qDebug() << "unknown key pressed: " << keyEvent->key();
         QDialog::keyReleaseEvent(keyEvent);
     }
 

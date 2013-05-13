@@ -13,10 +13,10 @@ CONFIG += mobility
 MOBILITY =
 
     #for test only
-    DEFINES += MOBILE
-    DEFINES += android
-    CONFIG += MOBILE
-    CONFIG += android
+#    DEFINES += MOBILE
+#    DEFINES += android
+#    CONFIG += MOBILE
+#    CONFIG += android
 
 #Small hack for Quazip on windows
 win32{
@@ -42,8 +42,8 @@ else: win32{
 }
 else:unix{
     message("Compiling for desktop")
-    CONFIG += linux \
-        poppler
+    CONFIG += linux
+#    CONFIG +=  poppler
 
 
     INSTALL_PATH = /usr/share/Orayta/

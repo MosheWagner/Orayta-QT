@@ -37,10 +37,11 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
 
     //remove arrows from scrollBars
-    QString noArrows = "QScrollBar { margin: 0px ; width: 5px;}";
+    /*QString noArrows = "QScrollBar { margin: 0px ; width: 5px;}";
          noArrows +=    "QScrollBar::add-line, QScrollBar::sub-line{border: 0px;  height: 0px; }";
          noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
-    this->setStyleSheet(noArrows);
+    this->setStyleSheet(noArrows);*/
+    //IZAR TODO: find a way
 
     inSwipe = false;
 }
