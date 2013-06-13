@@ -970,6 +970,8 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
     writetofile(levelMapOutPath, lvlmpstr, "UTF-8", true);
 }
 
+//QTime timer_n1;
+
 #ifdef POPPLER
 
 QString ToBidiText(QString str)

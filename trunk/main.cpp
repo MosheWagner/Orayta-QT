@@ -38,6 +38,7 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 
+#include <QTime>
 
 //For test only
 //#define MOBILE
@@ -173,8 +174,14 @@ void initLang(QApplication *app)
 
 int main(int argc, char *argv[])
 {
+//extern    QTime timer_n1;
+//    timer_n1.start();
+
     //Start the App
     QApplication app(argc, argv);
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "1";
 
     //Deal with command line options
     //TODO: add more if it's needed
@@ -296,15 +303,27 @@ int main(int argc, char *argv[])
 
     MobileApp m;
 
-    QApplication::setStyle(new QPlastiqueStyle);
+    //**TIMER**//
+    //qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "1.2";
+
+    //QApplication::setStyle(new QPlastiqueStyle);
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "2";
 
     m.show();
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "3";
 
     app.processEvents();
 
     //Hide slpash screen
     splash->finish(&m);
 #endif
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "end main";
 
     return app.exec();
 }
