@@ -9,6 +9,8 @@ TARGET = orayta
 TEMPLATE = app
 INCLUDEPATH += $$PWD
 
+LIBS += -lz
+
 CONFIG += mobility
 MOBILITY =
 

@@ -101,7 +101,7 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
             }
 
             //Add orayta-book
-            if ( ft == Book::Normal )
+            else if ( ft == Book::Normal )
             {
                 //Add confs for this book
                 QList <QString> t;
@@ -109,13 +109,13 @@ void BookList::addAllBooks (QString dirpath, bool isUserBooks, int parentindex)
                 if (ReadZipComment(list[i].absoluteFilePath(), t, "UTF-8")) AddBookConfs(b, t);
             }
 
-            if ( ft == Book::Link )
+            else if ( ft == Book::Link )
             {
                 //Add confs for this book
                 AddBookConfs(b, readfile(b->getPath(), "UTF-8").split("\n"));
             }
 
-            if ( ft == Book::Html )
+            else if ( ft == Book::Html )
             {
                 //Add confs for this book
                 AddBookConfs(b, readfile(b->getPath().replace(QRegExp("\\.\\w{3,4}$"),".conf"), "UTF-8").split("\n"));

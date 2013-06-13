@@ -29,6 +29,7 @@
 #include <QRegExp>
 #include <QIcon>
 #include <QTranslator>
+#include <QTime>
 
 #ifdef POPPLER
     #include <fribidi/fribidi.h>
@@ -178,6 +179,9 @@ void deleteBooksFolder(QString sourceFolder);
 
 //Generate search DB files from the given bookflie (Non-compressed)
 void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString levelMapOutPath);
+
+// analyse how long it takes the app
+//extern QTime timer_n1;
 
 #ifdef POPPLER
 

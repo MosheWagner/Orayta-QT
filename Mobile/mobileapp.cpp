@@ -35,6 +35,7 @@
 #include <QDesktopWidget>
 #include <QMenu>
 
+
 // Global
 #define DEF_FONT "Droid Sans Hebrew Orayta"
 
@@ -58,6 +59,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
     QApplication::processEvents();
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "built ui";
 
     //set stuff as null only for pertection
     viewHistory = NULL;
@@ -181,6 +185,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->currentWidget()->setFocus();
 
     adjustToScreenSize();
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << " done loading";
 }
 
 void MobileApp::resizeEvent(QResizeEvent *)
@@ -351,19 +358,34 @@ MobileApp::~MobileApp()
 // reload the whole book list and tree
 void MobileApp::reloadBooklist(){
 
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "begin loading books";
+
     //create a new empty booklist
     bookList = BookList();
 
     //Refresh book list
     ui->treeWidget->clear();
 
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "begin build booklist from folder";
+
     bookList.BuildFromFolder(BOOKPATH);
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "done build from folder";
 
     if (bookList.empty())
         qDebug()<<"can't find books in: " << BOOKPATH;
 
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "begin check uids";
+
     // Check all uids
     bookList.CheckUid();
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "end check uids";
 
     QSettings settings("Orayta", "SingleUser");
 
@@ -387,10 +409,16 @@ void MobileApp::reloadBooklist(){
         settings.endGroup();
     }
 
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "4";
+
     bookList.displayInTree(ui->treeWidget, false);
 
     //if booklist has changed, reset also the books in search tree
     resetSearchBookTree();
+
+    //**TIMER**//
+//    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "done loading books";
 
 }
 
@@ -1599,6 +1627,9 @@ void MobileApp::BMLongClicked(QListWidgetItem *item)
     //Open the menu under the cursor's position
     QPoint p = QPoint(QCursor::pos().x() - (menu->width() / 2), QCursor::pos().y());
     menu->exec(p);
+//    QApplication::processEvents();
+//    menu->deleteLater();
+    bm->deleteLater();
 }
 
 void MobileApp::removeBM()
@@ -1608,6 +1639,10 @@ void MobileApp::removeBM()
     BMarkList *bml = bm->getParentList();
 
     if (bml) bml->eraseBookMark(bm);
+
+    //TODO- fix bug where app crashes if back pressed at this point the following workaround doesnt work
+//    qDebug()<<"oh please dont shut down :(";
+//    setFocus(); grabKeyboard(); grabMouse();
 }
 
 void MobileApp::loadBookFromBM(QListWidgetItem *item)

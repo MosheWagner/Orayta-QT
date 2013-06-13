@@ -511,7 +511,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -4194,7 +4194,7 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>223</width>
+                <width>218</width>
                 <height>285</height>
                </rect>
               </property>
