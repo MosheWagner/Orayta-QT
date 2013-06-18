@@ -36,6 +36,7 @@
 #include <QShortcut>
 #include <QFuture>
 #include <QFontDialog>
+#include <QSignalMapper>
 
 #include "../OraytaBase/functions.h"
 #include "../OraytaBase/htmlgen.h"
