@@ -61,7 +61,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private Filename inputFilename = new Filename("");
 	private OryFiles files = new OryFiles();
 	private static int fileNum = -1;
-
+	private static int rashiBracketsNum = 0; private static int isRashi = 0;
 	
 	/**
 	 * holds our location in the outline tree.
@@ -266,7 +266,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		if (StringUtils.isNotBlank(str)) {
 			if (bookTitle == null)
 				findFirstLine(ele);
-			else {
+			else if (!Main.parameters.isgNocha()) {
 				appendHeading(level);
 			}
 			appendElementText(ele);
@@ -502,13 +502,13 @@ public class OryFileExtractor extends OdfTextExtractor {
 
 		if (line.isEmpty() || line.matches("^\\s*$"))
 			return;
-
+/*
 		// remove html bracket from text
 		if (line.matches(".*[<>].*")){
 			line = line.replaceAll("<", "{").replaceAll(">", "}");
 			ele.setTextContent(line);
 		}
-			
+*/
 
 		String font = "";
 		String size = "";
@@ -564,6 +564,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 //					Main.ui.dbgLog("masechet: " + m.group(1) + " daf: " + m.group(2));
 					appendHeading(4);
 					ele.setTextContent(m.group(2)+"\n");
+					isRashi = 0;
 				}
 			//new chapter
 			} else if (align.equals("center") && line.contains("פרק")){
@@ -578,7 +579,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 			}
 		}
 		
-		else if (mFont.equals("Miriam") /*&& iSize < 10*/)
+		else if (mFont.equals("Miriam") && iSize <= 8)
 			appendClass(ele, "ref", line);
 		else if (mFont.equals("Narkisim") && iSize >= 12)
 			appendClass(ele, "pasuk", line);
@@ -589,19 +590,42 @@ public class OryFileExtractor extends OdfTextExtractor {
 		else if (mFont.equalsIgnoreCase("courier new"))
 			appendClass(ele, "editor", line);		
 		else if (mFont.equals("Rod") && iSize < 12){ 
-			if (line.equals("("))
+			if (line.equals("(")) {
+				if (isRashi == 0) {
 				ele.setTextContent("<span class=\"pirush\">(");
+				rashiBracketsNum = 1;
+				isRashi = 1;
+				} else {
+					rashiBracketsNum++;
+				}
+			} 
+			else if ((line.contains("(") || line.contains(")")) && isRashi == 1) {
+				for (int i = 0; i < line.length(); i++) {
+					if (line.charAt(i) == '(')
+						rashiBracketsNum++;
+					if (line.charAt(i) == ')') {
+						rashiBracketsNum--;
+						if (rashiBracketsNum == 0 && isRashi == 1) {
+							ele.setTextContent(line + "</span>");
+							isRashi = 0;
+							}
+					}
+				}
+			}
+
+/*
 			//guess if this is supposed to close the element.
 			else if (line.matches(".*\\).*")&& line.length()<4)
 				ele.setTextContent(line+"</span>");
+*/			
 			else
 				appendClass(ele, "pirush", line);
 		}
 		else {
-			Main.ui.log("unrecognized:");
-			Main.ui.log(line.length()< 100? line: line.substring(0, 100));
-			Main.ui.log("font: " + font + " size: " + size);
-			Main.ui.log("Pfont: " + pFont + " Psize: " + pSize);
+			Main.ui.dbgLog("unrecognized:");
+			Main.ui.dbgLog(line.length()< 100? line: line.substring(0, 100));
+			Main.ui.dbgLog("font: " + font + " size: " + size);
+			Main.ui.dbgLog("Pfont: " + pFont + " Psize: " + pSize);
 		}
 		
 				
