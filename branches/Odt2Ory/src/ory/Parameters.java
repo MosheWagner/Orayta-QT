@@ -23,6 +23,7 @@ public class Parameters {
 	private boolean force; //overwrite existing files.
 	private boolean skip;
 	private boolean gNocha; //special option for converting gmara nocha files.
+	private boolean txtOutput; // the user wants text ouput, not obk file.
 	
 	public Parameters (String[] args) {
 //		assignDefaults();
@@ -53,6 +54,7 @@ public class Parameters {
 		setOutAsIn(line.hasOption("oi"));
 		setIsDaat(line.hasOption("daat"));
 		setgNocha(line.hasOption("nocha"));
+		setTxtOutput(line.hasOption("txt"));
 		setForce(line.hasOption("f")); 
 		setSkip(line.hasOption("q")); 
 		uid = line.getOptionValue("uid", "");
@@ -113,6 +115,7 @@ public class Parameters {
 		runOptions.addOption("q", "quit", false, "skip existing files without warninig");
 		runOptions.addOption("daat", false, "special option for html file from daat.ac.il");
 		runOptions.addOption("nocha", false, "special option for converting gmara nocha files");
+		runOptions.addOption("txt", false, "text output instead of obk");
 		runOptions.addOption("uid", true, "uniqueId value for this file");
 		runOptions.addOption("B", true, "set book name in conf file");
 		runOptions.addOption("S", "source", true, "the source of this file");
@@ -284,6 +287,14 @@ public class Parameters {
 
 	public void setgNocha(boolean gNocha) {
 		this.gNocha = gNocha;
+	}
+
+	public boolean isTxtOutput() {
+		return txtOutput;
+	}
+
+	public void setTxtOutput(boolean txtOutput) {
+		this.txtOutput = txtOutput;
 	}
 
 	/**
