@@ -727,14 +727,14 @@
           <item>
            <widget class="QToolButton" name="backBTN">
             <property name="toolTip">
-             <string>Back</string>
+             <string>Index</string>
             </property>
             <property name="text">
              <string/>
             </property>
             <property name="icon">
              <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/back.png</normaloff>:/Icons/back.png</iconset>
+              <normaloff>:/Icons/book-blue-double.png</normaloff>:/Icons/book-blue-double.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -763,7 +763,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/go-previous-view-page.png</normaloff>:/Icons/go-previous-view-page.png</iconset>
+              <normaloff>:/Icons/go-next-view-page.png</normaloff>:/Icons/go-next-view-page.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -792,7 +792,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/go-next-view-page.png</normaloff>:/Icons/go-next-view-page.png</iconset>
+              <normaloff>:/Icons/go-previous-view-page.png</normaloff>:/Icons/go-previous-view-page.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1910,7 +1910,7 @@
      <x>0</x>
      <y>0</y>
      <width>1089</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="layoutDirection">

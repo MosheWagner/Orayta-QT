@@ -117,6 +117,9 @@ public:
 
     void jumpToTop();
 
+    void nextChapter();
+    void prevChapter();
+
     void keyPressEvent( QKeyEvent * event );
 
     //Location in html file next load should use

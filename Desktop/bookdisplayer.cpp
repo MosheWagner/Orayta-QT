@@ -573,6 +573,16 @@ void bookDisplayer::keyPressEvent( QKeyEvent * keyEvent )
 {
     switch ( keyEvent->key() )
     {
+    case Qt::Key_Left:
+        //go to next chapter
+        nextChapter();
+        return;
+
+    case Qt::Key_Right:
+        // go to previous chapter
+        prevChapter();
+        return;
+
     case Qt::Key_Plus:
         ZoomIn();
         break;
@@ -585,4 +595,24 @@ void bookDisplayer::keyPressEvent( QKeyEvent * keyEvent )
         QWidget::keyPressEvent(keyEvent);
         break;
     }
+}
+
+void bookDisplayer::nextChapter()
+{
+    BookIter itr= currentLocation;
+    itr = myBook->nextChap(itr);
+
+    QUrl u = myBook->renderChapterHtml(&itr, MW->getBookList(), true, true);
+    load(u);
+    currentLocation = itr;
+}
+
+void bookDisplayer::prevChapter()
+{
+    BookIter itr= currentLocation;
+    itr = myBook->prevChap(itr);
+
+    QUrl u = myBook->renderChapterHtml(&itr, MW->getBookList(), true, true);
+    load(u);
+    currentLocation = itr;
 }

@@ -1627,9 +1627,6 @@ void MobileApp::BMLongClicked(QListWidgetItem *item)
     //Open the menu under the cursor's position
     QPoint p = QPoint(QCursor::pos().x() - (menu->width() / 2), QCursor::pos().y());
     menu->exec(p);
-//    QApplication::processEvents();
-//    menu->deleteLater();
-    bm->deleteLater();
 }
 
 void MobileApp::removeBM()
@@ -1640,7 +1637,7 @@ void MobileApp::removeBM()
 
     if (bml) bml->eraseBookMark(bm);
 
-    //TODO- fix bug where app crashes if back pressed at this point the following workaround doesnt work
+    //TODO- fix bug where app crashes if back pressed at this point. the following workaround doesnt work
 //    qDebug()<<"oh please dont shut down :(";
 //    setFocus(); grabKeyboard(); grabMouse();
 }
