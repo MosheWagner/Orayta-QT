@@ -230,6 +230,8 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     //Load the bookmarks into their list:
     ui->bookMarkList->loadHistory(bookList);
 
+    this->showMaximized();
+
     connectMenuActions();
 
     adjustMenus();
@@ -1986,31 +1988,13 @@ BookList * DesktopApp::getBookList() { return &bookList;}
 
 void DesktopApp::on_leftChap_clicked()
 {
-    //@@@
-    //Shouldn't this be done in bookdisplayer?
-
-    BookIter itr = CurrentBookdisplayer()->currentLocation;
-    if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->nextChap(itr);
-    else itr = CurrentBookdisplayer()->book()->prevChap(itr);
-
-    QUrl u = CurrentBookdisplayer()->book()->renderChapterHtml(&itr, &bookList, true, true);
-    CurrentBookdisplayer()->load(u);
-    CurrentBookdisplayer()->currentLocation = itr;
+    CurrentBookdisplayer()->nextChapter();
+    // add hebrew/eng option? i.e if (LANG == "Hebrew")...
 }
 
 void DesktopApp::on_rightChap_clicked()
 {
-    //@@@
-    //Shouldn't this be done in bookdisplayer?
-
-    BookIter itr = CurrentBookdisplayer()->currentLocation;
-
-    if (LANG == "Hebrew") itr = CurrentBookdisplayer()->book()->prevChap(itr);
-    else itr = CurrentBookdisplayer()->book()->nextChap(itr);
-
-    QUrl u = CurrentBookdisplayer()->book()->renderChapterHtml(&itr, &bookList, true, true);
-    CurrentBookdisplayer()->load(u);
-    CurrentBookdisplayer()->currentLocation = itr;
+    CurrentBookdisplayer()->prevChapter();
 }
 
 //Print the contents of the current book displayer

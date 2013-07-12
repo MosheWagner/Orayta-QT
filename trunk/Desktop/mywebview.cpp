@@ -186,6 +186,9 @@ qDebug() << "mobile not defined! ";
             {
                 switch ( keyEvent->key() )
                 {
+
+
+                /* old code
                 case Qt::Key_Left:
                 case Qt::Key_Down:
                     page()->mainFrame()->evaluateJavaScript("paintNext();");
@@ -197,7 +200,7 @@ qDebug() << "mobile not defined! ";
                     return;
 
                 case Qt::Key_Backspace:  //Ignore backspace clicks
-                    return;
+                    return;*/
                 }
             }
         }
