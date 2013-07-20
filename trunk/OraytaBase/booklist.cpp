@@ -502,7 +502,14 @@ void BookList::CheckUid()
     {
         int id = (*this)[i]->getUniqueId();
         if ( id != -1 )
+        {
+            if (existingId.contains(id))
+            {
+                qDebug()<< "duplicate id: " << id;
+                qDebug()<< "in: " << (*this)[i]->getPath() << " and: " << this->findBookById(id)->getPath();
+            }
             existingId.insert(id);
+        }
         else if ( (*this)[i]->fileType() == Book::Normal || (*this)[i]->fileType() == Book::Html )
             withoutId.push_back((*this)[i]);
     }
