@@ -51,7 +51,9 @@ void initPaths()
     QString defPath;
 
 #ifdef Q_OS_ANDROID
-    defPath = "/sdcard/Orayta/Books/";
+
+    QString sdcard= getenv("EXTERNAL_STORAGE");
+    defPath = sdcard+"/Orayta/Books/";
     //set terget to assets folder
     MAINPATH = "assets:/Orayta/";
 

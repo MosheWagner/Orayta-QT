@@ -44,7 +44,7 @@ void BMarkList::mouseReleaseEvent(QMouseEvent *e)
     else emit shortPress(item);
 }
 
-//Call this method only after constructor.
+//Warning! Call this method only after constructor.
 void BMarkList::loadHistory(BookList booklist)
 {
     QSettings settings("Orayta", "SingleUser");
