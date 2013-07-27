@@ -90,8 +90,23 @@ public class OryFile {
 		else if (Main.parameters.getOutputPath() == null){
 			Main.parameters.setOutputPath(getOraytaDir());
 		}
+		
+		//if user requested output as text files
+		if (Main.parameters.isTxtOutput()){
+			Filename savedFile = Main.ui.saveStringToFile(fileText.toString(), myFilename);
+			if (savedFile== null)
+				return null;
+			
+			setPath(savedFile.getFullPath());
+			setName(savedFile.getBaseName());
+			
+			myConf.save();
+			
+			
+			return myFilename;
+		}
 
-		/* TODO: save to a ziped .obk archive:
+		/* save to a ziped .obk archive:
 		 * generate search database;
 		 * save filetext and DB to tempfiles;
 		 * get conf as a string. (myConf.getText())
@@ -114,18 +129,7 @@ public class OryFile {
 		
 		return savedFile;
 		
-		/* original code:
-		Filename savedFile = Main.ui.saveStringToFile(fileText.toString(), myFilename);
-		if (savedFile== null)
-			return null;
 		
-		setPath(savedFile.getFullPath());
-		setName(savedFile.getBaseName());
-		
-		myConf.save();
-		
-		
-		return myFilename;*/
 	}
 	
 	

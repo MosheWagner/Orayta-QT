@@ -1,3 +1,5 @@
+/** see info bellow. */
+
 package ory;
 
 import java.io.File;
@@ -36,7 +38,11 @@ import org.odftoolkit.odfdom.dom.style.props.OdfParagraphProperties;
 import org.odftoolkit.odfdom.dom.style.props.OdfStyleProperty;
 import org.odftoolkit.odfdom.dom.style.props.OdfTextProperties;
 import org.odftoolkit.odfdom.incubator.doc.text.OdfTextExtractor;
+import org.odftoolkit.odfdom.incubator.doc.text.OdfTextSpan;
 import org.odftoolkit.odfdom.pkg.OdfElement;
+import org.odftoolkit.simple.Document;
+import org.odftoolkit.simple.common.navigation.TextNavigation;
+import org.odftoolkit.simple.common.navigation.TextSelection;
 import org.w3c.dom.NodeList;
 
 import ory.fileTypes.OdtFile;
@@ -52,7 +58,7 @@ import ory.fileTypes.OdtFile;
 
 public class OryFileExtractor extends OdfTextExtractor {
 
-	private OdfDocument mDocument = null;
+	private Document mDocument = null;
 	private OdfElement mElement = null;
 	private boolean mIsDocumentExtractor = false;
 	private StringBuffer noteHolder;
@@ -82,7 +88,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	 * Constructor with an ODF document as a parameter
 	 * @param doc the ODF document whose editable text would be extracted. 
 	 */
-	private OryFileExtractor(OdfDocument doc) {
+	private OryFileExtractor(Document doc) {
 		mIsDocumentExtractor = true;
 		mDocument = doc;
 		assignDefaults();
@@ -465,6 +471,26 @@ public class OryFileExtractor extends OdfTextExtractor {
 		if (mIsDocumentExtractor) {
 			return getDocumentText();
 		} else {
+			
+			if (Main.parameters.isgNocha()){
+				// Remove HTML brackets from text.
+				//TODO make this default?
+				try {
+					TextNavigation search = new TextNavigation("[><]", mElement);
+					while (search.hasNext()){
+						TextSelection item = (TextSelection)(search.nextSelection());
+//						Main.ui.log("found: " + item.toString());
+//						Main.ui.log("it is: "+item.getText());
+						if (item.getText().equals("<"))
+							item.replaceWith("{");
+						if (item.getText().equals(">"))
+							item.replaceWith("}");
+					}
+				} catch (Exception e) {
+					Main.ui.errorMessage("error", e);
+				}
+			}
+			
 			visit(mElement);
 			
 			if (fileNum > -1) { //we want to increase the file number only if we already have more files.
@@ -493,6 +519,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		super.appendElementText(ele);
 	}
 	
+	
 	/**
 	 * method for extarcting editing instructions from gmara nocha books.
 	 * @param ele
@@ -502,13 +529,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 
 		if (line.isEmpty() || line.matches("^\\s*$"))
 			return;
-/*
-		// remove html bracket from text
-		if (line.matches(".*[<>].*")){
-			line = line.replaceAll("<", "{").replaceAll(">", "}");
-			ele.setTextContent(line);
-		}
-*/
+
 
 		String font = "";
 		String size = "";
@@ -638,6 +659,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private void revisit(OdfElement ele, String line){
 		try {
 			revisit((OdfStylableElement)ele, line);
+			return;
 		} catch (ClassCastException e){
 //			Main.ui.log("cant cast");
 		}
@@ -814,6 +836,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	private String getDocumentText() {
 		StringBuilder builder = new StringBuilder();
 		try {
+
 			//Extract text from content.xml
 			OryFileExtractor contentDomExtractor = newOryFile(mDocument.getContentRoot());
 			builder.append(contentDomExtractor.getText());
@@ -952,7 +975,6 @@ public class OryFileExtractor extends OdfTextExtractor {
 		}
 	
 }
-
 
 
 
