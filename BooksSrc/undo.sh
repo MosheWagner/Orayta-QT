@@ -1,5 +1,6 @@
 #! /bin/bash
-
+# converts obk files to their original txt, lmp, tdb and conf files.
+# operates on all files in current dir, recursively.
 
 
 
