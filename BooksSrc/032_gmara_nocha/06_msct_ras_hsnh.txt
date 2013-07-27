@@ -9,7 +9,8 @@ $ מסכת ראש השנה
  <span class="pasuk">השלמת פסוקי המקרא בסוגריים () ובאותיות</span> 10<span class="pirush"> NARKISIM</span>
  <span class="pirush">הערות העורך: בסוגריים</span> <span class="editor">[]</span><span class="pirush"> באותיות  courier new.</span>
 <span class="pirush">מראי מקומות 8 MIRIAM.</span>
-<span class="pirush">תחילת עמוד - בתחילת שורה, אפילו באמצע מפשט - כך: </span>~ ב,ב
+<span class="pirush">תחילת עמוד - בתחילת שורה, אפילו באמצע מפשט - כך: </span>
+~ ב,ב
 
 
 
@@ -1189,7 +1190,7 @@ $ מסכת ראש השנה
 
 <span class="editor">2. Alternatively, it may be suggested that according to Rashi, the Molad referred to in our Gemara is not the true astronomical Molad. Rather, it is the "average Molad" that the Rambam describes in the beginning of Hilchos Kidush ha'Chodesh (based on which we reckon each lunar circuit as 29.5 days and 793 parts of an hour). This Molad does not take into account inconsistencies in the speeds of the earth and the moon at different times in the month or year. Although these inconsistencies balance out over the course of the year, depending on the month they can cause the true Molad to</span>
 <span class="editor">actually occur six to 14 hours before or after the average Molad. Since we are trying to disprove the testimony of witnesses, we cannot ignore the possibility that our calculation of the average Molad was not the time of the true Molad, and the Molad may have occurred 14 hours earlier. Therefore, we believe the witnesses as long as they claim to have seen the new moon at least six hours after the Molad (which could actually be 20 hours after the Molad, taking the variations in orbital speeds into account). It is entirely reasonable for the new moon to be seen that long after the true Molad. (M. Kornfeld)</span>
-<span class="editor">---</span>
+<span class="editor">}}}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{{{</span>
 <span class="editor">The *D*AFYOMI *A*DVANCEMENT *F*ORUM, brought to you by Kollel Iyun Hadaf</span>
 
 
