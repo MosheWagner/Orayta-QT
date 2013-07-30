@@ -1,7 +1,7 @@
 
 $ מסכת סוטה
-<span class="editor">מתוך "גמרא נוֹחָה"</span>
-<span class="editor">על שם הורי נפתלי וחנה הולנדר הכ"מ</span>
+מתוך "גמרא נוֹחָה"
+<span class="editor">על שם הורי</span> נ<span class="editor">פתלי</span> וח<span class="editor">נה</span> ה<span class="editor">ולנדר הכ"מ</span>
 
 דברי הגמרא באותיות 12 ROD<span class="pirush">; רש"י בתוך הגמרא בסוגריים, ובתוך הסוגריים - אותיות 10 MIRIAM; מקראה מלאה – בסוף הדף.</span>
  
@@ -1195,8 +1195,8 @@ $ מסכת סוטה
 
 משנה:
 היה <span class="pirush">(הכהן)</span> מביא פילי <span class="pirush">(כוס של מים)</span> של חרס, ונותן לתוכה חצי לוג מים מן הכיור <span class="pirush">(דכתיב '</span><span class="pasuk small">מים קדושים</span><span class="pirush">' </span><span class="ref">(במדבר ה,יז)</span><span class="pirush"> - ואין 'קדושים' אלא שנתקדשו בכלי; הכי תניא בסיפרי)</span>; 
-<span class="editor">רבי יהודה אומר: רביעית; </span>
-<span class="editor">כשם שממעט (רבי יהודה) בכתב (בכתב המגילה לקמן במתני') - כך ממעט (כאן) במים.</span>
+רבי יהודה אומר: רביעית; 
+כשם שממעט <span class="pirush">(רבי יהודה)</span> בכתב <span class="pirush">(בכתב המגילה לקמן במתני')</span> - כך ממעט <span class="pirush">(כאן)</span> במים.
 נכנס להיכל ופנה לימינו; ומקום <span class="pirush">(ניכר מתוך שאר רצפת ההיכל)</span> היה שם, אמה על אמה, וטבלא של שיש - וטבעת היתה קבועה בה <span class="pirush">(לאחזה בטבעתה ולהגביהה מבין הרצפה שהיא כולה באבני שיש)</span>; כשהוא מגביה ונוטל עפר מתחתיה ונותן <span class="pirush">(צריך ליתן שיעור)</span> כדי שיראה על המים <span class="pirush">(שיהא נראה וניכר על פני המים)</span>, שנאמר <span class="ref">[במדבר ה,יז:</span><span class="pasuk small"> לקח הכהן מים קדשים בכלי חרש]</span><span class="pasuk"> ומן העפר אשר יהיה בקרקע המשכן יקח הכהן ונתן אל המים</span> <span class="pirush">(מדלא כתיב 'ונתן במים' אלא '</span><span class="pasuk small">אל המים</span><span class="pirush">' - משמע שלא יהא נבלע בתוכן)</span>. 
 
 

@@ -1,11 +1,11 @@
 
 $ מסכת נדרים 
-<span class="editor">מתוך "גמרא נוֹחָה"</span>
-<span class="editor">על שם הורי נפתלי וחנה הולנדר הכ"מ</span>
-<span class="editor">מקרא:</span>
+מתוך "גמרא נוֹחָה"
+על שם הורי נפתלי וחנה הולנדר <span class="editor">הכ"מ</span>
+מקרא:
 דברי הגמרא באותיות כאלה: 12 ROD; רש"י <span class="pirush">בתוך הגמרא בסוגריים () ובתוך הסוגריים - אותיות 10 MIRIAM ; מראי מקומות גם 10</span> <span class="editor">MIRIAM</span> 
 <span class="pirush">הערות: בסוגריים [] באותיות 10 CourierNew; ההערות עם קידומת ## אינם פשט הגמרא אלא הערת העורך הטעונות בדיקת הלומד.</span>
-<span class="editor">תחילת עמוד - בתחילת שורה, אפילו באמצע משפט - כך: (</span>נדרים ב,ב)
+<span class="editor">תחילת עמוד - בתחילת שורה, אפילו באמצע משפט - כך: </span>(נדרים ב,ב)
 <span class="pasuk">מקרא - באותיות נרקיסים</span>
 <span class="editor">הגירסא: לפי דפוס וילנא עם אחדים מההגהות שעל הדף – לפי הנראה לי כנחוץ לצורך הפשט הפשוט. </span>
 הערות בשולי הדף, בתצוגת דף אינטרנט אפשר להניח עליהם את הסמן ואז מופיעה ההערה בחלון. אפשר גם לראות את ההערות כאשר עוברים לתצוגה של דף הדפסה. 
@@ -16,22 +16,22 @@ Producers of the Dafyomi Advancement Forum, mailto:daf@dafyomi.co.il, http://www
 This material is © 2000, 2008 by Julius Hollander 27 Bialik St., Petah Tikva, Israel 49351
 Permission to distribute this material without remuneration, with this notice, is granted - with request to notify of use at yeshol@gmail.com
 
-<span class="editor">הקדמה:</span>
-<span class="editor">רקע למסכת נדרים: </span>
-<span class="editor">לא על ענין יש מסכת; מדוע על ענין זה יש מסכת?</span>
-<span class="editor">א. היו רגילים להישבע, וחכמים ביקשו להמעיט בשבועות למיניהם: </span>
+הקדמה:
+רקע למסכת נדרים: 
+לא על ענין יש מסכת; מדוע על ענין זה יש מסכת?
+א. היו רגילים להישבע, וחכמים ביקשו להמעיט בשבועות למיניהם: 
 גיטין לה,א: בשני דרב קילי נדרי <span class="pirush">(קלים היו נדרים בעיניהם לעבור עליהם, הלכך לא סמכינן אנדרה לאגבוייה)</span>. 
 
-<span class="editor">אפילו בזמן הגמרא השתמשו לשון שבועה: </span>
+אפילו בזמן הגמרא השתמשו לשון שבועה: 
 בבא מציעא פה,א: אמר ליה [<span class="editor">בנו של רבי אלעזר ברבי שמעון, שיצא לתרבות רעה, והוחזר ללמוד על ידי רבי יהודה הנשיא</span>]: מומי עזובה דא <span class="pirush">(בשבועה הנחתי זאת ולא אשאל עוד לילך)</span>.
 
-<span class="editor">דוגמאות לנדרים עתיקים:</span>
-<span class="editor">בנביאים: </span>
-<span class="editor">יפתח הגלעדי</span>
+דוגמאות לנדרים עתיקים:
+בנביאים: 
+יפתח הגלעדי
 
 סנהדרין קי,ב: ר"א אומר: באין הן לעולם הבא, שנאמר <span class="pirush">(תהלים נ,ה)</span> <span class="pasuk">אספו לי חסידי כורתי בריתי עלי זבח</span> <span class="pirush">(<span class="pirush">והיינו דור המדבר, שכרתו ברית של מקום עלי זבחים ושלמים, דכתיב (שמות כד,ה) '</span><span class="pasuk small">ויזבחו זבחים שלמים</span><span class="pirush">' וכתיב (שם, פסוק ח) '</span><span class="pasuk small">ויזרוק על העם ויאמר הנה דם הברית אשר כרת ה' עמכם</span><span class="pirush">'</span>)</span>; אלא מה אני מקיים '<span class="pasuk">אשר נשבעתי באפי</span>'? - באפי נשבעתי, וחוזרני בי <span class="pirush">(<span class="pirush">והיינו '</span><span class="pasuk small">אשר נשבעתי באפי</span><span class="pirush">': מפני כעסי נשבעתי, ומתחרט אני</span>)</span>.
 
-<span class="editor">מעשה בית חורון: </span>
+מעשה בית חורון: 
 משום מעשה דבית חורון, דתנן <span class="pirush">[נדרים פ"ה מ"ה, דף מח,א]</span> מעשה בבית חורון באחד שהיה אביו מודר הימנו הנאה והיה משיא בנו <span class="pirush">(<span class="pirush">והיה חפץ לזמן את אביו לסעודתו</span>)</span>, ואמר לחבירו: הרי חצר וסעודה נתונין לך במתנה, ואינן לפניך [אלא כדי] שיבא אבא ויאכל עמנו בסעודה <span class="pirush">(<span class="pirush">ובמסכת נדרים מתרצינן אפילו היכא דקא אמר ליה "הרי הן לפניך ויבא אבא ויאכל עמנו: נמי מיירי, ואפילו הכי לא הויא מתנה, דמכל מקום מוכיח דבשביל שיאכל אביו הוא עושה, ולא נתכוין לתת לו מתנה גמורה; וקאמרינן התם דכללא דסיפא קאתי לאתויי דקתני 'כל מתנה שאינה כו'</span>)</span>.
 אמר לו: אם שלי הן - הרי הן מוקדשין לשמים!
 אמר לו: לא נתתי לך את שלי שתקדישם לשמים!!
@@ -1398,7 +1398,7 @@ Permission to distribute this material without remuneration, with this notice, i
 ~ לב,ב
 
 'השטן' בחושבניה תלת מאה ושיתין וארבעה <span class="pirush">(וימי השנה שס"ה ימים)</span> <span class="editor">[ואינו שולט ביום כפור – ע"פ הר"ן]</span>.
-ואמר רמי בר אבא: כתיב 'אברם' וכתיב 'אברהם': בתחלה המליכוֹ <span class="pirush">(השליטו)</span> הקב"ה על מאתים וארבעים ושלשה אברים, ולבסוף המליכו על מאתים וארבעים ושמונה אברים: אלו הן <span class="editor">[שנוספו לשליטתו:]</span> <span class="pirush">(דלאחר שמל היה שלם בכל אבריו)</span><span class="editor">:</span> שתי עינים ושתי אזנים וראש הגוייה <span class="pirush">(הוא אבר)</span>. 
+ואמר רמי בר אבא: כתיב 'אברם' וכתיב 'אברהם': בתחלה המליכוֹ <span class="pirush">(השליטו)</span> הקב"ה על מאתים וארבעים ושלשה אברים, ולבסוף המליכו על מאתים וארבעים ושמונה אברים: אלו הן <span class="editor">[שנוספו לשליטתו:]</span> <span class="pirush">(דלאחר שמל היה שלם בכל אבריו)</span>: שתי עינים ושתי אזנים וראש הגוייה <span class="pirush">(הוא אבר)</span>. 
  
 ואמר רמי בר אבא: מאי דכתיב <span class="ref">(קהלת ט,יד)</span><span class="pasuk"> עיר קטנה ואנשים [</span><span class="pasuk small">ובא אליה מלך גדול וסבב אתה ובנה עליה מצודים גדלים</span> <span class="ref">[פסוק טו]</span><span class="pasuk small"> ומצא בה איש מסכן חכם ומלט הוא את העיר בחכמתו; ואדם לא זכר את האיש המסכן ההוא]</span>? - '<span class="pasuk">עיר קטנה</span>' - זה הגוף; '<span class="pasuk">ואנשים בה מעט</span>' - אלו אברים; '<span class="pasuk">ובא אליה מלך גדול וסבב אותה</span>' - זה יצר הרע; '<span class="pasuk">ובנה עליה מצודים וחרמים</span>' - אלו עונות; '<span class="pasuk">ומצא בה איש מסכן וחכם</span>' - זה יצר טוב; '<span class="pasuk">ומלט הוא את העיר בחכמתו</span>' - זו תשובה ומעשים טובים; '<span class="pasuk">ואדם לא זכר את האיש המסכן ההוא</span>' - דבשעת יצר הרע לית דמדכר ליה ליצר הטוב.
 
@@ -2280,7 +2280,7 @@ Permission to distribute this material without remuneration, with this notice, i
 
 ~ נא,ב
 
-<span class="editor">משנה:</span>
+משנה:
 "מן הכבוש" - אין אסור אלא מן הכבוש של ירק <span class="pirush">(דסתם כבוש ירק הוא; אבל אמר)</span>;
 "כבוש שאני טועם" - <span class="pirush">(הואיל ואמר כי האי לישנא)</span> אסור בכל הכבושים;
 <span class="pirush">(וה"ה בכל הנך:)</span> 
@@ -2728,7 +2728,7 @@ Permission to distribute this material without remuneration, with this notice, i
 
 גמרא:
 "קונם יין שאני טועם <span class="pirush">[היום" - אינו אסור אלא עד שתחשך]</span>:
-אמר רבי ירמיה <span class="editor">בר אבא [כדאיתא בסוגיין בע"ב – מסורת הש"ס]; רבי ירמיה בר אבא היה תלמיד חבר של רב]</span>: לכשתחשך <span class="pirush">(אף על פי שעבר היום)</span> - צריך שאלה לחכם <span class="pirush">(להתיר לו נדרו משום היכרא)</span>. 
+אמר רבי ירמיה בר אבא <span class="editor">[כדאיתא בסוגיין בע"ב – מסורת הש"ס]; רבי ירמיה בר אבא היה תלמיד חבר של רב]</span>: לכשתחשך <span class="pirush">(אף על פי שעבר היום)</span> - צריך שאלה לחכם <span class="pirush">(להתיר לו נדרו משום היכרא)</span>. 
 מאי טעמא?
 אמר רב יוסף: גזירה היום משום "יום אחד" <span class="pirush">(דאי אמרת לכשתחשך אף על פי שעבר היום הוי מותר - אתו למימר נמי כי נדר "יום אחד", ועומד בחצי היום - מותר לכשתחשך, ואיהו לא הוי מותר עד מעת לעת; הילכך צריך שאלה לחכם; וכיון דבעי שאלה לחכם - חכם חוקר כיצד נדר, ולא יבא לידי חילול נדר)</span>.
 
@@ -3081,9 +3081,9 @@ Permission to distribute this material without remuneration, with this notice, i
 
 <span class="editor">=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=</span>
 
-<span class="editor">הקדמה</span>
-<span class="editor">שני הפרקים הבאים עוסקים בהפרת נדרים על ידי הבעל ו/או האב,</span>
-<span class="editor">ככתוב:</span>
+הקדמה
+שני הפרקים הבאים עוסקים בהפרת נדרים על ידי הבעל ו/או האב,
+ככתוב:
 במדבר ל:
 <span class="pirush">(ב)</span> <span class="pasuk">וידבר משה אל ראשי המטות לבני ישראל לאמר: זה הדבר אשר צוה ה</span>’<span class="pasuk">:</span>
 <span class="editor">[דין האיש:]</span>

@@ -5,7 +5,7 @@ $ מסכת מעילה
 
 כל המוצא שגיאה נא להודיע לישעיהו הכהן הולנדר, ביאליק 27 פתח תקוה 49351, לכתובת yeshol@gmail.com 
 
-<span class="editor">מקרא:</span>
+מקרא:
 דברי הגמרא באותיות כאלה: 12 ROD; רש"י <span class="pirush">בתוך הגמרא בסוגריים () ובתוך הסוגריים - אותיות 10 MIRIAM ; מראי מקומות גם 10</span> <span class="editor">MIRIAM</span> 
 <span class="pasuk">מובאות וציטטות בגופן</span> NARKISIM; <span class="pasuk small">השלמת פסוקי המקרא בסוגריים () ובאותיות 10 NARKISIM;</span>
 <span class="pirush"> הערות: בסוגריים [] באותיות 10 CourierNew; ההערות עם קידומת ## אינם פשט הגמרא אלא הערת העורך לבדיקת הלומד.</span>
