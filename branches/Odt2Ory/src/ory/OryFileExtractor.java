@@ -576,7 +576,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		 */
 		
 		// normal style
-		if (mFont.equals("Rod") && (iSize >=12 || iSize == 0)){
+		if ((mFont.equalsIgnoreCase("courier new") || mFont.equals("Rod")) && (iSize >=12 || iSize == 0)){
 			// new daf
 			if (line.matches("\\(.*,[אב]+\\)\\s*")){
 				Pattern p = Pattern.compile("\\((.+) (\\S+,\\S)\\s*\\)\\s*");
@@ -608,7 +608,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 			appendClass(ele, "pasuk small", line);	
 		else if (mFont.equals("Miriam") && iSize <= 10)
 			appendClass(ele, "pirush", line);		
-		else if (mFont.equalsIgnoreCase("courier new"))
+		else if (mFont.equalsIgnoreCase("courier new") && iSize < 12)
 			appendClass(ele, "editor", line);		
 		else if (mFont.equals("Rod") && iSize < 12){ 
 			if (line.equals("(")) {
@@ -975,6 +975,5 @@ public class OryFileExtractor extends OdfTextExtractor {
 		}
 	
 }
-
 
 
