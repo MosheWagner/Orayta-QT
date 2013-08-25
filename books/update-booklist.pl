@@ -1,6 +1,7 @@
     #!/usr/bin/env perl
     # based on make-booklist.pl
     # this will update all files listed OraytaBookList to match the current files in this dir.
+    # usage: perl update-booklist.pl
      
      
     use warnings;
