@@ -20,7 +20,6 @@ SwipeGestureRecognizer::IsValidMove(int dx, int dy)
 QGesture*
 SwipeGestureRecognizer::create(QObject* pTarget)
 {
-   qDebug("SwipeGestureRecognizer::create() called");
    QGesture *pGesture = new QSwipeGesture(pTarget);
 
    timer.start();

@@ -235,6 +235,8 @@ private slots:
 
     void on_NightModeCKBX_clicked(bool checked);
 
+    void on_copyTextBTN_clicked();
+
 private:
     Ui::MobileApp *ui;  
 

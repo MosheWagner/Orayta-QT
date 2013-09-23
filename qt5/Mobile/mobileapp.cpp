@@ -34,7 +34,7 @@
 #include <QDesktopWidget>
 #include <QMenu>
 #include <QScroller>
-
+#include <QClipboard>
 
 // Global
 #define DEF_FONT "Droid Sans Hebrew Orayta"
@@ -104,12 +104,23 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     // setup the search page
     showHideSearch(false);
 
-    QScroller::grabGesture(ui->treeWidget, QScroller::LeftMouseButtonGesture);
-    QScroller::grabGesture(ui->SearchTreeWidget, QScroller::LeftMouseButtonGesture);
-    QScroller::grabGesture(ui->staticBookMarkList, QScroller::LeftMouseButtonGesture);
-    QScroller::grabGesture(ui->dailyLearningList, QScroller::LeftMouseButtonGesture);
-    QScroller::grabGesture(ui->historyBookmarkList, QScroller::LeftMouseButtonGesture);
-    QScroller::grabGesture(ui->scrollArea, QScroller::LeftMouseButtonGesture);
+    QList<QWidget *> addscroll;
+    addscroll << ui->treeWidget << ui->SearchTreeWidget << ui->staticBookMarkList << ui->dailyLearningList << ui->historyBookmarkList << ui->scrollArea;
+
+    foreach (QWidget * w, addscroll)
+    {
+        QScroller::grabGesture(w, QScroller::LeftMouseButtonGesture);
+
+        QScroller* s = QScroller::scroller(w);
+        QScrollerProperties p = s->scrollerProperties();
+        p.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
+        p.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
+        p.setScrollMetric(QScrollerProperties::OvershootDragResistanceFactor,  0);
+        p.setScrollMetric(QScrollerProperties::OvershootDragDistanceFactor,  0);
+        p.setScrollMetric(QScrollerProperties::OvershootScrollDistanceFactor,  0);
+        s->setScrollerProperties(p);
+    }
+
     QScroller::grabGesture(displayer, QScroller::LeftMouseButtonGesture);
 
     //Build the book list
@@ -205,13 +216,16 @@ void MobileApp::adjustToScreenSize()
     int w = (size.width() / 2);
     int max = 1000;
 
-    //Round to the closest 20
-    w = int(w / 20) * 20;
+    //Round to the closest 10
+    w = int(w / 10) * 10;
 
-    QSize a(w -26, w - 26);
+    ui->gridLayout->setVerticalSpacing(w / 80);
+    ui->gridLayout->setHorizontalSpacing(w / 80);
+
+    QSize a(w -20, w - 20);
     //qDebug() << "Icon size:" << a;
 
-    int h = (size.height() / 18);
+    int h = (size.height() / 15);
     //ui->aboutBTN->setIconSize(a);
     ui->aboutBTN->setMaximumSize(w,h);
     //ui->helpBTN->setIconSize(a);
@@ -745,9 +759,6 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
         return;
-    case Qt::Key_TopMenu:
-//        qDebug()<<"Caught menu";
-         return;
 
 
     //Test different screen sizes:
@@ -777,6 +788,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         break;
 
     //menu button was clicked
+    case Qt::Key_TopMenu:
     case Qt::Key_Menu:
     case Qt::Key_Explorer:
     case Qt::Key_Meta:
@@ -1175,7 +1187,7 @@ void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
 
 void MobileApp::on_settingsMenuBTN_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
+    //Copy all
 }
 
 void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
@@ -1443,6 +1455,13 @@ void MobileApp::on_unmarkAllBTN_3_clicked()
     {
         book->unselect();
     }
+}
+
+
+void MobileApp::on_copyTextBTN_clicked()
+{
+    //Copy the text of the whole chapter to the clipboard
+    QApplication::clipboard()->setText(displayer->toPlainText());
 }
 
 

@@ -5,11 +5,9 @@
 
 
 # Big todo list:
-# - Fix download manager
 # - Fix desktop version (with download manager too!)
-# - Test on android device (books, scroll, swipe)
-# - Fix bad side scroll on small lists (tree, bookmark, etc')
-
+# - Test on pyhsical android device (books, scroll, swipe)
+# - Update help page
 
 QT += core gui network widgets
 
