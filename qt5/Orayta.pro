@@ -2,8 +2,16 @@
 # Project created by QtCreator 2009-03-15T13:50:06
 # Author: Moshe Wagner. <moshe.wagner@gmail.com>
 # -------------------------------------------------
-QT += core gui webkit network
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+
+# Big todo list:
+# - Fix download manager
+# - Fix desktop version (with download manager too!)
+# - Test on android device (books, scroll, swipe)
+# - Fix bad side scroll on small lists (tree, bookmark, etc')
+
+
+QT += core gui network widgets
 
 TARGET = orayta
 TEMPLATE = app
@@ -15,10 +23,10 @@ CONFIG += mobility
 MOBILITY =
 
     #for test only
-#    DEFINES += MOBILE
-#    DEFINES += android
-#    CONFIG += MOBILE
-#    CONFIG += android
+    DEFINES += MOBILE
+    DEFINES += android
+    CONFIG += MOBILE
+    CONFIG += android
 
 #Small hack for Quazip on windows
 win32{
@@ -29,7 +37,6 @@ android {
     INSTALL_PATH = "/assets/Orayta/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
-    QT -= webkit
     DEFINES += QTSCROLLER_NO_WEBKIT
 
     #this is a mobile app
@@ -41,6 +48,7 @@ android {
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
     INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
+    QT += webkitwidgets printsupport webkit
 }
 else:unix{
     message("Compiling for desktop")
@@ -56,6 +64,7 @@ else:unix{
 
     #set a test mobile version
     #DEFINES += MOBILE_TEST
+    QT += webkitwidgets printsupport webkit
 }
 
 
@@ -96,7 +105,8 @@ SOURCES +=  \
     OraytaBase/quazip/quaadler32.cpp \
     OraytaBase/quazip/qioapi.cpp \
     OraytaBase/minibmark.cpp \
-    OraytaBase/bmarklist.cpp
+    OraytaBase/bmarklist.cpp \
+    Mobile/swipegesturerecognizer.cpp
 
 HEADERS += \
     OraytaBase/htmlgen.h \
@@ -122,7 +132,8 @@ HEADERS += \
     OraytaBase/quazip/quachecksum32.h \
     OraytaBase/quazip/quaadler32.h \
     OraytaBase/minibmark.h \
-    OraytaBase/bmarklist.h
+    OraytaBase/bmarklist.h \
+    Mobile/swipegesturerecognizer.h
 
 FORMS += \
     OraytaBase/bookfind.ui
@@ -164,13 +175,11 @@ FORMS += \
 android {
     SOURCES += \
         Mobile/mobileapp.cpp \
-        Mobile/QKinetic/flickcharm.cpp \
         Mobile/textdisplayer.cpp \
         Mobile/mobileapp_download.cpp
 
     HEADERS += \
         Mobile/mobileapp.h \
-        Mobile/QKinetic/flickcharm.h \
         Mobile/textdisplayer.h \
 
     FORMS += \
@@ -395,3 +404,117 @@ INSTALLS += fonts
 INSTALLS += licence
 
 linux: INSTALLS += menu desktop
+
+OTHER_FILES += \
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/res/values-it/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/layout/splash.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/version.xml \
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/res/values-it/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/layout/splash.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values/strings.xml \
+    android/version.xml \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml \
+    android/AndroidManifest.xml \
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/res/values-it/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/layout/splash.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values/strings.xml \
+    android/res/values/libs.xml \
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+    android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/res/values-it/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/layout/splash.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values/strings.xml \
+    android/version.xml \
+    android/AndroidManifest.xml \
+    android/res/values/libs.xml

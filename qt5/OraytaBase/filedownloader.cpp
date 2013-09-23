@@ -17,15 +17,14 @@
 #include "filedownloader.h"
 #include <QUrl>
 #include <QDebug>
+#include <QNetworkRequest>
+#include "functions.h"
 
 FileDownloader::FileDownloader()
 {
-    //Connect slots and signals:
-    connect(&mHttpObject, SIGNAL(done(bool)), this, SLOT(downloadDone(bool)));
-    connect(&mHttpObject, SIGNAL(dataReadProgress(int,int)), this, SLOT(downloadProgress(int,int)));
-
     mFileName = "";
     mTargetFile.setFileName(mFileName);
+    cdownload = NULL;
 }
 
 
@@ -39,7 +38,6 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite, QSt
     if ( mTargetFile.isOpen())
     {
         mTargetFile.close();
-        mHttpObject.abort();
     }
 
     mTargetFile.setFileName(rTarget);
@@ -52,38 +50,34 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite, QSt
         //Use the existing file, so the download is done
         emit done();
     }
-    else 
+    else
     {
         //Set the download to a tepmorary name
         mTargetFile.setFileName(rTarget + ".part");
         //Open the file for writing:
         mTargetFile.open(QIODevice::ReadWrite);
 
-        //Connect to host:
-        QUrl url(rUrl);
-        mHttpObject.setHost(url.host(), url.port(80));
+        QNetworkRequest request(rUrl);
 
-        //Start downloading
-        mHttpObject.get(url.toString(), &mTargetFile);
+        cdownload = mNetworkObject.get(request);
+        connect(cdownload, SIGNAL(downloadProgress(qint64,qint64)), SLOT(downloadProgress(qint64,qint64)));
+        connect(cdownload, SIGNAL(finished()), SLOT(downloadDone()));
+        connect(cdownload, SIGNAL(readyRead()),SLOT(downloadReadyRead()));
     }
 }
 
-//Called when the HttpRequest is done.
-// Emitts the error signal if it failed,
-// And the done signall if it was succesful
-void FileDownloader::downloadDone(bool error)
+void FileDownloader::downloadReadyRead()
 {
-    if (error)
-    {
-        QHttp::Error E = mHttpObject.error();
+    mTargetFile.write(cdownload->readAll());
+}
 
-        if (E != QHttp::Aborted)
-        {
-            //Abort can be caused by deleting the object, in which case
-            // "close()" will make a segFault. So I don't call it.
-            mTargetFile.close();
-            emit downloadError();
-        }
+// Called when the download is done.
+// Emitts the error signal if it failed, or the done signall if it was succesful
+void FileDownloader::downloadDone()
+{
+    if (cdownload->error())
+    {
+        emit downloadError();
     }
     else
     {
@@ -113,7 +107,7 @@ void FileDownloader::downloadDone(bool error)
 }
 
 //Called as the HttpRequest procceds.
-void FileDownloader::downloadProgress(int done, int total)
+void FileDownloader::downloadProgress(qint64 done, qint64 total)
 {
     if (total == 0)
     {
@@ -121,19 +115,10 @@ void FileDownloader::downloadProgress(int done, int total)
     }
     else
     {
-        int percent = ((float) done ) / ( (float) total ) * 100;
+        int percent = ( 100 * done ) / total;
         emit downloadProgress(percent);
     }
 }
-
-//Aborts the download, and emits no error
-void FileDownloader::abort()
-{
-    mHttpObject.abort();
-    mTargetFile.close();
-}
-
-#include "functions.h"
 
 bool FileDownloader::isValid()
 {
@@ -158,7 +143,7 @@ bool FileDownloader::isValid()
         {
             if ( fileHash(mTargetFile.fileName()).simplified() != mHash.simplified() )
             {
-                qDebug()<< "Downloaded file: " << mFileName << " Does not match the hash it should have. Try to download it again or report a bug.";
+                qDebug() << "Downloaded file: " << mFileName << " Does not match the hash it should have. Try to download it again or report a bug.";
                 return false;
             }
         }
@@ -167,19 +152,6 @@ bool FileDownloader::isValid()
     test.close();
 
     return true;
-}
-
-//Returns true if a download is running (at any state), and false if not
-bool FileDownloader::isInProgress()
-{
-    if  (mHttpObject.state() != QHttp::Unconnected)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
 }
 
 //Returns the filename of the last download

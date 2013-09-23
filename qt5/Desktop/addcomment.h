@@ -17,7 +17,7 @@
 #ifndef ADDCOMMENT_H
 #define ADDCOMMENT_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <QString>
 
 namespace Ui {

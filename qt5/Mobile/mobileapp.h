@@ -24,6 +24,7 @@
 #include <QMovie>
 #include <QUrl>
 #include <QSignalMapper>
+#include <QElapsedTimer>
 #include "../OraytaBase/filedownloader.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"
@@ -235,7 +236,7 @@ private slots:
     void on_NightModeCKBX_clicked(bool checked);
 
 private:
-    Ui::MobileApp *ui;
+    Ui::MobileApp *ui;  
 
     BookList bookList, booksInSearch;
 
@@ -314,6 +315,9 @@ private:
 
     //Holds the offset of the viewposition before the program was shut
     int lastViewPosition;
+
+    //A timer to make sure we don't get double events. It's a small hack to prevent an android/emulator bug.
+    QElapsedTimer timer;
 
 
 };

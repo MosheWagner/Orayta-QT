@@ -18,7 +18,6 @@
 
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
-#include "QKinetic/flickcharm.h"
 #include "../OraytaBase/minibmark.h"
 #include "../OraytaBase/functions.h"
 #include "../OraytaBase/booklist.h"
@@ -34,6 +33,7 @@
 #include <QTimer>
 #include <QDesktopWidget>
 #include <QMenu>
+#include <QScroller>
 
 
 // Global
@@ -45,8 +45,7 @@ int gFontSize = 0;
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
     //Set all QString to work with unicode
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
 
     //set the display to native android look.
     //QApplication::setStyle(new QAndroidStyle()); //dosnt work
@@ -60,6 +59,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
+    timer.start();
     //**TIMER**//
 //    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "built ui";
 
@@ -89,12 +89,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     connect(bookFindDialog, SIGNAL(openBook(int)), this, SLOT(showBook(int)));
 
 
-    FlickCharm *f = new FlickCharm(this);
-    f->activateOn(displayer);
-    connect(f, SIGNAL(leftSwipe()), displayer, SLOT(leftSwipe()));
-    connect(f, SIGNAL(rightSwipe()), displayer, SLOT(rightSwipe()));
-    connect(f, SIGNAL(swipeDone()), displayer, SLOT(swipeDone()));
-
     connect(displayer, SIGNAL(sourceChanged(QUrl)), this, SLOT(titleUpdate(QUrl)));
 
     connect(displayer, SIGNAL(loadStart()), this, SLOT(tdloadStarted()));
@@ -110,15 +104,13 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     // setup the search page
     showHideSearch(false);
 
-    //Setup flick charm on the treewidgets
-    FlickCharm *fc = new FlickCharm(this);
-    fc->activateOn(ui->treeWidget);
-    fc->activateOn(ui->SearchTreeWidget);
-    fc->activateOn(ui->staticBookMarkList);
-    fc->activateOn(ui->dailyLearningList);
-    fc->activateOn(ui->historyBookmarkList);
-    fc->activateOn(ui->scrollArea);
-
+    QScroller::grabGesture(ui->treeWidget, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->SearchTreeWidget, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->staticBookMarkList, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->dailyLearningList, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->historyBookmarkList, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(ui->scrollArea, QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(displayer, QScroller::LeftMouseButtonGesture);
 
     //Build the book list
     reloadBooklist();
@@ -205,7 +197,9 @@ void MobileApp::adjustToScreenSize()
 #ifndef Q_OS_ANDROID
     size = this->size();
 #endif
-    //qDebug() << "Screen:" << size;
+
+    //Mazimize the app
+    resize(size);
 
     //Adjust main page icons:
     int w = (size.width() / 2);
@@ -232,7 +226,7 @@ void MobileApp::adjustToScreenSize()
     ui->bookMarksBTN->setIconSize(a);
     ui->bookMarksBTN->setMaximumSize(w,max);
 
-    int wth = size.width()+100;
+    int wth = size.width();
     ui->treeWidget->setColumnWidth(0, wth);
     ui->SearchTreeWidget->setColumnWidth(0, wth);
 
@@ -461,6 +455,11 @@ void MobileApp::on_aboutBTN_clicked()
 
 void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
 {
+    //This is a little hack to prevent double events on some android machines and emulators.
+    //If the function is called again in less than 2 ms, the second time is ignored.
+    qint64 miliSec = timer.restart();
+    if (miliSec < 100) return;
+
     if (ui->treeWidget->isExpanded(index)) ui->treeWidget->collapse(index);
     else ui->treeWidget->expand(index);
 }
@@ -736,6 +735,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     //back button was clicked
     case Qt::Key_Close:
     case Qt::Key_MediaPrevious:
+    case Qt::Key_Back:
         goBack();
         break;
 
@@ -744,8 +744,6 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         if (keyEvent->modifiers() == Qt::CTRL) goBack();
         break;
 
-    case Qt::Key_Back:
-//        qDebug()<<"Caught back";
         return;
     case Qt::Key_TopMenu:
 //        qDebug()<<"Caught menu";
@@ -1146,6 +1144,11 @@ void MobileApp::on_downloadBTN_clicked()
 
 void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
 {
+    //This is a little hack to prevent double events on some android machines and emulators.
+    //If the function is called again in less than 2 ms, the second time is ignored.
+    qint64 miliSec = timer.restart();
+    if (miliSec < 100) return;
+
     //Invert the selection of the item only if it was not chnaged by the click itself already.
     // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
     if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
@@ -1445,6 +1448,8 @@ void MobileApp::on_unmarkAllBTN_3_clicked()
 
 void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 {
+
+
     // ignore books that aren't installed:
     if (item->checkState() == Qt::PartiallyChecked) return;
 

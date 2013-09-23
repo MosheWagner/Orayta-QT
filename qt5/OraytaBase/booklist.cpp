@@ -19,7 +19,6 @@
 #include <QSet>
 #include <QDir>
 #include <QFileInfoList>
-#include <QFileInfoListIterator>
 #include <QDebug>
 
 BookList::BookList() {}

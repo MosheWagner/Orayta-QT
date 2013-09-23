@@ -172,8 +172,6 @@ void initLang(QApplication *app)
 }
 
 
-#include <QPlastiqueStyle>
-
 int main(int argc, char *argv[])
 {
 //extern    QTime timer_n1;
@@ -304,6 +302,9 @@ int main(int argc, char *argv[])
     app.setFont(QFont("DejaVu Sans"));
 
     MobileApp m;
+
+    //Make sure app is maximized!
+    m.showMaximized();
 
     //**TIMER**//
     //qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "1.2";

@@ -18,15 +18,13 @@
 #include <QIcon>
 #include <QUrl>
 #include <QtWebKit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
-#include <QtWebKit/QWebView>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QtWebKit>
 #include <QString>
 #include <QFile>
 #include <QMenu>
-#include <QPrinter>
 #include <QTextBrowser>
-#include <QPrintDialog>
 #include <qevent.h>
 #include <qprocess.h>
 #include <QMessageBox>
@@ -141,8 +139,7 @@ DesktopApp::DesktopApp(QWidget *parent) : QMainWindow(parent), ui(new Ui::Deskto
     restoreConfs();
 
     //Set all QString to work with unicode
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
 
     ui->treeDockWidget->setFloating(false);
 
