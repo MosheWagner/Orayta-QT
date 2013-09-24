@@ -6,7 +6,6 @@
 
 # Big todo list:
 # - Fix desktop version (with download manager too!)
-# - Test on pyhsical android device (books, scroll, swipe)
 # - Update help page
 
 QT += core gui network widgets

@@ -734,9 +734,6 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
     case Qt::Key_MediaTogglePlayPause:
     case Qt::Key_MediaPlay:
-        qDebug()<< "android pause request";
-        saveSettings();
-
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
         qDebug()<< "android stop request";
