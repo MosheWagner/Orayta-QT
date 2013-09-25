@@ -2,11 +2,11 @@ Source: orayta
 Section: misc
 Priority: extra
 Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
-Build-Depends: libqtwebkit-dev | libqt4-dev (<= 4:4.6.9), debhelper (>= 7), libqt4-dev (>= 4.5), libpoppler-qt4-dev, libfribidi-dev, zlib1g-dev
+Build-Depends: libqt5webkit5-dev, debhelper (>= 7), qtbase5-dev, libpoppler-qt4-dev, libfribidi-dev, zlib1g-dev
 Standards-Version: 3.8.3
 Homepage: http://orayta.googlecode.com
 
 Package: orayta
 Architecture: any
-Depends: ${misc:Depends}, libqt4-xmlpatterns, libqt4-gui (>= 4.5), libqtwebkit4 | libqt4-gui (<= 4:4.6.9), libpoppler-qt4-3 | libpoppler-qt4-4, libfribidi0, zlib1g-dev
+Depends: ${misc:Depends}, libqt5webkit5, libqt5gui5, libpoppler-qt4-4, libfribidi0, zlib1g, libqt5xmlpatterns5
 Description: Jewish books program

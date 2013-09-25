@@ -1189,6 +1189,12 @@ void MobileApp::on_settingsMenuBTN_clicked()
 
 void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
+    //This is a little hack to prevent double events on some android machines and emulators.
+    //If the function is called again in less than 2 ms, the second time is ignored.
+    qint64 miliSec = timer.restart();
+    if (miliSec < 100) return;
+
+
     Book* book = booksInSearch.findBookByTWI(item);
 
     if (!book) {return;}
