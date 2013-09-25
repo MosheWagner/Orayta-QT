@@ -172,7 +172,7 @@ void initLang(QApplication *app)
 }
 
 
-#include <QPlastiqueStyle>
+//#include <QPlastiqueStyle>
 
 int main(int argc, char *argv[])
 {
@@ -207,6 +207,8 @@ int main(int argc, char *argv[])
         int p = args.indexOf("-D");
         if (p == -1) p = args.indexOf("--buildDB");
 
+
+
         QString path = "";
         if (args.size() > p + 1) path = args[p+1];
         else
@@ -214,6 +216,7 @@ int main(int argc, char *argv[])
             qDebug() << "Error! no path for DB bulding given.";
             return 2;
         }
+        qDebug()<<"creating DB for: "<<path;
 
         QString lvlmapoutpath;
         QString dboutpath;

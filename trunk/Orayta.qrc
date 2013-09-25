@@ -65,5 +65,6 @@
         <file>Icons/configure.png</file>
         <file>Images/spalsh-portrait.png</file>
         <file>OraytaBase/DailyLimud.csv</file>
+        <file>pwd</file>
     </qresource>
 </RCC>

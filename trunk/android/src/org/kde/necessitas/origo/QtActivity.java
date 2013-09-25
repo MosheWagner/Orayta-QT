@@ -33,7 +33,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 //import org.kde.necessitas.ministro.IMinistro;
 //import org.kde.necessitas.ministro.IMinistroCallback;
 
@@ -41,11 +40,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.ComponentName;
 //import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-//import android.content.ServiceConnection;
+import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -53,12 +54,15 @@ import android.content.res.Configuration;
 import android.content.res.Resources.Theme;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-//import android.net.Uri;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-//import android.os.IBinder;
-//import android.os.RemoteException;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -82,7 +86,6 @@ import dalvik.system.DexClassLoader;
 public class QtActivity extends Activity
 {
     private final static int MINISTRO_INSTALL_REQUEST_CODE = 0xf3ee; // request code used to know when Ministro instalation is finished
-//    private static final int MINISTRO_API_LEVEL=2; // Ministro api level (check IMinistro.aidl file)
     private static final int NECESSITAS_API_LEVEL=2; // Necessitas api level used by platform plugin
 //    private static final String QT_PROVIDER="necessitas";
 //    private static final int QT_VERSION=0x040801; // Qt version 4.8.00 check http://qt-project.org/doc/qt-4.8/qtglobal.html#QT_VERSION
@@ -98,6 +101,9 @@ public class QtActivity extends Activity
     private static final String BUNDLED_LIBRARIES_KEY="bundled.libraries";
     private static final String MAIN_LIBRARY_KEY="main.library";
     private static final String NECESSITAS_API_LEVEL_KEY="necessitas.api.level";
+    
+    private static QtActivity m_activity;
+    private static String zofen = "";
 
     /// Ministro server parameter keys
 //    private static final String REQUIRED_MODULES_KEY="required.modules";
@@ -130,11 +136,101 @@ public class QtActivity extends Activity
 
     //prevents circular referencing in the on stop method 
 	private boolean firstStop = true;
+	
+	public final static int DECRYPT_REQUEST_CODE = 42738492;
+//	private final static String ZF_NAME = "zf_name";
+//	private final static String INT_FILE = "int_file";
+//	private final static String TARGET = "target";
+//	private final static String METHODNAME = "methodName";
+//	private final static String DECRYPT = "decrypt";
+	public final static String ZOFEN= "zofen";
+
+
+	public static QtActivity getActivity(){
+		return m_activity;
+	}
+	
+	public String getZfn(){
+		if (zofen!= null)
+			return zofen;
+		return "";
+	}
+	
+	private Messenger mService = null;
+	private boolean mBound;
+	private ServiceConnection mConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			Log.d("IZAR","on service connected");
+			mService = new Messenger(service);
+			mBound = true;
+		}
+		@Override
+		public void onServiceDisconnected(ComponentName className) {
+			Log.d("IZAR","discenncted");
+			mService = null;
+			mBound = false;
+			
+		}
+	};
+	
+	class crypterHandler extends Handler{
+		@Override
+		public void handleMessage(Message msg){
+			Log.d("IZAR","qt recieved message");
+			if (msg.what==DECRYPT_REQUEST_CODE){
+				try{
+					Log.d("IZAR","got zofen?");
+					zofen = msg.getData().getString(ZOFEN);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+				return;
+			}
+			super.handleMessage(msg);
+		}
+	}
+	private final Messenger mMessenger = new Messenger(new crypterHandler());
+	
+	public void sendZfnRequest(){
+		Log.d("IZAR","client sending zfn request. bound? "+mBound);
+		if (!mBound) return;
+		
+		Message msg= Message.obtain();
+		Bundle bundle = new Bundle();
+		String requestId= "zfnreq";
+		bundle.putString("msgStr", requestId);
+		
+		msg.setData(bundle);
+		
+		try {
+			msg.replyTo = mMessenger;
+			mService.send(msg);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void doServiceConnect(){
+		Intent remote = new Intent("org.Orayta.kukayta.DeCrypter");
+		boolean res;
+		res = bindService(remote, mConnection, BIND_AUTO_CREATE);
+		Log.d("IZAR","client trying to connect to server. result: "+res);
+		sendZfnRequest();
+	}
+	
+	private void doServiceDisconnect(){
+		if(mBound){
+			unbindService(mConnection);
+			mBound= false;
+		}
+	}
 
 
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
+    	m_activity = this;
         try
         {
             final int errorCode = loaderParams.getInt(ERROR_CODE_KEY);
@@ -195,7 +291,7 @@ public class QtActivity extends Activity
             Method startAppMethod=qtLoader.getClass().getMethod("startApplication");
             if (!(Boolean)startAppMethod.invoke(qtLoader))
                 throw new Exception("");
-
+        
         } catch (Exception e) {
             e.printStackTrace();
             AlertDialog errorDialog = new AlertDialog.Builder(QtActivity.this).create();
@@ -662,12 +758,12 @@ public class QtActivity extends Activity
         return super.dispatchTrackballEvent(event);
     }
     //---------------------------------------------------------------------------
-
+    
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
-        if (QtApplication.m_delegateObject != null && QtApplication.onActivityResult != null)
+    	if (QtApplication.m_delegateObject != null && QtApplication.onActivityResult != null)
         {
             QtApplication.invokeDelegateMethod(QtApplication.onActivityResult, requestCode, resultCode, data);
             return;
@@ -1239,6 +1335,7 @@ public class QtActivity extends Activity
     {
         super.onStart();
         QtApplication.invokeDelegate();
+        doServiceConnect();
     }
     //---------------------------------------------------------------------------
 
@@ -1264,6 +1361,7 @@ public class QtActivity extends Activity
     		super.onStop();
     		QtApplication.invokeDelegate();
 //    	}
+    	doServiceDisconnect();
     	
     }
     //---------------------------------------------------------------------------

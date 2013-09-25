@@ -368,6 +368,10 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
         {
             book->hasTeamim=true;
         }
+        else if (text[i].indexOf("Kukayta") != -1)
+        {
+            book->isEncrypted=true;
+        }
     }
 }
 

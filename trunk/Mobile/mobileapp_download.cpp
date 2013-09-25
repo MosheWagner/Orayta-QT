@@ -64,14 +64,22 @@ void MobileApp::updateDownloadableList()
             QListWidgetItem *lwi;
             lwi= new QListWidgetItem(groups[i].name + " (" + QString::number(groups[i].downloadSize)
                                      + /* "/" + QString::number(groups[i].fullSize) + */ " MB)");
-            lwi->setCheckState(Qt::Unchecked);
+            if (autoInstallKukBooksFlag && groups[i].name.contains("הרחבה"))
+                lwi->setCheckState(Qt::Checked);
+            else
+                lwi->setCheckState(Qt::Unchecked);
             lwi->setWhatsThis(stringify(i));
             lwi->setToolTip("False");
+            if(groups[i].hidden)
+                lwi->setTextColor(QColor("gray"));
 
             ui->downloadListWidget->addItem(lwi);
             ui->downloadListWidget->setEnabled(true);
         }
     }
+
+    if(autoInstallKukBooksFlag)
+        downloadStart();
 
 }
 
@@ -88,6 +96,12 @@ void MobileApp::parseDLFile(QList <QString> dl)
             //Create new group
             DownloadbleBookGroup g;
             g.name = dl[i].mid(2);
+            g.hidden=false;
+
+            //hide extra files if no kukayta
+            if((!isKukaytaInstalled()) && g.name.contains("הרחבה"))
+                g.hidden=true;
+
             groups.append(g);
         }
 
@@ -301,6 +315,8 @@ void MobileApp::downloadNext()
             if (ui->stackedWidget->currentIndex() == GET_BOOKS_PAGE)
                 ui->stackedWidget->setCurrentIndex(LIST_PAGE);
         }
+
+        autoInstallKukBooksFlag= false;
     }
 }
 
@@ -337,3 +353,4 @@ void MobileApp::downloadDone()
         downloadNext();
     }
 }
+

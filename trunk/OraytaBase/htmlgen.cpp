@@ -92,6 +92,7 @@ QString CSS(QString fontFamily, int basesize)
 
             "   .Aliyah { text-align: center; font-family:'" + fontFamily + "'; font-size:" + QString::number(basesize - 4) + "px; font-weight:bold; color:indigo; }\n"
             "   .S0 { font-size:" + QString::number(basesize - 5) + "px;  font-weight:bold;}\n"
+            "   .copyright { font-size:" + QString::number((int)(basesize*0.6)) + "px; color:blue;}\n"
 
             "   .VerySmall { font-size:" + QString::number((int)(basesize*0.7)) + "px;}\n"
 
@@ -131,9 +132,9 @@ QString html_book_title(QString name, QString copyright, QString low_comments)
     t += "<center><span>";
     if(copyright!="")
     {
-        t += "<h3>";
+        t += "<h3 class=copyright>";
         t +=  QT_TR_NOOP("All right reserved ");
-        t +=  "&#169 ";
+        t +=  "&#169; ";
         t += copyright + "</h3><P>\n";
     }
 
@@ -571,7 +572,7 @@ void Book::readBook(int LowsetIndexLevel)
 
     //Read the source file associated to this book:
     QString zipfile = absPath(mPath);
-    if( !ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true) )
+    if( !ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true, isEncrypted) )
     {
         print( "ERROR: Unable to open zipfile: " + zipfile + " !");
         return ;
@@ -892,7 +893,7 @@ QUrl Book::renderBookIndex()
 
     html += "<body>";
 
-    html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
+    html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
 
     html += "<div class=\"Index\">";
 
@@ -929,7 +930,7 @@ QUrl Book::renderBookIndex()
 
         //Read the source file associated to this book:
         QString zipfile = absPath(mPath);
-        ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true);
+        ReadFileFromZip(zipfile, "BookText", text, "UTF-8", true, isEncrypted);
 
         for (int i=0; i<text.size(); i++) if (text[i][0] != '$') html += text[i] + "<BR>\n";
     }

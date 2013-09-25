@@ -55,9 +55,9 @@ extern QString USERPATH;
 
 //Small functions used by a few files:
 
-bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines = false);
+bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines = false, bool encrypted= false);
 //Returns the contents of the given file from the given zip file. Returns "Error!" on failure.
-QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name);
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name, bool encrypted = false);
 bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding_name);
 
 bool zipExtract(const QString & filePath, const QString & extDirPath);
@@ -179,6 +179,9 @@ void deleteBooksFolder(QString sourceFolder);
 
 //Generate search DB files from the given bookflie (Non-compressed)
 void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString levelMapOutPath);
+
+void initCrypterRequest();
+bool isKukaytaInstalled();
 
 // analyse how long it takes the app
 //extern QTime timer_n1;

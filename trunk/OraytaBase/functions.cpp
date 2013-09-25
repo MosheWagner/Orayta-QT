@@ -21,6 +21,11 @@
 
 #include "quazip/quazipfile.h"
 
+#ifdef Q_OS_ANDROID
+#include "Mobile/jnifunc.h";
+#endif
+
+
 //Global path holders. Set in mainwindow::initPaths, and used all over.
 // Should allways by absolute.
 QString BOOKPATH;
@@ -36,8 +41,19 @@ QTranslator *translator;
 QString LANG = "Hebrew";
 
 
-bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, const char* encoding_name, bool skipconflines)
+bool ReadFileFromZip(QString zippath, QString filepath,
+                     QList <QString>& text, const char* encoding_name, bool skipconflines, bool encrypted)
 {
+    if (encrypted){
+#ifdef Q_OS_ANDROID
+        QString target= TMPPATH+"unziped";
+        if (zipDecrypt(zippath, filepath, target)>0)
+            return ReadFileFromZip(target, filepath, text, encoding_name, skipconflines, false);
+
+#endif
+        return false;
+    }
+
     QuaZip zip(zippath);
     if (!zip.open(QuaZip::mdUnzip)) return false;
     if (!zip.setCurrentFile(filepath)) return false;
@@ -74,8 +90,17 @@ bool ReadFileFromZip(QString zippath, QString filepath, QList <QString>& text, c
     return true;
 }
 
-QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name)
+QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name, bool encrypted)
 {
+    if (encrypted){
+#ifdef Q_OS_ANDROID
+        QString target= TMPPATH+"unziped";
+        if (zipDecrypt(zippath, filepath, target)>0)
+            return ReadFileFromZip(target, filepath, encoding_name, false);
+#endif
+        return "book is encrypted";
+    }
+
     QuaZip zip(zippath);
     if (!zip.open(QuaZip::mdUnzip)) return "Error!";
     if (!zip.setCurrentFile(filepath)) return "Error!";
@@ -113,7 +138,7 @@ bool ReadZipComment(QString zippath, QList <QString>& text, const char* encoding
 //Reads the file with the given name, and inserts it's contents into the given vector
 bool ReadFileToList(QString filename, QList <QString>& text, const char* encoding_name)
 {
-    bool conflinesended = false;
+//    bool conflinesended = false;
    
     //Stop if it's not a valid file:
     QFileInfo fi(filename);
@@ -964,13 +989,66 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
     {
         lvlmpstr += QString::number(keys[i]) + "->" + vals[i].toString() + "\n";
     }
-
     //Save the files
-    writetofile(pureTextOutPath, ptext, "UTF-8", true);
-    writetofile(levelMapOutPath, lvlmpstr, "UTF-8", true);
+//    writetofile(pureTextOutPath, ptext, "UTF-8", true);
+//    writetofile(levelMapOutPath, lvlmpstr, "UTF-8", true);
+
+    //IZAR: create OBK -----------------------
+    QString outZipPath= infile.replace(QRegExp("\\.(txt|TXT)$"), ".obk");
+    QuaZip zip(outZipPath);
+    zip.setFileNameCodec("UTF-8");
+
+    if (!zip.open(QuaZip::mdCreate)){
+        qCritical()<<"cant create zip";
+        return;
+    }
+
+    QuaZipFile zfile(&zip);
+
+    QStringList filelist = QStringList();
+    filelist<<"BookText"<<"LevelMap"<<"SearchDB";
+
+    QFileInfo info = QFileInfo(infile);
+    QString path= info.absolutePath();
+    foreach (QString file, filelist){
+        zfile.open(QIODevice::WriteOnly,QuaZipNewInfo(file));
+        QString* text_a;
+        if (file=="BookText"){
+            text_a= new QString();
+            foreach (QString line_a, text) text_a->append(line_a);
+        }
+        else if (file == "SearchDB")
+            text_a = &ptext;
+        else if (file=="LevelMap")
+            text_a = &lvlmpstr;
+        zfile.write((*text_a).toUtf8());
+        zfile.close();
+    }
+    zip.setCommentCodec("UTF-8");
+    QString comment= readfile(infile.replace(QRegExp("\\.(txt|TXT)$"),".conf"), "UTF-8");
+    zip.setComment(comment);
+
+    zip.close();
+
+    qDebug()<<"created succesfuly: " <<zip.getCurrentFileName();
 }
 
 //QTime timer_n1;
+
+void initCrypterRequest()
+{
+#ifdef Q_OS_ANDROID
+    initRequest();
+
+#endif
+}
+
+bool isKukaytaInstalled(){
+#ifndef Q_OS_ANDROID
+    return false;
+#endif
+    return isKukaytaInstalled2();
+}
 
 #ifdef POPPLER
 

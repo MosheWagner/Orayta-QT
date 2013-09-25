@@ -178,6 +178,7 @@ public:
 
     bool hasNikud;
     bool hasTeamim;
+    bool isEncrypted;
 
     QList <weavedSource> mWeavedSources;
 
