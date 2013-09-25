@@ -12,7 +12,7 @@ void Book::BuildGuematriaDb()
     //Read book's contents
     QStringList text;
     //if (!ReadFileToList( mPath, text, "UTF-8", true))
-    if (!ReadFileFromZip(mPath, "BookText", text, "UTF-8", true))
+    if (!ReadFileFromZip(mPath, "BookText", text, "UTF-8", true, isEncrypted))
     {
         qDebug() << "Error reading the book's text" << mPath;
         return;

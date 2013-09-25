@@ -29,14 +29,14 @@ android {
     INSTALL_PATH = "/assets/Orayta/"
     INSTALL_BOOKS_PATH = $${INSTALL_PATH}
 
-    QT -= webkit
-    DEFINES += QTSCROLLER_NO_WEBKIT
-
     #this is a mobile app
     DEFINES += MOBILE
     DEFINES += android
     CONFIG += MOBILE
     CONFIG += android
+    CONFIG += mobile
+    SOURCES += Mobile/jnifunc.cpp
+    HEADERS += Mobile/jnifunc.h
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
@@ -98,6 +98,7 @@ SOURCES +=  \
     OraytaBase/minibmark.cpp \
     OraytaBase/bmarklist.cpp
 
+
 HEADERS += \
     OraytaBase/htmlgen.h \
     OraytaBase/functions.h \
@@ -127,7 +128,7 @@ HEADERS += \
 FORMS += \
     OraytaBase/bookfind.ui
 
-! android {
+! mobile {
     HEADERS += \
         Desktop/desktopapp.h \
         Desktop/mywebview.h \
@@ -161,7 +162,12 @@ FORMS += \
 }
 
 #Android stuff:
-android {
+mobile {
+
+    QT -= webkit
+    DEFINES += QTSCROLLER_NO_WEBKIT
+    DEFINES += MOBILE
+
     SOURCES += \
         Mobile/mobileapp.cpp \
         Mobile/QKinetic/flickcharm.cpp \
@@ -395,3 +401,6 @@ INSTALLS += fonts
 INSTALLS += licence
 
 linux: INSTALLS += menu desktop
+
+OTHER_FILES += \
+    android/src/org/kde/necessitas/origo/Crypter.java

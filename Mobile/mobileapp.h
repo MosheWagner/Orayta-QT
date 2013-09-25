@@ -42,6 +42,7 @@
 #define MIXED_SELECTION_PAGE 7
 #define HISTORY_PAGE 8
 #define BOOKFIND_PAGE 9
+#define KUKAYTA_PAGE 10
 
 
 class MiniBMark;
@@ -234,6 +235,12 @@ private slots:
 
     void on_NightModeCKBX_clicked(bool checked);
 
+    void on_dlKukaytaBooksBTN_clicked();
+
+    void on_installKukaytaBTN_clicked();
+
+    void displayKukaytaMessage();
+
 private:
     Ui::MobileApp *ui;
 
@@ -273,6 +280,7 @@ private:
         double fullSize;
         double downloadSize;
         QList <DownloadbleBookObject> books;
+        bool hidden;
 
         //0 - Installed, 1 - Needs update, 2 - Not installed
         int downloadState;
@@ -280,9 +288,13 @@ private:
 
     QList <DownloadbleBookGroup> groups;
 
-    #define BOOKLISTURL "http://orayta.googlecode.com/svn/books/OraytaBookList"
+    #define BOOKLISTURL "http://orayta.googlecode.com/svn/books/OraytaBookList1"
 
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
+
+//    #define KUK_BOOKLIST_URL "http://orayta.googlecode.com/svn/books/kukaytaBookList"
+//    #define KUK_SAVEDBOOKLIST   TMPPATH + "Kuk-Books"
+
     FileDownloader *listdownload;
     FileDownloader *downloader;
 
@@ -314,6 +326,9 @@ private:
 
     //Holds the offset of the viewposition before the program was shut
     int lastViewPosition;
+
+    //flag to let auto install of kukayta books
+    bool autoInstallKukBooksFlag;
 
 
 };

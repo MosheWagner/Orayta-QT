@@ -35,6 +35,12 @@
 #include <QDesktopWidget>
 #include <QMenu>
 
+#ifdef Q_OS_ANDROID
+#include <jni.h>
+#include "jnifunc.h"
+#endif
+
+#include "../OraytaBase/quazip/quazipfile.h"
 
 // Global
 #define DEF_FONT "Droid Sans Hebrew Orayta"
@@ -60,6 +66,17 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
+    //IZAR: tmp only delete at all costs!!!!!!!!!!!!!!!!
+//    QuaZip qz("/home/avi/desktop/test.zip");
+
+    QuaZipFile qzf("/home/avi/desktop/test.zip","test");
+    if (!qzf.open(QIODevice::ReadOnly, "abcd")){
+        qDebug()<<"cant open "<<qzf.getZipError();
+    }
+    qDebug()<<qzf.readLine();
+
+    // IZAR: end!!!!!!!!!!!!!!
+
     //**TIMER**//
 //    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << "built ui";
 
@@ -70,6 +87,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     menu = NULL;
     bm = NULL;
     action = NULL;
+    autoInstallKukBooksFlag=false;
 
     //Initialize a new FileDownloader to download the list
     listdownload = new FileDownloader();
@@ -155,6 +173,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
+//    initCrypterRequest();
+
     //Reopen last book, if relevant
     //get last open book
     QSettings settings("Orayta", "SingleUser");
@@ -185,6 +205,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->currentWidget()->setFocus();
 
     adjustToScreenSize();
+
+    displayKukaytaMessage();
 
     //**TIMER**//
 //    qDebug()<< "main timer, elapsed: " << timer_n1.elapsed() << " done loading";
@@ -508,6 +530,15 @@ void MobileApp::showBook(Book *book, BookIter itr)
     {
         case ( Book::Normal ):
         {
+            initRequest();
+            //book is kukayta book but kukayta isn't installed
+            if ((! isKukaytaInstalled()) && book->isEncrypted){
+                //display install kukayta page
+                ui->stackedWidget->setCurrentIndex(KUKAYTA_PAGE);
+                ui->kukaytaArea->setCurrentIndex(0);
+                return;
+            }
+
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             qApp->processEvents();
 
@@ -1211,7 +1242,7 @@ void MobileApp::setupSettings(){
 
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-        autoResume = settings.value("autoResume", false).toBool();
+        autoResume = settings.value("autoResume", true).toBool();
         useCustomFontForAll = settings.value("useCustomFontForAll", false).toBool();
         nightMode = settings.value("nightMode", false).toBool();
     settings.endGroup();
@@ -1661,6 +1692,31 @@ void MobileApp::addStaticBMhere(){
     bm->setConstant(true);
 }
 
+void MobileApp::displayKukaytaMessage()
+{
+    qDebug()<<"is kukayta installed ?";
+    qDebug()<<"?: " <<isKukaytaInstalled();
+    if (! isKukaytaInstalled())
+        return;
+
+    bool firstTimeAfterInstalledKukayta = false;
+
+    QSettings settings("Orayta", "SingleUser");
+    settings.beginGroup("Confs");
+    firstTimeAfterInstalledKukayta = !settings.contains("kukaytaInstalled");
+
+
+    if (firstTimeAfterInstalledKukayta)
+    {
+        ui->stackedWidget->setCurrentIndex(KUKAYTA_PAGE);
+        ui->kukaytaArea->setCurrentIndex(1);
+    }
+
+    settings.setValue("kukaytaInstalled", true);
+
+    settings.endGroup();
+}
+
 void MobileApp::on_bookMarksBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
@@ -1686,3 +1742,14 @@ void MobileApp::on_autoResumeCKBX_stateChanged(int arg1)
 
 void MobileApp::on_NightModeCKBX_clicked(bool checked)
 { ui->saveConf->setEnabled(true); }
+
+void MobileApp::on_dlKukaytaBooksBTN_clicked()
+{
+    autoInstallKukBooksFlag=true;
+    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE);
+    downloadBookList();
+}
+
+
+void MobileApp::on_installKukaytaBTN_clicked()
+{    installKukayta(); }
