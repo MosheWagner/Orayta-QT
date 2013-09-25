@@ -5,6 +5,10 @@
 
 
 # Big todo list:
+
+# Fix show/hide nikud button
+# Desktop app translation dosn't work
+
 # - Test debian dir + especially control file
 # - Pause break - fix crash!
 # - Fix desktop version (with download manager too!)
