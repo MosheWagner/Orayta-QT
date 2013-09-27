@@ -44,6 +44,15 @@ import android.app.ProgressDialog;
 import android.os.Environment;
 import android.os.AsyncTask;
 
+//Added for kookita
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -106,6 +115,101 @@ public class QtActivity extends Activity
     private static final String STATIC_INIT_CLASSES_KEY = "static.init.classes";
     private static final String NECESSITAS_API_LEVEL_KEY = "necessitas.api.level";
 
+    //Added for kookita
+    private static QtActivity m_activity;
+    private static String zofen = "";
+
+
+    public final static int DECRYPT_REQUEST_CODE = 42738492;
+//	private final static String ZF_NAME = "zf_name";
+//	private final static String INT_FILE = "int_file";
+//	private final static String TARGET = "target";
+//	private final static String METHODNAME = "methodName";
+//	private final static String DECRYPT = "decrypt";
+    public final static String ZOFEN= "zofen";
+
+
+    public static QtActivity getActivity(){
+            return m_activity;
+    }
+
+    public String getZfn(){
+            if (zofen!= null)
+                    return zofen;
+            return "";
+    }
+
+    private Messenger mService = null;
+    private boolean mBound;
+    private ServiceConnection mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                    Log.d("IZAR","on service connected");
+                    mService = new Messenger(service);
+                    mBound = true;
+            }
+            @Override
+            public void onServiceDisconnected(ComponentName className) {
+                    Log.d("IZAR","discenncted");
+                    mService = null;
+                    mBound = false;
+
+            }
+    };
+
+    class crypterHandler extends Handler{
+            @Override
+            public void handleMessage(Message msg){
+                    Log.d("IZAR","qt recieved message");
+                    if (msg.what==DECRYPT_REQUEST_CODE){
+                            try{
+                                    Log.d("IZAR","got zofen?");
+                                    zofen = msg.getData().getString(ZOFEN);
+                            } catch (Exception e){
+                                    e.printStackTrace();
+                            }
+                            return;
+                    }
+                    super.handleMessage(msg);
+            }
+    }
+    private final Messenger mMessenger = new Messenger(new crypterHandler());
+
+    public void sendZfnRequest(){
+            Log.d("IZAR","client sending zfn request. bound? "+mBound);
+            if (!mBound) return;
+
+            Message msg= Message.obtain();
+            Bundle bundle = new Bundle();
+            String requestId= "zfnreq";
+            bundle.putString("msgStr", requestId);
+
+            msg.setData(bundle);
+
+            try {
+                    msg.replyTo = mMessenger;
+                    mService.send(msg);
+            } catch (RemoteException e) {
+                    e.printStackTrace();
+            }
+    }
+
+    public void doServiceConnect(){
+            Intent remote = new Intent("org.Orayta.kukayta.DeCrypter");
+            boolean res;
+            res = bindService(remote, mConnection, BIND_AUTO_CREATE);
+            Log.d("IZAR","client trying to connect to server. result: "+res);
+            sendZfnRequest();
+    }
+
+    private void doServiceDisconnect(){
+            if(mBound){
+                    unbindService(mConnection);
+                    mBound= false;
+            }
+    }
+
+
     /// Ministro server parameter keys
     private static final String REQUIRED_MODULES_KEY = "required.modules";
     private static final String APPLICATION_TITLE_KEY = "application.title";
@@ -154,6 +258,7 @@ public class QtActivity extends Activity
     // this function is used to load and start the loader
     private void loadApplication(Bundle loaderParams)
     {
+        m_activity = this;
         try {
             final int errorCode = loaderParams.getInt(ERROR_CODE_KEY);
             if (errorCode != 0) {
@@ -1205,6 +1310,7 @@ public class QtActivity extends Activity
     {
         super.onStart();
         QtApplication.invokeDelegate();
+        doServiceConnect();
     }
     //---------------------------------------------------------------------------
 
@@ -1213,6 +1319,7 @@ public class QtActivity extends Activity
     {
         super.onStop();
         QtApplication.invokeDelegate();
+        doServiceDisconnect();
     }
     //---------------------------------------------------------------------------
 

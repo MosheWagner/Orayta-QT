@@ -69,6 +69,8 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
     hasNikud = false;
     hasTeamim = false;
 
+    isEncrypted= false;
+
     showAlone = true;
 
     mTabWidget = 0;
@@ -619,7 +621,7 @@ QString Book::pureText()
 {
     if (mPureText.simplified() == "" || mPureText == "Locked!")
     {        
-        mPureText = ReadFileFromZip(mPath, "SearchDB", "UTF-8");
+        mPureText = ReadFileFromZip(mPath, "SearchDB", "UTF-8", isEncrypted);
         if (mPureText == "Error!")
         {
             qDebug() << "Error! Couldn't read search DB for:" << mPath;
@@ -628,7 +630,7 @@ QString Book::pureText()
         else
         {
             levelMap.clear();
-            setLevelMap(ReadFileFromZip(mPath, "LevelMap", "UTF-8"));
+            setLevelMap(ReadFileFromZip(mPath, "LevelMap", "UTF-8", isEncrypted));
         }
     }
 

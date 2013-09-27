@@ -18,6 +18,7 @@ QT += core gui network widgets
 
 TARGET = orayta
 TEMPLATE = app
+
 INCLUDEPATH += $$PWD
 
 LIBS += -lz
@@ -47,6 +48,9 @@ android {
     DEFINES += android
     CONFIG += MOBILE
     CONFIG += android
+    CONFIG += mobile
+    SOURCES += Mobile/jnifunc.cpp
+    HEADERS += Mobile/jnifunc.h
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
@@ -111,6 +115,7 @@ SOURCES +=  \
     OraytaBase/bmarklist.cpp \
     Mobile/swipegesturerecognizer.cpp
 
+
 HEADERS += \
     OraytaBase/htmlgen.h \
     OraytaBase/functions.h \
@@ -141,7 +146,7 @@ HEADERS += \
 FORMS += \
     OraytaBase/bookfind.ui
 
-! android {
+! mobile {
     HEADERS += \
         Desktop/desktopapp.h \
         Desktop/mywebview.h \
@@ -175,7 +180,12 @@ FORMS += \
 }
 
 #Android stuff:
-android {
+mobile {
+
+    QT -= webkit
+    DEFINES += QTSCROLLER_NO_WEBKIT
+    DEFINES += MOBILE
+
     SOURCES += \
         Mobile/mobileapp.cpp \
         Mobile/textdisplayer.cpp \
@@ -520,4 +530,5 @@ OTHER_FILES += \
     android/res/values/strings.xml \
     android/version.xml \
     android/AndroidManifest.xml \
-    android/res/values/libs.xml
+    android/res/values/libs.xml \
+    android/src/org/qtproject/qt5/android/bindings/Crypter.java
