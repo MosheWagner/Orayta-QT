@@ -134,133 +134,133 @@
         <translation>כותרת חדשה:</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="160"/>
-        <location filename="Desktop/desktopapp.cpp" line="184"/>
+        <location filename="Desktop/desktopapp.cpp" line="161"/>
         <location filename="Desktop/desktopapp.cpp" line="185"/>
-        <location filename="Desktop/desktopapp.cpp" line="797"/>
-        <location filename="Desktop/desktopapp.cpp" line="799"/>
-        <location filename="Desktop/desktopapp.cpp" line="804"/>
-        <location filename="Desktop/desktopapp.cpp" line="1471"/>
-        <location filename="Desktop/desktopapp.cpp" line="1719"/>
-        <location filename="Desktop/desktopapp.cpp" line="1723"/>
-        <location filename="Desktop/desktopapp.cpp" line="1724"/>
-        <location filename="Desktop/desktopapp.cpp" line="1846"/>
-        <location filename="Desktop/desktopapp.cpp" line="1850"/>
+        <location filename="Desktop/desktopapp.cpp" line="186"/>
+        <location filename="Desktop/desktopapp.cpp" line="800"/>
+        <location filename="Desktop/desktopapp.cpp" line="802"/>
+        <location filename="Desktop/desktopapp.cpp" line="807"/>
+        <location filename="Desktop/desktopapp.cpp" line="1474"/>
+        <location filename="Desktop/desktopapp.cpp" line="1722"/>
+        <location filename="Desktop/desktopapp.cpp" line="1726"/>
+        <location filename="Desktop/desktopapp.cpp" line="1727"/>
+        <location filename="Desktop/desktopapp.cpp" line="1849"/>
+        <location filename="Desktop/desktopapp.cpp" line="1853"/>
         <location filename="Desktop/desktopapp_bookmark.cpp" line="90"/>
         <source>Orayta</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="184"/>
+        <location filename="Desktop/desktopapp.cpp" line="185"/>
         <source>Jewish books</source>
         <translation>ספרי קודש</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="536"/>
+        <location filename="Desktop/desktopapp.cpp" line="539"/>
         <source>No books found! 
 Check your installation, or contact the developer.</source>
         <translation>לא נמצאו ספרים מותקנים! 
  בדוק שהתוכנה הותקנה כראוי, ופנה למפתח.התוכנה.</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="565"/>
+        <location filename="Desktop/desktopapp.cpp" line="568"/>
         <source>Loading...</source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="591"/>
+        <location filename="Desktop/desktopapp.cpp" line="594"/>
         <source>&lt;h2&gt;An error occured...&lt;/h2&gt;&lt;br /&gt;Please report this bug : &apos;http://code.google.com/p/orayta/issues/entry&apos;</source>
         <translation>&lt;h2&gt;אירעה שגיאה...&lt;/h2&gt;&lt;br /&gt;אנא דווח על באג זה בדף: &apos;http://code.google.com/p/orayta/issues/entry&apos;</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="751"/>
+        <location filename="Desktop/desktopapp.cpp" line="754"/>
         <source>Are you sure you want to remove this </source>
         <translation>אתה בטוח שברצונך למחוק </translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="752"/>
+        <location filename="Desktop/desktopapp.cpp" line="755"/>
         <source>books directory ?
 This will remove all the books in this directory.</source>
         <translation>תיקיה זו ?
 כל הספרים הקיימים בתקיה יימחקו.</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="753"/>
+        <location filename="Desktop/desktopapp.cpp" line="756"/>
         <source>book ?</source>
         <translation>ספר זה?</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="755"/>
+        <location filename="Desktop/desktopapp.cpp" line="758"/>
         <source>Deleting book</source>
         <translation>מחיקת ספר</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="925"/>
+        <location filename="Desktop/desktopapp.cpp" line="928"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="927"/>
+        <location filename="Desktop/desktopapp.cpp" line="930"/>
         <source>Open in new tab</source>
         <translation>פתח בלשונית חדשה</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="940"/>
+        <location filename="Desktop/desktopapp.cpp" line="943"/>
         <source>Delete book</source>
         <translation>מחק ספר זה</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="951"/>
+        <location filename="Desktop/desktopapp.cpp" line="954"/>
         <source>Change font</source>
         <translation>שנה גופן</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1424"/>
+        <location filename="Desktop/desktopapp.cpp" line="1427"/>
         <source>Orayta - Jewish books</source>
         <translation>אורייתא - ספרי קודש</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1731"/>
+        <location filename="Desktop/desktopapp.cpp" line="1734"/>
         <source>Searching: </source>
         <translation>מחפש:</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1861"/>
+        <location filename="Desktop/desktopapp.cpp" line="1864"/>
         <source>Searching guematria for: </source>
         <translation>חיפוש גימטריא עבור: </translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1934"/>
+        <location filename="Desktop/desktopapp.cpp" line="1937"/>
         <source>Search results for guematria : </source>
         <translation>תוצאות חיפוש גימטריא עבור :</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1946"/>
+        <location filename="Desktop/desktopapp.cpp" line="1949"/>
         <source>(Search stopped by user)</source>
         <translation>(החיפוש נעצר ע&quot;י המשתמש)</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1953"/>
+        <location filename="Desktop/desktopapp.cpp" line="1956"/>
         <source>No tanach books selected : please select books in tanach and search again.</source>
         <translation>ספרי תנ&quot;ך לא נבחרו : נא בחר הספרים מהתנ&quot;ך בהם ברצונך לבצע החיפוש.</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1959"/>
+        <location filename="Desktop/desktopapp.cpp" line="1962"/>
         <source>No guematria results found:</source>
         <translation>לא נמצאו תוצאות:</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1966"/>
+        <location filename="Desktop/desktopapp.cpp" line="1969"/>
         <source>Result list: </source>
         <translation>רשימת תוצאות: </translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="1967"/>
+        <location filename="Desktop/desktopapp.cpp" line="1970"/>
         <source> results founds.</source>
         <translation> תוצאות נמצאו.</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.cpp" line="2021"/>
+        <location filename="Desktop/desktopapp.cpp" line="2006"/>
         <source>Print book</source>
         <translation>הדפס ספר</translation>
     </message>
@@ -294,9 +294,8 @@ This will remove all the books in this directory.</source>
         <translation>רענן ספר זה</translation>
     </message>
     <message>
-        <location filename="Desktop/desktopapp.ui" line="730"/>
         <source>Back</source>
-        <translation>הקודם</translation>
+        <translation type="obsolete">הקודם</translation>
     </message>
     <message>
         <location filename="Desktop/desktopapp.ui" line="759"/>
@@ -471,6 +470,11 @@ This will remove all the books in this directory.</source>
     <message>
         <source>Move bookmark down</source>
         <translation type="obsolete">הורד סימנייה למטה</translation>
+    </message>
+    <message>
+        <location filename="Desktop/desktopapp.ui" line="730"/>
+        <source>Index</source>
+        <translation>לתוכן</translation>
     </message>
     <message>
         <location filename="Desktop/desktopapp.ui" line="1749"/>
@@ -1496,7 +1500,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="Mobile/mobileapp.ui" line="1339"/>
-        <location filename="Mobile/mobileapp.cpp" line="795"/>
+        <location filename="Mobile/mobileapp.cpp" line="854"/>
         <source>Index</source>
         <translation>לתוכן</translation>
     </message>
@@ -1876,6 +1880,46 @@ p, li { white-space: pre-wrap; }
         <translation>לחיצה קצרה על סימניה תגרום לאפשרות &apos;מחק&apos; להופיע.</translation>
     </message>
     <message>
+        <location filename="Mobile/mobileapp.ui" line="5192"/>
+        <source>Please install Orayta Additions in order to use this book.
+Orayta Additions brigns to you many extra books that are not available for free. Included are all of Ha&apos;rav Kuk&apos;s writings and many more.</source>
+        <translatorcomment> </translatorcomment>
+        <translation>נא להתקין את &apos;אורייתא - הרחבה&apos; כדי להשתמש בספר זה.
+האפליקציה &apos;אורייתא - הרחבה&apos; נותנת לכם ספרים נוספים רבים שאינם זמינים בחינם. בין היתר כלולים כל כתבי הרב קוק ועוד.</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="5203"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you have purchesed Orayta additions but still see this page, please &lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;contact us&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;אם התקנתם את &apos;אורייתא - הרחבה&apos; ובכל זאת מופיעה לכם הודעה זו אנא &lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;צרו קשר&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="5216"/>
+        <source>Install Orayta Additions</source>
+        <translation>התקן את &apos;אורייתא - הרחבה&apos;</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="5235"/>
+        <source>Thank you for purchasing orayta additions.
+Press Ok to download the books you paid for, or &apos;back&apos; to cancel.
+You can always do this later through the download option on the main screen.</source>
+        <translation>תודה שרכשתם את &apos;אורייתא - הרחבה&apos;.
+לחצו על &apos;אישור&apos; כדי להוריד את כל הספרים ששילמתם עבורם כעת. לחלופין לחצו על מקש &apos;חזור&apos; כדי לבטל.
+תמיד תוכלו לבצע זאת שוב מתוך מסך &apos;הורדת ספרים&apos; בתפריט הראשי.</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="5246"/>
+        <source>Ok</source>
+        <translation>אישור</translation>
+    </message>
+    <message>
         <source>Recent Books:</source>
         <translatorcomment>ספרים אחרונים:</translatorcomment>
         <translation type="obsolete">ספרים אחרונים:</translation>
@@ -1908,37 +1952,37 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
         <translation type="obsolete">בטל חיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="605"/>
+        <location filename="Mobile/mobileapp.cpp" line="664"/>
         <source>Search results</source>
         <translation>תוצאות חיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="789"/>
+        <location filename="Mobile/mobileapp.cpp" line="848"/>
         <source>Back to results</source>
         <translation>חזרה לתוצאות החיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="1582"/>
+        <location filename="Mobile/mobileapp.cpp" line="1641"/>
         <source>Delete bookmark</source>
         <translation>מחק סימנייה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp_download.cpp" line="269"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="283"/>
         <source>Downloading file </source>
         <translation>מוריד קובץ</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp_download.cpp" line="269"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="283"/>
         <source> of </source>
         <translation>מתוך</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp_download.cpp" line="279"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="293"/>
         <source>Download complete!</source>
         <translation>הורדה הושלמה!</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp_download.cpp" line="283"/>
+        <location filename="Mobile/mobileapp_download.cpp" line="297"/>
         <source>Download complete with errors. Try downloading the files again.</source>
         <translation>הורדה הושלמה אך היו שגיאות. נסה להוריד שנית.</translation>
     </message>
@@ -1947,12 +1991,12 @@ Check your installation, or contact the developer.&lt;/b&gt;&lt;/center&gt;</sou
         <translation type="obsolete">הורדה הושלמה!</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="1195"/>
+        <location filename="Mobile/mobileapp.cpp" line="1254"/>
         <source>×¢××¨××ª</source>
         <translation>עברית</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.cpp" line="1327"/>
+        <location filename="Mobile/mobileapp.cpp" line="1386"/>
         <source> (Not installed. please install it from &apos;Get books&apos; page)</source>
         <translation>(לא מותקן. נא להתקין את המפרש מתפריט &apos;הורד ספרים&apos;)</translation>
     </message>

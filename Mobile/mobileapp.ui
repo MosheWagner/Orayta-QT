@@ -4194,7 +4194,7 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>223</width>
+                <width>218</width>
                 <height>285</height>
                </rect>
               </property>
@@ -5167,7 +5167,7 @@ QTabBar::tab:selected {
        <item>
         <widget class="QStackedWidget" name="kukaytaArea">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="noKukayta">
           <layout class="QVBoxLayout" name="verticalLayout_31">
@@ -5178,15 +5178,32 @@ QTabBar::tab:selected {
             <number>0</number>
            </property>
            <item>
-            <widget class="QTextBrowser" name="textBrowser">
+            <widget class="QPlainTextEdit" name="plainTextEdit">
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="undoRedoEnabled">
+              <bool>false</bool>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="plainText">
+              <string>Please install Orayta Additions in order to use this book.
+Orayta Additions brigns to you many extra books that are not available for free. Included are all of Ha'rav Kuk's writings and many more.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextBrowser" name="textBrowser_2">
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
              <property name="html">
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Please install Orayta Additions in order to use this book.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Orayta Additions brigns to you many extra books that are not available for free. Included are all of Ha'rav Kuk's writings and many more.&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you have purchesed Orayta additions but still see this page, please &lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;contact us&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
@@ -5213,15 +5230,11 @@ p, li { white-space: pre-wrap; }
             <number>0</number>
            </property>
            <item>
-            <widget class="QTextBrowser" name="textBrowser_2">
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Thank you for purchasing orayta additions.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Press Ok to download the books you paid for, or 'back' to cancel.&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can always do this later through the download option on the main screen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <widget class="QPlainTextEdit" name="plainTextEdit_2">
+             <property name="plainText">
+              <string>Thank you for purchasing orayta additions.
+Press Ok to download the books you paid for, or 'back' to cancel.
+You can always do this later through the download option on the main screen.</string>
              </property>
             </widget>
            </item>
