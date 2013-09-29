@@ -67,7 +67,7 @@ public class Crypter {
 	 */
 	public static int decryptRequest() {
                 QtActivity me = org.qtproject.qt5.android.bindings.QtActivity.getActivity();
-		if (isKukaytaInstalled()>=2)
+                if (isKukaytaInstalled() >= 2)
 			return 2;
 		me.doServiceConnect();
 		return 1;

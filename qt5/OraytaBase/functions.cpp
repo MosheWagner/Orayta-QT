@@ -1042,11 +1042,13 @@ void initCrypterRequest()
 #endif
 }
 
-bool isKukaytaInstalled(){
-#ifndef Q_OS_ANDROID
-    return false;
-#endif
-    return isKukaytaInstalled2();
+bool isKukaytaInstalled()
+{
+    #ifndef Q_OS_ANDROID
+        return false;
+    #else
+        return testIsKukaytaInstalled();
+    #endif
 }
 
 #ifdef POPPLER
