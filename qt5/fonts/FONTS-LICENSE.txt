@@ -1,4 +1,3 @@
-
 The following HebDroid fonts are a combined Droid font from Google Inc
 and the Public domain DejaVu font.
 
