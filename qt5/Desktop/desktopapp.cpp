@@ -533,7 +533,11 @@ void DesktopApp::updateBookTree()
     if (bookList.empty())
     {
         QMessageBox msgBox;
-        msgBox.setText(tr("No books found! \nCheck your installation, or contact the developer."));
+#ifndef Q_OS_WIN
+        msgBox.setText(tr("No books found! \nMake sure you installed the package orayta-books too!"));
+#else
+        msgBox.setText(tr("No books found! \nTry re-installing orayta or contancting the developer.!"));
+#endif
         msgBox.exec();
 
         //No books found
