@@ -24,7 +24,7 @@ class BookList;
 
 #include <QDateTime>
 #include <QPointer>
-#include <QtGui/QTreeWidgetItem>
+#include <QTreeWidgetItem>
 
 extern QString gFontFamily;
 extern int gFontSize;

@@ -129,7 +129,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
 
             bo.dateModified = QDate::fromString(sl[2].simplified(), "dd/MM/yy");
             //Because QT thinks '12' is 1912 and not 2012...
-            bo.dateModified.setYMD(100 + bo.dateModified.year(), bo.dateModified.month(), bo.dateModified.day());
+            bo.dateModified.setDate(100 + bo.dateModified.year(), bo.dateModified.month(), bo.dateModified.day());
 
             //If a hash is present for this line
             if(sl.size() > 3)
@@ -220,7 +220,6 @@ void MobileApp::listDownloadDone()
 
 void MobileApp::downloadStart()
 {
-    downloader->abort();
     downloadsList.clear();
     hashs.clear();
 

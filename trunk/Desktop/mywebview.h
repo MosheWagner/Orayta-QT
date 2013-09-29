@@ -25,6 +25,8 @@ Not extremly important, but it isn't too complicated either.
 #define MYWEBVIEW_H
 
 #include <QClipboard>
+#include <QWebView>
+#include <QWebFrame>
 
 #include "../OraytaBase/functions.h"
 

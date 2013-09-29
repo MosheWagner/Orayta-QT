@@ -26,7 +26,7 @@ int zipDecrypt(QString zipFilename, QString internalFile, QString target);
 
 int initRequest();
 
-bool isKukaytaInstalled2();
+bool testIsKukaytaInstalled();
 void installKukayta();
 
 

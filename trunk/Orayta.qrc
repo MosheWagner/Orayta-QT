@@ -60,11 +60,11 @@
         <file>Icons/go-previous-view-page.png</file>
         <file>Images/ajax-loader.gif</file>
         <file>Icons/go-home.png</file>
-        <file>Icons/dl-book2.png</file>
         <file>Icons/help-about-big.png</file>
         <file>Icons/configure.png</file>
         <file>Images/spalsh-portrait.png</file>
         <file>OraytaBase/DailyLimud.csv</file>
-        <file>pwd</file>
+        <file>Icons/dl-book.png</file>
+        <file>Icons/search-icon.png</file>
     </qresource>
 </RCC>

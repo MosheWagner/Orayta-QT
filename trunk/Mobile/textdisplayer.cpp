@@ -20,9 +20,84 @@
 #include <QFile>
 #include <QDesktopServices>
 #include <QApplication>
+#include <QGestureRecognizer>
+
+
+bool textDisplayer::event(QEvent* pEvent)
+{
+   if (pEvent->type() == QEvent::Gesture) {
+      return OnGestureEvent(static_cast<QGestureEvent*>(pEvent));
+   }
+
+   return QTextBrowser::event(pEvent);
+}
+
+bool textDisplayer::OnGestureEvent(QGestureEvent* pEvent)
+{
+   QGesture *pSwipe = pEvent->gesture(Qt::SwipeGesture);
+   if (pSwipe != NULL)
+   {
+      return OnSwipeGesture(static_cast<QSwipeGesture*>(pSwipe));
+   } else
+   {
+      return QTextBrowser::event(pEvent);
+   }
+}
+
+QSwipeGesture::SwipeDirection GetHorizontalDirection(QSwipeGesture *pSwipeGesture)
+{
+   qreal angle = pSwipeGesture->swipeAngle();
+   if (0 <= angle && angle <= 25) {
+      return QSwipeGesture::Right;
+   }
+
+   if (155 <= angle && angle <= 245) {
+      return QSwipeGesture::Left;
+   }
+
+   if (335 <= angle && angle <= 360) {
+      return QSwipeGesture::Right;
+   }
+
+   return QSwipeGesture::NoDirection;
+}
+
+
+bool textDisplayer::OnSwipeGesture(QSwipeGesture* pSwipe)
+{
+    if (pSwipe->state() == Qt::GestureFinished) {
+       qDebug("Swipe angle: %f", pSwipe->swipeAngle());
+       switch (GetHorizontalDirection(pSwipe)) {
+          case QSwipeGesture::Left:
+             qDebug("Swipe Left detected");
+             leftSwipe();
+             break;
+
+          case QSwipeGesture::Right:
+             qDebug("Swipe Right detected");
+             rightSwipe();
+             break;
+
+          default:
+             break;
+       }
+    }
+
+
+    return true;
+}
+
+
+#include "swipegesturerecognizer.h"
 
 textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 {
+    grabGesture(Qt::SwipeGesture);
+    // Create a SWIPE recognizer because the default SWIPE recognizer
+    // does not really work on Symbian device.
+    QGestureRecognizer* pRecognizer = new SwipeGestureRecognizer();
+    grabGesture(QGestureRecognizer::registerRecognizer(pRecognizer));
+
     setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
 
     booklist = bl;
@@ -43,7 +118,6 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     this->setStyleSheet(noArrows);*/
     //IZAR TODO: find a way
 
-    inSwipe = false;
 }
 
 void textDisplayer::processAnchor(const QUrl &url)
@@ -220,30 +294,18 @@ void textDisplayer::mouseReleaseEvent(QMouseEvent *ev)
 
 void textDisplayer::rightSwipe()
 {
-    if (!inSwipe)
-    {
-        inSwipe = true;
-        BookIter it = currentIter;
-        it = currentBook->nextChap(it);
-        if (it != BookIter()) display(currentBook, it);
-    }
+    BookIter it = currentIter;
+    it = currentBook->nextChap(it);
+    if (it != BookIter()) display(currentBook, it);
 }
 
 void textDisplayer::leftSwipe()
 {
-    if (!inSwipe)
-    {
-        inSwipe = true;
-        BookIter it = currentIter;
-        it = currentBook->prevChap(it);
-        if (it != BookIter()) display(currentBook, it);
-    }
+    BookIter it = currentIter;
+    it = currentBook->prevChap(it);
+    if (it != BookIter()) display(currentBook, it);
 }
 
-void textDisplayer::swipeDone()
-{
-    inSwipe = false;
-}
 
 #include <QFont>
 

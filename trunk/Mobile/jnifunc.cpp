@@ -171,12 +171,13 @@ int initRequest(){
     return res;
 }
 
-bool isKukaytaInstalled2(){
+bool testIsKukaytaInstalled()
+{
     JNIEnv *env;
 
     if (s_javaVM->AttachCurrentThread(&env, NULL)<0){
 
-        qCritical()<<"no attach";
+        qCritical()<<"No attach";
         return false;
     }
 
@@ -184,9 +185,12 @@ bool isKukaytaInstalled2(){
 
     int tmp;
     tmp = env->CallStaticIntMethod(s_crypterClassID, s_crypterIsKukaytaInsatlledMethodID);
+
+    if (!tmp) return false;
+
     qDebug()<< "result: " <<tmp;
 
-    if(tmp>0)
+    if(tmp > 0)
         res=true;
 
     s_javaVM->DetachCurrentThread();
@@ -199,7 +203,7 @@ void installKukayta(){
 
     if (s_javaVM->AttachCurrentThread(&env, NULL)<0){
 
-        qCritical()<<"no attach";
+        qCritical()<<"No attach";
         return;
     }
 
@@ -212,8 +216,8 @@ void installKukayta(){
 
 
 
-JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void*){
-
+JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void*)
+{
     JNIEnv *env;
     if (vm->GetEnv(reinterpret_cast<void**>(&env), JNI_VERSION_1_6) != JNI_OK){
         qCritical()<<"cant get env";
@@ -222,9 +226,9 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void*){
 
     s_javaVM=vm;
 
-    jclass clazz= env->FindClass("org/kde/necessitas/origo/Crypter");
+    jclass clazz= env->FindClass("org/qtproject/qt5/android/bindings/Crypter");
     if (!clazz){
-        qCritical()<<"cant find class";
+        qCritical()<<"Can't find class";
         return -1;
     }
 

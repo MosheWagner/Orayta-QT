@@ -1,13 +1,29 @@
-This work was packaged for Debian by:
-    Moshe Wagner <moshe.wagner@gmail.com> on Sun, 18 Apr 2010 23:48:06 +0300
+Name: Orayta
+Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
+Source: https://orayta.googlecode.com/svn/trunk/
 
-It was downloaded from <htpp://orayta.googlecode.com>
+Copyright: (C) 2010 - 2014  Moshe Wagner <moshe.wagner@gmail.com>
+License: GPL-2+
 
-Upstream Author(s): Moshe Wagner <moshe.wagner@gmail.com>
+Files: icons/*
+Copyright: www.oxygen-icons.org, http://www.icon-king.com/projects/nuvola/
+License: LGPL
 
-Copyright (C) 2010 Moshe Wagner <moshe.wagner@gmail.com>
+License: GPL-2+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version. 
 
-You are free to distribute this software under the terms of
-the GNU General Public License.
-On Debian systems, the complete text of the GNU General Public
-License can be found in the file `/usr/share/common-licenses/GPL'.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+On Debian systems, the full text of the GNU General Public
+License version 2 can be found in the file
+`/usr/share/common-licenses/GPL-2'.

@@ -17,7 +17,7 @@
 #ifndef BOOKFIND_H
 #define BOOKFIND_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include "booklist.h"
 #include <QListWidgetItem>
 

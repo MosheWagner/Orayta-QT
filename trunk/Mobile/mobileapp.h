@@ -24,6 +24,7 @@
 #include <QMovie>
 #include <QUrl>
 #include <QSignalMapper>
+#include <QElapsedTimer>
 #include "../OraytaBase/filedownloader.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"
@@ -235,14 +236,15 @@ private slots:
 
     void on_NightModeCKBX_clicked(bool checked);
 
+
     void on_dlKukaytaBooksBTN_clicked();
-
     void on_installKukaytaBTN_clicked();
-
     void displayKukaytaMessage();
 
+    void on_copyTextBTN_clicked();
+
 private:
-    Ui::MobileApp *ui;
+    Ui::MobileApp *ui;  
 
     BookList bookList, booksInSearch;
 
@@ -329,6 +331,9 @@ private:
 
     //flag to let auto install of kukayta books
     bool autoInstallKukBooksFlag;
+
+    //A timer to make sure we don't get double events. It's a small hack to prevent an android/emulator bug.
+    QElapsedTimer timer;
 
 
 };
