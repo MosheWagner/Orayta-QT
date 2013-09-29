@@ -18,12 +18,20 @@
 #define TEXTDISPLAYER_H
 
 #include <QTextBrowser>
+#include <QGesture>
+#include <QSwipeGesture>
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"
 
 class textDisplayer : public QTextBrowser
 {
     Q_OBJECT
+
+
+    bool event(QEvent* pEvent);
+    bool OnGestureEvent(QGestureEvent* pEvent);
+    bool OnSwipeGesture(QSwipeGesture* pSwipe);
+
 
 public:
     explicit textDisplayer(QWidget *, BookList *);
@@ -59,6 +67,7 @@ public:
 
 private:
 
+
     //A pointer to the public booklist. We need this for weaved display
     BookList *booklist;
 
@@ -74,8 +83,6 @@ private:
     QPoint _startPoint;
     QPoint _endPoint;
 
-    bool inSwipe;
-
 signals:
     void loadStart();
     void loadEnd(QUrl, Book*,  BookIter);
@@ -86,7 +93,6 @@ public slots:
 
     void leftSwipe();
     void rightSwipe();
-    void swipeDone();
 protected:
     //virtual void mousePressEvent(QMouseEvent *ev);
     //virtual void mouseReleaseEvent(QMouseEvent *ev);

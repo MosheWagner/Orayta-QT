@@ -907,8 +907,7 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
     //TODO: Html books too
 
     //Set all QString to work with unicode
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
 
     //Holds the offsets of each BookIters of book in the "pureText". Use this to map search results in positions in the book
     QMap<int, BookIter> levelMap;
@@ -1043,11 +1042,13 @@ void initCrypterRequest()
 #endif
 }
 
-bool isKukaytaInstalled(){
-#ifndef Q_OS_ANDROID
-    return false;
-#endif
-    return isKukaytaInstalled2();
+bool isKukaytaInstalled()
+{
+    #ifndef Q_OS_ANDROID
+        return false;
+    #else
+        return testIsKukaytaInstalled();
+    #endif
 }
 
 #ifdef POPPLER

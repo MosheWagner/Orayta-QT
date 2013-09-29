@@ -18,13 +18,12 @@
 #define BOOKDISP_H
 
 #include <QStackedWidget>
-#include <QWebView>
+#include <QtWebKit>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QAction>
 #include <QVBoxLayout>
 #include <QVariant>
-#include <QWebFrame>
 #include <QPointer>
 #include "../OraytaBase/book.h"
 #include "../OraytaBase/booklist.h"

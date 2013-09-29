@@ -17,7 +17,7 @@
 #ifndef ERRORREPORT_H
 #define ERRORREPORT_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <QDesktopServices>
 
 namespace Ui {

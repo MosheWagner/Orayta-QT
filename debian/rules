@@ -10,7 +10,7 @@
 build: build-stamp
 build-stamp:
 	dh_testdir
-
+	
 	# Add here commands to compile the package.
 	touch orayta
 	qmake-qt4
@@ -72,12 +72,14 @@ binary-arch: build install
 	dh_compress
 	dh_fixperms
 #	dh_perl
-#	dh_makeshlibs
+	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
+	
+	#$(MAKE) clean
 
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install

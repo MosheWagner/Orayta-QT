@@ -18,18 +18,20 @@
 #define DesktopApp_H
 
 #include <QCoreApplication>
-#include <QtGui/QMainWindow>
-#include <QtGui/QTreeWidget>
-#include <QtGui/QApplication>
-#include <QtGui/QDirModel>
+#include <QMainWindow>
+#include <QTreeWidget>
+#include <QApplication>
+#include <QDirModel>
 #include <QSplashScreen>
 #include <QDesktopWidget>
-#include <QtGui/QTreeWidgetItem>
-#include <QtGui/QListWidget>
-#include <QtGui/QListWidgetItem>
+#include <QTreeWidgetItem>
+#include <QListWidget>
+#include <QListWidgetItem>
 #include <QWebSettings>
 #include <QSettings>
 #include <QMenu>
+#include <QPrinter>
+#include <QPrintDialog>
 #include "ui_desktopapp.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"

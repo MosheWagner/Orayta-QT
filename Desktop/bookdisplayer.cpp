@@ -414,8 +414,9 @@ void bookDisplayer::setSearchMarker(QRegExp marker)
 
 QString bookDisplayer::title()
 {
-    if (!PDFMode)
-        return htmlview->title();
+    if (!PDFMode) return htmlview->title();
+
+    return "";
 }
 
 bool bookDisplayer::isNikudShown() { return shownikud; }

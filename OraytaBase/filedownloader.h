@@ -17,9 +17,12 @@
 #ifndef FILEDOWNLOADER_H
 #define FILEDOWNLOADER_H
 
-#include <QObject>
 #include <QFile>
-#include <QtNetwork/QHttp>
+#include <QObject>
+#include <QUrl>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
 /*
   This class provides a simple method to download requested files;
   The download is saved into $path+".part" untill download is succesfull,
@@ -52,12 +55,11 @@ public:
     //Returns the filename of the last download (NOTE: also if it was unsuccessful)
     QString getFileName();
 
-    //Returns true if a download is running (at any state), and false if not
-    bool isInProgress();
 
 private:
     //The class's Http object
-    QHttp mHttpObject;
+    QNetworkAccessManager mNetworkObject;
+    QNetworkReply *cdownload;
     //The file handling the download proccess
     QFile mTargetFile;
     //File name for the finished download
@@ -68,15 +70,12 @@ private:
     //Tests if the downloaded file is valid, using a hash if given.
     bool isValid();
 
-public slots:
-    //Aborts the download, and emits no error
-    void abort();
-
 private slots:
     //Connects to the Http object's done() signall
-    void downloadDone(bool error);
+    void downloadDone();
     //Connects to the Http object's download progress() signall
-    void downloadProgress(int,int);
+    void downloadProgress(qint64, qint64);
+    void downloadReadyRead();
 
 signals:
     //Emitted when download WAS successfuly done
