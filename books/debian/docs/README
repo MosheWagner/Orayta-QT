@@ -1,0 +1,11 @@
+Books for Orayta.
+
+If the books were downloaded separately, you should run in their folder:
+$ sh GenMakeFile.sh
+and then (as root):
+# make install
+
+if this doesn't work you should copy all the books manually to the directory:
+/usr/share/Orayta/Books
+the following command should do it:
+# cp -r -f ./ /usr/share/Orayta/
