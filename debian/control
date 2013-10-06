@@ -10,7 +10,7 @@ Package: orayta
 Architecture: any
 Recommends: orayta-books
 Suggests: fonts-sil-ezra, ttf-bitstream-vera, texlive-fonts-extra
-Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5webkit5, libqt5gui5, libfribidi0, zlib1g [i386], lib64z1 [amd64]
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5webkit5, libqt5gui5, qt5-default, libfribidi0, zlib1g [i386], lib64z1 [amd64]
 Description:Jewish books program
  Orayta is a open-source,
  cross platform jewish books project, based on "תורת אמת".
