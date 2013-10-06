@@ -23,8 +23,9 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD
 
 LIBS += -lz
-
 CONFIG += qt mobility
+
+
 #MOBILITY =
     #for test only
     #DEFINES += MOBILE
@@ -77,7 +78,7 @@ else:unix{
 
     #set a test mobile version
     #DEFINES += MOBILE_TEST
-    QT += webkitwidgets printsupport webkit
+    QT += webkitwidgets # printsupport webkit
 
 
    QMAKE_CFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
@@ -197,7 +198,6 @@ FORMS += \
 #Android stuff:
 mobile{
 
-    QT -= webkit
     DEFINES += QTSCROLLER_NO_WEBKIT
     DEFINES += MOBILE
 
