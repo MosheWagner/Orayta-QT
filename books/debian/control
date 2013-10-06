@@ -2,11 +2,15 @@ Source: orayta-books
 Section: misc
 Priority: extra
 Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
-Build-Depends: debhelper (>= 7)
+Build-Depends: debhelper (>= 9)
 Standards-Version: 3.8.3
 Homepage: http://orayta.googlecode.com
 
 Package: orayta-books
 Architecture: any
 Depends: ${misc:Depends}
-Description: Books for the "Orayta" program
+Description:Books for the "Orayta" program
+ Orayta is a open-source,
+ cross platform jewish books project, based on "תורת אמת".
+ This package contains the books Orayta uses.
+ Find us at: http://orayta.googlecode.com/
