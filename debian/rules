@@ -13,7 +13,7 @@ build-stamp:
 	
 	# Add here commands to compile the package.
 	touch orayta
-	qmake
+	qtchooser -run-tool=qmake -qt=qt5
 	$(MAKE)
 
 	touch build-stamp
