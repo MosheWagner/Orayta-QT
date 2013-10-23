@@ -86,8 +86,6 @@ else:unix{
    QMAKE_CXXFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
    QMAKE_CXXFLAGS_DEBUG+=$(shell dpkg-buildflags --get CFLAGS)
    QMAKE_CXXFLAGS_DEBUG+=$(shell dpkg-buildflags --get CPPFLAGS)
-   QMAKE_LFLAGS_RELEASE+=$(shell dpkg-buildflags --get LDFLAGS)
-   QMAKE_LFLAGS_DEBUG+=(shell dpkg-buildflags --get LDFLAGS)
 }
 
 

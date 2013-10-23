@@ -484,7 +484,7 @@ void MobileApp::on_treeWidget_clicked(const QModelIndex &index)
     //This is a little hack to prevent double events on some android machines and emulators.
     //If the function is called again in less than 2 ms, the second time is ignored.
     qint64 miliSec = timer.restart();
-    if (miliSec < 100) return;
+    if (miliSec < 200) return;
 
     if (ui->treeWidget->isExpanded(index)) ui->treeWidget->collapse(index);
     else ui->treeWidget->expand(index);
@@ -1177,7 +1177,7 @@ void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
     //This is a little hack to prevent double events on some android machines and emulators.
     //If the function is called again in less than 2 ms, the second time is ignored.
     qint64 miliSec = timer.restart();
-    if (miliSec < 100) return;
+    if (miliSec < 200) return;
 
     //Invert the selection of the item only if it was not chnaged by the click itself already.
     // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
@@ -1213,7 +1213,7 @@ void MobileApp::on_SearchTreeWidget_itemClicked(QTreeWidgetItem *item, int colum
     //This is a little hack to prevent double events on some android machines and emulators.
     //If the function is called again in less than 2 ms, the second time is ignored.
     qint64 miliSec = timer.restart();
-    if (miliSec < 100) return;
+    if (miliSec < 200) return;
 
 
     Book* book = booksInSearch.findBookByTWI(item);
@@ -1491,7 +1491,10 @@ void MobileApp::on_copyTextBTN_clicked()
 
 void MobileApp::on_selectionArea_itemClicked(QListWidgetItem *item)
 {
-
+    //This is a little hack to prevent double events on some android machines and emulators.
+    //If the function is called again in less than 2 ms, the second time is ignored.
+    qint64 miliSec = timer.restart();
+    if (miliSec < 200) return;
 
     // ignore books that aren't installed:
     if (item->checkState() == Qt::PartiallyChecked) return;
