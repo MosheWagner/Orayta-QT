@@ -36,11 +36,6 @@
 #include <QScroller>
 #include <QClipboard>
 
-#ifdef Q_OS_ANDROID
-    #include <jni.h>
-    #include "jnifunc.h"
-#endif
-
 #include "../OraytaBase/quazip/quazipfile.h"
 
 // Global
@@ -198,8 +193,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->stackedWidget->currentWidget()->setFocus();
 
     adjustToScreenSize();
-
-    displayKukaytaMessage();
 }
 
 void MobileApp::resizeEvent(QResizeEvent *)
@@ -530,15 +523,6 @@ void MobileApp::showBook(Book *book, BookIter itr)
     {
         case ( Book::Normal ):
         {
-            initRequest();
-            //book is kukayta book but kukayta isn't installed
-            if ((! isKukaytaInstalled()) && book->isEncrypted){
-                //display install kukayta page
-                ui->stackedWidget->setCurrentIndex(KUKAYTA_PAGE);
-                ui->kukaytaArea->setCurrentIndex(0);
-                return;
-            }
-
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             qApp->processEvents();
 
@@ -1709,31 +1693,6 @@ void MobileApp::addStaticBMhere(){
     bm->setConstant(true);
 }
 
-void MobileApp::displayKukaytaMessage()
-{
-    qDebug()<<"is kukayta installed ?";
-    qDebug()<<"?: " <<isKukaytaInstalled();
-    if (! isKukaytaInstalled())
-        return;
-
-    bool firstTimeAfterInstalledKukayta = false;
-
-    QSettings settings("Orayta", "SingleUser");
-    settings.beginGroup("Confs");
-    firstTimeAfterInstalledKukayta = !settings.contains("kukaytaInstalled");
-
-
-    if (firstTimeAfterInstalledKukayta)
-    {
-        ui->stackedWidget->setCurrentIndex(KUKAYTA_PAGE);
-        ui->kukaytaArea->setCurrentIndex(1);
-    }
-
-    settings.setValue("kukaytaInstalled", true);
-
-    settings.endGroup();
-}
-
 void MobileApp::on_bookMarksBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
@@ -1759,13 +1718,3 @@ void MobileApp::on_autoResumeCKBX_stateChanged(int arg1)
 
 void MobileApp::on_NightModeCKBX_clicked(bool checked)
 { ui->saveConf->setEnabled(true); }
-
-void MobileApp::on_dlKukaytaBooksBTN_clicked()
-{
-    autoInstallKukBooksFlag=true;
-    ui->stackedWidget->setCurrentIndex(GET_BOOKS_PAGE);
-    downloadBookList();
-}
-
-void MobileApp::on_installKukaytaBTN_clicked()
-{    installKukayta(); }

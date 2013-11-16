@@ -236,11 +236,6 @@ private slots:
 
     void on_NightModeCKBX_clicked(bool checked);
 
-
-    void on_dlKukaytaBooksBTN_clicked();
-    void on_installKukaytaBTN_clicked();
-    void displayKukaytaMessage();
-
     void on_copyTextBTN_clicked();
 
 private:

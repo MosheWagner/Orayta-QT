@@ -98,10 +98,6 @@ void MobileApp::parseDLFile(QList <QString> dl)
             g.name = dl[i].mid(2);
             g.hidden=false;
 
-            //hide extra files if no kukayta
-            if((!isKukaytaInstalled()) && g.name.contains("הרחבה"))
-                g.hidden=true;
-
             groups.append(g);
         }
 
