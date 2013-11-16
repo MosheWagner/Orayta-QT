@@ -66,9 +66,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QApplication::processEvents();
 
-
-
-
     timer.start();
 
     //set stuff as null only for pertection
