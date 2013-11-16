@@ -24,6 +24,43 @@
   The booklist file abd the books themselves.
  */
 
+
+// start download of the selected books.
+void MobileApp::on_downloadBTN_clicked()
+{
+    downloadStart();
+}
+
+void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
+{
+    //This is a little hack to prevent double events on some android machines and emulators.
+    //If the function is called again in less than 2 ms, the second time is ignored.
+    qint64 miliSec = timer.restart();
+    if (miliSec < 200) return;
+
+    //Invert the selection of the item only if it was not chnaged by the click itself already.
+    // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
+    if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
+        (item->checkState() == Qt::Unchecked && item->toolTip() == "False") )
+    {
+        if (item->checkState() == Qt::Checked)
+        {
+            item->setCheckState(Qt::Unchecked);
+            item->setToolTip("False");
+        }
+        else
+        {
+            item->setCheckState(Qt::Checked);
+            item->setToolTip("True");
+        }
+    }
+    else
+    {
+        if (item->checkState() == Qt::Checked) item->setToolTip("True");
+        else item->setToolTip("False");
+    }
+}
+
 void MobileApp::downloadBookList()
 {
     //show aprorpriate widgets
