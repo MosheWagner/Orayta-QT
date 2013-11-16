@@ -50,8 +50,7 @@ android {
     CONFIG += MOBILE
     CONFIG += android
     CONFIG += mobile
-    SOURCES +=
-    HEADERS +=
+
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
@@ -127,7 +126,6 @@ SOURCES +=  \
     OraytaBase/quazip/qioapi.cpp \
     OraytaBase/minibmark.cpp \
     OraytaBase/bmarklist.cpp \
-    Mobile/swipegesturerecognizer.cpp
 
 
 HEADERS += \
@@ -154,8 +152,7 @@ HEADERS += \
     OraytaBase/quazip/quachecksum32.h \
     OraytaBase/quazip/quaadler32.h \
     OraytaBase/minibmark.h \
-    OraytaBase/bmarklist.h \
-    Mobile/swipegesturerecognizer.h
+    OraytaBase/bmarklist.h
 
 FORMS += \
     OraytaBase/bookfind.ui
@@ -202,11 +199,14 @@ mobile{
     SOURCES += \
         Mobile/mobileapp.cpp \
         Mobile/textdisplayer.cpp \
-        Mobile/mobileapp_download.cpp
+        Mobile/mobileapp_download.cpp\
+        Mobile/swipegesturerecognizer.cpp \
+        Mobile/mobileapp_bookmark.cpp
 
     HEADERS += \
         Mobile/mobileapp.h \
         Mobile/textdisplayer.h \
+        Mobile/swipegesturerecognizer.h
 
     FORMS += \
         Mobile/mobileapp.ui \

@@ -18,7 +18,6 @@
 
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
-#include "../OraytaBase/minibmark.h"
 #include "../OraytaBase/functions.h"
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/search.h"
@@ -1147,43 +1146,6 @@ void MobileApp::showHideSearch(bool inSearch){
     ui->SearchInBooksBTN->setVisible(!inSearch);
 }
 
-// start download of the selected books.
-void MobileApp::on_downloadBTN_clicked()
-{
-    downloadStart();
-}
-
-void MobileApp::on_downloadListWidget_itemClicked(QListWidgetItem *item)
-{
-    //This is a little hack to prevent double events on some android machines and emulators.
-    //If the function is called again in less than 2 ms, the second time is ignored.
-    qint64 miliSec = timer.restart();
-    if (miliSec < 200) return;
-
-    //Invert the selection of the item only if it was not chnaged by the click itself already.
-    // (In other words, if the user clicked the checkbox, it will work without us. if he clicked somewhere else - we should invert the value)
-    if ((item->checkState() == Qt::Checked && item->toolTip() == "True") ||
-        (item->checkState() == Qt::Unchecked && item->toolTip() == "False") )
-    {
-        if (item->checkState() == Qt::Checked)
-        {
-            item->setCheckState(Qt::Unchecked);
-            item->setToolTip("False");
-        }
-        else
-        {
-            item->setCheckState(Qt::Checked);
-            item->setToolTip("True");
-        }
-    }
-    else
-    {
-        if (item->checkState() == Qt::Checked) item->setToolTip("True");
-        else item->setToolTip("False");
-    }
-}
-
-
 void MobileApp::on_settingsMenuBTN_clicked()
 {
     //Copy all
@@ -1297,12 +1259,6 @@ void MobileApp::resetSettingsPage()
 
 }
 
-void MobileApp::setupBookmarkList(){
-
-    ui->dailyLearningList->addDafYomi(bookList);
-    ui->dailyLearningList->addMishnaYomit(bookList);
-    ui->dailyLearningList->addHalachaYomit(bookList);
-}
 
 //------------------------------------
 
@@ -1621,82 +1577,6 @@ void MobileApp::on_toMainMenuBTN_clicked()
     ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
 }
 
-
-void MobileApp::addBookMark(Book * b, BookIter iter){
-    // dont create a bookmark for an index page
-    // TODO: let the user decide?
-    if (iter.isEmpty()) return;
-
-    ui->historyBookmarkList->addBookMark(b, iter);
-}
-
-void MobileApp::BMShortClicked(QListWidgetItem *item)
-{
-    loadBookFromBM(item);
-}
-
-void MobileApp::BMLongClicked(QListWidgetItem *item)
-{
-    menu = new QMenu(this);
-
-    action = new QAction(tr("Delete bookmark"), menu);
-    action->setIcon(QIcon(":/Icons/edit-delete.png"));
-
-    QFont f; f.setPixelSize(gFontSize / 2);
-    action->setFont(f);
-
-    menu->addAction(action);
-
-    //I know this is an ugly way to do this, but the good way with signalMapper wouldn't work.
-    // Ugly code just works.
-    bm = dynamic_cast<MiniBMark *>(item);
-    if (!bm) return;
-
-    connect(action, SIGNAL(triggered()), this , SLOT(removeBM()));
-
-    menu->setLayoutDirection(Qt::RightToLeft);
-
-    //Open the menu under the cursor's position
-    QPoint p = QPoint(QCursor::pos().x() - (menu->width() / 2), QCursor::pos().y());
-    menu->exec(p);
-}
-
-void MobileApp::removeBM()
-{
-    if (!bm) return;
-
-    BMarkList *bml = bm->getParentList();
-
-    if (bml) bml->eraseBookMark(bm);
-
-    //TODO- fix bug where app crashes if back pressed at this point. the following workaround doesnt work
-//    qDebug()<<"oh please dont shut down :(";
-//    setFocus(); grabKeyboard(); grabMouse();
-}
-
-void MobileApp::loadBookFromBM(QListWidgetItem *item)
-{
-    MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
-    if (!bm || bm == 0) return;
-    BookIter it = bm->getBookIter();
-    showBook(bm->getBook(), it);
-    return;
-}
-
-void MobileApp::addStaticBMhere(){
-    Book* b = displayer->getCurrentBook();
-    BookIter it = displayer->getCurrentIter();
-    MiniBMark* bm = ui->staticBookMarkList->addBookMark(b, it);
-
-    //make the bookmark static so it doesn't get removed automatically
-    if (!bm) return;
-    bm->setConstant(true);
-}
-
-void MobileApp::on_bookMarksBTN_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
-}
 
 void MobileApp::on_helpBTN_clicked()
 {
