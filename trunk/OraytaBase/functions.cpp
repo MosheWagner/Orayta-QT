@@ -21,11 +21,6 @@
 
 #include "quazip/quazipfile.h"
 
-#ifdef Q_OS_ANDROID
-#include "Mobile/jnifunc.h";
-#endif
-
-
 //Global path holders. Set in mainwindow::initPaths, and used all over.
 // Should allways by absolute.
 QString BOOKPATH;
@@ -44,16 +39,6 @@ QString LANG = "Hebrew";
 bool ReadFileFromZip(QString zippath, QString filepath,
                      QList <QString>& text, const char* encoding_name, bool skipconflines, bool encrypted)
 {
-    if (encrypted){
-#ifdef Q_OS_ANDROID
-        QString target= TMPPATH+"unziped";
-        if (zipDecrypt(zippath, filepath, target)>0)
-            return ReadFileFromZip(target, filepath, text, encoding_name, skipconflines, false);
-
-#endif
-        return false;
-    }
-
     QuaZip zip(zippath);
     if (!zip.open(QuaZip::mdUnzip)) return false;
     if (!zip.setCurrentFile(filepath)) return false;
@@ -92,15 +77,6 @@ bool ReadFileFromZip(QString zippath, QString filepath,
 
 QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name, bool encrypted)
 {
-    if (encrypted){
-#ifdef Q_OS_ANDROID
-        QString target= TMPPATH+"unziped";
-        if (zipDecrypt(zippath, filepath, target)>0)
-            return ReadFileFromZip(target, filepath, encoding_name, false);
-#endif
-        return "book is encrypted";
-    }
-
     QuaZip zip(zippath);
     if (!zip.open(QuaZip::mdUnzip)) return "Error!";
     if (!zip.setCurrentFile(filepath)) return "Error!";
@@ -1030,25 +1006,6 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
     zip.close();
 
     qDebug()<<"created succesfuly: " <<zip.getCurrentFileName();
-}
-
-//QTime timer_n1;
-
-void initCrypterRequest()
-{
-#ifdef Q_OS_ANDROID
-    initRequest();
-
-#endif
-}
-
-bool isKukaytaInstalled()
-{
-    #ifndef Q_OS_ANDROID
-        return false;
-    #else
-        return testIsKukaytaInstalled();
-    #endif
 }
 
 #ifdef POPPLER
