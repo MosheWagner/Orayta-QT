@@ -115,6 +115,19 @@ public class QtActivity extends Activity
     private static final String STATIC_INIT_CLASSES_KEY = "static.init.classes";
     private static final String NECESSITAS_API_LEVEL_KEY = "necessitas.api.level";
 
+    //Added for kookita
+    private static QtActivity m_activity;
+    private static String zofen = "";
+
+
+    public final static int DECRYPT_REQUEST_CODE = 42738492;
+//	private final static String ZF_NAME = "zf_name";
+//	private final static String INT_FILE = "int_file";
+//	private final static String TARGET = "target";
+//	private final static String METHODNAME = "methodName";
+//	private final static String DECRYPT = "decrypt";
+    public final static String ZOFEN= "zofen";
+
 
     public static QtActivity getActivity(){
             return m_activity;
@@ -124,6 +137,76 @@ public class QtActivity extends Activity
             if (zofen!= null)
                     return zofen;
             return "";
+    }
+
+    private Messenger mService = null;
+    private boolean mBound;
+    private ServiceConnection mConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                    Log.d("IZAR","on service connected");
+                    mService = new Messenger(service);
+                    mBound = true;
+            }
+            @Override
+            public void onServiceDisconnected(ComponentName className) {
+                    Log.d("IZAR","discenncted");
+                    mService = null;
+                    mBound = false;
+
+            }
+    };
+
+    class crypterHandler extends Handler{
+            @Override
+            public void handleMessage(Message msg){
+                    Log.d("IZAR","qt recieved message");
+                    if (msg.what==DECRYPT_REQUEST_CODE){
+                            try{
+                                    Log.d("IZAR","got zofen?");
+                                    zofen = msg.getData().getString(ZOFEN);
+                            } catch (Exception e){
+                                    e.printStackTrace();
+                            }
+                            return;
+                    }
+                    super.handleMessage(msg);
+            }
+    }
+    private final Messenger mMessenger = new Messenger(new crypterHandler());
+
+    public void sendZfnRequest(){
+            Log.d("IZAR","client sending zfn request. bound? "+mBound);
+            if (!mBound) return;
+
+            Message msg= Message.obtain();
+            Bundle bundle = new Bundle();
+            String requestId= "zfnreq";
+            bundle.putString("msgStr", requestId);
+
+            msg.setData(bundle);
+
+            try {
+                    msg.replyTo = mMessenger;
+                    mService.send(msg);
+            } catch (RemoteException e) {
+                    e.printStackTrace();
+            }
+    }
+
+    public void doServiceConnect(){
+            Intent remote = new Intent("org.Orayta.kukayta.DeCrypter");
+            boolean res;
+            res = bindService(remote, mConnection, BIND_AUTO_CREATE);
+            Log.d("IZAR","client trying to connect to server. result: "+res);
+            sendZfnRequest();
+    }
+
+    private void doServiceDisconnect(){
+            if(mBound){
+                    unbindService(mConnection);
+                    mBound= false;
+            }
     }
 
 
@@ -775,7 +858,7 @@ public class QtActivity extends Activity
 				protected Void doInBackground(Void... arg0) {
 					// copy qt libs and other stuff to app directory
 		    		String filesDir = getFilesDir().toString();
-		    		copyer.copyAssetsGroup(filesDir, "qt");
+		    		//copyer.copyAssetsGroup(filesDir, "qt");
 
 		    		// copy books etc.
 		    		copyer.copyAssetsGroup(Environment.getExternalStorageDirectory().toString(), "Orayta");

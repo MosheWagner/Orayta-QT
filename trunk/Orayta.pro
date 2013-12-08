@@ -50,7 +50,8 @@ android {
     CONFIG += MOBILE
     CONFIG += android
     CONFIG += mobile
-
+    SOURCES += Mobile/jnifunc.cpp
+    HEADERS += Mobile/jnifunc.h
 }
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
@@ -324,6 +325,7 @@ mobile{
       android/version.xml \
       android/AndroidManifest.xml \
       android/res/values/libs.xml \
+      android/src/org/qtproject/qt5/android/bindings/Crypter.java
 }
 
 
@@ -379,3 +381,5 @@ INSTALLS += fonts
 INSTALLS += licence
 
 linux: INSTALLS += menu desktop
+
+#ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

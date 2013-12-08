@@ -520,7 +520,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>10</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -4317,8 +4317,8 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>222</width>
-                <height>270</height>
+                <width>194</width>
+                <height>273</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4375,7 +4375,7 @@ width: 15 px;
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>7</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -5344,7 +5344,7 @@ QTabBar::tab:selected {
        <item>
         <widget class="QStackedWidget" name="kukaytaArea">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="noKukayta">
           <layout class="QVBoxLayout" name="verticalLayout_31">
