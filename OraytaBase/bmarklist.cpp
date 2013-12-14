@@ -38,9 +38,9 @@ void BMarkList::mouseReleaseEvent(QMouseEvent *e)
     // Custom logic
     QListWidgetItem *item = itemAt(e->pos());
 
-    int delta = clickT.secsTo(QTime::currentTime());
+    int delta = clickT.msecsTo(QTime::currentTime());
 
-    if (delta >= 1) emit longPress(item);
+    if (delta >= 1000) emit longPress(item);
     else emit shortPress(item);
 }
 
