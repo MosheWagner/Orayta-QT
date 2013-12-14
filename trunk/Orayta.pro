@@ -50,9 +50,8 @@ android {
     CONFIG += MOBILE
     CONFIG += android
     CONFIG += mobile
-    SOURCES += Mobile/jnifunc.cpp
-    HEADERS += Mobile/jnifunc.h
 }
+
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
     INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
@@ -202,12 +201,14 @@ mobile{
         Mobile/textdisplayer.cpp \
         Mobile/mobileapp_download.cpp\
         Mobile/swipegesturerecognizer.cpp \
-        Mobile/mobileapp_bookmark.cpp
+        Mobile/mobileapp_bookmark.cpp  \
+        Mobile/jnifunc.cpp
 
     HEADERS += \
         Mobile/mobileapp.h \
         Mobile/textdisplayer.h \
-        Mobile/swipegesturerecognizer.h
+        Mobile/swipegesturerecognizer.h \
+        Mobile/jnifunc.h
 
     FORMS += \
         Mobile/mobileapp.ui \
