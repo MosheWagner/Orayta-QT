@@ -155,13 +155,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     setupBookmarkList();
 
-    connect (ui->staticBookMarkList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
     connect (ui->staticBookMarkList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
-    connect (ui->dailyLearningList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
     connect (ui->dailyLearningList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
-    connect (ui->historyBookmarkList, SIGNAL(longPress(QListWidgetItem*)), this, SLOT(BMLongClicked(QListWidgetItem*)));
     connect (ui->historyBookmarkList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
-
 
     QApplication::processEvents();
 
@@ -193,6 +189,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     }
 
     ui->gtoHelp->show();
+    ui->bmLBL->hide();
 
     ui->stackedWidget->currentWidget()->setFocus();
 
@@ -1657,4 +1654,3 @@ void MobileApp::on_installKukaytaBTN_clicked()
     installKukayta();
 #endif
 }
-

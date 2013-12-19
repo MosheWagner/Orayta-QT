@@ -211,8 +211,6 @@ private slots:
 
     //void BMClicked(QListWidgetItem *item);
     //int bmClickTimer;
-    //void BMReleased(QListWidgetItem *item);
-    void BMLongClicked(QListWidgetItem *item);
     void BMShortClicked(QListWidgetItem *item);
     void loadBookFromBM(QListWidgetItem *item);
     void removeBM();
@@ -242,6 +240,8 @@ private slots:
     void displayKukaytaMessage();
 
     void on_copyTextBTN_clicked();
+
+    void on_deleteBMS_clicked(bool checked);
 
 private:
     Ui::MobileApp *ui;  

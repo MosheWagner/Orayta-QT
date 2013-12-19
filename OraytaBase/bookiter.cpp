@@ -49,11 +49,17 @@ BookIter::~BookIter() {}
 
 bool BookIter::operator==(const BookIter& other)
 {
+    bool hadValue = false ;
     for (int i=0; i<5; i++)
     {
         QString a = mLevelName[i].replace("0", "").simplified();
-        QString b = other.mLevelName[i];
-        b = b.replace("0", "").simplified();
+        QString b = QString(other.mLevelName[i]).replace("0", "").simplified();
+
+        //New experimental thingy. If we reached a non-important level, then ignore it.
+        //This could be a great hack to solve the parashah problems
+        //if (a != "") hadValue = true;
+        //if (a == "") if (hadValue) break;
+
         if ( a != b)
             return false;
     }

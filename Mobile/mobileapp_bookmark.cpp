@@ -20,7 +20,8 @@
 #include <QDebug>
 #include <QDir>
 #include <QMenu>
-
+#include <QWidget>
+#include <QPushButton>
 /*
   This file includes all functions of the mobileapp class that deal with bookmarks.
 */
@@ -35,35 +36,22 @@ void MobileApp::setupBookmarkList(){
 
 void MobileApp::BMShortClicked(QListWidgetItem *item)
 {
-    qDebug() << "tA";
-    loadBookFromBM(item);
+    if (! ui->deleteBMS->isChecked()) loadBookFromBM(item);
+    else
+    {
+        bm = dynamic_cast<MiniBMark *>(item);
+        if (!bm) return;
+        removeBM();
+    }
 }
 
-void MobileApp::BMLongClicked(QListWidgetItem *item)
+
+void MobileApp::on_deleteBMS_clicked(bool checked)
 {
-    menu = new QMenu(this);
-
-    action = new QAction(tr("Delete bookmark"), menu);
-    action->setIcon(QIcon(":/Icons/edit-delete.png"));
-
-    QFont f; f.setPixelSize(gFontSize / 2);
-    action->setFont(f);
-
-    menu->addAction(action);
-
-    //I know this is an ugly way to do this, but the good way with signalMapper wouldn't work.
-    // Ugly code just works.
-    bm = dynamic_cast<MiniBMark *>(item);
-    if (!bm) return;
-
-    connect(action, SIGNAL(triggered()), this , SLOT(removeBM()));
-
-    menu->setLayoutDirection(Qt::RightToLeft);
-
-    //Open the menu under the cursor's position
-    QPoint p = QPoint(QCursor::pos().x() - (menu->width() / 2), QCursor::pos().y());
-    menu->exec(p);
+    if (checked) ui->bmLBL->show();
+    else ui->bmLBL->hide();
 }
+
 
 void MobileApp::removeBM()
 {
