@@ -45,7 +45,7 @@ bool ReadFileFromZip(QString zippath, QString filepath,
                      QList <QString>& text, const char* encoding_name, bool skipconflines, bool encrypted)
 {
     if (encrypted){
-#ifdef Q_OS_ANDROID
+#ifdef KOOKITA
         QString target= TMPPATH+"unziped";
         if (zipDecrypt(zippath, filepath, target)>0)
             return ReadFileFromZip(target, filepath, text, encoding_name, skipconflines, false);
@@ -93,7 +93,7 @@ bool ReadFileFromZip(QString zippath, QString filepath,
 QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_name, bool encrypted)
 {
     if (encrypted){
-#ifdef Q_OS_ANDROID
+#ifdef KOOKITA
         QString target= TMPPATH+"unziped";
         if (zipDecrypt(zippath, filepath, target)>0)
             return ReadFileFromZip(target, filepath, encoding_name, false);
@@ -1036,7 +1036,7 @@ void GenerateSearchTextDB(QString infile,  QString pureTextOutPath, QString leve
 
 void initCrypterRequest()
 {
-#ifdef Q_OS_ANDROID
+#ifdef KOOKITA
     initRequest();
 
 #endif
@@ -1044,7 +1044,7 @@ void initCrypterRequest()
 
 bool isKukaytaInstalled()
 {
-    #ifndef Q_OS_ANDROID
+    #ifndef KOOKITA
         return false;
     #else
         return testIsKukaytaInstalled();

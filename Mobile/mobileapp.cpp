@@ -198,7 +198,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     adjustToScreenSize();
 
-    displayKukaytaMessage();
+    //displayKukaytaMessage();
 }
 
 void MobileApp::resizeEvent(QResizeEvent *)
@@ -529,6 +529,7 @@ void MobileApp::showBook(Book *book, BookIter itr)
     {
         case ( Book::Normal ):
         {
+    #ifdef KOOKITA
             initRequest();
             //book is kukayta book but kukayta isn't installed
             if ((! isKukaytaInstalled()) && book->isEncrypted){
@@ -537,6 +538,7 @@ void MobileApp::showBook(Book *book, BookIter itr)
                 ui->kukaytaArea->setCurrentIndex(0);
                 return;
             }
+    #endif
 
             ui->stackedWidget->setCurrentIndex(DISPLAY_PAGE);
             qApp->processEvents();
@@ -1648,5 +1650,11 @@ void MobileApp::on_dlKukaytaBooksBTN_clicked()
     downloadBookList();
 }
 
+
 void MobileApp::on_installKukaytaBTN_clicked()
-{    installKukayta(); }
+{
+#ifdef KOOKITA
+    installKukayta();
+#endif
+}
+
