@@ -33,6 +33,7 @@ CONFIG += qt mobility
     #CONFIG += MOBILE
     #CONFIG += android
 
+
 #Small hack for Quazip on windows
 win32{
     DEFINES += QUAZIP_STATIC
@@ -192,6 +193,7 @@ FORMS += \
 
 #Android stuff:
 mobile{
+    CONFIG += Kookita
 
     DEFINES += QTSCROLLER_NO_WEBKIT
     DEFINES += MOBILE
@@ -201,8 +203,7 @@ mobile{
         Mobile/textdisplayer.cpp \
         Mobile/mobileapp_download.cpp\
         Mobile/swipegesturerecognizer.cpp \
-        Mobile/mobileapp_bookmark.cpp  \
-        Mobile/jnifunc.cpp
+        Mobile/mobileapp_bookmark.cpp
 
     HEADERS += \
         Mobile/mobileapp.h \
@@ -326,8 +327,16 @@ mobile{
       android/version.xml \
       android/AndroidManifest.xml \
       android/res/values/libs.xml \
-      android/src/org/qtproject/qt5/android/bindings/Crypter.java
+
 }
+
+Kookita{
+    DEFINES += KOOKITA
+    SOURCES +=Mobile/jnifunc.cpp
+    HEADERS +=Mobile/jnifunc.cpp
+    OTHER_FILES +=android/src/org/qtproject/qt5/android/bindings/Crypter.java
+}
+
 
 
 RESOURCES += Orayta.qrc
