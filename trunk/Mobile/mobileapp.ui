@@ -520,7 +520,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>10</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -4317,8 +4317,8 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>194</width>
-                <height>273</height>
+                <width>222</width>
+                <height>272</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4375,7 +4375,7 @@ width: 15 px;
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>7</number>
+                  <number>4</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -5283,23 +5283,83 @@ QTabBar::tab:selected {
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_8">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="deleteBMS">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"> 
+QPushButton:checked {
+ background-color: qlineargradient(
+  x1:0, y1:0, x2:0, y2:1,
+  stop:0   #7D7D7D
+  stop:0.03 #6182BD,
+  stop:0.04 #7D7D7D
+  stop:1   #E8E8E8
+ );
+ background-image: none;
+ border-image: none;
+ border: 1px solid #364767;
+}
+ 
+ QPushButton {
+     border: 2px solid #8f8f91;
+     border-radius: 6px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+     min-width: 80px;
+ }</string>
+           </property>
+           <property name="text">
+            <string> Click to delete bookmarks </string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="bmLBL">
          <property name="font">
           <font>
            <pointsize>8</pointsize>
-           <weight>50</weight>
-           <italic>true</italic>
-           <bold>false</bold>
           </font>
          </property>
-         <property name="styleSheet">
-          <string notr="true">font: italic 8pt ;</string>
-         </property>
          <property name="text">
-          <string>Press for a few seconds on a bookmark for the 'delete' option to show.</string>
+          <string>Click on bookmarks to delete them</string>
          </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
