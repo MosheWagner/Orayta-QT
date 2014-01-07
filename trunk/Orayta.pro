@@ -215,10 +215,10 @@ mobile{
         Mobile/mobileapp.ui \
 
   OTHER_FILES += \
-      android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
-      android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-      android/version.xml \
-      android/AndroidManifest.xml
+      android-orayta/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+      android-orayta/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+      android-orayta/version.xml \
+      android-orayta/AndroidManifest.xml
 }
 
 Kookita{

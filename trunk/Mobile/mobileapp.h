@@ -250,8 +250,6 @@ private:
 
     QString booktitle;
 
-    bool autoResume;
-
     bool nightMode;
 
     QMenu * menu;
