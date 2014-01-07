@@ -803,6 +803,10 @@ public class QtActivity extends Activity
         	autoCopyMyResources();
             //startApp(true);
         }
+
+        // Orayta hack by Moshe:
+        // keep screen active - see http://stackoverflow.com/questions/2131948/force-screen-on
+        getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
     
     
