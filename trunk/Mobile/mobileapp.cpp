@@ -23,7 +23,7 @@
 /*TODO:
 
   - Crash on exit (sometimes)
-  - Cant navigate from links from gmara (swipes dont work)
+  - Can't navigate from links from gmara (swipes dont work)
   -
 
 */
@@ -822,19 +822,28 @@ void MobileApp::ClearTmp()
     }
 }
 
+
+void MobileApp::keyPressEvent(QKeyEvent *keyEvent)
+{
+    //We use the press event here, so that auto-repeat works
+    switch ( keyEvent->key() )
+    {
+        //case Qt::Key_U:
+        case Qt::Key_VolumeUp:
+            displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() - 60);
+            break;
+        //case Qt::Key_D:
+        case Qt::Key_VolumeDown:
+            displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() + 60);
+            break;
+    }
+}
+
+
 void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
 
     switch ( keyEvent->key() )
     {
-
-    //case Qt::Key_U:
-    case Qt::Key_VolumeUp:
-        displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() - 50);
-        break;
-    //case Qt::Key_D:
-    case Qt::Key_VolumeDown:
-        displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() + 50);
-        break;
 
     /*
     case Qt::Key_MediaTogglePlayPause:
