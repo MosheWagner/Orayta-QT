@@ -16,6 +16,24 @@
 * Moshe Wagner. <moshe.wagner@gmail.com>
 */
 
+
+
+
+
+/*TODO:
+
+  - Crash on exit (sometimes)
+  - Cant navigate from links from gmara (swipes dont work)
+  -
+
+*/
+
+
+
+
+
+
+
 #include "mobileapp.h"
 #include "ui_mobileapp.h"
 #include "../OraytaBase/functions.h"
@@ -143,6 +161,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         p.setScrollMetric(QScrollerProperties::DragStartDistance,   0.001 );
         p.setScrollMetric(QScrollerProperties::ScrollingCurve, QEasingCurve::Linear );
         p.setScrollMetric(QScrollerProperties::AxisLockThreshold, 0.9);
+
+        p.setScrollMetric(QScrollerProperties::SnapTime, 1);
+        p.setScrollMetric(QScrollerProperties::SnapPositionRatio, 1);
 
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 2.5);
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 1.25);
@@ -816,6 +837,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         displayer->verticalScrollBar()->setValue(displayer->verticalScrollBar()->value() + 50);
         break;
 
+    /*
     case Qt::Key_MediaTogglePlayPause:
     case Qt::Key_MediaPlay:
     //stop event sent from android. exit app
@@ -825,6 +847,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
         // if autoResume selected by user, dont terminate app.
         if (!autoResume)  close();
         break;
+    */
 
     //back button was clicked
     case Qt::Key_Close:
@@ -1068,7 +1091,6 @@ void MobileApp::on_saveConf_clicked()
     gFontFamily = ui->fontComboBox->currentFont().family();
     gFontSize = ui->fonSizeSpinBox->value();
 
-    autoResume = ui->autoResumeCKBX->isChecked();
     useCustomFontForAll = ui->customFontRDBTN->isChecked();
     nightMode = ui->NightModeCKBX->isChecked();
 
@@ -1082,7 +1104,6 @@ void MobileApp::on_saveConf_clicked()
     settings.setValue("fontfamily", gFontFamily);
     settings.setValue("fontsize", gFontSize);
 
-    settings.setValue("autoResume", autoResume);
     settings.setValue("useCustomFontForAll", useCustomFontForAll);
 
     settings.setValue("nightMode", nightMode);
@@ -1275,7 +1296,6 @@ void MobileApp::setupSettings(){
 
     QSettings settings("Orayta", "SingleUser");
     settings.beginGroup("Confs");
-        autoResume = settings.value("autoResume", true).toBool();
         useCustomFontForAll = settings.value("useCustomFontForAll", false).toBool();
         nightMode = settings.value("nightMode", false).toBool();
     settings.endGroup();
@@ -1333,7 +1353,6 @@ void MobileApp::resetSettingsPage()
     ui->fontComboBox->setCurrentFont(f);
     ui->fonSizeSpinBox->setValue(gFontSize);
     ui->horizontalSlider->setValue(gFontSize);
-    ui->autoResumeCKBX->setChecked(autoResume);
     ui->NightModeCKBX->setChecked(nightMode);
     ui->customFontRDBTN->setChecked(useCustomFontForAll);
     ui->defaultFontRDBTN->setChecked(!useCustomFontForAll);
