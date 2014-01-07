@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest android:versionCode="1" package="org.qtproject.orayta" android:versionName="1.05" xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication">
-        <activity android:screenOrientation="unspecified" android:label="@string/app_name" android:launchMode="singleInstance" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize" android:name="org.qtproject.qt5.android.bindings.QtActivity">
+<manifest package="org.qtproject.orayta" android:versionName="1.05" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1">
+    <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
+        <activity android:launchMode="singleInstance" android:screenOrientation="unspecified" android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <meta-data android:value="orayta" android:name="android.app.lib_name"/>
-            <meta-data android:resource="@array/qt_sources" android:name="android.app.qt_sources_resource_id"/>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
             <meta-data android:value="default" android:name="android.app.repository"/>
-            <meta-data android:resource="@array/qt_libs" android:name="android.app.qt_libs_resource_id"/>
-            <meta-data android:resource="@array/bundled_libs" android:name="android.app.bundled_libs_resource_id"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
             <!-- Deploy Qt libs as part of package -->
             <meta-data android:value="1" android:name="android.app.bundle_local_qt_libs"/>
-            <meta-data android:resource="@array/bundled_in_lib" android:name="android.app.bundled_in_lib_resource_id"/>
-            <meta-data android:resource="@array/bundled_in_assets" android:name="android.app.bundled_in_assets_resource_id"/>
+            <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>
+            <meta-data android:name="android.app.bundled_in_assets_resource_id" android:resource="@array/bundled_in_assets"/>
             <!-- Run with local libs -->
             <meta-data android:value="1" android:name="android.app.use_local_qt_libs"/>
             <meta-data android:value="/data/local/tmp/qt/" android:name="android.app.libs_prefix"/>
@@ -25,12 +25,12 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
             <!-- Splash screen -->
-            <meta-data android:resource="@layout/splash" android:name="android.app.splash_screen"/>
+            <meta-data android:name="android.app.splash_screen" android:resource="@layout/splash"/>
             <!-- Splash screen -->
         </activity>
     </application>
     <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="9"/>
-    <supports-screens android:normalScreens="true" android:anyDensity="true" android:smallScreens="true" android:largeScreens="true"/>
+    <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
