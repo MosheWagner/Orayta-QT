@@ -68,7 +68,7 @@ protected:
 
     virtual void resizeEvent(QResizeEvent *);
 
-    //IZAR
+    void keyPressEvent(QKeyEvent *keyEvent);
     void keyReleaseEvent(QKeyEvent *keyEvent);
     void mouseReleaseEvent(QMouseEvent *ev);
 
