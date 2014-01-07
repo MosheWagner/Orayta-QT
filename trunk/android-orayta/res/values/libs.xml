@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <array name="qt_sources">
+        <item>https://download.qt-project.org/ministro/android/qt5/qt-5.2</item>
+    </array>
+
+    <!-- The following is handled automatically by the deployment tool. It should
+         not be edited manually. -->
+
+    <array name="bundled_libs">
+        
+    </array>
+
+     <array name="qt_libs">
+         <item>gnustl_shared</item>
+<item>Qt5Core</item>
+<item>Qt5Gui</item>
+<item>Qt5Widgets</item>
+<item>Qt5Network</item>
+
+     </array>
+
+    <array name="bundled_in_lib">
+        <item>libplugins_platforms_android_libqtforandroid.so:plugins/platforms/android/libqtforandroid.so</item>
+<item>libplugins_platforms_android_libqtforandroidGL.so:plugins/platforms/android/libqtforandroidGL.so</item>
+<item>libplugins_platforms_libqeglfs.so:plugins/platforms/libqeglfs.so</item>
+<item>libplugins_platforms_libqminimal.so:plugins/platforms/libqminimal.so</item>
+<item>libplugins_platforms_libqminimalegl.so:plugins/platforms/libqminimalegl.so</item>
+<item>libplugins_platforms_libqoffscreen.so:plugins/platforms/libqoffscreen.so</item>
+<item>libplugins_imageformats_libqgif.so:plugins/imageformats/libqgif.so</item>
+<item>libplugins_imageformats_libqico.so:plugins/imageformats/libqico.so</item>
+<item>libplugins_imageformats_libqjpeg.so:plugins/imageformats/libqjpeg.so</item>
+<item>libplugins_imageformats_libqmng.so:plugins/imageformats/libqmng.so</item>
+<item>libplugins_imageformats_libqtga.so:plugins/imageformats/libqtga.so</item>
+<item>libplugins_imageformats_libqtiff.so:plugins/imageformats/libqtiff.so</item>
+<item>libplugins_imageformats_libqwbmp.so:plugins/imageformats/libqwbmp.so</item>
+<item>libplugins_accessible_libqtaccessiblewidgets.so:plugins/accessible/libqtaccessiblewidgets.so</item>
+<item>libplugins_bearer_libqgenericbearer.so:plugins/bearer/libqgenericbearer.so</item>
+
+    </array>
+    <array name="bundled_in_assets">
+        
+    </array>
+
+</resources>

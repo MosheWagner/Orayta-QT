@@ -31,6 +31,7 @@
 #include <QListWidgetItem>
 #include <QTimer>
 #include <QDesktopWidget>
+#include <QEasingCurve>
 #include <QMenu>
 #include <QScroller>
 #include <QClipboard>
@@ -50,6 +51,10 @@ int gFontSize = 0;
 
 MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 {
+#ifdef TIMEDBG
+    qDebug() << "Mobile start" << QTime::currentTime();
+#endif
+
     //Set all QString to work with unicode
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("utf8"));
 
@@ -57,6 +62,10 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     //QApplication::setStyle(new QAndroidStyle()); //dosnt work
 
     ui->setupUi(this);
+
+#ifdef TIMEDBG
+    qDebug() << "setupUI"<<QTime::currentTime();
+#endif
 
     //show the about page while app loads
     ui->gtoHelp->hide();
@@ -112,7 +121,12 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     showHideSearch(false);
 
     QList<QWidget *> addscroll;
-    addscroll << ui->treeWidget << ui->SearchTreeWidget << ui->staticBookMarkList << ui->dailyLearningList << ui->historyBookmarkList << ui->scrollArea;
+    addscroll << displayer << ui->treeWidget << ui->SearchTreeWidget << ui->staticBookMarkList << ui->dailyLearningList << ui->historyBookmarkList << ui->scrollArea;
+
+#ifdef TIMEDBG
+    qDebug() << "UI stuff 1"<<QTime::currentTime();
+#endif
+
 
     foreach (QWidget * w, addscroll)
     {
@@ -122,16 +136,32 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         QScrollerProperties p = s->scrollerProperties();
         p.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
         p.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
-        p.setScrollMetric(QScrollerProperties::OvershootDragResistanceFactor,  0);
+        p.setScrollMetric(QScrollerProperties::OvershootDragResistanceFactor,  0.9);
         p.setScrollMetric(QScrollerProperties::OvershootDragDistanceFactor,  0);
         p.setScrollMetric(QScrollerProperties::OvershootScrollDistanceFactor,  0);
+
+        p.setScrollMetric(QScrollerProperties::DragStartDistance,   0.001 );
+        p.setScrollMetric(QScrollerProperties::ScrollingCurve, QEasingCurve::Linear );
+        p.setScrollMetric(QScrollerProperties::AxisLockThreshold, 0.9);
+
+        p.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 2.5);
+        p.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 1.25);
+
         s->setScrollerProperties(p);
     }
 
-    QScroller::grabGesture(displayer, QScroller::LeftMouseButtonGesture);
+#ifdef TIMEDBG
+    qDebug() << "Qscroller"<<QTime::currentTime();
+#endif
+
 
     //Build the book list
     reloadBooklist();
+
+#ifdef TIMEDBG
+    qDebug() << "Booklist" <<QTime::currentTime();
+#endif
+
 
     //Connect slots to the signalls of the book downloader
     connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
@@ -148,12 +178,31 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     // the default for the menu in display page is hidden.
     ui->dispalyMenu->hide();
 
+#ifdef TIMEDBG
+    qDebug() << "UI2"<<QTime::currentTime();
+#endif
+
+
+
     //load saved settings
     setupSettings();
 
+#ifdef TIMEDBG
+    qDebug() << "Settings" <<QTime::currentTime();
+#endif
+
+
     adjustToScreenSize();
 
+#ifdef TIMEDBG
+    qDebug() << "Screensize" <<QTime::currentTime();
+#endif
+
     setupBookmarkList();
+
+#ifdef TIMEDBG
+    qDebug() << "Bm list" <<QTime::currentTime();
+#endif
 
     connect (ui->staticBookMarkList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
     connect (ui->dailyLearningList, SIGNAL(shortPress(QListWidgetItem*)), this, SLOT(BMShortClicked(QListWidgetItem*)));
@@ -178,6 +227,10 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     ui->historyBookmarkList->loadHistory(bookList);
     ui->staticBookMarkList->loadHistory(bookList);
 
+#ifdef TIMEDBG
+    qDebug() << "last book" <<QTime::currentTime();
+#endif
+
 
     if (page != DISPLAY_PAGE || !b) ui->stackedWidget->setCurrentIndex(MAIN_PAGE);
     else
@@ -188,12 +241,25 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         QTimer::singleShot(100, this, SLOT(jumpToLastPos()));
     }
 
+
+
     ui->gtoHelp->show();
     ui->bmLBL->hide();
 
     ui->stackedWidget->currentWidget()->setFocus();
 
+
+#ifdef TIMEDBG
+    qDebug() << "Jump" <<QTime::currentTime();
+#endif
+
+
     adjustToScreenSize();
+
+#ifdef TIMEDBG
+    qDebug() << "Adjust 2" <<QTime::currentTime();
+#endif
+
 
     //displayKukaytaMessage();
 }
@@ -674,7 +740,7 @@ void MobileApp::closeEvent(QCloseEvent *event)
     //Cancel any running searches
     stopSearchFlag = true;
 
-//    saveSettings();
+    saveSettings();
 
     ClearTmp();
 
@@ -698,6 +764,7 @@ void MobileApp::saveSettings(){
     settings.setValue("viewposition", displayer->verticalScrollBar()->value());
     settings.endGroup();
 
+    /*
     foreach (Book *book, bookList)
     {
         if (book->getUniqueId() == -1 || book->hasRandomId)
@@ -712,6 +779,7 @@ void MobileApp::saveSettings(){
         settings.setValue("InSearch", book->IsInSearch());
         settings.endGroup();
     }
+    */
 
     ui->staticBookMarkList->saveSettings();
     ui->historyBookmarkList->saveSettings();
@@ -753,7 +821,6 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
         qDebug()<< "android stop request";
-        saveSettings();
 
         // if autoResume selected by user, dont terminate app.
         if (!autoResume)  close();
