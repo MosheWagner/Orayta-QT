@@ -243,6 +243,8 @@ private slots:
 
     void on_deleteBMS_clicked(bool checked);
 
+    void on_horizontalSlider_sliderMoved(int position);
+
 private:
     Ui::MobileApp *ui;  
 
