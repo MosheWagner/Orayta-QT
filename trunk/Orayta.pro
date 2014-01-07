@@ -10,8 +10,6 @@
 # Desktop app translation dosn't work
 # Desktop - Next on one page books gives empty page
 
-# - Test debian dir + especially control file
-# - Pause break - fix crash!
 # - Fix desktop version (with download manager too!)
 # - Update help page
 
@@ -25,6 +23,7 @@ INCLUDEPATH += $$PWD
 LIBS += -lz
 CONFIG += qt mobility
 
+#DEFINES += TIMEDBG
 
 #MOBILITY =
     #for test only
@@ -76,10 +75,7 @@ else:unix{
     #Zlib
     LIBS += -lz
 
-    #set a test mobile version
-    #DEFINES += MOBILE_TEST
     QT += webkitwidgets # printsupport webkit
-
 
    QMAKE_CFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
    QMAKE_CFLAGS_DEBUG+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
@@ -192,7 +188,7 @@ FORMS += \
 }
 
 #Android stuff:
-mobile{
+mobile {
     CONFIG += Kookita
 
     DEFINES += QTSCROLLER_NO_WEBKIT
@@ -217,15 +213,15 @@ mobile{
   OTHER_FILES += \
       android-orayta/src/org/qtproject/qt5/android/bindings/QtActivity.java \
       android-orayta/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+      android-orayta/src/org/qtproject/qt5/android/bindings/Crypter.java \
       android-orayta/version.xml \
       android-orayta/AndroidManifest.xml
 }
 
 Kookita{
     DEFINES += KOOKITA
-    SOURCES +=Mobile/jnifunc.cpp
-    HEADERS +=Mobile/jnifunc.cpp
-    OTHER_FILES +=android/src/org/qtproject/qt5/android/bindings/Crypter.java
+    SOURCES += Mobile/jnifunc.cpp
+    HEADERS += Mobile/jnifunc.h
 }
 
 
@@ -243,7 +239,6 @@ target.path = /usr/bin
 # Install books
 books.path = $${INSTALL_BOOKS_PATH}
 books.files = Books/.
-#android: books.files += android/res/raw/.
 #android: books.files += android/assets/.
 
 # Install icon
