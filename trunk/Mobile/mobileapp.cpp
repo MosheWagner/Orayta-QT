@@ -162,8 +162,9 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         p.setScrollMetric(QScrollerProperties::ScrollingCurve, QEasingCurve::Linear );
         p.setScrollMetric(QScrollerProperties::AxisLockThreshold, 0.9);
 
-        p.setScrollMetric(QScrollerProperties::SnapTime, 1);
-        p.setScrollMetric(QScrollerProperties::SnapPositionRatio, 1);
+        //Does this help?
+        //p.setScrollMetric(QScrollerProperties::SnapTime, 1);
+        //p.setScrollMetric(QScrollerProperties::SnapPositionRatio, 1);
 
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 2.5);
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 1.25);
@@ -435,21 +436,13 @@ void MobileApp::jumpToLastPos()
 
 MobileApp::~MobileApp()
 {
-//    ui->staticBookMarkList->saveSettings();
-//    ui->historyBookmarkList->saveSettings();
-
-//    qDebug() << "Destructor";
-    //Delete the old downloadable-books list
-    QFile f(SAVEDBOOKLIST);
-    f.remove();
-
     delete downloader;
     delete listdownload;
 
-//    delete action;
-    action->deleteLater();
-//    delete menu;
-    menu->deleteLater();
+    //delete action;
+    if (action) action->deleteLater();
+    //delete menu;
+    if (menu) menu->deleteLater();
 
     delete ui;
 }
@@ -763,6 +756,10 @@ void MobileApp::closeEvent(QCloseEvent *event)
 
     saveSettings();
 
+    //Delete the old downloadable-books list
+    QFile f(SAVEDBOOKLIST);
+    if (f.exists()) f.remove();
+
     ClearTmp();
 
     QDialog::close();
@@ -786,6 +783,8 @@ void MobileApp::saveSettings(){
     settings.endGroup();
 
     /*
+    // This takes way too long!
+
     foreach (Book *book, bookList)
     {
         if (book->getUniqueId() == -1 || book->hasRandomId)
@@ -1165,6 +1164,13 @@ void MobileApp::on_fontComboBox_currentIndexChanged(const QString &font)
     //Show the new font in the preview box
     ui->fontPreview->setFont(QFont(font, ui->fonSizeSpinBox->value()));
 }
+
+void MobileApp::on_horizontalSlider_sliderMoved(int position)
+{
+    //Show the new font in the preview box
+    ui->fontPreview->setFont(QFont(ui->fontComboBox->currentText(), ui->fonSizeSpinBox->value()));
+}
+
 
 void MobileApp::on_fonSizeSpinBox_valueChanged(int size)
 {
@@ -1740,3 +1746,4 @@ void MobileApp::on_installKukaytaBTN_clicked()
     installKukayta();
 #endif
 }
+

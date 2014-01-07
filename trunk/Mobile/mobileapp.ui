@@ -520,7 +520,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>8</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -5060,6 +5060,19 @@ QTabBar::tab:selected {
           <number>0</number>
          </property>
          <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QPushButton" name="deleteBMS">
            <property name="font">
             <font>
@@ -5090,7 +5103,7 @@ QPushButton:checked {
  }</string>
            </property>
            <property name="text">
-            <string> Click to delete bookmarks </string>
+            <string>   Click to delete bookmarks   </string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -5109,13 +5122,28 @@ QPushButton:checked {
            </property>
           </widget>
          </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
         <widget class="QLabel" name="bmLBL">
          <property name="font">
           <font>
-           <pointsize>8</pointsize>
+           <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
