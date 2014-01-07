@@ -21,10 +21,11 @@
 
 
 /*TODO:
-
-  - Crash on exit (sometimes)
+ *
+  - Make font sizes consistant...
+  - Crashes on exit (sometimes)
+  - Exit always takes a long time
   - Can't navigate from links from gmara (swipes dont work)
-  -
 
 */
 
