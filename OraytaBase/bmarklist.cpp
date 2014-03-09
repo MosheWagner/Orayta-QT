@@ -24,6 +24,7 @@
 BMarkList::BMarkList(QWidget *parent) : QListWidget(parent)
 {
     setMouseTracking(true);
+    changed = true;
 }
 
 //For some reason mousePress is called only at release, so we act as if the last move was a press event
@@ -64,10 +65,11 @@ void BMarkList::loadHistory(BookList booklist)
         Book* b = booklist.findBookById(uid);
         if (!b) continue;
         BookIter iter = BookIter::fromEncodedString(iterStr);
+        int viewPosition = settings.value("viewPosition").toInt();
 
         QString title = settings.value("title", "").toString();
 
-        MiniBMark* bm = addBookMark(b, iter);
+        MiniBMark* bm = addBookMark(b, iter, viewPosition);
         bm->setConstant(constant);
         bm->setTitle(title);
     }
@@ -78,11 +80,15 @@ void BMarkList::loadHistory(BookList booklist)
 
 BMarkList::~BMarkList()
 {
-    saveSettings();
+    //saveSettings();
 }
 
 void BMarkList::saveSettings()
 {
+    // check if any changes occured since last save. if not then there is nothing to do
+    if (! changed)
+        return;
+
     qDebug()<< "saving bookmarks...";
     QSettings settings("Orayta", "SingleUser");
     QString mName = this->objectName();
@@ -104,6 +110,7 @@ void BMarkList::saveSettings()
         settings.setValue("iter", b->getBookIter().toEncodedString());
         settings.setValue("constant", b->isConstant());
         settings.setValue("title", b->title());
+        settings.setValue("viewPosition", b->viewPosition);
 
         if (id > limit) break;
 
@@ -111,13 +118,16 @@ void BMarkList::saveSettings()
     }
     settings.endArray();
     settings.endGroup();
+
+    changed = false;
+
     qDebug()<<"done.";
 }
 
 #include <QPushButton>
 #include <QHBoxLayout>
 
-MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)
+MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter, int viewPosition)
 {
     if(!book)  return NULL;
 
@@ -133,9 +143,14 @@ MiniBMark* BMarkList::addBookMark(Book* book, BookIter iter)
     }
 
     //add a new bookmark here
-    MiniBMark* bm = new MiniBMark(book, iter, this);
+    MiniBMark* bm = new MiniBMark(book, iter, this, viewPosition);
 
     insertItem(0, bm);
+    changed = true;
+
+    // save the bookmark to history so it can be recalled on restart
+    //TODO this might take to long...
+    //this->saveSettings();
 
     // return the bm so it can be modified later
     return bm;
@@ -145,6 +160,8 @@ void BMarkList::eraseBookMark(MiniBMark *bm)
 {
     takeItem(row(bm));
     delete bm;
+    changed = true;
+    //this->saveSettings();
 }
 
 //bool BMarkList::isDafYomiActive() {return dafYomiActive;}

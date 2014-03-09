@@ -183,7 +183,8 @@ QWidget{
 	background-color: none;
 }
 QWidget#mainpage{
-	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0  rgb(249, 236, 225), stop:1 rgb(217, 160, 95));
+	background-color: rgb(249, 236, 225);
+	/*background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0  rgb(249, 236, 225), stop:1 rgb(217, 160, 95));*/
 }
 QDialog{ border: 1px 0px ; border-color: rgb(15, 15, 15); border-style: solid}
 
@@ -205,6 +206,12 @@ QToolButton, QPushButton {
 	min-height: 1.1em;
 	/*color: #E67A17;*/
 }
+QToolButton:pressed, QPushButton:pressed, QPushButton:checked {
+	border-style: inset;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+
 #mainpage QToolButton{background-color:  rgba(249, 211, 176, 30%);}
 
 QComboBox, QLineEdit, QSpinBox, QTabWidget, QGroupBox, QTreeWidget, QTextBrowser{
@@ -316,11 +323,11 @@ QScrollBar::sub-line:vertical {subcontrol-position: top; }
 
 QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
 
-*::right-arrow{	image: url(:/Icons/arrow-right.png); width: 10px;   height: 10px; }
- *::left-arrow{ 	image: url(:/Icons/arrow-left.png); width: 10px;   height: 10px; }
+*::right-arrow{	image: url(:/flat-icons/right.png); width: 10px;   height: 10px; }
+ *::left-arrow{ 	image: url(:/flat-icons/left.png); width: 10px;   height: 10px; }
 
-*::up-arrow{	image: url(:/Icons/arrow-up.png); width: 10px;   height: 10px; }
-*::down-arrow{	image: url(:/Icons/arrow-down.png); width: 10px;   height: 10px;  }
+*::up-arrow{	image: url(:/flat-icons/up.png); width: 10px;   height: 10px; }
+*::down-arrow{	image: url(:/flat-icons/down.png); width: 10px;   height: 10px;  }
 
 /**::corner{background-color: #F9B06D;}*/
 
@@ -520,7 +527,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>8</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -549,7 +556,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
        <item>
         <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0">
          <property name="sizeConstraint">
-          <enum>QLayout::SetMinimumSize</enum>
+          <enum>QLayout::SetMaximumSize</enum>
          </property>
          <property name="leftMargin">
           <number>1</number>
@@ -566,6 +573,137 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
          <property name="spacing">
           <number>5</number>
          </property>
+         <item row="4" column="2">
+          <layout class="QVBoxLayout" name="verticalLayout_30">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
+           <item>
+            <widget class="QToolButton" name="searchBTN">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>19</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>1000</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>110</width>
+               <height>90</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Search</string>
+             </property>
+             <property name="icon">
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/search.png</normaloff>:/flat-icons/search.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>80</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="2">
+          <layout class="QVBoxLayout" name="verticalLayout_34">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
+           <item>
+            <widget class="QToolButton" name="bookMarksBTN">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>110</width>
+               <height>19</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>1000</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>110</width>
+               <height>90</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>BookMarks</string>
+             </property>
+             <property name="icon">
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/bookmark.png</normaloff>:/flat-icons/bookmark.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>80</width>
+               <height>80</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item row="1" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_33">
            <property name="spacing">
@@ -617,144 +755,13 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
               <string>Browse</string>
              </property>
              <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/Orayta.png</normaloff>:/Icons/Orayta.png</iconset>
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/book.png</normaloff>:/flat-icons/book.png</iconset>
              </property>
              <property name="iconSize">
               <size>
                <width>100</width>
-               <height>100</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="1">
-          <layout class="QVBoxLayout" name="verticalLayout_34">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="sizeConstraint">
-            <enum>QLayout::SetMinimumSize</enum>
-           </property>
-           <item>
-            <widget class="QToolButton" name="bookMarksBTN">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>110</width>
-               <height>19</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>1000</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>110</width>
                <height>90</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <italic>false</italic>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
-             </property>
-             <property name="autoFillBackground">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>BookMarks</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/bookmarks-big.png</normaloff>:/Icons/bookmarks-big.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>100</width>
-               <height>100</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="4" column="1">
-          <layout class="QVBoxLayout" name="verticalLayout_30">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="sizeConstraint">
-            <enum>QLayout::SetMinimumSize</enum>
-           </property>
-           <item>
-            <widget class="QToolButton" name="searchBTN">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>110</width>
-               <height>19</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>1000</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>110</width>
-               <height>90</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <italic>false</italic>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="autoFillBackground">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Search</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/search-big.png</normaloff>:/Icons/search-big.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>100</width>
-               <height>100</height>
               </size>
              </property>
              <property name="toolButtonStyle">
@@ -812,13 +819,13 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
               <string>Get books</string>
              </property>
              <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/dl-book.png</normaloff>:/Icons/dl-book.png</iconset>
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/download.png</normaloff>:/flat-icons/download.png</iconset>
              </property>
              <property name="iconSize">
               <size>
-               <width>100</width>
-               <height>100</height>
+               <width>80</width>
+               <height>80</height>
               </size>
              </property>
              <property name="checkable">
@@ -834,13 +841,74 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </item>
           </layout>
          </item>
-         <item row="5" column="1">
+         <item row="5" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_35">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
+           <item>
+            <widget class="QPushButton" name="aboutBTN">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>19</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>1000</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Info</string>
+             </property>
+             <property name="icon">
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/info.png</normaloff>:/flat-icons/info.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="5" column="2">
           <layout class="QVBoxLayout" name="verticalLayout_32">
            <property name="spacing">
             <number>0</number>
            </property>
            <property name="sizeConstraint">
-            <enum>QLayout::SetMaximumSize</enum>
+            <enum>QLayout::SetMinimumSize</enum>
            </property>
            <item>
             <widget class="QPushButton" name="helpBTN">
@@ -882,69 +950,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
               <string>Help</string>
              </property>
              <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/help-contents.png</normaloff>:/Icons/help-contents.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="5" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_20">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="sizeConstraint">
-            <enum>QLayout::SetMaximumSize</enum>
-           </property>
-           <item>
-            <widget class="QPushButton" name="aboutBTN">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>19</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>1000</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>80</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <italic>false</italic>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="autoFillBackground">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Info</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../Orayta.qrc">
-               <normaloff>:/Icons/help-about.png</normaloff>:/Icons/help-about.png</iconset>
+              <iconset resource="mobile.qrc">
+               <normaloff>:/flat-icons/help.png</normaloff>:/flat-icons/help.png</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -959,32 +966,105 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: normal ;</string>
-         </property>
-         <property name="text">
-          <string>Orayta - Jewish books</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="margin">
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <property name="spacing">
           <number>2</number>
          </property>
-        </widget>
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="settingsBTN">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>19</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>1000</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Settings</string>
+           </property>
+           <property name="icon">
+            <iconset resource="mobile.qrc">
+             <normaloff>:/flat-icons/settings.png</normaloff>:/flat-icons/settings.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: normal ;</string>
+           </property>
+           <property name="text">
+            <string>Orayta - Jewish books</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>2</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -1048,8 +1128,8 @@ p, li { white-space: pre-wrap; }
              <string>Help</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/help-contents-big.png</normaloff>:/Icons/help-contents-big.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/help.png</normaloff>:/flat-icons/help.png</iconset>
             </property>
            </widget>
           </item>
@@ -2261,8 +2341,8 @@ p, li { white-space: pre-wrap; }
              <string>Collpase all</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/refresh.png</normaloff>:/Icons/refresh.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/collapseAll.png</normaloff>:/flat-icons/collapseAll.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -2693,8 +2773,8 @@ p, li { white-space: pre-wrap; }
              <string>Find</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/search.png</normaloff>:/Icons/search.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/search.png</normaloff>:/flat-icons/search.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -3125,8 +3205,8 @@ p, li { white-space: pre-wrap; }
              <string>Last book</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/bookmarks.png</normaloff>:/Icons/bookmarks.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/bookmark.png</normaloff>:/flat-icons/bookmark.png</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -3641,8 +3721,8 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
             <string>Open</string>
            </property>
            <property name="icon">
-            <iconset resource="../Orayta.qrc">
-             <normaloff>:/Icons/Orayta.png</normaloff>:/Icons/Orayta.png</iconset>
+            <iconset resource="mobile.qrc">
+             <normaloff>:/flat-icons/book.png</normaloff>:/flat-icons/book.png</iconset>
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -3709,8 +3789,8 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
             <string>...</string>
            </property>
            <property name="icon">
-            <iconset resource="../Orayta.qrc">
-             <normaloff>:/Icons/edit-delete.png</normaloff>:/Icons/edit-delete.png</iconset>
+            <iconset resource="mobile.qrc">
+             <normaloff>:/flat-icons/cancel.png</normaloff>:/flat-icons/cancel.png</iconset>
            </property>
           </widget>
          </item>
@@ -3771,8 +3851,14 @@ width: 15 px;
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Orayta.qrc">
-                <normaloff>:/Icons/doublegreenv.png</normaloff>:/Icons/doublegreenv.png</iconset>
+               <iconset resource="mobile.qrc">
+                <normaloff>:/flat-icons/markAll.png</normaloff>:/flat-icons/markAll.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>48</width>
+                <height>16</height>
+               </size>
               </property>
               <property name="flat">
                <bool>true</bool>
@@ -3794,8 +3880,14 @@ width: 15 px;
                <string/>
               </property>
               <property name="icon">
-               <iconset resource="../Orayta.qrc">
-                <normaloff>:/Icons/doublegreyv.png</normaloff>:/Icons/doublegreyv.png</iconset>
+               <iconset resource="mobile.qrc">
+                <normaloff>:/flat-icons/marknone.png</normaloff>:/flat-icons/marknone.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>48</width>
+                <height>16</height>
+               </size>
               </property>
               <property name="flat">
                <bool>true</bool>
@@ -3904,8 +3996,8 @@ width: 15 px;
           <string>Start search</string>
          </property>
          <property name="icon">
-          <iconset resource="../Orayta.qrc">
-           <normaloff>:/Icons/edit-find.png</normaloff>:/Icons/edit-find.png</iconset>
+          <iconset resource="mobile.qrc">
+           <normaloff>:/flat-icons/search.png</normaloff>:/flat-icons/search.png</iconset>
          </property>
         </widget>
        </item>
@@ -3986,8 +4078,8 @@ width: 15 px;
              <string>Stop Search</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/exit.png</normaloff>:/Icons/exit.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/stop.png</normaloff>:/flat-icons/stop.png</iconset>
             </property>
            </widget>
           </item>
@@ -4144,8 +4236,14 @@ width: 15 px;
                 <string>unmark all</string>
                </property>
                <property name="icon">
-                <iconset resource="../Orayta.qrc">
-                 <normaloff>:/Icons/greyv.png</normaloff>:/Icons/greyv.png</iconset>
+                <iconset resource="mobile.qrc">
+                 <normaloff>:/flat-icons/marknone.png</normaloff>:/flat-icons/marknone.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -4170,8 +4268,14 @@ width: 15 px;
                 <string>mark all</string>
                </property>
                <property name="icon">
-                <iconset resource="../Orayta.qrc">
-                 <normaloff>:/Icons/greenv.png</normaloff>:/Icons/greenv.png</iconset>
+                <iconset resource="mobile.qrc">
+                 <normaloff>:/flat-icons/markAll.png</normaloff>:/flat-icons/markAll.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -4317,8 +4421,8 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>222</width>
-                <height>270</height>
+                <width>194</width>
+                <height>272</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4375,7 +4479,7 @@ width: 15 px;
 </string>
                  </property>
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>5</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -4729,8 +4833,8 @@ p, li { white-space: pre-wrap; }
              <string>Save settings</string>
             </property>
             <property name="icon">
-             <iconset resource="../Orayta.qrc">
-              <normaloff>:/Icons/configure.png</normaloff>:/Icons/configure.png</iconset>
+             <iconset resource="mobile.qrc">
+              <normaloff>:/flat-icons/settings.png</normaloff>:/flat-icons/settings.png</iconset>
             </property>
            </widget>
           </item>
@@ -5079,29 +5183,6 @@ QTabBar::tab:selected {
              <pointsize>10</pointsize>
             </font>
            </property>
-           <property name="styleSheet">
-            <string notr="true"> 
-QPushButton:checked {
- background-color: qlineargradient(
-  x1:0, y1:0, x2:0, y2:1,
-  stop:0   #7D7D7D
-  stop:0.03 #6182BD,
-  stop:0.04 #7D7D7D
-  stop:1   #E8E8E8
- );
- background-image: none;
- border-image: none;
- border: 1px solid #364767;
-}
- 
- QPushButton {
-     border: 2px solid #8f8f91;
-     border-radius: 6px;
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
-     min-width: 80px;
- }</string>
-           </property>
            <property name="text">
             <string>   Click to delete bookmarks   </string>
            </property>
@@ -5291,8 +5372,27 @@ You can always do this later through the download option on the main screen.</st
             <layout class="QHBoxLayout" name="horizontalLayout_24">
              <item>
               <widget class="QPushButton" name="dlKukaytaBooksBTN">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Ok</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="dlKukaytaBooksBTN_">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Cancel</string>
                </property>
               </widget>
              </item>
@@ -5317,6 +5417,7 @@ You can always do this later through the download option on the main screen.</st
  </customwidgets>
  <resources>
   <include location="../Orayta.qrc"/>
+  <include location="mobile.qrc"/>
  </resources>
  <connections>
   <connection>

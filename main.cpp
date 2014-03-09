@@ -299,8 +299,10 @@ int main(int argc, char *argv[])
 
     MobileApp m;
 
+#ifdef Q_OS_ANDROID
     //Make sure app is maximized!
     m.showMaximized();
+#endif
 
     m.show();
 

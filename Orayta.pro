@@ -27,10 +27,10 @@ CONFIG += qt mobility
 
 #MOBILITY =
     #for test only
-    #DEFINES += MOBILE
-    #DEFINES += android
-    #CONFIG += MOBILE
-    #CONFIG += android
+#    DEFINES += MOBILE
+#    CONFIG += MOBILE
+#    DEFINES+= mobile
+#    CONFIG+= mobile
 
 
 #Small hack for Quazip on windows
@@ -50,6 +50,8 @@ android {
     CONFIG += MOBILE
     CONFIG += android
     CONFIG += mobile
+    CONFIG += Kookita
+
 }
 
 else: win32{
@@ -189,10 +191,10 @@ FORMS += \
 
 #Android stuff:
 mobile {
-    CONFIG += Kookita
-
     DEFINES += QTSCROLLER_NO_WEBKIT
     DEFINES += MOBILE
+
+RESOURCES += Mobile/mobile.qrc
 
     SOURCES += \
         Mobile/mobileapp.cpp \

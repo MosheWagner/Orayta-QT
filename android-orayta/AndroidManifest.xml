@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest package="org.qtproject.orayta" android:versionName="1.05" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1">
+<manifest android:versionCode="78" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.78" package="org.Orayta">
     <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
-        <activity android:launchMode="singleInstance" android:screenOrientation="unspecified" android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize">
+        <activity android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize" android:label="@string/app_name" android:launchMode="singleInstance" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="unspecified">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -29,8 +29,8 @@
             <!-- Splash screen -->
         </activity>
     </application>
-    <uses-sdk android:targetSdkVersion="11" android:minSdkVersion="9"/>
-    <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true"/>
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="10"/>
+    <supports-screens android:smallScreens="true" android:anyDensity="true" android:largeScreens="true" android:normalScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

@@ -17,12 +17,13 @@
 #include "minibmark.h"
 
 //MiniBMark::MiniBMark()
-MiniBMark::MiniBMark(Book *b, BookIter iter, BMarkList * parent)
+MiniBMark::MiniBMark(Book *b, BookIter iter, BMarkList * parent, int viewPos)
 {
     mBook = b;
     mBIter = iter;
     constant = false;
     parentList = parent;
+    viewPosition = viewPos;
 
     setText(mBook->getNormallDisplayName() + ", " + mBIter.humanDisplay());
 

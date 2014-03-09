@@ -71,18 +71,24 @@ void MobileApp::loadBookFromBM(QListWidgetItem *item)
     MiniBMark *bm= dynamic_cast<MiniBMark *>(item);
     if (!bm || bm == 0) return;
     BookIter it = bm->getBookIter();
+    int viewPosition = bm->viewPosition;
     showBook(bm->getBook(), it);
+    qApp->processEvents();
+    displayer->verticalScrollBar()->setValue(viewPosition);
     return;
 }
 
 void MobileApp::addStaticBMhere(){
     Book* b = displayer->getCurrentBook();
     BookIter it = displayer->getCurrentIter();
-    MiniBMark* bm = ui->staticBookMarkList->addBookMark(b, it);
+    int viewPosition = displayer->verticalScrollBar()->value();
+    MiniBMark* bm = ui->staticBookMarkList->addBookMark(b, it, viewPosition);
 
     //make the bookmark static so it doesn't get removed automatically
     if (!bm) return;
     bm->setConstant(true);
+
+//    ui->staticBookMarkList->saveSettings();
 }
 
 void MobileApp::on_bookMarksBTN_clicked()
@@ -90,11 +96,12 @@ void MobileApp::on_bookMarksBTN_clicked()
     ui->stackedWidget->setCurrentIndex(HISTORY_PAGE);
 }
 
-void MobileApp::addBookMark(Book * b, BookIter iter){
+void MobileApp::addBookMark(Book * b, BookIter iter, int viewPosition){
     // dont create a bookmark for an index page
     // TODO: let the user decide?
     if (iter.isEmpty()) return;
 
-    ui->historyBookmarkList->addBookMark(b, iter);
+    ui->historyBookmarkList->addBookMark(b, iter, viewPosition);
+//    ui->historyBookmarkList->saveSettings();
 }
 
