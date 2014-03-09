@@ -714,10 +714,11 @@ void MobileApp::tdloadFinished(QUrl u, Book* book, BookIter iter)
    ui->loadBar->hide();
 
     //IZAR- add a bookmark in new location
-   if (book)
-   {
-       addBookMark(book, iter);
-   }
+   // this seems now to be unnecesary, beacuase we save bookmark when we leave the displayer page.
+//   if (book)
+//   {
+//       addBookMark(book, iter);
+//   }
 }
 
 void MobileApp::tdloadStarted()
@@ -802,8 +803,11 @@ void MobileApp::saveSettings(){
     }
     */
 
-    ui->staticBookMarkList->saveSettings();
-    ui->historyBookmarkList->saveSettings();
+    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->verticalScrollBar()->value());
+        ui->staticBookMarkList->saveSettings();
+        ui->historyBookmarkList->saveSettings();
+
+
     qDebug()<<"done saving settings.";
 }
 
@@ -846,9 +850,13 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     switch ( keyEvent->key() )
     {
 
-    /*
+    // onPause event from android
     case Qt::Key_MediaTogglePlayPause:
     case Qt::Key_MediaPlay:
+        saveSettings();
+        break;
+
+    /*
     //stop event sent from android. exit app
     case Qt::Key_MediaStop:
         qDebug()<< "android stop request";
@@ -904,6 +912,7 @@ void MobileApp::keyReleaseEvent(QKeyEvent *keyEvent){
     case Qt::Key_Menu:
     case Qt::Key_Explorer:
     case Qt::Key_Meta:
+    case Qt::Key_Super_L:
         showMenu();
         break;
 
@@ -995,18 +1004,32 @@ void MobileApp::viewChanged(int index)
         qDebug()<< "cant stat view history";
         return;
     }
+    
 
     //add this page to history
     if (viewHistory->size() == 0) viewHistory->append(index);
     else
     {
+        int previousPage = viewHistory->at(viewHistory->size()-1);
+
+        // if we came from the displayer page then we want to save the scrolled location
+        if (previousPage == DISPLAY_PAGE)
+        {
+            Book* b= displayer->getCurrentBook();
+            BookIter itr = displayer->getCurrentIter();
+            if (b)
+            {
+                int viewPosition = displayer->verticalScrollBar()->value();
+                addBookMark(b, itr, viewPosition);
+            }
+        }
+
         // never add the same page twice
-        if (viewHistory->at(viewHistory->size()-1) != index)
+        if (previousPage != index)
             // ignore pages we want to exclude
             if (!exclude.contains(index))
                 viewHistory->append(index);
     }
-
 }
 
 //go to previous view of stacked widget.
@@ -1031,6 +1054,13 @@ void MobileApp::goBack()
 
     if (currentId == DISPLAY_PAGE)
     {
+        // if the menu is displayed then hide it
+        if (ui->dispalyMenu->isVisible())
+        {
+            ui->dispalyMenu->hide();
+            return;
+        }
+
         //If we are at the index or the search page
         if (displayer->source().path().indexOf("Index") != -1 || displayer->source().path().indexOf("SEARCH") != -1)
         {
@@ -1047,6 +1077,12 @@ void MobileApp::goBack()
             }
             else
             {
+                //save bookmark at previous location
+                if(displayer->getCurrentBook())
+                {
+                    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->verticalScrollBar()->value());
+                }
+
                 displayer->goToIndex();
             }
             return ;
@@ -1456,12 +1492,13 @@ void MobileApp::setupMixedSelection(){
 void MobileApp::on_openMixed_clicked()
 {
     if (!displayer->getCurrentBook()) return;
+    Book* b = displayer->getCurrentBook();
 
     bool showalone =true;
 
-    for(int j=1; j<displayer->getCurrentBook()->mWeavedSources.size(); j++)
+    for(int j=1; j<b->mWeavedSources.size(); j++)
     {
-        QString srcId = stringify(displayer->getCurrentBook()->mWeavedSources[j].id);
+        QString srcId = stringify(b->mWeavedSources[j].id);
 
         for (int i =0; i< ui->selectionArea->count(); i++)
         {
@@ -1474,18 +1511,32 @@ void MobileApp::on_openMixed_clicked()
                   bool checked = item->checkState() == Qt::Checked? true : false;
 
                   //set the showability of this item to what the user chose.
-                  displayer->getCurrentBook()->mWeavedSources[j].show = checked;
+                  b->mWeavedSources[j].show = checked;
                   if (checked) showalone = false;
                   break;
               }
         }
     }
 
-    displayer->getCurrentBook()->showAlone = showalone;
+    b->showAlone = showalone;
+
+    // save the settings for this book
+    if (b->getUniqueId() != -1 && !(b->hasRandomId)) //book has normal uid
+    {
+        QSettings settings("Orayta", "SingleUser");
+        settings.beginGroup("Book" + stringify(b->getUniqueId()));
+        settings.setValue("ShowAlone", b->showAlone);
+        for (int j=1; j<b->mWeavedSources.size(); j++)
+        {
+            settings.setValue("Shown" + stringify(j), b->mWeavedSources[j].show);
+        }
+        settings.setValue("InSearch", b->IsInSearch());
+        settings.endGroup();
+    }
 
     //show the book
     qApp->processEvents();
-    showBook(displayer->getCurrentBook(), displayer->getCurrentIter());
+    showBook(b, displayer->getCurrentIter());
 
 }
 
@@ -1757,3 +1808,13 @@ void MobileApp::on_installKukaytaBTN_clicked()
 #endif
 }
 
+
+void MobileApp::on_dlKukaytaBooksBTN__clicked()
+{
+    goBack();
+}
+
+void MobileApp::on_settingsBTN_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
+}

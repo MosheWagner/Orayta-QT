@@ -204,7 +204,7 @@ private slots:
     void on_toMainMenuBTN_clicked();
 
     //book mark methods
-    void addBookMark(Book *b, BookIter iter);
+    void addBookMark(Book *b, BookIter iter, int viewPosition =0);
 
     //A maintenance function used to edit stuff in books. Should always be commented
     //void BookTool(int);
@@ -244,6 +244,10 @@ private slots:
     void on_deleteBMS_clicked(bool checked);
 
     void on_horizontalSlider_sliderMoved(int position);
+
+    void on_dlKukaytaBooksBTN__clicked();
+
+    void on_settingsBTN_clicked();
 
 private:
     Ui::MobileApp *ui;  

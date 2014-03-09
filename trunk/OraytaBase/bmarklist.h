@@ -42,7 +42,7 @@ public:
     explicit BMarkList(QWidget *parent = 0);
     ~BMarkList();
     void saveSettings();
-    MiniBMark* addBookMark(Book* book, BookIter iter);
+    MiniBMark* addBookMark(Book* book, BookIter iter, int viewPosition =0);
 
 signals:
     void shortPress(QListWidgetItem * item);
@@ -69,6 +69,9 @@ private:
 
    //Holds the time of the last click, so we can calculate the delta
    QTime clickT;
+
+   // true if chagend since last save
+   bool changed;
 
    // does the user want to show daf yomi in this list
 //   bool dafYomiActive;

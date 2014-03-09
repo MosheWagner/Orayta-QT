@@ -31,7 +31,8 @@ class MiniBMark : public QObject, public QListWidgetItem
     Q_OBJECT
 
 public:
-    explicit MiniBMark(Book *b, BookIter iter , BMarkList *parent);
+    explicit MiniBMark(Book *b, BookIter iter , BMarkList *parent, int viewPos =0);
+    int viewPosition;
 
 signals:
 
