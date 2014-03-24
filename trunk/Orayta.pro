@@ -14,6 +14,12 @@
 # - Update help page
 
 QT += core gui network widgets
+#QT += declarative
+#QT += qml quick
+# Additional import path used to resolve QML modules in Creator's code model
+#QML_IMPORT_PATH =
+#qtcAddDeployment()
+#lessThan(QT_MAJOR_VERSION, 5): error(This project requires Qt 5 or later)
 
 TARGET = orayta
 TEMPLATE = app
@@ -27,10 +33,10 @@ CONFIG += qt mobility
 
 #MOBILITY =
     #for test only
-#    DEFINES += MOBILE
-#    CONFIG += MOBILE
-#    DEFINES+= mobile
-#    CONFIG+= mobile
+    DEFINES += MOBILE
+    CONFIG += MOBILE
+    DEFINES+= mobile
+    CONFIG+= mobile
 
 
 #Small hack for Quazip on windows
@@ -66,7 +72,7 @@ else: win32{
 
 }
 else:unix{
-    message("Compiling for desktop")
+
     CONFIG += linux
     #CONFIG +=  poppler
 
@@ -157,6 +163,7 @@ FORMS += \
     OraytaBase/bookfind.ui
 
 !mobile{
+    message("Compiling for desktop")
     HEADERS += \
         Desktop/desktopapp.h \
         Desktop/mywebview.h \
@@ -191,6 +198,7 @@ FORMS += \
 
 #Android stuff:
 mobile {
+    message("Compiling for mobile")
     DEFINES += QTSCROLLER_NO_WEBKIT
     DEFINES += MOBILE
 
@@ -281,3 +289,6 @@ INSTALLS += licence
 linux: INSTALLS += menu desktop
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-orayta
+
+OTHER_FILES += \
+    testqml.qml

@@ -22,6 +22,7 @@
 #include <QSwipeGesture>
 #include "../OraytaBase/booklist.h"
 #include "../OraytaBase/book.h"
+#include <QMouseEvent>
 
 class textDisplayer : public QTextBrowser
 {
@@ -65,6 +66,8 @@ public:
     //Scrolls to the given y value when the document is fully loaded
     //scrollTo(int y);
 
+    int getVpos();
+
 private:
 
 
@@ -82,6 +85,12 @@ private:
 
     QPoint _startPoint;
     QPoint _endPoint;
+
+    // holds vertical position (where the page is scrolled to)
+    int vPos;
+
+protected:
+     void mouseReleaseEvent(QMouseEvent*);
 
 signals:
     void loadStart();

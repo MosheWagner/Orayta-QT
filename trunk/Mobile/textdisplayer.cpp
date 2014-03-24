@@ -21,7 +21,7 @@
 #include <QDesktopServices>
 #include <QApplication>
 #include <QGestureRecognizer>
-
+#include <QScrollBar>
 
 bool textDisplayer::event(QEvent* pEvent)
 {
@@ -65,16 +65,20 @@ QSwipeGesture::SwipeDirection GetHorizontalDirection(QSwipeGesture *pSwipeGestur
 
 bool textDisplayer::OnSwipeGesture(QSwipeGesture* pSwipe)
 {
+    int pos = this->verticalScrollBar()->value();
+    //qDebug() << "swipe remmebering pos: " << pos;
+    vPos = pos;
+
     if (pSwipe->state() == Qt::GestureFinished) {
-       qDebug("Swipe angle: %f", pSwipe->swipeAngle());
+       //qDebug("Swipe angle: %f", pSwipe->swipeAngle());
        switch (GetHorizontalDirection(pSwipe)) {
           case QSwipeGesture::Left:
-             qDebug("Swipe Left detected");
+             //qDebug("Swipe Left detected");
              leftSwipe();
              break;
 
           case QSwipeGesture::Right:
-             qDebug("Swipe Right detected");
+             //qDebug("Swipe Right detected");
              rightSwipe();
              break;
 
@@ -92,6 +96,12 @@ bool textDisplayer::OnSwipeGesture(QSwipeGesture* pSwipe)
 
 textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
 {
+    //remove arrows from scrollBars
+    QString noArrows = "QScrollBar { margin: 0px ; width: 5px;}";
+         noArrows +=    "QScrollBar::add-line, QScrollBar::sub-line{border: 0px;  height: 0px; }";
+         noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
+    this->setStyleSheet(noArrows);
+
     grabGesture(Qt::SwipeGesture);
     // Create a SWIPE recognizer because the default SWIPE recognizer
     // does not really work on Symbian device.
@@ -110,13 +120,6 @@ textDisplayer::textDisplayer(QWidget *p, BookList *bl) : QTextBrowser(p)
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(this, SIGNAL(anchorClicked(QUrl)), SLOT(processAnchor(QUrl)));
-
-    //remove arrows from scrollBars
-    /*QString noArrows = "QScrollBar { margin: 0px ; width: 5px;}";
-         noArrows +=    "QScrollBar::add-line, QScrollBar::sub-line{border: 0px;  height: 0px; }";
-         noArrows +=   "*::right-arrow{image: none; } *::left-arrow{image: none;} *::up-arrow{image: none;} *::down-arrow{image: none;}";
-    this->setStyleSheet(noArrows);*/
-    //IZAR TODO: find a way
 
 }
 
@@ -208,6 +211,7 @@ void textDisplayer::display(Book * book)
 // (Loads the chapter, and the tries to jump to the exact itr position)
 void textDisplayer::display(Book * book, BookIter itr)
 {
+
     //Show index
     if (itr == BookIter()) display(book);
 
@@ -227,6 +231,9 @@ void textDisplayer::display(Book * book, BookIter itr)
     }
 
     scrollToAnchor(itr.toEncodedString());
+
+
+
 }
 
 //Jump to index
@@ -351,3 +358,15 @@ bool textDisplayer::isLastSearch()
 
     return false;
 }
+
+
+void textDisplayer::mouseReleaseEvent(QMouseEvent* qv)
+{
+    int pos = this->verticalScrollBar()->value();
+//    qDebug() << "remmebering pos: " << pos;
+    vPos = pos;
+    QTextBrowser::mouseReleaseEvent(qv);
+}
+
+int textDisplayer::getVpos()
+{ return vPos; }
