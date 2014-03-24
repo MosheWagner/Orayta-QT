@@ -30,6 +30,15 @@
 */
 
 
+// testing qml !!@@%%
+//#include <QtDeclarative/QDeclarativeView>
+//#include <QVBoxLayout>
+//#include <QtGui/QGuiApplication>
+//#include <QQuickView>
+
+
+
+
 
 
 
@@ -375,39 +384,33 @@ void MobileApp::adjustToScreenSize()
 void MobileApp::adjustFontSize()
 {
     QDesktopWidget* desktop = QApplication::desktop();
-    QSize size = desktop->availableGeometry().size();
-
     int dpix = desktop->physicalDpiX();
     int dpiy = desktop->physicalDpiY();
     int dpi = (dpix+dpiy)/2;
 
     //IZAR: this is a guess that must be tested deeper.
-    int fontSize = gFontSize/2;
+    int fontSize = gFontSize;
     if (dpi >= 150) {
-        fontSize = gFontSize/2;
+        fontSize = gFontSize/1.2;
     }
     if (dpi >= 200) {
-        fontSize = gFontSize/2;
+        fontSize = gFontSize/1.4;
     }
     if (dpi >= 250) {
-        fontSize = gFontSize/3;
+        fontSize = gFontSize/2;
     }
     if (dpi >= 300) {
-        fontSize = gFontSize/4;
+        fontSize = gFontSize/2.5;
     }
 
-
-    //IZAR TODO: find a better way to cange font size. this way breaks much of our styling.
-    // font for menus should be about 50% of font for book-display.
-
-    QString styleSheet("font-size: " +QString::number(fontSize) +"pt;");
+    int smallFont = fontSize*0.8;
 
 
-//    ui->stackedWidget->setStyleSheet(styleSheet);
+    QString styleSheet("*{font-size: " +QString::number(fontSize) +"pt;}");
+    styleSheet += "QLabel#intro_label{font: " + QString::number(smallFont) + "pt normal;}";
 
     // Enable/Disable night mode:
     // How I love dirty hacks... :-)
-    // IZAR says: i love your hacks even more. then i need to find out what you did to make thing go wrong.
 
     QString nStyleSheet("");
     if (nightMode) nStyleSheet = "color: #7faf70; background-color:black;";
@@ -416,13 +419,6 @@ void MobileApp::adjustFontSize()
 
      ui->stackedWidget->setStyleSheet(nStyleSheet);
 
-
-//    displayer->setStyleSheet(styleSheet);
-//    ui->treeWidget->setStyleSheet(styleSheet);
-//    ui->historyBookmarkList->setStyleSheet(styleSheet);
-//    ui->staticBookMarkList->setStyleSheet(styleSheet);
-//    ui->dailyLearningList->setStyleSheet(styleSheet);
-//    ui->downloadListWidget->setStyleSheet(styleSheet);
 }
 
 //Yuchy hack. but I culdn't get it to work otherwise...
@@ -603,6 +599,41 @@ void MobileApp::showBook(Book *book, BookIter itr)
     // display mixed selection button only if the book has commentaries
     ui->mixedSelectBTN->setEnabled(book->IsMixed());
 
+    // qml test !!!@@@###%%%
+
+
+
+//    QQuickView *viewer = new QQuickView();
+//    if (viewer) {
+//    viewer->setSource(QUrl("qrc:/testqml.qml"));
+//   this->createWindowContainer(viewer);
+//        viewer->show();
+//    QWidget *container = QWidget::createWindowContainer(viewer, this);
+//        container->setMinimumSize(200, 200);
+//        container->setMaximumSize(200, 200);
+//        container->setFocusPolicy(Qt::TabFocus);
+    //QWidget * empty = new QWidget;
+//        QLayout* ly = ui->displayArea->layout();
+//        ly->removeWidget(displayer);
+//        ly->addWidget(container);
+//    this->layout()->addWidget(viewer);
+//    }
+
+
+// testing qml !!@@%%
+//    QDeclarativeView *qmlView = new QDeclarativeView;
+//     qmlView->setSource(QUrl::fromLocalFile("./testqml.qml"));
+//    qmlView->setSource(QUrl("qrc:/testqml.qml"));
+
+//     QWidget *widget = myExistingWidget();
+  //QVBoxLayout *layout = new QVBoxLayout(this);
+
+          //   layout->addWidget(qmlView);
+//     this->layout()->addWidget(qmlView);
+
+
+    //IZAR TODO: find a way
+
     switch ( book->fileType() )
     {
         case ( Book::Normal ):
@@ -781,7 +812,7 @@ void MobileApp::saveSettings(){
     if (displayer->getCurrentBook()) settings.setValue("lastBook", displayer->getCurrentBook()->getUniqueId());
 
     settings.setValue("position", displayer->getCurrentIter().toEncodedString());
-    settings.setValue("viewposition", displayer->verticalScrollBar()->value());
+    settings.setValue("viewposition", displayer->getVpos());
     settings.endGroup();
 
     /*
@@ -803,7 +834,7 @@ void MobileApp::saveSettings(){
     }
     */
 
-    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->verticalScrollBar()->value());
+    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->getVpos());
         ui->staticBookMarkList->saveSettings();
         ui->historyBookmarkList->saveSettings();
 
@@ -1019,7 +1050,7 @@ void MobileApp::viewChanged(int index)
             BookIter itr = displayer->getCurrentIter();
             if (b)
             {
-                int viewPosition = displayer->verticalScrollBar()->value();
+                int viewPosition = displayer->getVpos();
                 addBookMark(b, itr, viewPosition);
             }
         }
@@ -1080,7 +1111,7 @@ void MobileApp::goBack()
                 //save bookmark at previous location
                 if(displayer->getCurrentBook())
                 {
-                    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->verticalScrollBar()->value());
+                    addBookMark(displayer->getCurrentBook(), displayer->getCurrentIter(), displayer->getVpos());
                 }
 
                 displayer->goToIndex();

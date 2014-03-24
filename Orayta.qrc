@@ -66,5 +66,6 @@
         <file>OraytaBase/DailyLimud.csv</file>
         <file>Icons/dl-book.png</file>
         <file>Icons/search-icon.png</file>
+        <file>testqml.qml</file>
     </qresource>
 </RCC>

@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest android:versionCode="78" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.78" package="org.Orayta">
-    <application android:label="@string/app_name" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:icon="@drawable/icon">
-        <activity android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize" android:label="@string/app_name" android:launchMode="singleInstance" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="unspecified">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.Orayta" android:versionName="0.79" android:versionCode="79">
+    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="@string/app_name" android:icon="@drawable/icon">
+        <activity android:launchMode="singleInstance" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="@string/app_name" android:screenOrientation="unspecified" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <meta-data android:value="orayta" android:name="android.app.lib_name"/>
-            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:resource="@array/qt_sources" android:name="android.app.qt_sources_resource_id"/>
             <meta-data android:value="default" android:name="android.app.repository"/>
-            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
-            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+            <meta-data android:resource="@array/qt_libs" android:name="android.app.qt_libs_resource_id"/>
+            <meta-data android:resource="@array/bundled_libs" android:name="android.app.bundled_libs_resource_id"/>
             <!-- Deploy Qt libs as part of package -->
             <meta-data android:value="1" android:name="android.app.bundle_local_qt_libs"/>
-            <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>
-            <meta-data android:name="android.app.bundled_in_assets_resource_id" android:resource="@array/bundled_in_assets"/>
+            <meta-data android:resource="@array/bundled_in_lib" android:name="android.app.bundled_in_lib_resource_id"/>
+            <meta-data android:resource="@array/bundled_in_assets" android:name="android.app.bundled_in_assets_resource_id"/>
             <!-- Run with local libs -->
             <meta-data android:value="1" android:name="android.app.use_local_qt_libs"/>
             <meta-data android:value="/data/local/tmp/qt/" android:name="android.app.libs_prefix"/>
@@ -25,12 +25,12 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <!--  Messages maps -->
             <!-- Splash screen -->
-            <meta-data android:name="android.app.splash_screen" android:resource="@layout/splash"/>
+            <meta-data android:resource="@layout/splash" android:name="android.app.splash_screen"/>
             <!-- Splash screen -->
         </activity>
     </application>
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="10"/>
-    <supports-screens android:smallScreens="true" android:anyDensity="true" android:largeScreens="true" android:normalScreens="true"/>
+    <supports-screens android:smallScreens="true" android:anyDensity="true" android:normalScreens="true" android:largeScreens="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
