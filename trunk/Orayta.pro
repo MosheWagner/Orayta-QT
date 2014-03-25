@@ -290,5 +290,3 @@ linux: INSTALLS += menu desktop
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-orayta
 
-OTHER_FILES += \
-    testqml.qml

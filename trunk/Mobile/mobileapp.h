@@ -249,6 +249,8 @@ private slots:
 
     void on_settingsBTN_clicked();
 
+    void on_interfaceSizeSpinBox_valueChanged(int size);
+
 private:
     Ui::MobileApp *ui;  
 
@@ -338,6 +340,8 @@ private:
 
     //A timer to make sure we don't get double events. It's a small hack to prevent an android/emulator bug.
     QElapsedTimer timer;
+
+#define MIN_INTERFACE_SIZE 7
 
 
 };

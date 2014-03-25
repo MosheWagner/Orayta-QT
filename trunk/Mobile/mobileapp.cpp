@@ -383,31 +383,39 @@ void MobileApp::adjustToScreenSize()
 //set global font size to ui.
 void MobileApp::adjustFontSize()
 {
-    QDesktopWidget* desktop = QApplication::desktop();
-    int dpix = desktop->physicalDpiX();
-    int dpiy = desktop->physicalDpiY();
-    int dpi = (dpix+dpiy)/2;
+    int fontSize = ui->interfaceSizeSpinBox->value();
 
-    //IZAR: this is a guess that must be tested deeper.
-    int fontSize = gFontSize;
-    if (dpi >= 150) {
-        fontSize = gFontSize/1.2;
-    }
-    if (dpi >= 200) {
-        fontSize = gFontSize/1.4;
-    }
-    if (dpi >= 250) {
-        fontSize = gFontSize/2;
-    }
-    if (dpi >= 300) {
-        fontSize = gFontSize/2.5;
+
+        //font size not set manually. calc automatically:
+        QDesktopWidget* desktop = QApplication::desktop();
+        int dpix = desktop->physicalDpiX();
+        int dpiy = desktop->physicalDpiY();
+        int dpi = (dpix+dpiy)/2;
+
+      if (fontSize < MIN_INTERFACE_SIZE) // font size is 0 (auto) or too small
+      {
+        //IZAR: this is a guess that must be tested deeper.
+        fontSize = gFontSize /1.4;
+        if (dpi >= 150) {
+            fontSize = gFontSize/1.8;
+        }
+        if (dpi >= 200) {
+            fontSize = gFontSize/2;
+        }
+        if (dpi >= 250) {
+            fontSize = gFontSize/2.4;
+        }
+        if (dpi >= 300) {
+            fontSize = gFontSize/2.8;
+        }
+
     }
 
     int smallFont = fontSize*0.8;
 
 
     QString styleSheet("*{font-size: " +QString::number(fontSize) +"pt;}");
-    styleSheet += "QLabel#intro_label{font: " + QString::number(smallFont) + "pt normal;}";
+    styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;}";
 
     // Enable/Disable night mode:
     // How I love dirty hacks... :-)
@@ -1184,6 +1192,8 @@ void MobileApp::on_saveConf_clicked()
 
     settings.setValue("nightMode", nightMode);
 
+    settings.setValue("inetrfaceSize", ui->interfaceSizeSpinBox->value());
+
     /* disabled
     //Change language if needed
     settings.setValue("systemLang",ui->systemLangCbox->isChecked());
@@ -1259,6 +1269,18 @@ void MobileApp::on_fonSizeSpinBox_valueChanged(int size)
 
     //Show the new font in the preview box
     ui->fontPreview->setFont(QFont(ui->fontComboBox->currentFont().family(), size));
+}
+
+void MobileApp::on_interfaceSizeSpinBox_valueChanged(int size)
+{
+    //Settings have changed, so the save button should be enabled
+    ui->saveConf->setEnabled(true);
+
+    if(size>0 && size< MIN_INTERFACE_SIZE)
+        ui->interfaceSizeSpinBox->setValue(MIN_INTERFACE_SIZE);
+
+    //preffered but might cause trouble
+    //adjustFontSize();
 }
 
 void MobileApp::on_horizontalSlider_valueChanged(int value)
@@ -1420,6 +1442,9 @@ void MobileApp::setupSettings(){
 
         //default set to 0. if it is so, adjustToScreenSize() will guess a better value depending on target screen dpi.
         gFontSize = settings.value("fontsize",0).toInt();
+
+        int interfaceSize = settings.value("inetrfaceSize", 0).toInt();
+        ui->interfaceSizeSpinBox->setValue(interfaceSize);
     settings.endGroup();
 
     resetSettingsPage();
@@ -1849,3 +1874,5 @@ void MobileApp::on_settingsBTN_clicked()
 {
     ui->stackedWidget->setCurrentIndex(SETTINGS_PAGE);
 }
+
+
