@@ -195,7 +195,7 @@ public class QtActivity extends Activity
     }
 
     public void doServiceConnect(){
-            Intent remote = new Intent("org.Orayta.kukayta.DeCrypter");
+            Intent remote = new Intent("org.Orayta.kukayta.paid.DeCrypter");
             boolean res;
             res = bindService(remote, mConnection, BIND_AUTO_CREATE);
             Log.d("IZAR","client trying to connect to server. result: "+res);

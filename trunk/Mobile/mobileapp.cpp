@@ -366,6 +366,7 @@ void MobileApp::adjustToScreenSize()
         if (dpi >= 200) fontSize = 28;
         if (dpi >= 250) fontSize = 36;
         if (dpi >= 300) fontSize = 48;
+        if (dpi >= 400) fontSize = 58;
 
         gFontSize = fontSize;
 
@@ -380,52 +381,50 @@ void MobileApp::adjustToScreenSize()
 
 }
 
+int MobileApp::getAutoFontSize()
+{
+    QDesktopWidget* desktop = QApplication::desktop();
+    int dpix = desktop->physicalDpiX();
+    int dpiy = desktop->physicalDpiY();
+    int dpi = (dpix+dpiy)/2;
+
+    //IZAR: this is a guess that must be tested deeper.
+    int fontSize = gFontSize /1.4;
+    if (dpi >= 150) {
+        fontSize = gFontSize/1.8;
+    }
+    if (dpi >= 200) {
+        fontSize = gFontSize/2;
+    }
+    if (dpi >= 250) {
+        fontSize = gFontSize/2.4;
+    }
+    if (dpi >= 300) {
+        fontSize = gFontSize/2.8;
+    }
+
+    return fontSize;
+}
+
 //set global font size to ui.
 void MobileApp::adjustFontSize()
 {
     int fontSize = ui->interfaceSizeSpinBox->value();
 
-
-        //font size not set manually. calc automatically:
-        QDesktopWidget* desktop = QApplication::desktop();
-        int dpix = desktop->physicalDpiX();
-        int dpiy = desktop->physicalDpiY();
-        int dpi = (dpix+dpiy)/2;
-
-      if (fontSize < MIN_INTERFACE_SIZE) // font size is 0 (auto) or too small
-      {
-        //IZAR: this is a guess that must be tested deeper.
-        fontSize = gFontSize /1.4;
-        if (dpi >= 150) {
-            fontSize = gFontSize/1.8;
-        }
-        if (dpi >= 200) {
-            fontSize = gFontSize/2;
-        }
-        if (dpi >= 250) {
-            fontSize = gFontSize/2.4;
-        }
-        if (dpi >= 300) {
-            fontSize = gFontSize/2.8;
-        }
-
-    }
+   if (fontSize < MIN_INTERFACE_SIZE) // font size is 0 (auto) or too small
+        fontSize = getAutoFontSize();
 
     int smallFont = fontSize*0.8;
 
-
-    QString styleSheet("*{font-size: " +QString::number(fontSize) +"pt;}");
-    styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;}";
-
     // Enable/Disable night mode:
-    // How I love dirty hacks... :-)
-
     QString nStyleSheet("");
     if (nightMode) nStyleSheet = "color: #7faf70; background-color:black;";
-//    else nStyleSheet = "color: black; background-color:none;";
-    nStyleSheet+= styleSheet;
 
-     ui->stackedWidget->setStyleSheet(nStyleSheet);
+    QString styleSheet("*{font-size: " +QString::number(fontSize) +"pt;" + nStyleSheet +"}");
+    styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;}";
+
+     ui->stackedWidget->setStyleSheet(styleSheet);
+//     qDebug() <<" styleSheet: " << styleSheet;
 
 }
 
@@ -1134,14 +1133,14 @@ void MobileApp::goBack()
             // if we are at a excluded page, this means that it isn't in wiewHistory, in which case we should go to the last item in the list
             if (id == currentId)
             {
-                viewHistory->removeLast();
+                if (viewHistory->size() > 0) viewHistory->removeLast();
 
                 // no where to go back to.
                 if (viewHistory->size() <= 0) { qDebug()<< "Nowhere to go. exiting."; close(); return;}
 
                 id = viewHistory->at(viewHistory->size()-1);
             }
-            viewHistory->removeLast();
+            if (viewHistory->size() > 0) viewHistory->removeLast();
             ui->stackedWidget->setCurrentIndex(id);
 
             return;
@@ -1277,7 +1276,7 @@ void MobileApp::on_interfaceSizeSpinBox_valueChanged(int size)
     ui->saveConf->setEnabled(true);
 
     if(size>0 && size< MIN_INTERFACE_SIZE)
-        ui->interfaceSizeSpinBox->setValue(MIN_INTERFACE_SIZE);
+        ui->interfaceSizeSpinBox->setValue(getAutoFontSize());
 
     //preffered but might cause trouble
     //adjustFontSize();
