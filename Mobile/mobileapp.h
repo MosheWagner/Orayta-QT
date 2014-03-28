@@ -78,6 +78,8 @@ protected:
     //set global font size to ui.
     void adjustFontSize();
 
+    int getAutoFontSize();
+
 private slots:
 
     void on_toIndexMenuBTN_clicked();

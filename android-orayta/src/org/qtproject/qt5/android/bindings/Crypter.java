@@ -95,7 +95,7 @@ public class Crypter {
 
 	public static void installKukatya(Activity me) {
 		try {
-			Uri uri = Uri.parse("market://details?id=org.Orayta.kukayta");
+			Uri uri = Uri.parse("market://details?id=org.Orayta.kukayta.paid");
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			me.startActivity(intent);
 		} catch (Exception e) {
@@ -349,7 +349,7 @@ public class Crypter {
                         QtActivity me = org.qtproject.qt5.android.bindings.QtActivity/**/.getActivity();
 			if (!(me.getZfn()==null || me.getZfn().equals("")))
 				return 2;
-			Intent remote = new Intent("org.Orayta.kukayta.DeCrypter"); 
+			Intent remote = new Intent("org.Orayta.kukayta.paid.DeCrypter"); 
 			List<ResolveInfo> list = me.getPackageManager().queryIntentServices(remote, 0);
 			boolean isIntentSafe = list.size() > 0;
 			if (!isIntentSafe) 
