@@ -357,16 +357,16 @@ void MobileApp::adjustToScreenSize()
         int dpiy = desktop->physicalDpiY();
         int dpi = (dpix+dpiy)/2;
 
-//        qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
+        qDebug() << "x: " << dpix << " y: " << dpiy << " avrage: " << dpi;
 
 
         //IZAR: this is a guess that must be tested deeper.
-        int fontSize = 16;
-        if (dpi >= 150) fontSize = 24;
-        if (dpi >= 200) fontSize = 28;
-        if (dpi >= 250) fontSize = 36;
-        if (dpi >= 300) fontSize = 48;
-        if (dpi >= 400) fontSize = 58;
+        int fontSize = 28;
+        if (dpi >= 150) fontSize = 38;
+        if (dpi >= 200) fontSize = 48;
+        if (dpi >= 250) fontSize = 58;
+        if (dpi >= 300) fontSize = 68;
+        if (dpi >= 400) fontSize = 68;
 
         gFontSize = fontSize;
 
@@ -397,10 +397,10 @@ int MobileApp::getAutoFontSize()
         fontSize = gFontSize/2;
     }
     if (dpi >= 250) {
-        fontSize = gFontSize/2.4;
+        fontSize = gFontSize/2;
     }
     if (dpi >= 300) {
-        fontSize = gFontSize/2.8;
+        fontSize = gFontSize/2;
     }
 
     return fontSize;
