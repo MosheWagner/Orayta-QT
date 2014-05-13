@@ -63,6 +63,10 @@ void initPaths()
 #elif defined Q_OS_LINUX
     defPath = "/usr/share/Orayta/Books/";
     MAINPATH = "/usr/share/Orayta/";
+    #ifdef MOBILE_TEST
+        defPath = "Orayta_test_dir/";
+        //MAINPATH = defPath;
+    #endif
 #elif defined Q_OS_WIN
     defPath = QDir::rootPath() + "\\program files\\orayta\\books\\"; //TODO: ask yoch to correct this.
     MAINPATH = QDir::rootPath() + "\\program files\\orayta\\";
