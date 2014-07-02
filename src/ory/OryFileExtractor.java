@@ -204,6 +204,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 	}
 
 	/* 
+	 * visiting an "anchor element" (href).
 	 * this will get the link itself only if 'printXlink' has been enabled.
 	 */
 	public void visit(TextAElement ele) {
@@ -247,6 +248,9 @@ public class OryFileExtractor extends OdfTextExtractor {
 		}
 	}
 	
+	/**
+	 * visiting a paragraph elemet. extract text as needed.
+	 */
 	@Override
 	public void visit(TextPElement ele) {
 		pFont = ele.getProperty(OdfTextProperties.FontNameComplex);
@@ -260,6 +264,9 @@ public class OryFileExtractor extends OdfTextExtractor {
 		pSize = null;
 	}
 	
+	/**
+	 * visiting a Heading element. convert it to a orayta style heading. 
+	 */
 	@Override
 	public void visit(TextHElement ele) {
 		mTextBuilder.append(NewLineChar);
@@ -549,7 +556,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		String mSize = size.equals("")? pSize: size;
 		
 		// treat the following as normal (rod):
-		if (mFont.equals("Times New Roman")||mFont.equals("Rod1"))
+		if (mFont.equals("Times New Roman")||mFont.equals("Rod1")||mFont.equals("Rod2"))
 			mFont= "Rod";
 		else if (mFont.equals("Courier")||mFont.equals("Courier New1"))
 			mFont = "courier new";
@@ -578,7 +585,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 		// normal style
 		if ((mFont.equalsIgnoreCase("courier new") || mFont.equals("Rod")) && (iSize >=12 || iSize == 0)){
 			// new daf
-			if (line.matches("\\(.*,[אב]+\\)\\s*")){
+			if (line.matches("\\(.*,[אב]+\\s*\\)\\s*")){
 				Pattern p = Pattern.compile("\\((.+) (\\S+,\\S)\\s*\\)\\s*");
 				Matcher m = p.matcher(line);
 				if (m.matches()){
@@ -589,7 +596,7 @@ public class OryFileExtractor extends OdfTextExtractor {
 				}
 			//new chapter
 			} else if (align.equals("center") && line.contains("פרק")){
-				Pattern p = Pattern.compile(".*(פרק.*)$");
+				Pattern p = Pattern.compile(".*(פרק .*)$");
 				Matcher m = p.matcher(line);
 				if (m.matches()){
 //					Main.ui.dbgLog("perek: " + m.group(1));
@@ -652,6 +659,12 @@ public class OryFileExtractor extends OdfTextExtractor {
 				
 	}
 	
+	/**
+	 * add css class to this string
+	 * @param ele element to modify it's text
+	 * @param class_ css class to add
+	 * @param line original text
+	 */
 	private void appendClass(OdfStylableElement ele, String class_, String line) {
 		ele.setTextContent("<span class=\""+ class_ + "\">"+line+"</span>");	
 	}
