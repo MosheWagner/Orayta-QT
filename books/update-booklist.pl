@@ -69,7 +69,7 @@ sub wanted_ {
 # try to update OraytaBookList
 eval {
       my @holder; #holds the contents of the output file
-      open(BOOKLIST_FILE, "<:encoding(utf8)", "./OraytaBookList") or die "Can't find OraytaBookList\n";
+      open(BOOKLIST_FILE, "<:encoding(utf8)", "./OraytaBookList1") or die "Can't find OraytaBookList\n";
   while (<BOOKLIST_FILE>){
       if ($_ =~ /^(\.[^,]+),/){
 	      my $currentFilename = $1;
@@ -85,7 +85,7 @@ eval {
   
   close(BOOKLIST_FILE);
   
-      open(BOOKLIST_FILE, ">:encoding(utf8)", "./OraytaBookList") or die "Can't write to OraytaBookList\n";
+      open(BOOKLIST_FILE, ">:encoding(utf8)", "./OraytaBookList1") or die "Can't write to OraytaBookList\n";
   
   foreach (@holder) {print BOOKLIST_FILE $_};
       
