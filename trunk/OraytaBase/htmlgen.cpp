@@ -75,8 +75,15 @@ QString html_head(QString title, QFont font)
     return t;
 }
 
+// userCss cache
+QString userCss = NULL;
+
 QString CSS(QString fontFamily, int basesize)
 {
+    QString userCssFile = BOOKPATH + "../css/user.css";
+    if(NULL == userCss)
+        userCss = readfile(userCssFile, "UTF-8");
+
     QString css = "<style type=\"text/css\">\n"
             "   body { dir=\"RTL\"; text-align:justify; font-family:'" + fontFamily + "'; font-size:" + QString::number(basesize) + "px; }\n"
             //"   A { text-decoration: none; }\n"
@@ -119,7 +126,13 @@ QString CSS(QString fontFamily, int basesize)
             //"   div.Content A { font-family: '" + fontFamily + "'; color:indigo; }\n"
             //"   div.Content A:hover { color:red; }\n"
             "   div.Index A { font-family: '" + fontFamily + "'; color:indigo; }\n"
-//            "   div.Index A:hover { color:red; }\n"
+           // "   div.Index A:hover { color:red; }\n"
+            
+            
+
+            //adding user defined styles here:
+            "" + userCss + "\n"
+
             "</style>\n";
 
     return css;
@@ -223,7 +236,10 @@ QString index_to_index(QList <IndexItem> indexitemlist,int level)
 
 QString Script()
 {
+#ifdef MOBILE
+    return "";
 
+#else
     QString str = "<script type=\"text/javascript\">\n";
 
     //Script showing active part and putting it's link in the status bar
@@ -387,6 +403,7 @@ QString Script()
     str += "</script>\n";
 
     return str;
+#endif //not mobile
 }
 
 //External links:
@@ -891,7 +908,12 @@ QUrl Book::renderBookIndex()
     QString html = "";
     html += html_head(mNormallDisplayName, getFont());
 
-    html += "<body>";
+    html += "<body";
+
+    if(nightMode)
+        html += " class=\"nightMode\"";
+
+    html += ">";
 
     html += html_book_title(mNormallDisplayName, mCopyrightInfo, "");
 
@@ -1006,7 +1028,12 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
     QString html = "";
     html += html_head(mNormallDisplayName, getFont());
 
-    html += "<body>";
+    html += "<body";
+
+    if(nightMode)
+        html += " class=\"nightMode\"";
+
+    html += ">";
 
     //Should this be here?
     //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");

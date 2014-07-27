@@ -52,6 +52,9 @@ extern QString TMPPATH;
 extern QString HEBREWBOOKSPATH;
 extern QString USERPATH;
 
+//Lets us know if nightmode is enabled or disabled
+extern bool nightMode;
+
 
 //Small functions used by a few files:
 
