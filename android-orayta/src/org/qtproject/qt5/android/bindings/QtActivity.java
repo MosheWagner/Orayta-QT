@@ -119,6 +119,9 @@ public class QtActivity extends Activity
     private static QtActivity m_activity;
     private static String zofen = "";
 
+    //Added for Orayta sdcard location hack
+    private static String sdcard_location = "";
+
 
     public final static int DECRYPT_REQUEST_CODE = 42738492;
 //	private final static String ZF_NAME = "zf_name";
@@ -814,6 +817,9 @@ public class QtActivity extends Activity
      * copys all the resources i need to where they need to go.
      */
     private void autoCopyMyResources() {
+
+        //look for user defined file location
+        //TODO...
 
     	if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
     		Log.d("IZAR", "sdcard unavilable!");

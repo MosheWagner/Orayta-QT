@@ -34,6 +34,9 @@ QString TMPPATH;
 QString HEBREWBOOKSPATH;
 QString USERPATH;
 
+//Lets us know if nightmode is enabled or disabled
+bool nightMode = false;
+
 //Global translator object
 QTranslator *translator;
 

@@ -258,6 +258,10 @@ icon.files = Icons/Orayta.png
 #Install wait image
 icon.files += Images/Wait.gif
 
+#Install user css sample
+css.path = $${INSTALL_PATH}
+css.files = css/.
+
 linux {
     # Desktop shortcut
     desktop.path = $${XDG_APPS_INSTALL_DIR}
@@ -285,6 +289,8 @@ INSTALLS += trans
 #fonts are now in the qrc file, no need for them in assets.
 INSTALLS += fonts
 INSTALLS += licence
+
+INSTALLS += css
 
 linux: INSTALLS += menu desktop
 

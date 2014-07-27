@@ -260,7 +260,7 @@ private:
 
     QString booktitle;
 
-    bool nightMode;
+   // bool nightMode; //now defined globally
 
     QMenu * menu;
     QAction * action;
