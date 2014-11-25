@@ -12,6 +12,22 @@
 
 <wiki:toc max_depth="2" />
 
+== התוכנה קורסת אחרי עדכון ==
+
+נסו להסיר את ההתקנה, ולמחוק את כל הספרים
+(למחוק את התיקיה Orayta שנמצאת בזיכרון הפנימי או בכרטיס זיכרון)
+ולאחר מכן להתקין הכל מחדש.
+
+לרוב זה פותר את הבעיה.
+
+== App crashes after update ==
+
+Please try to uninstall the app, then delete all books
+(delete the folder "Orayta" from SD card or internal memory)
+then install everything back.
+
+This usually fixes the issue.
+
 == האם יש גרסא של אורייתא לאייפון? ==
 
 כן ולא. 'אורייתא' עצמה לא רצה על מערכת ההפעלה של האייפון, אך תוכנה דומה מאוד, בשם [https://itunes.apple.com/us/app/onyourway-wblktk-bdrk-m-gr/id449507485?mt=8 בלכתך בדרך] פועלת שם נהדר. נסו אותה ולא תתאכזבו.
