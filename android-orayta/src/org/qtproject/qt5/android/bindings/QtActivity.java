@@ -866,9 +866,10 @@ public class QtActivity extends Activity
 
 				@Override
 				protected Void doInBackground(Void... arg0) {
-					// copy qt libs and other stuff to app directory
-		    		String filesDir = getFilesDir().toString();
-		    		copyer.copyAssetsGroup(filesDir, "qt");
+                                // copy qt libs and other stuff to app directory
+                                // this is not in use any more
+                                //String filesDir = getFilesDir().toString();
+                                //copyer.copyAssetsGroup(filesDir, "qt");
 
 		    		// copy books etc.
 		    		copyer.copyAssetsGroup(Environment.getExternalStorageDirectory().toString(), "Orayta");
