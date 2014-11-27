@@ -22,7 +22,6 @@
 
     <array name="bundled_in_lib">
         <item>libplugins_platforms_android_libqtforandroid.so:plugins/platforms/android/libqtforandroid.so</item>
-<item>libplugins_platforms_android_libqtforandroidGL.so:plugins/platforms/android/libqtforandroidGL.so</item>
 <item>libplugins_platforms_libqeglfs.so:plugins/platforms/libqeglfs.so</item>
 <item>libplugins_platforms_libqminimal.so:plugins/platforms/libqminimal.so</item>
 <item>libplugins_platforms_libqminimalegl.so:plugins/platforms/libqminimalegl.so</item>
