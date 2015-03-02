@@ -16,6 +16,10 @@ public class ChapterList
 	{
 		chapTree = chapterTree;
 		
+		buildMap();
+	}
+
+	private void buildMap() {
 		//Put all in the hashmap:
 		TreeNodeIter<IChapter> iter = (TreeNodeIter<IChapter>) chapTree.iterator();
 		

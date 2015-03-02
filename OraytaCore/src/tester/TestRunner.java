@@ -2,17 +2,12 @@ package tester;
 
 import java.io.IOException;
 
-import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
 
-import book.ChapterList;
-import book.DChapter;
-import book.ChapterID;
-import book.IChapter;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import settings.GeneralSettings;
-import tree.TreeNode;
-import tree.TreeNodeIter;
-import xml.ClassIO;
+import xml.DOMBuilder;
 
 /*
  * This class initiates code tests, as needed while developing.
