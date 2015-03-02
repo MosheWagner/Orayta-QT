@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name[en_US]=Orayta
+Name=Orayta
+Exec=/usr/bin/orayta
+Categories=Education
+Comment=
+GenericName[en_US]=
+GenericName=
+Icon=/usr/share/Orayta/Orayta.png
+MimeType=
+Path=
+
+

@@ -1,0 +1,38 @@
+Orayta is a open-source, cross platform port to the "תורת אמת" project.
+( http://www.toratemetfreeware.com/ ) - http://orayta.googlecode.com/
+
+---
+
+The project intends to allow free and simple access to Jewish sources, from the Bible, Mishna and Talmud, to books written in the last years.
+
+This port was written by Moshe Wagner (moshe.wagner@gmail.com), and is licensed under GPLv2.
+The books are the basically the same ones used in the original project - And are licensed (mainly) under the CC license.
+
+See the attached "License.txt" for detailed license specifications.
+
+Bug reports, ideas, and comments are greatly welcome at - moshe.wagner@gmail.com
+
+---
+
+# Installing from source:
+
+To compile and install under linux, run from project's root dir:
+$ qmake
+$ make
+And then as root:
+# make install
+
+This should compile the program, and install it system-wide.
+
+( Qt development libraries are required. The are usually under the packages 'qtbase5-dev' and 'libqt5webkit5-devel'.
+the folowing packages are also requiered: 'libfribidi-dev' and 'libpoppler-qt4-dev'.
+some packages are required for any installation of a c++ source program, and they are probbably alredy installed on your system. these are:
+'make' and 'g++' ).
+
+If the books were downaloaded seperatly, you should run (as root) in their folder:
+# make install
+
+Or unpack them into this folder before installing the program.
+
+
+

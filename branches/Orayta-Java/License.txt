@@ -1,0 +1,38 @@
+*   ---------------------             IMPORTANT NOTICE:   -----------------------
+*   Orayta includes various source-code files, images, books, icons and fonts -
+*   Under many different licenses.
+*   Make sure you read the appropriate license for each component before redistributing it. 
+*   -----------------------------------------------------------------------------
+
+*   Orayta itself is free software, written by Moshe Wagner < Moshe.wagner@gmail.com >,
+*   (And other great people. See the thanks file for details).
+*   you can redistribute it and/or modify it under the terms of the GNU General Public License
+*   as published by the Free Software Foundation, either version 2 of the License, or
+*   (at your option) any later version.
+
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+*   Orayta includes some source code from the Quazip project - see license in quazip/zip.h file.
+
+*   Many of the books, images and icons provided with Orayta 
+*   are licensed under the Creative Commons License v3,
+*   and were produced by the original Orayta project: http://www.oraytafreeware.com
+
+*   Many other books are distributed under the CC-by-SA license.
+*   See http://creativecommons.org/licenses/by-sa/2.0/ for details.
+
+*   The rest if the icons provided with Orayta are from the "Oxygen" or "Nuvola" icon packages,
+*   (A few with color changes done by me) -
+*   Licensed under the  LGPL license.
+*   See "www.oxygen-icons.org", and "http://www.icon-king.com/projects/nuvola/" for further details.
+
+*   The fonts distributed with Orayta are under the LGPL, MIT/X11, or Apache license. 
+*   See the license files in this directory for details.
+
