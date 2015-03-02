@@ -20,7 +20,7 @@ public abstract class Book
 	public abstract BookID getUID(); 
 	
 	//public abstract Boolean buildFromFile(File file);
-	public abstract Boolean buildFromRawText(String rawText);
+	//public abstract Boolean buildFromRawText(String rawText);
 	
 	public abstract ChapterList getChapterList();
 	//public abstract TreeNode<IChapter> getChapterTree();

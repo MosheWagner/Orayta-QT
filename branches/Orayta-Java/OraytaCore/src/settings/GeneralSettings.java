@@ -6,15 +6,8 @@ import javax.xml.bind.annotation.*;
 public class GeneralSettings 
 {
 	String BOOKLIST_PATH;
-	String foo="fhgfd";
-
-	public String getFoo() {
-		return foo;
-	}
-
-	public void setFoo(String foo) {
-		this.foo = foo;
-	}
+	String BOOK_LIST_DOWNLOAD_PATH;
+	String BOOKS_DOWNLOAD_PATH;
 
 	public String getBOOKLIST_PATH() {
 		return BOOKLIST_PATH;
