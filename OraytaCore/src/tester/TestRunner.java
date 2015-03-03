@@ -1,19 +1,13 @@
 package tester;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
+import tree.TreeIter;
 import tree.TreeNode;
-import xml.DOMBuilder;
 
 /*
  * This class initiates code tests, as needed while developing.
  *  DON'T USE THIS FOR PRODUCTION  
  */
+
 public class TestRunner 
 {
 	public static void main(String[] args)
@@ -29,17 +23,30 @@ public class TestRunner
 			
 			public void Run()
 			{
-				TreeNode <String> tree = new TreeNode <String>("Root");
-				tree.addChild("wombat");
-				TreeNode <String> sub = tree.addChild("wombat2");
-				sub.addChild("grandchildWombat");
-				TreeNode <String> sub2 = sub.addChild("grandchildWombat2");
-				sub.addChild("grandchildWombat3");
-				sub.addChild("grandchildWombat4");
-				sub2.addChild("greatgrandchildWombat1");
-				sub2.addChild("greatgrandchildWombat2");
-				
-				s = tree.toString();
+				//Tree test:
+                TreeNode <String> tree = new TreeNode <String>("A");
+                tree.addChild("AA").addChild("AAA");
+                TreeNode <String> sub = tree.addChild("AB");
+                sub.addChild("ABA");
+                sub.addChild("ABB");
+                TreeNode <String> sub2 = tree.addChild("AC");
+                TreeNode <String> sub3 = sub2.addChild("ACA").addChild("ACAA");
+                TreeNode <String> sub4 = sub2.addChild("ACB");
+                sub4.addChild("ACBA");
+                TreeNode <String> sub5 = sub4.addChild("ACBB");
+                
+                //tree.removeElement(sub3);
+                
+                s = tree.toString();
+                
+                //Walk back demo:
+                TreeIter<String> it = (TreeIter<String>) sub5.iterator();
+                s += "\n\n" + it.current().toString();
+                
+                while(it.hasPrevius())
+                {
+                	s += it.previous().data.toString() + "\n";
+                }
 			}
 
 			public String getResults() 

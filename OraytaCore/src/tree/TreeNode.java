@@ -32,7 +32,8 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
                 this.elementsIndex.add(this);
         }
 
-        public TreeNode<T> addChild(T child) {
+        public TreeNode<T> addChild(T child) 
+        {
                 TreeNode<T> childNode = new TreeNode<T>(child);
                 childNode.parent = this;
                 this.children.add(childNode);
@@ -57,6 +58,8 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
 		private void unRegisterChildFromSearch(TreeNode<T> node) 
 		{
 			elementsIndex.remove(node);
+            if (parent != null)
+                parent.unRegisterChildFromSearch(node);
 		}
 
         public TreeNode<T> findTreeNode(Comparable<T> cmp) {
@@ -69,15 +72,22 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
                 return null;
         }
 
-        public Iterator<TreeNode<T>> iterator() {
-                TreeNodeIter<T> iter = new TreeNodeIter<T>(this);
+        public ITreeIterator<TreeNode<T>> iterator() {
+                //TreeNodeIter<T> iter = new TreeNodeIter<T>(this);
+        		TreeIter<T> iter =  new TreeIter<T>(this);
                 return iter;
         }
 
-		public Collection<TreeNode<T>> getChildren() {
+		public List<TreeNode<T>> getChildren() {
 			return children;
 		}
 
+		public int getIndexInBranch()
+		{
+			if (parent == null) return -1;
+			return parent.children.indexOf(this);
+		}
+		
 		/*
 		 * Remove the given node from the tree. 
 		 *  Obviously, it must be a child (to some level) of this branch, and not the root!
@@ -102,20 +112,24 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
 			return null;
 		}
 		
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
 		public String toString() 
         {
 			String s = "";
-			TreeNodeIter<T> iter = (TreeNodeIter<T>) this.iterator();
+			ITreeIterator<T> iter = (ITreeIterator<T>) this.iterator();
+
+			//Include root element:
+			s += ((TreeNode<T>)iter.current()).dataToString() + "\n";
 			
 			while(iter.hasNext())
 			{
+				TreeNode<T> next = (TreeNode<T>) iter.next();
 				String tabs = "";
-				for (int i=0, n=iter.next().getLevel(); i<n; i++) tabs += "\t";
+				for (int i=0, n=next.getLevel(); i<n; i++) tabs += "\t";
 				
-				s += tabs + iter.next().dataToString() + "\n";
+				s += tabs + next.dataToString() + "\n";
 			}
-			
 			
         	return s;
 		}
@@ -123,5 +137,4 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
         public String dataToString() {
                 return data != null ? data.toString() : "[data null]";
         }
-
 }
