@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import tree.TreeNode;
 import xml.DOMBuilder;
 
 /*
@@ -28,7 +29,17 @@ public class TestRunner
 			
 			public void Run()
 			{
-
+				TreeNode <String> tree = new TreeNode <String>("Root");
+				tree.addChild("wombat");
+				TreeNode <String> sub = tree.addChild("wombat2");
+				sub.addChild("grandchildWombat");
+				TreeNode <String> sub2 = sub.addChild("grandchildWombat2");
+				sub.addChild("grandchildWombat3");
+				sub.addChild("grandchildWombat4");
+				sub2.addChild("greatgrandchildWombat1");
+				sub2.addChild("greatgrandchildWombat2");
+				
+				s = tree.toString();
 			}
 
 			public String getResults() 
