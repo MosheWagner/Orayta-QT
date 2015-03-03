@@ -69,11 +69,6 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
                 return null;
         }
 
-        @Override
-        public String toString() {
-                return data != null ? data.toString() : "[data null]";
-        }
-
         public Iterator<TreeNode<T>> iterator() {
                 TreeNodeIter<T> iter = new TreeNodeIter<T>(this);
                 return iter;
@@ -106,5 +101,27 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+        @Override
+		public String toString() 
+        {
+			String s = "";
+			TreeNodeIter<T> iter = (TreeNodeIter<T>) this.iterator();
+			
+			while(iter.hasNext())
+			{
+				String tabs = "";
+				for (int i=0, n=iter.next().getLevel(); i<n; i++) tabs += "\t";
+				
+				s += tabs + iter.next().dataToString() + "\n";
+			}
+			
+			
+        	return s;
+		}
+		
+        public String dataToString() {
+                return data != null ? data.toString() : "[data null]";
+        }
 
 }

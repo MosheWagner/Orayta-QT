@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 public class TreeNodeIter<T> implements Iterator<TreeNode<T>> {
 
+	//TODO: Create setNext(), and make next() work without hasNext(), which should be a read only function.
+	
     enum ProcessStages {
             ProcessParent, ProcessChildCurNode, ProcessChildSubNode
     }

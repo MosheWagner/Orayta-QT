@@ -19,10 +19,13 @@ public abstract class Book
 	
 	public abstract BookID getUID(); 
 	
+	public abstract ChapterIter iterator(); 
+	public abstract ChapterIter iteratorAt(ChapterID address); 
+	
 	//public abstract Boolean buildFromFile(File file);
 	//public abstract Boolean buildFromRawText(String rawText);
 	
-	public abstract ChapterList getChapterList();
+	public abstract ChapterTree getChapterList();
 	//public abstract TreeNode<IChapter> getChapterTree();
 	//public abstract HashMap<K, V> chapterAddressMap;
 	
