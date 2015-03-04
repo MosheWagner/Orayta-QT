@@ -3,29 +3,19 @@ package book;
 public class DChapter implements IChapter {
 
 	ChapterID mAddress;
-	String chapterText;
+	String mChapterText = "";
+	
+	public DChapter() {}
 	
 	public DChapter(ChapterID address, String text)
 	{
 		mAddress = address;
-		chapterText = text;
+		mChapterText = text;
 	}
 	
-	/*
-	public void setText(String text)
-	{
-		chapterText = text;
-	}
-	
-	public void setAddress(IChapterAddress address)
-	{
-		mAddress = address;
-	}
-	*/
-	
-	//public int compareTo(IChapter o) {
-	//	return mAddress.compareTo(o.getChapterAddress());
-	//}
+	public void setAddress(ChapterID address) { mAddress=address; }
+	public void setChapterText(String chapterText) { mChapterText=chapterText; }
+
 
 	public ChapterID getChapterAddress() {
 		return mAddress;
@@ -36,7 +26,7 @@ public class DChapter implements IChapter {
 	}
 
 	public String text() {
-		return chapterText;
+		return mChapterText;
 	}
 
 	public String plainText() 
@@ -44,4 +34,15 @@ public class DChapter implements IChapter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public String getUID() {
+		return mAddress.getUID();
+	}
+
+	@Override
+	public String toString() {
+		return "[mAddress=" + mAddress + ", mChapterText=" + mChapterText + "]";
+	}
+	
+	
 }

@@ -4,19 +4,17 @@ import java.util.TreeMap;
 
 public class IDSearcher <T extends IHasID>
 {
-	private TreeNode<T> mDataTree;
-	private TreeMap<Integer, TreeNode<T>> mDataMap;
+	private TreeMap<String, TreeNode<T>> mDataMap;
 	
 	public IDSearcher (TreeNode<T> tree)
 	{
-		mDataTree = tree;
-		mDataMap = new TreeMap<Integer, TreeNode<T>>();
-		buildSearchIndex();
+		mDataMap = new TreeMap<String, TreeNode<T>>();
+		buildSearchIndex(tree);
 	}
 	
-	private void buildSearchIndex() 
+	private void buildSearchIndex(TreeNode<T> tree) 
 	{
-		TreeIter<T> iter = (TreeIter<T>) mDataTree.iterator();
+		TreeIter<T> iter = (TreeIter<T>) tree.iterator();
 		
 		//mDataMap.put(iter.current().data.getUID(), iter.current());
 		while(iter.hasNext())
@@ -28,7 +26,7 @@ public class IDSearcher <T extends IHasID>
 		}
 	}
 
-	public TreeNode<T> findById(Integer id)
+	public TreeNode<T> findById(String id)
 	{
 		return mDataMap.get(id);
 	}

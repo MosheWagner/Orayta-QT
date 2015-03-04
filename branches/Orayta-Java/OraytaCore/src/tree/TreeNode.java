@@ -1,11 +1,7 @@
 package tree;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.TreeMap;
-import java.util.function.Consumer;
 
 // http://stackoverflow.com/questions/3522454/java-tree-data-structure
 // http://sujitpal.blogspot.co.il/2006/05/java-data-structure-generic-tree.html
@@ -101,48 +97,35 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
 		parentNode.children.remove(node);
 		parentNode.unRegisterChildFromSearch(node);
 	}
-
-	public void forEach(Consumer<? super TreeNode<T>> action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Spliterator<TreeNode<T>> spliterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
     @SuppressWarnings("unchecked")
 	@Override
+	/**
+	 * Returns a nice representation of the whole tree starting from this node.
+	 * (With indentation and everything!)
+	 */
 	public String toString() 
     {
     	int level = this.getLevel();
-    	
 		String s = "";
+		
 		ITreeIterator<T> iter = (ITreeIterator<T>) this.iterator();
-
-		//Include root element:
-		String tabs = "";
-		for (int i=0, n=level; i<n; i++) tabs += "\t";
-		s += tabs + this.dataToString() + "\n";
+		TreeNode<T> node = (TreeNode<T>) iter.current();
 		
-		//TODO: Re-write this!
-		TreeNode<T> next = (TreeNode<T>) iter.next();
-		int newLevel = -1;
-		if (next != null) newLevel = next.getLevel();
-		while(next != null && newLevel > level)
+		do
 		{
-			tabs = "";
-			for (int i=0, n=newLevel; i<n; i++) tabs += "\t";
+			String tabs = "";
+			for (int i=0, n=node.getLevel(); i<n; i++) tabs += "\t";
 			
-			s += tabs + next.dataToString() + "\n";
-			next = (TreeNode<T>) iter.next();
-			if (next != null) newLevel = next.getLevel();
-		}
-		
+			s += tabs + node.dataToString() + "\n";
+			
+			node = (TreeNode<T>) iter.next();
+		}while(node != null && node.getLevel() > level);
+
     	return s;
 	}
 	
+    //ToString of the nodes data, ignoring the fact that it's part of a tree
     public String dataToString() {
             return data != null ? data.toString() : "[data null]";
     }

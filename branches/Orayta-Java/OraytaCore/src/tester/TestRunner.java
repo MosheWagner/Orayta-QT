@@ -1,6 +1,9 @@
 package tester;
 
 import book.ABook;
+import book.OBK_Book;
+import bookReader.IBookBuilder;
+import bookReader.OBK_Builder;
 import bookTree.BookTreeBuilder;
 import settings.GeneralSettings;
 import tree.IDSearcher;
@@ -30,44 +33,14 @@ public class TestRunner
 				
 				BookTreeBuilder treebuild = new BookTreeBuilder();
 				TreeNode<ABook> t = treebuild.buildTree(new GeneralSettings().BOOKS_ROOT_DIR);
+
+				TreeIter<ABook> itr = (TreeIter<ABook>) t.iterator();
+				itr.next(); itr.next(); itr.next(); itr.next();
 				
-				//if (t!= null) s = t.toString();
-				TreeIter<ABook> it = (TreeIter<ABook>) t.iterator();
-				for (int i=0; i<55;i++)it.next();
-				
-				s += t.findTreeNode(it.current()).data.getUID();
-				
-				IDSearcher<ABook> se = new IDSearcher<ABook>(t);
-				s += se.findById(1590);
-				//s = t.findTreeNodeByData(it.current().data).toString();
-				//s = t.findTreeNodeByData("אורות");
-				//s = t.toString();
-				/*
-				//Tree test:
-                TreeNode <String> tree = new TreeNode <String>("A");
-                tree.addChild("AA").addChild("AAA");
-                TreeNode <String> sub = tree.addChild("AB");
-                sub.addChild("ABA");
-                sub.addChild("ABB");
-                TreeNode <String> sub2 = tree.addChild("AC");
-                TreeNode <String> sub3 = sub2.addChild("ACA").addChild("ACAA");
-                TreeNode <String> sub4 = sub2.addChild("ACB");
-                sub4.addChild("ACBA");
-                TreeNode <String> sub5 = sub4.addChild("ACBB");
-                
-                //tree.removeElement(sub3);
-                
-                s = tree.toString();
-                
-                //Walk back demo:
-                TreeIter<String> it = (TreeIter<String>) sub5.iterator();
-                s += "\n\n" + it.current().toString();
-                
-                while(it.hasPrevius())
-                {
-                	s += it.previous().data.toString() + "\n";
-                }
-                */
+				//בראשית
+				TreeNode<ABook> b = itr.current();
+				IBookBuilder<OBK_Book> builder = new OBK_Builder();
+				builder.buildContents((OBK_Book) b.data);
 			}
 
 			public String getResults() 

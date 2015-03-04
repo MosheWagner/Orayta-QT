@@ -1,6 +1,8 @@
 package book;
 
-public interface IChapter // extends Comparable<IChapter>
+import tree.IHasID;
+
+public interface IChapter extends IHasID // extends Comparable<IChapter>
 {
 	//Returns the 'address' of this chapter 
 	public ChapterID getChapterAddress();

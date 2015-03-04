@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileHash 
 {
-	public String calculateSha1(File file) throws IOException, NoSuchAlgorithmException  {
+	public static String calculateSha1(File file) throws IOException, NoSuchAlgorithmException  {
 	    MessageDigest digest = MessageDigest.getInstance("SHA-1");
 	    InputStream fis = new FileInputStream(file);
 	    int n = 0;
