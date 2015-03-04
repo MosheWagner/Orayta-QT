@@ -60,5 +60,4 @@ public class BookFolder extends ABook
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

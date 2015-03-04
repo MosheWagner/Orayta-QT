@@ -6,8 +6,6 @@ import search.ISearchResults;
 
 public class OBK_Book extends ABook
 {
-	BookID mID;
-
 	public OBK_Book(String path)
 	{
 		mFilePath = path ;
