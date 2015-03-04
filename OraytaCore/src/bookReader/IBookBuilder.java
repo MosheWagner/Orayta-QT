@@ -1,12 +1,12 @@
 package bookReader;
 
 import book.ABook;
-import book.BookID;
+import book.BookContents;
 
 /*
- * Returns a fully built book from the given book-id.
+ * Returns fully built contents for the given book
  */
-public interface IBookBuilder 
+public interface IBookBuilder <T extends ABook>
 {
-	public ABook buildBook(BookID id);
+	public BookContents buildContents(T Book);
 }

@@ -2,5 +2,5 @@ package tree;
 
 public interface IHasID
 {
-	public Integer getUID();
+	public String getUID();
 }

@@ -54,10 +54,4 @@ public class BookFolder extends ABook
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public IChapter getChapter(ChapterID address) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

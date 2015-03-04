@@ -17,16 +17,17 @@ import tree.IHasID;
 public abstract class ABook implements Comparable<ABook>, IHasID
 {
 	protected IBookMetaData metaData;
+	protected BookContents mContents;
 	protected String rawText;
 	protected String mFilePath;
 	protected BookID mID;
 	protected String mDisplayName;
 	protected Map<String, String> mBookSettings;
 	
-	public abstract IChapter getChapter(ChapterID address);
+	//public abstract IChapter getChapter(ChapterID address);
 	
 	public BookID getID() { return mID; }
-	public Integer getUID() { return mID.getID(); }
+	public String getUID() { return String.valueOf(mID.getID()); }
 	
 	public String getPath() { return mFilePath; }
 	

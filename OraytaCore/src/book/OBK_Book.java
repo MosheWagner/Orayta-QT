@@ -28,13 +28,6 @@ public class OBK_Book extends ABook
 		//TODO:
 		return false;
 	}
-	
-	@Override
-	public IChapter getChapter(ChapterID address) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@Override
 	public ChapterTree getChapterList() {
