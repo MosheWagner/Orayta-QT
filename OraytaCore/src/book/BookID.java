@@ -2,7 +2,7 @@ package book;
 
 public class BookID implements Comparable<BookID>
 {
-	Integer UID;
+	Integer UID = -1;
 	String mDisplayName;
 
 	public BookID(int id, String displayName)
@@ -16,8 +16,7 @@ public class BookID implements Comparable<BookID>
 	public int getID() {return UID;}
 	
 	public int compareTo(BookID o) {
-		// TODO Auto-generated method stub
-		return UID - o.getID();
+		return UID.compareTo(o.getID());
 	}
 
 	@Override

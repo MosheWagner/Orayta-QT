@@ -3,6 +3,8 @@ package tester;
 import book.ABook;
 import bookTree.BookTreeBuilder;
 import settings.GeneralSettings;
+import tree.IDSearcher;
+import tree.TreeIter;
 import tree.TreeNode;
 
 /*
@@ -29,8 +31,17 @@ public class TestRunner
 				BookTreeBuilder treebuild = new BookTreeBuilder();
 				TreeNode<ABook> t = treebuild.buildTree(new GeneralSettings().BOOKS_ROOT_DIR);
 				
-				if (t!= null) s = t.toString();
+				//if (t!= null) s = t.toString();
+				TreeIter<ABook> it = (TreeIter<ABook>) t.iterator();
+				for (int i=0; i<55;i++)it.next();
 				
+				s += t.findTreeNode(it.current()).data.getUID();
+				
+				IDSearcher<ABook> se = new IDSearcher<ABook>(t);
+				s += se.findById(1590);
+				//s = t.findTreeNodeByData(it.current().data).toString();
+				//s = t.findTreeNodeByData("אורות");
+				//s = t.toString();
 				/*
 				//Tree test:
                 TreeNode <String> tree = new TreeNode <String>("A");
