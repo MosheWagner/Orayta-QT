@@ -1,6 +1,6 @@
 package bookReader;
 
-import book.Book;
+import book.ABook;
 import book.BookID;
 
 /*
@@ -8,5 +8,5 @@ import book.BookID;
  */
 public interface IBookBuilder 
 {
-	public Book buildBook(BookID id);
+	public ABook buildBook(BookID id);
 }

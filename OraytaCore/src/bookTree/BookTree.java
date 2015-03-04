@@ -2,33 +2,37 @@ package bookTree;
 
 import java.util.TreeMap;
 
-import book.Book;
+import book.ABook;
 import book.BookID;
 import tree.TreeNode;
 
-public class BookTree extends TreeNode<Book>
+/*
+ * Simply a tree of Book classes, with an added option to find a node by BookID
+ */
+
+public class BookTree extends TreeNode<ABook>
 {
-	TreeMap<BookID, TreeNode<Book>> idMap = new TreeMap<BookID, TreeNode<Book>>();
+	TreeMap<BookID, TreeNode<ABook>> idMap = new TreeMap<BookID, TreeNode<ABook>>();
 	
-	public BookTree(Book data) 
+	public BookTree(ABook data) 
 	{
 		super(data);
 	}
 
 	
 	@Override
-	public TreeNode<Book> addChild(Book child) 
+	public TreeNode<ABook> addChild(ABook child) 
 	{
-		TreeNode<Book> childNode = super.addChild(child);
+		TreeNode<ABook> childNode = super.addChild(child);
 		addToSearchMap(childNode);
 		return childNode;
 	}
 	
-	private void addToSearchMap(TreeNode<Book> node) 
+	private void addToSearchMap(TreeNode<ABook> node) 
 	{
 		if (node.data == null) return;
 		
-		idMap.put(node.data.getUID(), node);
+		idMap.put(node.data.getID(), node);
 		if (parent != null)
 		{
 			((BookTree) parent).addToSearchMap(node);
@@ -36,7 +40,7 @@ public class BookTree extends TreeNode<Book>
 	}
 
 
-	public TreeNode<Book> findBook(BookID bookid)
+	public TreeNode<ABook> findBook(BookID bookid)
 	{
 		return idMap.get(bookid);
 	}
