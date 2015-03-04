@@ -1,6 +1,8 @@
 package tester;
 
-import tree.TreeIter;
+import book.ABook;
+import bookTree.BookTreeBuilder;
+import settings.GeneralSettings;
 import tree.TreeNode;
 
 /*
@@ -23,6 +25,13 @@ public class TestRunner
 			
 			public void Run()
 			{
+				
+				BookTreeBuilder treebuild = new BookTreeBuilder();
+				TreeNode<ABook> t = treebuild.buildTree(new GeneralSettings().BOOKS_ROOT_DIR);
+				
+				if (t!= null) s = t.toString();
+				
+				/*
 				//Tree test:
                 TreeNode <String> tree = new TreeNode <String>("A");
                 tree.addChild("AA").addChild("AAA");
@@ -47,6 +56,7 @@ public class TestRunner
                 {
                 	s += it.previous().data.toString() + "\n";
                 }
+                */
 			}
 
 			public String getResults() 

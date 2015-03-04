@@ -1,5 +1,6 @@
 package manager;
 
+import download.DownloadManager;
 import book.BookID;
 import settings.GeneralSettings;
 import tree.TreeNode;
@@ -13,4 +14,6 @@ public abstract class OraytaCoreManager implements UIBridge, IOraytaCore
 {
 	private GeneralSettings generalSettings;
 	private TreeNode<BookID> bookList;
+	
+	public abstract DownloadManager downloadManager();
 }

@@ -1,7 +1,5 @@
 package tree;
 
-import java.util.function.Consumer;
-
 public class TreeIter<T> implements ITreeIterator<TreeNode<T>> 
 {
 	TreeNode<T> currentNode;
@@ -86,14 +84,14 @@ public class TreeIter<T> implements ITreeIterator<TreeNode<T>>
 		this.currentNode.parent.removeElement(this.currentNode);
 	}
 
-	public void forEachRemaining(Consumer<? super TreeNode<T>> action) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public TreeNode<T> current() 
 	{
 		return currentNode;
+	}
+
+	public boolean hasPrevious() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

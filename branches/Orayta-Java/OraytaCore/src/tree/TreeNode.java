@@ -1,6 +1,4 @@
 package tree;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Spliterator;
@@ -120,7 +118,7 @@ public class TreeNode<T> implements ITree<T>, Iterable<TreeNode<T>> {
 			ITreeIterator<T> iter = (ITreeIterator<T>) this.iterator();
 
 			//Include root element:
-			s += ((TreeNode<T>)iter.current()).dataToString() + "\n";
+			s += this.dataToString() + "\n";
 			
 			while(iter.hasNext())
 			{
