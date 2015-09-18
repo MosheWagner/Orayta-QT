@@ -31,12 +31,13 @@ CONFIG += qt mobility
 
 #DEFINES += TIMEDBG
 
-#MOBILITY =
-    #for test only
-    DEFINES += MOBILE
-    CONFIG += MOBILE
-    DEFINES+= mobile
-    CONFIG+= mobile
+
+##MOBILITY =
+#    #for test only
+#    DEFINES += MOBILE
+#    CONFIG += MOBILE
+#    DEFINES+= mobile
+#    CONFIG+= mobile
 
 
 #Small hack for Quazip on windows
@@ -83,7 +84,7 @@ else:unix{
     #Zlib
     LIBS += -lz
 
-    QT += webkitwidgets # printsupport webkit
+    QT += webkitwidgets printsupport # webkit
 
    QMAKE_CFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
    QMAKE_CFLAGS_DEBUG+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
