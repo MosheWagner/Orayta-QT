@@ -156,7 +156,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
             }
 
             QString t = sl[0];
-            bo.URL = t.replace("./", "http://orayta.googlecode.com/svn/books/");
+            bo.URL = t.replace("./", "https://raw.githubusercontent.com/MosheWagner/Orayta-Books/master/books/");
             bo.UnpackPath = sl[0].replace("./", BOOKPATH);
             int n; if (ToNum(sl[1], &n)) bo.fileSize = n / 1000000.0;
 
@@ -304,7 +304,7 @@ void MobileApp::downloadNext()
         QString url = downloadsList.first();
         QString name = url.mid(url.lastIndexOf("/") + 1);
         //Generate download target
-        QString target = QString(url).replace("http://orayta.googlecode.com/svn/books/", BOOKPATH);
+        QString target = QString(url).replace("https://raw.githubusercontent.com/MosheWagner/Orayta-Books/master/books/", BOOKPATH);
         QString p = target.left(target.length() - name.length());
         QDir().mkpath(p);
 

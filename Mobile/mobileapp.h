@@ -298,7 +298,7 @@ private:
 
     QList <DownloadbleBookGroup> groups;
 
-    #define BOOKLISTURL "http://orayta.googlecode.com/svn/books/OraytaBookList1"
+    #define BOOKLISTURL "https://raw.githubusercontent.com/MosheWagner/Orayta-Books/master/books/OraytaBookList1"
 
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
 
