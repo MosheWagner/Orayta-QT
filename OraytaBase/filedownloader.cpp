@@ -16,6 +16,7 @@
 
 #include "filedownloader.h"
 #include <QUrl>
+#include <QDir>
 #include <QDebug>
 #include <QNetworkRequest>
 #include "functions.h"
@@ -54,6 +55,11 @@ void FileDownloader::Download(QString rUrl, QString rTarget, bool overwrite, QSt
     {
         //Set the download to a tepmorary name
         mTargetFile.setFileName(rTarget + ".part");
+
+        //Make sure path exists
+        QFileInfo *info = new QFileInfo(mTargetFile);
+        if (!info->absoluteDir().exists()) QDir().mkdir(info->absoluteDir().absolutePath());
+
         //Open the file for writing:
         mTargetFile.open(QIODevice::ReadWrite);
 

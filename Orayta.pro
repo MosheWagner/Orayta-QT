@@ -3,34 +3,14 @@
 # Author: Moshe Wagner. <moshe.wagner@gmail.com>
 # -------------------------------------------------
 
-
-# Big todo list:
-
-# Fix show/hide nikud button
-# Desktop app translation dosn't work
-# Desktop - Next on one page books gives empty page
-
-# - Fix desktop version (with download manager too!)
-# - Update help page
-
 QT += core gui network widgets
-#QT += declarative
-#QT += qml quick
-# Additional import path used to resolve QML modules in Creator's code model
-#QML_IMPORT_PATH =
-#qtcAddDeployment()
-#lessThan(QT_MAJOR_VERSION, 5): error(This project requires Qt 5 or later)
 
 TARGET = orayta
 TEMPLATE = app
 
 INCLUDEPATH += $$PWD
 
-LIBS += -lz
 CONFIG += qt mobility
-
-#DEFINES += TIMEDBG
-
 
 ##MOBILITY =
 #    #for test only
@@ -215,25 +195,24 @@ RESOURCES += Mobile/mobile.qrc
     HEADERS += \
         Mobile/mobileapp.h \
         Mobile/textdisplayer.h \
-        Mobile/swipegesturerecognizer.h \
-        Mobile/jnifunc.h
+        Mobile/swipegesturerecognizer.h
 
     FORMS += \
         Mobile/mobileapp.ui \
 
-  OTHER_FILES += \
-      android-orayta/src/org/qtproject/qt5/android/bindings/QtActivity.java \
-      android-orayta/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-      android-orayta/src/org/qtproject/qt5/android/bindings/Crypter.java \
-      android-orayta/version.xml \
-      android-orayta/AndroidManifest.xml
+#  OTHER_FILES += \
+#      android-orayta/src/org/qtproject/qt5/android/bindings/QtActivity.java \
+#      android-orayta/src/org/qtproject/qt5/android/bindings/QtApplication.java \
+#      android-orayta/src/org/qtproject/qt5/android/bindings/Crypter.java \
+#      android-orayta/version.xml \
+#      android-orayta/AndroidManifest.xml
 }
 
-Kookita{
-    DEFINES += KOOKITA
-    SOURCES += Mobile/jnifunc.cpp
-    HEADERS += Mobile/jnifunc.h
-}
+#Kookita{
+#    DEFINES += KOOKITA
+#    SOURCES += Mobile/jnifunc.cpp
+#    HEADERS += Mobile/jnifunc.h
+#}
 
 
 
@@ -296,4 +275,9 @@ INSTALLS += css
 linux: INSTALLS += menu desktop
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-orayta
+
+DISTFILES += \
+    android-orayta/AndroidManifest.xml \
+    android-orayta/res/values/libs.xml \
+    android-orayta/build.gradle \
 

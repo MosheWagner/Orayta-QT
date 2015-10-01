@@ -73,22 +73,10 @@ private:
    // true if chagend since last save
    bool changed;
 
-   // does the user want to show daf yomi in this list
-//   bool dafYomiActive;
-//   bool parshaYomiActive;
-//   bool mishnaYomiActive;
-//   //etc...
 
-//   bool isDafYomiActive();
-//   bool isParshaYomiActive();
-//   bool isMishnaYomiActive();
+   QStringList getTodaysLine(QString filePath);
 
-//   void setDafYomiActive(bool);
-//   void setParshaYomiActive(bool);
-//   void setMishnaYomiActive(bool);
-
-
-
+   #define LIMUD_YOMI_FILE BOOKPATH + "LimudYomi.csv"
 
 };
 

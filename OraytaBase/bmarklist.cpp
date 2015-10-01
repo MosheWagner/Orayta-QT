@@ -164,32 +164,34 @@ void BMarkList::eraseBookMark(MiniBMark *bm)
     //this->saveSettings();
 }
 
-//bool BMarkList::isDafYomiActive() {return dafYomiActive;}
-//bool BMarkList::isParshaYomiActive() {return parshaYomiActive;}
-//bool BMarkList::isMishnaYomiActive() {return mishnaYomiActive;}
-
-//void BMarkList::setDafYomiActive(bool b) {dafYomiActive = b;}
-//void BMarkList::setParshaYomiActive(bool b) {parshaYomiActive = b;}
-//void BMarkList::setMishnaYomiActive(bool b) {mishnaYomiActive = b;}
-
-void BMarkList::addMishnaYomit(BookList bl)
+QStringList BMarkList::getTodaysLine(QString filePath)
 {
     QList <QString> lst;
-    ReadFileToList(":/OraytaBase/DailyLimud.csv", lst, "UTF-8");
+    ReadFileToList(filePath, lst, "UTF-8");
 
     //I know this isn't efficent, but for such small numbers, it really dosn't matter much.
-    QString d;
+    QString dstr;
     QStringList line;
     foreach(const QString s, lst)
     {
-        d = s.split(",")[0];
+        dstr = s.split(",")[0];
 
-        if (QDate::fromString(d,  "dd/MM/yyyy") == QDate::currentDate())
+        QDate d = QDate::fromString(dstr,  "dd/MM/yy");
+        d = d.addYears(100); //Convert 1900s to 2000s
+
+        if (d == QDate::currentDate())
         {
             line = s.split(",");
             break;
         }
     }
+
+    return line;
+}
+
+void BMarkList::addMishnaYomit(BookList bl)
+{
+    QStringList line = getTodaysLine(LIMUD_YOMI_FILE);
 
     if (line.size() >= 4)
     {
@@ -226,22 +228,7 @@ void BMarkList::addMishnaYomit(BookList bl)
 
 void BMarkList::addHalachaYomit(BookList bl)
 {
-    QList <QString> lst;
-    ReadFileToList(":/OraytaBase/DailyLimud.csv", lst, "UTF-8");
-
-    //I know this isn't efficent, but for such small numbers, it really dosn't matter much.
-    QString d;
-    QStringList line;
-    foreach(const QString s, lst)
-    {
-        d = s.split(",")[0];
-
-        if (QDate::fromString(d,  "dd/MM/yyyy") == QDate::currentDate())
-        {
-            line = s.split(",");
-            break;
-        }
-    }
+    QStringList line = getTodaysLine(LIMUD_YOMI_FILE);
 
     if (line.size() >= 6)
     {

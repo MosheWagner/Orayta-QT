@@ -17,9 +17,6 @@
 */
 
 
-
-
-
 /*TODO:
  *
   - Make font sizes consistant...
@@ -28,18 +25,6 @@
   - Can't navigate from links from gmara (swipes dont work)
 
 */
-
-
-// testing qml !!@@%%
-//#include <QtDeclarative/QDeclarativeView>
-//#include <QVBoxLayout>
-//#include <QtGui/QGuiApplication>
-//#include <QQuickView>
-
-
-
-
-
 
 
 
@@ -103,6 +88,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     QApplication::processEvents();
 
     timer.start();
+
+    copyAssetsToDisk();
 
     //set stuff as null only for pertection
     viewHistory = NULL;
@@ -230,6 +217,10 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     qDebug() << "Screensize" <<QTime::currentTime();
 #endif
 
+    //Download daily limud file
+    FileDownloader * dldownload = new FileDownloader();
+    dldownload->Download(LIMUD_YOMI_URL, LIMUD_YOMI_FILE, true);
+
     setupBookmarkList();
 
 #ifdef TIMEDBG
@@ -301,6 +292,12 @@ void MobileApp::resizeEvent(QResizeEvent *)
     adjustToScreenSize();
 }
 
+void MobileApp::copyAssetsToDisk()
+{
+    QDir *dir = new QDir("assets:/Orayta/");
+
+    copyFolder(dir->absolutePath(), "/sdcard/Orayta/", QStringList("*.*"));
+}
 
 //Adjust UI properties depending on device screen size
 void MobileApp::adjustToScreenSize()

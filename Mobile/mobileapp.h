@@ -253,6 +253,8 @@ private slots:
 
     void on_interfaceSizeSpinBox_valueChanged(int size);
 
+    void copyAssetsToDisk();
+
 private:
     Ui::MobileApp *ui;  
 
@@ -298,9 +300,12 @@ private:
 
     QList <DownloadbleBookGroup> groups;
 
-    #define BOOKLISTURL "https://raw.githubusercontent.com/MosheWagner/Orayta-Books/master/books/OraytaBookList1"
-
+    #define SERVER_URL "https://raw.githubusercontent.com/MosheWagner/Orayta-Books/master/books/"
+    #define BOOKLISTURL SERVER_URL"OraytaBookList"
     #define SAVEDBOOKLIST   TMPPATH + "Android-Books"
+
+    #define LIMUD_YOMI_URL SERVER_URL"LimudYomi.csv"
+
 
 //    #define KUK_BOOKLIST_URL "http://orayta.googlecode.com/svn/books/kukaytaBookList"
 //    #define KUK_SAVEDBOOKLIST   TMPPATH + "Kuk-Books"
