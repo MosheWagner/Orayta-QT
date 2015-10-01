@@ -979,7 +979,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_12">
          <property name="spacing">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
