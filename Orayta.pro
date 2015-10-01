@@ -280,4 +280,8 @@ DISTFILES += \
     android-orayta/AndroidManifest.xml \
     android-orayta/res/values/libs.xml \
     android-orayta/build.gradle \
+    android-orayta/gradle/wrapper/gradle-wrapper.jar \
+    android-orayta/gradlew \
+    android-orayta/gradle/wrapper/gradle-wrapper.properties \
+    android-orayta/gradlew.bat
 
