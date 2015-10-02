@@ -208,11 +208,16 @@ RESOURCES += Mobile/mobile.qrc
 #      android-orayta/AndroidManifest.xml
 }
 
-#Kookita{
-#    DEFINES += KOOKITA
-#    SOURCES += Mobile/jnifunc.cpp
-#    HEADERS += Mobile/jnifunc.h
-#}
+Kookita{
+    DEFINES += KOOKITA
+    QT += androidextras gui-private
+    SOURCES += Mobile/jnifunc.cpp
+    HEADERS += Mobile/jnifunc.h
+
+    OTHER_FILES += \
+      android-orayta/src/org/qtproject/qt5/crypt/Crypter.java \
+      android-orayta/src/org/qtproject/qt5/crypt/ZofenProvider.java
+}
 
 
 
@@ -275,6 +280,7 @@ INSTALLS += css
 linux: INSTALLS += menu desktop
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android-orayta
+
 
 DISTFILES += \
     android-orayta/AndroidManifest.xml \

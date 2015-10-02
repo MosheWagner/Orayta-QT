@@ -47,7 +47,8 @@ QString LANG = "Hebrew";
 bool ReadFileFromZip(QString zippath, QString filepath,
                      QList <QString>& text, const char* encoding_name, bool skipconflines, bool encrypted)
 {
-    if (encrypted){
+    if (encrypted)
+    {
 #ifdef KOOKITA
         QString target= TMPPATH+"unziped";
         if (zipDecrypt(zippath, filepath, target)>0)
