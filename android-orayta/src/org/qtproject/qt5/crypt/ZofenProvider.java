@@ -16,14 +16,14 @@ import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Looper;
+import android.os.SystemClock;
 
 import android.util.Log;
 
-
 public class ZofenProvider implements IZofenProvider
 {
-    private static String zofen = null;
-    boolean connected = false;
+    private static String zofen = "";
     
 //    //Added for Orayta sdcard location hack
 //    private static String sdcard_location = "";
@@ -42,21 +42,24 @@ public class ZofenProvider implements IZofenProvider
     
     public String getZofen() 
     {
-    if (isProviderAvailable()  && zofen != null)
+        if (zofen.equals("")) doServiceConnect();
+    
         return zofen;
-    return "";
     }
 
 
     public boolean isProviderAvailable() 
     {
-        if (!connected) doServiceConnect();
-        return connected;
+        if (zofen.equals("")) doServiceConnect();
+        
+        return true;
     }
 
     private Messenger mService = null;
     private boolean mBound;
-    private ServiceConnection mConnection = new ServiceConnection() {
+    
+    private ServiceConnection mConnection = new ServiceConnection() 
+    {
             @Override
             public void onServiceConnected(ComponentName className, IBinder service) {
                     Log.d("IZAR","on service connected");
@@ -72,7 +75,13 @@ public class ZofenProvider implements IZofenProvider
             }
     };
 
-    class crypterHandler extends Handler{
+    class crypterHandler extends Handler
+    {
+            public crypterHandler(Looper looper)
+            {
+                super(looper);
+            }
+    
             @Override
             public void handleMessage(Message msg){
                     Log.d("IZAR","qt recieved message");
@@ -88,7 +97,9 @@ public class ZofenProvider implements IZofenProvider
                     super.handleMessage(msg);
             }
     }
-    private final Messenger mMessenger = new Messenger(new crypterHandler());
+    
+    private final crypterHandler CHandler = new crypterHandler(Looper.getMainLooper());
+    private final Messenger mMessenger = new Messenger(CHandler);
 
     public void sendZfnRequest(){
             Log.d("IZAR","client sending zfn request. bound? "+mBound);
@@ -109,18 +120,22 @@ public class ZofenProvider implements IZofenProvider
             }
     }
 
-    public void doServiceConnect(){
-            Intent remote = new Intent("org.Orayta.kukayta.paid.DeCrypter");
-            connected = mActivity.bindService(remote, mConnection, 1);
-            sendZfnRequest();
+    public void doServiceConnect()
+    {
+        Intent remote = new Intent("org.Orayta.kukayta.paid.DeCrypter");
+        mActivity.bindService(remote, mConnection, 1);
+        sendZfnRequest();
+        
+        SystemClock.sleep(200); //Wait a short time for results!
     }
 
-    private void doServiceDisconnect(){
-            if(mBound){
-                    mActivity.unbindService(mConnection);
-                    mBound= false;
-            }
+    private void doServiceDisconnect()
+    {
+        if(mBound)
+        {
+                mActivity.unbindService(mConnection);
+                mBound= false;
+        }
     }
-	
 
 }

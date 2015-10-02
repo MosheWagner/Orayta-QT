@@ -85,14 +85,14 @@ public class Crypter
     
     public static int zipDecrypt(String zipFilename, String intFile, String target, String one) 
     {
-		if (provider.isProviderAvailable())
-		{
-	        String zfn = provider.getZofen();
-	
-	        return zipDecrypt2(zipFilename, intFile, target, one, zfn);
-		}
-		
-		return KUKAYTA_NOT_INSTALLED_ERR;
+            if (provider.isProviderAvailable())
+            {
+                String zfn = provider.getZofen();
+        
+                return zipDecrypt2(zipFilename, intFile, target, one, zfn);
+            }
+            
+            return KUKAYTA_NOT_INSTALLED_ERR;
     }
 
     public static int zipDecrypt2(String zipFilename, String intFile, String target, String one, String three) 
