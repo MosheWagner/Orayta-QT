@@ -20,36 +20,32 @@
 
 #include "jnifunc.h"
 #include <QAndroidJniObject>
+#include <QAndroidJniEnvironment>
 #include <QApplication>
-#include <qpa/qplatformnativeinterface.h>
+
+#include <QFile>
 
 QString pwd = "ElOB2wAJ!";
 
-
-QAndroidJniObject crypter = QAndroidJniObject::fromString("org/qtproject/qt5/crypt/Crypter");
-
 int initRequest()
 {
-    //QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
-    QPlatformNativeInterface *interface = QApplication::platformNativeInterface();
-    jobject activity = (jobject)interface->nativeResourceForIntegration("QtActivity");
+    QAndroidJniObject activity =  QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
 
-
-    jint success = crypter.callMethod<jint>("init", "(Landroid/app/Activity;)I", activity);
+    jint success = QAndroidJniObject::callStaticMethod<jint>("org/qtproject/qt5/crypt/Crypter", "init", "(Landroid/app/Activity;)I", activity.object<jobject>());;
 
     return (int) success;
 }
 
 bool testIsKukaytaInstalled()
 {
-    jboolean installed = crypter.callMethod<jint>("isKukaytaInstalled");
+    jboolean installed = QAndroidJniObject::callStaticMethod<jboolean>("org/qtproject/qt5/crypt/Crypter", "isKukaytaInstalled");
 
     return (bool) installed;
 }
 
 void installKukayta()
 {
-    crypter.callMethod<void>("installKukatya");
+    QAndroidJniObject::callStaticMethod<void>("org/qtproject/qt5/crypt/Crypter","installKukatya");
 }
 
 int zipDecrypt(QString zipFilename, QString internalFile, QString target)
@@ -58,7 +54,8 @@ int zipDecrypt(QString zipFilename, QString internalFile, QString target)
     QAndroidJniObject intFile = QAndroidJniObject::fromString(internalFile);
     QAndroidJniObject Target = QAndroidJniObject::fromString(target);
     QAndroidJniObject password = QAndroidJniObject::fromString(pwd);
-    jint res = crypter.callMethod<jint>("zipDecrypt", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I",
+
+    jint res = QAndroidJniObject::callStaticMethod<jboolean>("org/qtproject/qt5/crypt/Crypter", "zipDecrypt","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)I",
                                         zipPath.object<jstring>(), intFile.object<jstring>(), Target.object<jstring>(), password.object<jstring>());
 
     return (int) res;

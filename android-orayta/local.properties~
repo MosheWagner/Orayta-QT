@@ -3,7 +3,4 @@
 # This file must *NOT* be checked into Version Control Systems,
 # as it contains information specific to your local configuration.
 
-androidBuildToolsVersion=android-4.4W
-androidCompileSdkVersion=14
-buildDir=.build
-qt5AndroidDir=/home/moshe/Qt5.5.0/5.5/android_armv7/src/android/java
+sdk.dir=/home/moshe/android-sdk/sdk

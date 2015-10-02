@@ -20,7 +20,7 @@ import android.content.ServiceConnection;
 import android.util.Log;
 
 
-public class ZofenProvider
+public class ZofenProvider implements IZofenProvider
 {
     private static String zofen = null;
     boolean connected = false;
@@ -35,22 +35,25 @@ public class ZofenProvider
     public final static String ZOFEN= "zofen";
 
 
-	public String getZofen(Activity activity) 
-	{
-        if (isProviderAvailable(activity)  && zofen != null)
-            return zofen;
-        return "";
-	}
-
-
-	public boolean isProviderAvailable(Activity activity) 
-	{
-            mActivity = activity;
-		if (!connected) doServiceConnect();
-		return connected;
-	}
-
+    public ZofenProvider(Activity activity)
+    {
+        mActivity = activity;
+    }
     
+    public String getZofen() 
+    {
+    if (isProviderAvailable()  && zofen != null)
+        return zofen;
+    return "";
+    }
+
+
+    public boolean isProviderAvailable() 
+    {
+        if (!connected) doServiceConnect();
+        return connected;
+    }
+
     private Messenger mService = null;
     private boolean mBound;
     private ServiceConnection mConnection = new ServiceConnection() {

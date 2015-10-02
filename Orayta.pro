@@ -216,7 +216,9 @@ Kookita{
 
     OTHER_FILES += \
       android-orayta/src/org/qtproject/qt5/crypt/Crypter.java \
+      android-orayta/src/org/qtproject/qt5/crypt/IZofenProvider.java \
       android-orayta/src/org/qtproject/qt5/crypt/ZofenProvider.java
+      android-orayta/src/org/qtproject/qt5/crypt/TestingZofenProvider.java
 }
 
 

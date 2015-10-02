@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.4.2, 2015-10-02T03:22:29. -->
+<!-- Written by QtCreator 3.4.2, 2015-10-02T09:43:17. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -378,7 +378,7 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.AndroidPackageInstallationStep</value>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.3">
-      <value type="QString" key="BuildTargetSdk">android-15</value>
+      <value type="QString" key="BuildTargetSdk">android-14</value>
       <value type="QString" key="KeystoreLocation">/home/moshe/.key/orayta2.keystore</value>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Build Android APK</value>

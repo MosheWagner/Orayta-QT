@@ -50,9 +50,11 @@ bool ReadFileFromZip(QString zippath, QString filepath,
     if (encrypted)
     {
 #ifdef KOOKITA
-        QString target= TMPPATH+"unziped";
-        if (zipDecrypt(zippath, filepath, target)>0)
+        QString target= TMPPATH + "unziped";
+        if (zipDecrypt(zippath, filepath, target) == 0)
+        {
             return ReadFileFromZip(target, filepath, text, encoding_name, skipconflines, false);
+        }
 
 #endif
         return false;
@@ -99,8 +101,10 @@ QString ReadFileFromZip(QString zippath, QString filepath, const char* encoding_
     if (encrypted){
 #ifdef KOOKITA
         QString target= TMPPATH+"unziped";
-        if (zipDecrypt(zippath, filepath, target)>0)
+        if (zipDecrypt(zippath, filepath, target) == 0)
+        {
             return ReadFileFromZip(target, filepath, encoding_name, false);
+        }
 #endif
         return "book is encrypted";
     }

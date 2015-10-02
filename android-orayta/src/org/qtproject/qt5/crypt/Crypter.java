@@ -24,11 +24,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
+import android.util.Log;
+
 public class Crypter
 {
-	public final static int SUCCESS = 0;
-	public final static int KUKAYTA_NOT_INSTALLED_ERR = -1;
-	public final static int GENERAL_ERROR = -2;
+    public final static int SUCCESS = 0;
+    public final static int KUKAYTA_NOT_INSTALLED_ERR = -1;
+    public final static int GENERAL_ERROR = -2;
 	
     private static final int INDEX_KEY = 0;
     private static final int INDEX_IV = 1;
@@ -40,7 +42,7 @@ public class Crypter
 
     private static final int KEY_SIZE_BITS = 128;
 
-    static ZofenProvider provider = new ZofenProvider();
+    static IZofenProvider provider;
 
     //To get activity object from qt, see:
     // http://stackoverflow.com/questions/22085219/how-to-get-activity-object-in-qt5-2
@@ -50,6 +52,10 @@ public class Crypter
     public static int init(Activity activity) 
     {
         mActivity = activity;
+    
+        provider = new ZofenProvider(activity);
+        //provider = new TestingZofenProvider();
+
     	if (!isKukaytaInstalled())
     	{
     		installKukatya();
@@ -72,16 +78,16 @@ public class Crypter
     }
     
     
-	public static boolean isKukaytaInstalled() 
-	{
-		return provider.isProviderAvailable(mActivity);
-	}
-    
-	public static int zipDecrypt(String zipFilename, String intFile, String target, String one) 
+    public static boolean isKukaytaInstalled() 
     {
-		if (provider.isProviderAvailable(mActivity))
+            return provider.isProviderAvailable();
+    }
+    
+    public static int zipDecrypt(String zipFilename, String intFile, String target, String one) 
+    {
+		if (provider.isProviderAvailable())
 		{
-	        String zfn = provider.getZofen(mActivity);
+	        String zfn = provider.getZofen();
 	
 	        return zipDecrypt2(zipFilename, intFile, target, one, zfn);
 		}

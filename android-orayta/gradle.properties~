@@ -4,6 +4,6 @@
 # as it contains information specific to your local configuration.
 
 androidBuildToolsVersion=android-4.4W
-androidCompileSdkVersion=14
+androidCompileSdkVersion=15
 buildDir=.build
 qt5AndroidDir=/home/moshe/Qt5.5.0/5.5/android_armv7/src/android/java
