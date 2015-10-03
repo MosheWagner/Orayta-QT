@@ -58,7 +58,6 @@ public class Crypter
 
     	if (!isKukaytaInstalled())
     	{
-    		installKukatya();
     		return KUKAYTA_NOT_INSTALLED_ERR;
     	}
     	
@@ -80,7 +79,7 @@ public class Crypter
     
     public static boolean isKukaytaInstalled() 
     {
-            return provider.isProviderAvailable();
+        return provider.isProviderAvailable();
     }
     
     public static int zipDecrypt(String zipFilename, String intFile, String target, String one) 

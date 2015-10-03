@@ -1214,17 +1214,16 @@ This will remove all the books in this directory.</source>
         <translation>אורייתא</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="699"/>
+        <location filename="Mobile/mobileapp.ui" line="780"/>
         <source>BookMarks</source>
         <translation>סימניות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="900"/>
         <source>Info</source>
-        <translation>מידע</translation>
+        <translation type="obsolete">אודות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1067"/>
+        <location filename="Mobile/mobileapp.ui" line="583"/>
         <source>Orayta - Jewish books</source>
         <translation>אורייתא - ספרי קודש</translation>
     </message>
@@ -1278,8 +1277,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="961"/>
-        <location filename="Mobile/mobileapp.ui" line="1138"/>
+        <location filename="Mobile/mobileapp.ui" line="962"/>
         <source>Help</source>
         <translation>עזרה</translation>
     </message>
@@ -1310,33 +1308,33 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">טוען...</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3811"/>
+        <location filename="Mobile/mobileapp.ui" line="3741"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="766"/>
+        <location filename="Mobile/mobileapp.ui" line="837"/>
         <source>Browse</source>
         <translation>עיון</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="632"/>
+        <location filename="Mobile/mobileapp.ui" line="663"/>
         <source>Search</source>
         <translation>חפש</translation>
     </message>
     <message>
+        <location filename="Mobile/mobileapp.ui" line="911"/>
         <source>About</source>
-        <translation type="obsolete">אודות</translation>
+        <translation>אודות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="830"/>
+        <location filename="Mobile/mobileapp.ui" line="717"/>
         <source>Get books</source>
         <translation>הורד ספרים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1037"/>
         <source>Settings</source>
-        <translation>הגדרות</translation>
+        <translation type="vanished">הגדרות</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1371,7 +1369,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">מפרשים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1649"/>
+        <location filename="Mobile/mobileapp.ui" line="1579"/>
         <source>zoom -</source>
         <translation>התרחק</translation>
     </message>
@@ -1409,7 +1407,7 @@ p, li { white-space: pre-wrap; }
 </translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1733"/>
+        <location filename="Mobile/mobileapp.ui" line="1663"/>
         <source>zoom +</source>
         <translation>התקרב</translation>
     </message>
@@ -1426,12 +1424,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">התרחק</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3743"/>
+        <location filename="Mobile/mobileapp.ui" line="3673"/>
         <source>Open</source>
         <translation>הצג</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3788"/>
+        <location filename="Mobile/mobileapp.ui" line="3718"/>
         <source>Search:</source>
         <translation>חפש:</translation>
     </message>
@@ -1456,17 +1454,17 @@ get searched</source>
         <translation type="obsolete">בחר ספרים לחיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4032"/>
+        <location filename="Mobile/mobileapp.ui" line="3962"/>
         <source>Searching...</source>
         <translation>מחפש...</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4100"/>
+        <location filename="Mobile/mobileapp.ui" line="4030"/>
         <source>Stop Search</source>
         <translation>עצור חיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1504"/>
+        <location filename="Mobile/mobileapp.ui" line="1434"/>
         <source>forward</source>
         <translation>קדימה</translation>
     </message>
@@ -1503,12 +1501,12 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1220"/>
+        <location filename="Mobile/mobileapp.ui" line="1147"/>
         <source>Loading... </source>
         <translation>טוען...</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1549"/>
+        <location filename="Mobile/mobileapp.ui" line="1479"/>
         <location filename="Mobile/mobileapp.cpp" line="989"/>
         <source>Index</source>
         <translation>לתוכן</translation>
@@ -1526,7 +1524,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">התחל שוב</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3305"/>
+        <location filename="Mobile/mobileapp.ui" line="3235"/>
         <source>Last book</source>
         <translation>ספר אחרון</translation>
     </message>
@@ -1549,17 +1547,17 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">מוריד את רשימת הספרים. אם הודעה זו נשארת אנא בדוק את חיבור האינטרנט שלך.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4237"/>
+        <location filename="Mobile/mobileapp.ui" line="4167"/>
         <source>Select book packages to download:</source>
         <translation>בחר חבילות ספרים להורדה:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4337"/>
+        <location filename="Mobile/mobileapp.ui" line="4267"/>
         <source>Download books</source>
         <translation>הורד ספרים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4415"/>
+        <location filename="Mobile/mobileapp.ui" line="4345"/>
         <source>Font</source>
         <translation>גופן</translation>
     </message>
@@ -1576,17 +1574,17 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">גודל פונט בסיסי:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4643"/>
+        <location filename="Mobile/mobileapp.ui" line="4573"/>
         <source>Font preview:</source>
         <translation>תצוגה מקדימה:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4674"/>
+        <location filename="Mobile/mobileapp.ui" line="4604"/>
         <source>(Make sure the font can handle Nikud and Teamim)</source>
         <translation>(מומלץ לוודא שהפונט תומך בניקוד וטעמים)</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4656"/>
+        <location filename="Mobile/mobileapp.ui" line="4586"/>
         <source>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</source>
         <translation>אָ֣ז יָשִֽׁיר־מֹשֶׁה֩</translation>
     </message>
@@ -1599,17 +1597,17 @@ don&apos;t worry, it will be fixed.</source>
         <translation type="obsolete">(ההגדרות יחולו החל מהספרים הבאים)</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4702"/>
+        <location filename="Mobile/mobileapp.ui" line="4632"/>
         <source>Language</source>
         <translation>שפה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4722"/>
+        <location filename="Mobile/mobileapp.ui" line="4652"/>
         <source>Custom language</source>
         <translation>שפה מותאמת אישית</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4731"/>
+        <location filename="Mobile/mobileapp.ui" line="4661"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1626,24 +1624,24 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">השתמש בשפת המערכת</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4948"/>
-        <location filename="Mobile/mobileapp.ui" line="5539"/>
+        <location filename="Mobile/mobileapp.ui" line="4878"/>
+        <location filename="Mobile/mobileapp.ui" line="5469"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4968"/>
+        <location filename="Mobile/mobileapp.ui" line="4898"/>
         <source>Save settings</source>
         <translation>שמור הגדרות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5007"/>
+        <location filename="Mobile/mobileapp.ui" line="4937"/>
         <source>sorry, no commentaries available for current book.</source>
         <translation>אנו מצטערים, אין פרשנים זמינים לספר זה.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3870"/>
-        <location filename="Mobile/mobileapp.ui" line="5046"/>
+        <location filename="Mobile/mobileapp.ui" line="3800"/>
+        <location filename="Mobile/mobileapp.ui" line="4976"/>
         <source>Remove all books from search</source>
         <translation>הוצא את כל הספרים מהחיפוש</translation>
     </message>
@@ -1678,20 +1676,20 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">הורד ספרים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1691"/>
+        <location filename="Mobile/mobileapp.ui" line="1621"/>
         <source>home</source>
         <translation>דף הבית</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4258"/>
-        <location filename="Mobile/mobileapp.ui" line="5049"/>
+        <location filename="Mobile/mobileapp.ui" line="4188"/>
+        <location filename="Mobile/mobileapp.ui" line="4979"/>
         <source>unmark all</source>
         <translation>נקה סימונים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3899"/>
-        <location filename="Mobile/mobileapp.ui" line="4287"/>
-        <location filename="Mobile/mobileapp.ui" line="5069"/>
+        <location filename="Mobile/mobileapp.ui" line="3829"/>
+        <location filename="Mobile/mobileapp.ui" line="4217"/>
+        <location filename="Mobile/mobileapp.ui" line="4999"/>
         <source>Add all books to search</source>
         <translation>הוסף את כל הספרים לחיפוש</translation>
     </message>
@@ -1736,33 +1734,33 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://orayta.co.nr&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://orayta.co.nr&lt;/span&gt;&lt;/a&gt;, &lt;a href=&quot;http://code.google.com/p/orayta&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/orayta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1262"/>
+        <location filename="Mobile/mobileapp.ui" line="1189"/>
         <source>%p%</source>
         <extracomment>loading</extracomment>
         <translation>%p%</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1825"/>
+        <location filename="Mobile/mobileapp.ui" line="1755"/>
         <source>Parshanim</source>
         <translation>פרשנים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1868"/>
+        <location filename="Mobile/mobileapp.ui" line="1798"/>
         <source>bookmark</source>
         <translation>סימניה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="2790"/>
+        <location filename="Mobile/mobileapp.ui" line="2720"/>
         <source>Collpase all</source>
         <translation>כווץ הכל</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="2353"/>
+        <location filename="Mobile/mobileapp.ui" line="2283"/>
         <source>Find</source>
         <translation>חפש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="3838"/>
+        <location filename="Mobile/mobileapp.ui" line="3768"/>
         <source>Books in search:</source>
         <translation>ספרים לחיפוש:</translation>
     </message>
@@ -1775,28 +1773,28 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">נקה סימונים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4018"/>
+        <location filename="Mobile/mobileapp.ui" line="3948"/>
         <source>Start search</source>
         <translation>התחל חיפוש</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4168"/>
+        <location filename="Mobile/mobileapp.ui" line="4098"/>
         <source>Downloading books list. If this message stays, please check your internet connection.</source>
         <translation>מוריד רשימת ספרים. אם הודעה זו נשארת בדוק את חיבור האינטרנט שלך.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4290"/>
-        <location filename="Mobile/mobileapp.ui" line="5072"/>
+        <location filename="Mobile/mobileapp.ui" line="4220"/>
+        <location filename="Mobile/mobileapp.ui" line="5002"/>
         <source>mark all</source>
         <translation>סמן הכל</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4475"/>
+        <location filename="Mobile/mobileapp.ui" line="4405"/>
         <source>Font:</source>
         <translation>גופן:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4531"/>
+        <location filename="Mobile/mobileapp.ui" line="4461"/>
         <source>Use this font for all books</source>
         <translation>השתמש בפונט זה לכל הספרים</translation>
     </message>
@@ -1805,70 +1803,70 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">השתמש רק לספרים עם ניקוד</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1108"/>
+        <location filename="Mobile/mobileapp.ui" line="1007"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;&gt;Android version&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600; font-style:italic;&quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:600;&quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7pt; font-weight:600; font-style:italic;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Simple free access to Jewish books for Windows, Linux, Mac and Android.&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Moshe Wagner,     Avi Izar&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Israel,                      5773&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Moshe Wagner,      Avi Izar&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Israel,                       5773&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Please offer us some help&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contact us at:&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Please offer us some help&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Contact us at:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;our website:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://code.google.com/p/orayta&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/orayta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://code.google.com/p/orayta&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/orayta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <oldsource>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;&gt;Android version&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600; font-style:italic;&quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Orayta - Jewish Books&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;In memory of Roi Aharon Rot HY&amp;quot;D&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:7pt; font-weight:600; font-style:italic;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Simple free access to Jewish books for Windows, Linux, Mac and Android.&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Simple free access to Jewish books for Windows, Linux, Mac and Android.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Moshe Wagner,     Avi Izar&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Israel,                      5773&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Moshe Wagner,     Avi Izar&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Israel,                       5773&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Please offer us some help&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contact us at:&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;our website:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://code.google.com/p/orayta&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/orayta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Contact us at:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;our website:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://code.google.com/p/orayta&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://code.google.com/p/orayta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-size:9pt; font-weight:400; font-style:normal;&quot; dir=rtl&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; color:#000031;&quot;&gt;אורייתא ספרי קודש&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; font-weight:600; color:#000031;&quot;&gt;גירסת אנדרואיד&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:7pt; font-weight:600; font-style:italic; color:#000031;&quot;&gt;לזכרו של רועי אהרון רוט הי&amp;quot;ד&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans serif&apos;; font-size:6pt;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#000031;&quot;&gt;גישה פשוטה וחופשית לספרי קודש לחלונות לינוקס מק ואנדרואיד.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000031;&quot;&gt;משה וגנר     &amp;     Avi Izar&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000031;&quot;&gt;ישראל,                תשעו&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#000031;&quot;&gt;לשאלות, הערות, ותרומות הנכם מוזמנים לפנות אלינו בכתובת:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;
-&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#000031;&quot;&gt;או באתר שלנו:&lt;span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://code.google.com/p/orayta/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://code.google.com/p/orayta/&lt;/span&gt;
-&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#000031;&quot;&gt;אורייתא ספרי קודש&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic; color:#000031;&quot;&gt;לזכרו של רועי אהרון רוט הי&amp;quot;ד&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;sans serif&apos;; font-size:6pt;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#000031;&quot;&gt;גישה פשוטה וחופשית לספרי קודש לחלונות לינוקס מק ואנדרואיד.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#000031;&quot;&gt;משה וגנר     &amp;amp;     Avi Izar&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#000031;&quot;&gt;ישראל,                    תשעו&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:6pt; color:#000031;&quot;&gt;   &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#000031;&quot;&gt;לשאלות, הערות, ותרומות הנכם מוזמנים לפנות אלינו בכתובת:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:orayta.books@gmail.com&quot;&gt;&lt;span style=&quot; font-size:12pt; text-decoration: underline; color:#0000ff;&quot;&gt;orayta.books@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#000031;&quot;&gt;או באתר שלנו:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; dir=&apos;rtl&apos; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://code.google.com/p/orayta/&quot;&gt;&lt;span style=&quot; font-size:12pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://code.google.com/p/orayta/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1782"/>
+        <location filename="Mobile/mobileapp.ui" line="1069"/>
+        <source>Donate to Orayta!</source>
+        <translation type="unfinished">תרמו לאורייתא</translation>
+    </message>
+    <message>
+        <location filename="Mobile/mobileapp.ui" line="1712"/>
         <source>Copy text</source>
         <translation>העתק טקסט</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4544"/>
+        <location filename="Mobile/mobileapp.ui" line="4474"/>
         <source>Use this font only for books
  with punctuation</source>
         <oldsource>Use only for books
@@ -1877,12 +1875,12 @@ p, li { white-space: pre-wrap; }
  עם ניקוד</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4567"/>
+        <location filename="Mobile/mobileapp.ui" line="4497"/>
         <source>Font size:</source>
         <translation>גודל פונט:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4765"/>
+        <location filename="Mobile/mobileapp.ui" line="4695"/>
         <source>Advanced</source>
         <translation>מתקדם</translation>
     </message>
@@ -1895,73 +1893,73 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">אם התיבה מסומנת, כאשר מפעילים את האפליקציה מחדש היא תנסה לשחזר את המצב בו הייתה לפני שנסגרה. (נסיוני).</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4807"/>
+        <location filename="Mobile/mobileapp.ui" line="4737"/>
         <source>Night mode</source>
         <translation>מצב לילה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4814"/>
-        <location filename="Mobile/mobileapp.ui" line="4833"/>
+        <location filename="Mobile/mobileapp.ui" line="4744"/>
+        <location filename="Mobile/mobileapp.ui" line="4763"/>
         <source>Switches the application to &apos;night mode&apos; - White text ona a black background.</source>
         <translation>מעביר את האפליקציה למצב לילה- טקסט בהיר על רקע כהה.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="4852"/>
+        <location filename="Mobile/mobileapp.ui" line="4782"/>
         <source>Interface text size (0 for auto) :</source>
         <translation>גודל טקסט לתפריטים (0 עבור אוטומטי):</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5103"/>
+        <location filename="Mobile/mobileapp.ui" line="5033"/>
         <source>Display with:</source>
         <translation>הצג בשילוב עם:</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5155"/>
+        <location filename="Mobile/mobileapp.ui" line="5085"/>
         <source>OK</source>
         <translation>אישור</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5203"/>
+        <location filename="Mobile/mobileapp.ui" line="5133"/>
         <source>Recent Books</source>
         <translation>ספרים אחרונים</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5224"/>
+        <location filename="Mobile/mobileapp.ui" line="5154"/>
         <source>history list</source>
         <translation>רשימת הסטוריה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5235"/>
+        <location filename="Mobile/mobileapp.ui" line="5165"/>
         <source>Daily learning</source>
         <translation>לימוד יומי</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5256"/>
+        <location filename="Mobile/mobileapp.ui" line="5186"/>
         <source>daily learning</source>
         <translation>לימוד יומי</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5267"/>
+        <location filename="Mobile/mobileapp.ui" line="5197"/>
         <source>Bookmarks</source>
         <translation>סימניות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5288"/>
+        <location filename="Mobile/mobileapp.ui" line="5218"/>
         <source>static bookmark list</source>
         <translation>רשימת סימניות סטטית</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5331"/>
+        <location filename="Mobile/mobileapp.ui" line="5261"/>
         <source>   Click to delete bookmarks   </source>
         <translation>לחץ למחיקת סימניות</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5375"/>
+        <location filename="Mobile/mobileapp.ui" line="5305"/>
         <source>Click on bookmarks to delete them</source>
         <translation>לחץ על סימניה כדי למחוק אותה</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5468"/>
+        <location filename="Mobile/mobileapp.ui" line="5398"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1978,7 +1976,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">לחיצה קצרה על סימניה תגרום לאפשרות &apos;מחק&apos; להופיע.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5457"/>
+        <location filename="Mobile/mobileapp.ui" line="5387"/>
         <source>Please install Orayta Additions in order to use this book.
 Orayta Additions brigns to you many extra books that are not available for free. Included are all of Ha&apos;rav Kuk&apos;s writings and many more.</source>
         <translatorcomment> </translatorcomment>
@@ -1998,12 +1996,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;אם התקנתם את &apos;אורייתא - הרחבה&apos; ובכל זאת מופיעה לכם הודעה זו אנא &lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;צרו קשר&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5481"/>
+        <location filename="Mobile/mobileapp.ui" line="5411"/>
         <source>Install Orayta Additions</source>
         <translation>התקן את &apos;אורייתא - הרחבה&apos;</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5509"/>
+        <location filename="Mobile/mobileapp.ui" line="5439"/>
         <source>Thank you for purchasing orayta additions.
 Press Ok to download the books you paid for, or &apos;back&apos; to cancel.
 You can always do this later through the download option on the main screen.</source>
@@ -2012,7 +2010,7 @@ You can always do this later through the download option on the main screen.</so
 תמיד תוכלו לבצע זאת שוב מתוך מסך &apos;הורדת ספרים&apos; בתפריט הראשי.</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="5526"/>
+        <location filename="Mobile/mobileapp.ui" line="5456"/>
         <source>Ok</source>
         <translation>אישור</translation>
     </message>
@@ -2026,7 +2024,7 @@ You can always do this later through the download option on the main screen.</so
         <translation type="obsolete">לוח מקשים וירטואלי</translation>
     </message>
     <message>
-        <location filename="Mobile/mobileapp.ui" line="1594"/>
+        <location filename="Mobile/mobileapp.ui" line="1524"/>
         <source>back</source>
         <translation>חזור</translation>
     </message>
@@ -2319,32 +2317,32 @@ p, li { white-space: pre-wrap; }
         <translation>חפש ספר לפי שם</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="82"/>
+        <location filename="OraytaBase/bookfind.ui" line="109"/>
         <source>Search in name&apos;s beginning</source>
         <translation>חפש בתחילת השם</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="75"/>
+        <location filename="OraytaBase/bookfind.ui" line="102"/>
         <source>Search in the whole name</source>
         <translation>חפש בכל השם</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="29"/>
+        <location filename="OraytaBase/bookfind.ui" line="38"/>
         <source>Find a book named:</source>
         <translation>חפש ספר בשם:</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="52"/>
+        <location filename="OraytaBase/bookfind.ui" line="70"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="110"/>
+        <location filename="OraytaBase/bookfind.ui" line="146"/>
         <source>Cancel</source>
         <translation>ביטול</translation>
     </message>
     <message>
-        <location filename="OraytaBase/bookfind.ui" line="120"/>
+        <location filename="OraytaBase/bookfind.ui" line="156"/>
         <source>Open book</source>
         <translation>פתח ספר</translation>
     </message>

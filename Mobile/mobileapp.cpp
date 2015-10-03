@@ -48,6 +48,7 @@
 #include <QMenu>
 #include <QScroller>
 #include <QClipboard>
+#include <QDesktopServices>
 
 #ifdef Q_OS_ANDROID
     #include <jni.h>
@@ -81,7 +82,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 #endif
 
     //show the about page while app loads
-    ui->gtoHelp->hide();
 
     ui->stackedWidget->setCurrentIndex(ABOUT_PAGE);
 
@@ -137,6 +137,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
     QList<QWidget *> addscroll;
     addscroll << displayer << ui->treeWidget << ui->SearchTreeWidget << ui->staticBookMarkList << ui->dailyLearningList << ui->historyBookmarkList << ui->scrollArea;
+    addscroll << ui->downloadListWidget;
 
 #ifdef TIMEDBG
     qDebug() << "UI stuff 1"<<QTime::currentTime();
@@ -165,6 +166,7 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickSpeedupFactor, 2.5);
         p.setScrollMetric(QScrollerProperties::AcceleratingFlickMaximumTime, 1.25);
+
 
         s->setScrollerProperties(p);
     }
@@ -264,9 +266,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
         QTimer::singleShot(100, this, SLOT(jumpToLastPos()));
     }
 
-
-
-    ui->gtoHelp->show();
     ui->bmLBL->hide();
 
     ui->stackedWidget->currentWidget()->setFocus();
@@ -282,7 +281,6 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
 #ifdef TIMEDBG
     qDebug() << "Adjust 2" <<QTime::currentTime();
 #endif
-
 
     //displayKukaytaMessage();
 }
@@ -421,6 +419,8 @@ void MobileApp::adjustFontSize()
     styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;}";
 
      ui->stackedWidget->setStyleSheet(styleSheet);
+
+     ui->dispalyMenu->setStyleSheet(" background-color:  rgba(249, 211, 176, 10%);");
 //     qDebug() <<" styleSheet: " << styleSheet;
 
 }
@@ -1855,9 +1855,9 @@ void MobileApp::on_dlKukaytaBooksBTN_clicked()
 
 void MobileApp::on_installKukaytaBTN_clicked()
 {
-#ifdef KOOKITA
-    installKukayta();
-#endif
+    #ifdef KOOKITA
+        installKukayta();
+    #endif
 }
 
 
@@ -1872,3 +1872,9 @@ void MobileApp::on_settingsBTN_clicked()
 }
 
 
+
+void MobileApp::on_pushButton_clicked()
+{
+    QString link = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=P8RH8U6ABNJ38";
+    QDesktopServices::openUrl(QUrl(link));
+}

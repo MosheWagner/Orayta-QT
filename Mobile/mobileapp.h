@@ -255,6 +255,8 @@ private slots:
 
     void copyAssetsToDisk();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MobileApp *ui;  
 

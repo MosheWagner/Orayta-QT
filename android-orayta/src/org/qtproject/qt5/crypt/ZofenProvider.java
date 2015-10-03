@@ -52,6 +52,11 @@ public class ZofenProvider implements IZofenProvider
     {
         if (zofen.equals("")) doServiceConnect();
         
+        //Still no result? Try one more time
+        if (zofen.equals("")) doServiceConnect();
+        
+        if (zofen.equals("")) return false;
+        
         return true;
     }
 

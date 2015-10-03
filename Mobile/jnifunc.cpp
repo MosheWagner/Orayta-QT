@@ -23,8 +23,6 @@
 #include <QAndroidJniEnvironment>
 #include <QApplication>
 
-#include <QFile>
-
 QString pwd = "ElOB2wAJ!";
 
 int initRequest()
