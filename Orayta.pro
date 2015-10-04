@@ -13,10 +13,10 @@ INCLUDEPATH += $$PWD
 CONFIG += qt mobility
 
 #for mobile testing only
-DEFINES += MOBILE
-CONFIG += MOBILE
-DEFINES+= mobile
-CONFIG+= mobile
+#DEFINES += MOBILE
+#CONFIG += MOBILE
+#DEFINES+= mobile
+#CONFIG+= mobile
 
 
 #Small hack for Quazip on windows

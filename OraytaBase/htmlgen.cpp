@@ -1035,9 +1035,6 @@ QUrl Book::renderChapterHtml(BookIter iter, BookList * booklist, bool shownikud,
 
     html += ">";
 
-    //Should this be here?
-    //html += html_book_title(mNormallDisplayName, "" /* Copyright info? */, "");
-
     html += "<div class=\"Content\">";
 
     //html += namepoint("Top");

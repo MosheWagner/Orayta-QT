@@ -255,6 +255,7 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
 
         else if (text[i].indexOf("TextSource") != -1)
         {
+            qDebug() << "(C)" + text[i].mid(11);
             book->setCopyrightInfo(text[i].mid(11));
         }
 
@@ -371,6 +372,7 @@ void BookList::AddBookConfs(Book *book, QList<QString> text)
         {
             book->isEncrypted=true;
         }
+
     }
 }
 
@@ -536,6 +538,8 @@ void BookList::CheckUid()
 //Display the booklist in the given QTreeWidget
 void BookList::displayInTree(QTreeWidget *tree, bool showCheck, bool isSearchTree)
 {
+    tree->setIconSize(QSize(100,100));
+
     //Add treeItems for each book to the treeWidget
     for(unsigned int i=0;i<size();i++)
     {
@@ -573,6 +577,7 @@ void BookList::displayInTree(QTreeWidget *tree, bool showCheck, bool isSearchTre
 
             //set the icon:
             QIcon *icon = bookIcon(this->at(i), this->at(i)->mIconState);
+
             twi->setIcon(0, *icon);
             delete icon;
 
