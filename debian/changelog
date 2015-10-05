@@ -1,8 +1,8 @@
-orayta (0.14) UNRELEASED; urgency=low
+orayta (0.15) UNRELEASED; urgency=low
 
-  * Attempt to bring desktop version back to life
+  * Fixed some copiling issues
 
- -- Moshe <moshe.wagner@gmail.com>  Fri, 27 Sep 2013 14:53:41 +0300
+ -- Moshe <moshe.wagner@gmail.com>  Mon, 05 Oct 2015 19:56:30 +0300
 
 orayta (0.13ubuntu2) precise; urgency=low
 
