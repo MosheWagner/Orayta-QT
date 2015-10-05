@@ -219,9 +219,8 @@ MobileApp::MobileApp(QWidget *parent) :QDialog(parent), ui(new Ui::MobileApp)
     qDebug() << "Screensize" <<QTime::currentTime();
 #endif
 
-    //Download daily limud file
-    FileDownloader * dldownload = new FileDownloader();
-    dldownload->Download(LIMUD_YOMI_URL, LIMUD_YOMI_FILE, true);
+    //Download daily dd file
+    downloadDailyLimudFiles();
 
     setupBookmarkList();
 

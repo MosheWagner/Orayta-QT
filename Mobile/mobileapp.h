@@ -321,6 +321,7 @@ private:
     QStringList hashs;
     int downloadNum;
 
+    void downloadDailyLimudFiles();
     void updateDownloadableList();
 
     //views from stacked widget:

@@ -77,6 +77,11 @@ void MobileApp::downloadBookList()
     else ui->downloadSTKWidget->setCurrentIndex(1);
 }
 
+void MobileApp::downloadDailyLimudFiles()
+{
+    FileDownloader * limudDownloader = new FileDownloader();
+    limudDownloader->Download(LIMUD_YOMI_URL, LIMUD_YOMI_FILE, true);
+}
 
 void MobileApp::updateDownloadableList()
 {
