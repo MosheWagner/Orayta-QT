@@ -415,11 +415,12 @@ void MobileApp::adjustFontSize()
     if (nightMode) nStyleSheet = "color: #7faf70; background-color:black;";
 
     QString styleSheet("*{font-size: " +QString::number(fontSize) +"pt;" + nStyleSheet +"}");
-    styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;}";
+    styleSheet += "QLabel#intro_label{font-size: " + QString::number(smallFont) + "pt;" ;
+    styleSheet += "background: transparent; border: none;}";
 
      ui->stackedWidget->setStyleSheet(styleSheet);
 
-     ui->dispalyMenu->setStyleSheet(" background-color:  rgba(249, 211, 176, 10%);");
+//     ui->dispalyMenu->setStyleSheet(" background-color:  rgba(249, 211, 176, 10%);");
 //     qDebug() <<" styleSheet: " << styleSheet;
 
 }
@@ -517,16 +518,11 @@ void MobileApp::reloadBooklist(){
 
 //IZAR
 //when going to 'books in search' page, reset the page
-void MobileApp::resetSearchBookTree(){
-
-//    QTime time;
-//    time.start();
+void MobileApp::resetSearchBookTree()
+{
     ui->SearchTreeWidget->clear();
-//    booksInSearch.BuildFromFolder(BOOKPATH);
     booksInSearch = BookList(bookList);
     booksInSearch.displayInTree(ui->SearchTreeWidget, true, true);
-//    qDebug() << "load time: "<< time.elapsed();
-
 }
 
 

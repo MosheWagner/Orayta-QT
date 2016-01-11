@@ -161,6 +161,9 @@
     </disabled>
    </palette>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::CustomContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Orayta</string>
   </property>
@@ -190,7 +193,7 @@ QWidget#mainpage{
 	background-color: rgb(249, 236, 225);
 	/*background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0  rgb(249, 236, 225), stop:1 rgb(217, 160, 95));*/
 }
-QDialog{ border: 1px 0px ; border-color: rgb(15, 15, 15); border-style: solid}
+QDialog{ border: 1px 0px ; border-color: #8F653F; border-style: solid}
 
 QTextBrowser{ 	color: black; 	background-color: white;}
 QTextBrowser:disabled {color:gray;}
@@ -222,11 +225,12 @@ QToolButton:pressed, QPushButton:pressed, QPushButton:checked {
 QComboBox, QLineEdit, QSpinBox, QTabWidget, QGroupBox, QTreeWidget, QTextBrowser{
 	/*background-color:  rgba(0,0,0, 0);*/
 	border-style: solid;
-    /* Round radius will be 3px */
-    border-radius: 3px;
-    /* Border is only one pixel */
-    border-width: 1px;
+   /* Round radius will be 3px */
+   border-radius: 3px;
+   /* Border is only one pixel */
+   border-width: 1px;
 	border-color: #8F653F;
+	min-height: 1.5em;
 }
 QGroupBox {
 margin-top: 1.5ex;
@@ -244,13 +248,9 @@ padding: 1px;
 }
 
 QProgressBar::chunk:horizontal {
-	background-color: #6D3603 /*rgb(109,54,3)*/; 
-	/*background-color: qlineargradient(spread:repeat, x1:0, y1:0, x2:0.209, y2:0.017, stop:0 #F9D3B0, stop:0.284444 #F9D3B0, stop:0.524444 #6D3603, stop:0.76 #F9D3B0, stop:1 #F9D3B0);
-margin-right: -10px;*/
+	background-color: #6D3603
 }
- /*QProgressBar#loadBar::chunk:horizontal  {
-background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0  #F9D3B0, stop:0.2 #E67A17, stop:0.8 #E67A17, stop: 1  #F9D3B0);
-}*/
+ 
  
 QTabWidget::pane { /* The tab widget frame */
      border-top: 1px solid #8F653F;
@@ -303,7 +303,6 @@ QScrollBar:vertical {
 	border-left: 1px solid #8F653F;
 	border-radius: 2px;
     margin: 20px 0px;
-	
  }
  
  QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
@@ -334,13 +333,27 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
 *::up-arrow{	image: url(:/flat-icons/up.png); width: 10px;   height: 10px; }
 *::down-arrow{	image: url(:/flat-icons/down.png); width: 10px;   height: 10px;  }
 
-/**::up-button { 
-	min-height: 2em;
-}*/
+/*SearchTreeWidget*/
+ QTreeView::branch:has-children:!has-siblings:closed,
+ QTreeView::branch:closed:has-children:has-siblings {
+         border-image: none;
+         image: url(:/Icons/arrow-left.png);
+ }
 
+ QTreeView::branch:open:has-children:!has-siblings,
+ QTreeView::branch:open:has-children:has-siblings  {
+         border-image: none;
+         image: url(:/Icons/arrow-down.png);
+ }
 
+#fontComboBox{
+	font: 15pt &quot;Sans Serif&quot;;
+	width: 200px;
+}
 
-/**::corner{background-color: #F9B06D;}*/
+QLabel {
+	border:none;
+}
 
 </string>
   </property>
@@ -538,7 +551,7 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
       </palette>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -633,8 +646,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -687,8 +700,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -747,8 +760,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -804,8 +817,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -881,8 +894,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -932,8 +945,8 @@ QScrollBar::add-page,  QScrollBar::sub-page { background-color: none;}
            </property>
            <property name="minimumSize">
             <size>
-             <width>27</width>
-             <height>25</height>
+             <width>30</width>
+             <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1134,26 +1147,19 @@ stop:1 #FEE1A5);
               </property>
               <property name="font">
                <font>
-                <pointsize>9</pointsize>
-                <weight>50</weight>
-                <italic>false</italic>
-                <bold>false</bold>
+                <pointsize>10</pointsize>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">font: 9pt;</string>
+               <string notr="true">font-size: 10pt ;
+background: transparent;
+</string>
               </property>
               <property name="text">
                <string>Loading... </string>
               </property>
-              <property name="textFormat">
-               <enum>Qt::AutoText</enum>
-              </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
-              </property>
-              <property name="indent">
-               <number>0</number>
               </property>
              </widget>
             </item>
@@ -1201,190 +1207,6 @@ stop:1 #FEE1A5);
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>40</red>
-               <green>19</green>
-               <blue>1</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="WindowText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Text">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="ButtonText">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>0</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Plain</enum>
-         </property>
-         <property name="lineWidth">
-          <number>1</number>
-         </property>
          <layout class="QVBoxLayout" name="verticalLayout_27">
           <property name="spacing">
            <number>1</number>
@@ -1416,8 +1238,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1461,8 +1283,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1506,8 +1328,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1561,8 +1383,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1606,8 +1428,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1648,8 +1470,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1697,8 +1519,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1739,8 +1561,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -1782,8 +1604,8 @@ stop:1 #FEE1A5);
               </property>
               <property name="minimumSize">
                <size>
-                <width>27</width>
-                <height>25</height>
+                <width>30</width>
+                <height>28</height>
                </size>
               </property>
               <property name="font">
@@ -3721,12 +3543,6 @@ QScrollBar::add-line, QScrollBar::sub-line{    border: 0px;  height: 0px; }
          </item>
          <item>
           <widget class="QLineEdit" name="searchInBooksLine">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
@@ -3862,33 +3678,12 @@ width: 15 px;
             <property name="layoutDirection">
              <enum>Qt::RightToLeft</enum>
             </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
             <property name="styleSheet">
-             <string notr="true"> QTreeView::branch:has-children:!has-siblings:closed,
- QTreeView::branch:closed:has-children:has-siblings {
-         border-image: none;
-         image: url(:/Icons/arrow-left.png);
- }
-
- QTreeView::branch:open:has-children:!has-siblings,
- QTreeView::branch:open:has-children:has-siblings  {
-         border-image: none;
-         image: url(:/Icons/arrow-down.png);
- }
-
- QTreeView::indicator {
-     width: 13px;
-     height: 13px;
- }
-</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
+             <string notr="true">#SearchTreeWidget::indicator { 
+ height: 1px; 
+width: 1px;
+border: none;
+}</string>
             </property>
             <property name="horizontalScrollBarPolicy">
              <enum>Qt::ScrollBarAsNeeded</enum>
@@ -4332,7 +4127,7 @@ width: 15 px;
           <bool>false</bool>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <property name="sizePolicy">
@@ -4373,8 +4168,8 @@ width: 15 px;
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>234</width>
-                <height>287</height>
+                <width>238</width>
+                <height>292</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4408,39 +4203,11 @@ width: 15 px;
                </item>
                <item>
                 <widget class="QFontComboBox" name="fontComboBox">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Sans Serif</family>
-                   <pointsize>15</pointsize>
-                   <weight>50</weight>
-                   <italic>false</italic>
-                   <bold>false</bold>
-                  </font>
-                 </property>
                  <property name="layoutDirection">
                   <enum>Qt::LeftToRight</enum>
                  </property>
-                 <property name="styleSheet">
-                  <string notr="true">*{
-	font: 15pt &quot;Sans Serif&quot;;
-	width: 200px;
-}
-</string>
-                 </property>
                  <property name="currentIndex">
-                  <number>4</number>
+                  <number>6</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -4751,22 +4518,6 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="label_8">
-                <property name="font">
-                 <font>
-                  <weight>50</weight>
-                  <bold>false</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Switches the application to 'night mode' - White text ona a black background.</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
              </layout>
             </widget>
            </item>
@@ -4815,7 +4566,7 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>50</width>
-                    <height>32</height>
+                    <height>28</height>
                    </size>
                   </property>
                   <property name="buttonSymbols">
@@ -5052,13 +4803,6 @@ p, li { white-space: pre-wrap; }
               <widget class="QListWidget" name="selectionArea">
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">*::indicator { 
- height: 18 px; 
-width: 18 px;
-}
-</string>
                </property>
                <property name="verticalScrollMode">
                 <enum>QAbstractItemView::ScrollPerPixel</enum>
@@ -5398,8 +5142,8 @@ Orayta Additions brigns to you many extra books that are not available for free.
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;If you have purchesed Orayta additions but still see this page, please &lt;/span&gt;&lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt; text-decoration: underline; color:#0000ff;&quot;&gt;contact us&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you have purchesed Orayta additions but still see this page, please &lt;a href=&quot;mailto:orayta.book@gmail.com?subject=i have purchased orayta additions but they are unavailable&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;contact us&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>

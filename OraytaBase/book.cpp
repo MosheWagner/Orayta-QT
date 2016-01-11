@@ -51,8 +51,11 @@ Book::Book(Book * parent, QString path, QString name, QString displayname, Filet
 
     mShortIndexLevel = 0;
 
-    mInSearch = false;
-    mIconState = GREY;
+//    mInSearch = false;
+//    mIconState = GREY;
+    //IZAR: modified this. hope no harm comes.
+    mInSearch = true;
+    mIconState = BLUE;
 
     mCopyrightInfo="";
     SearchInTitles = true;
@@ -408,7 +411,7 @@ QIcon* bookIcon(Book* book, IconState state)
         break;
 
     default:
-        icon = new QIcon(":/Icons/book-grey.png");
+        icon = new QIcon(":/Icons/book-blue.png");
         break;
     }
 
