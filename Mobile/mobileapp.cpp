@@ -373,6 +373,10 @@ void MobileApp::adjustToScreenSize()
 
     adjustFontSize();
 
+    // catch pause events from android
+    //connect(downloader, SIGNAL(done()), this, SLOT(downloadDone()));
+    connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(stateChanged()));
+
 }
 
 int MobileApp::getAutoFontSize()
@@ -1872,4 +1876,18 @@ void MobileApp::on_pushButton_clicked()
 {
     QString link = "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=P8RH8U6ABNJ38";
     QDesktopServices::openUrl(QUrl(link));
+}
+
+// gets called when qApp-applicationStateChanged() is sent (android lifecycle state changed)
+void MobileApp::stateChanged()
+{
+    //qDebug() << qApp->applicationState();
+    switch (qApp->applicationState()) {
+    case Qt::ApplicationInactive:
+        saveSettings();
+        break;
+    default:
+        break;
+    }
+
 }

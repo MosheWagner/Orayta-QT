@@ -124,6 +124,9 @@ private slots:
 
     void saveSettings();
 
+    // android paused etc.
+    void stateChanged();
+
     // switch the view from normal to in search mode
     void showHideSearch(bool inSearch);
 
