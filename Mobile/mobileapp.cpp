@@ -325,6 +325,7 @@ void MobileApp::adjustToScreenSize()
     int h = (size.height() / 15);
     //ui->aboutBTN->setIconSize(a);
     ui->aboutBTN->setMaximumSize(w,h);
+    ui->settingsBTN->setMaximumSize(w,h);
     //ui->helpBTN->setIconSize(a);
     ui->helpBTN->setMaximumSize(w,h);
 
@@ -1890,4 +1891,9 @@ void MobileApp::stateChanged()
         break;
     }
 
+}
+
+void MobileApp::on_menuBTN_clicked()
+{
+    showMenu();
 }

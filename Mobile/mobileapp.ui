@@ -222,6 +222,13 @@ QToolButton:pressed, QPushButton:pressed, QPushButton:checked {
 
 #mainpage QToolButton{background-color:  rgba(249, 211, 176, 30%);}
 
+#menuBTN {
+	min-height: 1em;
+	min-width: 1em;
+	max-height: 1em;
+	max-width: 1em;
+}
+
 QComboBox, QLineEdit, QSpinBox, QTabWidget, QGroupBox, QTreeWidget, QTextBrowser{
 	/*background-color:  rgba(0,0,0, 0);*/
 	border-style: solid;
@@ -551,7 +558,7 @@ QLabel {
       </palette>
      </property>
      <property name="currentIndex">
-      <number>6</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="mainpage">
       <property name="font">
@@ -646,8 +653,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -700,8 +707,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -760,8 +767,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -817,8 +824,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -894,8 +901,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -936,6 +943,57 @@ QLabel {
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="settingsBTN">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>51</width>
+             <height>49</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>1000</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>80</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="mobile.qrc">
+             <normaloff>:/flat-icons/settings.png</normaloff>:/flat-icons/settings.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="helpBTN">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -945,8 +1003,8 @@ QLabel {
            </property>
            <property name="minimumSize">
             <size>
-             <width>30</width>
-             <height>28</height>
+             <width>51</width>
+             <height>49</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -1163,6 +1221,17 @@ background: transparent;
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="menuBTN">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="mobile.qrc">
+                <normaloff>:/flat-icons/settings.png</normaloff>:/flat-icons/settings.png</iconset>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -1238,8 +1307,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1283,8 +1352,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1328,8 +1397,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1383,8 +1452,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1428,8 +1497,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1470,8 +1539,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1519,8 +1588,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1561,8 +1630,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -1604,8 +1673,8 @@ background: transparent;
               </property>
               <property name="minimumSize">
                <size>
-                <width>30</width>
-                <height>28</height>
+                <width>51</width>
+                <height>49</height>
                </size>
               </property>
               <property name="font">
@@ -4167,9 +4236,9 @@ border: none;
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>0</y>
-                <width>238</width>
-                <height>292</height>
+                <y>-169</y>
+                <width>423</width>
+                <height>476</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -4566,7 +4635,7 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>50</width>
-                    <height>28</height>
+                    <height>49</height>
                    </size>
                   </property>
                   <property name="buttonSymbols">

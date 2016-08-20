@@ -260,6 +260,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_menuBTN_clicked();
+
 private:
     Ui::MobileApp *ui;  
 
