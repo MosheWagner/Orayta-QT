@@ -1,8 +1,9 @@
-orayta (0.15) UNRELEASED; urgency=low
+orayta (0.15ubuntu1) UNRELEASED; urgency=low
 
   * Fixed some copiling issues
+  * 
 
- -- Moshe <moshe.wagner@gmail.com>  Mon, 05 Oct 2015 19:56:30 +0300
+ -- Moshe <moshe.wagner@gmail.com>  Sat, 22 Oct 2016 22:34:31 +0300
 
 orayta (0.13ubuntu2) precise; urgency=low
 
