@@ -338,7 +338,7 @@ QString readfile(QString filename, const char* encoding_name)
     if ( !infile.open(QIODevice::ReadOnly) )
     {
         qDebug() << "cant open file:"  << filename;
-        return false;
+        return "";
     }
 
     // Set the stream to read from the file
