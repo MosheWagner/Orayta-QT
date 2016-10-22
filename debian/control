@@ -3,7 +3,7 @@ Section: misc
 Priority: extra
 Maintainer: Moshe Wagner <moshe.wagner@gmail.com>
 Build-Depends: libqt5webkit5-dev, debhelper (>= 9), qt5-default, qtbase5-dev, libfribidi-dev, zlib1g-dev, qt5-qmake, qttools5-dev-tools, qtlocation5-dev, qtdeclarative5-dev, libsqlite3-dev, qtsensors5-dev|libqt5sensors5-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://orayta.googlecode.com
 
 Package: orayta
