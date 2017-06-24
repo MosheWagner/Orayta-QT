@@ -93,7 +93,7 @@ This usually fixes the issue.<br>
 <br>
 <h2>התוכנה כל כך נפלאה שאני רוצה להשתתף גם כן. במה אפשר לעזור?</h2>
 
-ראה כאן: <a href='https://code.google.com/p/orayta/wiki/Helping'>איך ניתן לעזור</a>
+ראה כאן: <a href='https://github.com/MosheWagner/Orayta-QT/blob/wiki/Helping.md'>איך ניתן לעזור</a>
 
 <h2>התוכנה כל כך נפלאה שאני רוצה להודות לכם / לתרום לכם / לשדך לכם את הבת שלי. תתנו לי את הכבוד?</h2>
 
@@ -103,5 +103,5 @@ This usually fixes the issue.<br>
 <br>
 נשמח אפילו לסתם מילה טובה - אבל יכול להיות שלא נמצא זמן להגיב עליה. זה לא אומר שאחנו לא מעריכים אותה מאוד :-)<br>
 <br>
-עם זאת, הדבר שהכי נשמח לקבל זה כל מה שכלול בתשובה הקודמת  - <a href='https://code.google.com/p/orayta/wiki/Helping'>איך ניתן לעזור</a> . תזכו למצוות.<br>
+עם זאת, הדבר שהכי נשמח לקבל זה כל מה שכלול בתשובה הקודמת  - <a href='https://github.com/MosheWagner/Orayta-QT/blob/wiki/Helping.md'>איך ניתן לעזור</a> . תזכו למצוות.<br>
 </div>
