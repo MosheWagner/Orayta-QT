@@ -77,7 +77,11 @@ orayta
 cd -
 ```
 
-This is necessary in order to resolve a (temporary) bug that has the executable expect the root book directory to be either in the user's home directory or the executable's directory. This same bug will require us to install the executable in `/usr/share/orayta` instead of somewhere "normal".
+This is necessary in order to resolve a (temporary) bug that has the executable expect the root book directory to be either in the user's home directory or the executable's directory. This same bug will require us to install the executable in `/usr/share/orayta` instead of somewhere "normal". Don't forget to make the script executable:
+
+```
+chmod 755 /usr/bin/orayta
+```
 
 ### 2. `cd` to the base directory of the project
 
