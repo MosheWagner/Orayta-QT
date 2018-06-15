@@ -25,9 +25,9 @@ You may need to first install several development packages using your distributi
 
 1. Basic development packages:
 
-1.1 `build-essential` or whatever else your distribution uses to supply basic compilers, linkers and make utilities.
+   1.1 `build-essential` or whatever else your distribution uses to supply basic compilers, linkers and make utilities.
 
-1.2 QT build packages: `qt4-qmake`
+   1.2 QT build packages: `qt4-qmake`
 
 2. Qt development libraries: These are usually something like `qtbase4-dev` and `libqt4webkit5-dev`.
 
@@ -68,7 +68,7 @@ Please report to me on successes or failures.
 
 I was successful in installing the pre-compiled binary in a debian 9 system, using the following procedure, as root:
 
-1. Create the following script as `/usr/bin/orayta`:
+### 1. Create the following script as `/usr/bin/orayta`:
 
 ```
 #!/bin/sh
@@ -79,9 +79,9 @@ cd -
 
 This is necessary in order to resolve a (temporary) bug that has the executable expect the root book directory to be either in the user's home directory or the executable's directory. This same bug will require us to install the executable in `/usr/share/orayta` instead of somewhere "normal".
 
-2. `cd` to the base directory of the project
+### 2. `cd` to the base directory of the project
 
-3. Perform the following
+### 3. Perform the following
 ```
 mkdir -p /usr/share/orayta/Books
 install debian/orayta/usr/bin/orayta /usr/share/orayta/
@@ -89,7 +89,7 @@ cp debian/orayta/usr/share/applications/Orayta.desktop /usr/share/applications/o
 chmod 644 /usr/share/applications/orayta.desktop
 ```
 
-4. Install books
+### 4. Install books
 
 The package `orayta-books` is quite large, so if you would like to evaluate the program on a set of books that you have unwittingly already downloaded, perform the following (as root, from the project's base directory):
 
@@ -101,7 +101,7 @@ find /usr/share/orayta/ -type f -exec chmod 644 '{}' \;
 
 That will give you a set of Tanach to use.
 
-5. Install fonts
+### 5. Install fonts
 
 If you don't already have fonts with nikud etc., you can find a selection in the project's `fonts` directory. It should be sufficient to copy them to `/usr/share/fonts`, but it would be better to first see if your distribution already packages those fonts (which is the case for debian).
 
