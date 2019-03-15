@@ -31,7 +31,7 @@ You may need to first install several development packages using your distributi
 
    1.2 QT build packages: `qt4-qmake`
 
-2. Qt development libraries: These are usually something like `qtbase4-dev` and `libqt4webkit5-dev`.
+2. Qt development libraries: These are usually something like `libqt4-dev` and `libqtwebkit-dev`.
 
 3. Bidi support: `libfribidi-dev`.
 
