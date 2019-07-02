@@ -151,11 +151,4 @@ $ make
 בכל מקרה, לחלונות, עדיף להוריד את תוכנת ההתקנה מהאתר ולהשתמש בה.
 
 
-## Donation
-
-If you'd like to support Orayta, please donate!
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=P8RH8U6ABNJ38"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="[paypal]" /></a>
-
-
 
