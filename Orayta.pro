@@ -63,7 +63,12 @@ else:unix{
     #Zlib
     LIBS += -lz
 
-    QT += webkitwidgets printsupport # webkit
+    QT += webkitwidgets printsupport
+    
+    #QT5 compiles without this, but QT4 requires it
+    equals(QT_MAJOR_VERSION, 4) {
+    QT += webkit
+}
 
    QMAKE_CFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
    QMAKE_CFLAGS_DEBUG+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)

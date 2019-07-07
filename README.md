@@ -17,6 +17,8 @@ moshe.wagner@gmail.com
 
 This repository contains both the project source code and an excutable suitable for debian and its derivatives, giving you the choice of either building the program from the source code or attempting to use the pre-compiled binary.
 
+**Note: Currently, the pre-compiled binary suffers from some [issues](https://github.com/MosheWagner/Orayta-QT/issues/45).**
+
 ## Installing from source
 
 ### Pre-requisites
@@ -29,13 +31,16 @@ You may need to first install several development packages using your distributi
 
    1.2 QT build packages: `qt4-qmake`
 
-2. Qt development libraries: These are usually something like `qtbase4-dev` and `libqt4webkit5-dev`.
+2. Qt development libraries: These are usually something like `libqt4-dev` and `libqtwebkit-dev`.
 
 3. Bidi support: `libfribidi-dev`.
 
 4. Poppler: `libpoppler-qt4-dev`.
 
-### Performing the install 
+
+### Performing the install
+
+**Note: There are currently [issues](https://github.com/MosheWagner/Orayta-QT/issues/45) with running orayta under Qt5, so if you have both Qt4 & Qt5 installed, make sure to use Qt4 below, e.g. by using `qmake-qt4` instead of `qmake`.**
 
 To compile and install under linux, run from the main folder of the project:
 ```
