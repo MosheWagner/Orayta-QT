@@ -17,6 +17,16 @@ moshe.wagner@gmail.com
 
 This repository contains both the project source code and an excutable suitable for debian and its derivatives, giving you the choice of either building the program from the source code or attempting to use the pre-compiled binary.
 
+## Ubuntu installation using Orayta's PPA:
+
+This is the simplest way to install Orayta. It was tested on Ubuntu 19.04 WSL2(!), but should work for all recent or LTS ubuntu versions.
+
+1. sudo add-apt-repository ppa:moshe-wagner/orayta
+2. sudo apt update
+3. sudo apt install orayta orayta-books
+
+After that you can simply run orayta from the command line.
+
 ## Installing from source
 
 ### Pre-requisites
@@ -27,13 +37,13 @@ You may need to first install several development packages using your distributi
 
    1.1 `build-essential` or whatever else your distribution uses to supply basic compilers, linkers and make utilities.
 
-   1.2 QT build packages: `qt4-qmake`
+   1.2 QT build packages: `qt5-qmake`
 
-2. Qt development libraries: These are usually something like `qtbase4-dev` and `libqt4webkit5-dev`.
+2. Qt development libraries: These are usually something like `qtbase5-dev` and `libqt5webkit5-dev`.
 
 3. Bidi support: `libfribidi-dev`.
 
-4. Poppler: `libpoppler-qt4-dev`.
+4. Poppler: `libpoppler-qt5-dev`.
 
 ### Performing the install 
 
@@ -55,59 +65,15 @@ If the books were downaloaded separately, you should run (as root) in their fold
 ```
 # make install
 ```
-Or unpack them to this folder before installing the program.
+Or unpack them to this folder (or /usr/share/Orayta/Books).
 
 ## Moshe Wagner's note
+
 I was successful compiling the code under windows using QT Creator only. Anyway, the simplest way would be to download the binaries from the site. 
 
 If you downloaded the source code without the books, the books must be downloaded separately and extracted to a folder named "Books" in the main folder of the project.
 
 Please report to me on successes or failures.
-
-## Boruch Baum's note (2018-06)
-
-I was successful in installing the pre-compiled binary in a debian 9 system, using the following procedure, as root:
-
-### 1. Create the following script as `/usr/bin/orayta`:
-
-```
-#!/bin/sh
-cd /usr/share/orayta
-orayta
-cd -
-```
-
-This is necessary in order to resolve a (temporary) bug that has the executable expect the root book directory to be either in the user's home directory or the executable's directory. This same bug will require us to install the executable in `/usr/share/orayta` instead of somewhere "normal". Don't forget to make the script executable:
-
-```
-# chmod 755 /usr/bin/orayta
-```
-
-### 2. `cd` to the base directory of the project
-
-### 3. Perform the following
-```
-mkdir -p /usr/share/orayta/Books
-install debian/orayta/usr/bin/orayta /usr/share/orayta/
-cp debian/orayta/usr/share/applications/Orayta.desktop /usr/share/applications/orayta.desktop
-chmod 644 /usr/share/applications/orayta.desktop
-```
-
-### 4. Install books
-
-The package `orayta-books` is quite large, so if you would like to evaluate the program on a set of books that you have unwittingly already downloaded, perform the following (as root, from the project's base directory):
-
-```
-cp -r android-orayta/assets/Orayta/Books /usr/share/orayta/
-find /usr/share/orayta/ -type d -exec chmod 755 '{}' \;
-find /usr/share/orayta/ -type f -exec chmod 644 '{}' \;
-```
-
-That will give you a set of Tanach to use.
-
-### 5. Install fonts
-
-If you don't already have fonts with nikud etc., you can find a selection in the project's `fonts` directory. It should be sufficient to copy them to `/usr/share/fonts`, but it would be better to first see if your distribution already packages those fonts (which is the case for debian).
 
 # אורייתא
 
@@ -123,9 +89,20 @@ http://www.oraytafreeware.com/
 
 הספרים מהפרוייקט המקורי הינם תחת רשיון Creative Commons.
 
+## התקנה על אובונטו
+
+הדרך הקלה ביותר להתקין את אורייתא על אובונטו היא פשוט להריץ את הפקודות הבאות:
+
+1. sudo add-apt-repository ppa:moshe-wagner/orayta
+2. sudo apt update
+3. sudo apt install orayta orayta-books
+
+ומשם ניתן להריץ את אורייתא בקלות משורת הפקודה ע"י הפקודה "orayta"
+
+
 ## התקנה מקוד מקור (תחת לינוקס) :
 כדי לקמפל התוכנה מקוד המקור, יש לוודא שחבילות הפיתוח של qt4 מתוקנות.
-(בדר"כ הם נמצאות בחבילות בשם  'qtbase4-dev' ו- 'libqt4webkit5-devel')
+(בדר"כ הם נמצאות בחבילות בשם  'qtbase5-dev' ו- 'libqt5webkit5-devel')
 (כמו כן צריך להתקין libfribidi-dev וגם libpoppler-qt5-dev
 בנוסף, החבילות make ו g++ נצרכות לכל התקנה של תוכנה מבוססת c++, ורוב הסיכויים שהן כבר מותקנות אצלכם)
 
