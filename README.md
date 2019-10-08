@@ -75,6 +75,10 @@ If you downloaded the source code without the books, the books must be downloade
 
 Please report to me on successes or failures.
 
+## Windows binary
+
+See info here: https://github.com/MosheWagner/Orayta-QT/wiki/Windows-Version
+
 # אורייתא
 
 אורייתא הינו הסבה פתוחה, שרצה על כל מערכת הפעלה - לתוכנה המצויינת "תורת אמת".
@@ -127,5 +131,6 @@ $ make
 תחת חלונות הצלחתי לקמפל את התוכנה רק בעזרת QT Creator.
 בכל מקרה, לחלונות, עדיף להוריד את תוכנת ההתקנה מהאתר ולהשתמש בה.
 
-
+## התקנה בחלונות
+ניתן למצוא מידע בנושא כאן: https://github.com/MosheWagner/Orayta-QT/wiki/Windows-Version
 
