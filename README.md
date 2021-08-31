@@ -39,6 +39,8 @@ You may need to first install several development packages using your distributi
 
    1.2 QT build packages: `qt5-qmake`
 
+   1.3 Zlib (`libz-dev`)
+
 2. Qt development libraries: These are usually something like `qtbase5-dev` and `libqt5webkit5-dev`.
 
 3. Bidi support: `libfribidi-dev`.
@@ -105,9 +107,9 @@ http://www.oraytafreeware.com/
 
 
 ## התקנה מקוד מקור (תחת לינוקס) :
-כדי לקמפל התוכנה מקוד המקור, יש לוודא שחבילות הפיתוח של qt4 מתוקנות.
-(בדר"כ הם נמצאות בחבילות בשם  'qtbase5-dev' ו- 'libqt5webkit5-devel')
-(כמו כן צריך להתקין libfribidi-dev וגם libpoppler-qt5-dev
+כדי לקמפל התוכנה מקוד המקור, יש לוודא שחבילות הפיתוח של qt5 מתוקנות.
+(בדר"כ הם נמצאות בחבילות בשם  'qtbase5-dev' ו- 'libqt5webkit5-dev')
+(כמו כן צריך להתקין libfribidi-dev וגם libpoppler-qt5-dev, libz-dev
 בנוסף, החבילות make ו g++ נצרכות לכל התקנה של תוכנה מבוססת c++, ורוב הסיכויים שהן כבר מותקנות אצלכם)
 
 יש להריץ בטרמינל מתוך התקייה של התוכנה את הפקודה:
