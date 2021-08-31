@@ -37,13 +37,14 @@ android {
     CONFIG += android
     CONFIG += mobile
     CONFIG += Kookita
-
+    # Make sure to clone https://github.com/KDAB/android_openssl to the dir above the source dir
+    include(../android_openssl/openssl.pri)
 }
 
 else: win32{
     INSTALL_PATH = quote(!:\\progarm files\\orayta\\) #TODO: set the root dynamicly or ask yoch to fix this.
     INSTALL_BOOKS_PATH = quote(!:\\progarm files\\orayta\\books)
-    QT += webkitwidgets printsupport webkit
+    QT += webkitwidgets printsupport
     
     # install fonts
     #fonts.path = $${INSTALL_PATH}"fonts/"
@@ -63,7 +64,7 @@ else:unix{
     #Zlib
     LIBS += -lz
 
-    QT += webkitwidgets printsupport # webkit
+    QT += webkitwidgets printsupport
 
    QMAKE_CFLAGS_RELEASE+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
    QMAKE_CFLAGS_DEBUG+=$(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)

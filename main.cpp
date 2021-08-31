@@ -22,6 +22,7 @@
 #endif
 #include <QDir>
 #include <QSettings>
+#include <QStandardPaths>
 #include "OraytaBase/functions.h"
 #include "Desktop/about.h"
 #include <QDebug>
@@ -52,8 +53,7 @@ void initPaths()
 
 #ifdef Q_OS_ANDROID
 
-    QString sdcard= getenv("EXTERNAL_STORAGE");
-    defPath = sdcard+"/Orayta/Books/";
+    defPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Orayta/Books/";
     //set terget to assets folder
     MAINPATH = "assets:/Orayta/";
 
@@ -130,7 +130,7 @@ void initFonts()
 //    QString fontpath (":/fonts/");
     QString fontpath (MAINPATH + "fonts/");
 #ifdef Q_OS_ANDROID
-    fontpath = "/sdcard/Orayta/fonts/"; //assets not working well yet on alpha 3.4
+    fontpath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Orayta/fonts/"; //assets not working well yet on alpha 3.4
 #elif defined MOBILE_TEST
     fontpath = "fonts/";
 #endif

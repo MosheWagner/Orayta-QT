@@ -293,7 +293,7 @@ void MobileApp::copyAssetsToDisk()
 {
     QDir *dir = new QDir("assets:/Orayta/");
 
-    copyFolder(dir->absolutePath(), "/sdcard/Orayta/", QStringList("*.*"));
+    copyFolder(dir->absolutePath(), QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/Orayta/", QStringList("*.*"));
 }
 
 //Adjust UI properties depending on device screen size
@@ -1009,7 +1009,6 @@ void MobileApp::showMenu()
 // stacked widget currnet view canged.
 void MobileApp::viewChanged(int index)
 {
-
     //IZAR
     // this is a list of things to do when we go to a certain page
     switch (index){

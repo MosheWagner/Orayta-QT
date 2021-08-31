@@ -50,14 +50,8 @@ public class ZofenProvider implements IZofenProvider
 
     public boolean isProviderAvailable() 
     {
-        if (zofen.equals("")) doServiceConnect();
-        
-        //Still no result? Try one more time
-        if (zofen.equals("")) doServiceConnect();
-        
-        if (zofen.equals("")) return false;
-        
-        return true;
+		// Kookita is no longer in the app strore, and this crashes on newer Android Versions, so disabling it.
+		return false;
     }
 
     private Messenger mService = null;

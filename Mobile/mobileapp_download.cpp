@@ -236,6 +236,7 @@ void MobileApp::parseDLFile(QList <QString> dl)
 
 void MobileApp::listDownloadDone()
 {
+    qDebug() << "#";
     //If all is ok
     if (listdownload)
     {
